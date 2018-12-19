@@ -30,6 +30,10 @@
         <h:form id="form" onkeypress="if( event.keyCode == 13){event.keyCode=0;}">
 
             <div style="margin-top: 10px;">
+                <pf:commandButton value="HiddenButton"
+                                  style="display: none"
+                                  immediate="true" />
+
                 <pf:commandButton value="Zurück zur Übersicht"
                                   icon="fa fa-arrow-left"
                                   action="#{proofEdit.navigateToSummary()}"
@@ -156,6 +160,7 @@
                                        fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
                                        invalidFileMessage="Es dürfen nur Excel (.xlsx) Dateien hochgeladen werden"
                                        allowTypes="/(\.|\/)(xlsx)$/"
+                                       auto="true"
                                        cancelLabel="Abbrechen"
                                        uploadLabel="Datei Hochladen"
                                        label="Exceldatei auswählen"

@@ -299,15 +299,7 @@ public class ProofEdit implements Serializable {
         if (_proofRegulationBaseInformation == null || _proofRegulationBaseInformation.getStatusId() < 10) {
             return false;
         } else {
-            for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                    .filter(c -> c.canWrite() && c.getFeature() == Feature.CARE)
-                    .collect(Collectors.toList())) {
-                if (right.getIk() == _proofRegulationBaseInformation.getIk()) {
-                    return true;
-                }
-            }
-
-            return false;
+            return _accessManager.isWriteAllowed(Feature.CARE, _proofRegulationBaseInformation.getIk());
         }
     }
 

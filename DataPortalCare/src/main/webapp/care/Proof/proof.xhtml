@@ -11,6 +11,7 @@
                widgetVar="dlgStationSelection"
                modal="true"
                width="800px">
+        <pf:outputLabel value="In keinem Bereich werden die Grenzen verletzt" rendered="#{proofEdit.proofsForExceptionFact.size() eq 0}" />
         <pf:repeat value="#{proofEdit.proofsForExceptionFact}" var="proof">
             <div class="ui-g">
                 <div class="ui-g-10">
@@ -80,13 +81,14 @@
                             style="width: 96%;"
                             decimalPlaces="2"
                             minValue="0"
-                            require="true"
+                            required="true"
                             requiredMessage="Bitte geben Sie einen Wert ein"
                             inputStyle="width: 100%; text-align: right"
                             readonly="#{proofEdit.isReadOnly}">
                 <pf:ajax event="change"
                          update="proofTable"
                          immediate="true" />
+                <pf:focus/>
             </pf:inputNumber>
             <pf:message for="proofNurseId" />
         </pf:column>
@@ -96,13 +98,14 @@
                             style="width: 96%;"
                             decimalPlaces="2"
                             minValue="0"
-                            require="true"
+                            required="true"
                             requiredMessage="Bitte geben Sie einen Wert ein"
                             inputStyle="width: 100%; text-align: right"
                             readonly="#{proofEdit.isReadOnly}">
                 <pf:ajax event="change"
                          update="proofTable"
                          immediate="true" />
+                <pf:focus/>
             </pf:inputNumber>
             <pf:message for="proofHelpNurseId" />
         </pf:column>
@@ -112,13 +115,14 @@
                             style="width: 96%;"
                             decimalPlaces="2"
                             minValue="0"
-                            require="true"
+                            required="true"
                             requiredMessage="Bitte geben Sie einen Wert ein"
                             inputStyle="width: 100%; text-align: right"
                             readonly="#{proofEdit.isReadOnly}">
                 <pf:ajax event="change"
                          update="proofTable"
                          immediate="true" />
+                <pf:focus/>
             </pf:inputNumber>
             <pf:message for="proofPatientOccupancy" />
         </pf:column>

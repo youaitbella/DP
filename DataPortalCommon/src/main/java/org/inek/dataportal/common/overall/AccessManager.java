@@ -527,4 +527,14 @@ public class AccessManager implements Serializable {
         return retrieveIkSet(feature, predicate);
     }
 
+    public boolean isWriteAllowed(Feature feature, int ik) {
+        for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
+                .filter(c -> c.canWrite() && c.getFeature() == feature)
+                .collect(Collectors.toList())) {
+            if (right.getIk() == ik) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
