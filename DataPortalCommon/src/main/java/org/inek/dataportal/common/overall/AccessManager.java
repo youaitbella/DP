@@ -62,6 +62,10 @@ public class AccessManager implements Serializable {
         _ikCache = ikCache;
     }
 
+    public Account getSessionAccount(){
+        return _sessionController.getAccount();
+    }
+    
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache
      * for subsequent requests.
