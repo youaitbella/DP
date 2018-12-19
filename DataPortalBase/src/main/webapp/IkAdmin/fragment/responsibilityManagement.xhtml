@@ -39,9 +39,8 @@
 
             <pf:column headerText="Zuständig für IK">
                 <inek:IkManager ikList="#{ikAdminTasks.obtainIkList(right.accountId, right.feature)}"
-                                deleteAllowed="#{ikAdminTasks.isIkDeletionAllowed(ik)}"
-                                addIk="#{ikAdminTasks.addIk()}"
-                                deleteIk=""
+                                addAdtion="#{ikAdminTasks.addIk}"
+                                
                                 />
             </pf:column>
 

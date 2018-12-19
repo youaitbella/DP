@@ -1,24 +1,27 @@
 package org.inek.dataportal.common.data.icmt.facade;
 
-import org.inek.dataportal.common.data.AbstractFacade;
-import javax.ejb.Stateless;
-import javax.persistence.NoResultException;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
+import javax.inject.Named;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
 
 /**
  *
  * @author muellermi
  */
-@Stateless
-public class CustomerFacade extends AbstractFacade<Customer> {
-
-    public CustomerFacade() {
-        super(Customer.class);
-    }
+@RequestScoped
+@Transactional
+@Named
+public class CustomerFacade extends AbstractDataAccess {
 
     public Customer getCustomerByIK(int ik) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -83,4 +86,11 @@ public class CustomerFacade extends AbstractFacade<Customer> {
         }
     }
 
+    public void isIKValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        int ik = (Integer) value;
+        if (!isValidIK("" + ik)) {
+            throw new ValidatorException(new FacesMessage("Ungültige IK"));
+        }
+    }
+    
 }

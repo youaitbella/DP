@@ -8,9 +8,7 @@
     <!-- INTERFACE -->
     <cc:interface>
         <cc:attribute name="ikList"/>
-        <cc:attribute name="deleteAllowed" method-signature="void deleteAllowed(int)"/>
-        <cc:attribute name="deleteIk" method-signature="void deleteIk(int)"/>
-        <cc:attribute name="addIk" method-signature="void addIk()"/>
+        <cc:attribute name="addAction" required="true" method-signature="void action(java.lang.String)"/>        
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -19,13 +17,13 @@
 
             <div>
                 <pf:dataTable id="iks"
-                              var="accountIk"
-                              widgetVar="accountIks"
+                              var="ik"
+                              widgetVar="wIks"
                               value="#{cc.attrs.ikList}"
                               emptyMessage="Keine IK's eingetragen"
                               tableStyle="width: auto">
                     <pf:column class="colIcon">
-                        <pf:commandLink rendered="#{cc.attrs.deleteAllowed(accountIk.IK)}"
+                        <pf:commandLink rendered="true"
                                         action="#{cc.attrs.deleteIk(accountIk.IK)}"
                                         update="iks"
                                         process="@this">
@@ -35,25 +33,24 @@
                     <pf:column headerText="IK">
 
                         <pf:inputNumber id="ikInput"
-                                        readonly="#{!cc.attrs.deleteAllowed(accountIk.IK)}"
+                                        validator="#{customerFacade.isIKValid}"
                                         thousandSeparator=""
                                         decimalPlaces="0"
                                         validatorMessage="Ungültige IK"
                                         required="True"
-                                        value="#{accountIk.IK}" >
-                            <!--validator="# {editUserMaintenance.isIKValid}"-->
+                                        value="#{ik}" >
 
                             <pf:ajax event="blur" update="customerName ikInput_m" />
                         </pf:inputNumber>
                         <pf:message id="ikInput_m" for="ikInput" />
                     </pf:column>
                     <pf:column headerText="Name">
-                        <pf:outputLabel id="customerName" value="# {editUserMaintenance.hasIkAdminText(accountIk.IK)}" />
+                        <pf:outputLabel id="customerName" value="#{customerFacade.getCustomerByIK(ik).name}" />
                     </pf:column>
                 </pf:dataTable>
                 <br />
                 <div class="ui-g-8 ui-md-5">
-                    <pf:commandButton value="Weitere IK hinzufügen" icon="fa fa-plus" process="@this" action="#{cc.attrs.addIk}" oncomplete="PF('accountIks').addRow();"/>
+                    <pf:commandButton value="Weitere IK hinzufügen" icon="fa fa-plus" process="@this" action="#{cc.attrs.addAction}" oncomplete="PF('wIks').addRow();"/>
                 </div>
             </div>
 
