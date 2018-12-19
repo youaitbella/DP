@@ -1,6 +1,7 @@
 package org.inek.dataportal.base.feature.ikadmin.backingbean;
 
 import java.io.Serializable;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -19,6 +20,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.IkReference;
+import org.inek.dataportal.api.enums.IkUsage;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
@@ -126,6 +128,39 @@ public class IkAdminTasks implements Serializable {
                 .filter(f -> f.getIkReference() != IkReference.None)
                 .collect(Collectors.toList());
         return features;
+    }
+
+    public Boolean getContainsResposibility() {
+        return _accessRights.stream().
+                anyMatch(r -> r.getFeature().getIkUsage() == IkUsage.ByResposibilityAndCorrelation);
+    }
+
+    public List<AccessRight> getRespisibilities() {
+        return _accessRights
+                .stream()
+                .filter(r -> r.getRight() != Right.Deny)
+                .filter(r -> r.getFeature().getIkUsage() == IkUsage.ByResposibilityAndCorrelation)
+                .collect(Collectors.toList());
+    }
+
+    public List<Integer> obtainIkList(int accountId, Feature feature) {
+        List<Integer> test = new ArrayList<>();
+        test.add(222222222);
+        test.add(222222223);
+        return test;
+    }
+
+    public Boolean isIkDeletionAllowed(int ik){
+        return true;
+    }
+    
+    public void addIk(){
+        // todo: implement
+    }
+    
+    public String saveRespisibilities() {
+        // todo: implement
+        return "";
     }
 
     public String saveAccessRights() {

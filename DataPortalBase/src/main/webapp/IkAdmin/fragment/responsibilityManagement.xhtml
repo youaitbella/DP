@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:pf='http://primefaces.org/ui'
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input">
+
+    <h2>Zuständigkeiten (für andere IK)</h2>
+    
+    <h:form>
+        <pf:dataTable id="accessRights"
+                      value="#{ikAdminTasks.respisibilities}"
+                      var="right"
+                      emptyMessage="Keine Einträge vorhanden"
+                      rows="50"
+                      paginator="true"
+                      rowsPerPageTemplate="25,50,100,300"
+                      tableStyleClass="inekTableBase"
+                      tableStyle="table-layout: auto;"
+                      styleClass="inekTablePaginatorBase"
+                      sortBy="#{right.user.lastName}">
+
+            <pf:column headerText="Anwender" filterBy="#{right.user.lastName} #{right.user.firstName}" sortBy="#{right.user.lastName} #{right.user.firstName}" filterMatchMode="contains">
+                <h:outputText value="#{right.user.lastName}, #{right.user.firstName}"/>
+            </pf:column>
+
+            <pf:column headerText="E-Mail" filterBy="#{right.user.email}" sortBy="#{right.user.email}">
+                <h:outputText value="#{right.user.email}"/>
+            </pf:column>
+
+            <pf:column headerText="Funktion" filterBy="#{right.feature.description}" sortBy="#{right.feature.description}">
+                <h:outputText value="#{right.feature.description}"/>
+            </pf:column>
+
+            <pf:column headerText="Zuständig für IK">
+                <inek:IkManager ikList="#{ikAdminTasks.obtainIkList(right.accountId, right.feature)}"
+                                deleteAllowed="#{ikAdminTasks.isIkDeletionAllowed(ik)}"
+                                addIk="#{ikAdminTasks.addIk()}"
+                                deleteIk=""
+                                />
+            </pf:column>
+
+        </pf:dataTable>
+
+        <pf:commandButton value="#{msg.btnSave}"
+                          action="#{ikAdminTasks.saveRespisibilities()}"
+                          styleClass="btnDrg"
+                          immediate="true" />
+
+    </h:form>
+</ui:composition>
+
