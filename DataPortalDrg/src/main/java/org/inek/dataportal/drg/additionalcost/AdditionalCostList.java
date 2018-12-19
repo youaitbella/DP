@@ -2,13 +2,12 @@ package org.inek.dataportal.drg.additionalcost;
 
 import org.inek.dataportal.drg.additionalcost.entity.AdditionalCost;
 import java.util.List;
-import java.util.logging.Logger;
+import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.helper.FeatureMessageHandler;
-import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -23,7 +22,6 @@ import org.inek.dataportal.common.utils.DocumentationUtil;
 public class AdditionalCostList {
 
     private AdditionalCostFacade _addFacade;
-    private SessionController _sessionController;
     private AccessManager _accessManager;
 
     public AdditionalCostList() {
@@ -31,19 +29,24 @@ public class AdditionalCostList {
 
     @Inject 
     public AdditionalCostList(AdditionalCostFacade addFacade,
-            SessionController sessionController,
             AccessManager accessManager) {
         _addFacade = addFacade;
-        _sessionController = sessionController;
         _accessManager = accessManager;
     }
 
     public List<AdditionalCost> getOpenAdditionalCosts() {
-        return _addFacade.getAdditionalCosts(_sessionController.getAccountId(), DataSet.AllOpen);
+        return retrieveAddidtionalCosts(DataSet.AllOpen);
     }
 
     public List<AdditionalCost> getProvidedAdditionalCosts() {
-        return _addFacade.getAdditionalCosts(_sessionController.getAccountId(), DataSet.AllSealed);
+        return retrieveAddidtionalCosts(DataSet.AllSealed);
+    }
+
+    private List<AdditionalCost> retrieveAddidtionalCosts(DataSet dataset) {
+        Set<Integer> allowedManagedIks = _accessManager.retrieveAllowedManagedIks(Feature.ADDITIONAL_COST);
+        Set<Integer> deniedManagedIks = _accessManager.retrieveDeniedManagedIks(Feature.ADDITIONAL_COST);
+        int accountId = _accessManager.getSessionAccount().getId();
+        return _addFacade.getAdditionalCosts(accountId, allowedManagedIks, deniedManagedIks, dataset);
     }
 
     public String editAdditionalCost() {
@@ -66,7 +69,7 @@ public class AdditionalCostList {
         if (add == null) {
             return "";
         }
-        if (_sessionController.isMyAccount(add.getAccountId())) {
+        if (_accessManager.getSessionAccount().getId() == add.getAccountId()) {
             if (add.getStatusId() < WorkflowStatus.Provided.getId()) {
                 _addFacade.deleteAdditionalCost(add);
             } else {

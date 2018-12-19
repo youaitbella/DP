@@ -27,16 +27,26 @@ public class AdditionalCostFacade extends AbstractDataAccessWithActionLog {
         return findAll(AdditionalCost.class);
     }
 
-    public List<AdditionalCost> getAdditionalCosts(int accountId, DataSet dataSet) {
-        String sql = "SELECT n FROM AdditionalCost n "
-                + "WHERE n._accountId = :accountId and n._statusId BETWEEN :minStatus AND :maxStatus ORDER BY n._id";
-        TypedQuery<AdditionalCost> query = getEntityManager().createQuery(sql, AdditionalCost.class);
-        int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getId() : WorkflowStatus.Provided.getId();
-        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId() - 1 : WorkflowStatus.Retired.
-                getId();
+    public List<AdditionalCost> getAdditionalCosts(int accountId, Set<Integer> allowedManagedIks,
+            Set<Integer> deniedManagedIks, DataSet dataSet) {
+        String jpql = "SELECT n FROM AdditionalCost n "
+                + "WHERE n._statusId BETWEEN :minStatus AND :maxStatus "
+                + "and ("
+                + (allowedManagedIks.size() > 0 ? "     n._ik in :allowedManagedIks or " : "")
+                + "n._accountId = :accountId"
+                + (deniedManagedIks.size() > 0 ? " and n._ik not in :deniedManagedIks" : "")
+                + ")"
+                + "ORDER BY n._id";
+        TypedQuery<AdditionalCost> query = getEntityManager().createQuery(jpql, AdditionalCost.class);
         query.setParameter("accountId", accountId);
-        query.setParameter("minStatus", minStatus);
-        query.setParameter("maxStatus", maxStatus);
+        if (allowedManagedIks.size() > 0) {
+            query.setParameter("allowedManagedIks", allowedManagedIks);
+        }
+        if (deniedManagedIks.size() > 0) {
+            query.setParameter("deniedManagedIks", deniedManagedIks);
+        }
+        query.setParameter("minStatus", dataSet.getMinStatus().getId());
+        query.setParameter("maxStatus", dataSet.getMaxStatus().getId());
         return query.getResultList();
     }
 
@@ -54,10 +64,10 @@ public class AdditionalCostFacade extends AbstractDataAccessWithActionLog {
     public AdditionalCost merge(AdditionalCost entity) {
         return super.merge(entity);
     }
-    
+
     public void deleteAdditionalCost(AdditionalCost additionalCost) {
         remove(additionalCost);
-        
+
     }
 
     public List<Account> loadRequestAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow,

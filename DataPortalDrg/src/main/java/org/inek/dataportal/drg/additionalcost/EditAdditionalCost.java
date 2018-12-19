@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.overall.ApplicationTools;
@@ -102,7 +101,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     }
 
     private AdditionalCost newAdditionalCost() {
-        Account account = _sessionController.getAccount();
+        Account account = _accessManager.getSessionAccount();
         AdditionalCost additionalCost = new AdditionalCost();
         additionalCost.setAccountId(account.getId());
         additionalCost.setContactFirstName(account.getFirstName());
@@ -248,7 +247,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
         }
-        _additionalCost.setAccountId(_sessionController.getAccountId());
+        _additionalCost.setAccountId(_accessManager.getSessionAccount().getId());
         _additionalCost = _additionalCostFacade.merge(_additionalCost);
         return "";
     }
