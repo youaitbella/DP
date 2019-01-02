@@ -16,6 +16,7 @@ public class ProofImporter {
 
     private static final Logger LOGGER = Logger.getLogger(ProofImporter.class.getName());
     private String _message = "";
+    private int _rowCounter = 0;
 
     public ProofImporter() {
 
@@ -44,9 +45,7 @@ public class ProofImporter {
             Sheet sheet = workbook.getSheetAt(0);
             importSheet(info, sheet);
 
-            if ("".equals(_message)) {
-                addMessage("Alle Zeilen erfolgreich eingelesen.");
-            }
+            addMessage("Zeilen erfolgreich eingelesen: " + _rowCounter);
 
             return true;
         } catch (Exception ex) {
@@ -64,17 +63,34 @@ public class ProofImporter {
             Optional<Proof> proofFromRow = getProofFromRow(info, sheet.getRow(i));
 
             if (proofFromRow.isPresent()) {
-                proofFromRow.get().setCountShift(getIntFromCell(sheet.getRow(i).getCell(7)));
-                proofFromRow.get().setNurse(getDoubleFromCell(sheet.getRow(i).getCell(8), true));
-                proofFromRow.get().setHelpNurse(getDoubleFromCell(sheet.getRow(i).getCell(9), true));
-                proofFromRow.get().setPatientOccupancy(getDoubleFromCell(sheet.getRow(i).getCell(10), true));
-                proofFromRow.get().setCountShiftNotRespected(getIntFromCell(sheet.getRow(i).getCell(11)));
+                fillRowToProof(sheet.getRow(i), proofFromRow.get());
             } else {
                 LOGGER.log(Level.WARNING, "Row " + i + " no matching proof found");
-                addMessage("Keinen passenden Eintrag gefunden. Zeile: " + i);
+                addMessage("Keinen passenden Eintrag gefunden. Zeile: " + i++);
             }
         }
         LOGGER.log(Level.INFO, "End Proof import: " + info.getIk() + " " + info.getYear());
+    }
+
+    private void fillRowToProof(Row row, Proof proofFromRow) {
+        try {
+            Proof tmpProof = new Proof();
+
+            tmpProof.setCountShift(getIntFromCell(row.getCell(7)));
+            tmpProof.setNurse(getDoubleFromCell(row.getCell(8), true));
+            tmpProof.setHelpNurse(getDoubleFromCell(row.getCell(9), true));
+            tmpProof.setPatientOccupancy(getDoubleFromCell(row.getCell(10), true));
+            tmpProof.setCountShiftNotRespected(getIntFromCell(row.getCell(11)));
+
+            proofFromRow.setCountShift(tmpProof.getCountShift());
+            proofFromRow.setNurse(tmpProof.getNurse());
+            proofFromRow.setHelpNurse(tmpProof.getHelpNurse());
+            proofFromRow.setPatientOccupancy(tmpProof.getPatientOccupancy());
+            proofFromRow.setCountShiftNotRespected(tmpProof.getCountShiftNotRespected());
+            _rowCounter++;
+        } catch (InvalidValueException ex) {
+            addMessage(ex.getMessage());
+        }
     }
 
     private Optional<Proof> getProofFromRow(ProofRegulationBaseInformation info, Row row) {
@@ -110,6 +126,9 @@ public class ProofImporter {
 
     private boolean workbookIsInCorrectFormat(Workbook workbook) {
         LOGGER.log(Level.INFO, "Check excel format");
+        if (workbook.getNumberOfSheets() > 1) {
+            addMessage("Die Exceldatei hat mehr als 1 Blatt");
+        }
         return workbook.getNumberOfSheets() == 1;
     }
 
@@ -127,23 +146,22 @@ public class ProofImporter {
             return value;
         } catch (Exception ex) {
             addMessage("Wert konnte nicht eingelesen werden. Zelle: " + cell.getAddress());
-            LOGGER.log(Level.WARNING, "Error gettin String from : " + cell.getAddress());
+            LOGGER.log(Level.WARNING, "Error getting String from : " + cell.getAddress());
             return "";
         }
     }
 
-    private int getIntFromCell(Cell cell) {
+    private int getIntFromCell(Cell cell) throws InvalidValueException {
         try {
             double value = cell.getNumericCellValue();
             return (int) value;
         } catch (Exception ex) {
-            addMessage("Wert konnte nicht als Zahl eingelesen werden. Zelle: " + cell.getAddress());
-            LOGGER.log(Level.WARNING, "Error gettin Int from : " + cell.getAddress());
-            return 0;
+            LOGGER.log(Level.WARNING, "Error getting Int from : " + cell.getAddress());
+            throw new InvalidValueException("Wert in Zelle " + cell.getAddress() + " konnte nicht als gültige Ganzzahl erkannt werden");
         }
     }
 
-    private double getDoubleFromCell(Cell cell, Boolean round) {
+    private double getDoubleFromCell(Cell cell, Boolean round) throws InvalidValueException {
         try {
             double numericCellValue = cell.getNumericCellValue();
             if (round) {
@@ -151,13 +169,27 @@ public class ProofImporter {
             }
             return cell.getNumericCellValue();
         } catch (Exception ex) {
-            addMessage("Wert konnte nicht als Dezimalwert eingelesen werden. Zelle: " + cell.getAddress());
-            LOGGER.log(Level.WARNING, "Error gettin Double from : " + cell.getAddress());
-            return 0;
+            LOGGER.log(Level.WARNING, "Error getting Double from : " + cell.getAddress());
+            throw new InvalidValueException("Wert in Zelle " + cell.getAddress() + " konnte nicht als gültige Dezimalzahl erkannt werden");
         }
     }
 
     private void addMessage(String message) {
         setMessage(getMessage() + message + "\n");
+    }
+
+    class InvalidValueException extends Exception {
+
+        InvalidValueException() {
+
+        }
+
+        InvalidValueException(String message) {
+            super(message);
+        }
+
+        InvalidValueException(String message, Throwable cause) {
+            super(message, cause);
+        }
     }
 }
