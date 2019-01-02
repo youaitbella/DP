@@ -383,6 +383,13 @@ public class Account implements Serializable, Person {
     @JoinColumn(name = "arAccountId", referencedColumnName = "acId")
     private List<AccountResponsibility> _responsibleForIks;
 
+    public List<AccountResponsibility> getListResponsibleForIks(Feature feature, int userIk) {
+        return _responsibleForIks
+                .stream()
+                .filter(r -> r.getFeature() == feature && r.getUserIk() == userIk)
+                .collect(Collectors.toList());
+    }
+
     public Set<Integer> obtainResponsibleForIks(Feature feature, int userIk) {
         Collection<Integer> userIks = new ArrayList<>();
         userIks.add(userIk);

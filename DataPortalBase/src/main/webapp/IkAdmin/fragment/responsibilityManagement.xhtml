@@ -14,7 +14,7 @@
     
     <h:form>
         <pf:dataTable id="accessRights"
-                      value="#{ikAdminTasks.respisibilities}"
+                      value="#{ikAdminTasks.responsibilities}"
                       var="right"
                       emptyMessage="Keine Einträge vorhanden"
                       rows="50"
@@ -38,16 +38,13 @@
             </pf:column>
 
             <pf:column headerText="Zuständig für IK">
-                <inek:IkManager ikList="#{ikAdminTasks.obtainIkList(right.accountId, right.feature)}"
-                                addAdtion="#{ikAdminTasks.addIk}"
-                                
-                                />
+                <ui:include src="IkManager.xhtml" />
             </pf:column>
 
         </pf:dataTable>
 
         <pf:commandButton value="#{msg.btnSave}"
-                          action="#{ikAdminTasks.saveRespisibilities()}"
+                          action="#{ikAdminTasks.saveResponsibilities()}"
                           styleClass="btnDrg"
                           immediate="true" />
 

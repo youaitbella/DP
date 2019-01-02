@@ -150,4 +150,14 @@ public class IkAdminFacade extends AbstractDataAccess {
         return findAll(IkCorrelation.class);
     }
 
+    public List<AccountResponsibility> obtainAccountResponsibilities(int accountId, Feature feature, int userIk) {
+        String jpql = "select ar from AccountResponsibility ar "
+                + "where ar._accountId = accountId and ar._feature = feature and ar._userIk = :userIk";
+        TypedQuery<AccountResponsibility> query = getEntityManager().createQuery(jpql, AccountResponsibility.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("feature", feature);
+        query.setParameter("userIk", userIk);
+        return query.getResultList();
+    }
+
 }

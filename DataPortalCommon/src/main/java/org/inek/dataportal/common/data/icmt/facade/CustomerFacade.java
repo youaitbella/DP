@@ -87,8 +87,7 @@ public class CustomerFacade extends AbstractDataAccess {
     }
 
     public void isIKValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
-        int ik = (Integer) value;
-        if (!isValidIK("" + ik)) {
+        if (!isValidIK("" + value)) {
             throw new ValidatorException(new FacesMessage("Ungültige IK"));
         }
     }
