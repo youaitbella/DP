@@ -14,7 +14,7 @@ public class CallculatorPpug {
         double helpNurse = proof.getHelpNurse();
         double patientOccupancy = proof.getPatientOccupancy();
 
-        if (nurse + helpNurse == 0) {
+        if (nurse + helpNurse == 0 || nurse == 0) {
             proof.setPatientPerNurse(0);
             return;
         }

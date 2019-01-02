@@ -15,8 +15,8 @@ class CallculatorPpugTest {
         List<TestEntry> testEntrys= new ArrayList<>();
 
         testEntrys.add(new TestEntry(createProof(0, 0, 1), 0.4, 0));
-        testEntrys.add(new TestEntry(createProof(0, 0, 0), 0.4, 0));
-        testEntrys.add(new TestEntry(createProof(0, 0, 0), 0.2, 0));
+        testEntrys.add(new TestEntry(createProof(0, 1, 2), 0.4, 0));
+        testEntrys.add(new TestEntry(createProof(1, 0, 0), 0.2, 0));
         testEntrys.add(new TestEntry(createProof(0, 0, 0), 0.0, 0));
 
         for(TestEntry entry : testEntrys) {
