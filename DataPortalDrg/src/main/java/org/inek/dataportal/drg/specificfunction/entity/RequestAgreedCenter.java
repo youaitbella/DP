@@ -154,7 +154,11 @@ public class RequestAgreedCenter implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return equals(new RequestAgreedCenter());
+        return (_id == null || _id == -1)
+                && _center.isEmpty()
+                && _remunerationKey.isEmpty()
+                && _amount == 0
+                && _percent == 0d;
     }
 
 }
