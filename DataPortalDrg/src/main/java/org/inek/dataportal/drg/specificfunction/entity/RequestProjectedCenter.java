@@ -233,14 +233,7 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return _id == null
-                && _centerName.getId() <= 0
-                && _otherCenterName.isEmpty()
-                && _location.isEmpty()
-                && _specificFunctions.isEmpty()
-                && _otherSpecificFunction.isEmpty()
-                && _typeId == 0
-                && _estimatedPatientCount == 0;
+        return equals(new RequestProjectedCenter());
     }
 
 }

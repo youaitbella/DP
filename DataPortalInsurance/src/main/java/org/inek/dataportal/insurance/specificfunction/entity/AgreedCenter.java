@@ -283,13 +283,6 @@ public class AgreedCenter implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return _id == null
-                && _centerName.getId() == 0
-                && _otherCenterName.isEmpty()
-                && _location.isEmpty()
-                && _specificFunctions.isEmpty()
-                && _otherSpecificFunction.isEmpty()
-                && _costSum == 0d
-                && _extraAmount == 0d;
+        return equals(new AgreedCenter());
     }
 }
