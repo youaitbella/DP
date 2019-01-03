@@ -1,8 +1,32 @@
 package org.inek.dataportal.base.feature.maintenance;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.FeatureState;
+import org.inek.dataportal.api.enums.ManagedBy;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.AccountFeature;
+import org.inek.dataportal.common.data.account.facade.AccountChangeMailFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
+import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
+import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.Right;
+import org.inek.dataportal.common.faceletvalidators.NameValidator;
+import org.inek.dataportal.common.helper.AccessRightHelper;
+import org.inek.dataportal.common.helper.MailTemplateHelper;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.overall.SessionTools;
+import org.inek.dataportal.common.scope.FeatureScoped;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -10,49 +34,21 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.overall.SessionTools;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountFeature;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.api.enums.FeatureState;
-import org.inek.dataportal.api.enums.IkReference;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.data.account.facade.AccountChangeMailFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.controller.DialogController;
-import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.enums.Right;
-import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.faceletvalidators.NameValidator;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.mail.Mailer;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
- *
  * @author muellermi
  */
 @Named
 @FeatureScoped(name = "UserMaintenance")
 public class EditUserMaintenance extends AbstractEditController {
 
-    // todo: Do not copy and merge parts. Simply get a fresh copy from database to edit.
-    // After save, replace the account object in sessionConctoller.
-    // Refactor this class according to the common edit handling
-    // <editor-fold defaultstate="collapsed" desc="fields">
-    enum UserMaintenaceTabs {
-        tabUMMaster,
-        tabUMFeatures,
-        tabUMOther,
-    }
     private static final Logger LOGGER = Logger.getLogger("EditUserMaintenance");
-
     // todo: reduce injection by combining facades. Next replace field injection by constructor injection
     @Inject
     private ApplicationTools _appTools;
@@ -70,7 +66,6 @@ public class EditUserMaintenance extends AbstractEditController {
     private IkAdminFacade _ikAdminFacade;
     @Inject
     private CustomerFacade _customerFacade;
-
     private String _user;
     private String _email;
     private Account _account;
@@ -78,12 +73,12 @@ public class EditUserMaintenance extends AbstractEditController {
     private String _newPassword;
     private String _repeatPassword;
     private List<Integer> _iksNotAllowedForDelete = new ArrayList<>();
-    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Account getAccount() {
         return _account;
     }
+    // </editor-fold>
 
     public String getUser() {
         return _user;
@@ -196,11 +191,11 @@ public class EditUserMaintenance extends AbstractEditController {
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
-    // </editor-fold>
 
     public void addNewIK() {
         _account.addIk(0);
     }
+    // </editor-fold>
 
     public void removeIK(int ik) {
         _account.removeIk(ik);
@@ -350,43 +345,32 @@ public class EditUserMaintenance extends AbstractEditController {
 
     private void checkIKAdminRights(Account account) {
         for (int ik : account.getFullIkSet()) {
-            boolean hasNewEntry = false;
-            for (AccountFeature feature : account.getFeatures()) {
-                if (feature.getFeature().getIkReference() != IkReference.None
-                        && _ikAdminFacade.findAccessRightsByAccountIkAndFeature(account, ik, feature.getFeature()).
-                                isEmpty()) {
-                    AccessRight accessRight = new AccessRight(account.getId(), ik, feature.getFeature(), _ikAdminFacade.
-                            hasIkAdmin(ik, feature.getId()) ? Right.Deny : Right.All);
-                    // todo: if InEK does not approve features anymore but rights, then change above to Deny always
-                    _ikAdminFacade.saveAccessRight(accessRight);
-                    hasNewEntry = true;
-                }
-            }
-            if (hasNewEntry) {
-                if (_ikAdminFacade.hasIkAdmin(ik)) {
-                    notifyIkAdmin(ik, account);
-                } else {
-                    // todo: email InEK
-                }
+            //Set<Account> ikAdminsForMailing = new HashSet<>();
+            Set<Integer> ikAdminsForMailing = new HashSet<>();
+            List<IkAdmin> ikAdminsForIk = _ikAdminFacade.findIkAdminsForIk(ik);
+
+            AccessRightHelper.ensureRightsForAccountFeature(account, ikAdminsForIk, ikAdminsForMailing, ik);
+            AccessRightHelper.ensureRightsForNonAccountFeature(account, ikAdminsForIk, ikAdminsForMailing, ik);
+
+            if (ikAdminsForMailing.size() > 0) {
+                //notifyIkAdmins(ikAdminsForMailing, ik, account);
             }
         }
     }
 
-    private void notifyIkAdmin(int ik, Account account) {
-        String user = account.getFirstName() + " " + account.getLastName() + " (" + account.getCompany() + ", " + account.getTown() + ")";
-        List<Account> admins = _ikAdminFacade.findIkAdmins(ik);
+    private void notifyIkAdmins(Set<Account> ikAdmins, int ik, Account userAccount) {
 
-        for (Account admin : admins) {
+        String user = userAccount.getFirstName() + " " + userAccount.getLastName() + " (" + userAccount.getCompany()
+                + ", " + userAccount.getTown() + ")";
+
+        for (Account admin : ikAdmins) {
             Mailer mailer = _sessionController.getMailer();
             MailTemplate template = mailer.getMailTemplate("IK-Admin: new user");
-            String body = template.getBody()
-                    .replace("{formalSalutation}", mailer.getFormalSalutation(admin))
-                    .replace("{user}", "" + user)
-                    .replace("{ik}", "" + ik);
-            template.setBody(body);
-            String subject = template.getSubject()
-                    .replace("{ik}", "" + ik);
-            template.setSubject(subject);
+
+            MailTemplateHelper.setPlaceholderInTemplate(template, "{formalSalutation}", mailer.getFormalSalutation(admin));
+            MailTemplateHelper.setPlaceholderInTemplate(template, "{user}", user);
+            MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", String.valueOf(ik));
+
             mailer.sendMailTemplate(template, admin.getEmail());
         }
     }
@@ -415,5 +399,15 @@ public class EditUserMaintenance extends AbstractEditController {
         if (!isValidIk(ik)) {
             throw new ValidatorException(new FacesMessage("Ungültige IK"));
         }
+    }
+
+    // todo: Do not copy and merge parts. Simply get a fresh copy from database to edit.
+    // After save, replace the account object in sessionConctoller.
+    // Refactor this class according to the common edit handling
+    // <editor-fold defaultstate="collapsed" desc="fields">
+    enum UserMaintenaceTabs {
+        tabUMMaster,
+        tabUMFeatures,
+        tabUMOther,
     }
 }
