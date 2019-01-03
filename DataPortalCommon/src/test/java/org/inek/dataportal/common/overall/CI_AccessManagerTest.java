@@ -415,7 +415,7 @@ public class CI_AccessManagerTest {
         assertThat(result).isTrue();
     }
 
-    public void testIsDeleteEnabledWithCanSeal() {
+    public void IsDeleteEnabledWithCanSeal() {
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Seal));
         List<CooperationRight> cooperationRights = new ArrayList<>();
@@ -424,7 +424,7 @@ public class CI_AccessManagerTest {
         assertThat(result).isTrue();
     }
 
-    public void testIsDeleteEnabledWithoutCanSealNorWrite() {
+    public void IsDeleteEnabledWithoutCanSealNorWrite() {
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Deny));
         List<CooperationRight> cooperationRights = new ArrayList<>();
