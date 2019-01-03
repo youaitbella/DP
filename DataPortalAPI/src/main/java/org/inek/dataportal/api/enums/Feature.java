@@ -131,4 +131,13 @@ public enum Feature {
         throw new IllegalArgumentException("Failed to obtain feature. Unknown id " + id);
     }
 
+    public static Feature fromName(String name) {
+        for (Feature feature : Feature.values()) {
+            if (feature.name().equals(name)) {
+                return feature;
+            }
+        }
+        throw new IllegalArgumentException("Failed to obtain feature. Unknown name " + name);
+    }
+
 }

@@ -360,7 +360,6 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
-
     public boolean addIkAdmin(int ik, String mailDomain, Feature feature) {
         Optional<IkAdmin> admin = _adminIks.stream().filter(ai -> ai.getIk() == ik).findAny();
         if (admin.isPresent()) {
@@ -379,22 +378,9 @@ public class Account implements Serializable, Person {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Responsibilities">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "arAccountId", referencedColumnName = "acId")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, orphanRemoval = true)
+    @JoinColumn(name = "arAccountId", referencedColumnName = "acId", insertable = false, updatable = false)
     private List<AccountResponsibility> _responsibleForIks;
-
-    public List<AccountResponsibility> getListResponsibleForIks(Feature feature, int userIk) {
-        return _responsibleForIks
-                .stream()
-                .filter(r -> r.getFeature() == feature && r.getUserIk() == userIk)
-                .collect(Collectors.toList());
-    }
-
-    public Set<Integer> obtainResponsibleForIks(Feature feature, int userIk) {
-        Collection<Integer> userIks = new ArrayList<>();
-        userIks.add(userIk);
-        return obtainResponsibleForIks(feature, userIks);
-    }
 
     public Set<Integer> obtainResponsibleForIks(Feature feature, Collection<Integer> userIks) {
         return _responsibleForIks
@@ -530,8 +516,8 @@ public class Account implements Serializable, Person {
     public void setMessageCopy(boolean messageCopy) {
         _messageCopy = messageCopy;
     }
-
     // </editor-fold>
+
     @PrePersist
     @PreUpdate
     public void tagModifiedDate() {
