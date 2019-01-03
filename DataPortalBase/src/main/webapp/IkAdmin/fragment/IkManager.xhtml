@@ -13,7 +13,7 @@
     <div>
         <pf:dataTable id="iks"
                       var="responsibleForIk"
-                      widgetVar="wIks"
+                      widgetVar="wIks#{userRow}"
                       value="#{ikAdminTasks.obtainIkList(right.accountId, right.feature)}"
                       emptyMessage="Keine IK's eingetragen"
                       rowIndexVar="rowIndex"
@@ -51,7 +51,7 @@
 
         <br />
         <div>
-            <pf:commandButton value="IK hinzufügen" icon="fa fa-plus" process="@this" action="#{ikAdminTasks.addIk(right.accountId, right.feature)}" oncomplete="PF('wIks').addRow();"/>
+            <pf:commandButton value="IK hinzufügen" icon="fa fa-plus" process="@this" action="#{ikAdminTasks.addIk(right.accountId, right.feature)}" update="iks" />
         </div>
 
     </div>

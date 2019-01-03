@@ -12,7 +12,7 @@
 
     <h2>Zuständigkeiten (für andere IK)</h2>
     
-    <h:form>
+    <h:form id="responsibilities">
         <pf:dataTable id="accessRights"
                       value="#{ikAdminTasks.responsibilities}"
                       var="right"
@@ -20,6 +20,7 @@
                       rows="50"
                       paginator="true"
                       rowsPerPageTemplate="25,50,100,300"
+                      rowIndexVar="userRow"
                       tableStyleClass="inekTableBase"
                       tableStyle="table-layout: auto;"
                       styleClass="inekTablePaginatorBase"

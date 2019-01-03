@@ -153,7 +153,8 @@ public class IkAdminTasks implements Serializable {
     public List<AccountResponsibility> obtainIkList(int accountId, Feature feature) {
         String key = buildKey(accountId, feature, _ik);
         if (!_responsibleForIks.containsKey(key)) {
-            List<AccountResponsibility> responsibleForIks = _ikAdminFacade.obtainAccountResponsibilities(accountId, feature, _ik);
+            List<AccountResponsibility> responsibleForIks = _ikAdminFacade.
+                    obtainAccountResponsibilities(accountId, feature, _ik);
             _responsibleForIks.put(key, responsibleForIks);
         }
         return _responsibleForIks.get(key);
@@ -175,6 +176,7 @@ public class IkAdminTasks implements Serializable {
 
     public String saveResponsibilities() {
         _ikAdminFacade.saveResponsibilities(_responsibleForIks);
+        DialogController.showSaveDialog();
         return "";
     }
 
