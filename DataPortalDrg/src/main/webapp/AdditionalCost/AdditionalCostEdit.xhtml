@@ -17,29 +17,8 @@
                                immediate="true"/></h1>
 
             <div class="edit">
-                <ui:remove>
-                    ##### contract key not needed yet
-                    ##### if needed some day, get it from tag AdditionalCostContractKey
-                    <inek:LabeledText rendered="#{not sessionController.isInekUser('ADDITIONAL_COST')}"
-                                      readonly="true"
-                                      singleLine="true"
-                                      displayAsLabel="true"
-                                      label="#{msg.lblContractKey}"
-                                      styleClassLabel="marginRight01"
-                                      value="#{sessionController.isInekUser('ADDITIONAL_COST') or editAdditionalCost.additionalCost.code.length() gt 0
-                                               ? editAdditionalCost.additionalCost.code
-                                               : msg.lblNotGrantedYet}" />
 
-                    <inek:LabeledText rendered="#{sessionController.isInekUser('ADDITIONAL_COST')}"
-                                      singleLine="true"
-                                      displayAsLabel="true"
-                                      label="#{msg.lblContractKey}"
-                                      styleClassLabel="marginRight01"
-                                      value="#{editAdditionalCost.additionalCost.code}" />
-
-                    <h2 style="margin-bottom: 1em;"></h2>
-                </ui:remove>
-
+                <!-- if contract key is needed some day, get it from tag AdditionalCostContractKey and insert it here -->
 
                 <inek:MultiIk id="ikMulti" value="#{editAdditionalCost.additionalCost.ik}"
                               ikList="#{editAdditionalCost.iks}"
