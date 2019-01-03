@@ -374,6 +374,7 @@ public class CI_AccessManagerTest {
         assertThat(result).isFalse();
     }
 
+    @Test
     public void isRequestCorrectionEnabledWithOwnerUnequalsUserAndRightToSeal() {
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, deniedIk, testFeature, Right.Seal));
@@ -415,15 +416,17 @@ public class CI_AccessManagerTest {
         assertThat(result).isTrue();
     }
 
-    public void IsDeleteEnabledWithCanSeal() {
+    @Test
+    public void isDeleteEnabledWithCanSealOnlyReturnsFalse() {
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Seal));
         List<CooperationRight> cooperationRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
         boolean result = accessManager.isDeleteEnabled(testFeature, userAccountId, allowedIk);
-        assertThat(result).isTrue();
+        assertThat(result).isFalse();
     }
 
+    @Test
     public void IsDeleteEnabledWithoutCanSealNorWrite() {
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Deny));
