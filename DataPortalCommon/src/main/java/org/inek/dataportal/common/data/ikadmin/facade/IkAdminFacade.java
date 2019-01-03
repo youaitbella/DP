@@ -16,15 +16,15 @@ import java.util.*;
 public class IkAdminFacade extends AbstractDataAccess {
 
     public List<AccessRight> findAccessRights(int ik) {
-        String jpql = "select ar from AccessRight ar where ar._ik = :ik";
-        TypedQuery<AccessRight> query = getEntityManager().createQuery(jpql, AccessRight.class);
+        String name = "AccessRight.findByIk";
+        TypedQuery<AccessRight> query = getEntityManager().createNamedQuery(name, AccessRight.class);
         query.setParameter("ik", ik);
         return query.getResultList();
     }
 
     public List<AccessRight> findAccessRights(int ik, List<Feature> features) {
-        String jpql = "select ar from AccessRight ar where ar._ik = :ik and ar._feature in :features";
-        TypedQuery<AccessRight> query = getEntityManager().createQuery(jpql, AccessRight.class);
+        String name = "AccessRight.findByIk+Feature";
+        TypedQuery<AccessRight> query = getEntityManager().createNamedQuery(name, AccessRight.class);
         query.setParameter("ik", ik);
         query.setParameter("features", features);
         return query.getResultList();
@@ -144,9 +144,8 @@ public class IkAdminFacade extends AbstractDataAccess {
     }
 
     public List<AccountResponsibility> obtainAccountResponsibilities(int accountId, Feature feature, int userIk) {
-        String jpql = "select ar from AccountResponsibility ar "
-                + "where ar._accountId = :accountId and ar._feature = :feature and ar._userIk = :userIk";
-        TypedQuery<AccountResponsibility> query = getEntityManager().createQuery(jpql, AccountResponsibility.class);
+        String name = "AccountResponsibility.findByAccountId+Feature+UserIk";
+        TypedQuery<AccountResponsibility> query = getEntityManager().createNamedQuery(name, AccountResponsibility.class);
         query.setParameter("accountId", accountId);
         query.setParameter("feature", feature);
         query.setParameter("userIk", userIk);

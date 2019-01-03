@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.common.data.ikadmin.entity;
 
 import java.io.Serializable;
@@ -11,12 +7,14 @@ import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.converter.FeatureConverter;
 import org.inek.dataportal.common.data.converter.RightConverter;
 
-/**
- *
- * @author muellermi
- */
 @Entity
 @Table(name = "AccessRight", schema = "ikadm")
+@NamedQueries({
+    @NamedQuery(name="AccessRight.findByIk",
+                query="select ar from AccessRight ar where ar._ik = :ik"),
+    @NamedQuery(name="AccessRight.findByIk+Feature",
+                query="select ar from AccessRight ar where ar._ik = :ik and ar._feature in :features")
+}) 
 public class AccessRight implements Serializable {
 
     private static final long serialVersionUID = 1L;
