@@ -4,6 +4,7 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pf='http://primefaces.org/ui'
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <!-- INTERFACE -->
@@ -64,7 +65,7 @@
                         <f:param name="id" value="#{add.id}"/>
                     </h:commandLink>
                 </h:column>
-                 	<!--Krankenhaus-IK-->
+                <!--Krankenhaus-IK-->
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblHospitalIk}"/>
@@ -73,7 +74,7 @@
                         <f:param name="id" value="#{add.id}"/>
                     </h:commandLink>
                 </h:column>
-                        <!--Krankenhaus-->
+                <!--Krankenhaus-->
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblHospital}"/>

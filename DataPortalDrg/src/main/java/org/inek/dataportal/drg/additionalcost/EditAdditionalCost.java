@@ -100,7 +100,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
                 Feature.ADDITIONAL_COST,
                 additionalCost.getStatus(),
                 additionalCost.getAccountId(),
-                _additionalCost.getIk()
+                additionalCost.getIk()
         );
     }
 

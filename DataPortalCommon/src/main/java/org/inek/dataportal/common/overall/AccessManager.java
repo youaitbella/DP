@@ -193,8 +193,8 @@ public class AccessManager implements Serializable {
         return isWritable(feature, state, ownerId, -1);
     }
 
-    @SuppressWarnings("CyclomaticComplexity") // todo: remove annotation after implementing #88
     public boolean isWritable(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+        // todo: implement and replace isReadOnly
         return false;
     }
 
