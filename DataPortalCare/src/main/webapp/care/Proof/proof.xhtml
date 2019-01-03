@@ -4,7 +4,6 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:inekInput="http://xmlns.jcp.org/jsf/composite/components/Input"
-                xmlns:inekOutput="http://xmlns.jcp.org/jsf/composite/components/Output"
                 xmlns:pf="http://primefaces.org/ui">
 
     <pf:dialog id="dlgStationSelectionid"
@@ -12,7 +11,8 @@
                widgetVar="dlgStationSelection"
                modal="true"
                width="800px">
-        <pf:outputLabel value="In keinem Bereich werden die Grenzen verletzt" rendered="#{proofEdit.proofsForExceptionFact.size() eq 0}" />
+        <pf:outputLabel value="In keinem Bereich werden die Grenzen verletzt"
+                        rendered="#{proofEdit.proofsForExceptionFact.size() eq 0}" />
         <pf:repeat value="#{proofEdit.proofsForExceptionFact}" var="proof">
             <div class="ui-g">
                 <div class="ui-g-10">
@@ -34,131 +34,157 @@
     </pf:dialog>
 
     <div>
-    <pf:dataTable id="proofTable"
-                  value="#{proofEdit.proofRegulationBaseInformation.proofs}"
-                  rows="50"
-                  paginator="true"
-                  rowsPerPageTemplate="25,50,100,300"
-                  tableStyle="table-layout: auto"
-                  emptyMessage="Keine Einträge vorhanden"
-                  var="proof"
-                  sortBy="#{proof.proofRegulationStation.sensitiveArea.name}"
-                  expandableRowGroups="true">
+        <pf:dataTable id="proofTable"
+                      value="#{proofEdit.proofRegulationBaseInformation.proofs}"
+                      rows="100"
+                      paginator="true"
+                      rowsPerPageTemplate="25,50,100,300"
+                      tableStyle="table-layout: auto"
+                      emptyMessage="Keine Einträge vorhanden"
+                      sortBy="#{proof.proofRegulationStation.sensitiveArea.name}"
+                      var="proof">
 
-        <pf:column groupRow="true" headerText="pflegesensitiver Bereich" sortable="true"
-                   sortBy="#{proof.proofRegulationStation.sensitiveArea.name}">
-            <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name}" />
-        </pf:column>
-        <pf:column headerText="FAB Schlüssel" sortable="true" sortBy="#{proof.proofRegulationStation.fabNumber}">
-            <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber}" />
-        </pf:column>
-        <pf:column headerText="Fachabteilung" sortable="true" sortBy="#{proof.proofRegulationStation.fabName}">
-            <pf:outputLabel value="#{proof.proofRegulationStation.fabName}" />
-        </pf:column>
-        <pf:column headerText="Station" sortable="true" sortBy="#{proof.proofRegulationStation.stationName}">
-            <pf:outputLabel value="#{proof.proofRegulationStation.stationName}" />
-        </pf:column>
-        <pf:column headerText="Standort" sortable="true" sortBy="#{proof.proofRegulationStation.locationCode}">
-            <pf:outputLabel value="#{proof.proofRegulationStation.locationCode}" />
-        </pf:column>
-        <pf:column headerText="Monat" sortable="true" sortBy="#{proof.month.name}">
-            <pf:outputLabel value="#{proof.month.name}" />
-        </pf:column>
-        <pf:column headerText="Schicht" sortable="true" sortBy="#{proof.shift.name}">
-            <pf:outputLabel value="#{proof.shift.name}" />
-        </pf:column>
-        <pf:column headerText="Anzahl Schichten (Summe)">
-            <inekInput:InputNumber value="#{proof.countShift}"
-                                   Style="width: 96%;"
-                                   minValue="0"
-                                   maxValue="31"
-                                   require="true"
-                                   requiredMessage="Bitte die Anzahl der Schichten angeben"
-                                   readonly="#{proofEdit.isReadOnly}" />
-        </pf:column>
-        <pf:column headerText="durchschnittliche Pflegepersonalausstattung Pflegefachkräfte">
-            <pf:inputNumber id="proofNurseId"
-                            value="#{proof.nurse}"
-                            style="width: 96%;"
-                            decimalPlaces="2"
-                            minValue="0"
-                            maxValue="999"
-                            required="true"
-                            requiredMessage="Bitte geben Sie einen Wert ein"
-                            inputStyle="width: 100%; text-align: right"
-                            readonly="#{proofEdit.isReadOnly}">
-                <pf:ajax event="change"
-                         update="patientPerNurseId countHelpeNurseChargeableId"
-                         immediate="true" />
-                <pf:focus/>
-            </pf:inputNumber>
-            <pf:message for="proofNurseId" />
-        </pf:column>
-        <pf:column headerText="durchschnittliche Pflegepersonalausstattung Pflegehilfskräfte">
-            <pf:inputNumber id="proofHelpNurseId"
-                            value="#{proof.helpNurse}"
-                            style="width: 96%;"
-                            decimalPlaces="2"
-                            minValue="0"
-                            maxValue="999"
-                            required="true"
-                            requiredMessage="Bitte geben Sie einen Wert ein"
-                            inputStyle="width: 100%; text-align: right"
-                            readonly="#{proofEdit.isReadOnly}">
-                <pf:ajax event="change"
-                         update="patientPerNurseId countHelpeNurseChargeableId"
-                         immediate="true" />
-                <pf:focus/>
-            </pf:inputNumber>
-            <pf:message for="proofHelpNurseId" />
-        </pf:column>
-        <pf:column headerText="durchschnittliche Patientenbelegung">
-            <pf:inputNumber id="proofPatientOccupancy"
-                            value="#{proof.patientOccupancy}"
-                            style="width: 96%;"
-                            decimalPlaces="2"
-                            minValue="0"
-                            maxValue="999"
-                            required="true"
-                            requiredMessage="Bitte geben Sie einen Wert ein"
-                            inputStyle="width: 100%; text-align: right"
-                            readonly="#{proofEdit.isReadOnly}">
-                <pf:ajax event="change"
-                         update="patientPerNurseId countHelpeNurseChargeableId"
-                         immediate="true" />
-                <pf:focus/>
-            </pf:inputNumber>
-            <pf:message for="proofPatientOccupancy" />
-        </pf:column>
-        <pf:column headerText="Anzahl Schichten, in denen die PPUG im Monat nicht eingehalten wurde">
-            <inekInput:InputNumber value="#{proof.countShiftNotRespected}"
-                                   Style="width: 96%;"
-                                   minValue="0"
-                                   maxValue="#{proof.countShift}"
-                                   require="true"
-                                   requiredMessage="Bitte geben Sie einen Wert ein"
-                                   readonly="#{proofEdit.isReadOnly}" />
-        </pf:column>
-        <pf:column headerText="rechnerische Anzahl Patienten je Pflegekraft" style="text-align: right;">
-            <h:outputLabel id="patientPerNurseId"
-                           style="#{proofEdit.calculatePatientPerNurse(proof) gt proof.ppug ? 'color: red; ' : ''}"
-                           value="#{proofEdit.calculatePatientPerNurse(proof)}">
-                <f:convertNumber groupingUsed="true"
-                                 minFractionDigits="2"
-                                 maxFractionDigits="2"
-                                 locale="de_DE"/>
-            </h:outputLabel>
-        </pf:column>
-        <pf:column headerText="Anzahl Pflegehilfskräfte anrechenbar für PPUG" style="text-align: right;">
-            <h:outputLabel id="countHelpeNurseChargeableId"
-                           value="#{proofEdit.calculateCountHelpeNurseChargeable(proof)}">
-                <f:convertNumber groupingUsed="true"
-                                 minFractionDigits="2"
-                                 maxFractionDigits="2"
-                                 locale="de_DE"/>
-            </h:outputLabel>
-        </pf:column>
-    </pf:dataTable>
+            <pf:column headerText="pflegesensitiver Bereich"
+                       sortable="true"
+                       sortBy="#{proof.proofRegulationStation.sensitiveArea.name}"
+                       filterable="true"
+                       filterBy="#{proof.proofRegulationStation.sensitiveArea.name}">
+                <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name}" />
+            </pf:column>
+            <pf:column headerText="FAB Schlüssel"
+                       sortable="true"
+                       sortBy="#{proof.proofRegulationStation.fabNumber}"
+                       filterable="true"
+                       filterBy="#{proof.proofRegulationStation.fabNumber}">
+                <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber}" />
+            </pf:column>
+            <pf:column headerText="Fachabteilung"
+                       sortable="true"
+                       sortBy="#{proof.proofRegulationStation.fabName}"
+                       filterable="true"
+                       filterBy="#{proof.proofRegulationStation.fabName}">
+                <pf:outputLabel value="#{proof.proofRegulationStation.fabName}" />
+            </pf:column>
+            <pf:column headerText="Station"
+                       sortable="true"
+                       sortBy="#{proof.proofRegulationStation.stationName}"
+                       filterable="true"
+                       filterBy="#{proof.proofRegulationStation.stationName}">
+                <pf:outputLabel value="#{proof.proofRegulationStation.stationName}" />
+            </pf:column>
+            <pf:column headerText="Standort"
+                       sortable="true"
+                       sortBy="#{proof.proofRegulationStation.locationCode}"
+                       filterable="true"
+                       filterBy="#{proof.proofRegulationStation.locationCode}">
+                <pf:outputLabel value="#{proof.proofRegulationStation.locationCode}" />
+            </pf:column>
+            <pf:column headerText="Monat"
+                       sortable="true"
+                       sortBy="#{proof.month.name}"
+                       filterable="true"
+                       filterBy="#{proof.month.name}">
+                <pf:outputLabel value="#{proof.month.name}" />
+            </pf:column>
+            <pf:column headerText="Schicht"
+                       sortable="true"
+                       sortBy="#{proof.shift.name}"
+                       filterable="true"
+                       filterBy="#{proof.shift.name}">
+                <pf:outputLabel value="#{proof.shift.name}" />
+            </pf:column>
+            <pf:column headerText="Anzahl Schichten (Summe)">
+                <inekInput:InputNumber value="#{proof.countShift}"
+                                       Style="width: 96%;"
+                                       minValue="0"
+                                       maxValue="31"
+                                       require="true"
+                                       requiredMessage="Bitte die Anzahl der Schichten angeben"
+                                       readonly="#{proofEdit.isReadOnly}" />
+            </pf:column>
+            <pf:column headerText="durchschnittliche Pflegepersonalausstattung Pflegefachkräfte">
+                <pf:inputNumber id="proofNurseId"
+                                value="#{proof.nurse}"
+                                style="width: 96%;"
+                                decimalPlaces="2"
+                                minValue="0"
+                                maxValue="999"
+                                required="true"
+                                requiredMessage="Bitte geben Sie einen Wert ein"
+                                inputStyle="width: 100%; text-align: right"
+                                readonly="#{proofEdit.isReadOnly}">
+                    <pf:ajax event="change"
+                             update="patientPerNurseId countHelpeNurseChargeableId"
+                             immediate="true" />
+                    <pf:focus />
+                </pf:inputNumber>
+                <pf:message for="proofNurseId" />
+            </pf:column>
+            <pf:column headerText="durchschnittliche Pflegepersonalausstattung Pflegehilfskräfte">
+                <pf:inputNumber id="proofHelpNurseId"
+                                value="#{proof.helpNurse}"
+                                style="width: 96%;"
+                                decimalPlaces="2"
+                                minValue="0"
+                                maxValue="999"
+                                required="true"
+                                requiredMessage="Bitte geben Sie einen Wert ein"
+                                inputStyle="width: 100%; text-align: right"
+                                readonly="#{proofEdit.isReadOnly}">
+                    <pf:ajax event="change"
+                             update="patientPerNurseId countHelpeNurseChargeableId"
+                             immediate="true" />
+                    <pf:focus />
+                </pf:inputNumber>
+                <pf:message for="proofHelpNurseId" />
+            </pf:column>
+            <pf:column headerText="durchschnittliche Patientenbelegung">
+                <pf:inputNumber id="proofPatientOccupancy"
+                                value="#{proof.patientOccupancy}"
+                                style="width: 96%;"
+                                decimalPlaces="2"
+                                minValue="0"
+                                maxValue="999"
+                                required="true"
+                                requiredMessage="Bitte geben Sie einen Wert ein"
+                                inputStyle="width: 100%; text-align: right"
+                                readonly="#{proofEdit.isReadOnly}">
+                    <pf:ajax event="change"
+                             update="patientPerNurseId countHelpeNurseChargeableId"
+                             immediate="true" />
+                    <pf:focus />
+                </pf:inputNumber>
+                <pf:message for="proofPatientOccupancy" />
+            </pf:column>
+            <pf:column headerText="Anzahl Schichten, in denen die PPUG im Monat nicht eingehalten wurde">
+                <inekInput:InputNumber value="#{proof.countShiftNotRespected}"
+                                       Style="width: 96%;"
+                                       minValue="0"
+                                       maxValue="#{proof.countShift}"
+                                       require="true"
+                                       requiredMessage="Bitte geben Sie einen Wert ein"
+                                       readonly="#{proofEdit.isReadOnly}" />
+            </pf:column>
+            <pf:column headerText="rechnerische Anzahl Patienten je Pflegekraft" style="text-align: right;">
+                <h:outputLabel id="patientPerNurseId"
+                               style="#{proofEdit.calculatePatientPerNurse(proof) gt proof.ppug ? 'color: red; ' : ''}"
+                               value="#{proofEdit.calculatePatientPerNurse(proof)}">
+                    <f:convertNumber groupingUsed="true"
+                                     minFractionDigits="2"
+                                     maxFractionDigits="2"
+                                     locale="de_DE" />
+                </h:outputLabel>
+            </pf:column>
+            <pf:column headerText="Anzahl Pflegehilfskräfte anrechenbar für PPUG" style="text-align: right;">
+                <h:outputLabel id="countHelpeNurseChargeableId"
+                               value="#{proofEdit.calculateCountHelpeNurseChargeable(proof)}">
+                    <f:convertNumber groupingUsed="true"
+                                     minFractionDigits="2"
+                                     maxFractionDigits="2"
+                                     locale="de_DE" />
+                </h:outputLabel>
+            </pf:column>
+        </pf:dataTable>
     </div>
     <br />
 

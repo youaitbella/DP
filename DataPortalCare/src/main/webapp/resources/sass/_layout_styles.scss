@@ -125,3 +125,13 @@
   font-family: FontAwesome;
 }
 // End InfoBox
+
+// Start DataTableRow override multiple Color
+.ui-datatable-odd {
+  background: #ffffff;
+}
+
+.ui-datatable-even {
+  background: #F2F5F9;
+}
+// End DataTableRow override multiple Color

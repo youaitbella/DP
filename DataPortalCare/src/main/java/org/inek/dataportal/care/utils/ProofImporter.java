@@ -66,7 +66,7 @@ public class ProofImporter {
                 fillRowToProof(sheet.getRow(i), proofFromRow.get());
             } else {
                 LOGGER.log(Level.WARNING, "Row " + i + " no matching proof found");
-                addMessage("Keinen passenden Eintrag gefunden. Zeile: " + i++);
+                addMessage("Keinen passenden Eintrag gefunden. Zeile: " + i + 1);
             }
         }
         LOGGER.log(Level.INFO, "End Proof import: " + info.getIk() + " " + info.getYear());

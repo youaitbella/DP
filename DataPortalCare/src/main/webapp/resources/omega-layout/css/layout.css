@@ -4330,4 +4330,12 @@ body .ui-inputgroup .ui-inputgroup-addon-checkbox .ui-chkbox {
   font-family: FontAwesome;
 }
 
+.ui-datatable-odd {
+  background: #ffffff;
+}
+
+.ui-datatable-even {
+  background: #F2F5F9;
+}
+
 /*# sourceMappingURL=layout.css.map */
