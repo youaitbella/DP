@@ -189,13 +189,41 @@ public class AccessManager implements Serializable {
         return right != CooperativeRight.None;
     }
 
-    public boolean isWritable(Feature feature, WorkflowStatus state, int ownerId) {
-        return isWritable(feature, state, ownerId, -1);
+    public boolean isWritable(Feature feature, WorkflowStatus state, int ownerAccountId) {
+        return isWritable(feature, state, ownerAccountId, -1);
     }
 
-    public boolean isWritable(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        // todo: implement and replace isReadOnly
-        return false;
+    public boolean isWritable(Feature feature, WorkflowStatus state, int ownerAccountId, int ik) {
+        if (state.getId() >= WorkflowStatus.Provided.getId()) {
+            return false;
+        }
+        if (state == WorkflowStatus.New && ik <= 0 && !isCreateAllowed(feature)) {
+            return false;
+        }
+        
+        if (feature.getManagedBy() == ManagedBy.None
+                || feature.getIkReference() == IkReference.None
+                || feature.getManagedBy() == ManagedBy.InekOrIkAdmin && !_ikCache.isManaged(ik, feature)) {
+
+            return isUnmanagedWritable(ownerAccountId, feature, ik, state);
+
+        }
+
+        if (ik <= 0) {
+            return false;
+        }
+
+        AccessRight right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst().orElse(new AccessRight());
+        return right.canWrite();
+    }
+
+    private boolean isUnmanagedWritable(int ownerAccountId, Feature feature, int ik, WorkflowStatus state) {
+        if (ownerAccountId == _sessionController.getAccountId()) {
+            return true;
+        }
+        CooperativeRight right = getAchievedRight(feature, ownerAccountId, ik);
+        return right.canWriteAlways()
+                || (state.getId() >= WorkflowStatus.ApprovalRequested.getId() && right.canWriteCompleted());
     }
 
     /**
@@ -213,7 +241,8 @@ public class AccessManager implements Serializable {
 
     @SuppressWarnings("CyclomaticComplexity") // todo: remove annotation after implementing #88
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        // todo: check
+        // todo: check         return !isWritable(feature, state, ownerId, ik);
+
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return true;
         }
