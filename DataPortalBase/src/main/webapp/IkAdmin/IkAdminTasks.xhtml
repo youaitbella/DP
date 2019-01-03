@@ -24,10 +24,13 @@
 
         <pf:tabView styleClass="featureTabs" dynamic="true">
             <pf:tab title="Rechteverwaltung">
-                <ui:include src="rightmanagement/rightManagement.xhtml" />
+                <ui:include src="fragment/rightManagement.xhtml" />
             </pf:tab>
             <pf:tab title="Funktionszuweisung">
-                <ui:include src="usermanagement/userManagement.xhtml" />
+                <ui:include src="fragment/userManagement.xhtml" />
+            </pf:tab>
+            <pf:tab title="Zuständigkeiten" rendered="#{ikAdminTasks.containsResponsibility}">
+                <ui:include src="fragment/responsibilityManagement.xhtml" />
             </pf:tab>
         </pf:tabView>
 

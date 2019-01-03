@@ -167,7 +167,7 @@ public class AccessManager implements Serializable {
         }
 
         if (ik > 0) {
-            if (feature.getIkUsage() == IkUsage.ByResposibility || feature.getIkUsage() == IkUsage.ByResposibilityAndCorrelation) {
+            if (feature.getIkUsage() == IkUsage.ByResposibility || feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
 
             }
             if (feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature)) {
@@ -506,7 +506,7 @@ public class AccessManager implements Serializable {
         }
         Set<Integer> responsibleForIks = _sessionController.getAccount().
                 obtainResponsibleForIks(feature, iks);
-        if (feature.getIkUsage() == IkUsage.ByResposibilityAndCorrelation) {
+        if (feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
             responsibleForIks = _ikCache.retriveCorrelatedIks(feature, iks, responsibleForIks);
         }
         return responsibleForIks;
