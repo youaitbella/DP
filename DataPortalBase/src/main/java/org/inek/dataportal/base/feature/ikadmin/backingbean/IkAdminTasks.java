@@ -228,7 +228,7 @@ public class IkAdminTasks implements Serializable {
         }
 
         Feature feature = Feature.getFeatureFromId(_featureId);
-        User user = createUserFromAccount(_account);
+        User user = new User(_account);
         AccessRight accessRight = new AccessRight(user, _ik, feature, Right.Deny);
         _ikAdminFacade.saveAccessRight(accessRight);
         _accessRights.add(accessRight);
@@ -244,16 +244,6 @@ public class IkAdminTasks implements Serializable {
         DialogController.showSaveDialog();
     }
     // </editor-fold>
-
-    private User createUserFromAccount(Account account) {
-        User user = new User();
-        user.setId(account.getId());
-        user.setFirstName(account.getFirstName());
-        user.setLastName(account.getLastName());
-        user.setEmail(account.getEmail());
-        user.setCompany(account.getCompany());
-        return user;
-    }
 
     public boolean saveAccessRightsAllowed(List<AccessRight> accessRights) {
         for (AccessRight ar : accessRights) {
