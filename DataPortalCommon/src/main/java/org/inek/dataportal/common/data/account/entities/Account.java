@@ -256,16 +256,13 @@ public class Account implements Serializable, Person {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "afAccountId", referencedColumnName = "acId")
     @OrderBy("_sequence")
-    private List<AccountFeature> _features;
+    private List<AccountFeature> _features = new ArrayList<>();
 
     public void setFeatures(List<AccountFeature> features) {
         _features = features;
     }
 
     public List<AccountFeature> getFeatures() {
-        if (_features == null) {
-            _features = new ArrayList<>();
-        }
         return _features;
     }
 
@@ -353,7 +350,7 @@ public class Account implements Serializable, Person {
                 admin.get().addIkAdminFeature(fe);
             }
             admin.get().removeIkAdminFeaturesIfNotInList(features);
-            return false;
+            return true;
         }
         _adminIks.add(new IkAdmin(_id, ik, mailDomain, features));
         return true;
@@ -598,6 +595,10 @@ public class Account implements Serializable, Person {
 
     public void setAccessRights(List<AccessRight> accessRights) {
         this._accessRights = accessRights;
+    }
+
+    public void addAccessRigth (AccessRight accessRight) {
+        _accessRights.add(accessRight);
     }
     // </editor-fold>
 
