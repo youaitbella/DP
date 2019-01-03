@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.helper.FeatureMessageHandler;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -27,7 +28,7 @@ public class AdditionalCostList {
     public AdditionalCostList() {
     }
 
-    @Inject 
+    @Inject
     public AdditionalCostList(AdditionalCostFacade addFacade,
             AccessManager accessManager) {
         _addFacade = addFacade;
@@ -65,17 +66,24 @@ public class AdditionalCostList {
     }
 
     public String deleteAdditionalCost(int adId) {
-        AdditionalCost add = _addFacade.findAdditionalCost(adId);
-        if (add == null) {
+        AdditionalCost additionalCost = _addFacade.findAdditionalCost(adId);
+        if (additionalCost == null) {
             return "";
         }
-        if (_accessManager.getSessionAccount().getId() == add.getAccountId()) {
-            if (add.getStatusId() < WorkflowStatus.Provided.getId()) {
-                _addFacade.deleteAdditionalCost(add);
+        Boolean deleteEnabled = _accessManager.isDeleteEnabled(
+                Feature.ADDITIONAL_COST,
+                additionalCost.getAccountId(),
+                additionalCost.getIk()
+        );
+        if (deleteEnabled) {
+            if (additionalCost.getStatusId() < WorkflowStatus.Provided.getId()) {
+                _addFacade.deleteAdditionalCost(additionalCost);
             } else {
-                add.setStatusId(WorkflowStatus.Retired.getId());
-                _addFacade.saveAdditionalCost(add);
+                additionalCost.setStatusId(WorkflowStatus.Retired.getId());
+                _addFacade.saveAdditionalCost(additionalCost);
             }
+        } else {
+            DialogController.showAccessDeniedDialog();
         }
         return "";
     }

@@ -62,10 +62,10 @@ public class AccessManager implements Serializable {
         _ikCache = ikCache;
     }
 
-    public Account getSessionAccount(){
+    public Account getSessionAccount() {
         return _sessionController.getAccount();
     }
-    
+
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache
      * for subsequent requests.
@@ -143,7 +143,6 @@ public class AccessManager implements Serializable {
         return retrieveIkSet(feature, predicate);
     }
 
-    
     /**
      * In normal workflow, only data the user has access to, will be displayed in the lists. But if some user tries to
      * open data by its id (via URL), this might be an non-authorized access. Within the dialog, it should be tested,
@@ -361,15 +360,21 @@ public class AccessManager implements Serializable {
         return ownerId != account.getId() && isSealedEnabled(feature, state, ownerId, ik);
     }
 
-    public boolean isDeleteEnabled(Feature feature, int accountId, int ik) {
-        // todo: check
-        if (ik > 0) {
-            Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
-            if (right.isPresent()) {
-                return right.get().canWrite() || right.get().canSeal();
-            }
+    public boolean isDeleteEnabled(Feature feature, int ownerAccountId, int ik) {
+
+        if (feature.getManagedBy() == ManagedBy.None
+                || feature.getIkReference() == IkReference.None
+                || feature.getManagedBy() == ManagedBy.InekOrIkAdmin && !_ikCache.isManaged(ik, feature)) {
+            return ownerAccountId == _sessionController.getAccountId();
         }
-        return false;
+
+        if (ik <= 0) {
+            return false;
+        }
+
+        AccessRight right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst().orElse(new AccessRight());
+        return right.canCreate();
+
     }
 
     /**

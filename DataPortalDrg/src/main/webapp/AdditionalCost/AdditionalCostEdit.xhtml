@@ -263,7 +263,7 @@
                                        action="#{editAdditionalCost.save}"
                                        value="#{msg.btnSave}"
                                        immediate="true"
-                                       rendered="#{!editAdditionalCost.readOnly or sessionController.isInekUser('ADDITIONAL_COST')}">
+                                       rendered="#{!editAdditionalCost.readOnly}">
                         </h:commandLink>
                         <h:commandLink styleClass="sendButton"
                                        action="#{editAdditionalCost.seal}"

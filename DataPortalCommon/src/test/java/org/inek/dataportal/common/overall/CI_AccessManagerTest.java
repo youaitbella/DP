@@ -13,7 +13,6 @@ import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
-import org.inek.dataportal.common.enums.CooperativeRightTest;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import static org.inek.dataportal.common.overall.AccessManager.canReadCompleted;
@@ -39,7 +38,7 @@ public class CI_AccessManagerTest {
     private final int noneAccountId = 0;
     private final int readWriteSealAccountId = 1;
     private final int readSealedAccountId = 2;
-    private final Feature testFeature = Feature.NUB;
+    private final Feature testFeature = Feature.ADDITIONAL_COST;
 
     public CI_AccessManagerTest() {
     }
@@ -386,16 +385,30 @@ public class CI_AccessManagerTest {
     }
 
     @Test
-    public void testIsDeleteEnabledWithNoIk() {
+    public void testIsDeleteEnabledWithoutIkReturnsTrueIfManagerIsOptional() {
         AccessManager accessManager = obtainAccessManager();
         boolean result = accessManager.isDeleteEnabled(testFeature, userAccountId, 0);
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    public void testIsDeleteEnabledWithoutIkReturnsFalseIfForeignData() {
+        AccessManager accessManager = obtainAccessManager();
+        boolean result = accessManager.isDeleteEnabled(testFeature, noneAccountId, 0);
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void testIsDeleteEnabledWithoutIkReturnsFalseIfManagerIsMandatory() {
+        AccessManager accessManager = obtainAccessManager();
+        boolean result = accessManager.isDeleteEnabled(Feature.HC_HOSPITAL, userAccountId, 0);
         assertThat(result).isFalse();
     }
 
     @Test
     public void testIsDeleteEnabledWithCanWrite() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Write));
+        accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Create));
         List<CooperationRight> cooperationRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
         boolean result = accessManager.isDeleteEnabled(testFeature, userAccountId, allowedIk);

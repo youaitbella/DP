@@ -108,7 +108,7 @@ public class AccessRight implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Right">
     @Column(name = "arRight")
     @Convert(converter = RightConverter.class)
-    private Right _right;
+    private Right _right = Right.Deny;
 
     public Right getRight() {
         return _right;
