@@ -117,29 +117,10 @@ public class IkAdminFacade extends AbstractDataAccess {
         return hasIkAdmin;
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Account> findIkAdmins(int ik) {
-        String sql = "select Account.* from ikadm.IkAdmin join Account on iaAccountId = acId where iaIk = " + ik;
-        Query query = getEntityManager().createNativeQuery(sql, Account.class);
-        return query.getResultList();
-    }
-
     public List<IkAdmin> findIkAdminsForIk(int ik) {
         String jpql = "select ia from IkAdmin ia where ia._ik = :ik";
         TypedQuery<IkAdmin> query = getEntityManager().createQuery(jpql, IkAdmin.class);
         query.setParameter("ik", ik);
-        return query.getResultList();
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Account> findIkAdmins(int ik, Feature feature) {
-        String sql = "select Account.* \n" +
-                "from ikadm.IkAdmin \n" +
-                "join Account on iaAccountId = acId \n" +
-                "join ikadm.IkAdminFeature on iafId = iafIkAdminId \n" +
-                "where iaIk = " + ik + " \n" +
-                "and iafFeatureId = " + feature.getId();
-        Query query = getEntityManager().createNativeQuery(sql, Account.class);
         return query.getResultList();
     }
 
