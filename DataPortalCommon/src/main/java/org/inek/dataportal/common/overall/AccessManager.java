@@ -227,47 +227,30 @@ public class AccessManager implements Serializable {
     }
 
     /**
-     * Data is readonly when provided to InEK or is owned by someone else and no edit right is granted to current user.
-     *
+     * 
      * @param feature
      * @param state
      * @param ownerId
-     *
      * @return
+     * @deprecated use isWriteable instead
      */
+    @Deprecated
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId) {
         return isReadOnly(feature, state, ownerId, -1);
     }
 
-    @SuppressWarnings("CyclomaticComplexity") // todo: remove annotation after implementing #88
+    /**
+     * 
+     * @param feature
+     * @param state
+     * @param ownerId
+     * @param ik
+     * @return
+     * @deprecated use isWriteable instead
+     */
+    @Deprecated
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        // todo: check         return !isWritable(feature, state, ownerId, ik);
-
-        if (state.getId() >= WorkflowStatus.Provided.getId()) {
-            return true;
-        }
-        if (state == WorkflowStatus.New && ik <= 0) {
-            return !isCreateAllowed(feature);
-        }
-        if (feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature)) {
-            return true;
-        }
-        if (ik > 0) {
-            Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
-            if (right.isPresent()) {   // nesting may be simplified according to #88
-                boolean readOnly = !right.get().canWrite();
-                if (readOnly || _ikCache.isManaged(ik, feature)) {
-                    return readOnly;
-                }
-            }
-        }
-
-        if (ownerId == _sessionController.getAccountId()) {
-            return false;
-        }
-        CooperativeRight right = getAchievedRight(feature, ownerId, ik);
-        return !right.canWriteAlways()
-                && !(state.getId() >= WorkflowStatus.ApprovalRequested.getId() && right.canWriteCompleted());
+        return !isWritable(feature, state, ownerId, ik);
     }
 
     /**
