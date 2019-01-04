@@ -195,11 +195,13 @@ public class SpecificFunctionFacade extends AbstractDataAccessWithActionLog {
 
     public List<SpecificFunctionListItem> getSpecificFunctionItemsForInek() {
         String jpql = "select new org.inek.dataportal.drg.specificfunction.backingbean.SpecificFunctionListItem "
-                + "(spf._id, spf._dataYear, spf._statusId, spf._ik, spf._sealed, spf._code) "
-                + "from SpecificFunctionRequest spf where spf._statusId in (3, 10)";
+                + "(spf._id, spf._dataYear, spf._statusId, spf._ik, c._name, c._town, spf._sealed, spf._code) "
+                + "from SpecificFunctionRequest spf left join Customer c on spf._ik = c._ik "
+                + "where spf._statusId in (3, 10)";
         TypedQuery<SpecificFunctionListItem> query = getEntityManager().createQuery(jpql, SpecificFunctionListItem.class);
-        List<SpecificFunctionListItem> result = query.getResultList();
-        return result;
+        List<SpecificFunctionListItem> items = query.getResultList();
+        
+        return items;
     }
 
     public List<Integer> getExistingYears(int ik) {
