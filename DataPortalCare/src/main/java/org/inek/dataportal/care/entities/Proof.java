@@ -6,6 +6,7 @@ import org.inek.dataportal.care.enums.Shift;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,10 +35,9 @@ public class Proof implements Serializable {
         this._patientPerNurse = proof.getPatientPerNurse();
         this._countHelpeNurseChargeable = proof.getCountHelpeNurseChargeable();
 
-        for (ProofExceptionFact exceptionFact : proof.getExceptionFact()) {
-            ProofExceptionFact newExceptionFact = new ProofExceptionFact(exceptionFact);
-            newExceptionFact.setProof(this);
-            addExceptionFact(newExceptionFact);
+        for (ProofExceptionFact exceptionFact : proof.getExceptionFacts()) {
+            ProofExceptionFact newExceptionFact = new ProofExceptionFact(exceptionFact, proof);
+            _proofExceptionFact.add(newExceptionFact);
         }
     }
 
@@ -207,12 +207,8 @@ public class Proof implements Serializable {
     @JoinColumn(name = "pefProofId")
     private List<ProofExceptionFact> _proofExceptionFact = new ArrayList<>();
 
-    public List<ProofExceptionFact> getExceptionFact() {
-        return _proofExceptionFact;
-    }
-
-    public void setExceptionFact(List<ProofExceptionFact> proofExceptionFact) {
-        this._proofExceptionFact = proofExceptionFact;
+    public List<ProofExceptionFact> getExceptionFacts() {
+        return Collections.unmodifiableList(_proofExceptionFact);
     }
 
     public void addExceptionFact(ProofExceptionFact fact) {

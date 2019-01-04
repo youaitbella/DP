@@ -16,10 +16,14 @@ public class ProofExceptionFact implements Serializable {
     public ProofExceptionFact() {
     }
 
+    public ProofExceptionFact(Proof proof) {
+        _proof = proof;
+    }
 
-    public ProofExceptionFact(ProofExceptionFact proofExceptionFact) {
-        this._exceptionFactId = proofExceptionFact.getExceptionFactId();
-        this._statement = proofExceptionFact.getStatement();
+    public ProofExceptionFact(ProofExceptionFact proofExceptionFact, Proof proof) {
+        _exceptionFactId = proofExceptionFact.getExceptionFactId();
+        _statement = proofExceptionFact.getStatement();
+        _proof = proof;
     }
 
 
@@ -45,10 +49,6 @@ public class ProofExceptionFact implements Serializable {
 
     public Proof getProof() {
         return _proof;
-    }
-
-    public void setProof(Proof proof) {
-        this._proof = proof;
     }
     //</editor-fold>
 
