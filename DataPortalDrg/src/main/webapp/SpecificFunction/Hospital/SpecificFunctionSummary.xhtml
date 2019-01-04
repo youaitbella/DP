@@ -31,10 +31,8 @@
                     </h:panelGroup>
 
                     <div jsf:id="accountDataEdit" style="margin-left:16px; padding-bottom: 1em;">
-                        <h:outputLabel value="Zu diesem IK sind derzeit keine Daten vorhanden"
-                                       rendered="#{treeNode['class'].simpleName eq 'CustomerTreeNode'and treeNode.expanded and treeNode.children.size() eq 0}"/>
-                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine Daten zur Freigabe an Sie gesendet"
-                                       rendered="#{treeNode['class'].simpleName eq 'AccountTreeNode'and treeNode.expanded and treeNode.children.size() eq 0}"/>
+                        <h:outputLabel value="Derzeit sind keine Daten vorhanden"
+                                       rendered="#{treeNode.expanded and treeNode.children.size() eq 0}"/>
                         <spf:RequestNode parentNode="#{treeNode}"
                                          showDelete="true" showSelectBox="false"
                                          rendered="#{treeNode.children.size() gt 0}"/>
@@ -84,7 +82,7 @@
                               emptyMessage="Keine Einträge vorhanden"
                               sortBy="#{specificRequestItem.year}"
                               expandableRowGroups="true"
-                              rows="300"
+                              rows="50"
                               paginator="true"
                               rowsPerPageTemplate="25,50,100,300,500"
                               tableStyleClass="inekTableDrg"

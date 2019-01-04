@@ -30,7 +30,7 @@
                     <h:outputText styleClass="third marginTop" value="#{accountNode.town}"/>
 
                     <div jsf:id="edit" style="margin-left:16px; padding-bottom: 1em;">
-                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine Daten zur Freigabe an Sie gesendet" 
+                        <h:outputLabel value="Derzeit sind keine Daten vorhanden" 
                                        rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
                         <spf:AgreementNode parentNode="#{accountNode}"
                                            showDelete="true" showSelectBox="false"
