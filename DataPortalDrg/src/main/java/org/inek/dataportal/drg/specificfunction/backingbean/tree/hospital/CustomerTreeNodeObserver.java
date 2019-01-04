@@ -56,29 +56,7 @@ public class CustomerTreeNodeObserver implements TreeNodeObserver {
 
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
-        Stream<SpecificFunctionRequestTreeNode> stream = treeNode.getChildren().stream().
-                map(n -> (SpecificFunctionRequestTreeNode) n);
-        Stream<SpecificFunctionRequestTreeNode> sorted;
-        int direction = treeNode.isDescending() ? -1 : 1;
-        switch (treeNode.getSortCriteria().toLowerCase()) {
-            case "id":
-                sorted = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getSpecificFunctionRequest().getId(),
-                        n2.getSpecificFunctionRequest().getId()));
-                break;
-            case "hospital":
-                sorted = stream.sorted((n1, n2) -> direction * _appTools.retrieveHospitalInfo(n1.
-                        getSpecificFunctionRequest().getIk())
-                        .compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionRequest().getIk())));
-                break;
-            case "date":
-                sorted = stream.sorted((n1, n2) -> direction * n1.getSpecificFunctionRequest().getLastChanged()
-                        .compareTo(n2.getSpecificFunctionRequest().getLastChanged()));
-                break;
-            case "status":
-            default:
-                sorted = stream;
-        }
-        return sorted.collect(Collectors.toList());
+        return Sorter.obtainSortedChildren(treeNode, _appTools);
     }
 
 }

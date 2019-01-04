@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -19,7 +17,6 @@ import org.inek.dataportal.drg.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.tree.YearTreeNode;
 import org.inek.dataportal.drg.specificfunction.backingbean.tree.SpecificFunctionRequestTreeNode;
 
 /**
@@ -99,29 +96,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
 
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
-        Stream<SpecificFunctionRequestTreeNode> stream = treeNode.getChildren().stream().
-                map(n -> (SpecificFunctionRequestTreeNode) n);
-        Stream<SpecificFunctionRequestTreeNode> sorted;
-        int direction = treeNode.isDescending() ? -1 : 1;
-        switch (treeNode.getSortCriteria().toLowerCase()) {
-            case "id":
-                sorted = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getSpecificFunctionRequest().getId(),
-                        n2.getSpecificFunctionRequest().getId()));
-                break;
-            case "hospital":
-                sorted = stream.sorted((n1, n2) -> direction * _appTools.retrieveHospitalInfo(n1.
-                        getSpecificFunctionRequest().getIk())
-                        .compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionRequest().getIk())));
-                break;
-            case "date":
-                sorted = stream.sorted((n1, n2) -> direction * n1.getSpecificFunctionRequest().getLastChanged()
-                        .compareTo(n2.getSpecificFunctionRequest().getLastChanged()));
-                break;
-            case "status":
-            default:
-                sorted = stream;
-        }
-        return sorted.collect(Collectors.toList());
+        return Sorter.obtainSortedChildren(treeNode, _appTools);
     }
 
 }
