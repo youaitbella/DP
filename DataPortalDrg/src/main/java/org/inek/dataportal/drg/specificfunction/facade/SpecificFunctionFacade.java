@@ -24,6 +24,7 @@ import org.inek.dataportal.drg.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.StringUtil;
+import org.inek.dataportal.drg.specificfunction.backingbean.SpecificFunctionListItem;
 
 /**
  *
@@ -192,10 +193,12 @@ public class SpecificFunctionFacade extends AbstractDataAccessWithActionLog {
         return result;
     }
 
-    public List<SpecificFunctionRequest> getSpecificFunctionsForInek() {
-        String jpql = "select spf from SpecificFunctionRequest spf where spf._statusId in (3, 10)";
-        TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
-        List<SpecificFunctionRequest> result = query.getResultList();
+    public List<SpecificFunctionListItem> getSpecificFunctionItemsForInek() {
+        String jpql = "select new org.inek.dataportal.drg.specificfunction.backingbean.SpecificFunctionListItem "
+                + "(spf._id, spf._dataYear, spf._statusId, spf._ik, spf._sealed, spf._code) "
+                + "from SpecificFunctionRequest spf where spf._statusId in (3, 10)";
+        TypedQuery<SpecificFunctionListItem> query = getEntityManager().createQuery(jpql, SpecificFunctionListItem.class);
+        List<SpecificFunctionListItem> result = query.getResultList();
         return result;
     }
 

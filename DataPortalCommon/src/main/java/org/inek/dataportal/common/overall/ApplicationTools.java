@@ -36,7 +36,7 @@ public class ApplicationTools {
     @Inject private ConfigFacade _config;
     @Inject private InfoDataFacade _info;
     @Inject private CustomerFacade _customerFacade;
-    private final Map<Integer, String> _hospitalInfo = new ConcurrentHashMap<>();
+    private final Map<Integer, CustomerInfo> _customerInfo = new ConcurrentHashMap<>();
 
     @PostConstruct
     private void init() {
@@ -137,35 +137,33 @@ public class ApplicationTools {
     }
 
     public String retrieveHospitalInfo(int ik) {
-        if (_hospitalInfo.containsKey(ik)) {
-            return _hospitalInfo.get(ik);
-        }
-        Customer c = _customerFacade.getCustomerByIK(ik);
-        if (c == null || c.getName() == null) {
-            return "";
-        }
-        String info = c.getName() + ", " + c.getTown();
-        _hospitalInfo.put(ik, info);
-        return info;
+        ensureCustomerInfo(ik);
+        return _customerInfo.get(ik).getName() + ", " + _customerInfo.get(ik).getTown();
     }
 
     public String retrieveHospitalName(int ik) {
-        Customer c = _customerFacade.getCustomerByIK(ik);
-        if (c == null || c.getName() == null) {
-            return "";
-        }
-        return c.getName();
+        ensureCustomerInfo(ik);
+        return _customerInfo.get(ik).getName();
     }
 
     public String retrieveHospitalTown(int ik) {
-        Customer c = _customerFacade.getCustomerByIK(ik);
-        if (c == null || c.getTown() == null) {
-            return "";
+        ensureCustomerInfo(ik);
+        return _customerInfo.get(ik).getTown();
+    }
+
+    private void ensureCustomerInfo(int ik) {
+        if (_customerInfo.containsKey(ik)) {
+            return;
         }
-        return c.getTown();
+        Customer c = _customerFacade.getCustomerByIK(ik);
+        if (c == null || c.getName() == null) {
+            _customerInfo.put(ik, new CustomerInfo("???", "???"));
+        } else {
+            _customerInfo.put(ik, new CustomerInfo(c.getName(), c.getTown()));
+        }
     }
 
     public void cleanHospitalInfoCache() {
-        _hospitalInfo.clear();
+        _customerInfo.clear();
     }
 }

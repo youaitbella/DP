@@ -96,10 +96,10 @@
                         </h:link>
                     </pf:column>
 
-                    <pf:column headerText="Lfd-Nr" sortBy="#{specificRequestItem.lfdNumber}" filterBy="#{specificRequestItem.lfdNumber}" filterMatchMode="contains">
+                    <pf:column headerText="Lfd-Nr" sortBy="#{specificRequestItem.sequence}" filterBy="#{specificRequestItem.sequence}" filterMatchMode="contains">
                         <h:link outcome="#{specificFunctionRequestList.edit()}">
                             <f:param name="id" value="#{specificRequestItem.id}"/>
-                            #{specificRequestItem.lfdNumber}
+                            #{specificRequestItem.sequence}
                         </h:link>
                     </pf:column>
 
