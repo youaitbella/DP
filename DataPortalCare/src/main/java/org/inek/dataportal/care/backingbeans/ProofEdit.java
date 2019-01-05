@@ -173,9 +173,9 @@ public class ProofEdit implements Serializable {
     private void fillExceptionsFactsList(ProofRegulationBaseInformation info) {
         _exceptionsFacts.clear();
         for (Proof proof : info.getProofs().stream()
-                .filter(c -> c.getExceptionFacts().size() > 0)
+                .filter(c -> c.getExceptionFact().size() > 0)
                 .collect(Collectors.toList())) {
-            _exceptionsFacts.addAll(proof.getExceptionFacts());
+            _exceptionsFacts.addAll(proof.getExceptionFact());
         }
     }
 
@@ -342,7 +342,8 @@ public class ProofEdit implements Serializable {
     }
 
     public void addNewException(Proof proof) {
-        ProofExceptionFact exceptionFact = new ProofExceptionFact(proof);
+        ProofExceptionFact exceptionFact = new ProofExceptionFact();
+        exceptionFact.setProof(proof);
         proof.addExceptionFact(exceptionFact);
         _exceptionsFacts.add(exceptionFact);
     }
