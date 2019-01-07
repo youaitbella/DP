@@ -19,12 +19,9 @@ import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
-import org.primefaces.component.api.UIColumn;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.SortMeta;
-import org.primefaces.model.SortOrder;
 import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
