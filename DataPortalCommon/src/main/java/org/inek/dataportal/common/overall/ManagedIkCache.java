@@ -13,7 +13,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.ikadmin.entity.IkCorrelation;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 
@@ -35,8 +34,8 @@ public class ManagedIkCache {
         _ikAdminFacade = ikAdminFacade;
     }
 
-    //@Schedule(hour = "*", minute = "*/30", info = "every 30 minutes")
-    @Schedule(hour = "*", minute = "*", second = "*/15")
+    @Schedule(hour = "*", minute = "*/10", info = "every 10 minutes")
+    //@Schedule(hour = "*", minute = "*", second = "*/15", info = "every 15 seconds, for testing purpose only)
     private void timedReset() {
         reset();
     }

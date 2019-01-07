@@ -21,7 +21,7 @@
 
             <pf:column class="colIcon">
                 <pf:commandLink rendered="true"
-                                action="#{ikAdminTasks.deleteIk(right.accountId, right.feature, ik)}"
+                                action="#{ikAdminTasks.deleteIk(right.accountId, right.feature, responsibleForIk)}"
                                 update="iks"
                                 process="@this">
                     <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>

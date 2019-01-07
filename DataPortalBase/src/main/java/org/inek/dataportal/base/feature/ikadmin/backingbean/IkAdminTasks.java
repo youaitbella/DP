@@ -160,9 +160,9 @@ public class IkAdminTasks implements Serializable {
         return _responsibleForIks.get(key);
     }
 
-    public void deleteIk(int accountId, Feature feature, int ik) {
+    public void deleteIk(int accountId, Feature feature, AccountResponsibility responsibility) {
         String key = buildKey(accountId, feature, _ik);
-        _responsibleForIks.get(key).removeIf(r -> r.getDataIk() == ik);
+        _responsibleForIks.get(key).remove(responsibility);
     }
 
     public Boolean isIkDeletionAllowed(int ik) {
