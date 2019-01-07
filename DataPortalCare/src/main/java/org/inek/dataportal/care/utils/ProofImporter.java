@@ -109,6 +109,9 @@ public class ProofImporter {
     private String getLocationFromCell(Cell cell) {
         try {
             int valueInt = (int) cell.getNumericCellValue();
+            if (valueInt == 0) {
+                return "";
+            }
             return String.valueOf(valueInt);
         } catch (Exception ex) {
             return cell.getStringCellValue();
@@ -118,6 +121,9 @@ public class ProofImporter {
     private String getFabNumberFromCell(Cell cell) {
         try {
             int valueInt = (int) cell.getNumericCellValue();
+            if (valueInt == 0) {
+                return "";
+            }
             return String.valueOf(valueInt);
         } catch (Exception ex) {
             return cell.getStringCellValue();

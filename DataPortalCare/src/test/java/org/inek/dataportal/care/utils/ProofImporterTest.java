@@ -55,6 +55,36 @@ class ProofImporterTest {
     }
 
     @Test
+    void handleProofUploadEmptyFabNumberTest() {
+        ProofRegulationBaseInformation info = new ProofRegulationBaseInformation();
+
+        List<ProofRegulationStation> stations = new ArrayList<>();
+
+        stations.add(createNewStation(SensitiveArea.GERIATRIE, "", "Geriatrie", "G1", "1"));
+
+        createProofs(info, stations, 2019, 1);
+
+        Assertions.assertThat(info.getProofs()).hasSize(6);
+
+        File file = new File(FILE_BASE_FOLDER + "ProofExampleEmptyFabNumber.xlsx");
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (Exception ex) {
+
+        }
+
+        ProofImporter importer = new ProofImporter();
+
+        Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getNurse() > 0)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getHelpNurse() > 0)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getPatientOccupancy() > 0)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getCountShiftNotRespected() > 0)).isTrue();
+    }
+
+    @Test
     void handleProofUploadFullImportTest() {
         ProofRegulationBaseInformation info = new ProofRegulationBaseInformation();
 
