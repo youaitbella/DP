@@ -3,6 +3,7 @@ package org.inek.dataportal.base.feature.ikadmin.backingbean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,12 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.IkReference;
+import org.inek.dataportal.api.enums.IkUsage;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.entity.User;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
@@ -128,6 +131,55 @@ public class IkAdminTasks implements Serializable {
         return features;
     }
 
+    public Boolean getContainsResponsibility() {
+        return _accessRights.stream().
+                anyMatch(r -> r.getFeature().getIkUsage() == IkUsage.ByResponsibilityAndCorrelation);
+    }
+
+    public List<AccessRight> getResponsibilities() {
+        return _accessRights
+                .stream()
+                .filter(r -> r.getRight() != Right.Deny)
+                .filter(r -> r.getFeature().getIkUsage() == IkUsage.ByResponsibilityAndCorrelation)
+                .collect(Collectors.toList());
+    }
+
+    private final Map<String, List<AccountResponsibility>> _responsibleForIks = new HashMap<>();
+
+    private String buildKey(int accountId, Feature feature, int ik) {
+        return accountId + "|" + feature.name() + "|" + ik;
+    }
+
+    public List<AccountResponsibility> obtainIkList(int accountId, Feature feature) {
+        String key = buildKey(accountId, feature, _ik);
+        if (!_responsibleForIks.containsKey(key)) {
+            List<AccountResponsibility> responsibleForIks = _ikAdminFacade.
+                    obtainAccountResponsibilities(accountId, feature, _ik);
+            _responsibleForIks.put(key, responsibleForIks);
+        }
+        return _responsibleForIks.get(key);
+    }
+
+    public void deleteIk(int accountId, Feature feature, int ik) {
+        String key = buildKey(accountId, feature, _ik);
+        _responsibleForIks.get(key).removeIf(r -> r.getDataIk() == ik);
+    }
+
+    public Boolean isIkDeletionAllowed(int ik) {
+        return true;
+    }
+
+    public void addIk(int accountId, Feature feature) {
+        String key = buildKey(accountId, feature, _ik);
+        _responsibleForIks.get(key).add(new AccountResponsibility(accountId, feature, _ik, 0));
+    }
+
+    public String saveResponsibilities() {
+        _ikAdminFacade.saveResponsibilities(_responsibleForIks);
+        DialogController.showSaveDialog();
+        return "";
+    }
+
     public String saveAccessRights() {
         try {
             if (saveAccessRightsAllowed(_accessRights)) {
@@ -178,7 +230,7 @@ public class IkAdminTasks implements Serializable {
         }
 
         Feature feature = Feature.getFeatureFromId(_featureId);
-        User user = createUserFromAccount(_account);
+        User user = new User(_account);
         AccessRight accessRight = new AccessRight(user, _ik, feature, Right.Deny);
         _ikAdminFacade.saveAccessRight(accessRight);
         _accessRights.add(accessRight);
@@ -194,16 +246,6 @@ public class IkAdminTasks implements Serializable {
         DialogController.showSaveDialog();
     }
     // </editor-fold>
-
-    private User createUserFromAccount(Account account) {
-        User user = new User();
-        user.setId(account.getId());
-        user.setFirstName(account.getFirstName());
-        user.setLastName(account.getLastName());
-        user.setEmail(account.getEmail());
-        user.setCompany(account.getCompany());
-        return user;
-    }
 
     public boolean saveAccessRightsAllowed(List<AccessRight> accessRights) {
         for (AccessRight ar : accessRights) {
@@ -240,4 +282,5 @@ public class IkAdminTasks implements Serializable {
                     .collect(Collectors.toList()));
         }
     }
+
 }

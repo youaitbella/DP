@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:pf='http://primefaces.org/ui'
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input">
+
+    <div>
+        <pf:dataTable id="iks"
+                      var="responsibleForIk"
+                      widgetVar="wIks#{userRow}"
+                      value="#{ikAdminTasks.obtainIkList(right.accountId, right.feature)}"
+                      emptyMessage="Keine IK's eingetragen"
+                      rowIndexVar="rowIndex"
+                      tableStyle="width: auto">
+
+            <pf:column class="colIcon">
+                <pf:commandLink rendered="true"
+                                action="#{ikAdminTasks.deleteIk(right.accountId, right.feature, ik)}"
+                                update="iks"
+                                process="@this">
+                    <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                </pf:commandLink>
+            </pf:column>
+
+            <pf:column headerText="IK">
+                <pf:inputNumber id="ikInput"
+                                validator="#{customerFacade.isIKValid}"
+                                thousandSeparator=""
+                                decimalPlaces="0"
+                                validatorMessage="Ungültige IK"
+                                required="True"
+                                value="#{responsibleForIk.dataIk}"
+                                inputStyleClass="element06em">
+
+                    <pf:ajax event="blur" update="customerName msgIkInput" />
+                </pf:inputNumber>
+                <pf:message id="msgIkInput" for="ikInput" />
+            </pf:column>
+
+            <pf:column headerText="Name">
+                <pf:outputLabel id="customerName" value="#{customerFacade.getCustomerByIK(responsibleForIk.dataIk).name}" />
+            </pf:column>
+
+        </pf:dataTable>
+
+        <br />
+        <div>
+            <pf:commandButton value="IK hinzufügen" icon="fa fa-plus" process="@this" action="#{ikAdminTasks.addIk(right.accountId, right.feature)}" update="iks" />
+        </div>
+
+    </div>
+
+</ui:composition>

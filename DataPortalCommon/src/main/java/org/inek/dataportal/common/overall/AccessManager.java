@@ -62,6 +62,10 @@ public class AccessManager implements Serializable {
         _ikCache = ikCache;
     }
 
+    public Account getSessionAccount() {
+        return _sessionController.getAccount();
+    }
+
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache
      * for subsequent requests.
@@ -120,6 +124,10 @@ public class AccessManager implements Serializable {
      *
      * @return
      */
+    public Set<Integer> retrieveAllManagedIks(Feature feature) {
+        return retrieveIkSet(feature, r -> _ikCache.isManaged(r.getIk(), feature));
+    }
+
     public Set<Integer> retrieveAllowedManagedIks(Feature feature) {
         Predicate<AccessRight> predicate = r -> r.getRight() != Right.Deny && _ikCache.isManaged(r.getIk(), feature);
         Set<Integer> iks = retrieveIkSet(feature, predicate);
@@ -130,8 +138,9 @@ public class AccessManager implements Serializable {
         return responsibleForIks;
     }
 
-    public Set<Integer> retrieveAllManagedIks(Feature feature) {
-        return retrieveIkSet(feature, r -> _ikCache.isManaged(r.getIk(), feature));
+    public Set<Integer> retrieveDeniedManagedIks(Feature feature) {
+        Predicate<AccessRight> predicate = r -> r.getRight() == Right.Deny && _ikCache.isManaged(r.getIk(), feature);
+        return retrieveIkSet(feature, predicate);
     }
 
     /**
@@ -157,7 +166,7 @@ public class AccessManager implements Serializable {
         }
 
         if (ik > 0) {
-            if (feature.getIkUsage() == IkUsage.ByResposibility || feature.getIkUsage() == IkUsage.ByResposibilityAndCorrelation) {
+            if (feature.getIkUsage() == IkUsage.ByResposibility || feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
 
             }
             if (feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature)) {
@@ -180,56 +189,68 @@ public class AccessManager implements Serializable {
         return right != CooperativeRight.None;
     }
 
-    public boolean isWritable(Feature feature, WorkflowStatus state, int ownerId) {
-        return isWritable(feature, state, ownerId, -1);
+    public boolean isWritable(Feature feature, WorkflowStatus state, int ownerAccountId) {
+        return isWritable(feature, state, ownerAccountId, -1);
     }
 
-    @SuppressWarnings("CyclomaticComplexity") // todo: remove annotation after implementing #88
-    public boolean isWritable(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        return false;
+    public boolean isWritable(Feature feature, WorkflowStatus state, int ownerAccountId, int ik) {
+        if (state.getId() >= WorkflowStatus.Provided.getId()) {
+            return false;
+        }
+        if (state == WorkflowStatus.New && ik <= 0 && !isCreateAllowed(feature)) {
+            return false;
+        }
+        
+        if (feature.getManagedBy() == ManagedBy.None
+                || feature.getIkReference() == IkReference.None
+                || feature.getManagedBy() == ManagedBy.InekOrIkAdmin && !_ikCache.isManaged(ik, feature)) {
+
+            return isUnmanagedWritable(ownerAccountId, feature, ik, state);
+
+        }
+
+        if (ik <= 0) {
+            return false;
+        }
+
+        AccessRight right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst().orElse(new AccessRight());
+        return right.canWrite();
+    }
+
+    private boolean isUnmanagedWritable(int ownerAccountId, Feature feature, int ik, WorkflowStatus state) {
+        if (ownerAccountId == _sessionController.getAccountId()) {
+            return true;
+        }
+        CooperativeRight right = getAchievedRight(feature, ownerAccountId, ik);
+        return right.canWriteAlways()
+                || (state.getId() >= WorkflowStatus.ApprovalRequested.getId() && right.canWriteCompleted());
     }
 
     /**
-     * Data is readonly when provided to InEK or is owned by someone else and no edit right is granted to current user.
-     *
+     * 
      * @param feature
      * @param state
      * @param ownerId
-     *
      * @return
+     * @deprecated use isWriteable instead
      */
+    @Deprecated
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId) {
         return isReadOnly(feature, state, ownerId, -1);
     }
 
-    @SuppressWarnings("CyclomaticComplexity") // todo: remove annotation after implementing #88
+    /**
+     * 
+     * @param feature
+     * @param state
+     * @param ownerId
+     * @param ik
+     * @return
+     * @deprecated use isWriteable instead
+     */
+    @Deprecated
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        // todo: check
-        if (state.getId() >= WorkflowStatus.Provided.getId()) {
-            return true;
-        }
-        if (state == WorkflowStatus.New && ik <= 0) {
-            return !isCreateAllowed(feature);
-        }
-        if (feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature)) {
-            return true;
-        }
-        if (ik > 0) {
-            Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
-            if (right.isPresent()) {   // nesting may be simplified according to #88
-                boolean readOnly = !right.get().canWrite();
-                if (readOnly || _ikCache.isManaged(ik, feature)) {
-                    return readOnly;
-                }
-            }
-        }
-
-        if (ownerId == _sessionController.getAccountId()) {
-            return false;
-        }
-        CooperativeRight right = getAchievedRight(feature, ownerId, ik);
-        return !right.canWriteAlways()
-                && !(state.getId() >= WorkflowStatus.ApprovalRequested.getId() && right.canWriteCompleted());
+        return !isWritable(feature, state, ownerId, ik);
     }
 
     /**
@@ -351,15 +372,21 @@ public class AccessManager implements Serializable {
         return ownerId != account.getId() && isSealedEnabled(feature, state, ownerId, ik);
     }
 
-    public boolean isDeleteEnabled(Feature feature, int accountId, int ik) {
-        // todo: check
-        if (ik > 0) {
-            Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
-            if (right.isPresent()) {
-                return right.get().canWrite() || right.get().canSeal();
-            }
+    public boolean isDeleteEnabled(Feature feature, int ownerAccountId, int ik) {
+
+        if (feature.getManagedBy() == ManagedBy.None
+                || feature.getIkReference() == IkReference.None
+                || feature.getManagedBy() == ManagedBy.InekOrIkAdmin && !_ikCache.isManaged(ik, feature)) {
+            return ownerAccountId == _sessionController.getAccountId();
         }
-        return false;
+
+        if (ik <= 0) {
+            return false;
+        }
+
+        AccessRight right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst().orElse(new AccessRight());
+        return right.canCreate();
+
     }
 
     /**
@@ -496,7 +523,7 @@ public class AccessManager implements Serializable {
         }
         Set<Integer> responsibleForIks = _sessionController.getAccount().
                 obtainResponsibleForIks(feature, iks);
-        if (feature.getIkUsage() == IkUsage.ByResposibilityAndCorrelation) {
+        if (feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
             responsibleForIks = _ikCache.retriveCorrelatedIks(feature, iks, responsibleForIks);
         }
         return responsibleForIks;
@@ -522,19 +549,4 @@ public class AccessManager implements Serializable {
         return iks;
     }
 
-    private Set<Integer> retrieveDeniedManagedIks(Feature feature) {
-        Predicate<AccessRight> predicate = r -> r.getRight() == Right.Deny && _ikCache.isManaged(r.getIk(), feature);
-        return retrieveIkSet(feature, predicate);
-    }
-
-    public boolean isWriteAllowed(Feature feature, int ik) {
-        for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                .filter(c -> c.canWrite() && c.getFeature() == feature)
-                .collect(Collectors.toList())) {
-            if (right.getIk() == ik) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

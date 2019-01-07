@@ -103,7 +103,7 @@
                         </h:commandLink>
                     </pf:column>
 
-                    <pf:column headerText="#{msg.lblName}" filterBy="#{ikAdmins.userName}" sortBy="#{ikAdmins.userName}">
+                    <pf:column headerText="#{msg.lblName}" filterBy="#{ikAdmins.userName}" sortBy="#{ikAdmins.userName}" filterMatchMode="contains">
                         <h:commandLink value="#{ikAdmins.userName}">
                             <f:ajax listener="#{ikAdmin.setInput(ikAdmins)}" render="ikAdmin:inputFields"/>
                         </h:commandLink>

@@ -24,6 +24,7 @@ import org.inek.dataportal.drg.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.StringUtil;
+import org.inek.dataportal.drg.specificfunction.backingbean.SpecificFunctionListItem;
 
 /**
  *
@@ -50,19 +51,14 @@ public class SpecificFunctionFacade extends AbstractDataAccessWithActionLog {
     public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(
             int accountId,
             int ik,
-            int year,
             WorkflowStatus statusLow,
             WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM SpecificFunctionRequest s "
                 + "WHERE s._accountId = :accountId"
                 + (ik > 0 ? " and s._ik = :ik" : "")
-                + (year > 0 ? " and s._dataYear = :year" : "")
                 + " and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter(ACCOUNT_ID, accountId);
-        if (year > 0) {
-            query.setParameter(YEAR, year);
-        }
         query.setParameter(IK, ik);
         query.setParameter(STATUS_LOW, statusLow.getId());
         query.setParameter(STATUS_HIGH, statusHigh.getId());
@@ -71,18 +67,13 @@ public class SpecificFunctionFacade extends AbstractDataAccessWithActionLog {
 
     public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(
             int ik,
-            int year,
             WorkflowStatus statusLow,
             WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM SpecificFunctionRequest s "
                 + "WHERE s._ik = :ik"
-                + (year > 0 ? " and s._dataYear = :year" : "")
                 + " and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter(IK, ik);
-        if (year > 0) {
-            query.setParameter(YEAR, year);
-        }
         query.setParameter(STATUS_LOW, statusLow.getId());
         query.setParameter(STATUS_HIGH, statusHigh.getId());
         return query.getResultList();
@@ -202,11 +193,15 @@ public class SpecificFunctionFacade extends AbstractDataAccessWithActionLog {
         return result;
     }
 
-    public List<SpecificFunctionRequest> getSpecificFunctionsForInek() {
-        String jpql = "select spf from SpecificFunctionRequest spf where spf._statusId in (3, 10)";
-        TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
-        List<SpecificFunctionRequest> result = query.getResultList();
-        return result;
+    public List<SpecificFunctionListItem> getSpecificFunctionItemsForInek() {
+        String jpql = "select new org.inek.dataportal.drg.specificfunction.backingbean.SpecificFunctionListItem "
+                + "(spf._id, spf._dataYear, spf._statusId, spf._ik, c._name, c._town, spf._sealed, spf._code) "
+                + "from SpecificFunctionRequest spf left join Customer c on spf._ik = c._ik "
+                + "where spf._statusId in (3, 10)";
+        TypedQuery<SpecificFunctionListItem> query = getEntityManager().createQuery(jpql, SpecificFunctionListItem.class);
+        List<SpecificFunctionListItem> items = query.getResultList();
+        
+        return items;
     }
 
     public List<Integer> getExistingYears(int ik) {

@@ -236,6 +236,10 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isSealEnabled() {
+        if (_request.getIk() <= 0){
+            return false;
+        }
+        
         if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }

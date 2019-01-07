@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.common.data.ikadmin.entity;
 
 import org.inek.dataportal.common.data.account.iface.Person;
@@ -10,9 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.inek.dataportal.common.data.account.entities.Account;
 
 /**
  * An excerpt of Account for fast info within IkAdmin
+ *
  * @author muellermi
  */
 @Entity
@@ -21,11 +19,34 @@ public class User implements Serializable, Person {
 
     private static final long serialVersionUID = 1L;
 
+    public User() {
+    }
+
+    public User(int id, int gender, String title, String firstName, String lastName, String email, String company) {
+        _id = id;
+        _gender = gender;
+        _title = title;
+        _firstName = firstName;
+        _lastName = lastName;
+        _email = email;
+        _company = company;
+    }
+
+    public User(Account account) {
+        this(account.getId(),
+                account.getGender(),
+                account.getTitle(),
+                account.getFirstName(),
+                account.getLastName(),
+                account.getEmail(),
+                account.getCompany());
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @Column(name = "acId")
     private int _id;
+
     @Override
     public int getId() {
         return _id;
@@ -39,6 +60,7 @@ public class User implements Serializable, Person {
     // <editor-fold defaultstate="collapsed" desc="Property Gender">
     @Column(name = "acGender")
     private int _gender = 0;
+
     @Override
     public int getGender() {
         return _gender;
@@ -53,6 +75,7 @@ public class User implements Serializable, Person {
     // <editor-fold defaultstate="collapsed" desc="Property Title">
     @Column(name = "acTitle")
     private String _title = "";
+
     @Override
     public String getTitle() {
         return _title;
@@ -67,6 +90,7 @@ public class User implements Serializable, Person {
     // <editor-fold defaultstate="collapsed" desc="Property FirstName">
     @Column(name = "acFirstName")
     private String _firstName = "";
+
     @Override
     public String getFirstName() {
         return _firstName;
@@ -81,6 +105,7 @@ public class User implements Serializable, Person {
     // <editor-fold defaultstate="collapsed" desc="Property LastName">
     @Column(name = "acLastName")
     private String _lastName = "";
+
     @Override
     public String getLastName() {
         return _lastName;
@@ -95,6 +120,7 @@ public class User implements Serializable, Person {
     // <editor-fold defaultstate="collapsed" desc="Property Email">
     @Column(name = "acMail")
     private String _email;
+
     @Override
     public String getEmail() {
         return _email;

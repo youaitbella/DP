@@ -256,16 +256,13 @@ public class Account implements Serializable, Person {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "afAccountId", referencedColumnName = "acId")
     @OrderBy("_sequence")
-    private List<AccountFeature> _features;
+    private List<AccountFeature> _features = new ArrayList<>();
 
     public void setFeatures(List<AccountFeature> features) {
         _features = features;
     }
 
     public List<AccountFeature> getFeatures() {
-        if (_features == null) {
-            _features = new ArrayList<>();
-        }
         return _features;
     }
 
@@ -353,13 +350,12 @@ public class Account implements Serializable, Person {
                 admin.get().addIkAdminFeature(fe);
             }
             admin.get().removeIkAdminFeaturesIfNotInList(features);
-            return false;
+            return true;
         }
         _adminIks.add(new IkAdmin(_id, ik, mailDomain, features));
         return true;
     }
     // </editor-fold>
-
 
     public boolean addIkAdmin(int ik, String mailDomain, Feature feature) {
         Optional<IkAdmin> admin = _adminIks.stream().filter(ai -> ai.getIk() == ik).findAny();
@@ -379,15 +375,9 @@ public class Account implements Serializable, Person {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Responsibilities">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "arAccountId", referencedColumnName = "acId")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, orphanRemoval = true)
+    @JoinColumn(name = "arAccountId", referencedColumnName = "acId", insertable = false, updatable = false)
     private List<AccountResponsibility> _responsibleForIks;
-
-    public Set<Integer> obtainResponsibleForIks(Feature feature, int userIk) {
-        Collection<Integer> userIks = new ArrayList<>();
-        userIks.add(userIk);
-        return obtainResponsibleForIks(feature, userIks);
-    }
 
     public Set<Integer> obtainResponsibleForIks(Feature feature, Collection<Integer> userIks) {
         return _responsibleForIks
@@ -523,8 +513,8 @@ public class Account implements Serializable, Person {
     public void setMessageCopy(boolean messageCopy) {
         _messageCopy = messageCopy;
     }
-
     // </editor-fold>
+
     @PrePersist
     @PreUpdate
     public void tagModifiedDate() {
@@ -598,6 +588,10 @@ public class Account implements Serializable, Person {
 
     public void setAccessRights(List<AccessRight> accessRights) {
         this._accessRights = accessRights;
+    }
+
+    public void addAccessRigth (AccessRight accessRight) {
+        _accessRights.add(accessRight);
     }
     // </editor-fold>
 

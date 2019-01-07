@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.overall.ApplicationTools;
@@ -97,12 +96,16 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     }
 
     private boolean hasSufficientRights(AdditionalCost additionalCost) {
-        return _accessManager.isAccessAllowed(Feature.ADDITIONAL_COST, additionalCost.getStatus(), additionalCost.
-                getAccountId());
+        return _accessManager.isAccessAllowed(
+                Feature.ADDITIONAL_COST,
+                additionalCost.getStatus(),
+                additionalCost.getAccountId(),
+                additionalCost.getIk()
+        );
     }
 
     private AdditionalCost newAdditionalCost() {
-        Account account = _sessionController.getAccount();
+        Account account = _accessManager.getSessionAccount();
         AdditionalCost additionalCost = new AdditionalCost();
         additionalCost.setAccountId(account.getId());
         additionalCost.setContactFirstName(account.getFirstName());
@@ -169,6 +172,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         return Pages.Error.URL();
     }
 
+    // used by XHTML
     private boolean isValidId(Integer id) {
         return id != null && id >= 0;
     }
@@ -180,8 +184,12 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         if (_additionalCost == null) {
             return false;
         }
-        return _accessManager.isSealedEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.
-                getAccountId());
+        return _accessManager.isSealedEnabled(
+                Feature.ADDITIONAL_COST,
+                _additionalCost.getStatus(),
+                _additionalCost.getAccountId(),
+                _additionalCost.getIk()
+        );
     }
 
     public boolean isApprovalRequestEnabled() {
@@ -191,9 +199,12 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         if (_additionalCost == null) {
             return false;
         }
-        return _accessManager.
-                isApprovalRequestEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.
-                        getAccountId());
+        return _accessManager.isApprovalRequestEnabled(
+                Feature.ADDITIONAL_COST,
+                _additionalCost.getStatus(),
+                _additionalCost.getAccountId(),
+                _additionalCost.getIk()
+        );
     }
 
     public boolean isRequestCorrectionEnabled() {
@@ -210,8 +221,12 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     public boolean isTakeEnabled() {
         return _accessManager != null
                 && _additionalCost != null
-                && _accessManager.isTakeEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.
-                        getAccountId());
+                && _accessManager.isTakeEnabled(
+                        Feature.ADDITIONAL_COST,
+                        _additionalCost.getStatus(),
+                        _additionalCost.getAccountId(),
+                        _additionalCost.getIk()
+                );
     }
 
     /**
@@ -248,7 +263,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
         }
-        _additionalCost.setAccountId(_sessionController.getAccountId());
+        _additionalCost.setAccountId(_accessManager.getSessionAccount().getId());
         _additionalCost = _additionalCostFacade.merge(_additionalCost);
         return "";
     }

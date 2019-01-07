@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.common.data.ikadmin.entity;
 
 import java.io.Serializable;
@@ -10,12 +6,13 @@ import javax.persistence.*;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.converter.FeatureConverter;
 
-/**
- *
- * @author muellermi
- */
 @Entity
 @Table(name = "AccountResponsibility", schema = "ikadm")
+@NamedQueries({
+    @NamedQuery(name="AccountResponsibility.findByAccountId+Feature+UserIk",
+                query="select ar from AccountResponsibility ar "
+                        + "where ar._accountId = :accountId and ar._feature = :feature and ar._userIk = :userIk")
+})
 public class AccountResponsibility implements Serializable {
 
     private static final long serialVersionUID = 1L;

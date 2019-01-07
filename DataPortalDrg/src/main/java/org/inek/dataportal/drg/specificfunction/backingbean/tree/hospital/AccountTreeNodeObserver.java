@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -19,7 +17,6 @@ import org.inek.dataportal.drg.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.tree.YearTreeNode;
 import org.inek.dataportal.drg.specificfunction.backingbean.tree.SpecificFunctionRequestTreeNode;
 
 /**
@@ -38,11 +35,11 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         Account partner = ((AccountTreeNode) treeNode).getAccount();
         List<SpecificFunctionRequest> infos;
-        if (treeNode.getParent() instanceof YearTreeNode) {
-            int year = treeNode.getParent().getId();
-            infos = obtainRequestsForRead(partner, year);
-        } else {
+        if (treeNode.getParent() == null // within part, there is no parent
+                || treeNode.getParent().getId() == 1) {
             infos = obtainRequestsForEdit(partner);
+        } else {
+            infos = obtainRequestsForRead(partner);
         }
         Collection<TreeNode> children = new ArrayList<>();
         for (SpecificFunctionRequest info : infos) {
@@ -51,7 +48,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         return children;
     }
 
-    private List<SpecificFunctionRequest> obtainRequestsForRead(Account account, int year) {
+    private List<SpecificFunctionRequest> obtainRequestsForRead(Account account) {
         List<SpecificFunctionRequest> requests = new ArrayList<>();
         Set<Integer> ikSet = account.getFullIkSet();
         ikSet.removeAll(_accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION));
@@ -65,7 +62,6 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
             List<SpecificFunctionRequest> ikRequests = _specificFunctionFacade.obtainSpecificFunctionRequests(
                     account.getId(),
                     ik,
-                    year,
                     statusLow,
                     statusHigh);
             requests.addAll(ikRequests);
@@ -90,7 +86,6 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
             List<SpecificFunctionRequest> ikRequests = _specificFunctionFacade.obtainSpecificFunctionRequests(
                     account.getId(),
                     ik,
-                    0,
                     statusLow,
                     statusHigh);
             requests.addAll(ikRequests);
@@ -101,29 +96,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
 
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
-        Stream<SpecificFunctionRequestTreeNode> stream = treeNode.getChildren().stream().
-                map(n -> (SpecificFunctionRequestTreeNode) n);
-        Stream<SpecificFunctionRequestTreeNode> sorted;
-        int direction = treeNode.isDescending() ? -1 : 1;
-        switch (treeNode.getSortCriteria().toLowerCase()) {
-            case "id":
-                sorted = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getSpecificFunctionRequest().getId(),
-                        n2.getSpecificFunctionRequest().getId()));
-                break;
-            case "hospital":
-                sorted = stream.sorted((n1, n2) -> direction * _appTools.retrieveHospitalInfo(n1.
-                        getSpecificFunctionRequest().getIk())
-                        .compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionRequest().getIk())));
-                break;
-            case "date":
-                sorted = stream.sorted((n1, n2) -> direction * n1.getSpecificFunctionRequest().getLastChanged()
-                        .compareTo(n2.getSpecificFunctionRequest().getLastChanged()));
-                break;
-            case "status":
-            default:
-                sorted = stream;
-        }
-        return sorted.collect(Collectors.toList());
+        return Sorter.obtainSortedChildren(treeNode, _appTools);
     }
 
 }

@@ -233,7 +233,7 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return _id == null
+        return (_id == null || _id == -1)
                 && _centerName.getId() <= 0
                 && _otherCenterName.isEmpty()
                 && _location.isEmpty()

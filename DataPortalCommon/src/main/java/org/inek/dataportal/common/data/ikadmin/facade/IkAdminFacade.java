@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.common.data.ikadmin.facade;
 
 import org.inek.dataportal.api.enums.Feature;
@@ -16,23 +11,20 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.*;
 
-/**
- * @author muellermi
- */
 @RequestScoped
 @Transactional
 public class IkAdminFacade extends AbstractDataAccess {
 
     public List<AccessRight> findAccessRights(int ik) {
-        String jpql = "select ar from AccessRight ar where ar._ik = :ik";
-        TypedQuery<AccessRight> query = getEntityManager().createQuery(jpql, AccessRight.class);
+        String name = "AccessRight.findByIk";
+        TypedQuery<AccessRight> query = getEntityManager().createNamedQuery(name, AccessRight.class);
         query.setParameter("ik", ik);
         return query.getResultList();
     }
 
     public List<AccessRight> findAccessRights(int ik, List<Feature> features) {
-        String jpql = "select ar from AccessRight ar where ar._ik = :ik and ar._feature in :features";
-        TypedQuery<AccessRight> query = getEntityManager().createQuery(jpql, AccessRight.class);
+        String name = "AccessRight.findByIk+Feature";
+        TypedQuery<AccessRight> query = getEntityManager().createNamedQuery(name, AccessRight.class);
         query.setParameter("ik", ik);
         query.setParameter("features", features);
         return query.getResultList();
@@ -83,6 +75,7 @@ public class IkAdminFacade extends AbstractDataAccess {
      * Checks for a list of iks, which of them are managed by an ik admin
      *
      * @param iks
+     *
      * @return managedIks
      */
     public List<Integer> dertermineManagegIks(List<Integer> iks) {
@@ -117,10 +110,10 @@ public class IkAdminFacade extends AbstractDataAccess {
         return hasIkAdmin;
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Account> findIkAdmins(int ik) {
-        String sql = "select Account.* from ikadm.IkAdmin join Account on iaAccountId = acId where iaIk = " + ik;
-        Query query = getEntityManager().createNativeQuery(sql, Account.class);
+    public List<IkAdmin> findIkAdminsForIk(int ik) {
+        String jpql = "select ia from IkAdmin ia where ia._ik = :ik";
+        TypedQuery<IkAdmin> query = getEntityManager().createQuery(jpql, IkAdmin.class);
+        query.setParameter("ik", ik);
         return query.getResultList();
     }
 
@@ -148,6 +141,46 @@ public class IkAdminFacade extends AbstractDataAccess {
 
     public List<IkCorrelation> loadAllCorrelations() {
         return findAll(IkCorrelation.class);
+    }
+
+    public List<AccountResponsibility> obtainAccountResponsibilities(int accountId, Feature feature, int userIk) {
+        String name = "AccountResponsibility.findByAccountId+Feature+UserIk";
+        TypedQuery<AccountResponsibility> query = getEntityManager().createNamedQuery(name, AccountResponsibility.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("feature", feature);
+        query.setParameter("userIk", userIk);
+        return query.getResultList();
+    }
+
+    public void saveResponsibilities(Map<String, List<AccountResponsibility>> _responsibleForIks) {
+        for (String key : _responsibleForIks.keySet()) {
+            String[] parts = key.split("\\|");
+            int accountId = Integer.parseInt(parts[0]);
+            Feature feature = Feature.fromName(parts[1]);
+            int userIk = Integer.parseInt(parts[2]);
+            deleteAccountResponsibilities(accountId, feature, userIk);
+            saveResponsibilities(_responsibleForIks, key);
+        }
+    }
+
+    private void deleteAccountResponsibilities(int accountId, Feature feature, int userIk) {
+        String jpql = "delete from AccountResponsibility ar "
+                + "where ar._accountId = :accountId and ar._feature = :feature and ar._userIk = :userIk";
+        Query query = getEntityManager().createQuery(jpql, AccountResponsibility.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("feature", feature);
+        query.setParameter("userIk", userIk);
+        query.executeUpdate();
+    }
+
+    private void saveResponsibilities(Map<String, List<AccountResponsibility>> _responsibleForIks, String key) {
+        for (AccountResponsibility accountResponsibility : _responsibleForIks.get(key)) {
+            if (accountResponsibility.getDataIk() <= 0) {
+                continue;
+            }
+            accountResponsibility.setId(-1);
+            persist(accountResponsibility);
+        }
     }
 
 }

@@ -37,7 +37,7 @@ public enum Feature {
     HC_HOSPITAL(20, "Krankenhausvergleich (Funktionen für Krankenhaus)",
             ManagedBy.IkAdminOnly, PortalType.PSY, IkReference.Hospital, IkUsage.Direct, Selectable.No, Shareable.No),
     HC_INSURANCE(21, "Krankenhausvergleich (Funktionen für Krankenkasse)",
-            ManagedBy.IkAdminOnly, PortalType.INSURANCE, IkReference.Insurance, IkUsage.ByResposibilityAndCorrelation, Selectable.No, Shareable.No),
+            ManagedBy.IkAdminOnly, PortalType.INSURANCE, IkReference.Insurance, IkUsage.ByResponsibilityAndCorrelation, Selectable.No, Shareable.No),
     CARE(22, "Pflegepersonaluntergrenzen", ManagedBy.IkAdminOnly, PortalType.CARE, IkReference.Hospital, IkUsage.Direct, Selectable.No, Shareable.No),
     NUB_NOTICE(23, "NUB-Meldung (durch Krankenkasse)", 
             ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
@@ -129,6 +129,15 @@ public enum Feature {
             }
         }
         throw new IllegalArgumentException("Failed to obtain feature. Unknown id " + id);
+    }
+
+    public static Feature fromName(String name) {
+        for (Feature feature : Feature.values()) {
+            if (feature.name().equals(name)) {
+                return feature;
+            }
+        }
+        throw new IllegalArgumentException("Failed to obtain feature. Unknown name " + name);
     }
 
 }

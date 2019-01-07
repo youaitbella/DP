@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Funktionsbeauftragter</title>
   <body>
     <header>
@@ -38,6 +38,7 @@
       <li styleclass="Normal"><text styleclass="Normal" translate="true">DropBox</text></li>
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Gezielte Absenkung</text></li>
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Teilnahme Kostenkalkulation</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Finanzierung von Mehrkosten</text></li>
     </list>
     <para styleclass="Normal"></para>
   </body>

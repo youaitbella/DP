@@ -31,7 +31,7 @@ public class CI_AdditionalCostListTest {
         when(addCost.getStatusId()).thenReturn(status);
         AdditionalCostFacade acFacade = mock(AdditionalCostFacade.class);
         when(acFacade.findAdditionalCost(4711)).thenReturn(addCost);
-        AdditionalCostList acList = new AdditionalCostList(acFacade, null, null);
+        AdditionalCostList acList = new AdditionalCostList(acFacade, null);
 
         String result = acList.getConfirmMessage(4711);
 

@@ -38,7 +38,7 @@
                 <inek:MultiIk id="ikMulti" value="#{editSpecificFunction.request.ik}" 
                               ikList="#{editSpecificFunction.iks}"
                               listener="#{editSpecificFunction.ikChanged}" 
-                              renderElement="spfData"
+                              renderElement="spfData toolBar"
                               readonly="#{editSpecificFunction.readOnly}" 
                               isFixed="#{editSpecificFunction.request.id gt 0}"/>
 
@@ -94,12 +94,12 @@
                 </div>
 
 
-                <div class="toolBar">
+                <div class="toolBar" jsf:id="toolBar">
                     <h:commandLink styleClass="bigButton"
                                    action="#{editSpecificFunction.save}"
                                    value="#{msg.btnSave}"
                                    immediate="true"
-                                   rendered="#{!editSpecificFunction.readOnly or sessionController.isInekUser('SPECIFIC_FUNCTION')}">
+                                   rendered="#{(!editSpecificFunction.readOnly or sessionController.isInekUser('SPECIFIC_FUNCTION')) and editSpecificFunction.request.ik gt 0}">
                     </h:commandLink>
 
                     <h:commandLink styleClass="bigButton"

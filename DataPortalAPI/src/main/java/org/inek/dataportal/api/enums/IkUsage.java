@@ -13,5 +13,5 @@ public enum IkUsage {
     Unknown,
     Direct,
     ByResposibility,
-    ByResposibilityAndCorrelation;
+    ByResponsibilityAndCorrelation;
 }
