@@ -186,6 +186,10 @@ public class ProofEdit implements Serializable {
     }
 
     private void setReadOnly() {
+        if (!_configFacade.readConfigBool(ConfigKey.IsCareProofSendEnabled)) {
+            setIsReadOnly(true);
+            return;
+        }
         if (_proofRegulationBaseInformation != null) {
             setIsReadOnly(_accessManager.isReadOnly(Feature.CARE,
                     _proofRegulationBaseInformation.getStatus(),
