@@ -133,6 +133,10 @@ public class DeptEdit implements Serializable {
     }
 
     private void setReadOnly() {
+        if (!_configFacade.readConfigBool(ConfigKey.IsCareSendEnabled)) {
+            setIsReadOnly(true);
+            return;
+        }
         if (_deptBaseInformation != null) {
             setIsReadOnly(_accessManager.isReadOnly(Feature.CARE,
                     _deptBaseInformation.getStatus(),
