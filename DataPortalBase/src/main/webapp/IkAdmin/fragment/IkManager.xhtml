@@ -29,17 +29,15 @@
             </pf:column>
 
             <pf:column headerText="IK">
-                <pf:inputNumber id="ikInput"
+                <h:inputText id="ikInput"
                                 validator="#{customerFacade.isIKValid}"
-                                thousandSeparator=""
-                                decimalPlaces="0"
                                 validatorMessage="Ungültige IK"
                                 required="True"
                                 value="#{responsibleForIk.dataIk}"
-                                inputStyleClass="element06em">
+                                styleClass="element06em">
 
-                    <pf:ajax event="blur" update="customerName msgIkInput" />
-                </pf:inputNumber>
+                    <f:ajax event="blur" render="customerName msgIkInput" />
+                </h:inputText>
                 <pf:message id="msgIkInput" for="ikInput" />
             </pf:column>
 
