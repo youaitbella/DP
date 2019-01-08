@@ -12,7 +12,7 @@
 
     <ui:define name="content">
 
-        <div class="ui-g" jsf:rendered="#{deptSummary.isInekUser()}">
+        <div class="ui-g" jsf:rendered="#{proofSummary.isInekUser()}">
             <div class="card">
                 <h:form>
                     <h1>InEK Intern</h1>
@@ -77,6 +77,13 @@
         <div class="ui-g">
             <div class="card">
                 <h1>Übersicht über Ihre Daten</h1>
+
+                <div class="ui-g-12" jsf:rendered="#{not proofSummary.createEntryAllowed}">
+                    <div style="text-align: center; border: 1px solid #ffa727; padding: 10px; background-color: #ffa727; font-size: 18px; font-weight: bold;">
+                        <p>Diese Funktion befindet sich zurzeit im Test. Eine Eingabe der Daten ist noch nicht möglich.</p>
+                    </div>
+                </div>
+
                 <div class="ui-g-12 ui-lg-6">
                     <pf:dataTable id="workingtable"
                                   value="#{proofSummary.listWorking}"
