@@ -116,6 +116,11 @@ public class ProofSummary implements Serializable {
     }
 
     public boolean isCreateEntryAllowed() {
+
+        if (!_sessionController.accountIsAllowedForTest(Feature.CARE)) {
+            return false;
+        }
+
         if (!_configFacade.readConfigBool(ConfigKey.IsCareProofCreateEnabled)) {
             return false;
         }

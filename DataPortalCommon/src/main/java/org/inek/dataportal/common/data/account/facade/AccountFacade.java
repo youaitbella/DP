@@ -603,4 +603,14 @@ public class AccountFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql);
         return !(query.getResultList().size() > 0);
     }
+
+    public boolean isAllowedForTest(int accountId, int featureId) {
+        String sql = "select distinct 1\n" +
+                "from adm.AccountsAllowedForTest\n" +
+                "where aaftAccountId = " + accountId + "\n" +
+                "and aaftFeatureId = " + featureId + "";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        return query.getResultList().size() > 0;
+    }
 }

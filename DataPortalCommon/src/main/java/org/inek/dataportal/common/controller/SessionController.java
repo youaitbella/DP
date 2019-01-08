@@ -698,4 +698,7 @@ public class SessionController implements Serializable {
         }
     }
 
+    public boolean accountIsAllowedForTest(Feature feature) {
+        return _accountFacade.isAllowedForTest(getAccountId(), feature.getId());
+    }
 }
