@@ -73,26 +73,22 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         possibleQuarters.add(3);
         possibleQuarters.add(4);
 
-        List<Object[]> existsQuarters = getQuartersForValidEntrys(ik, year);
+        Set<Integer> existsQuarters = getQuartersForValidEntrys(ik, year);
 
-        for (Object quarter : existsQuarters) {
-            if (possibleQuarters.contains(quarter)) {
-                possibleQuarters.remove(quarter);
-            }
-        }
+        possibleQuarters.removeAll(existsQuarters);
 
         return possibleQuarters;
     }
 
     private boolean newEntryPossibleForYear(int ik, int year) {
-        List<Object[]> quartersForValidEntrys = getQuartersForValidEntrys(ik, year);
+        Set<Integer> quartersForValidEntrys = getQuartersForValidEntrys(ik, year);
         return quartersForValidEntrys.size() < 4;
     }
 
 
     private boolean newEntryPossibleForIk(int ik, Set<Integer> possibleYears) {
         for (int year : possibleYears) {
-            List<Object[]> quartersForValidEntrys = getQuartersForValidEntrys(ik, year);
+            Set<Integer> quartersForValidEntrys = getQuartersForValidEntrys(ik, year);
 
             if (quartersForValidEntrys.size() < 4) {
                 return true;
@@ -101,7 +97,7 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         return false;
     }
 
-    private List<Object[]> getQuartersForValidEntrys(int ik, int year) {
+    private Set<Integer> getQuartersForValidEntrys(int ik, int year) {
         String sql = "select prbiQuarter \n" +
                 "from care.ProofRegulationBaseInformation \n" +
                 "where prbiIk = " + ik + " \n" +
@@ -114,7 +110,13 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         @SuppressWarnings("unchecked")
         List<Object[]> objects = query.getResultList();
 
-        return objects;
+        Set<Integer> quarters = new HashSet<>();
+
+        for (Object quarter : objects) {
+            quarters.add((int)quarter);
+        }
+
+        return quarters;
     }
 
     private Set<Integer> getPossibleYears() {
