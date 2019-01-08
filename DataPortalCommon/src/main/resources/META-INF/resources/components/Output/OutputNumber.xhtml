@@ -2,8 +2,8 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-      xmlns:pf="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -11,19 +11,20 @@
         <cc:attribute name="decimalPlaces" default="0" />
         <cc:attribute name="pattern" default=""/>
         <cc:attribute name="render" default="true"/>
+        <cc:attribute name="colorRed" default="false"/>
         <cc:attribute name="symbol" default=""/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
-    <div>
         <cc:implementation>
-            <pf:outputLabel value="#{cc.attrs.value} #{cc.attrs.symbol}"
+            <h:outputLabel value="#{cc.attrs.value} #{cc.attrs.symbol}"
+                            style="#{cc.attrs.colorRed ? 'color: red; ' : ''}"
                             rendered="#{cc.attrs.render}">
                 <f:convertNumber groupingUsed="true"
                                  minFractionDigits="#{cc.attrs.decimalPlaces}"
+                                 maxFractionDigits="#{cc.attrs.decimalPlaces}"
                                  locale="de_DE"
                                  pattern="#{cc.attrs.pattern}"/>
-            </pf:outputLabel>
+            </h:outputLabel>
         </cc:implementation>
-    </div>
 </html>

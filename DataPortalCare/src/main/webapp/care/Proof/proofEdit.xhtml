@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:inekIk="http://xmlns.jcp.org/jsf/composite/components/Other"
+                xmlns:inekDialog="http://xmlns.jcp.org/jsf/composite/components/Dialog"
+                xmlns:pf="http://primefaces.org/ui">
+
+
+    <ui:define name="title">Nachweisvereinbarung</ui:define>
+
+    <ui:define name="content">
+
+        <script type="text/javascript">
+            function start() {
+                PF('dlgGeneratingData').show();
+            }
+
+            function stop() {
+                PF('dlgGeneratingData').hide();
+            }
+        </script>
+
+        <inekDialog:ProcessDialog varName="dlgLoadingData" headerText="Daten werden geladen" />
+        <inekDialog:ProcessDialog varName="dlgImportData" headerText="Daten werden importiert" />
+        <inekDialog:ProcessDialog varName="dlgGeneratingData" headerText="Daten werden generiert" />
+
+        <h:form id="form" onkeypress="if( event.keyCode == 13){event.keyCode=0;}">
+
+            <div style="margin-top: 10px;">
+                <pf:commandButton value="HiddenButton"
+                                  style="display: none"
+                                  immediate="true" />
+
+                <pf:commandButton value="Zurück zur Übersicht"
+                                  icon="fa fa-arrow-left"
+                                  action="#{proofEdit.navigateToSummary()}"
+                                  immediate="true" />
+
+                <pf:button target="blank"
+                           value="Hilfe?"
+                           icon="fa fa-info"
+                           href="https://www.g-drg.de/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ" />
+            </div>
+
+            <div class="ui-g">
+                <div class="card" style="min-width: 500px;">
+                    <div class="ui-g-12" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id lt 0}">
+                        <pf:wizard flowListener="#{proofEdit.onFlowProcess}"
+                                   backLabel="Zurück"
+                                   nextLabel="Weiter"
+                                   rendered="#{proofEdit.proofRegulationBaseInformation.id lt 0}">
+                            <pf:tab id="ik" title="IK">
+                                <pf:panel header="IK Auswahl">
+                                    <inekIk:MultiIk_V2 label="#{msg.lblIkShort}"
+                                                       value="#{proofEdit.proofRegulationBaseInformation.ik}"
+                                                       ikList="#{proofEdit.validIks}"
+                                                       listener="#{proofEdit.ikChanged()}"
+                                                       updateElement="form" />
+                                </pf:panel>
+                            </pf:tab>
+                            <pf:tab id="year" title="Jahr">
+                                <pf:panel header="Auswahl des Jahres">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                        <pf:outputLabel for="selectYear" value="Jahr:" />
+
+                                        <pf:selectOneMenu id="selectYear"
+                                                          title="Jahr"
+                                                          required="true"
+                                                          requiredMessage="Bitte ein Jahr auswählen"
+                                                          value="#{proofEdit.proofRegulationBaseInformation.year}">
+                                            <f:selectItem
+                                                    rendered="#{proofEdit.proofRegulationBaseInformation.year eq 0}"
+                                                    itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                                    noSelectionOption="true" />
+                                            <f:selectItems value="#{proofEdit.validYears}" />
+                                            <pf:ajax event="change" listener="#{proofEdit.validYearsChanged()}"
+                                                     update="selectQuarter msgselectYear" />
+                                        </pf:selectOneMenu>
+                                    </h:panelGrid>
+                                    <pf:message for="selectYear" id="msgselectYear" />
+                                </pf:panel>
+                            </pf:tab>
+                            <pf:tab id="quarter" title="Quartal">
+                                <pf:panel header="Quartal Auswahl">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                        <pf:outputLabel for="selectQuarter" value="Quartal:" />
+
+                                        <pf:selectOneMenu id="selectQuarter"
+                                                          title="Quartal"
+                                                          required="true"
+                                                          requiredMessage="Bitte ein Quartal auswählen"
+                                                          value="#{proofEdit.proofRegulationBaseInformation.quarter}">
+                                            <f:selectItem
+                                                    rendered="#{proofEdit.proofRegulationBaseInformation.quarter eq 0}"
+                                                    itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                                    noSelectionOption="true" />
+                                            <f:selectItems value="#{proofEdit.validQuarters}" var="quarter"
+                                                           itemLabel="Quartal #{quarter}" />
+                                        </pf:selectOneMenu>
+                                    </h:panelGrid>
+                                    <pf:message for="selectQuarter" id="msgselectQuarter" />
+
+                                    <pf:commandButton value="Daten erfassen"
+                                                      onclick="PF('dlgLoadingData').show()"
+                                                      oncomplete="PF('dlgLoadingData').hide()"
+                                                      action="#{proofEdit.firstSave()}"
+                                                      style="margin-left: 10px;"
+                                                      update="@form" />
+                                </pf:panel>
+                            </pf:tab>
+                        </pf:wizard>
+
+                    </div>
+
+                    <div class="ui-g-12" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
+                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5"
+                                     rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
+                            <pf:outputLabel value="IK:" />
+                            <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.ik}" />
+                            <pf:outputLabel value="Jahr:" />
+                            <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.year}" />
+                            <pf:outputLabel value="Quartal:" />
+                            <pf:outputLabel value="Q#{proofEdit.proofRegulationBaseInformation.quarter}" />
+                            <pf:outputLabel value="Signatur:" />
+                            <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.signature}" />
+                        </h:panelGrid>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="ui-g"
+                 jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0 and !proofEdit.isReadOnly}">
+                <div class="card" style="min-width: 500px;">
+                    <div class="ui-g-12">
+                        <inekDialog:ProcessDialog varName="dlgImportData" headerText="Daten werden importiert" />
+
+                        <h1>Excelimport</h1>
+
+                        <pf:commandButton value="Vorlage herrunterladen (Excel)"
+                                          ajax="false"
+                                          onclick="PrimeFaces.monitorDownload(start, stop);"
+                                          icon="ui-icon-arrowthick-1-s">
+                            <pf:fileDownload value="#{proofEdit.downloadExcelTemplate()}" />
+                        </pf:commandButton>
+
+                        <br />
+                        <br />
+
+                        <pf:fileUpload fileUploadListener="#{proofEdit.handleFileUpload}"
+                                       mode="advanced"
+                                       onstart="PF('dlgImportData').show()"
+                                       oncomplete="PF('dlgImportData').hide()"
+                                       fileLimit="1"
+                                       fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
+                                       invalidFileMessage="Es dürfen nur Excel (.xlsx oder .xls) Dateien hochgeladen werden"
+                                       allowTypes="/(\.|\/)(xlsx|xls)$/"
+                                       auto="true"
+                                       cancelLabel="Abbrechen"
+                                       uploadLabel="Datei Hochladen"
+                                       label="Exceldatei auswählen"
+                                       update="@form" />
+
+                        <pf:inputTextarea value="#{proofEdit.uploadMessage}"
+                                          rendered="#{proofEdit.uploadMessage.length() gt 0}"
+                                          style="width: 100%" />
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui-g" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
+                <div class="card">
+                    <div class="ui-g-12">
+                        <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
+                            <br />
+                            <b>Ausfüllhinweise:</b>
+                            <p>Folgen</p>
+                            <br />
+                            <p>Bei Fragen konsultieren Sie bitte den Text der Rechtsverordnung sowie die auf unserer Internetseite bereitgestellte</p>
+                            <a href="https://www.g-drg.de/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ"
+                               target="_blank">FAQ-Liste</a>. Bei darüber hinaus gehenden Fragestellungen können Sie sich gerne an das InEK wenden (per E-Mail:
+                            <a href="mailto:PPUGV-Umsetzung@inek-drg.de">PPUGV-Umsetzung@inek-drg.de</a> bzw. per Telefon: (02241) 93 82 500).
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <ui:include src="proof.xhtml" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui-g" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
+                <div class="card">
+                    <div class="ui-g-12">
+                        <pf:commandButton value="Datensatz ändern"
+                                          action="#{proofEdit.change()}"
+                                          rendered="#{proofEdit.changeAllowed()}"
+                                          style="margin-left: 10px;"
+                                          update="@(.ui-message) @form" />
+
+                        <pf:commandButton value="Speichern ohne Senden"
+                                          action="#{proofEdit.save()}"
+                                          onstart="PF('dlgLoadingData').show()"
+                                          oncomplete="PF('dlgLoadingData').hide()"
+                                          rendered="#{!proofEdit.isReadOnly}"
+                                          style="margin-left: 10px;"
+                                          update="@(.ui-message) @form" />
+
+                        <pf:commandButton value="Meldung abschließend ans InEK senden"
+                                          action="#{proofEdit.send()}"
+                                          onstart="PF('dlgLoadingData').show()"
+                                          oncomplete="PF('dlgLoadingData').hide()"
+                                          rendered="#{!proofEdit.isReadOnly and proofEdit.sendAllowed()}"
+                                          styleClass="green-button"
+                                          style="margin-left: 10px;"
+                                          icon="fa fa-arrow-right"
+                                          iconPos="right"
+                                          update="@(.ui-message) @form" />
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+

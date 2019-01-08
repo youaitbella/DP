@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:pf="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>>>
+        <cc:attribute name="varName" required="true"/>
+        <cc:attribute name="headerText" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <pf:dialog widgetVar="#{cc.attrs.varName}"
+                   header="#{cc.attrs.headerText}"
+                   modal="true"
+                   closable="false"
+                   resizable="false"
+                   height="80px">
+            <div style="text-align: center; width: 100%;">
+                <div class="inekLoader" style="text-align: center;">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </pf:dialog>
+    </cc:implementation>
+</html>
