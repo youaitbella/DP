@@ -65,7 +65,8 @@
                     <h:panelGroup styleClass="element100 marginTop01em">
                         <h:outputLabel styleClass="label10" for="cbxGender" value="#{msg.lblSalutation}"/>
                         <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editSpecificFunction.request.gender}"
-                                         required="true" requiredMessage="#{msg.msgChooseEntryShort}">
+                                         required="true" requiredMessage="#{msg.msgChooseEntryShort}"
+                                         disabled="#{editSpecificFunction.readOnly}">
                             <f:selectItems value="#{sessionTools.genderItems}"/>
                             <f:ajax event="blur" render="@this msgGender"/>
                         </h:selectOneMenu>

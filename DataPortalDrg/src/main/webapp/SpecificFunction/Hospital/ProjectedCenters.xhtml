@@ -42,7 +42,7 @@
                                  requiredMessage="#{msg.msgValueNeeded}"
                                  value="#{center.centerName}"
                                  hideNoSelectionOption="true"  
-                                 readonly="#{editSpecificFunction.readOnly}">
+                                 disabled="#{editSpecificFunction.readOnly}">
                     <f:converter converterId="CenterNameConverter"/>
                     <f:selectItems value="#{editSpecificFunction.getCenterNames(centerName.id)}" var="centerName" itemValue="#{centerName}" itemLabel="#{centerName.name}"/>
                     <f:ajax event="change" render=":specificFuntion:projectedCenters:#{status.index}:otherName :specificFuntion:projectedCenters:#{status.index}:centerData :logout:remaining msgCenterName"/>
@@ -84,7 +84,7 @@
                             <h:selectManyCheckbox id="specificFunction"
                                                   layout="pageDirection"
                                                   required="true"
-                                                  readonly="#{editSpecificFunction.readOnly}"
+                                                  disabled="#{editSpecificFunction.readOnly}"
                                                   requiredMessage="#{msg.msgValueNeeded}"
                                                   value="#{center.specificFunctions}">
                                 <f:selectItems value="#{editSpecificFunction.specificFunctions}" var="function" itemValue="#{function}" itemLabel="#{function.text}"/>
@@ -120,7 +120,7 @@
                         <h:selectOneMenu id="type"
                                          title="Bitte angeben"
                                          required="true"
-                                         readonly="#{editSpecificFunction.readOnly}"
+                                         disabled="#{editSpecificFunction.readOnly}"
                                          requiredMessage="#{msg.msgValueNeeded}"
                                          value="#{center.typeId}"
                                          hideNoSelectionOption="true" >
