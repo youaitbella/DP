@@ -456,6 +456,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
     public void ikChanged() {
         _availableYears = null;
+        _request.setDataYear(0);
     }
 
     private Set<Integer> _iks = new HashSet<>();
