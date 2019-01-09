@@ -307,7 +307,7 @@ public class ProofEdit implements Serializable {
     }
 
     public Boolean sendAllowed() {
-        return _configFacade.readConfigBool(ConfigKey.IsCareSendEnabled);
+        return _configFacade.readConfigBool(ConfigKey.IsCareProofSendEnabled);
     }
 
     public void change() {
