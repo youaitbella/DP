@@ -372,7 +372,7 @@ public class SessionController implements Serializable {
             logMessage("Login by token failed: " + obtainConnectionInfo());
             _featureHolder.clear();
         } else {
-            logMessage("Login by token successful: " + obtainConnectionInfo());
+            logMessage("Login by token to " + portalType.name() + " successful: " + obtainConnectionInfo());
             initFeatures();
             configureSessionTimeout();
         }
