@@ -15,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -300,8 +298,6 @@ public class AdditionalCost implements Serializable, StatusEntity {
     @Column(name = "adcHospitalIndividualExtraCharge")
     private double _hospitalIndividualExtraCharge;
 
-    @Min(0)
-    @Max(100)
     public double getHospitalIndividualExtraCharge() {
         return _hospitalIndividualExtraCharge;
     }
@@ -374,8 +370,6 @@ public class AdditionalCost implements Serializable, StatusEntity {
     @Column(name = "adcComplianceRate")
     private double _complianceRate;
 
-    @Min(0)
-    @Max(100)
     public double getComplianceRate() {
         return _complianceRate;
     }
