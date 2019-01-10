@@ -6,6 +6,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
@@ -17,6 +18,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.drg.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**
@@ -38,10 +40,13 @@ public class SpecificFunctionRequestList {
     private Mailer _mailer;
     @Inject
     private InekRoleFacade _inekRoleFacade;
+    @Inject
+    private AccessManager _accessManager;
     // </editor-fold>
 
     public boolean isNewAllowed() {
-        return _appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestCreateEnabled);
+        return _appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestCreateEnabled)
+                && _accessManager.isCreateAllowed(Feature.SPECIFIC_FUNCTION);
     }
 
     public String newRequest() {
@@ -58,6 +63,10 @@ public class SpecificFunctionRequestList {
     public void delete(SpecificFunctionRequest request) {
         if (request == null) {
             // might be deleted by somebody else
+            return;
+        }
+        if (!_accessManager.isDeleteEnabled(Feature.SPECIFIC_FUNCTION, request.getAccountId(), request.getIk())){
+            DialogController.showAccessDeniedDialog();
             return;
         }
         if (request.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
