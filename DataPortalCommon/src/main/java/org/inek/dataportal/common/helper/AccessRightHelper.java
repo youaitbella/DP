@@ -46,20 +46,20 @@ public class AccessRightHelper {
 
     private static List<Integer> getIkAdminAccountsForFeature(List<IkAdmin> ikAdmins, Feature feature) {
         return ikAdmins.stream()
-                .filter(c -> c.getIkAdminFeatures().stream().anyMatch(af -> af.getFeature() == feature))
-                .map(c -> c.getAccountId())
+                .filter(a -> a.getIkAdminFeatures().stream().anyMatch(af -> af.getFeature() == feature))
+                .map(a -> a.getAccountId())
                 .collect(Collectors.toList());
     }
 
     private static Boolean hasIkAdmin(List<IkAdmin> ikAdmins, Feature feature) {
         return ikAdmins.stream()
-                .anyMatch(c -> c.getIkAdminFeatures().stream().anyMatch(af -> af.getFeature() == feature));
+                .anyMatch(a -> a.getIkAdminFeatures().stream().anyMatch(af -> af.getFeature() == feature));
     }
 
     private static Boolean rightsExists(Account acc, Feature feature, int ik) {
         return acc.getAccessRights().stream()
-                .anyMatch(c -> c.getIk() == ik
-                        && c.getFeature() == feature);
+                .anyMatch(ar -> ar.getIk() == ik
+                        && ar.getFeature() == feature);
     }
 
 }
