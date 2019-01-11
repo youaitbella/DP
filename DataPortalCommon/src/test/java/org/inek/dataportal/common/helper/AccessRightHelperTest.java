@@ -99,7 +99,7 @@ class AccessRightHelperTest {
 
         Set<Integer> ikAdminsForEmailing = new HashSet<>();
 
-        AccessRightHelper.ensureRightsForNonAccountFeature(acc, ikAdminsForIk, ikAdminsForEmailing, ik);
+        AccessRightHelper.ensureFeatureAndRightsForIkAdminOnly(acc, ikAdminsForIk, ikAdminsForEmailing, ik);
 
         Assertions.assertThat(acc.getAccessRights()).hasSize(1);
         Assertions.assertThat(acc.getAccessRights().stream().filter(c -> c.getFeature() == Feature.CARE).findFirst()
@@ -118,7 +118,7 @@ class AccessRightHelperTest {
 
         Set<Integer> ikAdminsForEmailing = new HashSet<>();
 
-        AccessRightHelper.ensureRightsForNonAccountFeature(acc, ikAdminsForIk, ikAdminsForEmailing, ik);
+        AccessRightHelper.ensureFeatureAndRightsForIkAdminOnly(acc, ikAdminsForIk, ikAdminsForEmailing, ik);
 
         Assertions.assertThat(acc.getAccessRights()).hasSize(0);
         Assertions.assertThat(acc.getFeatures().stream().noneMatch(c -> c.getFeature() == Feature.CARE)).isTrue();
@@ -141,7 +141,7 @@ class AccessRightHelperTest {
 
         Set<Integer> ikAdminsForEmailing = new HashSet<>();
 
-        AccessRightHelper.ensureRightsForNonAccountFeature(acc, ikAdminsForIk, ikAdminsForEmailing, ik);
+        AccessRightHelper.ensureFeatureAndRightsForIkAdminOnly(acc, ikAdminsForIk, ikAdminsForEmailing, ik);
 
         Assertions.assertThat(acc.getAccessRights()).hasSize(1);
         Assertions.assertThat(acc.getAccessRights().stream().filter(c -> c.getFeature() == Feature.CARE).findFirst()

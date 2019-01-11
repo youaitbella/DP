@@ -349,7 +349,7 @@ public class EditUserMaintenance extends AbstractEditController {
             List<IkAdmin> ikAdminsForIk = _ikAdminFacade.findIkAdminsForIk(ik);
 
             AccessRightHelper.ensureRightsForAccountFeature(account, ikAdminsForIk, ikAdminIdsForMailing, ik);
-            AccessRightHelper.ensureRightsForNonAccountFeature(account, ikAdminsForIk, ikAdminIdsForMailing, ik);
+            AccessRightHelper.ensureFeatureAndRightsForIkAdminOnly(account, ikAdminsForIk, ikAdminIdsForMailing, ik);
 
             List<Account> ikAdminsAccountsForMailing = _accountFacade.getAccountsForIds(ikAdminIdsForMailing);
             if (ikAdminIdsForMailing.size() > 0) {

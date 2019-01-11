@@ -28,7 +28,7 @@ public class AccessRightHelper {
         }
     }
 
-    public static void ensureRightsForNonAccountFeature(Account account, List<IkAdmin> ikAdminsForIk,
+    public static void ensureFeatureAndRightsForIkAdminOnly(Account account, List<IkAdmin> ikAdminsForIk,
                                                      Set<Integer> ikAdminsForMailing,
                                                      int ik) {
         for (Feature feature : Feature.values()) {
