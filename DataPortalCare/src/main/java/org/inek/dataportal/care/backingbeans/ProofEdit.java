@@ -176,10 +176,6 @@ public class ProofEdit implements Serializable {
         }
     }
 
-    public String onFlowProcess(FlowEvent event) {
-        return event.getNewStep();
-    }
-
     private boolean isAccessAllowed(ProofRegulationBaseInformation info) {
         return _accessManager.isAccessAllowed(Feature.CARE, info.getStatus(),
                 Integer.MIN_VALUE, info.getIk());

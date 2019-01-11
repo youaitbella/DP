@@ -48,70 +48,62 @@
             <div class="ui-g">
                 <div class="card" style="min-width: 500px;">
                     <div class="ui-g-12" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id lt 0}">
-                        <pf:wizard flowListener="#{proofEdit.onFlowProcess}"
-                                   backLabel="Zurück"
-                                   nextLabel="Weiter"
-                                   rendered="#{proofEdit.proofRegulationBaseInformation.id lt 0}">
-                            <pf:tab id="ik" title="IK">
-                                <pf:panel header="IK Auswahl">
-                                    <inekIk:MultiIk_V2 label="#{msg.lblIkShort}"
-                                                       value="#{proofEdit.proofRegulationBaseInformation.ik}"
-                                                       ikList="#{proofEdit.validIks}"
-                                                       listener="#{proofEdit.ikChanged()}"
-                                                       updateElement="form" />
-                                </pf:panel>
-                            </pf:tab>
-                            <pf:tab id="year" title="Jahr">
-                                <pf:panel header="Auswahl des Jahres">
-                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                                        <pf:outputLabel for="selectYear" value="Jahr:" />
 
-                                        <pf:selectOneMenu id="selectYear"
-                                                          title="Jahr"
-                                                          required="true"
-                                                          requiredMessage="Bitte ein Jahr auswählen"
-                                                          value="#{proofEdit.proofRegulationBaseInformation.year}">
-                                            <f:selectItem
-                                                    rendered="#{proofEdit.proofRegulationBaseInformation.year eq 0}"
-                                                    itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
-                                                    noSelectionOption="true" />
-                                            <f:selectItems value="#{proofEdit.validYears}" />
-                                            <pf:ajax event="change" listener="#{proofEdit.validYearsChanged()}"
-                                                     update="selectQuarter msgselectYear" />
-                                        </pf:selectOneMenu>
-                                    </h:panelGrid>
-                                    <pf:message for="selectYear" id="msgselectYear" />
-                                </pf:panel>
-                            </pf:tab>
-                            <pf:tab id="quarter" title="Quartal">
-                                <pf:panel header="Quartal Auswahl">
-                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                                        <pf:outputLabel for="selectQuarter" value="Quartal:" />
+                        <pf:panel header="IK Auswahl">
+                            <inekIk:MultiIk_V2 label="#{msg.lblIkShort}"
+                                               value="#{proofEdit.proofRegulationBaseInformation.ik}"
+                                               ikList="#{proofEdit.validIks}"
+                                               listener="#{proofEdit.ikChanged()}"
+                                               updateElement="form" />
+                        </pf:panel>
 
-                                        <pf:selectOneMenu id="selectQuarter"
-                                                          title="Quartal"
-                                                          required="true"
-                                                          requiredMessage="Bitte ein Quartal auswählen"
-                                                          value="#{proofEdit.proofRegulationBaseInformation.quarter}">
-                                            <f:selectItem
-                                                    rendered="#{proofEdit.proofRegulationBaseInformation.quarter eq 0}"
-                                                    itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
-                                                    noSelectionOption="true" />
-                                            <f:selectItems value="#{proofEdit.validQuarters}" var="quarter"
-                                                           itemLabel="Quartal #{quarter}" />
-                                        </pf:selectOneMenu>
-                                    </h:panelGrid>
-                                    <pf:message for="selectQuarter" id="msgselectQuarter" />
+                        <pf:panel header="Auswahl des Jahres">
+                            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                <pf:outputLabel for="selectYear" value="Jahr:" />
 
-                                    <pf:commandButton value="Daten erfassen"
-                                                      onclick="PF('dlgLoadingData').show()"
-                                                      oncomplete="PF('dlgLoadingData').hide()"
-                                                      action="#{proofEdit.firstSave()}"
-                                                      style="margin-left: 10px;"
-                                                      update="@form" />
-                                </pf:panel>
-                            </pf:tab>
-                        </pf:wizard>
+                                <pf:selectOneMenu id="selectYear"
+                                                  title="Jahr"
+                                                  required="true"
+                                                  requiredMessage="Bitte ein Jahr auswählen"
+                                                  value="#{proofEdit.proofRegulationBaseInformation.year}">
+                                    <f:selectItem
+                                            rendered="#{proofEdit.proofRegulationBaseInformation.year eq 0}"
+                                            itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                            noSelectionOption="true" />
+                                    <f:selectItems value="#{proofEdit.validYears}" />
+                                    <pf:ajax event="change" listener="#{proofEdit.validYearsChanged()}"
+                                             update="selectQuarter msgselectYear" />
+                                </pf:selectOneMenu>
+                            </h:panelGrid>
+                            <pf:message for="selectYear" id="msgselectYear" />
+                        </pf:panel>
+
+                        <pf:panel header="Quartal Auswahl">
+                            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                <pf:outputLabel for="selectQuarter" value="Quartal:" />
+
+                                <pf:selectOneMenu id="selectQuarter"
+                                                  title="Quartal"
+                                                  required="true"
+                                                  requiredMessage="Bitte ein Quartal auswählen"
+                                                  value="#{proofEdit.proofRegulationBaseInformation.quarter}">
+                                    <f:selectItem
+                                            rendered="#{proofEdit.proofRegulationBaseInformation.quarter eq 0}"
+                                            itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                            noSelectionOption="true" />
+                                    <f:selectItems value="#{proofEdit.validQuarters}" var="quarter"
+                                                   itemLabel="Quartal #{quarter}" />
+                                </pf:selectOneMenu>
+                            </h:panelGrid>
+                            <pf:message for="selectQuarter" id="msgselectQuarter" />
+
+                            <pf:commandButton value="Daten erfassen"
+                                              onclick="PF('dlgLoadingData').show()"
+                                              oncomplete="PF('dlgLoadingData').hide()"
+                                              action="#{proofEdit.firstSave()}"
+                                              style="margin-left: 10px;"
+                                              update="@form" />
+                        </pf:panel>
 
                     </div>
 
