@@ -232,6 +232,7 @@ public class ProofEdit implements Serializable {
         loadExceptionsFactsList();
         save();
         _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
+        setReadOnly();
     }
 
     private void loadBaseDataManager() {
