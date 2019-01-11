@@ -240,11 +240,18 @@ public class ProofEdit implements Serializable {
     }
 
     public void save() {
+        String errorMessages = ProofChecker.proofIsReadyForSave(_proofRegulationBaseInformation, _listExceptionsFacts.size());
+        if (!"".equals(errorMessages)) {
+            DialogController.showErrorDialog("Daten unvollständig", errorMessages);
+            return;
+        }
+
         _proofRegulationBaseInformation.setLastChangeBy(_sessionController.getAccountId());
         _proofRegulationBaseInformation.setLastChanged(new Date());
 
         try {
-            if (_oldProofRegulationBaseInformation != null && _proofRegulationBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested) {
+            if (_oldProofRegulationBaseInformation != null &&
+                    _proofRegulationBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested) {
                 _proofFacade.save(_oldProofRegulationBaseInformation);
             }
 
@@ -266,6 +273,8 @@ public class ProofEdit implements Serializable {
                     + "Bitte versuchen Sie es erneut. Fehlercode: " + ex.getMessage());
         }
     }
+
+
 
     private void sendMail(String mailTemplateName) {
         String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());
@@ -358,6 +367,7 @@ public class ProofEdit implements Serializable {
     public List<Proof> getProofsForExceptionFact() {
         return _proofRegulationBaseInformation.getProofs().stream()
                 .filter(c -> c.getPatientPerNurse() > c.getPpug())
+                .filter(c -> c.getExceptionFact().size() < _listExceptionsFacts.size())
                 .collect(Collectors.toList());
     }
 
