@@ -14,6 +14,21 @@ import java.util.logging.Logger;
 
 public class ProofImporter {
 
+    // Cell numbers
+    private static final int CELL_SENSITIVEAREA = 0;
+    private static final int CELL_FABNUMBER = 1;
+    private static final int CELL_FABNAME = 2;
+    private static final int CELL_STATIONNAME = 3;
+    private static final int CELL_LOCATION_CODE = 4;
+    private static final int CELL_MONTH = 5;
+    private static final int CELL_SHIFT = 6;
+    private static final int CELL_COUNT_SHIFT = 7;
+    private static final int CELL_NURSE = 8;
+    private static final int CELL_HELPNURSE = 9;
+    private static final int CELL_PATIENT_OCCUPANCY = 10;
+    private static final int CELL_COUNT_SHIFT_NOT_RESPECTED = 11;
+
+
     private static final Logger LOGGER = Logger.getLogger(ProofImporter.class.getName());
     private String _message = "";
     private int _rowCounter = 0;
@@ -76,11 +91,13 @@ public class ProofImporter {
         try {
             Proof tmpProof = new Proof();
 
-            tmpProof.setCountShift(getIntFromCell(row.getCell(7)));
-            tmpProof.setNurse(getDoubleFromCell(row.getCell(8), true));
-            tmpProof.setHelpNurse(getDoubleFromCell(row.getCell(9), true));
-            tmpProof.setPatientOccupancy(getDoubleFromCell(row.getCell(10), true));
-            tmpProof.setCountShiftNotRespected(getIntFromCell(row.getCell(11)));
+            tmpProof.setCountShift(getIntFromCell(row.getCell(CELL_COUNT_SHIFT)));
+            tmpProof.setNurse(getDoubleFromCell(row.getCell(CELL_NURSE), true));
+            tmpProof.setHelpNurse(getDoubleFromCell(row.getCell(CELL_HELPNURSE), true));
+            tmpProof.setPatientOccupancy(getDoubleFromCell(row.getCell(CELL_PATIENT_OCCUPANCY), true));
+            tmpProof.setCountShiftNotRespected(getIntFromCell(row.getCell(CELL_COUNT_SHIFT_NOT_RESPECTED)));
+
+            checkProofIsValid(tmpProof, row);
 
             proofFromRow.setCountShift(tmpProof.getCountShift());
             proofFromRow.setNurse(tmpProof.getNurse());
@@ -93,15 +110,58 @@ public class ProofImporter {
         }
     }
 
+    private void checkProofIsValid(Proof proof, Row row) throws InvalidValueException {
+        checkCountShift(proof.getCountShift(), row.getCell(CELL_COUNT_SHIFT));
+        checkNurse(proof.getNurse(), row.getCell(CELL_NURSE));
+        checkHelpNurse(proof.getHelpNurse(), row.getCell(CELL_HELPNURSE));
+        checkPatientOccupancy(proof.getPatientOccupancy(), row.getCell(CELL_PATIENT_OCCUPANCY));
+        checkCountShiftNotRespected(proof.getCountShiftNotRespected(), row.getCell(CELL_COUNT_SHIFT_NOT_RESPECTED));
+    }
+
+    private void checkCountShiftNotRespected(double value, Cell cell) throws InvalidValueException {
+        if (value < 0 || value > 31) {
+            throw new InvalidValueException("Die Anzahl Schichten, in denen die PPUG im Monat nicht eingehalten wurde in Zelle "
+                    + cell.getAddress() + " ist unplausibel");
+        }
+    }
+
+    private void checkPatientOccupancy(double value, Cell cell) throws InvalidValueException {
+        if (value < 0 || value > 999) {
+            throw new InvalidValueException("Die Anzahl der durchschnitlichen durchschnittliche Patientenbelegung in Zelle "
+                    + cell.getAddress() + " ist unplausibel");
+        }
+    }
+
+    private void checkHelpNurse(double value, Cell cell) throws InvalidValueException {
+        if (value < 0 || value > 999) {
+            throw new InvalidValueException("Die durchschnittliche Pflegepersonalausstattung Pflegehilfskräfte in Zelle "
+                    + cell.getAddress() + " ist unplausibel");
+        }
+    }
+
+    private void checkNurse(double value, Cell cell) throws InvalidValueException {
+        if (value < 0 || value > 999) {
+            throw new InvalidValueException("Die durchschnittliche Pflegepersonalausstattung Pflegefachkräfte in Zelle "
+                    + cell.getAddress() + " ist unplausibel");
+        }
+    }
+
+    private void checkCountShift(int value, Cell cell) throws InvalidValueException {
+        if (value < 0 || value > 31) {
+            throw new InvalidValueException("Die Anzahl der Schichten in Zelle " + cell.getAddress() + " ist unplausibel");
+        }
+    }
+
     private Optional<Proof> getProofFromRow(ProofRegulationBaseInformation info, Row row) {
         Optional<Proof> first = info.getProofs().stream()
-                .filter(c -> c.getProofRegulationStation().getSensitiveArea() == SensitiveArea.getByName(getStringFromCell(row.getCell(0))))
-                .filter(c -> c.getProofRegulationStation().getFabNumber().equals(getFabNumberFromCell(row.getCell(1))))
-                .filter(c -> c.getProofRegulationStation().getFabName().equals(getStringFromCell(row.getCell(2))))
-                .filter(c -> c.getProofRegulationStation().getStationName().equals(getStringFromCell(row.getCell(3))))
-                .filter(c -> c.getProofRegulationStation().getLocationCode().equals(getLocationFromCell(row.getCell(4))))
-                .filter(c -> c.getMonth() == Months.getByName(getStringFromCell(row.getCell(5))))
-                .filter(c -> c.getShift() == Shift.getByName(getStringFromCell(row.getCell(6))))
+                .filter(c -> c.getProofRegulationStation().getSensitiveArea() ==
+                        SensitiveArea.getByName(getStringFromCell(row.getCell(CELL_SENSITIVEAREA))))
+                .filter(c -> c.getProofRegulationStation().getFabNumber().equals(getFabNumberFromCell(row.getCell(CELL_FABNUMBER))))
+                .filter(c -> c.getProofRegulationStation().getFabName().equals(getStringFromCell(row.getCell(CELL_FABNAME))))
+                .filter(c -> c.getProofRegulationStation().getStationName().equals(getStringFromCell(row.getCell(CELL_STATIONNAME))))
+                .filter(c -> c.getProofRegulationStation().getLocationCode().equals(getLocationFromCell(row.getCell(CELL_LOCATION_CODE))))
+                .filter(c -> c.getMonth() == Months.getByName(getStringFromCell(row.getCell(CELL_MONTH))))
+                .filter(c -> c.getShift() == Shift.getByName(getStringFromCell(row.getCell(CELL_SHIFT))))
                 .findFirst();
         return first;
     }

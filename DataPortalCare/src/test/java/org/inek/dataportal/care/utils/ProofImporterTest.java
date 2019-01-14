@@ -22,19 +22,45 @@ class ProofImporterTest {
     private String FILE_BASE_FOLDER = "src\\test\\resources\\";
 
     @Test
+    void handleProofUploadToHighValuesValuesTest() {
+        ProofRegulationBaseInformation info = new ProofRegulationBaseInformation();
+
+        List<ProofRegulationStation> stations = new ArrayList<>();
+
+        stations.add(createNewStation(SensitiveArea.GERIATRIE, "0200", "Geriatrie", "G1", "1"));
+
+        createProofs(info, stations, 2019, 1);
+
+        Assertions.assertThat(info.getProofs()).hasSize(6);
+
+        File file = new File(FILE_BASE_FOLDER + "ProofExampleWrongValues.xlsx");
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (Exception ex) {
+
+        }
+
+        ProofImporter importer = new ProofImporter();
+
+        Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getMonth().equals(Months.JANUARY) && c.getShift().equals(Shift.NIGHT))
+                .findFirst().get().getCountShift()).isEqualTo(31);
+        Assertions.assertThat(importer.getMessage()).contains("Die Anzahl der Schichten in Zelle H3 ist unplausibel");
+    }
+
+    @Test
     void handleProofUploadWrongValuesTest() {
         ProofRegulationBaseInformation info = new ProofRegulationBaseInformation();
 
         List<ProofRegulationStation> stations = new ArrayList<>();
 
         stations.add(createNewStation(SensitiveArea.GERIATRIE, "0200", "Geriatrie", "G1", "1"));
-        stations.add(createNewStation(SensitiveArea.INTENSIVMEDIZIN, "3600", "Intensivmedizin", "INT interdisziplinär", "1"));
-        stations.add(createNewStation(SensitiveArea.INTENSIVMEDIZIN, "0100", "Innere Medizin", "K1", "1"));
-        stations.add(createNewStation(SensitiveArea.KARDIOLOGIE, "0100", "Innere Medizin", "K1", "1"));
 
         createProofs(info, stations, 2019, 1);
 
-        Assertions.assertThat(info.getProofs()).hasSize(24);
+        Assertions.assertThat(info.getProofs()).hasSize(6);
 
         File file = new File(FILE_BASE_FOLDER + "ProofExampleWrongValues.xlsx");
 
