@@ -385,7 +385,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public boolean isCloseEnabled() {
-        if (!isSendEnabled()) {
+        if (!isSendEnabled() || isReadOnly()) {
             return false;
         }
         if (!_accessManager.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(),
