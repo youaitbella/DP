@@ -11,7 +11,7 @@
                widgetVar="dlgStationSelection"
                modal="true"
                width="800px">
-        <pf:outputLabel value="In keinem Bereich werden die Grenzen verletzt oder es wurde bereits ein Ausnahmetatbestand ausgewählt"
+        <pf:outputLabel value="In keinem Bereich werden die Grenzen verletzt oder es wurden bereits alle Ausnahmetatbestände angegeben"
                         rendered="#{proofEdit.proofsForExceptionFact.size() eq 0}" />
         <pf:repeat value="#{proofEdit.proofsForExceptionFact}" var="proof">
             <div class="ui-g">
