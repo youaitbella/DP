@@ -94,13 +94,19 @@
                 <pf:outputLabel value="#{proof.shift.name}" />
             </pf:column>
             <pf:column headerText="Anzahl Schichten (Summe)">
-                <inekInput:InputNumber value="#{proof.countShift}"
-                                       Style="width: 96%;"
-                                       minValue="0"
-                                       maxValue="31"
-                                       require="true"
-                                       requiredMessage="Bitte die Anzahl der Schichten angeben"
-                                       readonly="#{proofEdit.isReadOnly}" />
+
+                <pf:inputNumber required="true"
+                                requiredMessage="Bitte die Anzahl der Schichten angeben"
+                                value="#{proof.countShift}"
+                                inputStyle="text-align: right; width: 96%;"
+                                decimalPlaces="0"
+                                maxValue="31"
+                                minValue="0"
+                                readonly="#{proofEdit.isReadOnly}"
+                                style="width: 100%;">
+                    <pf:ajax event="change"
+                             immediate="true" />
+                </pf:inputNumber>
             </pf:column>
             <pf:column headerText="durchschnittliche Pflegepersonalausstattung Pflegefachkräfte">
                 <pf:inputNumber id="proofNurseId"
