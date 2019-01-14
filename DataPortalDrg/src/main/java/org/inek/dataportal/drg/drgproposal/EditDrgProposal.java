@@ -65,17 +65,9 @@ public class EditDrgProposal extends AbstractEditController {
     @Inject private DrgProposalFacade _drgProposalFacade;
     @Inject private ApplicationTools _appTools;
     // </editor-fold>
-    
+
     private String _script;
     private DrgProposal _drgProposal;
-
-    private boolean ensureEmptyEntry(List<ProcedureInfo> procedures) {
-        if (procedures.isEmpty() || procedures.get(procedures.size() - 1).getCode() != null) {
-            procedures.add(new ProcedureInfo());
-            return true;
-        }
-        return false;
-    }
 
     public String getScript() {
         return _script;
@@ -108,6 +100,8 @@ public class EditDrgProposal extends AbstractEditController {
         } else if (id.toString().equals("new")) {
             if (!_appTools.isEnabled(ConfigKey.IsDrgProposalCreateEnabled)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
+                // even if we navigate to a different page, JSF might access the source page (e.g. call isReadOnly
+                _drgProposal = newDrgProposal(); 
                 return;
             }
             _drgProposal = newDrgProposal();
@@ -127,7 +121,8 @@ public class EditDrgProposal extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + drgId);
             DrgProposal drgProposal = _drgProposalFacade.find(id);
-            if (_accessManager.isAccessAllowed(Feature.DRG_PROPOSAL, drgProposal.getStatus(), drgProposal.getAccountId())) {
+            if (_accessManager.
+                    isAccessAllowed(Feature.DRG_PROPOSAL, drgProposal.getStatus(), drgProposal.getAccountId())) {
                 return drgProposal;
             }
         } catch (NumberFormatException ex) {
@@ -255,8 +250,8 @@ public class EditDrgProposal extends AbstractEditController {
         }
 
         findTopic(DrgProposalTabs.tabPPCodes.name())
-                .setVisible(cat.equals(DrgProposalCategory.CODES) 
-                        || cat.equals(DrgProposalCategory.SYSTEM) 
+                .setVisible(cat.equals(DrgProposalCategory.CODES)
+                        || cat.equals(DrgProposalCategory.SYSTEM)
                         || cat.equals(DrgProposalCategory.CCL));
     }
 
@@ -271,8 +266,8 @@ public class EditDrgProposal extends AbstractEditController {
 
     public String getCcl2() {
         //return "display: inline-block; width: 49%;";
-        return _drgProposal.getCategory() == DrgProposalCategory.CCL 
-                ? "display: inline-block; width: 98%; padding-right: 1%; border-right: solid 1px;" 
+        return _drgProposal.getCategory() == DrgProposalCategory.CCL
+                ? "display: inline-block; width: 98%; padding-right: 1%; border-right: solid 1px;"
                 : "display: inline-block; width: 49%; padding-right: 1%; border-right: solid 1px;";
     }
 
@@ -375,13 +370,14 @@ public class EditDrgProposal extends AbstractEditController {
             saveData();
         }
     }
-    
+
     public String save() {
         saveData();
 
         if (_drgProposal != null && isValidId(_drgProposal.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").
+                    replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
             return null;
         }
@@ -406,21 +402,24 @@ public class EditDrgProposal extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
             return false;
         }
-        return _accessManager.isSealedEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.
+                getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
             return false;
         }
-        return _accessManager.isApprovalRequestEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.
+                getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
             return false;
         }
-        return _accessManager.isRequestCorrectionEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
+        return _accessManager.isRequestCorrectionEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.
+                getAccountId());
     }
 
     public boolean isTakeEnabled() {
@@ -428,9 +427,8 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     /**
-     * This function seals a drgProposal if possible. Sealing is possible, if
-     * all mandatory fields are fulfilled. After sealing, the proposal can not
-     * be edited and is available for the InEK.
+     * This function seals a drgProposal if possible. Sealing is possible, if all mandatory fields are fulfilled. After
+     * sealing, the proposal can not be edited and is available for the InEK.
      *
      * @return
      */
@@ -484,7 +482,8 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     public String takeDocuments() {
-        DrgProposalController ppController = (DrgProposalController) _sessionController.getFeatureController(Feature.DRG_PROPOSAL);
+        DrgProposalController ppController = (DrgProposalController) _sessionController.
+                getFeatureController(Feature.DRG_PROPOSAL);
 
         for (DrgProposalDocument doc : ppController.getDocuments()) {
             DrgProposalDocument existingDoc = findByName(doc.getName());
@@ -547,9 +546,9 @@ public class EditDrgProposal extends AbstractEditController {
         String newTopic = "";
         DrgProposal drgProposal = _drgProposal;
         newTopic = checkField(newTopic, drgProposal.getName(), "lblAppellation", "form:name", DrgProposalTabs.tabPPAddress);
-        newTopic = checkField(newTopic, 
-                drgProposal.getCategory() == null 
-                        || drgProposal.getCategory() == DrgProposalCategory.UNKNOWN ? null : drgProposal.getCategory().name(), 
+        newTopic = checkField(newTopic,
+                drgProposal.getCategory() == null
+                || drgProposal.getCategory() == DrgProposalCategory.UNKNOWN ? null : drgProposal.getCategory().name(),
                 "lblCategory", "form:category", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, drgProposal.getInstitute(), "lblDrgProposalingInstitute", "form:institute", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, drgProposal.getGender(), 1, 2, "lblSalutation", "form:cbxGender", DrgProposalTabs.tabPPAddress);
@@ -565,10 +564,10 @@ public class EditDrgProposal extends AbstractEditController {
         if (drgProposal.getDocuments() != null && drgProposal.getDocuments().size() > 0
                 || drgProposal.getDocumentsOffline() != null && drgProposal.getDocumentsOffline().length() > 0) {
             newTopic = checkField(
-                    newTopic, 
-                    drgProposal.isAnonymousData() ? "true" : "", 
-                    "lblAnonymousData", 
-                    "form:anonymousData", 
+                    newTopic,
+                    drgProposal.isAnonymousData() ? "true" : "",
+                    "lblAnonymousData",
+                    "form:anonymousData",
                     DrgProposalTabs.tabPPDocuments);
         }
 
@@ -596,12 +595,12 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     private String checkField(
-            String newTopic, 
-            Integer value, 
-            Integer minValue, 
-            Integer maxValue, 
-            String msgKey, 
-            String elementId, 
+            String newTopic,
+            Integer value,
+            Integer minValue,
+            Integer maxValue,
+            String msgKey,
+            String elementId,
             DrgProposalTabs tab) {
         if (value == null
                 || minValue != null && value.intValue() < minValue.intValue()
