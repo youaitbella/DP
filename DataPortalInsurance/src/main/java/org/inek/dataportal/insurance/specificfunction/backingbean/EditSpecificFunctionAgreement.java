@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javafx.util.Pair;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -116,7 +117,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         agreement.setLastName(account.getLastName());
         agreement.setPhone(account.getPhone());
         agreement.setMail(account.getEmail());
-        agreement.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
+        agreement.setDataYear(Utils.getTargetYear(Feature.SPF_INSURANCE));
         agreement.addAgreedCenterRemunerationKey();
         List<SelectItem> iks = getIks();
         if (iks.size() == 1) {
@@ -142,7 +143,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         if (_agreement == null) {
             return true;
         }
-        if (_sessionController.isInekUser(Feature.SPECIFIC_FUNCTION) && !_appTools.isEnabled(ConfigKey.TestMode)) {
+        if (_sessionController.isInekUser(Feature.SPF_INSURANCE) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
         return _accessManager.
@@ -216,18 +217,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         if (_agreement == null) {
             return false;
         }
-        return _accessManager.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.
-                getAccountId());
-    }
-
-    public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionAgreementSendEnabled)) {
-            return false;
-        }
-        if (_agreement == null) {
-            return false;
-        }
-        return _accessManager.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.
+        return _accessManager.isSealedEnabled(Feature.SPF_INSURANCE, _agreement.getStatus(), _agreement.
                 getAccountId());
     }
 
@@ -239,7 +229,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
             return false;
         }
         return (_agreement.getStatus() == WorkflowStatus.Provided || _agreement.getStatus() == WorkflowStatus.ReProvided)
-                && _sessionController.isInekUser(Feature.SPECIFIC_FUNCTION, true);
+                && _sessionController.isInekUser(Feature.SPF_INSURANCE, true);
     }
 
     public String requestCorrection() {
@@ -262,11 +252,6 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         sendMessage("BA Konkretisierung");
 
         return Pages.SpecificFunctionSummary.URL();
-    }
-
-    public boolean isTakeEnabled() {
-        return _accessManager.
-                isTakeEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
     }
 
     /**
@@ -298,7 +283,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     @Inject private InekRoleFacade _inekRoleFacade;
 
     public void sendNotification() {
-        List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.SPECIFIC_FUNCTION);
+        List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.SPECIFIC_FUNCTION); // not SPF_INSURANCE (same user)
         String receipients = inekAccounts.stream().map(a -> a.getEmail()).collect(Collectors.joining(";"));
         _mailer.sendMail(receipients, "Besondere Aufgaben / Zentrum", "Es wurde ein Datensatz an das InEK gesendet.");
     }
@@ -379,26 +364,6 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         }
     }
 
-    public String requestApproval() {
-        if (!requestIsComplete()) {
-            return null;
-        }
-        _agreement.setStatus(WorkflowStatus.ApprovalRequested);
-        setModifiedInfo();
-        _agreement = _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
-        return "";
-    }
-
-    public String take() {
-        if (!isTakeEnabled()) {
-            return Pages.Error.URL();
-        }
-        _agreement.setAccountId(_sessionController.getAccountId());
-        setModifiedInfo();
-        _agreement = _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
-        return "";
-    }
-
     public void ikChanged() {
         // dummy listener, used by component MultiIk - do not delete
     }
@@ -456,7 +421,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public void changeCode() {
-        int ik  = _specificFunctionFacade.findIkOfSpecificFunctionRequestByCode(_agreement.getCode());
+        Pair<Integer, Integer> ikYear = _specificFunctionFacade.findIkAndYearOfSpecificFunctionRequestByCode(_agreement.getCode());
+        int ik  = ikYear.getKey();
         if (ik < 1) {
             Utils.showMessageInBrowser("Das Vertragskennzeichen " + _agreement.getCode() + " ist unbekannt.");
             return;
@@ -467,6 +433,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
             return;
         }
         _agreement.setIk(ik);
+        _agreement.setDataYear(ikYear.getValue());
     }
 
     public List<SelectItem> getSpecificFunctionRemunerationScopes() {

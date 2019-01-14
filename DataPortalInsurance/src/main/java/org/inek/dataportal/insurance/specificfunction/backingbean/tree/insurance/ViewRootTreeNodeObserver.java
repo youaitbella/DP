@@ -38,7 +38,7 @@ public class ViewRootTreeNodeObserver implements TreeNodeObserver{
 
     private Collection<TreeNode> obtainViewNodeChildren(TreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
-        List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds, 0,
+        List<Account> accounts = _specificFunctionFacade.loadAgreementAccounts(accountIds, 
                 WorkflowStatus.Provided, WorkflowStatus.Retired);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {

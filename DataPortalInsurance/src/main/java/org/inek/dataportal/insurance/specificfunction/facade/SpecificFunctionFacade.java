@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javafx.util.Pair;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -52,35 +53,27 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return agreement != null;
     }
 
-    public List<SpecificFunctionAgreement> obtainSpecificFunctionAgreements(int accountId, int year,
+    public List<SpecificFunctionAgreement> obtainSpecificFunctionAgreements(int accountId, 
             WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM SpecificFunctionAgreement s "
                 + "WHERE s._accountId = :accountId "
-                + (year > 0 ? "   and s._dataYear = :year " : "")
                 + "   and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionAgreement> query = getEntityManager().
                 createQuery(jpql, SpecificFunctionAgreement.class);
         query.setParameter(ACCOUNT_ID, accountId);
-        if (year > 0) {
-            query.setParameter(YEAR, year);
-        }
         query.setParameter(STATUS_LOW, statusLow.getId());
         query.setParameter(STATUS_HIGH, statusHigh.getId());
         return query.getResultList();
     }
 
-    public List<Account> loadAgreementAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow,
+    public List<Account> loadAgreementAccounts(Set<Integer> accountIds, WorkflowStatus statusLow,
             WorkflowStatus statusHigh) {
         String jpql = "select distinct a "
                 + "from Account a "
                 + "join SpecificFunctionAgreement s "
                 + "where a._id = s._accountId "
-                + (year > 0 ? "    and s._dataYear = :year " : "")
                 + "    and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds";
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
-        if (year > 0) {
-            query.setParameter(YEAR, year);
-        }
         query.setParameter(STATUS_LOW, statusLow.getId());
         query.setParameter(STATUS_HIGH, statusHigh.getId());
         query.setParameter(ACCOUNT_IDS, accountIds);
@@ -165,15 +158,17 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
     //</editor-fold>
 
-    public int findIkOfSpecificFunctionRequestByCode(String code) {
-        String sql = "select rmIk from spf.RequestMaster where rmStatusId = 10 and rmCode = ?";
+    public Pair<Integer, Integer> findIkAndYearOfSpecificFunctionRequestByCode(String code) {
+        String sql = "select rmIk, rmDataYear from spf.RequestMaster where rmStatusId = 10 and rmCode = ?";
         Query query = getEntityManager().createNativeQuery(sql);
         query.setParameter(1, code);
         try {
-            return (Integer) query.getSingleResult();
+            Object[] result = (Object[]) query.getSingleResult();
+            return new Pair<>((Integer) result[0], (Integer) result[1]);
         } catch (Exception ex) {
-            return -1;
+            return new Pair<>(-1, -1);
         }
     }
+
 
 }

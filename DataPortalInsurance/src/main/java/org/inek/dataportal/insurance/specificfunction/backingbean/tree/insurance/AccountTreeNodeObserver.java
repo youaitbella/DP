@@ -30,7 +30,8 @@ import org.inek.dataportal.common.tree.TreeNodeObserver;
  * @author aitbellayo
  */
 @Dependent
-public class AccountTreeNodeObserver implements TreeNodeObserver{
+public class AccountTreeNodeObserver implements TreeNodeObserver {
+
     @Inject private AccessManager _accessManager;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private SessionController _sessionController;
@@ -40,7 +41,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         return obtainAccountNodeChildren((AccountTreeNode) treeNode); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     private Collection<TreeNode> obtainAccountNodeChildren(AccountTreeNode treeNode) {
         int partnerId = treeNode.getId();
         List<SpecificFunctionAgreement> infos;
@@ -55,7 +56,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
         }
         return children;
     }
-    
+
     private List<SpecificFunctionAgreement> obtainAgreementsForRead(int partnerId) {
         WorkflowStatus statusLow = WorkflowStatus.Provided;
         WorkflowStatus statusHigh = WorkflowStatus.Retired;
@@ -66,9 +67,9 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
                 statusHigh = WorkflowStatus.Unknown;
             }
         }
-        return _specificFunctionFacade.obtainSpecificFunctionAgreements(partnerId, 0, statusLow, statusHigh);
+        return _specificFunctionFacade.obtainSpecificFunctionAgreements(partnerId, statusLow, statusHigh);
     }
-    
+
     private List<SpecificFunctionAgreement> obtainAgreementsForEdit(int partnerId) {
         WorkflowStatus statusLow;
         WorkflowStatus statusHigh;
@@ -83,13 +84,9 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
             statusHigh = canReadAlways
                     || canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
         }
-        return _specificFunctionFacade.obtainSpecificFunctionAgreements(
-                partnerId,
-                Utils.getTargetYear(Feature.SPECIFIC_FUNCTION),
-                statusLow,
-                statusHigh);
+        return _specificFunctionFacade.obtainSpecificFunctionAgreements(partnerId, statusLow, statusHigh);
     }
-    
+
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
         Stream<SpecificFunctionAgreementTreeNode> stream = treeNode.getChildren().stream().

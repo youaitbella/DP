@@ -167,28 +167,12 @@
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editSpecificFunctionAgreement.requestApproval}"
-                                   value="#{msg.btnRequestApproval}"
-                                   rendered="#{editSpecificFunctionAgreement.approvalRequestEnabled and editSpecificFunctionAgreement.agreement.ik > 0 }"
-                                   title="#{msg.infoSaveAndClose}">
-                        <cb:confirmRequestApproval/>
-                    </h:commandLink>
-
-                    <h:commandLink styleClass="sendButton"
                                    action="#{editSpecificFunctionAgreement.seal}"
                                    value="#{msg.btnSaveAndClose}"
                                    rendered="#{editSpecificFunctionAgreement.sealEnabled and editSpecificFunctionAgreement.agreement.ik > 0 }"
                                    immediate="false"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
-                    </h:commandLink>
-
-                    <h:commandLink styleClass="bigButton"
-                                   action="#{editSpecificFunctionAgreement.take}"
-                                   value="#{msg.btnTake}"
-                                   immediate="true"
-                                   rendered="#{editSpecificFunctionAgreement.takeEnabled}"
-                                   onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
 
                     <h:commandLink styleClass="bigButton"

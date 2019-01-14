@@ -43,8 +43,8 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver{
     
     private Collection<TreeNode> obtainEditNodeChildren(TreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
-        List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds,
-                Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
+        List<Account> accounts = _specificFunctionFacade.loadAgreementAccounts(accountIds,
+                WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
