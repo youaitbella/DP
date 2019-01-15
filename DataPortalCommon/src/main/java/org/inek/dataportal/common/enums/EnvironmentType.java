@@ -8,7 +8,7 @@ public enum EnvironmentType {
     UA("UserAgent"),
     SR("ScreenResolution");
 
-    String _description;
+    private String _description;
     EnvironmentType(String description) {
         _description = description;
     }
