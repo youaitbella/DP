@@ -621,9 +621,9 @@ public class AccountFacade extends AbstractDataAccess {
                     + "using (select left(convert(nvarchar, getDate(), 112), 6) as datestring, ? as typ, ? as content) as s\n"
                     + "on e.ueDate = datestring and ueType = typ and ueContent = content\n"
                     + "when matched then \n"
-                    + "	update set ueCount = ueCount+1\n"
+                    + "   update set ueCount = ueCount+1\n"
                     + "when not matched then \n"
-                    + "   insert values(datestring, typ, content, 1);";
+                    + "  insert values(datestring, typ, content, 1);";
             Query query = getEntityManager().createNativeQuery(sql);
             query.setParameter(1, type.name());
             query.setParameter(2, content);
