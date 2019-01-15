@@ -22,16 +22,16 @@ import org.inek.dataportal.api.enums.PortalType;
 public class Login implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private static SessionController _sessionController;
 
     public Login() {
-        //System.out.println("ctor Login");
     }
 
-    @PostConstruct
-    private void init() {
-        //_sessionController.logout();
+    @Inject
+    public Login(SessionController sessionController) {
+        _sessionController = sessionController;
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="Property EmailOrUser">
     private String _emailOrUser;
 
@@ -56,6 +56,18 @@ public class Login implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property ScreenSize">
+    private String _screenSize;
+
+    public String getScreenSize() {
+        return _screenSize;
+    }
+
+    public void setScreenSize(String screenSize) {
+        _screenSize = screenSize;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property LoginMessage">
     private String _loginMessage = "";
 
@@ -64,21 +76,8 @@ public class Login implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="SessionController">
-    @Inject
-    private SessionController _sessionController;
-
-    public SessionController getSessionController() {
-        return _sessionController;
-    }
-
-    public void setSessionController(SessionController sessionController) {
-        _sessionController = sessionController;
-    }
-    // </editor-fold>
-
     public String login(PortalType portalType) {
-        if (!_sessionController.loginAndSetTopics(_emailOrUser, _password, portalType)) {
+        if (!_sessionController.loginAndSetTopics(_emailOrUser, _password, portalType, _screenSize)) {
             _loginMessage = "Name bzw. Email und / oder Kennwort sind ungültig";
             return "";
         }

@@ -37,6 +37,7 @@ import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFaca
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.adm.Log;
 import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.EnvironmentType;
 import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.common.helper.Utils;
@@ -385,6 +386,12 @@ public class SessionController implements Serializable {
                 + "; targetServer=" + EnvironmentInfo.getLocalServerName();
     }
 
+    public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType, String screenResolution) {
+        _accountFacade.countUserEnvironment(EnvironmentType.SR, screenResolution);
+        _accountFacade.countUserEnvironment(EnvironmentType.UA, Utils.getUserAgent());
+        return loginAndSetTopics(mailOrUser, password, portalType);
+    }
+    
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
         if (!login(mailOrUser, password, obtainConnectionInfo(), portalType)) {
             return false;

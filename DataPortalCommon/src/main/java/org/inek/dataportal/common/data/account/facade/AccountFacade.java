@@ -31,6 +31,7 @@ import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
+import org.inek.dataportal.common.enums.EnvironmentType;
 import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
@@ -198,7 +199,7 @@ public class AccountFacade extends AbstractDataAccess {
             emptyAccount.setId(account.getId());
             merge(emptyAccount);
             AccountPwd accountPwd = _accountPwdFacade.find(emptyAccount.getId());
-            if(accountPwd != null) {
+            if (accountPwd != null) {
                 _accountPwdFacade.delete(accountPwd);
             }
         }
@@ -237,7 +238,7 @@ public class AccountFacade extends AbstractDataAccess {
         try {
             if (accountHasIkAdminRequest(acc)) {
 
-                LOGGER.log(Level.INFO, "Found IK Admin Request: {0}", acc.getEmail() );
+                LOGGER.log(Level.INFO, "Found IK Admin Request: {0}", acc.getEmail());
 
                 List<Feature> features = getFeaturesFromAdminRequest(acc);
                 List<AccessRight> rights = new ArrayList<>();
@@ -245,7 +246,7 @@ public class AccountFacade extends AbstractDataAccess {
                 for (Feature fe : features) {
                     List<Integer> iks = getIksForAdminRequestFeature(acc, fe);
                     for (int ik : iks) {
-                        if(!acc.getFullIkSet().contains(ik)) {
+                        if (!acc.getFullIkSet().contains(ik)) {
                             acc.addIk(ik);
                         }
                         acc.addIkAdmin(ik, "", fe);
@@ -259,7 +260,7 @@ public class AccountFacade extends AbstractDataAccess {
                 }
 
                 merge(acc);
-            }else {
+            } else {
                 LOGGER.log(Level.INFO, "No Admin Request found: {0}", acc.getEmail());
             }
         } catch (Exception ex) {
@@ -605,12 +606,31 @@ public class AccountFacade extends AbstractDataAccess {
     }
 
     public boolean isAllowedForTest(int accountId, int featureId) {
-        String sql = "select distinct 1\n" +
-                "from adm.AccountsAllowedForTest\n" +
-                "where aaftAccountId = " + accountId + "\n" +
-                "and aaftFeatureId = " + featureId + "";
+        String sql = "select distinct 1\n"
+                + "from adm.AccountsAllowedForTest\n"
+                + "where aaftAccountId = " + accountId + "\n"
+                + "and aaftFeatureId = " + featureId + "";
 
         Query query = getEntityManager().createNativeQuery(sql);
         return query.getResultList().size() > 0;
+    }
+
+    public void countUserEnvironment(EnvironmentType type, String content) {
+        try {
+            String sql = "merge adm.UserEnvironment e\n"
+                    + "using (select left(convert(nvarchar, getDate(), 112), 6) as datestring, ? as typ, ? as content) as s\n"
+                    + "on e.ueDate = datestring and ueType = typ and ueContent = content\n"
+                    + "when matched then \n"
+                    + "	update set ueCount = ueCount+1\n"
+                    + "when not matched then \n"
+                    + "   insert values(datestring, typ, content, 1);";
+            Query query = getEntityManager().createNativeQuery(sql);
+            query.setParameter(1, type.name());
+            query.setParameter(2, content);
+            query.executeUpdate();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            // ignore
+        }
     }
 }
