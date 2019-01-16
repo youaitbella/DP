@@ -32,7 +32,7 @@ public final class SummaryData {
     @Inject
     private SessionController sessionController;
 
-    private int selectedtDataYear = 2017;
+    private int selectedtDataYear = 2018;
     private List<CalcHospitalInfo> allKg;
     private List<CalcHospitalInfo> allTe;
     private List<CalcHospitalInfo> allKvm;
