@@ -400,10 +400,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement = _calcFacade.saveStatementOfParticipance(_statement);
 
         if (isValidId(_statement.getId())) {
-            // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").
-                    replace("\n", "\\r\\n") + "');";
-            _sessionController.setScript(script);
+            DialogController.showSaveDialog();
             return null;
         }
         return Pages.Error.URL();
@@ -599,9 +596,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     public void copyForResend() {
         if (_statement.getStatusId() == 10 && !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
-            _sessionController.
-                    setScript("alert('Eine Änderung der Teilnahmeerklärung im Datenportal ist leider nicht mehr möglich. "
-                            + "Bitte teilen Sie Ihre Änderungswünsche Ihrem zuständigen Referenten mit.');");
+            DialogController.showInfoDialog("Vorgang nicht möglich",
+                    "Eine Änderung der Teilnahmeerklärung im Datenportal ist leider nicht mehr möglich. " +
+                            "Bitte teilen Sie Ihre Änderungswünsche Ihrem zuständigen Referenten mit.");
             return;
         }
         _statement.setId(-1);
