@@ -498,13 +498,11 @@ public class AccessManager implements Serializable {
     }
 
     public boolean canReadAlways(Feature feature, int partnerId, int ik) {
-        // todo: check
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
         return achievedRight.canReadAlways();
     }
 
     public Set<Integer> ObtainIksForCreation(Feature feature) {
-        // todo: check
         if (feature.getManagedBy() == ManagedBy.IkAdminOnly) {
             return retrieveAllowedForCreationIks(feature);
         }
