@@ -524,7 +524,7 @@ public class AccessManager implements Serializable {
         Set<Integer> responsibleForIks = _sessionController.getAccount().
                 obtainResponsibleForIks(feature, iks);
         if (feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
-            responsibleForIks = _ikCache.retriveCorrelatedIks(feature, iks, responsibleForIks);
+            responsibleForIks = _ikCache.retrieveCorrelatedIks(feature, iks, responsibleForIks);
         }
         return responsibleForIks;
     }
@@ -542,11 +542,19 @@ public class AccessManager implements Serializable {
     }
 
     public Set<Integer> ObtainAllowedIks(Feature feature) {
-        // todo: check
         Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
         Set<Integer> deniedIks = retrieveDeniedManagedIks(feature);
         iks.removeAll(deniedIks);
-        return iks;
+        if (feature.getIkReference() == IkReference.None || feature.getIkUsage() == IkUsage.Direct) {
+            return iks;
+        }
+        
+        Set<Integer> responsibleForIks = _sessionController.getAccount().
+                obtainResponsibleForIks(feature, iks);
+        if (feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
+            responsibleForIks = _ikCache.retrieveCorrelatedIks(feature, iks, responsibleForIks);
+        }
+        return responsibleForIks;
     }
 
     public Boolean isWriteAllowed(Feature feature, int ik) {

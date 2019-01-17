@@ -113,7 +113,7 @@ public class CI_AccessManagerTest {
         Set<Integer> correlatedIks = new HashSet<>();
         correlatedIks.add(unmanagedIk1);
 
-        when(ikCache.retriveCorrelatedIks(Feature.HC_INSURANCE, accountIks, responibleForIks)).thenReturn(correlatedIks);
+        when(ikCache.retrieveCorrelatedIks(Feature.HC_INSURANCE, accountIks, responibleForIks)).thenReturn(correlatedIks);
         AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController, ikCache);
         return accessManager;
     }

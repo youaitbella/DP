@@ -99,7 +99,7 @@ public class ManagedIkCache {
         return isManaged;
     }
 
-    public Set<Integer> retriveCorrelatedIks(Feature feature, Set<Integer> userIks, Set<Integer> requestedIks) {
+    public Set<Integer> retrieveCorrelatedIks(Feature feature, Set<Integer> userIks, Set<Integer> requestedIks) {
         if (_ikCorrelations.isEmpty()) {
             loadIkCorrelations();
         }
