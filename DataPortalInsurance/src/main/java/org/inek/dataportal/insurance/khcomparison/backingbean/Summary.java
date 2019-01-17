@@ -76,7 +76,7 @@ public class Summary {
     private void setWorkingList() {
         _listWorking.clear();
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                .filter(c -> c.canRead() && c.getFeature() == Feature.HC_HOSPITAL)
+                .filter(c -> c.canRead() && c.getFeature() == Feature.HC_INSURANCE)
                 .collect(Collectors.toList())) {
             _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), CustomerTyp.Insurance));
             _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), CustomerTyp.Insurance));
@@ -86,7 +86,7 @@ public class Summary {
     private void setCompleteList() {
         _listComplete.clear();
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                .filter(c -> c.canRead() && c.getFeature() == Feature.HC_HOSPITAL)
+                .filter(c -> c.canRead() && c.getFeature() == Feature.HC_INSURANCE)
                 .collect(Collectors.toList())) {
             _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), CustomerTyp.Insurance));
         }
@@ -102,7 +102,7 @@ public class Summary {
         // the insurance need to provide a list of IK which are managed by the user
 
         // for testing purpose:
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_INSURANCE);
         return _aebfacade.retrievePossibleIks(allowedIks, CustomerTyp.Insurance).size() > 0;
     }
 
@@ -113,7 +113,7 @@ public class Summary {
 
     public Boolean isDeleteAllowed(int ik) {
         return !_sessionController.getAccount().getAccessRights().stream()
-                .filter(c -> c.getFeature() == Feature.HC_HOSPITAL
+                .filter(c -> c.getFeature() == Feature.HC_INSURANCE
                 && c.getIk() == ik
                 && c.canWrite())
                 .collect(Collectors.toList())
