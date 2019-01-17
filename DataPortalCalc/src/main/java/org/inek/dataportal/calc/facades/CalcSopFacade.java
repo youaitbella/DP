@@ -200,36 +200,33 @@ public class CalcSopFacade extends AbstractDataAccessWithActionLog {
         return result;
     }
 
-    public List<CalcContact> retrieveCurrentContacts(int ik, int dataYear) {
-        String maxValidDate = dataYear + "-12-31";
-        String sql = "select case coSexId when 'F' then 1 when 'H' then 2 else 0 end as gender, \n"
-                + "    coTitle, coFirstName, coLastName, p.cdDetails as phone, e.cdDetails as email, \n"
-                + "    dbo.concatenate(case cciCalcTypeId\n"
-                + "        when 1 then 'DRG' \n"
-                + "        when 3 then 'PSY' \n"
-                + "        when 4 then 'INV' \n"
-                + "        when 5 then 'TPG'\n"
-                + "        when 7 then 'Kl. Sektionen' end) as domain\n"
-                + "--select *\n"
-                + "from CallCenterDB.dbo.ccCustomer\n"
-                + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and Year(cciValidTo) = " + dataYear + "\n"
-                + "join CallCenterDB.dbo.mapCustomerCalcInfoContact on ccicCustomerCalcInfoId = cciId "
-                + "and ccicValidTo >= '" + maxValidDate + "' \n"
-                + "join CallCenterDB.dbo.ccContact on ccicContactId = coId\n"
-                + "left join CallCenterDB.dbo.ccContactDetails e on coId=e.cdContactId and e.cdContactDetailTypeId = 'E'\n"
-                + "left join CallCenterDB.dbo.ccContactDetails p on coId=p.cdContactId and p.cdContactDetailTypeId = 'T'\n"
-                + "where cciCalcTypeId in (1, 3, 4, 5, 7) \n"
-                + "and exists (select 1 from CallCenterDB.dbo.CustomerCalcInfo zv where cuId = zv.cciCustomerId "
-                + "and zv.cciInfoTypeId in (1, 2, 3) and Year(zv.cciValidTo) >= " + dataYear + ") \n"
-                + "and not exists (select 1 from CallCenterDB.dbo.CustomerCalcInfo zv where cuId = zv.cciCustomerId "
-                + "and zv.cciInfoTypeId in (12) and Year(zv.cciValidTo) = " + dataYear + ") \n"
-                + "and coIsActive = 1 \n"
-                + "and cuIk = " + ik + "\n"
-                + "and coId not in (select coId from CallCenterDB.dbo.ccContact "
-                + "join CallCenterDB.dbo.mapContactRole on coId = mcrContactId \n"
-                + "join CallCenterDB.dbo.listRole on mcrRoleId = roId \n"
-                + "where roText = 'Berater')"
-                + "group by cuIk, coSexId, coTitle, coFirstName, coLastName, p.cdDetails, e.cdDetails";
+    public List<CalcContact> retrieveCalcContactsForIk(int ik) {
+        String sql = "select case coSexId when 'F' then 1 when 'H' then 2 else 0 end as gender, \n" +
+                "    coTitle, coFirstName, coLastName, p.cdDetails as phone, e.cdDetails as email, \n" +
+                "    dbo.concatenate(case roCalcTypeId\n" +
+                "        when 1 then 'DRG' \n" +
+                "        when 3 then 'PSY' \n" +
+                "        when 4 then 'INV' \n" +
+                "        when 5 then 'TPG'\n" +
+                "        when 7 then 'Kl. Sektionen' end) as domain\n" +
+                "--select *\n" +
+                "from CallCenterDB.dbo.ccCustomer\n" +
+                "join CallCenterDB.dbo.ccContact on cuid = coCustomerId\n" +
+                "left join CallCenterDB.dbo.ccContactDetails e on coId=e.cdContactId and e.cdContactDetailTypeId = 'E'\n" +
+                "left join CallCenterDB.dbo.ccContactDetails p on coId=p.cdContactId and p.cdContactDetailTypeId = 'T'\n" +
+                "join CallCenterDB.dbo.mapContactRole on mcrContactId = coId\n" +
+                "join CallCenterDB.dbo.listRole on roId = mcrRoleId\n" +
+                "where roCalcTypeId in (1, 3, 4, 5, 7) \n" +
+                "and coIsActive = 1 \n" +
+                "and coIsMain = 0\n" +
+                "and cuIk = " + ik +"\n" +
+                "and coId not in (\n" +
+                "select coId \n" +
+                "from CallCenterDB.dbo.ccContact \n" +
+                "join CallCenterDB.dbo.mapContactRole on coId = mcrContactId \n" +
+                "join CallCenterDB.dbo.listRole on mcrRoleId = roId \n" +
+                "where roText = 'Berater')\n" +
+                "group by cuIk, coSexId, coTitle, coFirstName, coLastName, p.cdDetails, e.cdDetails";
         Query query = getEntityManager().createNativeQuery(sql);
         List<CalcContact> contacts = new Vector<>();
         @SuppressWarnings("unchecked")

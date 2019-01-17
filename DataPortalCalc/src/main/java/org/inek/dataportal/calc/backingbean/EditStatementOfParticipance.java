@@ -25,6 +25,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
@@ -257,27 +259,44 @@ public class EditStatementOfParticipance extends AbstractEditController {
             statement.setClinicalDistributionModelPsy(-1);
             statement.setClinicalDistributionModelDrg(-1);
         }
-        setStatementContacts(statement, ik, year);
+        setStatementContacts(statement, ik);
         return statement;
     }
 
-    private void setStatementContacts(StatementOfParticipance statement, int ik, int year) {
-        statement.setContacts(_calcFacade.retrieveCurrentContacts(ik, year - 1));
+    private void setStatementContacts(StatementOfParticipance statement, int ik) {
 
-        if (statement.isDrgCalc() && statement.getContacts().stream().filter(c -> c.isDrg()).count() == 0) {
-            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik, 1));
+        List<CalcContact> calcContacts = _calcFacade.retrieveCalcContactsForIk(ik);
+
+        if (statement.isDrgCalc()) {
+            for (CalcContact con : calcContacts.stream().filter(co -> co.isDrg()).collect(Collectors.toList())) {
+                addContactifMissing(statement, con);
+            }
         }
-        if (statement.isPsyCalc() && statement.getContacts().stream().filter(c -> c.isPsy()).count() == 0) {
-            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik, 3));
+        if (statement.isPsyCalc()) {
+            for (CalcContact con : calcContacts.stream().filter(co -> co.isPsy()).collect(Collectors.toList())) {
+                addContactifMissing(statement, con);
+            }
         }
-        if (statement.isTpgCalc() && statement.getContacts().stream().filter(c -> c.isTpg()).count() == 0) {
-            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik, 5));
+        if (statement.isTpgCalc()) {
+            for (CalcContact con : calcContacts.stream().filter(co -> co.isTpg()).collect(Collectors.toList())) {
+                addContactifMissing(statement, con);
+            }
         }
-        if (statement.isInvCalc() && statement.getContacts().stream().filter(c -> c.isInv()).count() == 0) {
-            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik, 4));
+        if (statement.isInvCalc()) {
+            for (CalcContact con : calcContacts.stream().filter(co -> co.isInv()).collect(Collectors.toList())) {
+                addContactifMissing(statement, con);
+            }
         }
-        if (statement.isObdCalc() && statement.getContacts().stream().filter(c -> c.isObd()).count() == 0) {
-            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik, 7));
+        if (statement.isObdCalc()) {
+            for (CalcContact con : calcContacts.stream().filter(co -> co.isObd()).collect(Collectors.toList())) {
+                addContactifMissing(statement, con);
+            }
+        }
+    }
+
+    private void addContactifMissing(StatementOfParticipance statement, CalcContact con) {
+        if (statement.getContacts().stream().noneMatch(co -> co.equals(con))) {
+            statement.addContact(con);
         }
     }
 
