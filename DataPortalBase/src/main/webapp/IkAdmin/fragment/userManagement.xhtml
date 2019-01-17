@@ -14,7 +14,7 @@
 
         <h:form>
             <pf:outputLabel styleClass="label element10em"
-                            value="Benuter: "
+                            value="Anwender: "
                             for="selectAccount" />
             <pf:selectOneMenu value="#{ikAdminTasks.accountId}"
                               id="selectAccount">
@@ -28,7 +28,7 @@
 
             <br />
 
-            <h:outputLabel styleClass="label element10em" value="Funktion"/>
+            <h:outputLabel styleClass="label element10em" value="Funktion:"/>
             <pf:selectOneMenu id="missingFeatures" value="#{ikAdminTasks.featureId}" >
                 <f:selectItem itemLabel="#{msg.itemChoose}" itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItems value="#{ikAdminTasks.missingFeatures}" var="f" itemValue="#{f.id}" itemLabel="#{f.description}"/>
