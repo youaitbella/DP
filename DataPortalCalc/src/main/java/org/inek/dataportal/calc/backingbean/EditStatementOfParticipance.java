@@ -794,7 +794,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     private void applyMessageValues(MessageContainer message, String msgKey, StatementOfParticipanceTabs tab,
             String elementId) {
-        if (msgKey.startsWith("lbl")) {
+        if (msgKey.startsWith("lbl") || msgKey.startsWith("msg")) {
             message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
         }
         else {
