@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -22,6 +23,7 @@ public class CI_CustomerFacadeTest {
         return facade;
     }
 
+    @DisplayName("Checks the formal correctness of an IK. All provided IK are invalid")
     @ParameterizedTest
     @ValueSource(strings = {"1234", "XXX", "111111111", "", "1234567890", "261101010"})
     public void isFormalCorrectIkReturnsFalseForIncorretIk(String ik) {
@@ -69,7 +71,7 @@ public class CI_CustomerFacadeTest {
         Throwable exception = assertThrows(ValidatorException.class, () -> {
             facade.isIKValid(null, null, ik);
         });
-        
+
         assertThat(exception.getMessage()).isEqualTo("Ungültiges IK");
     }
 
@@ -81,7 +83,7 @@ public class CI_CustomerFacadeTest {
         Throwable exception = assertThrows(ValidatorException.class, () -> {
             facade.isIKValid(null, null, ik);
         });
-        
+
         assertThat(exception.getMessage()).isEqualTo("Unbekanntes IK");
     }
 
