@@ -723,7 +723,38 @@ public class EditStatementOfParticipance extends AbstractEditController {
                         StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
         }
+
+        if (contactsHaveToManyRoles(statement.getContacts().stream().filter(c -> !c.isConsultant()).collect(Collectors.toList()))) {
+            applyMessageValues(message, "Pro Bereich dürfen max. 3 Ansprechpartner angegeben werden",
+                    StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contactConsultant");
+        }
+
+        if (contactsHaveToManyRoles(statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList()))) {
+            applyMessageValues(message, "Pro Bereich dürfen max. 3 Berater angegeben werden",
+                    StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contactConsultant");
+        }
+
         return message;
+    }
+
+    private boolean contactsHaveToManyRoles(List<CalcContact> contacts) {
+        int maxRoles = 3;
+        if (contacts.stream().filter(CalcContact::isDrg).count() > maxRoles) {
+            return true;
+        }
+        if (contacts.stream().filter(CalcContact::isPsy).count() > maxRoles) {
+            return true;
+        }
+        if (contacts.stream().filter(CalcContact::isInv).count() > maxRoles) {
+            return true;
+        }
+        if (contacts.stream().filter(CalcContact::isTpg).count() > maxRoles) {
+            return true;
+        }
+        if (contacts.stream().filter(CalcContact::isObd).count() > maxRoles) {
+            return true;
+        }
+        return false;
     }
 
     private boolean hasContactAnyRole(CalcContact c) {
@@ -763,7 +794,13 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     private void applyMessageValues(MessageContainer message, String msgKey, StatementOfParticipanceTabs tab,
             String elementId) {
-        message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
+        if (msgKey.startsWith("lbl")) {
+            message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
+        }
+        else {
+            message.setMessage(message.getMessage() + "\\r\\n" + msgKey);
+        }
+
         if (message.getTopic().isEmpty()) {
             message.setTopic(tab.name());
             message.setElementId(elementId);
