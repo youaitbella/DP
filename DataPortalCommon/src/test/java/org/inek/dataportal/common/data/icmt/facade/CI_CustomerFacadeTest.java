@@ -12,7 +12,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 
-public class CustomerFacadeTest {
+public class CI_CustomerFacadeTest {
 
     private CustomerFacade createCustomerFacade() {
         CustomerFacade facade = spy(CustomerFacade.class);
