@@ -20,11 +20,11 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.event.FlowEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
@@ -236,9 +236,9 @@ public class ProofEdit implements Serializable {
     }
 
     public void save() {
-        String errorMessages = ProofChecker.proofIsReadyForSave(_proofRegulationBaseInformation, _listExceptionsFacts.size());
-        if (!"".equals(errorMessages)) {
-            DialogController.showErrorDialog("Daten unvollständig", errorMessages);
+        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofRegulationBaseInformation, _listExceptionsFacts.size());
+        if (!errorMessages.isEmpty()) {
+            DialogController.showErrorDialog("Daten unvollständig", errorMessages.get(0));
             return;
         }
 
@@ -271,7 +271,6 @@ public class ProofEdit implements Serializable {
     }
 
 
-
     private void sendMail(String mailTemplateName) {
         String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());
 
@@ -289,6 +288,14 @@ public class ProofEdit implements Serializable {
     }
 
     public void send() {
+        List<String> errorMessages = ProofChecker.proofIsReadyForSend(_proofRegulationBaseInformation, _listExceptionsFacts.size());
+
+        if (!errorMessages.isEmpty()) {
+            for (String message : errorMessages) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unplausible Daten", message));
+            }
+            return;
+        }
         _proofRegulationBaseInformation.setSend(new Date());
         _proofRegulationBaseInformation.setStatus(WorkflowStatus.Provided);
         _proofRegulationBaseInformation.setSignature(CareSignatureCreater.createPvSignature());

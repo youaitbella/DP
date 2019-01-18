@@ -415,6 +415,10 @@ public class StatementOfParticipance implements Serializable, StatusEntity{
         return _contacts;
     }
 
+    public void addContact(CalcContact con) {
+        _contacts.add(con);
+    }
+
     public void setContacts(List<CalcContact> contacts) {
         _contacts = contacts;
     }

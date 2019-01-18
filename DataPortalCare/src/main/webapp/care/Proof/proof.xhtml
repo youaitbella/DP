@@ -173,7 +173,7 @@
             </pf:column>
             <pf:column headerText="rechnerische Anzahl Patienten je Pflegekraft" style="text-align: right;">
                 <h:outputLabel id="patientPerNurseId"
-                               style="#{proofEdit.calculatePatientPerNurse(proof) gt proof.ppug ? 'color: red; ' : ''}"
+                               style="#{proofEdit.calculatePatientPerNurse(proof) gt proof.ppug ? 'color: red;' : proof.nurse gt proof.patientOccupancy ? 'background-color: yellow;' : ''} "
                                value="#{proofEdit.calculatePatientPerNurse(proof)}">
                     <f:convertNumber groupingUsed="true"
                                      minFractionDigits="2"

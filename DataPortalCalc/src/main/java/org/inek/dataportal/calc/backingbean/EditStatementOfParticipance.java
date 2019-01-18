@@ -25,6 +25,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
@@ -257,27 +259,44 @@ public class EditStatementOfParticipance extends AbstractEditController {
             statement.setClinicalDistributionModelPsy(-1);
             statement.setClinicalDistributionModelDrg(-1);
         }
-        setStatementContacts(statement, ik, year);
+        setStatementContacts(statement, ik);
         return statement;
     }
 
-    private void setStatementContacts(StatementOfParticipance statement, int ik, int year) {
-        statement.setContacts(_calcFacade.retrieveCurrentContacts(ik, year - 1));
+    private void setStatementContacts(StatementOfParticipance statement, int ik) {
 
-        if (statement.isDrgCalc() && statement.getContacts().stream().filter(c -> c.isDrg()).count() == 0) {
-            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik, 1));
+        List<CalcContact> calcContacts = _calcFacade.retrieveCalcContactsForIk(ik);
+
+        if (statement.isDrgCalc()) {
+            for (CalcContact con : calcContacts.stream().filter(co -> co.isDrg()).collect(Collectors.toList())) {
+                addContactifMissing(statement, con);
+            }
         }
-        if (statement.isPsyCalc() && statement.getContacts().stream().filter(c -> c.isPsy()).count() == 0) {
-            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik, 3));
+        if (statement.isPsyCalc()) {
+            for (CalcContact con : calcContacts.stream().filter(co -> co.isPsy()).collect(Collectors.toList())) {
+                addContactifMissing(statement, con);
+            }
         }
-        if (statement.isTpgCalc() && statement.getContacts().stream().filter(c -> c.isTpg()).count() == 0) {
-            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik, 5));
+        if (statement.isTpgCalc()) {
+            for (CalcContact con : calcContacts.stream().filter(co -> co.isTpg()).collect(Collectors.toList())) {
+                addContactifMissing(statement, con);
+            }
         }
-        if (statement.isInvCalc() && statement.getContacts().stream().filter(c -> c.isInv()).count() == 0) {
-            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik, 4));
+        if (statement.isInvCalc()) {
+            for (CalcContact con : calcContacts.stream().filter(co -> co.isInv()).collect(Collectors.toList())) {
+                addContactifMissing(statement, con);
+            }
         }
-        if (statement.isObdCalc() && statement.getContacts().stream().filter(c -> c.isObd()).count() == 0) {
-            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik, 7));
+        if (statement.isObdCalc()) {
+            for (CalcContact con : calcContacts.stream().filter(co -> co.isObd()).collect(Collectors.toList())) {
+                addContactifMissing(statement, con);
+            }
+        }
+    }
+
+    private void addContactifMissing(StatementOfParticipance statement, CalcContact con) {
+        if (statement.getContacts().stream().noneMatch(co -> co.equals(con))) {
+            statement.addContact(con);
         }
     }
 
@@ -400,10 +419,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement = _calcFacade.saveStatementOfParticipance(_statement);
 
         if (isValidId(_statement.getId())) {
-            // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").
-                    replace("\n", "\\r\\n") + "');";
-            _sessionController.setScript(script);
+            DialogController.showSaveDialog();
             return null;
         }
         return Pages.Error.URL();
@@ -599,9 +615,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     public void copyForResend() {
         if (_statement.getStatusId() == 10 && !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
-            _sessionController.
-                    setScript("alert('Eine Änderung der Teilnahmeerklärung im Datenportal ist leider nicht mehr möglich. "
-                            + "Bitte teilen Sie Ihre Änderungswünsche Ihrem zuständigen Referenten mit.');");
+            DialogController.showInfoDialog("Vorgang nicht möglich",
+                    "Eine Änderung der Teilnahmeerklärung im Datenportal ist leider nicht mehr möglich. " +
+                            "Bitte teilen Sie Ihre Änderungswünsche Ihrem zuständigen Referenten mit.");
             return;
         }
         _statement.setId(-1);
@@ -707,7 +723,38 @@ public class EditStatementOfParticipance extends AbstractEditController {
                         StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
         }
+
+        if (contactsHaveToManyRoles(statement.getContacts().stream().filter(c -> !c.isConsultant()).collect(Collectors.toList()))) {
+            applyMessageValues(message, "Pro Bereich dürfen max. 3 Ansprechpartner angegeben werden",
+                    StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contactConsultant");
+        }
+
+        if (contactsHaveToManyRoles(statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList()))) {
+            applyMessageValues(message, "Pro Bereich dürfen max. 3 Berater angegeben werden",
+                    StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contactConsultant");
+        }
+
         return message;
+    }
+
+    private boolean contactsHaveToManyRoles(List<CalcContact> contacts) {
+        int maxRoles = 3;
+        if (contacts.stream().filter(CalcContact::isDrg).count() > maxRoles) {
+            return true;
+        }
+        if (contacts.stream().filter(CalcContact::isPsy).count() > maxRoles) {
+            return true;
+        }
+        if (contacts.stream().filter(CalcContact::isInv).count() > maxRoles) {
+            return true;
+        }
+        if (contacts.stream().filter(CalcContact::isTpg).count() > maxRoles) {
+            return true;
+        }
+        if (contacts.stream().filter(CalcContact::isObd).count() > maxRoles) {
+            return true;
+        }
+        return false;
     }
 
     private boolean hasContactAnyRole(CalcContact c) {
@@ -747,7 +794,13 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     private void applyMessageValues(MessageContainer message, String msgKey, StatementOfParticipanceTabs tab,
             String elementId) {
-        message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
+        if (msgKey.startsWith("lbl") || msgKey.startsWith("msg")) {
+            message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
+        }
+        else {
+            message.setMessage(message.getMessage() + "\\r\\n" + msgKey);
+        }
+
         if (message.getTopic().isEmpty()) {
             message.setTopic(tab.name());
             message.setElementId(elementId);
