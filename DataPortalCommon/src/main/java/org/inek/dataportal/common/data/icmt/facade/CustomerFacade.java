@@ -43,6 +43,14 @@ public class CustomerFacade extends AbstractDataAccess {
     }
 
     public boolean isValidIK(String ikString) {
+        if (!isFormalCorrectIk(ikString)) {
+            return false;
+        }
+
+        return checkIK(new Integer(ikString));
+    }
+
+    public boolean isFormalCorrectIk(String ikString) {
         Integer ik;
         try {
             ik = new Integer(ikString);
@@ -69,7 +77,7 @@ public class CustomerFacade extends AbstractDataAccess {
         if (ik % 10 != checkSum) {
             return false;
         }
-        return checkIK(ik);
+        return true;
     }
 
     public boolean checkIK(int ik) {
@@ -87,9 +95,13 @@ public class CustomerFacade extends AbstractDataAccess {
     }
 
     public void isIKValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
-        if (!isValidIK("" + value)) {
-            throw new ValidatorException(new FacesMessage("Ungültige IK"));
+        String ikString = "" + value;
+        if (!isFormalCorrectIk(ikString)) {
+            throw new ValidatorException(new FacesMessage("Ungültiges IK"));
+        }
+        if (!checkIK(new Integer(ikString))) {
+            throw new ValidatorException(new FacesMessage("Unbekanntes IK"));
         }
     }
-    
+
 }
