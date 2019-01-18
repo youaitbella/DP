@@ -39,7 +39,7 @@
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Funktionszuweisung</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="IkAdmin03.png" scale="100.00%" styleclass="Image Caption"></image></para>
-    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true">&#32;</text></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Funktionszuweisung</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">In der Auswahlbox </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Anwender</text><text styleclass="Normal" translate="true"> werden alle Anwender aufgeführt, die in ihren Stammdaten das entsprechende IK eingetragen haben sowie solche, deren Mailadresse zu der für das Institut hinterlegten Domäne gehört. Die Auswahlbox </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktion</text><text styleclass="Normal" translate="true"> zeigt alle Funktionen des vorher gewählten Anwenders, für die Sie Rechte vergeben können und die noch nicht in der Rechteverwaltung gelistet sind. Diese Liste wird also mit jeder Auswahl kürzer.</text></para>
     <para styleclass="Normal"></para>
@@ -50,6 +50,11 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei wenigen Funktionen ist der eigene Mitarbeiter für die Bearbeitung anderer IK zuständig. In diesem Fall vergeben sie ersten Schritt wie oben beschrieben die Rechte. Im Anschluss geben Sie in Zuständigkeiten die entsprechenden IK an.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Es werden alle Anwender aus der Rechteverwaltung aufgelistet, welche in der betreffenden Funktion mindestens über ein Leserecht verfügen. Für jeden Anwender können Sie nun die IK eintragen.</text></para>
+    <para styleclass="Image Caption"><image src="IkAdmin04.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Zuweisung der IK für die ein Anwender zuständig ist</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Es werden alle Anwender aus der Rechteverwaltung aufgelistet, welche in der betreffenden Funktion mindestens über ein Leserecht verfügen. Für jeden Anwender können Sie nun die IK eintragen. [ IK hinzufügen ] blendet ein (weiteres) Eingabefeld ein. Nach Verlassen des jeweiligen Eingabefeldes wird das IK überprüft. Sofern es gültig und bekannt ist, wird der Name des betreffenden Instituts angezeigt. Ist es formal ungültig, wird Ihre Eingabe mit &quot;ungültiges IK&quot; quittiert. Eine formal gültiges IK, welches im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> nicht in der Liste der gültigen IK hinterlegt ist, wird als &quot;unbekanntes IK&quot; quittiert. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Sollte das </text><var styleclass="Hinweis">&lt;%TITLE%&gt;</var><text styleclass="Hinweis" translate="true"> für eine gültige IK die Meldung &quot;unbekanntes IK&quot; ausgeben, so kontaktieren Sie bitte das InEK zwecks Prüfung und ggf. Aufnahme in die Liste der bekannten IK.</text></para>
   </body>
 </topic>
