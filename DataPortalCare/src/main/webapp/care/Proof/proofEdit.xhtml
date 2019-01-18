@@ -213,9 +213,26 @@
                 <div class="card">
                     <div class="ui-g-12">
 
-                        <pf:commandButton value="Datensatz ändern"
+                        <pf:commandButton value="Datensatz ändern (inkl. Daten und neue Signatur)"
                                           action="#{proofEdit.change()}"
-                                          rendered="#{proofEdit.changeAllowed()}"
+                                          rendered="#{proofEdit.changeAllowed() and not proofEdit.isExceptionFactsChangeMode}"
+                                          style="margin-left: 10px;"
+                                          update="@(.ui-message) @form" >
+                            <pf:confirm header="Daten wirklich ändern?" message="Durch diesen Vorgang wird eine neue Signatur für Ihre Meldung erstellt.
+                            Sofern Sie sich nicht in dem vorgegebenen Meldezeitraum befinden, wird Ihre Meldung als nicht fristgerecht angesehen." />
+                        </pf:commandButton>
+
+                        <pf:commandButton value="Ausnahmetatbestände ändern (ohne Daten und keine neue Signatur)"
+                                          action="#{proofEdit.changeExceptionsFacts()}"
+                                          rendered="#{proofEdit.changeAllowed() and not proofEdit.isExceptionFactsChangeMode}"
+                                          style="margin-left: 10px;"
+                                          update="@(.ui-message) @form" />
+
+                        <pf:commandButton value="Geänderte Ausnahmetatbestände speichern"
+                                          action="#{proofEdit.saveChangedExceptionFacts()}"
+                                          onstart="PF('dlgLoadingData').show()"
+                                          oncomplete="PF('dlgLoadingData').hide()"
+                                          rendered="#{proofEdit.isExceptionFactsChangeMode}"
                                           style="margin-left: 10px;"
                                           update="@(.ui-message) @form" />
 

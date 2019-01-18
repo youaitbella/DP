@@ -27,7 +27,8 @@
                 <div class="ui-g-2">
                     <pf:commandButton value="Auswählen"
                                       action="#{proofEdit.addNewException(proof)}"
-                                      update="@form" />
+                                      oncomplete="PF('dlgStationSelection').hide();"
+                                      update="form:exceptionsFactsTable" />
                 </div>
             </div>
         </pf:repeat>
@@ -206,7 +207,7 @@
         <pf:column style="width: 20px;">
             <inekIcon:DeleteIcon
                     deleteFunction="#{proofEdit.deleteExceptionsFact(exceptionFact)}"
-                    show="#{!proofEdit.isReadOnly}"
+                    show="#{!proofEdit.isReadOnly or proofEdit.isExceptionFactsChangeMode}"
                     showConfirmDialog="true"
                     updateElement="form:exceptionsFactsTable" />
         </pf:column>
@@ -242,7 +243,7 @@
                               title="Ausnahmetatbestand"
                               required="true"
                               requiredMessage="Bitte einen Ausnahmetatbestand auswählen"
-                              disabled="#{proofEdit.isReadOnly}"
+                              disabled="#{proofEdit.isReadOnly and not proofEdit.isExceptionFactsChangeMode}"
                               value="#{exceptionFact.exceptionFactId}">
                 <f:selectItem
                         itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
@@ -256,14 +257,14 @@
             <pf:inputTextarea value="#{exceptionFact.statement}"
                               rows="2"
                               style="min-width: 300px;"
-                              readonly="#{proofEdit.isReadOnly}" />
+                              readonly="#{proofEdit.isReadOnly and not proofEdit.isExceptionFactsChangeMode}" />
         </pf:column>
     </pf:dataTable>
 
     <pf:commandButton value="Neuen Ausnahmetatbestand hinzufügen"
                       oncomplete="PF('dlgStationSelection').show();"
                       immediate="false"
-                      rendered="#{!proofEdit.isReadOnly}"
+                      rendered="#{!proofEdit.isReadOnly or proofEdit.isExceptionFactsChangeMode}"
                       style="margin-top: 10px;"
                       icon="fa fa-plus"
                       update="dlgStationSelectionid" />

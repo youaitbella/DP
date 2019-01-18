@@ -66,6 +66,7 @@ public class ProofEdit implements Serializable {
     private ProofRegulationBaseInformation _proofRegulationBaseInformation;
     private ProofRegulationBaseInformation _oldProofRegulationBaseInformation;
     private Boolean _isReadOnly;
+    private Boolean _isExceptionFactsChangeMode = false;
     private String _uploadMessage;
     private Set<Integer> _validIks;
     private Set<Integer> _validYears;
@@ -128,6 +129,14 @@ public class ProofEdit implements Serializable {
 
     public void setIsReadOnly(Boolean isReadOnly) {
         this._isReadOnly = isReadOnly;
+    }
+
+    public Boolean getIsExceptionFactsChangeMode() {
+        return _isExceptionFactsChangeMode;
+    }
+
+    public void setIsExceptionFactsChangeMode(Boolean isExceptionFactsChangeMode) {
+        this._isExceptionFactsChangeMode = isExceptionFactsChangeMode;
     }
 
     public ProofRegulationBaseInformation getProofRegulationBaseInformation() {
@@ -331,6 +340,30 @@ public class ProofEdit implements Serializable {
         _proofRegulationBaseInformation.setCreated(new Date());
         _proofRegulationBaseInformation.setCreatedBy(_sessionController.getAccountId());
         setIsReadOnly(false);
+    }
+
+    public void changeExceptionsFacts() {
+        setIsExceptionFactsChangeMode(true);
+    }
+
+    public void saveChangedExceptionFacts() {
+        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofRegulationBaseInformation, _listExceptionsFacts.size());
+        if (!errorMessages.isEmpty()) {
+            DialogController.showErrorDialog("Daten unvollständig", errorMessages.get(0));
+            return;
+        }
+
+        try {
+            _proofRegulationBaseInformation = _proofFacade.save(_proofRegulationBaseInformation);
+            _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
+            setIsExceptionFactsChangeMode(false);
+            DialogController.showSaveDialog();
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Fehler beim speichern PPUGV: " + ex.getMessage(), ex);
+            _mailer.sendError("Fehler beim speichern PPUGV: " + ex.getMessage(), ex);
+            DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
+                    + "Bitte versuchen Sie es erneut. Fehlercode: " + ex.getMessage());
+        }
     }
 
     private ProofRegulationBaseInformation copyBaseInformation(ProofRegulationBaseInformation baseInfo) {
