@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Signatur</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Signatur</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sobald Sie die Meldung über den Button &quot;Meldung abschließend ans InEK senden&quot; an das InEK gesendet haben, wird eine einmalige Signatur erzeugt. Diese Signatur ist auf allen Anlagen angegeben und kann von den Krankenkassen auf Gültigkeit überprüft werden. </text></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" style="font-weight:bold;" translate="true">Wichtig</text><text styleclass="Hinweis" translate="true">: Sobald Sie eine bereits ans InEK gesendete Meldung ändern und erneut ans InEK senden, wird eine neue Signatur erzeugt. Dies gilt unabhängig davon, ob die Daten geändert wurden. Die alte Signatur verliert ihre Gültigkeit.</text></para>
+  </body>
+</topic>

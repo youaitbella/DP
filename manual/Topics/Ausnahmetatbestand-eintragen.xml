@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Ausnahmetatbestand eintragen</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Ausnahmetatbestand eintragen</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie bei einem Eintrag die Pflegepersonaluntergrenzen verletzt haben, können Sie einen Ausnahmetatbestand anlegen. Klicken Sie dafür am Ende des Formulars auf den Button &quot;Neuen Ausnahmetatbestand hinzufügen&quot;. Es öffnet sich ein Dialog, in dem alle Einträge aufgelistet werden, bei denen die Pflegepersonaluntergrenzen verletzt wurden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="care_proof_exceptionsfacst_selection.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal" style="text-align:center;"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wählen Sie hier den entsprechenden Eintrag aus, für welchen Sie einen Ausnahmetatbestand eintragen wollen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach dem Auswählen können Sie in der Liste am Ende des Formulars den entsprechenden Ausnahmetatbestand auswählen und eine Erläuterung angeben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="care_proof_exceptionsfacst_list.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal" style="text-align:center;"></para>
+    <para styleclass="Normal" style="text-align:center;"></para>
+  </body>
+</topic>

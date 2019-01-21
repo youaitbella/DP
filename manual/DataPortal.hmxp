@@ -379,6 +379,7 @@ document.write('</frameset>');
       <file-mod href="Teilnahme-Kostenkalkulation---.xml" build="USER2"/>
       <file-mod href="Datenerfassung-zum-Krankenhaus.xml"/>
       <file-mod href="Structurinformationen.xml"/>
+      <file-mod href="Nachweisvereinbarung.xml"/>
     </file>
     <file href="Baggage/*.*" build="ALL" filetype="baggage"/>
   </project-files>
