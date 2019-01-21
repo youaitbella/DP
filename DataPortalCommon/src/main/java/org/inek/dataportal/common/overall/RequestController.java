@@ -41,6 +41,9 @@ public class RequestController implements Serializable {
         addCacheControlToResponse(facesContext);
 
         String viewId = facesContext.getViewRoot().getViewId();
+        if (viewId.endsWith("/DataPrivacy.xhtml")) {
+            return;
+        }
         if (viewId.startsWith("/Login")) {
             handleLoginViews(facesContext);
             return;

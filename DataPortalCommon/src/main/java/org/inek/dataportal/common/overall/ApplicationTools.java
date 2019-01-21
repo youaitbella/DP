@@ -80,6 +80,13 @@ public class ApplicationTools {
         }
     }
 
+    public String getServerUrl(){
+        return EnvironmentInfo.getServerUrl();
+    }
+
+    public String getServerWithContextUrl(){
+        return EnvironmentInfo.getServerUrlWithContextpath();
+    }
     /**
      *
      * @return the application version as created at compile time
