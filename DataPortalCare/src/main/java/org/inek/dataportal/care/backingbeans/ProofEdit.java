@@ -19,12 +19,17 @@ import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
+import org.primefaces.component.api.UIColumn;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.SortMeta;
+import org.primefaces.model.SortOrder;
 import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
@@ -74,6 +79,7 @@ public class ProofEdit implements Serializable {
     private List<ProofExceptionFact> _exceptionsFacts = new ArrayList<>();
     private BaseDataManager _baseDatamanager;
     private List<SelectItem> _listExceptionsFacts;
+    private List<SortMeta> _preSortOrder = new ArrayList<>();
 
     public List<SelectItem> getListExceptionsFacts() {
         return _listExceptionsFacts;
@@ -147,6 +153,14 @@ public class ProofEdit implements Serializable {
         this._proofRegulationBaseInformation = proofRegulationBaseInformation;
     }
 
+    public List<SortMeta> getPreSortOrder() {
+        return _preSortOrder;
+    }
+
+    public void setPreSortOrder(List<SortMeta> preSortOrder) {
+        this._preSortOrder = preSortOrder;
+    }
+
     @PostConstruct
     private void init() {
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
@@ -170,6 +184,28 @@ public class ProofEdit implements Serializable {
             _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
         }
         setReadOnly();
+        buildSortOrder();
+    }
+
+    private void buildSortOrder() {
+        UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
+        String componentId = "form:proofTable:";
+        addSortOrder(viewRoot, componentId, "psAreaId", SortOrder.ASCENDING);
+        addSortOrder(viewRoot, componentId, "fabNumberId", SortOrder.ASCENDING);
+        addSortOrder(viewRoot, componentId, "fabId", SortOrder.ASCENDING);
+        addSortOrder(viewRoot, componentId, "stationNameId", SortOrder.ASCENDING);
+        addSortOrder(viewRoot, componentId, "locationId", SortOrder.ASCENDING);
+        addSortOrder(viewRoot, componentId, "monthId", SortOrder.ASCENDING);
+        addSortOrder(viewRoot, componentId, "shiftId", SortOrder.ASCENDING);
+    }
+
+    private void addSortOrder(UIViewRoot root, String component, String colId, SortOrder order) {
+        UIComponent column = root.findComponent(component + colId);
+        SortMeta sm = new SortMeta();
+        sm.setSortBy((UIColumn) column);
+        sm.setSortField(colId);
+        sm.setSortOrder(order);
+        _preSortOrder.add(sm);
     }
 
     private void loadExceptionsFactsList() {

@@ -11,8 +11,9 @@
                widgetVar="dlgStationSelection"
                modal="true"
                width="800px">
-        <pf:outputLabel value="In keinem Bereich werden die Grenzen verletzt oder es wurden bereits alle Ausnahmetatbestände angegeben"
-                        rendered="#{proofEdit.proofsForExceptionFact.size() eq 0}" />
+        <pf:outputLabel
+                value="In keinem Bereich werden die Grenzen verletzt oder es wurden bereits alle Ausnahmetatbestände angegeben"
+                rendered="#{proofEdit.proofsForExceptionFact.size() eq 0}" />
         <pf:repeat value="#{proofEdit.proofsForExceptionFact}" var="proof">
             <div class="ui-g">
                 <div class="ui-g-10">
@@ -42,52 +43,59 @@
                       rowsPerPageTemplate="25,50,100,300"
                       tableStyle="table-layout: auto"
                       emptyMessage="Keine Einträge vorhanden"
-                      sortBy="#{proof.proofRegulationStation.sensitiveArea.name}"
+                      sortMode="multiple" sortBy="#{proofEdit.preSortOrder}"
                       var="proof">
 
-            <pf:column headerText="pflegesensitiver Bereich"
+            <pf:column id="psAreaId"
+                       headerText="pflegesensitiver Bereich"
                        sortable="true"
                        sortBy="#{proof.proofRegulationStation.sensitiveArea.name}"
                        filterable="true"
                        filterBy="#{proof.proofRegulationStation.sensitiveArea.name}">
                 <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name}" />
             </pf:column>
-            <pf:column headerText="FAB Schlüssel"
+            <pf:column id="fabNumberId"
+                       headerText="FAB Schlüssel"
                        sortable="true"
                        sortBy="#{proof.proofRegulationStation.fabNumber}"
                        filterable="true"
                        filterBy="#{proof.proofRegulationStation.fabNumber}">
                 <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber}" />
             </pf:column>
-            <pf:column headerText="Fachabteilung"
+            <pf:column id="fabId"
+                       headerText="Fachabteilung"
                        sortable="true"
                        sortBy="#{proof.proofRegulationStation.fabName}"
                        filterable="true"
                        filterBy="#{proof.proofRegulationStation.fabName}">
                 <pf:outputLabel value="#{proof.proofRegulationStation.fabName}" />
             </pf:column>
-            <pf:column headerText="Station"
+            <pf:column id="stationNameId"
+                       headerText="Station"
                        sortable="true"
                        sortBy="#{proof.proofRegulationStation.stationName}"
                        filterable="true"
                        filterBy="#{proof.proofRegulationStation.stationName}">
                 <pf:outputLabel value="#{proof.proofRegulationStation.stationName}" />
             </pf:column>
-            <pf:column headerText="Standort"
+            <pf:column id="locationId"
+                       headerText="Standort"
                        sortable="true"
                        sortBy="#{proof.proofRegulationStation.locationCode}"
                        filterable="true"
                        filterBy="#{proof.proofRegulationStation.locationCode}">
                 <pf:outputLabel value="#{proof.proofRegulationStation.locationCode}" />
             </pf:column>
-            <pf:column headerText="Monat"
+            <pf:column id="monthId"
+                       headerText="Monat"
                        sortable="true"
                        sortBy="#{proof.month.id}"
                        filterable="true"
                        filterBy="#{proof.month.name}">
                 <pf:outputLabel value="#{proof.month.name}" />
             </pf:column>
-            <pf:column headerText="Schicht"
+            <pf:column id="shiftId"
+                       headerText="Schicht"
                        sortable="true"
                        sortBy="#{proof.shift.name}"
                        filterable="true"
