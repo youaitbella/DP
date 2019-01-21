@@ -357,6 +357,7 @@ document.write('</frameset>');
     </config-group>
     <config-group name="print">
       <config-value name="include">PRINT</config-value>
+      <config-value name="defaultprinter">\\PRINTSERVER1\HP LaserJet 1200 Series PCL</config-value>
       <config-value name="template">$(HMSYS)Templates\pdf\standard_manual.mnl</config-value>
       <config-value name="colortext">0</config-value>
       <config-value name="insertseealso">0</config-value>

@@ -10,6 +10,7 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach der Auswahl des IK&apos;s, des Jahres und des Quartals ist das Formular entsprechend der ermittelten Daten nach §5 PpUGV vor ausgefüllt. Die Anzahl der Schichten pro Monat wird bei der Erstellung berechnet, kann aber von Ihnen angepasst werden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal" style="text-align:center;"><image src="care_proof_table.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Ansicht der Nachweise</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beim Eintragen der Werte werden die Felder &quot;rechnerische Anzahl Patienten je Pflegekraft&quot; und &quot;Anzahl Pflegehilfskräfte anrechenbar für PPUG&quot; automatisch berechnet. Sofern auf einer Station die Pflegepersonaluntergrenze nicht eingehalten wurde, wird diese Zahl rot dargestellt. </text></para>
