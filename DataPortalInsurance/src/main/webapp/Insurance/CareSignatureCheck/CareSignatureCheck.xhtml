@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1>PPUG Nachweisvereinbarung Signaturprüfung</h1>
+
+        <style>
+            .noBorder tr,
+            .noBorder td {
+                border: 0 !important;
+            }
+
+            .transparentBackground tr,
+            .transparentBackground td {
+                background: transparent !important;
+            }
+        </style>
+
+        <div class="edit">
+            <h:form id="checkForm">
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-1 ui-md-1">
+                        Signatur:
+                    </div>
+                    <div class="ui-g-2 ui-md-2">
+                        <pf:inputText value="#{editCareProofSignatureCheck.signature}">
+                            <pf:ajax />
+                        </pf:inputText>
+                    </div>
+                    <div class="ui-g-2 ui-md-2">
+                        <pf:commandButton styleClass="btnInsurance"
+                                          value="Prüfen"
+                                          action="#{editCareProofSignatureCheck.checkSignature()}"
+                                          update="@form" />
+                    </div>
+                </div>
+
+                <br />
+                <div align="center">
+                    <h:outputText id="checkMessage"
+                                  value="#{editCareProofSignatureCheck.checkMessage}" />
+                </div>
+
+                <pf:panelGrid id="result"
+                              columns="2"
+
+                              rendered="#{editCareProofSignatureCheck.entry.ik gt 0}"
+                              styleClass="noBorder transparentBackground">
+                    <h:outputText value="Signatur:" />
+                    <h:outputText value="#{editCareProofSignatureCheck.entry.signature}" />
+
+                    <h:outputText value="IK:" />
+                    <h:outputText value="#{editCareProofSignatureCheck.entry.ik}" />
+
+                    <h:outputText value="Krankenhausname:" />
+                    <h:outputText value="#{editCareProofSignatureCheck.entry.hospitalName}" />
+
+                    <h:outputText value="Jahr:" />
+                    <h:outputText value="#{editCareProofSignatureCheck.entry.year}" />
+
+                    <h:outputText value="Quartal:" />
+                    <h:outputText value="Q#{editCareProofSignatureCheck.entry.quarter}" />
+                </pf:panelGrid>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

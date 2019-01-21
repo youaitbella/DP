@@ -41,8 +41,10 @@ public enum Feature {
     CARE(22, "Pflegepersonaluntergrenzen", ManagedBy.IkAdminOnly, PortalType.CARE, IkReference.Hospital, IkUsage.Direct, Selectable.No, Shareable.No),
     NUB_NOTICE(23, "NUB-Meldung (durch Krankenkasse)", 
             ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
-    PSYCH_STAFF_INSURANCE(24, "Psych-PV Signaturprüfung (Funktion für Krankenkasse)", 
-            ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No);
+    PSYCH_STAFF_INSURANCE(24, "Psych-PV Signaturprüfung (Funktion für Krankenkasse)",
+            ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
+    CARE_INSURANCE_SIGNATURE_CHECK(25, "PPUGV-Nachweisvereinbarung Signaturprüfung (Funktion für Krankenkasse)",
+                          ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No);
 
     Feature(int id, String description, ManagedBy managedBy, PortalType portalType,
             IkReference ikReference, IkUsage ikUsage,

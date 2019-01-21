@@ -159,6 +159,7 @@ public enum Pages {
     InsuranceNubNoticeSummary("/Insurance/NUB/InsuranceNubNoticeSummary"),
     InsuranceNubNoticeEdit("/Insurance/NUB/InsuranceNubNoticeEdit"),
     InsuranceCheckSignature("/Insurance/PsychStaff/CheckSignature"),
+    InsurancePpugCheckSignature("/Insurance/CareSignatureCheck/CareSignatureCheck"),
     //
     PartValuationRatio("/ValuationRatio/PartValuationRatio"),
     ValuationRatioSummary("/ValuationRatio/ValuationRatioSummary"),
