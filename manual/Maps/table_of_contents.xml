@@ -107,22 +107,25 @@
         <caption translate="true">DropBox befüllen</caption>
       </topicref>
     </topicref>
-    <topicref type="topic" id="415355965824499" build="ALL" modified="2013-09-18T16:54:43.173Z" icon="0" href="Cooperation">
-      <caption translate="true">Kooperation</caption>
-      <topicref type="topic" id="415407520290492" build="ALL" modified="2013-09-24T08:29:48.015Z" icon="0" href="CooperationStart">
-        <caption translate="true">Kooperation starten</caption>
+    <topicref type="topic" id="434834923385823" build="ALL" modified="2019-01-18T14:30:47.511Z" icon="0" href="Gemeinsame-Bearbeitung">
+      <caption translate="true">Gemeinsame Bearbeitung</caption>
+      <topicref type="topic" id="415355965824499" build="ALL" modified="2013-09-18T16:54:43.173Z" icon="0" href="Cooperation">
+        <caption translate="true">Kooperation</caption>
+        <topicref type="topic" id="415407520290492" build="ALL" modified="2013-09-24T08:29:48.015Z" icon="0" href="CooperationStart">
+          <caption translate="true">Kooperation starten</caption>
+        </topicref>
+        <topicref type="topic" id="420266537693435" build="ALL" modified="2015-01-22T15:33:05.206Z" icon="0" href="Nachrichten">
+          <caption translate="true">Nachrichten</caption>
+        </topicref>
+        <topicref type="topic" id="415413364591302" build="ALL" modified="2015-01-27T10:34:28.115Z" icon="0" href="CooperationConfigure">
+          <caption translate="true">Kooperation konfigurieren</caption>
+        </topicref>
       </topicref>
-      <topicref type="topic" id="420266537693435" build="ALL" modified="2015-01-22T15:33:05.206Z" icon="0" href="Nachrichten">
-        <caption translate="true">Nachrichten</caption>
-      </topicref>
-      <topicref type="topic" id="415413364591302" build="ALL" modified="2015-01-27T10:34:28.115Z" icon="0" href="CooperationConfigure">
-        <caption translate="true">Kooperation konfigurieren</caption>
-      </topicref>
-    </topicref>
-    <topicref type="topic" id="430898314084626" build="ALL" modified="2018-10-08T09:35:46.442Z" icon="0" href="IK-Admin">
-      <caption translate="true">Funktionsbeauftragter</caption>
-      <topicref type="topic" id="430897895498095" build="ALL" modified="2017-12-20T16:48:24.040Z" icon="0" href="Berechtigungen-zuweisen">
-        <caption translate="true">Berechtigungen zuweisen</caption>
+      <topicref type="topic" id="430898314084626" build="ALL" modified="2018-10-08T09:35:46.442Z" icon="0" href="IK-Admin">
+        <caption translate="true">Funktionsbeauftragter</caption>
+        <topicref type="topic" id="430897895498095" build="ALL" modified="2017-12-20T16:48:24.040Z" icon="0" href="Berechtigungen-zuweisen">
+          <caption translate="true">Berechtigungen zuweisen</caption>
+        </topicref>
       </topicref>
     </topicref>
   </topicref>

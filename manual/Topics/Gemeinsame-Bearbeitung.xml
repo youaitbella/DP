@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Gemeinsame Bearbeitung</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Gemeinsame Bearbeitung</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Je nach Funktion kann es sinnvoll sein, dass ein Datensatz von mehreren Personen bearbeitet oder zumindest gesichtet werden darf. Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> bietet Ihnen hierfür die Funktionen </text><text styleclass="Normal" style="font-style:italic;" translate="true">Kooperation</text><text styleclass="Normal" translate="true"> und </text><text styleclass="Normal" style="font-style:italic;" translate="true">Funktionsbeauftragter</text><text styleclass="Normal" translate="true">. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei der Kooperation kann der Ersteller eines Datensatzes festlegen, welcher Person ein differenziertes Zugriffsrecht zugewiesen wird. Der Ersteller verfügt also über die Datenhoheit. Die Kooperation können Sie jederzeit selber starten, in dem Sie einen Partner einladen und nach Zustandekommen der Kooperation die gewünschten Rechte vergeben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Ist für eine IK-Funktions-Kombination (mindestens) ein Funktionsbeauftragter eingerichtet, so obliegt die Datenhoheit nicht dem Ersteller, sondern dem (oder den) Funktionsbeauftragten. Es handelt sich damit um eine zentralisierte Rechtevergabe für die betreffende IK-Funktions-Kombination. Diese ist maßgebend, so dass eventuell eingerichtete Kooperationen ignoriert werden. Damit hat der Funktionsbeauftragte die &quot;Macht&quot; über alle Daten dieser &#160;IK-Funktions-Kombination. Insbesondere kann er mehreren Personen Zugriffsrechte gewähren. Ein Funktionsbeauftragter muss von der Krankenhausleitung beauftragt werden. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sowohl Kooperation als auch Funktionsbeauftragter finden Sie in den nachfolgenden Kapiteln beschrieben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Kooperation und Funktionsbeauftragter sind für folgende Funktionen möglich:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="21" colcount="4">
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Bereich</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktion</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Kooperation</text></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktionsbeauftragter</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Stammdatenpflege</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">DropBox</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Koperation</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Dokumente</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Funktionsbeautragter</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Portal</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">NUB</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Portal</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Vorschlagsverfahren</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+        <td style="vertical-align:top;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Portal</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Besondere Aufgaben / Zentrumszuschlag</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Portal</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Finanzierung von Mehrkosten</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">geplant</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Portal</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Gezielte Absenkung (I68)</text></para>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">PSY-Portal</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">PEPP-Vorschlagsverfahren</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">PSY-Portal</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Modellvorhaben</text></para>
+        </td>
+        <td>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">PSY-Portal</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Psych-Personalnachweis</text></para>
+        </td>
+        <td>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">PSY-Portal</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenhausvergleich</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja, verpflichtend</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenkassen</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Besondere Aufgaben / Zentrumszuschlag</text></para>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenkassen</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenhausvergleich</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja, verpflichtend</text></para>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenkassen</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">NUB-Meldungen</text></para>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenkassen</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Psych-Personalnachweis</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Pflegepersonaluntergrenzen</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Mitteilung gem. §5 PpUGV</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja, verpflichtend</text></para>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Pflegepersonaluntergrenzen</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Nachweis</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja, verpflichtend</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Auch wenn über eine der genannten Funktionen mehreren Personen Zugriffsrechte erteilt werden, ist es oft nur eine Person, welche einen Datensatz zu einem Zeitpunkt bearbeitet. Es ist jedoch nicht auszuschließen, dass mehrere Personen gleichzeitig den selben Datensatz zu bearbeiten. &#160;</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Daten gleichzeitig anzuzeigen ist völlig problemlos. Bearbeitet wird ein Datensatz (eine Anfrage, ein Vorschlag, ...) in der Regel zu einem Zeitpunkt nur von einer Person.</text><br/><br/><text styleclass="Hinweis" translate="true">Sollten einmal mehrere Personen gleichzeitig denselben Datensatz bearbeiten wollen, könnte es ohne weitere Maßnahmen problematisch werden: Die erste Person speichert ihre Änderungen, während die zweite Person noch den alten Datenbestand in der Anzeige hat. Speichert nun die zweite Person diesen Datensatz, so wird diese Version gespeichert; die Änderungen der ersten Person gingen auf diese Art und Weise verloren - ohne dass sie hierüber eine Information erhält.</text><br/><br/><text styleclass="Hinweis" translate="true">Eine mögliche Strategie zur Vermeidung dieses Problems ist ein sogenanntes pessimistisches Sperren: Sobald die erste Person die Daten anzeigt, kann die zweite nicht mehr bearbeiten - auch wenn die erste Person die Daten überhaupt nicht ändern möchte. Dies ist eine störende Einschränkung.</text><br/><br/><text styleclass="Hinweis" translate="true">Ausgehend von der Tatsache, dass im Regelfall ein Datensatz zu einem Zeitpunkt nur von einer Person verändert wird, ist im </text><var styleclass="Hinweis">&lt;%TITLE%&gt;</var><text styleclass="Hinweis" translate="true"> keine derartige Sperre eingebaut. Damit ist ein störungsfreies Arbeiten möglich. Erst beim Speichern wird geprüft, ob die Daten möglicherweise durch eine andere Person verändert wurden. Dieses Vorgehen wird als optimistische Sperrung bezeichnet, da der Datensatz potenziell änderbar bleibt. Kommt es nun tatsächlich zu dem seltenen Fall, dass die Daten zwischenzeitlich durch eine andere Person verändert wurden, erfolgt eine entsprechende Fehlermeldung. Die Daten der zweiten Person können nicht gespeichert werden; dies geschieht aber nicht unbemerkt. </text><br/><br/><text styleclass="Hinweis" translate="true">Das </text><var styleclass="Hinweis">&lt;%TITLE%&gt;</var><text styleclass="Hinweis" translate="true"> geht hierbei in den dafür ausgelegten Dialogen noch einen Schritt weiter: Wird beim Speichern festgestellt, dass der betreffende Datensatz zwischenzeitlich an anderer Stelle geändert wurde, wird der gespeicherte Datenbestand in die Anzeige geladen. Anschließend werden Ihre Änderungen eingetragen, sofern es sich nicht um Felder handelt, die an anderer Stelle geändert wurden. Es erfolgt also eine Zusammenführung der Änderungen. Lediglich bei Feldern, welche zeitgleich von einer anderen Person und Ihnen geändert wurden, können nicht automatisch abgeglichen werden. In solchen Konfliktsituationen erhalten Sie eine Meldung und können entscheiden, ob diese Felder den von der anderen Person gerade eingetragenen Inhalt behalten, oder ob Sie die betreffenden Felder überschreiben.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
