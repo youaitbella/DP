@@ -20,7 +20,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Für ein IK können mehrere Personen benannt werden. Eine Person kann für mehrere IK benannt werden.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Warning"><text styleclass="Warning" translate="true">Wird ein Funktionsbeauftragter eingerichtet, so beeinflusst dies die Sichtbarkeit aller zu diesem Institut gehörenden Daten, also auch von solchen, die bereits vorher erfasst wurden. Eventuell bestehende Einträge über kooperative Rechte der betreffenden IK-Funktions-Kombination werden gelöscht. Werden im Auftrag des Instituts alle Funktionsbeauftragten gelöscht, so richtet sich die Sichtbarkeit der Daten wieder nach den Regeln von &quot;Besitzer&quot; und &quot;Kooperation&quot;.</text></para>
+    <para styleclass="Warning"><text styleclass="Warning" translate="true">Wird ein Funktionsbeauftragter eingerichtet, so beeinflusst dies die Sichtbarkeit aller zu diesem Institut gehörenden Daten, also auch von solchen, die bereits vorher erfasst wurden. Werden im Auftrag des Instituts alle Funktionsbeauftragten gelöscht, so richtet sich die Sichtbarkeit der Daten wieder nach &quot;Besitzer&quot; und &quot;Kooperation&quot;.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Sichtbarkeit von Daten ohne eindeutigen IK-Bezug bleibt von der Existenz eines Funktionsbeauftragten unberührt. Diese Daten sind weiterhin nur für den &quot;Besitzer&quot; zugänglich, oder für Personen, die vom &quot;Besitzer&quot; selbst im Rahmen einer Kooperation freigeschaltet wurden.</text></para>
     <para styleclass="Normal"></para>
@@ -32,7 +32,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die folgenden Funktionen können von einem Funktionsbeauftragten verwaltet werden:</text></para>
     <para styleclass="Normal"></para>
-    <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+    <list id="37" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Anfragen zu neuen Untersuchungs- und Behandlungsmethoden (NUB)</text></li>
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Besondere Aufgaben / Zentrumszuschlag</text></li>
       <li styleclass="Normal"><text styleclass="Normal" translate="true">DropBox</text></li>

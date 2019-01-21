@@ -1,13 +1,10 @@
 package org.inek.dataportal.common.data.cooperation.facade;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import javax.persistence.Query;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
@@ -17,18 +14,16 @@ import org.inek.dataportal.common.data.AbstractFacade;
 @Stateless
 public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
 
-    private static final Logger LOGGER = Logger.getLogger("CooperationRightFacade");
-
     public CooperationRightFacade() {
         super(CooperationRight.class);
     }
 
     /**
-     * for a given feature returns a list of all cooperation rights given account is involved in
+     * for a given feature returns a list of all cooperation rights given
+     * account is involved in
      *
      * @param feature
      * @param account
-     *
      * @return
      */
     public List<CooperationRight> getCooperationRights(Feature feature, Account account) {
@@ -48,11 +43,11 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     /**
-     * returns a list of rights for a given feature, granted by account to others
+     * returns a list of rights for a given feature, granted by account to
+     * others
      *
      * @param accountId
      * @param feature
-     *
      * @return
      */
     public List<CooperationRight> getGrantedCooperationRights(Integer accountId, Feature feature) {
@@ -85,11 +80,11 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     /**
-     * returns a list of rights for a given feature, achieved for account from others
+     * returns a list of rights for a given feature, achieved for account from
+     * others
      *
      * @param accountId
      * @param feature
-     *
      * @return
      */
     public List<CooperationRight> getAchievedCooperationRights(int accountId, Feature feature) {
@@ -135,44 +130,6 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     public void deleteCooperationRight(int ownerId, int partnerId, Feature feature, int ik) {
         CooperationRight right = getCooperationRight(ownerId, partnerId, feature, ik);
         remove(right);
-    }
-
-    @Schedule(hour = "4")
-    private void removeOrphantCooperationRights() {
-        deleteCooperationRightsIfIkadminExists();
-        deleteCooperationRightsIfPartnerIsDeleted();
-        // do not delete if the owner is deleted (to keep rights for the still existent partner)
-    }
-
-    private void deleteCooperationRightsIfIkadminExists() {
-        try {
-            String sql = "delete from usr.CooperationRight where corId in (\n"
-                    + "  select corid\n"
-                    + "  from usr.CooperationRight \n"
-                    + "  join ikadm.IkAdmin on corIk = iaik\n"
-                    + "  join ikadm.IkAdminFeature on iaId = iafIkAdminId and corFeatureId = iafFeatureId\n"
-                    + ")";
-            Query query = getEntityManager().createNativeQuery(sql);
-            query.executeUpdate();
-        } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Exception during deleteCooperationRightsIfIkadminExists: {0}", ex.getMessage());
-        }
-    }
-
-    private void deleteCooperationRightsIfPartnerIsDeleted() {
-        try {
-            String sql = "delete from usr.CooperationRight where corId in (\n"
-                    + "  select corId\n"
-                    + "  from usr.CooperationRight \n"
-                    + "  join Account o on corOwnerId = o.acId\n"
-                    + "  join Account p on corPartnerId = p.acId\n"
-                    + "  where p.acMail = 'deleted'\n"
-                    + ")";
-            Query query = getEntityManager().createNativeQuery(sql);
-            query.executeUpdate();
-        } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Exception during deleteCooperationRightsIfPartnerIsDeleted: {0}", ex.getMessage());
-        }
     }
 
 }
