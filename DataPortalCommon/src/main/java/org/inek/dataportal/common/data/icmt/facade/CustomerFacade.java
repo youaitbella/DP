@@ -81,6 +81,10 @@ public class CustomerFacade extends AbstractDataAccess {
     }
 
     public boolean checkIK(int ik) {
+        if (ik >= 222222000 && ik <= 222222999 || ik >= 700000000 && ik <= 709999999) {
+            // special numbers for testing: his manufactorers / training calc
+            return true;
+        }
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Customer> query = cb.createQuery(Customer.class);
         Root<Customer> root = query.from(Customer.class);
