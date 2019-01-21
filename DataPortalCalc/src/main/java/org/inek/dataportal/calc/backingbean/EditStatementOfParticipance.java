@@ -637,7 +637,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
 
         if (message.containsMessage()) {
-            message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
+            message.setMessage("Bitte übprüfen und korrigieren Sie folgende Angaben:\\r\\n" + message.getMessage());
             setActiveTopic(message.getTopic());
             String script = "alert ('" + message.getMessage() + "');";
             if (!message.getElementId().isEmpty()) {
@@ -701,10 +701,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
                     "lblNeedSingleCostAttributionDrg", "sop:clinicalDistributionModelDrg",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             checkField(message, statement.getMultiyearDrg(), 1, 15,
-                    "lblQuestionOverlayer", "sop:multiyearDrg",
+                    "lblQuestionOverlayerDrg", "sop:multiyearDrg",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             if (statement.getMultiyearDrg() == 15 && statement.getMultiyearDrgText().isEmpty()) {
-                applyMessageValues(message, "lblDescriptionOfAlternative",
+                applyMessageValues(message, "lblDescriptionOfAlternativeDrg",
                         StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
         }
@@ -716,21 +716,21 @@ public class EditStatementOfParticipance extends AbstractEditController {
                     "lblNeedSingleCostAttributionPsy", "sop:clinicalDistributionModelPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             checkField(message, statement.getMultiyearPsy(), 1, 15,
-                    "lblQuestionOverlayer", "sop:multiyearPsy",
+                    "lblQuestionOverlayerPsy", "sop:multiyearPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             if (statement.getMultiyearPsy() == 15 && statement.getMultiyearPsyText().isEmpty()) {
-                applyMessageValues(message, "lblDescriptionOfAlternative",
+                applyMessageValues(message, "lblDescriptionOfAlternativePsy",
                         StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
         }
 
         if (contactsHaveToManyRoles(statement.getContacts().stream().filter(c -> !c.isConsultant()).collect(Collectors.toList()))) {
-            applyMessageValues(message, "Pro Bereich dürfen max. 3 Ansprechpartner angegeben werden",
+            applyMessageValues(message, "Bitte geben Sie pro Kalkulationsbereich maximal drei Ansprechpartner an.",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contactConsultant");
         }
 
         if (contactsHaveToManyRoles(statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList()))) {
-            applyMessageValues(message, "Pro Bereich dürfen max. 3 Berater angegeben werden",
+            applyMessageValues(message, "Bitte geben Sie pro Kalkulationsbereich maximal drei Berater an.",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contactConsultant");
         }
 
