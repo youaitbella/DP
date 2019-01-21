@@ -23,8 +23,8 @@ public class editCareProofSignatureCheck {
     @Inject
     private CareSignatureCheckerFacade _signatureCheckerFacade;
 
-    private final static String VALID_SIGNATURE = "Die Signatur ist gültig";
-    private final static String NOT_VALID_SIGNATURE = "Die Signatur ist nicht gültig";
+    private static final String VALID_SIGNATURE = "Die Signatur ist gültig";
+    private static final String NOT_VALID_SIGNATURE = "Die Signatur ist nicht gültig";
 
     private String _signature;
     private SignatureEntry _entry;
