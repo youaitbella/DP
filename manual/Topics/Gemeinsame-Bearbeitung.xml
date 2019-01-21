@@ -16,74 +16,32 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Kooperation und Funktionsbeauftragter sind für folgende Funktionen möglich:</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><table styleclass="Default" rowcount="21" colcount="4">
-      <tr style="vertical-align:top">
+    <para styleclass="Normal"><table styleclass="Default" rowcount="21" colcount="4" style="cell-padding:2px; border-width:1px; border-spacing:0px; border-collapse:collapse; cell-border-width:1px; border-color:#000000; border-style:solid; head-row-background-color:#c0c0c0; alt-row-background-color:none;">
+      <thead style="vertical-align:top">
         <td>
           <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Bereich</text></para>
         </td>
-        <td>
+        <td style="width:303px;">
           <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktion</text></para>
         </td>
-        <td>
+        <td style="width:119px;">
           <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Kooperation</text></para>
         </td>
-        <td style="vertical-align:top;">
+        <td style="width:175px;">
           <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktionsbeauftragter</text></para>
         </td>
-      </tr>
+      </thead>
       <tr style="vertical-align:top">
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
         </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Stammdatenpflege</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
-        </td>
-        <td style="vertical-align:top;">
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
-        </td>
-      </tr>
-      <tr style="vertical-align:top">
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">DropBox</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
-        </td>
-        <td style="vertical-align:top;">
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
-        </td>
-      </tr>
-      <tr style="vertical-align:top">
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Koperation</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
-        </td>
-        <td style="vertical-align:top;">
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
-        </td>
-      </tr>
-      <tr style="vertical-align:top">
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
-        </td>
-        <td>
+        <td style="width:303px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Dokumente</text></para>
         </td>
-        <td>
+        <td style="width:119px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
-        <td style="vertical-align:top;">
+        <td style="vertical-align:top; width:175px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
       </tr>
@@ -91,13 +49,55 @@
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
         </td>
+        <td style="width:303px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">DropBox</text></para>
+        </td>
+        <td style="width:119px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td style="vertical-align:top; width:175px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
         <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
+        </td>
+        <td style="width:303px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Funktionsbeautragter</text></para>
         </td>
-        <td>
+        <td style="width:119px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
-        <td style="vertical-align:top;">
+        <td style="vertical-align:top; width:175px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
+        </td>
+        <td style="width:303px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Koperation</text></para>
+        </td>
+        <td style="width:119px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td style="vertical-align:top; width:175px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Basis</text></para>
+        </td>
+        <td style="width:303px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Stammdatenpflege</text></para>
+        </td>
+        <td style="width:119px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td style="vertical-align:top; width:175px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
       </tr>
@@ -105,13 +105,13 @@
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Portal</text></para>
         </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">NUB</text></para>
+        <td style="width:303px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Besondere Aufgaben / Zentrumszuschlag</text></para>
         </td>
-        <td>
+        <td style="width:119px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
         </td>
-        <td style="vertical-align:top;">
+        <td style="vertical-align:top; width:175px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
         </td>
       </tr>
@@ -119,13 +119,13 @@
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Portal</text></para>
         </td>
-        <td>
+        <td style="width:303px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Vorschlagsverfahren</text></para>
         </td>
-        <td>
+        <td style="width:119px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
         </td>
-        <td style="vertical-align:top;">
+        <td style="vertical-align:top; width:175px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
       </tr>
@@ -133,27 +133,13 @@
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Portal</text></para>
         </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Besondere Aufgaben / Zentrumszuschlag</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
-        </td>
-      </tr>
-      <tr style="vertical-align:top">
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Portal</text></para>
-        </td>
-        <td>
+        <td style="width:303px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Finanzierung von Mehrkosten</text></para>
         </td>
-        <td>
+        <td style="width:119px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">geplant</text></para>
         </td>
-        <td>
+        <td style="width:175px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
         </td>
       </tr>
@@ -161,146 +147,168 @@
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Portal</text></para>
         </td>
-        <td>
+        <td style="width:303px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Gezielte Absenkung (I68)</text></para>
         </td>
-        <td>
-        </td>
-        <td>
-        </td>
-      </tr>
-      <tr style="vertical-align:top">
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">PSY-Portal</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">PEPP-Vorschlagsverfahren</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
-        </td>
-      </tr>
-      <tr style="vertical-align:top">
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">PSY-Portal</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Modellvorhaben</text></para>
-        </td>
-        <td>
-        </td>
-        <td>
+        <td style="width:119px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
+        <td style="width:175px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">geplant</text></para>
+        </td>
       </tr>
       <tr style="vertical-align:top">
         <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">PSY-Portal</text></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">DRG-Portal</text></para>
         </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Psych-Personalnachweis</text></para>
+        <td style="width:303px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">NUB</text></para>
         </td>
-        <td>
-        </td>
-        <td>
+        <td style="width:119px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
         </td>
-      </tr>
-      <tr style="vertical-align:top">
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">PSY-Portal</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenhausvergleich</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
-        </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja, verpflichtend</text></para>
+        <td style="width:175px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
         </td>
       </tr>
       <tr style="vertical-align:top">
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenkassen</text></para>
         </td>
-        <td>
+        <td style="width:303px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Besondere Aufgaben / Zentrumszuschlag</text></para>
         </td>
-        <td>
+        <td style="width:119px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
-        <td>
+        <td style="width:175px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
         </td>
       </tr>
-      <tr>
+      <tr style="vertical-align:top">
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenkassen</text></para>
         </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenhausvergleich</text></para>
+        <td style="width:303px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenhausvergleich (ab ca. 3.Q. 2019)</text></para>
         </td>
-        <td>
+        <td style="width:119px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
-        <td>
+        <td style="width:175px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">ja, verpflichtend</text></para>
         </td>
       </tr>
-      <tr>
+      <tr style="vertical-align:top">
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenkassen</text></para>
         </td>
-        <td>
+        <td style="width:303px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">NUB-Meldungen</text></para>
         </td>
-        <td>
+        <td style="width:119px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
-        <td>
+        <td style="width:175px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
       </tr>
-      <tr>
+      <tr style="vertical-align:top">
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenkassen</text></para>
         </td>
-        <td>
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Psych-Personalnachweis</text></para>
+        <td style="width:303px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Psych-Personalnachweis (Signaturprüfung)</text></para>
         </td>
-        <td>
+        <td style="width:119px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
-        <td>
+        <td style="width:175px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
       </tr>
-      <tr>
+      <tr style="vertical-align:top">
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Pflegepersonaluntergrenzen</text></para>
         </td>
-        <td>
+        <td style="width:303px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Mitteilung gem. §5 PpUGV</text></para>
         </td>
-        <td>
+        <td style="width:119px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
-        <td>
+        <td style="width:175px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">ja, verpflichtend</text></para>
         </td>
       </tr>
-      <tr>
+      <tr style="vertical-align:top">
         <td>
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Pflegepersonaluntergrenzen</text></para>
         </td>
-        <td>
+        <td style="width:303px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Nachweis</text></para>
         </td>
-        <td>
+        <td style="width:119px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
-        <td>
+        <td style="width:175px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">ja, verpflichtend</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">PSY-Portal</text></para>
+        </td>
+        <td style="width:303px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenhausvergleich (ab ca. 3.Q 2019)</text></para>
+        </td>
+        <td style="width:119px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td style="width:175px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja, verpflichtend</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">PSY-Portal</text></para>
+        </td>
+        <td style="width:303px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Modellvorhaben</text></para>
+        </td>
+        <td style="width:119px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+        <td style="width:175px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">PSY-Portal</text></para>
+        </td>
+        <td style="width:303px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Psych-Personalnachweis</text></para>
+        </td>
+        <td style="width:119px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
+        </td>
+        <td style="width:175px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">PSY-Portal</text></para>
+        </td>
+        <td style="width:303px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">PEPP-Vorschlagsverfahren</text></para>
+        </td>
+        <td style="width:119px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">ja</text></para>
+        </td>
+        <td style="width:175px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">nein</text></para>
         </td>
       </tr>
     </table></para>
