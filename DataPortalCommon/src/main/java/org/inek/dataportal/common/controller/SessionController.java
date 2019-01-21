@@ -127,7 +127,7 @@ public class SessionController implements Serializable {
     private void checkAccount() {
         if (_account == null) {
             _account = new Account();
-             Utils.navigate(Pages.SessionTimeout.RedirectURL());
+            Utils.navigate(Pages.SessionTimeout.RedirectURL());
         }
     }
 
@@ -387,11 +387,13 @@ public class SessionController implements Serializable {
     }
 
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType, String screenResolution) {
-        _accountFacade.countUserEnvironment(EnvironmentType.SR, screenResolution);
-        _accountFacade.countUserEnvironment(EnvironmentType.UA, Utils.getUserAgent());
+        if (!isInternalClient()) {
+            _accountFacade.countUserEnvironment(EnvironmentType.SR, screenResolution);
+            _accountFacade.countUserEnvironment(EnvironmentType.UA, Utils.getUserAgent());
+        }
         return loginAndSetTopics(mailOrUser, password, portalType);
     }
-    
+
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
         if (!login(mailOrUser, password, obtainConnectionInfo(), portalType)) {
             return false;
