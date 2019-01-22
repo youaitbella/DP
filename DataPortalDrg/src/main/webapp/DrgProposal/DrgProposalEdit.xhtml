@@ -36,14 +36,6 @@
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editDrgProposal.requestApprovalDrgProposal}"
-                                   value="#{msg.btnRequestApproval}"
-                                   rendered="#{editDrgProposal.approvalRequestEnabled}"
-                                   title="#{msg.infoSaveAndClose}">
-                        <cb:confirmRequestApproval/>
-                    </h:commandLink>
-
-                    <h:commandLink styleClass="sendButton"
                                    action="#{editDrgProposal.sealDrgProposal}"
                                    value="#{msg.btnSaveAndClose}"
                                    rendered="#{editDrgProposal.sealEnabled}"

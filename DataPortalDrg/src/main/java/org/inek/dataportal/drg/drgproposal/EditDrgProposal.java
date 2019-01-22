@@ -406,14 +406,6 @@ public class EditDrgProposal extends AbstractEditController {
                 getAccountId());
     }
 
-    public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
-            return false;
-        }
-        return _accessManager.isApprovalRequestEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.
-                getAccountId());
-    }
-
     public boolean isTakeEnabled() {
         return _accessManager.isTakeEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
     }
@@ -447,15 +439,6 @@ public class EditDrgProposal extends AbstractEditController {
             _sessionController.setScript(script);
             return Pages.PrintView.URL();
         }
-        return "";
-    }
-
-    public String requestApprovalDrgProposal() {
-        if (!drgProposalIsComplete()) {
-            return null;
-        }
-        _drgProposal.setStatus(WorkflowStatus.ApprovalRequested);
-        saveData();
         return "";
     }
 
