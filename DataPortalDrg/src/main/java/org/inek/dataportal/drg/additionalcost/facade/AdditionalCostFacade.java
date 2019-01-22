@@ -27,18 +27,18 @@ public class AdditionalCostFacade extends AbstractDataAccessWithActionLog {
         return findAll(AdditionalCost.class);
     }
 
-    public List<AdditionalCost> getAdditionalCosts(int accountId, Set<Integer> allowedManagedIks,
+    public List<AdditionalCost> getAdditionalCosts(Set<Integer> accountIds, Set<Integer> allowedManagedIks,
             Set<Integer> deniedManagedIks, DataSet dataSet) {
         String jpql = "SELECT n FROM AdditionalCost n "
                 + "WHERE n._statusId BETWEEN :minStatus AND :maxStatus "
                 + "and ("
                 + (allowedManagedIks.size() > 0 ? "     n._ik in :allowedManagedIks or " : "")
-                + "n._accountId = :accountId"
+                + "n._accountId in :accountIds"
                 + (deniedManagedIks.size() > 0 ? " and n._ik not in :deniedManagedIks" : "")
                 + ")"
                 + "ORDER BY n._id";
         TypedQuery<AdditionalCost> query = getEntityManager().createQuery(jpql, AdditionalCost.class);
-        query.setParameter("accountId", accountId);
+        query.setParameter("accountIds", accountIds);
         if (allowedManagedIks.size() > 0) {
             query.setParameter("allowedManagedIks", allowedManagedIks);
         }

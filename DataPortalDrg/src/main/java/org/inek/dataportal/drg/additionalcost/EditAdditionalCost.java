@@ -140,20 +140,6 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         return availableYears;
     }
 
-    public boolean isReadOnly() {
-        if (_additionalCost == null) {
-            return true;
-        }
-        if (_sessionController.isInekUser(Feature.ADDITIONAL_COST) && !_appTools.isEnabled(ConfigKey.TestMode)) {
-            return true;
-        }
-        return _accessManager.isReadOnly(
-                Feature.ADDITIONAL_COST,
-                _additionalCost.getStatus(),
-                _additionalCost.getAccountId(),
-                _additionalCost.getIk());
-    }
-
     @Override
     protected void addTopics() {
         addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
@@ -175,6 +161,17 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     // used by XHTML
     private boolean isValidId(Integer id) {
         return id != null && id >= 0;
+    }
+
+    public boolean isReadOnly() {
+        if (_additionalCost == null) {
+            return true;
+        }
+        return _accessManager.isReadOnly(
+                Feature.ADDITIONAL_COST,
+                _additionalCost.getStatus(),
+                _additionalCost.getAccountId(),
+                _additionalCost.getIk());
     }
 
     public boolean isSealEnabled() {

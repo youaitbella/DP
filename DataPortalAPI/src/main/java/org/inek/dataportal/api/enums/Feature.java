@@ -24,9 +24,8 @@ public enum Feature {
             ManagedBy.InekOrIkAdmin, PortalType.CALC, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.Yes),
     SPECIFIC_FUNCTION(15, "Besondere Aufgaben / Zentrumszuschlag (Funktionen für Krankenhaus)", 
             ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.Yes),
-    // todo: make ADDITIONAL_COST shareable
     ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", 
-            ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No),
+            ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.Yes),
     // todo: make PSYCH_STAFF shareable
     PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", 
             ManagedBy.InekOrIkAdmin, PortalType.PSY, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No),
