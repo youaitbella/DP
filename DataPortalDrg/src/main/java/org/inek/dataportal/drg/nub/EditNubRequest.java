@@ -534,17 +534,6 @@ public class EditNubRequest extends AbstractEditController {
                 _nubRequest.getIk(), true);
     }
 
-    public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
-            return false;
-        }
-        return _accessManager.isRequestCorrectionEnabled(
-                Feature.NUB,
-                _nubRequest.getStatus(),
-                _nubRequest.getAccountId(),
-                _nubRequest.getIk());
-    }
-
     public boolean isTakeEnabled() {
         return _accessManager.
                 isTakeEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
@@ -705,48 +694,6 @@ public class EditNubRequest extends AbstractEditController {
             Utils.showMessageInBrowser("NUB erfolgreich angelegt");
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="Request correction">
-    @Inject
-    private MessageService _messageService;
-
-    public String requestCorrection() {
-        if (!isReadOnly()) {
-            setModifiedInfo();
-            _nubRequest = _nubRequestFacade.saveNubRequest(getNubRequest());
-        }
-        return Pages.NubRequestCorrection.URL();
-    }
-
-    private String _message = "";
-
-    public String getMessage() {
-        return _message;
-    }
-
-    public void setMessage(String message) {
-        _message = message;
-    }
-
-    public String sendMessage() {
-        String subject = "Korrektur NUB-Anfrage \"" + _nubRequest.getName() + "\" erforderlich";
-        Account sender = _sessionController.getAccount();
-        Account receiver = _accountFacade.findAccount(_nubRequest.getAccountId());
-        _nubRequest.setStatus(WorkflowStatus.New.getId());
-        if (!isReadOnly()) {
-            // there might have been changes by that user
-            setModifiedInfo();
-        }
-        _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
-        _messageService.sendMessage(sender, receiver, subject, _message, Feature.NUB, _nubRequest.getId());
-        _nubSessionTools.refreshNodes();
-        return Pages.NubSummary.RedirectURL();
-    }
-
-    public String cancelMessage() {
-        return Pages.NubSummary.RedirectURL();
-    }
-    // </editor-fold>
 
     public String getFormerNubCurrentYearLabel() {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);

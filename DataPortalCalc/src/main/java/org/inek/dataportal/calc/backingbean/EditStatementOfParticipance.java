@@ -454,14 +454,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 _statement.getAccountId(), _statement.getIk());
     }
 
-    public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
-            return false;
-        }
-        return _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(),
-                _statement.getAccountId(), _statement.getIk());
-    }
-
     public boolean isTakeEnabled() {
         return false;
         // todo: do not allow consultant

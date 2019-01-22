@@ -646,14 +646,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         _calcBasics.getIk());
     }
 
-    public boolean isRequestCorrectionEnabled() {
-        return isSendEnabled()
-                && _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL,
-                        _calcBasics.getStatus(),
-                        _calcBasics.getAccountId(),
-                        _calcBasics.getIk());
-    }
-
     public boolean isTakeEnabled() {
         return false;
         // todo: do not allow consultant
