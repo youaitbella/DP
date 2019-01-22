@@ -264,6 +264,7 @@ public class AccessManager implements Serializable {
      *
      * @return
      */
+    @Deprecated
     public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId) {
         return isApprovalRequestEnabled(feature, state, ownerId, -1);
     }
