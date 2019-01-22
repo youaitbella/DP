@@ -414,14 +414,6 @@ public class EditDrgProposal extends AbstractEditController {
                 getAccountId());
     }
 
-    public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsDrgProposalSendEnabled)) {
-            return false;
-        }
-        return _accessManager.isRequestCorrectionEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.
-                getAccountId());
-    }
-
     public boolean isTakeEnabled() {
         return _accessManager.isTakeEnabled(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
     }
@@ -614,45 +606,5 @@ public class EditDrgProposal extends AbstractEditController {
         return newTopic;
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Request correction">
-    @Inject private AccountFacade _accountFacade;
-    @Inject private PortalMessageFacade _messageFacade;
-    @Inject private MessageService _messageService;
-
-    public String requestCorrection() {
-        if (!isReadOnly()) {
-            saveData();
-        }
-        return Pages.DrgProposalRequestCorrection.URL();
-    }
-
-    private String _message = "";
-
-    public String getMessage() {
-        return _message;
-    }
-
-    public void setMessage(String message) {
-        _message = message;
-    }
-
-    public String sendMessage() {
-        String subject = "Korrektur DRG-Vorschlag \"" + _drgProposal.getName() + "\" erforderlich";
-        Account sender = _sessionController.getAccount();
-        Account receiver = _accountFacade.findAccount(_drgProposal.getAccountId());
-        _drgProposal.setStatus(WorkflowStatus.New.getId());
-        if (!isReadOnly()) {
-            // there might have been changes by that user
-            setModifiedInfo();
-        }
-        _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
-        _messageService.sendMessage(sender, receiver, subject, _message, Feature.DRG_PROPOSAL, _drgProposal.getId());
-        return Pages.DrgProposalSummary.RedirectURL();
-    }
-
-    public String cancelMessage() {
-        return Pages.DrgProposalSummary.RedirectURL();
-    }
     // </editor-fold>
 }
