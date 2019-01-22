@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.data.converter.FeatureConverter;
 import org.inek.dataportal.common.enums.CooperativeRight;
 
@@ -112,10 +113,14 @@ public class CooperationRight implements Serializable {
     }
 
     public void setCooperativeRight(CooperativeRight cooperativeRight) {
-        _cooperativeRight = cooperativeRight;
+        if (cooperativeRight.isPublic()) {
+            _cooperativeRight = cooperativeRight;
+        } else {
+            DialogController.showErrorDialog("Veraltet", "Diese Rechte können Sie nicht mehr zuweisen");
+        }
     }
-
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {

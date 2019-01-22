@@ -140,7 +140,8 @@ public class EditCooperation extends AbstractEditController {
     private void tryAddFeature(Feature feature, Supplier<List<SelectItem>> cooperativeRights) {
         if (userHasSubscribedFeature(feature)) {
             EnsureCooperationRights();
-            Optional<CooperationRight> optionalRight = _cooperationRights.stream().filter(r -> r.getFeature() == feature).findFirst();
+            Optional<CooperationRight> optionalRight = _cooperationRights.stream().
+                    filter(r -> r.getFeature() == feature).findFirst();
             CooperationRight right = optionalRight.orElseGet(() -> addAndReturnMissingCooperationRight(feature, -1));
             _cooperationInfos.add(new CooperationInfo(feature, cooperativeRights.get(), right));
         }
@@ -254,7 +255,8 @@ public class EditCooperation extends AbstractEditController {
 
     private void EnsureCooperationRights() {
         if (_cooperationRights == null) {
-            _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccountId(), _partnerAccount.getId());
+            _cooperationRights = _cooperationRightFacade.
+                    getGrantedCooperationRights(_sessionController.getAccountId(), _partnerAccount.getId());
         }
         addMissingRights();
     }
@@ -281,8 +283,8 @@ public class EditCooperation extends AbstractEditController {
         for (CooperativeRight right : CooperativeRight.values()) {
             if (right.isPublic()) {
                 SelectItem item = new SelectItem(right.name(), Utils.getMessageOrEmpty("cor" + right.name()));
-                items.add(item);
-            }
+            items.add(item);
+        }
         }
         return items;
     }
@@ -352,7 +354,8 @@ public class EditCooperation extends AbstractEditController {
 
     public void sendMessage(ActionEvent e) {
         if (_subject.isEmpty()) {
-            String msg = MessageFormat.format(Utils.getMessage("txtNotAllowedEmpty"), Utils.getMessage("lblMailSubject"));
+            String msg = MessageFormat.
+                    format(Utils.getMessage("txtNotAllowedEmpty"), Utils.getMessage("lblMailSubject"));
             Utils.showMessageInBrowser(msg);
             return;
         }
@@ -372,7 +375,8 @@ public class EditCooperation extends AbstractEditController {
 
     public List<PortalMessage> getMessages() {
         if (_messages == null) {
-            _messages = _messageFacade.getMessagesByParticipants(_sessionController.getAccountId(), getPartnerAccount().getId());
+            _messages = _messageFacade.getMessagesByParticipants(_sessionController.getAccountId(), getPartnerAccount().
+                    getId());
         }
         return _messages;
     }
@@ -381,7 +385,8 @@ public class EditCooperation extends AbstractEditController {
         setVisibility(messageId, true);
         Optional<PortalMessage> unreadMessage = getMessages()
                 .stream()
-                .filter(m -> m.getId() == messageId && m.getStatus() == 0 && m.getToAccountId() == _sessionController.getAccountId())
+                .filter(m -> m.getId() == messageId && m.getStatus() == 0 && m.getToAccountId() == _sessionController.
+                getAccountId())
                 .findFirst();
         if (unreadMessage.isPresent()) {
             PortalMessage message = unreadMessage.get();

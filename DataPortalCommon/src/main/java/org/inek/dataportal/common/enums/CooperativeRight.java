@@ -10,19 +10,22 @@ public enum CooperativeRight {
 
     None("0000", true), // no access granted
     ReadOnly("3000", true), // partner may read
-    ReadSealed("1000", true), // partner may read sealed
-    ReadCompleted("2000", false), // partner may read completed (approval requested)
-    ReadWriteCompleted("2200", false), // partner may read or write completed (approval requested)
     ReadWrite("3300", true), // partner may read, write
     ReadWriteSeal("3301", true), // partner may read, write, seal
-    ReadWriteTake("3310", true), // partner may read, write, take ownership
-    ReadWriteTakeSeal("3311", true), // partner may read, write, seal
-    ReadCompletedSealSupervisor("2002", true), // partner may read completed. To be sealed by partner only.
-    ReadWriteCompletedSealSupervisor("2202", true), // partner may read, write completed. To be sealed by partner only.
-    ReadSealSupervisor("3002", false), // partner may read always. To be sealed by partner only.
-    ReadAllWriteCompletedSealSupervisor("3202", false), // partner may read always, but write only completed. To be sealed by partner only.
-    ReadWriteSealSupervisor("3302", true), // partner may read, write incompleted. To be sealed by partner only.
-    ReadWriteTakeSealSupervisor("3312", true); // partner may read, write incompleted. To be sealed by partner only.
+    ReadWriteTakeSeal("3311", true); // partner may read, write, take ownership, seal
+    
+    
+//    ReadWriteTake("3310", false), // partner may read, write, take ownership - false since 2019-01-21
+//    ReadSealed("1000", false), // partner may read sealed - false since 2019-01-21
+//    ReadCompleted("2000", false), // partner may read completed (approval requested)
+//    ReadWriteCompleted("2200", false), // partner may read or write completed (approval requested)
+//    // Supervisor false since 2019-01-21
+//    ReadCompletedSealSupervisor("2002", false), // partner may read completed. To be sealed by partner only.
+//    ReadWriteCompletedSealSupervisor("2202", false), // partner may read, write completed. To be sealed by partner only. 
+//    ReadSealSupervisor("3002", false), // partner may read always. To be sealed by partner only. - had been false before
+//    ReadAllWriteCompletedSealSupervisor("3202", false), // partner may read always, but write only completed. - had been false before
+//    ReadWriteSealSupervisor("3302", false), // partner may read, write incompleted. To be sealed by partner only.
+//    ReadWriteTakeSealSupervisor("3312", false); // partner may read, write incompleted. To be sealed by partner only.
 
     
     /**
