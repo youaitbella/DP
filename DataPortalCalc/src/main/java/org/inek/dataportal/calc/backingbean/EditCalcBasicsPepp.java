@@ -444,14 +444,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                         _calcBasics.getIk());
     }
 
-    public boolean isRequestCorrectionEnabled() {
-        return isSendEnabled()
-                && _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL,
-                        _calcBasics.getStatus(),
-                        _calcBasics.getAccountId(),
-                        _calcBasics.getIk());
-    }
-
     public boolean isTakeEnabled() {
         return false;
         // todo: do not allow consultant

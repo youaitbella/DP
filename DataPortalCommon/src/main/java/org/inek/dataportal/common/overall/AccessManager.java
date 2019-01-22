@@ -200,7 +200,7 @@ public class AccessManager implements Serializable {
         if (state == WorkflowStatus.New && ik <= 0 && !isCreateAllowed(feature)) {
             return false;
         }
-        
+
         if (feature.getManagedBy() == ManagedBy.None
                 || feature.getIkReference() == IkReference.None
                 || feature.getManagedBy() == ManagedBy.InekOrIkAdmin && !_ikCache.isManaged(ik, feature)) {
@@ -227,11 +227,13 @@ public class AccessManager implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param feature
      * @param state
      * @param ownerId
+     *
      * @return
+     *
      * @deprecated use isWriteable instead
      */
     @Deprecated
@@ -240,12 +242,14 @@ public class AccessManager implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param feature
      * @param state
      * @param ownerId
      * @param ik
+     *
      * @return
+     *
      * @deprecated use isWriteable instead
      */
     @Deprecated
@@ -287,14 +291,6 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        return isSealedEnabled(feature, state, ownerId, ik, false);
-    }
-
-    public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik, boolean hasUpdateButton) {
-        // todo: check
-        if (hasUpdateButton && state == WorkflowStatus.CorrectionRequested) {
-            return false;
-        }
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return false;
         }
@@ -303,6 +299,8 @@ public class AccessManager implements Serializable {
             if (right.isPresent()) {
                 return right.get().canSeal();
             }
+        } else if (feature.getIkReference() != IkReference.None) {
+            return false;
         }
 
         Account account = _sessionController.getAccount();
@@ -310,7 +308,7 @@ public class AccessManager implements Serializable {
             return getAchievedRight(feature, ownerId, ik).canSeal();
         }
 
-        return !needsApproval(feature, ik);
+        return true;
     }
 
     public boolean isDeleteEnabled(Feature feature, int ownerAccountId, int ik) {
@@ -487,7 +485,7 @@ public class AccessManager implements Serializable {
         if (feature.getIkReference() == IkReference.None || feature.getIkUsage() == IkUsage.Direct) {
             return iks;
         }
-        
+
         Set<Integer> responsibleForIks = _sessionController.getAccount().
                 obtainResponsibleForIks(feature, iks);
         if (feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {

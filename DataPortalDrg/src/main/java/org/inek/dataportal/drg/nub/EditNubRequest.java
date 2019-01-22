@@ -524,7 +524,7 @@ public class EditNubRequest extends AbstractEditController {
             return false;
         }
         if (_accessManager.
-                isSealedEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk(), true)){
+                isSealedEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk())){
             return false;
         }
         return _accessManager.isApprovalRequestEnabled(

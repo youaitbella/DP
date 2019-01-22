@@ -276,18 +276,10 @@ public class CI_AccessManagerTest {
     }
 
     @Test
-    public void isSealedEnabledForUpdateButtonTrueAndWorkflowStatusCorrectionRequestedReturnFalse() {
-        AccessManager accessManager = obtainAccessManager();
-        boolean result = accessManager.isSealedEnabled(
-                testFeature, WorkflowStatus.CorrectionRequested, userAccountId, allowedManagedIk, true);
-        assertThat(result).isFalse();
-    }
-
-    @Test
     public void isSealedEnabledForWorkflowStatusEqualsOrHigherThanProvidedReturnFalse() {
         AccessManager accessManager = obtainAccessManager();
         boolean result = accessManager.isSealedEnabled(
-                testFeature, WorkflowStatus.Provided, userAccountId, allowedManagedIk, true);
+                testFeature, WorkflowStatus.Provided, userAccountId, allowedManagedIk);
         assertThat(result).isFalse();
     }
 
@@ -297,7 +289,7 @@ public class CI_AccessManagerTest {
         accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Seal));
         AccessManager accessManager = obtainAccessManager(accessRights);
         boolean result = accessManager.isSealedEnabled(
-                testFeature, WorkflowStatus.New, userAccountId, allowedManagedIk, false);
+                testFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
         assertThat(result).isTrue();
     }
 
@@ -305,7 +297,8 @@ public class CI_AccessManagerTest {
     public void isSealedEnabledForUserHasCooperativeRightReadWriteTakeSealReturnTrue() {
         List<AccessRight> accessRights = new ArrayList<>();
         List<CooperationRight> cooperationRights = new ArrayList<>();
-        cooperationRights.add(new CooperationRight(readSealedAccountId, userAccountId, allowedManagedIk, testFeature, CooperativeRight.ReadWriteTakeSeal));
+        cooperationRights.add(new CooperationRight(
+                readSealedAccountId, userAccountId, allowedManagedIk, testFeature, CooperativeRight.ReadWriteTakeSeal));
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
         boolean result = accessManager.isSealedEnabled(
                 testFeature, WorkflowStatus.New, readSealedAccountId, allowedManagedIk);

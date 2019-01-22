@@ -257,7 +257,7 @@ public class NubSessionTools implements Serializable {
             return false;
         }
         return _accessManager.
-                isSealedEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk(), true);
+                isSealedEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk());
     }
 
     public MessageContainer composeMissingFieldsMessage(NubRequest nubRequest) {
