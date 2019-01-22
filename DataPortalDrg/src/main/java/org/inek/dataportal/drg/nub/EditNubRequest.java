@@ -531,7 +531,7 @@ public class EditNubRequest extends AbstractEditController {
                 Feature.NUB,
                 _nubRequest.getStatus(),
                 _nubRequest.getAccountId(),
-                _nubRequest.getIk(), true);
+                _nubRequest.getIk());
     }
 
     public boolean isTakeEnabled() {

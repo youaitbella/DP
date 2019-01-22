@@ -254,60 +254,22 @@ public class AccessManager implements Serializable {
     }
 
     /**
-     * the approval request will be enabled if the status is less than "approval requested" and the user is allowed to
-     * write and if (is owned by other) the user is allowed to write but not a superviror himself and if (owned by
-     * himself) if (cooperativ supervisor exist) the current user is no cooperative supervisor.
+     * the approval request will be enabled if the user is enabled to write, but has no right to send the data
      *
      * @param feature
      * @param state
      * @param ownerId
+     * @param ik
      *
      * @return
      */
-    @Deprecated
-    public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId) {
-        return isApprovalRequestEnabled(feature, state, ownerId, -1);
-    }
-
     public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        return isApprovalRequestEnabled(feature, state, ownerId, ik, false);
-    }
-
-    @Deprecated
-    public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik,
-            boolean hasUpdateButton) {
-        // todo: check
-        if (state.getId() >= WorkflowStatus.ApprovalRequested.getId()) {
-            return false;
-        }
-        if (hasUpdateButton && state == WorkflowStatus.CorrectionRequested) {
-            return false;
-        }
-        if (isReadOnly(feature, state, ownerId, ik)) {
-            return false;
-        }
-        Account account = _sessionController.getAccount();
-        if (ownerId != account.getId()) {
-            // Its not the user's data
-            // Thus, he can request approval, if he is allowed to write,
-            // but not to seal (the latter would enable seal button instead)
-            CooperativeRight right = getAchievedRight(feature, ownerId, ik);
-            return right.canWriteCompleted() && !right.canSeal();
-        }
-        return needsApproval(feature, ik);
-
-    }
-
-    private boolean needsApproval(Feature feature, int ik) {
-        Account account = _sessionController.getAccount();
-
-        List<CooperationRight> coopSupervisors = getCooperationRights(feature, account)
-                .stream()
-                .filter(r -> r.getOwnerId() == account.getId()
-                && r.getIk() == ik && r.getCooperativeRight().isSupervisor())
-                .collect(Collectors.toList());
-
-        return coopSupervisors.size() > 0;
+        // this method had been used for supervisor by cooperative rights only.
+        // Since this does not exists anymor, we simply return false and keep this method for compatibility
+        return false;
+        //todo: check, whether such an approval request is useful (I assume it is!) and activate the new logic below.
+        // Check and adopt all usages (e.g. notify all users with right to send, or if nobody exists, notify the ikAdmins
+        //return (if ikadmin exists[else false]) isWritable(feature, state, ownerId, ik) && !isSealedEnabled(feature, state, ownerId, ik);
     }
 
     /**

@@ -259,57 +259,21 @@ public class CI_AccessManagerTest {
     }
 
     @Test
-    public void isApprovalRequestEnabledForWorkflowstatusCorrectionRequestedAndHasUpdateButtonReturnsFalse() {
-        AccessManager accessManager = obtainAccessManager();
-        boolean result = accessManager.isApprovalRequestEnabled(
-                testFeature, WorkflowStatus.CorrectionRequested, userAccountId, allowedManagedIk, true);
-        assertThat(result).isFalse();
-    }
-
-    @Test
-    public void isApprovalRequestEnabledForAccessrightReadOnly() {
+    public void isApprovalRequestEnabledForXXXReturnsFalse() {
+        // todo: implement, if isApprovalRequestEnabled is re-enabled
+        // (by now, the method always returns false
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Read));
         AccessManager accessManager = obtainAccessManager(accessRights);
         boolean result = accessManager.isApprovalRequestEnabled(
-                testFeature, WorkflowStatus.CorrectionRequested, userAccountId, allowedManagedIk, false);
+                testFeature, WorkflowStatus.CorrectionRequested, userAccountId, allowedManagedIk);
         assertThat(result).isFalse();
     }
 
     @Test
-    public void isApprovalRequestEnabledForOwnerEqualsUserAndCanCooperativeWriteButNotSealReturnTrue() {
-        List<CooperationRight> cooperationRights = new ArrayList<>();
-        cooperationRights.add(new CooperationRight(
-                readSealedAccountId, userAccountId, unmanagedIk1, testFeature, CooperativeRight.ReadWrite));
-        List<AccessRight> accessRights = new ArrayList<>();
-        AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-        boolean result = accessManager.isApprovalRequestEnabled(
-                testFeature, WorkflowStatus.CorrectionRequested, readSealedAccountId, unmanagedIk1, false);
-        assertThat(result).isTrue();
+    public void isApprovalRequestEnabledForXXXReturnsTrue() {
+        // todo: implement, if isApprovalRequestEnabled is re-enabled
     }
-
-// todo: remove or adopt to new rights    
-//    @Test
-//    public void isApprovalRequestEnabledForOwnerUnqualsUserAndDoesntNeedsApprovalReturnFalse() {
-//        List<CooperationRight> cooperationRights = new ArrayList<>();
-//        List<AccessRight> accessRights = new ArrayList<>();
-//        AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-//        boolean result = accessManager.isApprovalRequestEnabled(
-//                testFeature, WorkflowStatus.CorrectionRequested, userAccountId, allowedManagedIk, false);
-//        assertThat(result).isFalse();
-//    }
-//
-//    @Test
-//    public void isApprovalRequestEnabledForOwnerUnqualsUserAndNeedsApprovalReturnTrue() {
-//        List<CooperationRight> cooperationRights = new ArrayList<>();
-//        cooperationRights.add(new CooperationRight(
-//                userAccountId, readSealedAccountId, unmanagedIk1, testFeature, CooperativeRight.ReadWriteTakeSeal));
-//        List<AccessRight> accessRights = new ArrayList<>();
-//        AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-//        boolean result = accessManager.isApprovalRequestEnabled(
-//                testFeature, WorkflowStatus.CorrectionRequested, userAccountId, unmanagedIk1, false);
-//        assertThat(result).isFalse();
-//    }
 
     @Test
     public void isSealedEnabledForUpdateButtonTrueAndWorkflowStatusCorrectionRequestedReturnFalse() {
