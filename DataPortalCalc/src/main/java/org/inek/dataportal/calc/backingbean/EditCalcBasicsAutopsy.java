@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.calc.backingbean;
 
 import java.io.Serializable;
@@ -40,10 +35,6 @@ import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.calc.CalcBasicsTransferFileCreator;
 
-/**
- *
- * @author muellermi
- */
 @Named
 @ViewScoped
 public class EditCalcBasicsAutopsy extends AbstractEditController implements Serializable {
@@ -111,7 +102,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         if (isInekViewable(model)) {
             return true;
         }
-        return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId(), model.getIk());
     }
 
     private CalcBasicsAutopsy newCalcBasics() {
@@ -141,7 +132,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
 
     public boolean isReadOnly() {
         return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.
-                getAccountId())
+                getAccountId(), _calcBasics.getIk())
                 || _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !isOwnModel();
     }
 
@@ -214,7 +205,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
             return false;
         }
         return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.
-                getAccountId());
+                getAccountId(), _calcBasics.getIk());
     }
 
     public boolean isApprovalRequestEnabled() {
@@ -223,7 +214,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         }
         return _accessManager.
                 isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.
-                        getAccountId());
+                        getAccountId(), _calcBasics.getIk());
     }
 
     public boolean isRequestCorrectionEnabled() {
