@@ -1,6 +1,7 @@
 package org.inek.dataportal.common.overall;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -385,10 +386,12 @@ public class AccessManager implements Serializable {
         return getAchievedRight(feature, ownerId, ik).canTake();
     }
 
+    @Deprecated
     public static Predicate<CooperationRight> canReadCompleted() {
         return r -> r.getCooperativeRight().canReadCompleted();
     }
 
+    @Deprecated
     public static Predicate<CooperationRight> canReadSealed() {
         return r -> r.getCooperativeRight().canReadSealed();
     }
@@ -412,20 +415,24 @@ public class AccessManager implements Serializable {
         return ids;
     }
 
+    @Deprecated
     public boolean canReadSealed(Feature feature, int partnerId) {
         return canReadSealed(feature, partnerId, -1);
     }
 
+    @Deprecated
     public boolean canReadSealed(Feature feature, int partnerId, int ik) {
         // todo: check
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
         return achievedRight.canReadSealed();
     }
 
+    @Deprecated
     public boolean canReadCompleted(Feature feature, int partnerId) {
         return canReadCompleted(feature, partnerId, -1);
     }
 
+    @Deprecated
     public boolean canReadCompleted(Feature feature, int partnerId, int ik) {
         // todo: check
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
@@ -503,6 +510,17 @@ public class AccessManager implements Serializable {
             }
         }
         return false;
-
+    }
+    
+    public List<Account> retrieveAccountsWithRightToSeal(Feature feature, int ik){
+        // todo: implement
+        List<Account> accounts = new ArrayList<>();
+        return accounts;
+    }
+    
+    public List<Account> retrieveIkAdmins(Feature feature, int ik){
+        // todo: implement
+        List<Account> accounts = new ArrayList<>();
+        return accounts;
     }
 }
