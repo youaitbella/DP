@@ -360,13 +360,6 @@ public class EditPeppProposal extends AbstractEditController {
         return _accessManager.isApprovalRequestEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
     }
 
-    public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
-            return false;
-        }
-        return _accessManager.isRequestCorrectionEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
-    }
-
     public boolean isTakeEnabled() {
         return _accessManager.isTakeEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
     }
@@ -545,19 +538,7 @@ public class EditPeppProposal extends AbstractEditController {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Request correction">
-    @Inject
-    private AccountFacade _accountFacade;
-    @Inject
-    private MessageService _messageService;
-
-    public String requestCorrection() {
-        if (!isReadOnly()) {
-            saveData();
-        }
-        return Pages.PeppProposalRequestCorrection.URL();
-    }
-
+    // <editor-fold defaultstate="collapsed" desc="Request take">
     public String take() {
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
@@ -572,33 +553,6 @@ public class EditPeppProposal extends AbstractEditController {
         return "";
     }
 
-    private String _message = "";
-
-    public String getMessage() {
-        return _message;
-    }
-
-    public void setMessage(String message) {
-        _message = message;
-    }
-
-    public String sendMessage() {
-        String subject = "Korrektur Pepp-Vorschlag \"" + _peppProposal.getName() + "\" erforderlich";
-        Account sender = _sessionController.getAccount();
-        Account receiver = _accountFacade.findAccount(_peppProposal.getAccountId());
-        _peppProposal.setStatus(WorkflowStatus.New.getId());
-        if (!isReadOnly()) {
-            // there might have been changes by that user
-            setModifiedInfo();
-        }
-        _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);
-        _messageService.sendMessage(sender, receiver, subject, _message, Feature.PEPP_PROPOSAL, _peppProposal.getId());
-        return Pages.PeppProposalSummary.RedirectURL();
-    }
-
-    public String cancelMessage() {
-        return Pages.PeppProposalSummary.RedirectURL();
-    }
     // </editor-fold>
 
 }

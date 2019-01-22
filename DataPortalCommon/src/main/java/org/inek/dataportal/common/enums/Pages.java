@@ -96,7 +96,6 @@ public enum Pages {
     PeppProposalEditCoding("/PeppProposal/PeppProposalEditCoding"),
     PeppProposalEditDocuments("/PeppProposal/PeppProposalEditDocuments"),
     PeppProposalEditComments("/PeppProposal/PeppProposalEditComments"),
-    PeppProposalRequestCorrection("/PeppProposal/PeppProposalRequestCorrection"),
     //
     PartDrgProposal("/DrgProposal/PartDrgProposal"),
     ListDrgProposal("/DrgProposal/ListDrgProposal"),
