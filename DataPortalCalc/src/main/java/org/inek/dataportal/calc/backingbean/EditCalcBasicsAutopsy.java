@@ -159,7 +159,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         Set<Integer> iks = _calcAutopsyFacade.
                 obtainIks4NewBasicsAutopsy(_sessionController.getAccountId(), year, testMode);
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CALCULATION_HOSPITAL);
         iks.removeIf(ik -> !allowedIks.contains(ik));
 
         List<SelectItem> ikItems = new ArrayList<>();

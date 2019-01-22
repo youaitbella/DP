@@ -239,7 +239,7 @@ public class EditNubRequest extends AbstractEditController {
 
     public Set<Integer> getIks() {
         if (_iks.isEmpty()) {
-            _iks = _accessManager.ObtainIksForCreation(Feature.NUB);
+            _iks = _accessManager.obtainIksForCreation(Feature.NUB);
         }
         return _iks;
     }

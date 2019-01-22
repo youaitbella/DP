@@ -102,7 +102,7 @@ public class Summary {
         // the insurance need to provide a list of IK which are managed by the user
 
         // for testing purpose:
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_INSURANCE);
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.HC_INSURANCE);
         return _aebfacade.retrievePossibleIks(allowedIks, CustomerTyp.Insurance).size() > 0;
     }
 

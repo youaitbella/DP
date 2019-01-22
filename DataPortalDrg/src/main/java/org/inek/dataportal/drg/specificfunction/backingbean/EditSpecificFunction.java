@@ -463,7 +463,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
     public Set<Integer> getIks() {
         if (_iks.isEmpty()) {
-            _iks = _accessManager.ObtainIksForCreation(Feature.SPECIFIC_FUNCTION);
+            _iks = _accessManager.obtainIksForCreation(Feature.SPECIFIC_FUNCTION);
         }
         return _iks;
     }

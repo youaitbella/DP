@@ -216,7 +216,7 @@ public class EditValuationRatio extends AbstractEditController {
                 getDataYear();
 
         List<SelectItem> items = new ArrayList<>();
-        for (int ik : _accessManager.ObtainIksForCreation(Feature.VALUATION_RATIO)) {
+        for (int ik : _accessManager.obtainIksForCreation(Feature.VALUATION_RATIO)) {
             if (!_valuationRatioFacade.existsValuationRatio(ik, dataYear)) {
                 items.add(new SelectItem(ik));
             }

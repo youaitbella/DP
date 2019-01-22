@@ -327,7 +327,7 @@ public class Edit {
     }
 
     public Set<Integer> getAllowedIks() {
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_INSURANCE);
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.HC_INSURANCE);
         Set<Integer> iks = _aebFacade.retrievePossibleIks(allowedIks, CustomerTyp.Insurance);
         return iks;
 

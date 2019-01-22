@@ -448,7 +448,7 @@ public class AccessManager implements Serializable {
         return achievedRight.canReadAlways();
     }
 
-    public Set<Integer> ObtainIksForCreation(Feature feature) {
+    public Set<Integer> obtainIksForCreation(Feature feature) {
         if (feature.getManagedBy() == ManagedBy.IkAdminOnly) {
             return retrieveAllowedForCreationIks(feature);
         }
@@ -482,10 +482,10 @@ public class AccessManager implements Serializable {
         if (feature.getIkReference() == IkReference.None) {
             return true;
         }
-        return ObtainIksForCreation(feature).size() > 0;
+        return obtainIksForCreation(feature).size() > 0;
     }
 
-    public Set<Integer> ObtainAllowedIks(Feature feature) {
+    public Set<Integer> obtainAllowedIks(Feature feature) {
         Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
         Set<Integer> deniedIks = retrieveDeniedManagedIks(feature);
         iks.removeAll(deniedIks);

@@ -579,7 +579,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public Set<Integer> getIks() {
-        return _accessManager.ObtainIksForCreation(Feature.PSYCH_STAFF);
+        return _accessManager.obtainIksForCreation(Feature.PSYCH_STAFF);
     }
 
     public String determineFactor(StaffProofEffective effective) {

@@ -349,7 +349,7 @@ public class ProofEdit implements Serializable {
     }
 
     private void loadValidIks() {
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CARE);
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CARE);
         setValidIks(_proofFacade.retrievePossibleIks(allowedIks));
     }
 

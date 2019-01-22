@@ -90,7 +90,7 @@ public class EditStructureInformation {
     }
 
     public Set<Integer> getAllowedIks() {
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.HC_HOSPITAL);
         return allowedIks
                 .stream()
                 .filter(ik -> !_aebFacade.structureBaseInformaionAvailable(ik))

@@ -71,7 +71,7 @@ public class DropBoxCreator implements Serializable {
 
     // </editor-fold>
     public List<SelectItem> getIkItems() {
-        Set<Integer> iks = _accessManager.ObtainIksForCreation(Feature.DROPBOX);
+        Set<Integer> iks = _accessManager.obtainIksForCreation(Feature.DROPBOX);
         Set<Integer> ownIks = _sessionController.getAccount().getFullIkSet();
         ownIks.removeAll(_accessManager.retrieveAllManagedIks(Feature.DROPBOX));
         iks.addAll(ownIks);

@@ -852,7 +852,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         Account account = _sessionController.getAccount();
         int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), year);
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CALCULATION_HOSPITAL);
         iks.removeIf(ik -> !allowedIks.contains(ik));
 
         List<SelectItem> _ikItems = new ArrayList<>();

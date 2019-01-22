@@ -116,7 +116,7 @@ public class DeptSummary implements Serializable {
         if (!_configFacade.readConfigBool(ConfigKey.IsCareCreateEnabled)) {
             return false;
         }
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CARE);
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CARE);
         return _deptFacade.retrievePossibleIks(allowedIks).size() > 0;
     }
 

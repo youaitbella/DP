@@ -589,7 +589,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         Set<Integer> iks = _calcFacade.obtainIks4NewBasicsPepp(_sessionController.getAccountId(), year, testMode);
 
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CALCULATION_HOSPITAL);
         iks.removeIf(ik -> !allowedIks.contains(ik));
 
         List<SelectItem> ikItems = new ArrayList<>();

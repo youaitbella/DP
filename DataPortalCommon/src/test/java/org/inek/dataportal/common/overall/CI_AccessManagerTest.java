@@ -543,7 +543,7 @@ public class CI_AccessManagerTest {
         fullIkSet.add(deniedManagedIk);
 
         AccessManager accessManager = obtainAccessManager(accessRights, false, fullIkSet);
-        Set<Integer> result = accessManager.ObtainIksForCreation(Feature.ADDITIONAL_COST);
+        Set<Integer> result = accessManager.obtainIksForCreation(Feature.ADDITIONAL_COST);
         assertThat(result).isNotNull().isEmpty();
     }
 
@@ -559,7 +559,7 @@ public class CI_AccessManagerTest {
         fullIkSet.add(unmanagedIk1);
 
         AccessManager accessManager = obtainAccessManager(accessRights, false, fullIkSet);
-        Set<Integer> result = accessManager.ObtainIksForCreation(Feature.ADDITIONAL_COST);
+        Set<Integer> result = accessManager.obtainIksForCreation(Feature.ADDITIONAL_COST);
         assertThat(result).isNotNull().containsOnly(unmanagedIk1);
     }
 
@@ -575,7 +575,7 @@ public class CI_AccessManagerTest {
         fullIkSet.add(unmanagedIk1);
 
         AccessManager accessManager = obtainAccessManager(accessRights, false, fullIkSet);
-        Set<Integer> result = accessManager.ObtainIksForCreation(Feature.ADDITIONAL_COST);
+        Set<Integer> result = accessManager.obtainIksForCreation(Feature.ADDITIONAL_COST);
         assertThat(result).isNotNull().containsOnly(unmanagedIk1, allowedManagedIk);
     }
 

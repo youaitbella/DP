@@ -795,7 +795,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         Set<Integer> possibleIks = _calcDrgFacade.
                 obtainIks4NewBasicsDrg(_sessionController.getAccountId(), year, testMode);
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CALCULATION_HOSPITAL);
         possibleIks.removeIf(ik -> !allowedIks.contains(ik));
 
         List<SelectItem> ikItems = new ArrayList<>();

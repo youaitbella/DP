@@ -276,7 +276,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
 
     public Set<Integer> getIks() {
         if (_iks.isEmpty()) {
-            _iks = _accessManager.ObtainIksForCreation(Feature.ADDITIONAL_COST);
+            _iks = _accessManager.obtainIksForCreation(Feature.ADDITIONAL_COST);
         }
         return _iks;
     }

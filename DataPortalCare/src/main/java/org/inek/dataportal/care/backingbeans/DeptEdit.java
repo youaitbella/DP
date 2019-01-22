@@ -197,7 +197,7 @@ public class DeptEdit implements Serializable {
     }
 
     private void loadValidIks() {
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CARE);
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CARE);
         setValidIks(_deptFacade.retrievePossibleIks(allowedIks));
     }
 

@@ -432,7 +432,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             if (model.getIk() > 0) {
                 _ikItems.add(new SelectItem(model.getIk()));
             }
-            for (int ik : _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL)) {
+            for (int ik : _accessManager.obtainIksForCreation(Feature.CALCULATION_HOSPITAL)) {
                 if (possibleIks.contains(ik)) {
                     _ikItems.add(new SelectItem(ik));
                 }

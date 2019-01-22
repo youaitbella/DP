@@ -143,12 +143,12 @@ public class Summary {
     }
 
     public boolean isCreateEntryAllowed() {
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.HC_HOSPITAL);
         return _aebfacade.retrievePossibleIks(allowedIks, CustomerTyp.Hospital).size() > 0;
     }
 
     public boolean isCreateStructureBaseInformationAllowed() {
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.HC_HOSPITAL);
         return allowedIks.stream().
                 anyMatch(ik -> !_aebfacade.structureBaseInformaionAvailable(ik));
     }
@@ -159,7 +159,7 @@ public class Summary {
     }
 
     private void setStructureBaseInformationList() {
-        Set<Integer> allowedIks = _accessManager.ObtainAllowedIks(Feature.HC_HOSPITAL);
+        Set<Integer> allowedIks = _accessManager.obtainAllowedIks(Feature.HC_HOSPITAL);
         for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
             if (_aebfacade.structureBaseInformaionAvailable(ik)) {
                 if (allowedIks.contains(ik)) {
