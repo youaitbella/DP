@@ -353,13 +353,6 @@ public class EditPeppProposal extends AbstractEditController {
         return _accessManager.isSealedEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
     }
 
-    public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
-            return false;
-        }
-        return _accessManager.isApprovalRequestEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
-    }
-
     public boolean isTakeEnabled() {
         return _accessManager.isTakeEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
     }
@@ -393,16 +386,6 @@ public class EditPeppProposal extends AbstractEditController {
             _sessionController.setScript(script);
             return Pages.PrintView.URL();
         }
-        return null;
-    }
-
-    public String requestApprovalPeppProposal() {
-        if (!peppProposalIsComplete()) {
-            return null;
-        }
-        _peppProposal.setStatus(WorkflowStatus.ApprovalRequested.getId());
-        setModifiedInfo();
-        _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);
         return null;
     }
 

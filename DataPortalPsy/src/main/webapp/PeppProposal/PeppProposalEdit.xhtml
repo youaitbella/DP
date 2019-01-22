@@ -33,13 +33,6 @@
                                    immediate="true"
                                    rendered="#{!editPeppProposal.readOnly}"/>
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editPeppProposal.requestApprovalPeppProposal}"
-                                   value="#{msg.btnRequestApproval}"
-                                   rendered="#{editPeppProposal.approvalRequestEnabled}"
-                                   title="#{msg.infoSaveAndClose}">
-                        <cb:confirmRequestApproval/>
-                    </h:commandLink>
-                    <h:commandLink styleClass="sendButton"
                                    action="#{editPeppProposal.sealPeppProposal()}"
                                    value="#{msg.btnSaveAndClose}"
                                    rendered="#{editPeppProposal.sealEnabled}"
