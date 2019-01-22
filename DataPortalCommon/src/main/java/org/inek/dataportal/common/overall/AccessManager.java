@@ -351,29 +351,6 @@ public class AccessManager implements Serializable {
         return !needsApproval(feature, ik);
     }
 
-    /**
-     * A supervisor may request a correction from the owner of a dataset This function indicates, whether this request
-     * is feasible.
-     *
-     * @param feature
-     * @param state
-     * @param ownerId
-     *
-     * @return
-     */
-    public boolean isRequestCorrectionEnabled(Feature feature, WorkflowStatus state, int ownerId) {
-        return isRequestCorrectionEnabled(feature, state, ownerId, -1);
-    }
-
-    public boolean isRequestCorrectionEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        // todo: check
-        if (state.getId() != WorkflowStatus.ApprovalRequested.getId()) {
-            return false;
-        }
-        Account account = _sessionController.getAccount();
-        return ownerId != account.getId() && isSealedEnabled(feature, state, ownerId, ik);
-    }
-
     public boolean isDeleteEnabled(Feature feature, int ownerAccountId, int ik) {
 
         if (feature.getManagedBy() == ManagedBy.None

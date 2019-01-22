@@ -349,44 +349,6 @@ public class CI_AccessManagerTest {
     }
 
     @Test
-    public void isRequestCorrectionEnabledWithoutWorkflowStatusApprovalRequested() {
-        AccessManager accessManager = obtainAccessManager();
-        boolean result = accessManager.isRequestCorrectionEnabled(
-                testFeature, WorkflowStatus.Accepted, readSealedAccountId, allowedManagedIk);
-        assertThat(result).isFalse();
-    }
-
-    @Test
-    public void isRequestCorrectionEnabledWithOwnerEqualsUser() {
-        AccessManager accessManager = obtainAccessManager();
-        boolean result = accessManager.isRequestCorrectionEnabled(
-                testFeature, WorkflowStatus.ApprovalRequested, userAccountId, allowedManagedIk);
-        assertThat(result).isFalse();
-    }
-
-    @Test
-    public void isRequestCorrectionEnabledWithoutRightToSeal() {
-        List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testFeature, Right.Read));
-        List<CooperationRight> cooperationRights = new ArrayList<>();
-        AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-        boolean result = accessManager.isRequestCorrectionEnabled(
-                testFeature, WorkflowStatus.ApprovalRequested, userAccountId, allowedManagedIk);
-        assertThat(result).isFalse();
-    }
-
-    @Test
-    public void isRequestCorrectionEnabledWithOwnerUnequalsUserAndRightToSeal() {
-        List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testFeature, Right.Seal));
-        List<CooperationRight> cooperationRights = new ArrayList<>();
-        AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-        boolean result = accessManager.isRequestCorrectionEnabled(
-                testFeature, WorkflowStatus.ApprovalRequested, userAccountId, allowedManagedIk);
-        assertThat(result).isFalse();
-    }
-
-    @Test
     public void testIsDeleteEnabledWithoutIkReturnsTrueIfManagerIsOptional() {
         AccessManager accessManager = obtainAccessManager();
         boolean result = accessManager.isDeleteEnabled(testFeature, userAccountId, 0);
