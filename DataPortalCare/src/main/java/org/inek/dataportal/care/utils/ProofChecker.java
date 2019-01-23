@@ -28,19 +28,19 @@ public class ProofChecker {
                 addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
                         + " Monat: " + proof.getMonth().getName()
                         + " Schicht: " + proof.getShift().getName()
-                        + ": Pflegekräfte = 0 aber Anzahl Patienten > 0");
+                        + ": Es sind keine Pflegekräfte eingetragen, obwohl Patienten vorhanden sind");
             }
             if (proof.getCountShift() == 0 && proof.getNurse() > 0) {
                 addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
                         + " Monat: " + proof.getMonth().getName()
                         + " Schicht: " + proof.getShift().getName()
-                        + ": Anzahl Schichten = 0 aber Pflegekräfte > 0");
+                        + ": Es sind Pflegekräfte eingetragen, obwohl die Anzahl der Schichten Null beträgt");
             }
             if (proof.getCountShift() < proof.getCountShiftNotRespected()) {
                 addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
                         + " Monat: " + proof.getMonth().getName()
                         + " Schicht: " + proof.getShift().getName()
-                        + ": Anzahl Schichten < Anzahl Schichten nicht eingehalten");
+                        + ": Es sind mehr Schichten als nicht eingehalten eingetragen als Schichten insgesamt vorhanden sind");
             }
         }
         return messages;
