@@ -1,6 +1,6 @@
 package org.inek.dataportal.common.data.ikadmin.entity;
 
-import org.inek.dataportal.common.data.dao.User;
+import org.inek.dataportal.common.data.common.User;
 import java.io.Serializable;
 import javax.persistence.*;
 import org.inek.dataportal.api.enums.Feature;

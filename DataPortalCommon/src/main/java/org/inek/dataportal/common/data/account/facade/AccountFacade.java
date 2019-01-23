@@ -28,7 +28,7 @@ import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.api.enums.IkReference;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.data.dao.User;
+import org.inek.dataportal.common.data.common.User;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
