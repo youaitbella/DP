@@ -2,10 +2,6 @@ package org.inek.dataportal.common.data.ikadmin.entity;
 
 import org.inek.dataportal.common.data.account.iface.Person;
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import org.inek.dataportal.common.data.account.entities.Account;
 
 /**
@@ -13,8 +9,6 @@ import org.inek.dataportal.common.data.account.entities.Account;
  *
  * @author muellermi
  */
-@Entity
-@Table(name = "Account")
 public class User implements Serializable, Person {
 
     private static final long serialVersionUID = 1L;
@@ -43,8 +37,6 @@ public class User implements Serializable, Person {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
-    @Id
-    @Column(name = "acId")
     private int _id;
 
     @Override
@@ -58,7 +50,6 @@ public class User implements Serializable, Person {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Gender">
-    @Column(name = "acGender")
     private int _gender = 0;
 
     @Override
@@ -73,7 +64,6 @@ public class User implements Serializable, Person {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Title">
-    @Column(name = "acTitle")
     private String _title = "";
 
     @Override
@@ -88,7 +78,6 @@ public class User implements Serializable, Person {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property FirstName">
-    @Column(name = "acFirstName")
     private String _firstName = "";
 
     @Override
@@ -103,7 +92,6 @@ public class User implements Serializable, Person {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property LastName">
-    @Column(name = "acLastName")
     private String _lastName = "";
 
     @Override
@@ -118,7 +106,6 @@ public class User implements Serializable, Person {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Email">
-    @Column(name = "acMail")
     private String _email;
 
     @Override
@@ -133,7 +120,6 @@ public class User implements Serializable, Person {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Company">
-    @Column(name = "acCompany")
     private String _company = "";
 
     @Override
