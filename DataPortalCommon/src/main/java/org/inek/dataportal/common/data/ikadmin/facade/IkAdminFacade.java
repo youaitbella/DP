@@ -39,13 +39,6 @@ public class IkAdminFacade extends AbstractDataAccess {
         }
     }
 
-    public List<User> findUsersByMailDomain(String mailDomain) {
-        String jpql = "Select u from User u where u._email like :mailDomain";
-        TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
-        query.setParameter("mailDomain", "%" + mailDomain);
-        return query.getResultList();
-    }
-
     public Account findAccount(int userId) {
         return getEntityManager().find(Account.class, userId);
     }
