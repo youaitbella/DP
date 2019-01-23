@@ -1,4 +1,4 @@
-package org.inek.dataportal.common.data.ikadmin.entity;
+package org.inek.dataportal.common.data.dao;
 
 import org.inek.dataportal.common.data.account.iface.Person;
 import java.io.Serializable;
