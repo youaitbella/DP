@@ -501,10 +501,6 @@ public class EditNubRequest extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        if (_accessManager.
-                isSealedEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk())){
-            return false;
-        }
         return _accessManager.isApprovalRequestEnabled(
                 Feature.NUB,
                 _nubRequest.getStatus(),
@@ -587,7 +583,7 @@ public class EditNubRequest extends AbstractEditController {
         if (!requestIsComplete(_nubRequest)) {
             return getActiveTopic().getOutcome();
         }
-        if (_nubRequest.getStatus().compareTo(WorkflowStatus.ApprovalRequested) >= 0) {
+        if (_nubRequest.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
             return Pages.Error.URL();
         }
         _nubRequest.setStatus(WorkflowStatus.ApprovalRequested);
@@ -597,6 +593,7 @@ public class EditNubRequest extends AbstractEditController {
         String msg = "";
         try {
             _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
+            // todo: send message?
             return "";
         } catch (Exception ex) {
             if (isNewRequest || !(ex.getCause() instanceof OptimisticLockException)) {

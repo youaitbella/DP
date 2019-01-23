@@ -64,7 +64,6 @@ public class Edit {
 
     private AEBBaseInformation _aebBaseInformation;
     private List<Integer> _validDatayears = new ArrayList<>();
-    private Boolean _readOnly;
     private String _errorMessage = "";
 
     @PostConstruct
@@ -80,7 +79,6 @@ public class Edit {
             _aebBaseInformation = _aebFacade.findAEBBaseInformation(Integer.parseInt(id));
         }
         ikChanged();
-        setReadOnly();
     }
 
     public String getErrorMessage() {
@@ -91,12 +89,20 @@ public class Edit {
         this._errorMessage = errorMessage;
     }
 
-    public Boolean isReadOnly() {
-        return _readOnly;
+    public Boolean isWriteable() {
+        return _accessManager.isWritable(Feature.HC_INSURANCE, _aebBaseInformation.getStatus(), 0, _aebBaseInformation.getIk());
     }
 
-    public void setReadOnly(Boolean readOnly) {
-        this._readOnly = readOnly;
+    public Boolean isReadOnly() {
+        return !isWriteable();
+    }
+
+    public Boolean isChangeable() {
+        return !isWriteable() && _accessManager.isWriteAllowed(Feature.HC_INSURANCE, _aebBaseInformation.getIk());
+    }
+
+    public Boolean isSendEnabled() {
+        return _accessManager.isSealedEnabled(Feature.HC_INSURANCE, _aebBaseInformation.getStatus(), 0, _aebBaseInformation.getIk());
     }
 
     public List<Integer> getValidDatayears() {
@@ -117,18 +123,6 @@ public class Edit {
 
     public List<SelectItem> getStructureCategories() {
         return _aebListItemFacade.getStructureCategorie();
-    }
-
-    public void setReadOnly() {
-        if (_aebBaseInformation != null) {
-            if (_aebBaseInformation.getStatus() == WorkflowStatus.Provided) {
-                setReadOnly(true);
-            } else {
-                setReadOnly(false);
-            }
-        } else {
-            setReadOnly(true);
-        }
     }
 
     private AEBBaseInformation createNewAebBaseInformation() {

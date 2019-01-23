@@ -268,12 +268,14 @@ public class AccessManager implements Serializable {
      * @return
      */
     public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        // this method had been used for supervisor by cooperative rights only.
-        // Since this does not exists anymor, we simply return false and keep this method for compatibility
-        return false;
-        //todo: check, whether such an approval request is useful (I assume it is!) and activate the new logic below.
-        // Check and adopt all usages (e.g. notify all users with right to send, or if nobody exists, notify the ikAdmins
-        //return (if ikadmin exists[else false]) isWritable(feature, state, ownerId, ik) && !isSealedEnabled(feature, state, ownerId, ik);
+        if (state.getId() >= WorkflowStatus.Provided.getId()) {
+            return false;
+        }
+        if (!_ikCache.isManaged(ik, feature)) {
+            return false;
+        }
+
+        return isWritable(feature, state, ownerId, ik) && !isSealedEnabled(feature, state, ownerId, ik);
     }
 
     /**
@@ -399,7 +401,7 @@ public class AccessManager implements Serializable {
                 .filter(right -> right.getCooperativeRight() != CooperativeRight.None)
                 .map(right -> right.getOwnerId())
                 .collect(Collectors.toSet());
-        
+
         ids.add(account.getId());  // user always has the right to see his own
 
         return ids;
@@ -478,14 +480,14 @@ public class AccessManager implements Serializable {
         }
         return false;
     }
-    
-    public List<Account> retrieveAccountsWithRightToSeal(Feature feature, int ik){
+
+    public List<Account> retrieveAccountsWithRightToSeal(Feature feature, int ik) {
         // todo: implement
         List<Account> accounts = new ArrayList<>();
         return accounts;
     }
-    
-    public List<Account> retrieveIkAdmins(Feature feature, int ik){
+
+    public List<Account> retrieveIkAdmins(Feature feature, int ik) {
         // todo: implement
         List<Account> accounts = new ArrayList<>();
         return accounts;

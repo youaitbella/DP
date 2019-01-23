@@ -253,20 +253,43 @@ public class CI_AccessManagerTest {
     }
 
     @Test
-    public void isApprovalRequestEnabledForXXXReturnsFalse() {
-        // todo: implement, if isApprovalRequestEnabled is re-enabled
-        // (by now, the method always returns false
+    public void isApprovalRequestEnabledForReadOnlyReturnsFalse() {
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Read));
         AccessManager accessManager = obtainAccessManager(accessRights);
         boolean result = accessManager.isApprovalRequestEnabled(
-                testFeature, WorkflowStatus.CorrectionRequested, userAccountId, allowedManagedIk);
+                testFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
         assertThat(result).isFalse();
     }
 
     @Test
-    public void isApprovalRequestEnabledForXXXReturnsTrue() {
-        // todo: implement, if isApprovalRequestEnabled is re-enabled
+    public void isApprovalRequestEnabledForWriteOnlyReturnsTrue() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Write));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isApprovalRequestEnabled(
+                testFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    public void isApprovalRequestEnabledForUnmanagedIkReturnsFalse() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, unmanagedIk1, testFeature, Right.Write));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isApprovalRequestEnabled(
+                testFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void isApprovalRequestEnabledForSealReturnsFalse() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Seal));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isApprovalRequestEnabled(
+                testFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
+        assertThat(result).isFalse();
     }
 
     @Test
