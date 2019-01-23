@@ -14,13 +14,11 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
-import static org.inek.dataportal.common.overall.AccessManager.canReadCompleted;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.insurance.specificfunction.facade.SpecificFunctionFacade;
-import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
@@ -42,7 +40,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver{
     }
     
     private Collection<TreeNode> obtainEditNodeChildren(TreeNode treeNode) {
-        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION);
         List<Account> accounts = _specificFunctionFacade.loadAgreementAccounts(accountIds,
                 WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         Account currentUser = _sessionController.getAccount();

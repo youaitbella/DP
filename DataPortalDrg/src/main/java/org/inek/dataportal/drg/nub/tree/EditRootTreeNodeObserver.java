@@ -12,7 +12,6 @@ import java.util.Set;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
-import static org.inek.dataportal.common.overall.AccessManager.canReadCompleted;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
@@ -72,7 +71,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
             List<TreeNode> oldChildren,
             TreeNode treeNode) {
         Collection<TreeNode> children = new ArrayList<>();
-        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.NUB, canReadCompleted());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.NUB);
         Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.NUB);
         List<Account> accounts = _nubRequestFacade.
                 checkAccountsForNubOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested, managedIks);

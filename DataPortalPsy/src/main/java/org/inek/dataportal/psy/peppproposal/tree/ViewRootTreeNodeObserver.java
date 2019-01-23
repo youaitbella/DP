@@ -14,7 +14,6 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
-import static org.inek.dataportal.common.overall.AccessManager.canReadSealed;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.psy.peppproposal.facades.PeppProposalFacade;
 import org.inek.dataportal.common.helper.Utils;
@@ -39,7 +38,7 @@ public class ViewRootTreeNodeObserver implements TreeNodeObserver{
         return obtainViewNodeChildren((RootNode) treeNode);
     }
     private Collection<TreeNode> obtainViewNodeChildren(RootNode treeNode) {
-        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.PEPP_PROPOSAL, canReadSealed());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.PEPP_PROPOSAL);
         List<Integer> years = _peppProposalFacade.getProposalYears(accountIds);
         int targetYear = Utils.getTargetYear(Feature.PEPP_PROPOSAL);
         List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());

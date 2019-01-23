@@ -8,7 +8,6 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
-import static org.inek.dataportal.common.overall.AccessManager.canReadCompleted;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
@@ -85,7 +84,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver{
     
     public Collection<TreeNode> obtainAccountNodes(List<TreeNode> oldChildren, TreeNode treeNode) {
         Collection<TreeNode> children = new ArrayList<>();
-        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadCompleted());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL);
         Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.CALCULATION_HOSPITAL);
 
         accountIds = _calcFacade.checkAccountsForYear(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL),

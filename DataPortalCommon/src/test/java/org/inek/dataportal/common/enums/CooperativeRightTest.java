@@ -20,48 +20,28 @@ public class CooperativeRightTest {
     }
 
     @Test
-    public void testCanReadAlways() {
-        assertFalse(CooperativeRight.None.canReadAlways());
-        assertTrue(CooperativeRight.ReadOnly.canReadAlways());
-        assertTrue(CooperativeRight.ReadWrite.canReadAlways());
-        assertTrue(CooperativeRight.ReadWriteSeal.canReadAlways());
-        assertTrue(CooperativeRight.ReadWriteTakeSeal.canReadAlways());
-    }
-
-    @Test
-    public void testCanReadCompleted() {
-        assertFalse(CooperativeRight.None.canReadCompleted());
-        assertTrue(CooperativeRight.ReadOnly.canReadCompleted());
-        assertTrue(CooperativeRight.ReadWrite.canReadCompleted());
-        assertTrue(CooperativeRight.ReadWriteSeal.canReadCompleted());
-        assertTrue(CooperativeRight.ReadWriteTakeSeal.canReadCompleted());
-    }
-
-    @Test
     public void testCanReadSealed() {
-        assertFalse(CooperativeRight.None.canReadSealed());
-        assertTrue(CooperativeRight.ReadOnly.canReadSealed());
-        assertTrue(CooperativeRight.ReadWrite.canReadSealed());
-        assertTrue(CooperativeRight.ReadWriteSeal.canReadSealed());
-        assertTrue(CooperativeRight.ReadWriteTakeSeal.canReadSealed());
+        assertFalse(CooperativeRight.None.canRead());
+        assertTrue(CooperativeRight.ReadOnly.canRead());
+        assertTrue(CooperativeRight.ReadWrite.canRead());
+        assertTrue(CooperativeRight.ReadWriteSeal.canRead());
+        assertTrue(CooperativeRight.ReadWriteTakeSeal.canRead());
     }
 
     @Test
     public void testCanWriteAlways() {
-        assertFalse(CooperativeRight.None.canWriteAlways());
-        assertFalse(CooperativeRight.ReadOnly.canWriteAlways());
-        assertTrue(CooperativeRight.ReadWrite.canWriteAlways());
-        assertTrue(CooperativeRight.ReadWriteSeal.canWriteAlways());
-        assertTrue(CooperativeRight.ReadWriteTakeSeal.canWriteAlways());
+        assertFalse(CooperativeRight.None.canWrite());
+        assertFalse(CooperativeRight.ReadOnly.canWrite());
+        assertTrue(CooperativeRight.ReadWrite.canWrite());
+        assertTrue(CooperativeRight.ReadWriteSeal.canWrite());
+        assertTrue(CooperativeRight.ReadWriteTakeSeal.canWrite());
     }
 
     @Test
     public void testCanWriteCompleted() {
-        assertFalse(CooperativeRight.None.canWriteCompleted());
-        assertFalse(CooperativeRight.ReadOnly.canWriteCompleted());
-        assertTrue(CooperativeRight.ReadWrite.canWriteAlways());
-        assertTrue(CooperativeRight.ReadWriteSeal.canWriteAlways());
-        assertTrue(CooperativeRight.ReadWriteTakeSeal.canWriteAlways());
+        assertTrue(CooperativeRight.ReadWrite.canWrite());
+        assertTrue(CooperativeRight.ReadWriteSeal.canWrite());
+        assertTrue(CooperativeRight.ReadWriteTakeSeal.canWrite());
     }
 
     @Test
@@ -73,14 +53,6 @@ public class CooperativeRightTest {
         assertTrue(CooperativeRight.ReadWriteTakeSeal.canSeal());
     }
 
-    @Test
-    public void testIsSupervisor() {
-        assertFalse(CooperativeRight.None.isSupervisor());
-        assertFalse(CooperativeRight.ReadOnly.isSupervisor());
-        assertFalse(CooperativeRight.ReadWrite.isSupervisor());
-        assertFalse(CooperativeRight.ReadWriteSeal.isSupervisor());
-        assertFalse(CooperativeRight.ReadWriteTakeSeal.isSupervisor());
-    }
 
     @Test
     public void testCanTake() {

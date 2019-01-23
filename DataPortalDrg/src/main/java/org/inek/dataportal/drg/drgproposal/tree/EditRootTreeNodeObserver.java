@@ -14,7 +14,6 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
-import static org.inek.dataportal.common.overall.AccessManager.canReadCompleted;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
@@ -40,7 +39,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver{
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
-        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.DRG_PROPOSAL, canReadCompleted());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.DRG_PROPOSAL);
         accountIds = _drgProposalFacade.
                 checkAccountsForProposalOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);

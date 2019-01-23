@@ -60,7 +60,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
         if (partnerId == _sessionController.getAccountId()) {
             dataSet = DataSet.AllSealed;
         } else {
-            boolean canReadSealed = _accessManager.canReadSealed(Feature.PEPP_PROPOSAL, partnerId);
+            boolean canReadSealed = _accessManager.canRead(Feature.PEPP_PROPOSAL, partnerId);
             dataSet = canReadSealed ? DataSet.AllSealed : DataSet.None;
         }
         return _peppProposalFacade.getPeppProposalInfos(partnerId, year, dataSet);
@@ -71,10 +71,8 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
         if (partnerId == _sessionController.getAccountId()) {
             dataSet = DataSet.AllOpen;
         } else {
-            boolean canReadAlways = _accessManager.canReadAlways(Feature.PEPP_PROPOSAL, partnerId);
-            boolean canReadCompleted = _accessManager.canReadCompleted(Feature.PEPP_PROPOSAL, partnerId);
-            dataSet = canReadAlways ? DataSet.AllOpen
-                    : canReadCompleted ? DataSet.ApprovalRequested : DataSet.None;
+            boolean canRead = _accessManager.canRead(Feature.PEPP_PROPOSAL, partnerId);
+            dataSet = canRead ? DataSet.AllOpen : DataSet.None;
         }
         return _peppProposalFacade.getPeppProposalInfos(partnerId, -1, dataSet);
     }

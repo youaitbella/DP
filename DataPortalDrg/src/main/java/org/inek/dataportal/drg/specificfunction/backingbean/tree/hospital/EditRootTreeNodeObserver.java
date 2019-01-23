@@ -9,7 +9,6 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
-import static org.inek.dataportal.common.overall.AccessManager.canReadCompleted;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
@@ -66,7 +65,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
             List<? extends TreeNode> oldChildren, 
             TreeNode treeNode) {
         Collection<TreeNode> children = new ArrayList<>();
-        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION);
         Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION);
         List<Account> accounts = _specificFunctionFacade.loadRequestAccounts(
                 accountIds,

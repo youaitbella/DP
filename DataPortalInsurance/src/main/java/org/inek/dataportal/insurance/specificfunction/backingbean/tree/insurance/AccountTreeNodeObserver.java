@@ -61,7 +61,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         WorkflowStatus statusLow = WorkflowStatus.Provided;
         WorkflowStatus statusHigh = WorkflowStatus.Retired;
         if (partnerId != _sessionController.getAccountId()) {
-            boolean canReadSealed = _accessManager.canReadSealed(Feature.SPECIFIC_FUNCTION, partnerId);
+            boolean canReadSealed = _accessManager.canRead(Feature.SPECIFIC_FUNCTION, partnerId);
             if (!canReadSealed) {
                 statusLow = WorkflowStatus.Unknown;
                 statusHigh = WorkflowStatus.Unknown;
@@ -77,12 +77,9 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
             statusLow = WorkflowStatus.New;
             statusHigh = WorkflowStatus.ApprovalRequested;
         } else {
-            boolean canReadAlways = _accessManager.canReadAlways(Feature.SPECIFIC_FUNCTION, partnerId);
-            boolean canReadCompleted = _accessManager.canReadCompleted(Feature.SPECIFIC_FUNCTION, partnerId);
-            statusLow = canReadAlways ? WorkflowStatus.New
-                    : canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
-            statusHigh = canReadAlways
-                    || canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
+            boolean canRead = _accessManager.canRead(Feature.SPECIFIC_FUNCTION, partnerId);
+            statusLow = canRead ? WorkflowStatus.New : WorkflowStatus.Unknown;
+            statusHigh = canRead ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
         }
         return _specificFunctionFacade.obtainSpecificFunctionAgreements(partnerId, statusLow, statusHigh);
     }

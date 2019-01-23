@@ -14,7 +14,6 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
-import static org.inek.dataportal.common.overall.AccessManager.canReadSealed;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
@@ -44,7 +43,7 @@ public class YearTreeNodeObserver implements TreeNodeObserver{
     }
     
     private Collection<TreeNode> obtainYearNodeChildren(YearTreeNode treeNode) {
-        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.PEPP_PROPOSAL, canReadSealed());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.PEPP_PROPOSAL);
         accountIds = _peppProposalFacade.
                 checkAccountsForProposalOfYear(accountIds, treeNode.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);

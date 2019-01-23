@@ -101,7 +101,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         Set<Integer> ikSet = account.getFullIkSet();
         ikSet.removeAll(managedIks);
         for (int ik : ikSet) {
-            if (!_accessManager.canReadSealed(Feature.CALCULATION_HOSPITAL, account.getId(), ik)) {
+            if (!_accessManager.canRead(Feature.CALCULATION_HOSPITAL, account.getId(), ik)) {
                 continue;
             }
             WorkflowStatus statusLow = WorkflowStatus.Provided;
@@ -119,12 +119,10 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         Set<Integer> ikSet = account.getFullIkSet();
         ikSet.removeAll(managedIks);
         for (int ik : ikSet) {
-            if (!_accessManager.canReadCompleted(Feature.CALCULATION_HOSPITAL, account.getId(), ik)) {
+            if (!_accessManager.canRead(Feature.CALCULATION_HOSPITAL, account.getId(), ik)) {
                 continue;
             }
-            boolean canReadAlways = _accessManager.canReadAlways(Feature.CALCULATION_HOSPITAL, account.getId(), ik);
-            WorkflowStatus statusLow = canReadAlways ? WorkflowStatus.New
-                    : WorkflowStatus.ApprovalRequested;
+            WorkflowStatus statusLow = WorkflowStatus.New;
             WorkflowStatus statusHigh = WorkflowStatus.ApprovalRequested;
             List<CalcHospitalInfo> infosForIk = _calcFacade.
                     getListCalcInfo(account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), statusLow, statusHigh, ik);

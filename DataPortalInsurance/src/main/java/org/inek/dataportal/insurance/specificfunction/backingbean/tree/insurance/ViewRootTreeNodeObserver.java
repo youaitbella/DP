@@ -3,13 +3,11 @@ package org.inek.dataportal.insurance.specificfunction.backingbean.tree.insuranc
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
-import static org.inek.dataportal.common.overall.AccessManager.canReadSealed;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
@@ -37,7 +35,7 @@ public class ViewRootTreeNodeObserver implements TreeNodeObserver{
     }
 
     private Collection<TreeNode> obtainViewNodeChildren(TreeNode treeNode) {
-        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION);
         List<Account> accounts = _specificFunctionFacade.loadAgreementAccounts(accountIds, 
                 WorkflowStatus.Provided, WorkflowStatus.Retired);
         Account currentUser = _sessionController.getAccount();

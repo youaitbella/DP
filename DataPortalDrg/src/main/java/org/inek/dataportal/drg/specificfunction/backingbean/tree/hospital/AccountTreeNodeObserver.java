@@ -54,7 +54,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         ikSet.removeAll(_accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION));
         for (int ik : ikSet) {
             if (account != _sessionController.getAccount()
-                    && !_accessManager.canReadSealed(Feature.SPECIFIC_FUNCTION, account.getId(), ik)) {
+                    && !_accessManager.canRead(Feature.SPECIFIC_FUNCTION, account.getId(), ik)) {
                 continue;
             }
             WorkflowStatus statusLow = WorkflowStatus.Provided;
@@ -76,12 +76,10 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         ikSet.removeAll(_accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION));
         for (int ik : ikSet) {
             boolean itsMe = account == _sessionController.getAccount();
-            if (!itsMe && !_accessManager.canReadCompleted(Feature.SPECIFIC_FUNCTION, account.getId(), ik)) {
+            if (!itsMe && !_accessManager.canRead(Feature.SPECIFIC_FUNCTION, account.getId(), ik)) {
                 continue;
             }
-            boolean canReadAlways = itsMe || _accessManager.
-                    canReadAlways(Feature.SPECIFIC_FUNCTION, account.getId(), ik);
-            WorkflowStatus statusLow = canReadAlways ? WorkflowStatus.New : WorkflowStatus.ApprovalRequested;
+            WorkflowStatus statusLow = WorkflowStatus.New;
             WorkflowStatus statusHigh = WorkflowStatus.ApprovalRequested;
             List<SpecificFunctionRequest> ikRequests = _specificFunctionFacade.obtainSpecificFunctionRequests(
                     account.getId(),

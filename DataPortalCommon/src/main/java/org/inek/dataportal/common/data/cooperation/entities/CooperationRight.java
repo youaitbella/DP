@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
 package org.inek.dataportal.common.data.cooperation.entities;
 
 import java.io.Serializable;
@@ -16,14 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.data.converter.FeatureConverter;
 import org.inek.dataportal.common.enums.CooperativeRight;
 
-/**
- *
- * @author muellermi
- */
 @Entity
 @Table(name = "CooperationRight", schema = "usr")
 public class CooperationRight implements Serializable {
@@ -113,11 +104,7 @@ public class CooperationRight implements Serializable {
     }
 
     public void setCooperativeRight(CooperativeRight cooperativeRight) {
-        if (cooperativeRight.isPublic()) {
-            _cooperativeRight = cooperativeRight;
-        } else {
-            DialogController.showErrorDialog("Veraltet", "Diese Rechte können Sie nicht mehr zuweisen");
-        }
+        _cooperativeRight = cooperativeRight;
     }
     // </editor-fold>
 

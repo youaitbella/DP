@@ -223,8 +223,7 @@ public class AccessManager implements Serializable {
             return true;
         }
         CooperativeRight right = getAchievedRight(feature, ownerAccountId, ik);
-        return right.canWriteAlways()
-                || (state.getId() >= WorkflowStatus.ApprovalRequested.getId() && right.canWriteCompleted());
+        return right.canWrite();
     }
 
     /**
@@ -357,7 +356,7 @@ public class AccessManager implements Serializable {
         Account account = _sessionController.getAccount();
         if (ownerId != account.getId()) {
             CooperativeRight achievedRight = getAchievedRight(feature, ownerId, ik);
-            return achievedRight.canSeal() || achievedRight.canWriteCompleted();
+            return achievedRight.canSeal(); // todo: check || achievedRight.canWrite();
         }
 
         return true;
@@ -386,17 +385,7 @@ public class AccessManager implements Serializable {
         return getAchievedRight(feature, ownerId, ik).canTake();
     }
 
-    @Deprecated
-    public static Predicate<CooperationRight> canReadCompleted() {
-        return r -> r.getCooperativeRight().canReadCompleted();
-    }
-
-    @Deprecated
-    public static Predicate<CooperationRight> canReadSealed() {
-        return r -> r.getCooperativeRight().canReadSealed();
-    }
-
-    public Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
+    public Set<Integer> determineAccountIds(Feature feature) {
         // todo: check
         Account account = _sessionController.getAccount();
         if (account == null) {
@@ -407,45 +396,23 @@ public class AccessManager implements Serializable {
         Set<Integer> ids = getCooperationRights(feature, account)
                 .stream()
                 .filter(right -> right.getPartnerId() == account.getId())
-                .filter(canRead)
+                .filter(right -> right.getCooperativeRight() != CooperativeRight.None)
                 .map(right -> right.getOwnerId())
                 .collect(Collectors.toSet());
+        
         ids.add(account.getId());  // user always has the right to see his own
 
         return ids;
     }
 
-    @Deprecated
-    public boolean canReadSealed(Feature feature, int partnerId) {
-        return canReadSealed(feature, partnerId, -1);
+    public boolean canRead(Feature feature, int partnerId) {
+        return canRead(feature, partnerId, -1);
     }
 
-    @Deprecated
-    public boolean canReadSealed(Feature feature, int partnerId, int ik) {
+    public boolean canRead(Feature feature, int partnerId, int ik) {
         // todo: check
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
-        return achievedRight.canReadSealed();
-    }
-
-    @Deprecated
-    public boolean canReadCompleted(Feature feature, int partnerId) {
-        return canReadCompleted(feature, partnerId, -1);
-    }
-
-    @Deprecated
-    public boolean canReadCompleted(Feature feature, int partnerId, int ik) {
-        // todo: check
-        CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
-        return achievedRight.canReadCompleted();
-    }
-
-    public boolean canReadAlways(Feature feature, int partnerId) {
-        return canReadAlways(feature, partnerId, -1);
-    }
-
-    public boolean canReadAlways(Feature feature, int partnerId, int ik) {
-        CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
-        return achievedRight.canReadAlways();
+        return achievedRight.canRead();
     }
 
     public Set<Integer> obtainIksForCreation(Feature feature) {

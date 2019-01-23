@@ -15,16 +15,10 @@ import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import static org.inek.dataportal.common.overall.AccessManager.canReadCompleted;
-import static org.inek.dataportal.common.overall.AccessManager.canReadSealed;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 
-/**
- *
- * @author muellermi
- */
 public class CI_AccessManagerTest {
 
     //<editor-fold defaultstate="collapsed" desc="Prepare test data">
@@ -423,16 +417,16 @@ public class CI_AccessManagerTest {
         assertThat(result).isTrue();
     }
 
-    @Test
-    public void isUpdateEnabledWithNoIkAndUserIsNotOwnerAndWriteCompletedReturnsTrue() {
-        List<AccessRight> accessRights = new ArrayList<>();
-        List<CooperationRight> cooperationRights = new ArrayList<>();
-        cooperationRights.add(
-                new CooperationRight(readSealedAccountId, userAccountId, allowedManagedIk, testFeature, CooperativeRight.ReadWrite));
-        AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-        boolean result = accessManager.isUpdateEnabled(testFeature, WorkflowStatus.CorrectionRequested, readSealedAccountId, allowedManagedIk);
-        assertThat(result).isTrue();
-    }
+//    @Test   todo: check (remove or replace)
+//    public void isUpdateEnabledWithNoIkAndUserIsNotOwnerAndWriteCompletedReturnsTrue() {
+//        List<AccessRight> accessRights = new ArrayList<>();
+//        List<CooperationRight> cooperationRights = new ArrayList<>();
+//        cooperationRights.add(
+//                new CooperationRight(readSealedAccountId, userAccountId, allowedManagedIk, testFeature, CooperativeRight.ReadWrite));
+//        AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
+//        boolean result = accessManager.isUpdateEnabled(testFeature, WorkflowStatus.CorrectionRequested, readSealedAccountId, allowedManagedIk);
+//        assertThat(result).isTrue();
+//    }
 
     @Test
     public void isTakeEnabledWithOwnerEqualsUserReturnsFalse() {
@@ -465,15 +459,7 @@ public class CI_AccessManagerTest {
     }
 
     @Test
-    public void testCanReadCompleted() {
-    }
-
-    @Test
-    public void testCanReadSealed() {
-    }
-
-    @Test
-    public void testCanWriteAlways() {
+    public void testCanRead() {
     }
 
     @Test
@@ -482,7 +468,7 @@ public class CI_AccessManagerTest {
         SessionController sessionController = mock(SessionController.class);
         when(sessionController.getAccount()).thenReturn(null);
         AccessManager accessManager = new AccessManager(null, sessionController, null);
-        Set<Integer> result = accessManager.determineAccountIds(testFeature, canReadSealed());
+        Set<Integer> result = accessManager.determineAccountIds(testFeature);
         assertThat(result).isNotNull().isEmpty();
     }
 
@@ -492,7 +478,7 @@ public class CI_AccessManagerTest {
 //        Feature feature = testFeature;
 //        AccessManager accessManager = obtainAccessManager();
 //
-//        Set<Integer> result = accessManager.determineAccountIds(feature, canReadSealed());
+//        Set<Integer> result = accessManager.determineAccountIds(feature, canRead());
 //        assertThat(result).isNotNull().isNotEmpty().
 //                containsOnly(userAccountId, readWriteSealAccountId, readSealedAccountId);
 //
@@ -503,7 +489,7 @@ public class CI_AccessManagerTest {
         Feature feature = testFeature;
         AccessManager accessManager = obtainAccessManager(new ArrayList<>(), new ArrayList<>(), false);
 
-        Set<Integer> result = accessManager.determineAccountIds(feature, canReadSealed());
+        Set<Integer> result = accessManager.determineAccountIds(feature);
         assertThat(result).isNotNull().isNotEmpty().containsOnly(userAccountId);
 
     }

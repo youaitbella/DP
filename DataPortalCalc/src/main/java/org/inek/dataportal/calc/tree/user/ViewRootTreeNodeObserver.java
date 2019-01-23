@@ -9,7 +9,6 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
-import static org.inek.dataportal.common.overall.AccessManager.canReadSealed;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.calc.facades.CalcFacade;
 import org.inek.dataportal.common.helper.Utils;
@@ -36,7 +35,7 @@ public class ViewRootTreeNodeObserver implements TreeNodeObserver{
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
-        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL);
         List<Integer> years = _calcFacade.getCalcYears(accountIds);
         int targetYear = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());

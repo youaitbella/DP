@@ -15,7 +15,6 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.drg.additionalcost.facade.AdditionalCostFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
-import static org.inek.dataportal.common.overall.AccessManager.canReadCompleted;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 
@@ -47,7 +46,7 @@ public class AdditionalCostList {
     private List<AdditionalCost> retrieveAddidtionalCosts(DataSet dataset) {
         Set<Integer> allowedManagedIks = _accessManager.retrieveAllowedManagedIks(Feature.ADDITIONAL_COST);
         Set<Integer> deniedManagedIks = _accessManager.retrieveDeniedManagedIks(Feature.ADDITIONAL_COST);
-        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.ADDITIONAL_COST, canReadCompleted());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.ADDITIONAL_COST);
         return _addFacade.getAdditionalCosts(accountIds, allowedManagedIks, deniedManagedIks, dataset);
     }
 

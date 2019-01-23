@@ -61,7 +61,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         if (partnerId == _sessionController.getAccountId()) {
             dataSet = DataSet.AllSealed;
         } else {
-            boolean canReadSealed = _accessManager.canReadSealed(Feature.DRG_PROPOSAL, partnerId);
+            boolean canReadSealed = _accessManager.canRead(Feature.DRG_PROPOSAL, partnerId);
             dataSet = canReadSealed ? DataSet.AllSealed : DataSet.None;
         }
         return _drgProposalFacade.getDrgProposalInfos(partnerId, year, dataSet);
@@ -72,10 +72,8 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         if (partnerId == _sessionController.getAccountId()) {
             dataSet = DataSet.AllOpen;
         } else {
-            boolean canReadAlways = _accessManager.canReadAlways(Feature.DRG_PROPOSAL, partnerId);
-            boolean canReadCompleted = _accessManager.canReadCompleted(Feature.DRG_PROPOSAL, partnerId);
-            dataSet = canReadAlways ? DataSet.AllOpen
-                    : canReadCompleted ? DataSet.ApprovalRequested : DataSet.None;
+            boolean canRead = _accessManager.canRead(Feature.DRG_PROPOSAL, partnerId);
+            dataSet = canRead ? DataSet.AllOpen: DataSet.None;
         }
         return _drgProposalFacade.getDrgProposalInfos(partnerId, -1, dataSet);
     }

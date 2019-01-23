@@ -75,7 +75,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         }
         for (int ik : ikSet) {
             if (account.getId() != _sessionController.getAccountId()
-                    && !_accessManager.canReadSealed(Feature.NUB, account.getId(), ik)) {
+                    && !_accessManager.canRead(Feature.NUB, account.getId(), ik)) {
                 continue;
             }
             List<ProposalInfo> infosForIk = _nubRequestFacade.
@@ -95,11 +95,10 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
             ikSet.add(0);
         }
         for (int ik : ikSet) {
-            if (!itsMe && !_accessManager.canReadCompleted(Feature.NUB, account.getId(), ik)) {
+            if (!itsMe && !_accessManager.canRead(Feature.NUB, account.getId(), ik)) {
                 continue;
             }
-            boolean canReadAlways = itsMe || _accessManager.canReadAlways(Feature.NUB, account.getId(), ik);
-            DataSet dataSet = canReadAlways ? DataSet.AllOpen : DataSet.ApprovalRequested;
+            DataSet dataSet = DataSet.AllOpen;
             List<ProposalInfo> infosForIk = _nubRequestFacade.
                     getNubRequestInfos(account.getId(), ik, -1, dataSet, getFilter());
             infos.addAll(infosForIk);

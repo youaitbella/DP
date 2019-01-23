@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.base.feature.cooperation;
 
 import java.text.MessageFormat;
@@ -39,10 +35,6 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.services.MessageService;
 
-/**
- *
- * @author muellermi
- */
 @Named
 @FeatureScoped
 public class EditCooperation extends AbstractEditController {
@@ -71,8 +63,8 @@ public class EditCooperation extends AbstractEditController {
         tabCooperationIk,
         tabCooperationOther;
     }
-
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
+
     private String _feature;
 
     public String getFeature() {
@@ -157,11 +149,10 @@ public class EditCooperation extends AbstractEditController {
         _cooperationRights.add(right);
         return right;
     }
-
     // </editor-fold>
+
     @PostConstruct
     private void init() {
-        //LOGGER.log(Level.WARNING, "Init EditCooperation");
         Object partnerId = Utils.getFlash().get("partnerId");
         setPartnerAccount(loadAccount(partnerId));
 
@@ -179,10 +170,6 @@ public class EditCooperation extends AbstractEditController {
             LOGGER.info(ex.getMessage());
         }
         return new Account();
-    }
-
-    private CooperationController getCooperationController() {
-        return (CooperationController) _sessionController.getFeatureController(Feature.COOPERATION);
     }
 
     private void setTopicsVisibility() {
@@ -281,21 +268,8 @@ public class EditCooperation extends AbstractEditController {
     public List<SelectItem> getCooperativeRights() {
         List<SelectItem> items = new ArrayList<>();
         for (CooperativeRight right : CooperativeRight.values()) {
-            if (right.isPublic()) {
-                SelectItem item = new SelectItem(right.name(), Utils.getMessageOrEmpty("cor" + right.name()));
+            SelectItem item = new SelectItem(right.name(), Utils.getMessageOrEmpty("cor" + right.name()));
             items.add(item);
-        }
-        }
-        return items;
-    }
-
-    public List<SelectItem> getCooperativeReadRights() {
-        List<SelectItem> items = new ArrayList<>();
-        for (CooperativeRight right : CooperativeRight.values()) {
-            if (right.isPublic() && !right.canWriteCompleted() && !right.canSeal()) {
-                SelectItem item = new SelectItem(right.name(), Utils.getMessageOrEmpty("cor" + right.name()));
-                items.add(item);
-            }
         }
         return items;
     }

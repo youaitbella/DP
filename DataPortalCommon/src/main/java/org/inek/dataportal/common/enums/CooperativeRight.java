@@ -35,24 +35,12 @@ public enum CooperativeRight {
         _isPublic = isPublic;
     }
 
-    public boolean canReadAlways() {
+    public boolean canRead() {
         return _rights.matches("3...");
     }
 
-    public boolean canReadCompleted() {
-        return _rights.matches("[23]...");
-    }
-
-    public boolean canReadSealed() {
-        return _rights.matches("[123]...");
-    }
-
-    public boolean canWriteAlways() {
+    public boolean canWrite() {
         return _rights.matches(".3..");
-    }
-
-    public boolean canWriteCompleted() {
-        return _rights.matches(".[23]..");
     }
 
     public boolean canTake() {
@@ -60,17 +48,9 @@ public enum CooperativeRight {
     }
 
     public boolean canSeal() {
-        return _rights.matches("...[12]");
+        return _rights.matches("...1");
     }
 
-    public boolean isSupervisor() {
-        return _rights.matches("...[2]");
-    }
-
-    public CooperativeRight withoutSupervision(){
-        return fromRightsAsString(_rights.substring(0, 3) + "0");
-    }
-    
     public CooperativeRight fromRightsAsString(String rights) {
         for (CooperativeRight right : CooperativeRight.values()) {
             if (rights.equalsIgnoreCase(right._rights)) {
@@ -82,10 +62,6 @@ public enum CooperativeRight {
 
     public String getRightsAsString() {
         return _rights;
-    }
-
-    public boolean isPublic() {
-        return _isPublic;
     }
 
     public String Description() {
