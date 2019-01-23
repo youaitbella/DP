@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
-import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 

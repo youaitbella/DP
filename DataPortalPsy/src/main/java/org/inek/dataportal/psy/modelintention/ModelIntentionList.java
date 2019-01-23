@@ -1,30 +1,24 @@
 package org.inek.dataportal.psy.modelintention;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.psy.modelintention.entities.ModelIntention;
-import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.psy.modelintention.enums.UserSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.cooperation.facade.CooperationFacade;
-import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.psy.modelintention.facades.ModelIntentionFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.EntityInfo;
+import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 
 @Named
@@ -34,9 +28,7 @@ public class ModelIntentionList {
     @Inject private ModelIntentionFacade _modelIntentionFacade;
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
-    @Inject private CooperationFacade _cooperationFacade;
-    @Inject private CooperationRightFacade _cooperationRightFacade;
-    private Map<Account, List<EntityInfo>> _modelIntentionInfos;
+    @Inject private AccessManager _accessManager;
     private List<Account> _partners;
     private List<EntityInfo> _partnerEntityInfos;
 
@@ -63,14 +55,7 @@ public class ModelIntentionList {
         if (_partners != null) {
             return;
         }
-        List<CooperationRight> achievedRights = _cooperationRightFacade
-                .getAchievedCooperationRights(_sessionController.getAccountId(), Feature.MODEL_INTENTION);
-        Set<Integer> ids = new HashSet<>();
-        for (CooperationRight right : achievedRights) {
-            if (right.getCooperativeRight() != CooperativeRight.None) {
-                ids.add(right.getOwnerId());
-            }
-        }
+        Set<Integer> ids = _accessManager.determineAccountIds(Feature.MODEL_INTENTION);
         ids.remove(_sessionController.getAccountId());
         if (_sessionController.isInekUser(Feature.MODEL_INTENTION)) {
             _partnerEntityInfos = _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.All, UserSet.OtherUsers);

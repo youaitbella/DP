@@ -3,7 +3,6 @@ package org.inek.dataportal.drg.nub;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,17 +20,14 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.drg.nub.entities.NubRequest;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.drg.nub.tree.AccountTreeNodeObserver;
 import org.inek.dataportal.drg.nub.tree.EditRootTreeNodeObserver;
@@ -57,8 +53,6 @@ public class NubSessionTools implements Serializable {
     private static final Logger LOGGER = Logger.getLogger("NubSessionTools");
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private CooperationRightFacade _cooperationRightFacade;
     @Inject
     private NubRequestFacade _nubRequestFacade;
     @Inject
@@ -98,14 +92,6 @@ public class NubSessionTools implements Serializable {
     public void setNubFilter(String nubFilter) {
         _nubFilter = nubFilter == null ? "" : nubFilter;
         refreshNodes();
-    }
-
-    public CooperativeRight getCooperativeRight(NubRequest nubRequest) {
-        return _cooperationRightFacade.getCooperativeRight(
-                nubRequest.getAccountId(),
-                _sessionController.getAccountId(),
-                Feature.NUB,
-                nubRequest.getIk());
     }
 
     public RootNode getEditNode() {

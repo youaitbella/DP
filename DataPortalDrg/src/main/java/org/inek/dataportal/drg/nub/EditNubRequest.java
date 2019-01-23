@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.drg.nub;
 
 import java.lang.reflect.Field;
@@ -30,13 +26,11 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.common.data.account.iface.Document;
-import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.drg.nub.entities.NubFormerRequestMerged;
 import org.inek.dataportal.drg.nub.entities.NubRequest;
 import org.inek.dataportal.drg.nub.entities.NubRequestDocument;
 import org.inek.dataportal.common.enums.CodeType;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -50,14 +44,9 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.inek.dataportal.common.helper.structures.MessageContainer;
-import org.inek.dataportal.common.services.MessageService;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.drg.controller.SessionHelper;
 
-/**
- *
- * @author muellermi
- */
 @Named
 @FeatureScoped
 public class EditNubRequest extends AbstractEditController {
@@ -82,7 +71,6 @@ public class EditNubRequest extends AbstractEditController {
     private ApplicationTools _appTools;
     private NubRequest _nubRequest;
     private NubRequest _nubRequestBaseline;
-    private CooperativeRight _cooperativeRight;
 
     @Override
     protected void addTopics() {
@@ -103,9 +91,6 @@ public class EditNubRequest extends AbstractEditController {
         tabNubPage4,
         tabNubPageDocuments;
     }
-    // <editor-fold defaultstate="collapsed" desc="fields">
-    private String _singleKhName;
-    // </editor-fold>
 
     public EditNubRequest() {
     }
@@ -165,7 +150,6 @@ public class EditNubRequest extends AbstractEditController {
             _nubRequest.setCreatedBy(_sessionController.getAccountId());
             _nubRequestBaseline = newNubRequest();
             _nubRequestBaseline.setCreatedBy(_sessionController.getAccountId());
-            ensureCooperativeRight(_nubRequest);
             Set<Integer> iks = getIks();
             if (iks.size() == 1) {
                 int ik = iks.stream().findFirst().get();
@@ -210,12 +194,6 @@ public class EditNubRequest extends AbstractEditController {
 
     private boolean isOwnNub(NubRequest nubRequest) {
         return _sessionController.isMyAccount(nubRequest.getAccountId(), false);
-    }
-
-    private void ensureCooperativeRight(NubRequest nubRequest) {
-        if (_cooperativeRight == null) {
-            _cooperativeRight = _nubSessionTools.getCooperativeRight(nubRequest);
-        }
     }
 
     private NubRequest newNubRequest() {
