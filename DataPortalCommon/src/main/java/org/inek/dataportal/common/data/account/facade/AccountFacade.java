@@ -28,6 +28,7 @@ import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.api.enums.IkReference;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.dao.User;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
@@ -554,6 +555,20 @@ public class AccountFacade extends AbstractDataAccess {
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         List<Account> accounts = query.getResultList();
         return accounts;
+    }
+
+    public List<User> findIkAdmins(int ik, Feature feature) {
+        String jpql = "select new org.inek.dataportal.common.data.dao.User("
+                + "acc._id, acc._gender, acc._title, acc._firstName, acc._lastName, acc._email, acc._company"
+                + ") from IkAdmin adm "
+                + "join IkAdminFeature f on adm = f._ikAdmin "
+                + "join account acc on adm._accountId = acc._id "
+                + "where adm._ik = :ik and f._feature = :feature";
+        TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
+        query.setParameter("ik", ik);
+        query.setParameter("feature", feature);
+        dumpSql(query);
+        return query.getResultList();
     }
 
     public Account findFreshAccount(int id) {
