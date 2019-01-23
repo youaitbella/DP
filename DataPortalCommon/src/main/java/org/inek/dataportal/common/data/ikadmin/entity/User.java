@@ -56,11 +56,6 @@ public class User implements Serializable, Person {
     public int getGender() {
         return _gender;
     }
-
-    @Override
-    public void setGender(int isFemale) {
-        _gender = isFemale;
-    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Title">
@@ -69,11 +64,6 @@ public class User implements Serializable, Person {
     @Override
     public String getTitle() {
         return _title;
-    }
-
-    @Override
-    public void setTitle(String title) {
-        _title = title;
     }
     // </editor-fold>
 
@@ -84,11 +74,6 @@ public class User implements Serializable, Person {
     public String getFirstName() {
         return _firstName;
     }
-
-    @Override
-    public void setFirstName(String firstName) {
-        _firstName = firstName;
-    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property LastName">
@@ -97,11 +82,6 @@ public class User implements Serializable, Person {
     @Override
     public String getLastName() {
         return _lastName;
-    }
-
-    @Override
-    public void setLastName(String lastName) {
-        _lastName = lastName;
     }
     // </editor-fold>
 
@@ -112,11 +92,6 @@ public class User implements Serializable, Person {
     public String getEmail() {
         return _email;
     }
-
-    @Override
-    public void setEmail(String email) {
-        _email = email;
-    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Company">
@@ -125,10 +100,6 @@ public class User implements Serializable, Person {
     @Override
     public String getCompany() {
         return _company;
-    }
-
-    public void setCompany(String company) {
-        _company = company;
     }
     // </editor-fold>
 
