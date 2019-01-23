@@ -629,7 +629,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
 
         if (message.containsMessage()) {
-            message.setMessage("Bitte übprüfen und korrigieren Sie folgende Angaben:\\r\\n" + message.getMessage());
+            message.setMessage("Bitte überprüfen und korrigieren Sie folgende Angaben:\\r\\n" + message.getMessage());
             setActiveTopic(message.getTopic());
             String script = "alert ('" + message.getMessage() + "');";
             if (!message.getElementId().isEmpty()) {
