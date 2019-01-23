@@ -2,17 +2,13 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="/Templates/PortalTemplate.xhtml"
+                template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <ui:define name="metaData"/>
-    <ui:define name="userInfo"/>
-    <ui:define name="menuList"/>
-    <ui:define name="bottom"/>
-
-    <ui:define name="mainContent">
+    <ui:define name="content">
         <div class="edit">
             <h1>Datenschutzerklärung</h1>
 
@@ -84,6 +80,15 @@
 
             </pre>
         </div>
+
+        <c:if test="#{!sessionController.loggedIn}">
+            <h:form>
+                <a href="#{sessionController.obtainTargetUrl('COMMON')}" class="bigButton">
+                    Zur Start Seite
+                </a>
+
+            </h:form>
+        </c:if>
     </ui:define>
 </ui:composition>
 
