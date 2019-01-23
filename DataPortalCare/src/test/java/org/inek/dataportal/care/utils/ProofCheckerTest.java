@@ -80,22 +80,22 @@ class ProofCheckerTest {
 
         Assertions.assertThat(ProofChecker.proofIsReadyForSend(baseInfo, 0))
                 .hasSize(1)
-                .containsOnly("Station: Station H1 Monat: Januar Schicht: Tag: Pflegekräfte = 0 aber Anzahl Patienten > 0");
+                .containsOnly("Station: Station H1 Monat: Januar Schicht: Tag: Es sind keine Pflegekräfte eingetragen, obwohl Patienten vorhanden sind");
 
         proof1.setCountShiftNotRespected(5);
 
         Assertions.assertThat(ProofChecker.proofIsReadyForSend(baseInfo, 0))
                 .hasSize(2)
-                .contains("Station: Station H1 Monat: Januar Schicht: Tag: Pflegekräfte = 0 aber Anzahl Patienten > 0")
-                .contains("Station: Station H1 Monat: Januar Schicht: Tag: Anzahl Schichten < Anzahl Schichten nicht eingehalten");
+                .contains("Station: Station H1 Monat: Januar Schicht: Tag: Es sind keine Pflegekräfte eingetragen, obwohl Patienten vorhanden sind")
+                .contains("Station: Station H1 Monat: Januar Schicht: Tag: Es sind mehr Schichten als nicht eingehalten eingetragen als Schichten insgesamt vorhanden sind");
 
         proof2.setCountShift(0);
         proof2.setNurse(5);
 
         Assertions.assertThat(ProofChecker.proofIsReadyForSend(baseInfo, 0))
                 .hasSize(3)
-                .contains("Station: Station H1 Monat: Januar Schicht: Tag: Pflegekräfte = 0 aber Anzahl Patienten > 0")
-                .contains("Station: Station H1 Monat: Januar Schicht: Tag: Anzahl Schichten < Anzahl Schichten nicht eingehalten")
-                .contains("Station: Station H2 Monat: Januar Schicht: Nacht: Anzahl Schichten = 0 aber Pflegekräfte > 0");
+                .contains("Station: Station H1 Monat: Januar Schicht: Tag: Es sind keine Pflegekräfte eingetragen, obwohl Patienten vorhanden sind")
+                .contains("Station: Station H1 Monat: Januar Schicht: Tag: Es sind mehr Schichten als nicht eingehalten eingetragen als Schichten insgesamt vorhanden sind")
+                .contains("Station: Station H2 Monat: Januar Schicht: Nacht: Es sind Pflegekräfte eingetragen, obwohl die Anzahl der Schichten Null beträgt");
     }
 }
