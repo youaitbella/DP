@@ -4,56 +4,54 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:pf="http://primefaces.org/ui">
-    <h:form id="formIkAdmin">
-        <pf:dataTable id="ikList"
-                      value="#{ikAdminList.adminIks}"
-                      var="ik"
-                      style="padding: 10px;"
-                      tableStyleClass="inekTableBase"
-                      tableStyle="table-layout: auto; width: 99%"
-                      rendered="#{ikAdminList.account.disclaimerConfirmed}">
-            <pf:column headerText="IK">
-                <h:link outcome="#{sessionTools.pages.IkAdminTasks}"
-                        value="#{ik}" >
-                    <f:param name="ik" value="#{ik}"/>
-                </h:link>
-            </pf:column>
+    <pf:dataTable id="ikList"
+                  value="#{ikAdminList.adminIks}"
+                  var="ik"
+                  style="padding: 10px;"
+                  tableStyleClass="inekTableBase"
+                  tableStyle="table-layout: auto; width: 99%"
+                  rendered="#{ikAdminList.account.disclaimerConfirmed}">
+        <pf:column headerText="IK">
+            <h:link outcome="#{sessionTools.pages.IkAdminTasks}"
+                    value="#{ik}" >
+                <f:param name="ik" value="#{ik}"/>
+            </h:link>
+        </pf:column>
 
-            <pf:column headerText="Krankenhaus">
-                <h:link outcome="#{sessionTools.pages.IkAdminTasks}"
-                        value="#{applicationTools.retrieveHospitalInfo(ik)}" >
-                    <f:param name="ik" value="#{ik}"/>
-                </h:link>
-            </pf:column>
-        </pf:dataTable>
+        <pf:column headerText="Krankenhaus">
+            <h:link outcome="#{sessionTools.pages.IkAdminTasks}"
+                    value="#{applicationTools.retrieveHospitalInfo(ik)}" >
+                <f:param name="ik" value="#{ik}"/>
+            </h:link>
+        </pf:column>
+    </pf:dataTable>
 
-        <pf:fieldset id="ikListDisclaimer"
-                     legend="Nutzungshinweis"
-                     toggleable="true"
-                     class="inekFieldsetDrg"
-                     collapsed="#{ikAdminList.account.disclaimerConfirmed}">
-            <h:panelGrid columns="1" cellpadding="5">
-                <p>
-                    Als Funktionsbeauftragter bestimmen Sie, welche Rechte die für Ihre Institution im InEK-Datenportal angemeldeten Anwender besitzen.
-                    Mit der Rechtevergabe entscheiden Sie entsprechend, welche Daten zu Ihrer Institution vom jeweiligen Anwender gesehen, geändert, sowie an das InEK gesendet werden dürfen.
-                    Ein künftig neu registrierter Anwender besitzt initial keine Rechte.
-                    Anwender, die bereits vor Einrichtung des Funktionsbeauftragten registriert waren, wurden initial mit Ihren bisherigen Rechten ausgestattet.
-                </p>
-                <p>
-                    Für jede Funktion, welche von Ihrem Haus genutzt werden soll, benötigt mindestens ein Anwender das Recht, die Daten zu bearbeiten und an das InEK senden zu können.
-                    Anderenfalls lässt sich die betreffende Funktion nicht im gewünschten Maße nutzen.
-                </p>
-                <p>
-                    Weitere Details entnehmen Sie bitte dem Anwenderhandbuch.
-                </p>
-            </h:panelGrid>
+    <pf:fieldset id="ikListDisclaimer"
+                 legend="Nutzungshinweis"
+                 toggleable="true"
+                 class="inekFieldsetDrg"
+                 collapsed="#{ikAdminList.account.disclaimerConfirmed}">
+        <h:panelGrid columns="1" cellpadding="5">
+            <p>
+                Als Funktionsbeauftragter bestimmen Sie, welche Rechte die für Ihre Institution im InEK-Datenportal angemeldeten Anwender besitzen.
+                Mit der Rechtevergabe entscheiden Sie entsprechend, welche Daten zu Ihrer Institution vom jeweiligen Anwender gesehen, geändert, sowie an das InEK gesendet werden dürfen.
+                Ein künftig neu registrierter Anwender besitzt initial keine Rechte.
+                Anwender, die bereits vor Einrichtung des Funktionsbeauftragten registriert waren, wurden initial mit Ihren bisherigen Rechten ausgestattet.
+            </p>
+            <p>
+                Für jede Funktion, welche von Ihrem Haus genutzt werden soll, benötigt mindestens ein Anwender das Recht, die Daten zu bearbeiten und an das InEK senden zu können.
+                Anderenfalls lässt sich die betreffende Funktion nicht im gewünschten Maße nutzen.
+            </p>
+            <p>
+                Weitere Details entnehmen Sie bitte dem Anwenderhandbuch.
+            </p>
+        </h:panelGrid>
 
-        </pf:fieldset>
+    </pf:fieldset>
 
-        <h:commandLink rendered="#{not ikAdminList.account.disclaimerConfirmed}"
-                       styleClass="bigButton"
-                       value="&nbsp; Ich habe den Nutzungshinweis zur Kenntniss genommen &nbsp;"
-                       action="#{ikAdminList.setDisclaimerDate()}"
-                       immediate="true"/>
-    </h:form>
+    <h:commandLink rendered="#{not ikAdminList.account.disclaimerConfirmed}"
+                   styleClass="bigButton"
+                   value="&nbsp; Ich habe den Nutzungshinweis zur Kenntniss genommen &nbsp;"
+                   action="#{ikAdminList.setDisclaimerDate()}"
+                   immediate="true"/>
 </ui:composition>
