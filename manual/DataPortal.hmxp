@@ -148,7 +148,7 @@
       <config-value name="autohelpstart">0</config-value>
       <config-value name="autohelpincrement">1</config-value>
       <config-value name="autohelpanchor">0</config-value>
-      <config-value name="searchpath">.\;.\Baggage\;..\web\resources\Icon\small\;.\Baggage\care\;.\Baggage\kh-vergleich\</config-value>
+      <config-value name="searchpath">.\;.\Baggage\;..\web\resources\Icon\small\;.\Baggage\care\;.\Baggage\kh-vergleich\;.\Baggage\insurance\</config-value>
       <config-group name="custombuilds">
         <config-value name="DEMO">Demo Build</config-value>
         <config-value name="USER1">Zerti</config-value>
@@ -381,6 +381,7 @@ document.write('</frameset>');
       <file-mod href="Datenerfassung-zum-Krankenhaus.xml"/>
       <file-mod href="Structurinformationen.xml"/>
       <file-mod href="Nachweisvereinbarung.xml"/>
+      <file-mod href="InsurancePsych_2.xml"/>
     </file>
     <file href="Baggage/*.*" build="ALL" filetype="baggage"/>
   </project-files>

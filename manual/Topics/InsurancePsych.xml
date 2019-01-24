@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Psych-Personalnachweis</title>
   <body>
     <header>
@@ -22,7 +22,5 @@
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="InsurancePsych01.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Prüfergebnis bei unbekannter oder ungültiger Signatur</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
   </body>
 </topic>

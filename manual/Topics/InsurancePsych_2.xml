@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">PPUGV Signaturprüfung</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">PPUGV Signaturprüfung</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Diese Funktion erlaubt die Gültigkeitsprüfung einer Signatur im Rahmen der PPUGV Nachweisvereinbarung. Für die Funktionalität der Signaturprüfung müssen Sie als Anwender die Funktion :&quot;PPUGV-Nachweisvereinbarung Signaturprüfung (Funktion für Krankenkasse)&quot; in den Stammdaten beantragt, und vom InEK freigeschaltet haben. Den entsprechenden Menüpunkt finden Sie nach erfolgreicher freischaltung bei den Krankenkassen-Funktionen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie die Signatur ein und klicken Sie auf den Button &quot;Prüfen&quot;. Sofern es sich um eine gültige Signatur handelt, zeigt Ihnen das Datenportal das IK des Krankenhauses, den Namen, das Jahr und das Quartal der Meldung an.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="insurance_care_signature_check.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Ausgabe bei gültiger Signatur</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
