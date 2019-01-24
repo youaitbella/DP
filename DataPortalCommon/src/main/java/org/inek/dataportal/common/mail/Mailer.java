@@ -7,6 +7,7 @@ package org.inek.dataportal.common.mail;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,14 +74,16 @@ public class Mailer {
      *
      * @param from
      * @param recipient one or more addresses, separated by semicolon
-     * @param cc none, one or more addresses, separated by semicolon
-     * @param bcc none, one or more addresses, separated by semicolon
+     * @param cc        none, one or more addresses, separated by semicolon
+     * @param bcc       none, one or more addresses, separated by semicolon
      * @param subject
      * @param body
      * @param files
+     *
      * @return
      */
-    public boolean sendMailFrom(String from, String recipient, String cc, String bcc, String subject, String body, String... files) {
+    public boolean sendMailFrom(String from, String recipient, String cc, String bcc, String subject, String body,
+            String... files) {
         if (recipient.toLowerCase().endsWith(".test")) {
             // this is just to mock a successful mail
             return true;
@@ -156,7 +159,8 @@ public class Mailer {
     public MailTemplate getMailTemplate(String name) {
         MailTemplate template = _mailTemplateFacade.findByName(name);
         if (template == null) {
-            String serverName = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
+            String serverName = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().
+                    getRequest()).getServerName();
             String msg = "Server: " + serverName + "\r\n Mail template not found: " + name + "\r\n";
             sendMail(_config.readConfig(ConfigKey.ExceptionEmail), "MailTemplate not found", msg);
         }
@@ -164,8 +168,10 @@ public class Mailer {
     }
 
     public String getFormalSalutation(Person person) {
-        String salutation = person.getGender() == 1 ? Utils.getMessage("formalSalutationFemale") : Utils.getMessage("formalSalutationMale");
-        salutation = salutation.replace(TITLE, person.getTitle()).replace(LASTNAME, person.getLastName()).replace("  ", " ");
+        String salutation = person.getGender() == 1 ? Utils.getMessage("formalSalutationFemale") : Utils.
+                getMessage("formalSalutationMale");
+        salutation = salutation.replace(TITLE, person.getTitle()).replace(LASTNAME, person.getLastName()).
+                replace("  ", " ");
         return salutation;
     }
 
@@ -173,6 +179,21 @@ public class Mailer {
         String salutation = person.getGender() == 1 ? "Frau " : "Herr ";
         salutation += person.getTitle() + " " + person.getLastName();
         return salutation;
+    }
+
+    public boolean sendMailWithTemplate(String templateName, Map<String, String> substitutions, Person receiver) {
+        MailTemplate template = getMailTemplate(templateName);
+        if (template == null) {
+            return false;
+        }
+        String subject = template.getSubject();
+        String body = template.getBody().replace(FORMAL_SALUTATION, getFormalSalutation(receiver));
+        for (String param : substitutions.keySet()) {
+            String value = substitutions.get(param);
+            subject = subject.replace(param, value);
+            body = body.replace(param, value);
+        }
+        return sendMailFrom(template.getFrom(), receiver.getEmail(), template.getBcc(), subject, body);
     }
 
     public boolean sendActivationMail(AccountRequest accountRequest) {
@@ -278,7 +299,8 @@ public class Mailer {
             msg.append(element.toString()).append("\r\n");
         }
 
-        String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
+        String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).
+                getServerName();
         String subject = "Exception reported by Server " + name;
         sendMail(_config.readConfig(ConfigKey.ExceptionEmail), subject, msg.toString());
     }
