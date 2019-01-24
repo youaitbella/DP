@@ -593,7 +593,7 @@ public class EditNubRequest extends AbstractEditController {
         String msg = "";
         try {
             _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
-            // todo: send message?
+            _sessionController.requestApproval(_nubRequest.getIk(), Feature.NUB);
             return "";
         } catch (Exception ex) {
             if (isNewRequest || !(ex.getCause() instanceof OptimisticLockException)) {

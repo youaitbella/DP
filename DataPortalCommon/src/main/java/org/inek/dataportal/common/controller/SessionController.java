@@ -5,8 +5,11 @@ import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,8 +39,10 @@ import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.adm.Log;
+import org.inek.dataportal.common.data.common.User;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.EnvironmentType;
+import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.common.helper.Utils;
@@ -709,5 +714,30 @@ public class SessionController implements Serializable {
 
     public boolean accountIsAllowedForTest(Feature feature) {
         return _accountFacade.isAllowedForTest(getAccountId(), feature.getId());
+    }
+
+    public void requestApproval(int ik, Feature feature) {
+        Map<String, String> substitutions = new HashMap<>();
+        substitutions.put("{name}", _account.getDisplayName());
+        substitutions.put("{ik}", "" + ik);
+        substitutions.put("{feature}", feature.name());
+
+        List<Right> rights = new ArrayList<>();
+        rights.add(Right.All);
+        rights.add(Right.Seal);
+        List<User> users = _accountFacade.findUsersWithRights(ik, feature, rights);
+
+        users.forEach((user) -> {
+            _mailer.sendMailWithTemplate("ApprovalRequestNotificationForSupervisor", substitutions, user);
+        });
+
+        if (users.size() > 0) {
+            return;
+        }
+
+        users = _accountFacade.findIkAdmins(ik, feature);
+        users.forEach((user) -> {
+            _mailer.sendMailWithTemplate("ApprovalRequestNotificationForAdmin", substitutions, user);
+        });
     }
 }
