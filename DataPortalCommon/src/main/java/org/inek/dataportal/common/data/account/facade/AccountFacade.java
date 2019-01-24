@@ -558,16 +558,18 @@ public class AccountFacade extends AbstractDataAccess {
     }
 
     public List<User> findIkAdmins(int ik, Feature feature) {
-        String jpql = "select new org.inek.dataportal.common.data.dao.User("
-                + "acc._id, acc._gender, acc._title, acc._firstName, acc._lastName, acc._email, acc._company"
-                + ") from IkAdmin adm "
-                + "join IkAdminFeature f on adm = f._ikAdmin "
-                + "join account acc on adm._accountId = acc._id "
-                + "where adm._ik = :ik and f._feature = :feature";
-        TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
+        TypedQuery<User> query = getEntityManager().createNamedQuery("User.findIkAdmins", User.class);
         query.setParameter("ik", ik);
         query.setParameter("feature", feature);
         dumpSql(query);
+        return query.getResultList();
+    }
+
+    public List<User> findUsersWithRights(int ik, Feature feature, List<Right> rights) {
+        TypedQuery<User> query = getEntityManager().createNamedQuery("User.findUsersWithRights", User.class);
+        query.setParameter("ik", ik);
+        query.setParameter("feature", feature);
+        query.setParameter("rights", rights);
         return query.getResultList();
     }
 

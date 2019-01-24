@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import org.inek.dataportal.common.data.account.entities.Account;
 
@@ -15,6 +17,19 @@ import org.inek.dataportal.common.data.account.entities.Account;
  */
 @Entity
 @Table(name = "Account")
+@NamedQueries({
+    @NamedQuery(name = "User.findIkAdmins",
+            query = "select u "
+            + "from IkAdmin adm "
+            + "join IkAdminFeature f on adm = f._ikAdmin "
+            + "join User u on adm._accountId = u._id "
+            + "where adm._ik = :ik and f._feature = :feature"),
+    @NamedQuery(name = "User.findUsersWithRights",
+            query = "select u "
+            + "from AccessRight a "
+            + "join User u on a._accountId = u._id "
+            + "where a._ik = :ik and a._feature = :feature and a._right in :rights")
+})
 public class User implements Serializable, Person {
 
     private static final long serialVersionUID = 1L;
