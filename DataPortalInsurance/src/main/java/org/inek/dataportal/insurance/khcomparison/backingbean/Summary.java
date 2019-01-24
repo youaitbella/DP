@@ -74,22 +74,18 @@ public class Summary {
     }
 
     private void setWorkingList() {
-        _listWorking.clear();
-        for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                .filter(c -> c.canRead() && c.getFeature() == Feature.HC_INSURANCE)
-                .collect(Collectors.toList())) {
-            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), CustomerTyp.Insurance));
-            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), CustomerTyp.Insurance));
-        }
+        Set<Integer> iks = _accessManager.retrieveAllowedManagedIks(Feature.HC_INSURANCE);
+        List<WorkflowStatus> status = new ArrayList<>();
+        status.add(WorkflowStatus.New);
+        status.add(WorkflowStatus.CorrectionRequested);
+        _listWorking = _aebfacade.getAllByStatusAndIk(status, iks, CustomerTyp.Insurance);
     }
 
     private void setCompleteList() {
-        _listComplete.clear();
-        for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                .filter(c -> c.canRead() && c.getFeature() == Feature.HC_INSURANCE)
-                .collect(Collectors.toList())) {
-            _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), CustomerTyp.Insurance));
-        }
+        Set<Integer> iks = _accessManager.retrieveAllowedManagedIks(Feature.HC_INSURANCE);
+        List<WorkflowStatus> status = new ArrayList<>();
+        status.add(WorkflowStatus.Provided);
+        _listComplete = _aebfacade.getAllByStatusAndIk(status, iks, CustomerTyp.Insurance);
     }
 
     public String khComparisonOpen() {

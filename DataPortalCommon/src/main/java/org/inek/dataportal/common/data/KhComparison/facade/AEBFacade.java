@@ -44,12 +44,12 @@ public class AEBFacade extends AbstractDataAccess {
         String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._year = :year "
                 + "and bi._ik = :ik "
                 + "and bi._typ = :typ "
-                + "and bi._statusId = :status";
+                + "and bi._status = :status";
         TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
         query.setParameter("ik", ik);
         query.setParameter("year", year);
         query.setParameter("typ", typ);
-        query.setParameter("status", status.getId());
+        query.setParameter("status", status);
         try {
             return query.getSingleResult();
         } catch (NoResultException ex) {
@@ -65,19 +65,30 @@ public class AEBFacade extends AbstractDataAccess {
     }
 
     public List<AEBBaseInformation> getAllByStatus(WorkflowStatus status) {
-        String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._statusId = :status";
+        String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._status = :status";
         TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
-        query.setParameter("status", status.getId());
+        query.setParameter("status", status);
         return query.getResultList();
     }
 
     public List<AEBBaseInformation> getAllByStatusAndIk(WorkflowStatus status, int ik, CustomerTyp typ) {
-        String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._statusId = :status "
+        String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._status = :status "
                 + "and bi._ik = :ik "
                 + "and bi._typ = :typ";
         TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
-        query.setParameter("status", status.getId());
+        query.setParameter("status", status);
         query.setParameter("ik", ik);
+        query.setParameter("typ", typ.id());
+        return query.getResultList();
+    }
+
+    public List<AEBBaseInformation> getAllByStatusAndIk(List<WorkflowStatus> status, Set<Integer> iks, CustomerTyp typ) {
+        String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._status in :status "
+                + "and bi._ik in :iks "
+                + "and bi._typ = :typ";
+        TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
+        query.setParameter("status", status);
+        query.setParameter("iks", iks);
         query.setParameter("typ", typ.id());
         return query.getResultList();
     }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+import org.inek.dataportal.common.data.converter.WorkflowStatusConverter;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
@@ -137,22 +138,15 @@ public class AEBBaseInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
     @Column(name = "biStatusId")
-    private int _statusId;
-
-    public int getStatusId() {
-        return _statusId;
-    }
-
-    public void setStatusId(int statusId) {
-        _statusId = statusId;
-    }
+    @Convert(converter = WorkflowStatusConverter.class)
+    private  WorkflowStatus _status;
 
     public WorkflowStatus getStatus() {
-        return WorkflowStatus.fromValue(_statusId);
+        return _status;
     }
 
     public void setStatus(WorkflowStatus status) {
-        _statusId = status.getId();
+        _status = status;
     }
     //</editor-fold>
 
