@@ -8,18 +8,6 @@
     <ui:define name="content">
         <h1>PPUG Nachweisvereinbarung Signaturprüfung</h1>
 
-        <style>
-            .noBorder tr,
-            .noBorder td {
-                border: 0 !important;
-            }
-
-            .transparentBackground tr,
-            .transparentBackground td {
-                background: transparent !important;
-            }
-        </style>
-
         <div class="edit">
             <h:form id="checkForm">
                 <div class="ui-g ui-fluid">
@@ -47,7 +35,6 @@
 
                 <pf:panelGrid id="result"
                               columns="2"
-
                               rendered="#{editCareProofSignatureCheck.entry.ik gt 0}"
                               styleClass="noBorder transparentBackground">
                     <h:outputText value="Signatur:" />

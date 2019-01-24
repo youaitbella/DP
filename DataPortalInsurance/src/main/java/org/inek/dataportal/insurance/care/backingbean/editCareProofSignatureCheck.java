@@ -11,11 +11,9 @@ import javax.inject.Named;
 @FeatureScoped
 public class editCareProofSignatureCheck {
 
-    private CareSignatureCheckerFacade _signatureCheckerFacade;
-
     private static final String VALID_SIGNATURE = "Die Signatur ist gültig";
     private static final String NOT_VALID_SIGNATURE = "Die Signatur ist nicht gültig";
-
+    private CareSignatureCheckerFacade _signatureCheckerFacade;
     private String _signature;
     private SignatureEntry _entry;
     private String _checkMessage;

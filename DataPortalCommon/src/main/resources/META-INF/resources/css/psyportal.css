@@ -1371,6 +1371,14 @@ html.progress,
 html.progress * {
   cursor: progress !important;
 }
+.noBorder tr,
+.noBorder td {
+  border: 0 !important;
+}
+.transparentBackground tr,
+.transparentBackground td {
+  background: transparent !important;
+}
 #content .activemenu a {
   background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active_psy.png.xhtml");
 }
