@@ -139,7 +139,7 @@ public class AEBBaseInformation implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
     @Column(name = "biStatusId")
     @Convert(converter = WorkflowStatusConverter.class)
-    private  WorkflowStatus _status;
+    private  WorkflowStatus _status = WorkflowStatus.Unknown;
 
     public WorkflowStatus getStatus() {
         return _status;
