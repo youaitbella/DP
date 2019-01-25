@@ -30,15 +30,31 @@ import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 
 /**
- * This class provides access to cooperations rights for one request. Depending on the current data, a couple of
- * accesses * might be necessary. To mimimize the db accesses, all cooperation data of one kind (achieved or granted)
- * will be read together and buffered (cached) for the current HTTP request. * This class has to be placed into request
- * scope.
+ * This class provides answers to questions like
+ * Do we grant write access to the current user for given data?
+ * Is the data in a writeable state?
+ * Is the user allowed to send teh data=
+ * and much more.
+ * 
+ * Beside the maintenace functions which store the rights, 
+ * the AccessManager is the only class allowed to handle rights.
+ * 
+ * ik is mandatory for the data:
+ * If an admin is manadory and no admin exists, then no right is granted
+ * 
+ * ik is mandatory for the data:
+ * If an admin for that ik function combination exists, then ik admin rights are used (ignore cooperation)
  *
- * Starting in Dec 2017, tha concept of an IK admin has been introduced. Such an admin may grant or revoke rights for a
- * given ik. If available, these rights will override cooperative rights.
+ * else grant access to the onwer or use cooperative rights
  *
- * @author muellermi
+ * The rights depend on the user iks. That are thoese iks, the user registers in the user maintenance
+ * For some functions, the user is responsible for other ik (we call it data ik)
+ * Thus, we need to retrive rights for the user ik and use data ik within the data
+ * 
+ * ByResponsibilityAndCorrelation:
+ * For some data ik only one dedicated user ik is leading
+ * In such a case, access is restricted to read, if the user ik is not the leading ik
+ * 
  */
 @Named
 @RequestScoped
