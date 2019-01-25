@@ -46,7 +46,7 @@ public class AebChecker {
         List<AEBPageE3_1> peppsForRemove = new ArrayList<>();
 
         for (AEBPageE3_1 page : info.getAebPageE3_1()) {
-            if (!isValidPepp(page.getRenumeration())) {
+            if (!RenumerationChecker.isFormalValidPepp(page.getRenumeration())) {
                 peppsForRemove.add(page);
                 addMessage("Eintrag " + page.getRenumeration() + " ist keine gültige Pepp");
                 continue;
@@ -59,7 +59,7 @@ public class AebChecker {
         List<AEBPageE3_2> zeForRemove = new ArrayList<>();
 
         for (AEBPageE3_2 page : info.getAebPageE3_2()) {
-            if (!isValidZe(page.getZe())) {
+            if (!RenumerationChecker.isFormalValidZe(page.getZe())) {
                 zeForRemove.add(page);
                 addMessage("Eintrag " + page.getZe() + " ist keine gültiges ZE");
                 continue;
@@ -72,7 +72,7 @@ public class AebChecker {
         List<AEBPageE3_3> zeForRemove = new ArrayList<>();
 
         for (AEBPageE3_3 page : info.getAebPageE3_3()) {
-            if (!isValidPepp(page.getRenumeration())) {
+            if (!RenumerationChecker.isFormalValidPepp(page.getRenumeration())) {
                 zeForRemove.add(page);
                 addMessage("Eintrag " + page.getRenumeration() + " ist keine gültige Pepp");
                 continue;
@@ -86,16 +86,16 @@ public class AebChecker {
         List<AEBPageE1_1> peppsForRemove = new ArrayList<>();
 
         for (AEBPageE1_1 page : info.getAebPageE1_1()) {
-            if (!isValidPepp(page.getPepp())) {
+            if (!RenumerationChecker.isFormalValidPepp(page.getPepp())) {
                 peppsForRemove.add(page);
-                addMessage("Eintrag " + page.getPepp() + " ist keine gültige Pepp");
+                addMessage(page.getImportetFrom() + ": Eintrag " + page.getPepp() + " ist keine gültige Pepp");
                 continue;
             }
             double value = _aebListItemFacade.getValuationRadioDaysByPepp(page.getPepp(),
                     page.getCompensationClass(),
                     info.getYear());
             if (page.getValuationRadioDay() != value) {
-                addMessage("Pepp: " + page.getPepp() + " - "
+                addMessage(page.getImportetFrom() + ": Pepp: " + page.getPepp() + " - "
                         + page.getCompensationClass()
                         + ": Unterschiedliche Werte. Eingetragen: "
                         + page.getValuationRadioDay()
@@ -114,15 +114,15 @@ public class AebChecker {
         List<AEBPageE1_2> etForRemove = new ArrayList<>();
 
         for (AEBPageE1_2 page : info.getAebPageE1_2()) {
-            if (!isValidEt(page.getEt())) {
+            if (!RenumerationChecker.isFormalValidEt(page.getEt())) {
                 etForRemove.add(page);
-                addMessage("Eintrag " + page.getEt() + " ist kein gültiges ET");
+                addMessage(page.getImportetFrom() + ": Eintrag " + page.getEt() + " ist kein gültiges ET");
                 continue;
             }
             double value = _aebListItemFacade.getValuationRadioDaysByEt(page.getEt(),
                     info.getYear());
             if (page.getValuationRadioDay() != value) {
-                addMessage("ET: " + page.getEt()
+                addMessage(page.getImportetFrom() + ": ET: " + page.getEt()
                         + ": Unterschiedliche Werte. Eingetragen: "
                         + page.getValuationRadioDay()
                         + " Katalog: "
@@ -140,15 +140,15 @@ public class AebChecker {
         List<AEBPageE2> zeForRemove = new ArrayList<>();
 
         for (AEBPageE2 page : info.getAebPageE2()) {
-            if (!isValidZe(page.getZe())) {
+            if (!RenumerationChecker.isFormalValidZe(page.getZe())) {
                 zeForRemove.add(page);
-                addMessage("Eintrag " + page.getZe() + " ist kein gültiges ZE");
+                addMessage(page.getImportetFrom() + ": Eintrag " + page.getZe() + " ist kein gültiges ZE");
                 continue;
             }
             double value = _aebListItemFacade.getValuationRadioDaysByZe(page.getZe(),
                     info.getYear());
             if (page.getValuationRadioDay() != value) {
-                addMessage("Ze: " + page.getZe()
+                addMessage(page.getImportetFrom() + ": Ze: " + page.getZe()
                         + ": Unterschiedliche Werte. Eingetragen: "
                         + page.getValuationRadioDay()
                         + " Katalog: "
@@ -159,27 +159,6 @@ public class AebChecker {
         }
 
         info.getAebPageE2().removeAll(zeForRemove);
-    }
-
-    private boolean isValidZe(String ze) {
-        if (!ze.startsWith("ZP")) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidEt(String et) {
-        if (!et.startsWith("ET")) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidPepp(String pepp) {
-        if (!pepp.startsWith("P") && !pepp.startsWith("T") && !pepp.startsWith("Q")) {
-            return false;
-        }
-        return true;
     }
 
     private void addMessage(String message) {

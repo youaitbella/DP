@@ -21,4 +21,13 @@ public class AebCleanerHelper {
         info.getAebPageE3_2().removeIf(c -> c.getZe().length() == 0);
         info.getAebPageE3_3().removeIf(c -> c.getRenumeration().length() == 0);
     }
+
+    public static void removeAllEntrys(AEBBaseInformation info) {
+        info.getAebPageE1_1().clear();
+        info.getAebPageE1_2().clear();
+        info.getAebPageE2().clear();
+        info.getAebPageE3_1().clear();
+        info.getAebPageE3_2().clear();
+        info.getAebPageE3_3().clear();
+    }
 }

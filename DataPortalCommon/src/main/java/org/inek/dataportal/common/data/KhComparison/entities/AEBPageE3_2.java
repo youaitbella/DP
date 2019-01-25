@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "AEBPage_E3_2", schema = "psy")
-public class AEBPageE3_2 implements Serializable {
+public class AEBPageE3_2 extends AEBPage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

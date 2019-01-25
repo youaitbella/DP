@@ -25,7 +25,8 @@ public class AebUploadHelper {
                 DialogController.showInfoDialog("Upload abgeschlossen", "Ihre Daten wurden erfolgreich hochgeladen");
             }
             else {
-                message = importer.getErrorMessage();
+                message = importer.getErrorMessages();
+                AebCleanerHelper.removeAllEntrys(info);
                 DialogController.showInfoDialog("Fehler beim Upload", "Bitte überprüfen Sie die hochgeladenen Datei auf Formatfehler.");
             }
         } else {
