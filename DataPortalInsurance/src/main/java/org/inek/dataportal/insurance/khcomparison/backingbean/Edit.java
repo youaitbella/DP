@@ -127,6 +127,7 @@ public class Edit {
 
     private AEBBaseInformation createNewAebBaseInformation() {
         AEBBaseInformation info = new AEBBaseInformation();
+        info.setStatus(WorkflowStatus.New);
         info.setTyp(CustomerTyp.Insurance.id());
         for (OccupationalCategory cat : _aebFacade.getOccupationalCategories()) {
             PersonalAgreed agreed = new PersonalAgreed();

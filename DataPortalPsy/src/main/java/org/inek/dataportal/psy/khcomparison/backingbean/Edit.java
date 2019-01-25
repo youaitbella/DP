@@ -133,6 +133,7 @@ public class Edit {
     private AEBBaseInformation createNewAebBaseInformation() {
         AEBBaseInformation info = new AEBBaseInformation();
         info.setTyp(CustomerTyp.Hospital.id());
+        info.setStatus(WorkflowStatus.New);
         for (OccupationalCategory cat : _aebFacade.getOccupationalCategories()) {
             PersonalAgreed agreed = new PersonalAgreed();
             agreed.setOccupationalCategory(cat);
@@ -166,7 +167,8 @@ public class Edit {
                 _mailer.sendError("AEB Fehler beim speichern", ex);
             }
         } else {
-            DialogController.showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
+            DialogController.
+                    showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
         }
     }
 
@@ -178,11 +180,12 @@ public class Edit {
             if (aebContainsDifferences()) {
                 DialogController.showWarningDialog("Unterschiede in der AEB festgestellt",
                         "Es wurden Unterschiede in bereits abgegeben Information für die IK "
-                                + _aebBaseInformation.getIk() + " festgestellt");
+                        + _aebBaseInformation.getIk() + " festgestellt");
             }
             return Pages.KhComparisonSummary.URL();
         } else {
-            DialogController.showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
+            DialogController.
+                    showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
             return "";
         }
     }
@@ -259,9 +262,11 @@ public class Edit {
 
     public void handleFileUpload(FileUploadEvent event) {
         try {
-            setErrorMessage(AebUploadHelper.handleAebUpload(_aebBaseInformation, event.getFile().getInputstream(), _aebListItemFacade));
+            setErrorMessage(AebUploadHelper.
+                    handleAebUpload(_aebBaseInformation, event.getFile().getInputstream(), _aebListItemFacade));
         } catch (Exception ex) {
-            DialogController.showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
+            DialogController.
+                    showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
         }
     }
 
