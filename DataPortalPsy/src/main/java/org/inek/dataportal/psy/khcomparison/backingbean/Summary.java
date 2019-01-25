@@ -184,7 +184,6 @@ public class Summary {
         private int _year;
         private String _type;
         private Date _sendAt;
-        private String _sendBy;
 
         public AebListEntry(AEBBaseInformation baseInfo) {
             setId(baseInfo.getId());
@@ -192,7 +191,6 @@ public class Summary {
             setYear(baseInfo.getYear());
             setType(baseInfo.getTyp() == CustomerTyp.Hospital.id() ? "Krankenhaus" : "Krankenkassen");
             setSendAt(baseInfo.getSend());
-            setSendBy(baseInfo.getLastChangeFrom() + "");
         }
 
         public int getId() {
@@ -227,20 +225,10 @@ public class Summary {
             this._type = type;
         }
 
-        public Date getSendAt() {
-            return _sendAt;
-        }
+        public Date getSendAt() { return _sendAt; }
 
         public void setSendAt(Date sendAt) {
             this._sendAt = sendAt;
-        }
-
-        public String getSendBy() {
-            return _sendBy;
-        }
-
-        public void setSendBy(String sendBy) {
-            this._sendBy = sendBy;
         }
     }
 }
