@@ -258,7 +258,7 @@ public class AccessManager implements Serializable {
     private boolean isCorrelationWriteable(Feature feature, int ik) {
         int userIk = _ikCache.retrieveUserIkFromCorrelation(feature, ik);
         if (_sessionController.getAccount().getFullIkSet().contains(userIk)) {
-            return userHasWriteAccess(feature, ik);
+            return userHasWriteAccess(feature, userIk);
         } else {
             return false;
         }
