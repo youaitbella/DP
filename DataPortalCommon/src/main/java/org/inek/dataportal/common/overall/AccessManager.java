@@ -198,24 +198,47 @@ public class AccessManager implements Serializable {
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return false;
         }
-        if (state == WorkflowStatus.New && ik <= 0 && !isCreateAllowed(feature)) {
-            return false;
+        if (ik <= 0 && state == WorkflowStatus.New && isCreateAllowed(feature)) {
+            return true;
         }
 
-        if (feature.getManagedBy() == ManagedBy.None
-                || feature.getIkReference() == IkReference.None
-                || feature.getManagedBy() == ManagedBy.InekOrIkAdmin && !_ikCache.isManaged(ik, feature)) {
-
+        if (feature.getManagedBy() == ManagedBy.None || feature.getIkReference() == IkReference.None) {
             return isUnmanagedWritable(ownerAccountId, feature, ik, state);
-
         }
 
         if (ik <= 0) {
             return false;
         }
 
-        AccessRight right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst().orElse(new AccessRight());
-        return right.canWrite();
+        if (feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
+            return isCorrelationWriteable(feature, ik);
+        }
+
+        if (feature.getIkUsage() == IkUsage.ByResposibility) {
+            return isResponsibleWriteable(feature, ik);
+        }
+
+        if (feature.getManagedBy() == ManagedBy.InekOrIkAdmin && !_ikCache.isManaged(ik, feature)) {
+            return isUnmanagedWritable(ownerAccountId, feature, ik, state);
+        }
+
+        return isWriteAllowed(feature, ik);
+    }
+
+    private boolean isResponsibleWriteable(Feature feature, int ik) {
+        Set<Integer> userIks = _sessionController.getAccount().obtainUserIks(feature, ik);
+        return _sessionController.getAccount().getAccessRights()
+                .stream()
+                .anyMatch(r -> userIks.contains(r.getIk()) && r.getFeature() == feature && r.canWrite());
+    }
+
+    private boolean isCorrelationWriteable(Feature feature, int ik) {
+        int userIk = _ikCache.retrieveUserIkFromCorrelation(feature, ik);
+        if (_sessionController.getAccount().getFullIkSet().contains(userIk)) {
+            return isWriteAllowed(feature, ik);
+        } else {
+            return false;
+        }
     }
 
     private boolean isUnmanagedWritable(int ownerAccountId, Feature feature, int ik, WorkflowStatus state) {
@@ -224,6 +247,12 @@ public class AccessManager implements Serializable {
         }
         CooperativeRight right = getAchievedRight(feature, ownerAccountId, ik);
         return right.canWrite();
+    }
+
+    public Boolean isWriteAllowed(Feature feature, int ik) {
+        return _sessionController.getAccount().getAccessRights()
+                .stream()
+                .anyMatch(r -> r.getIk() == ik && r.getFeature() == feature && r.canWrite());
     }
 
     /**
@@ -468,17 +497,6 @@ public class AccessManager implements Serializable {
             responsibleForIks = _ikCache.retrieveCorrelatedIks(feature, iks, responsibleForIks);
         }
         return responsibleForIks;
-    }
-
-    public Boolean isWriteAllowed(Feature feature, int ik) {
-        for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                .filter(c -> c.canWrite() && c.getFeature() == feature)
-                .collect(Collectors.toList())) {
-            if (right.getIk() == ik) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public List<Account> retrieveAccountsWithRightToSeal(Feature feature, int ik) {

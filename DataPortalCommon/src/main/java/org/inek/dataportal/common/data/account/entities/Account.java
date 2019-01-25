@@ -381,6 +381,14 @@ public class Account implements Serializable, Person {
                 .map(r -> r.getDataIk())
                 .collect(Collectors.toSet());
     }
+
+    public Set<Integer> obtainUserIks(Feature feature, int dataIk) {
+        return _responsibleForIks
+                .stream()
+                .filter(r -> r.getFeature() == feature && r.getDataIk() == dataIk)
+                .map(r -> r.getUserIk())
+                .collect(Collectors.toSet());
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property InekRoles">

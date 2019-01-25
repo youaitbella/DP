@@ -115,4 +115,21 @@ public class ManagedIkCache {
         return correlatedIks;
     }
 
+    public int retrieveUserIkFromCorrelation(Feature feature, int correlatedIk) {
+        if (_ikCorrelations.isEmpty()) {
+            loadIkCorrelations();
+        }
+        int userIk;
+        do {
+            userIk = _ikCorrelations
+                    .stream()
+                    .filter(c -> c.getFeature() == feature)
+                    .filter(c -> c.getDataIk() == correlatedIk)
+                    .map(c -> c.getUserIk())
+                    .findFirst()
+                    .orElse(0);
+        } while (_writeLock.isLocked());
+        return userIk;
+    }
+
 }
