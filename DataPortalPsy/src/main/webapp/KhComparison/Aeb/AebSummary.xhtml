@@ -20,6 +20,7 @@
                    rendered="#{!edit.isReadOnly()}"
                    fileUploadListener="#{edit.handleFileUpload}"
                    mode="advanced"
+                   auto="true"
                    onstart="PF('dialogProcess').show()"
                    oncomplete="PF('dialogProcess').hide()"
                    fileLimit="1"
@@ -33,7 +34,7 @@
 
     <pf:inputTextarea value="#{edit.errorMessage}"
                       rendered="#{edit.errorMessage.length() gt 0}"
-                      style="width: 100%" />
+                      style="width: 100%; max-height: 500px" />
 
     <br />
     <br />
