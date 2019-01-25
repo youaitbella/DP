@@ -168,7 +168,7 @@ public class AccessManager implements Serializable {
 
         if (ik > 0) {
             if (feature.getIkUsage() == IkUsage.ByResposibility || feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
-
+                return isResponsibleAccessAllowed(feature, ik);
             }
             if (feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature)) {
                 return false;
@@ -188,6 +188,13 @@ public class AccessManager implements Serializable {
 
         CooperativeRight right = getAchievedRight(feature, ownerId, ik);
         return right != CooperativeRight.None;
+    }
+
+    private boolean isResponsibleAccessAllowed(Feature feature, int dataIk) {
+        Set<Integer> userIks = _sessionController.getAccount().obtainUserIks(feature, dataIk);
+        return _sessionController.getAccount().getAccessRights()
+                .stream()
+                .anyMatch(r -> userIks.contains(r.getIk()) && r.getFeature() == feature && r.canRead());
     }
 
     public boolean isWritable(Feature feature, WorkflowStatus state, int ownerAccountId) {
@@ -225,8 +232,8 @@ public class AccessManager implements Serializable {
         return userHasWriteAccess(feature, ik);
     }
 
-    private boolean isResponsibleWriteable(Feature feature, int ik) {
-        Set<Integer> userIks = _sessionController.getAccount().obtainUserIks(feature, ik);
+    private boolean isResponsibleWriteable(Feature feature, int dataIk) {
+        Set<Integer> userIks = _sessionController.getAccount().obtainUserIks(feature, dataIk);
         return _sessionController.getAccount().getAccessRights()
                 .stream()
                 .anyMatch(r -> userIks.contains(r.getIk()) && r.getFeature() == feature && r.canWrite());
