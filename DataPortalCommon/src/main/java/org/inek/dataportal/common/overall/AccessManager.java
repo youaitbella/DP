@@ -222,7 +222,7 @@ public class AccessManager implements Serializable {
             return isUnmanagedWritable(ownerAccountId, feature, ik, state);
         }
 
-        return isWriteAllowed(feature, ik);
+        return userHasWriteAccess(feature, ik);
     }
 
     private boolean isResponsibleWriteable(Feature feature, int ik) {
@@ -235,7 +235,7 @@ public class AccessManager implements Serializable {
     private boolean isCorrelationWriteable(Feature feature, int ik) {
         int userIk = _ikCache.retrieveUserIkFromCorrelation(feature, ik);
         if (_sessionController.getAccount().getFullIkSet().contains(userIk)) {
-            return isWriteAllowed(feature, ik);
+            return userHasWriteAccess(feature, ik);
         } else {
             return false;
         }
@@ -249,7 +249,7 @@ public class AccessManager implements Serializable {
         return right.canWrite();
     }
 
-    public Boolean isWriteAllowed(Feature feature, int ik) {
+    public Boolean userHasWriteAccess(Feature feature, int ik) {
         return _sessionController.getAccount().getAccessRights()
                 .stream()
                 .anyMatch(r -> r.getIk() == ik && r.getFeature() == feature && r.canWrite());

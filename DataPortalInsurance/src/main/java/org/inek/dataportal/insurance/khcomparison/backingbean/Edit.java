@@ -98,7 +98,7 @@ public class Edit {
     }
 
     public Boolean isChangeable() {
-        return !isWriteable() && _accessManager.isWriteAllowed(Feature.HC_INSURANCE, _aebBaseInformation.getIk());
+        return !isWriteable() && _accessManager.userHasWriteAccess(Feature.HC_INSURANCE, _aebBaseInformation.getIk());
     }
 
     public Boolean isSendEnabled() {

@@ -360,7 +360,7 @@ public class ProofEdit implements Serializable {
         if (_proofRegulationBaseInformation == null || _proofRegulationBaseInformation.getStatusId() < 10) {
             return false;
         } else {
-            return _accessManager.isWriteAllowed(Feature.CARE, _proofRegulationBaseInformation.getIk());
+            return _accessManager.userHasWriteAccess(Feature.CARE, _proofRegulationBaseInformation.getIk());
         }
     }
 
