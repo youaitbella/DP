@@ -12,7 +12,6 @@
     <div>
         <h2>Benutzer und / oder Funktion hinzufügen</h2>
 
-        <h:form>
             <pf:outputLabel styleClass="label element10em"
                             value="Anwender: "
                             for="selectAccount" />
@@ -41,8 +40,8 @@
             <pf:commandButton value="Hinzufügen"
                               action="#{ikAdminTasks.addAccessRight()}"
                               styleClass="btnDrg"
+                              update="@form"
                               immediate="true" />
-        </h:form>
     </div>
 </ui:composition>
 

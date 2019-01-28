@@ -11,9 +11,7 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input">
 
     <h2>Zuständigkeiten (für andere IK)</h2>
-    
-    <h:form id="responsibilities">
-        <pf:dataTable id="accessRights"
+        <pf:dataTable id="accessRightsResponsibilities"
                       value="#{ikAdminTasks.responsibilities}"
                       var="right"
                       emptyMessage="Keine Einträge vorhanden"
@@ -47,8 +45,8 @@
         <pf:commandButton value="#{msg.btnSave}"
                           action="#{ikAdminTasks.saveResponsibilities()}"
                           styleClass="btnDrg"
+                          update="@form"
                           immediate="false" />
 
-    </h:form>
 </ui:composition>
 
