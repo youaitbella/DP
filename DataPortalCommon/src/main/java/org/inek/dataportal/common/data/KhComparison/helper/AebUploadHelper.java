@@ -18,7 +18,7 @@ public class AebUploadHelper {
 
         if (info.getYear() > 0) {
             AebImporter importer = new AebImporter();
-            AebChecker checker = new AebChecker(aebListItemFacade);
+            AebChecker checker = new AebChecker(aebListItemFacade, true);
             if (importer.startImport(info, input)) {
                 checker.checkAeb(info);
                 message = checker.getMessage() + "\n \n --> " + importer.getCounter() + " Zeilen eingelesen";

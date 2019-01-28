@@ -8,6 +8,7 @@ package org.inek.dataportal.insurance.khcomparison.backingbean;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.KhComparison.checker.AebChecker;
 import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
@@ -167,7 +168,7 @@ public class Edit {
     }
 
     public String send() {
-        if (baseInfoisComplete(_aebBaseInformation)) {
+        if (baseInfoisComplete(_aebBaseInformation) && baseInfoIsFormalCorrect(_aebBaseInformation)) {
             _aebBaseInformation.setStatus(WorkflowStatus.Provided);
             _aebBaseInformation.setSend(new Date());
             save();
@@ -178,9 +179,19 @@ public class Edit {
             }
             return Pages.InsuranceKhComparisonSummary.URL();
         } else {
-            DialogController.showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
+            DialogController.showWarningDialog("Fehler beim Speichern",
+                    "Bitte geben Sie eine gültige IK und Datenjahr an und überprüfen Sie das Fehlerprotokoll");
             return "";
         }
+    }
+
+    private boolean baseInfoIsFormalCorrect(AEBBaseInformation info) {
+        AebChecker checker = new AebChecker(_aebListItemFacade, false);
+        if(!checker.checkAeb(info)) {
+            _errorMessage = checker.getMessage();
+            return false;
+        }
+        return true;
     }
 
     private Boolean aebContainsDifferences() {
