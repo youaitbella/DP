@@ -59,7 +59,7 @@
                 <pf:commandButton styleClass="btnInsurance"
                                   value="Datensatz ändern"
                                   action="#{edit.change()}"
-                                  update="@all"
+                                  update="@form"
                                   immediate="true"
                                   rendered="#{edit.isChangeable()}" /> 
                 <pf:commandButton styleClass="btnInsurance"
@@ -67,15 +67,16 @@
                                   action="#{edit.save()}"
                                   onstart="PF('dialogProcess').show()"
                                   oncomplete="PF('dialogProcess').hide()"
-                                  update="@(.ui-message) @all"
+                                  update="@(.ui-message) @form"
                                   immediate="true"
                                   rendered="#{edit.isWriteable()}"/>
                 <pf:commandButton value="Ans InEK senden"
-                                  update="@(.ui-message) @all"
+                                  update="@(.ui-message) @form"
                                   action="#{edit.send()}"
                                   onstart="PF('dialogProcess').show()"
                                   oncomplete="PF('dialogProcess').hide()"
                                   styleClass="btnSend arrow-right"
+                                  immediate="true"
                                   rendered="#{edit.isSendEnabled()}"/>
             </div>
 
