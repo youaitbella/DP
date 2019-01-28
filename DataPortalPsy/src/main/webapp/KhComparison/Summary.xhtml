@@ -49,69 +49,70 @@
                     </pf:dataTable>
                 </div>
             </div>
-
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-6">
-                    <h2>Daten in Erfassung</h2>
-                    <pf:dataTable id="erfassungtable"
-                                  value="#{summary.listWorking}"
-                                  var="baseInformation"
-                                  emptyMessage="Keine Einträge vorhanden"
-                                  tableStyleClass="inekTablePsy">
-                        <pf:column class="colIcon">
-                            <pf:commandLink action="#{summary.deleteBaseInformation(baseInformation)}"
-                                            update="erfassungtable"
-                                            process="@this"
-                                            rendered="#{summary.isDeleteAllowed(baseInformation.ik)}">
-                                <pf:confirm rendered="#{cc.attrs.showConfirmDialog}"
-                                            header="Wollen Sie den Eintrag wirklich löschen?"
-                                            message="Gelöschte Einträge können Sie nicht wiederherstellen. Wollen Sie den Eintrag wirklich löschen?" />
-                                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
-                            </pf:commandLink>
-                        </pf:column>
-                        <pf:column headerText="IK">
-                            <h:link outcome="#{summary.khComparisonOpen()}"
-                                    value="#{baseInformation.ik}">
-                                <f:param name="id" value="#{baseInformation.id}" />
-                            </h:link>
-                        </pf:column>
-                        <pf:column headerText="Vereinbarungsjahr">
-                            <h:link outcome="#{summary.khComparisonOpen()}"
-                                    value="#{baseInformation.year}">
-                                <f:param name="id" value="#{baseInformation.id}" />
-                            </h:link>
-                        </pf:column>
-                    </pf:dataTable>
+            <h:form>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-6">
+                        <h2>Daten in Erfassung</h2>
+                        <pf:dataTable id="erfassungtable"
+                                      value="#{summary.listWorking}"
+                                      var="baseInformation"
+                                      emptyMessage="Keine Einträge vorhanden"
+                                      tableStyleClass="inekTablePsy">
+                            <pf:column class="colIcon">
+                                <pf:commandLink action="#{summary.deleteBaseInformation(baseInformation)}"
+                                                update="erfassungtable"
+                                                process="@this"
+                                                rendered="#{summary.isDeleteAllowed(baseInformation.ik)}">
+                                    <pf:confirm header="Wollen Sie den Eintrag wirklich löschen?"
+                                                message="Gelöschte Einträge können Sie nicht wiederherstellen. Wollen Sie den Eintrag wirklich löschen?" />
+                                    <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen"
+                                                    value="" />
+                                </pf:commandLink>
+                            </pf:column>
+                            <pf:column headerText="IK">
+                                <h:link outcome="#{summary.khComparisonOpen()}"
+                                        value="#{baseInformation.ik}">
+                                    <f:param name="id" value="#{baseInformation.id}" />
+                                </h:link>
+                            </pf:column>
+                            <pf:column headerText="Vereinbarungsjahr">
+                                <h:link outcome="#{summary.khComparisonOpen()}"
+                                        value="#{baseInformation.year}">
+                                    <f:param name="id" value="#{baseInformation.id}" />
+                                </h:link>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
+                    <div class="ui-g-6">
+                        <h2>An das InEK gesendet</h2>
+                        <pf:dataTable value="#{summary.listComplete}"
+                                      var="baseInformation"
+                                      emptyMessage="Keine Einträge vorhanden"
+                                      tableStyleClass="inekTablePsy">
+                            <pf:column headerText="IK">
+                                <h:link outcome="#{summary.khComparisonOpen()}"
+                                        value="#{baseInformation.ik}">
+                                    <f:param name="id" value="#{baseInformation.id}" />
+                                </h:link>
+                            </pf:column>
+                            <pf:column headerText="Vereinbarungsjahr">
+                                <h:link outcome="#{summary.khComparisonOpen()}"
+                                        value="#{baseInformation.year}">
+                                    <f:param name="id" value="#{baseInformation.id}" />
+                                </h:link>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
                 </div>
-                <div class="ui-g-6">
-                    <h2>An das InEK gesendet</h2>
-                    <pf:dataTable value="#{summary.listComplete}"
-                                  var="baseInformation"
-                                  emptyMessage="Keine Einträge vorhanden"
-                                  tableStyleClass="inekTablePsy">
-                        <pf:column headerText="IK">
-                            <h:link outcome="#{summary.khComparisonOpen()}"
-                                    value="#{baseInformation.ik}">
-                                <f:param name="id" value="#{baseInformation.id}" />
-                            </h:link>
-                        </pf:column>
-                        <pf:column headerText="Vereinbarungsjahr">
-                            <h:link outcome="#{summary.khComparisonOpen()}"
-                                    value="#{baseInformation.year}">
-                                <f:param name="id" value="#{baseInformation.id}" />
-                            </h:link>
-                        </pf:column>
-                    </pf:dataTable>
-                </div>
-            </div>
 
-            <pf:commandButton value="Neuen Datensatz erstellen"
-                              action="#{summary.khComparisonOpen()}"
-                              rendered="#{summary.isCreateEntryAllowed()}"
-                              styleClass="btnPsy"
-                              immediate="true">
-                <f:param name="id" value="new" />
-            </pf:commandButton>
+                <pf:commandButton value="Neuen Datensatz erstellen"
+                                  action="#{summary.khComparisonOpen()}"
+                                  rendered="#{summary.isCreateEntryAllowed()}"
+                                  styleClass="btnPsy"
+                                  immediate="true">
+                    <f:param name="id" value="new" />
+                </pf:commandButton>
+            </h:form>
 
             <div class="ui-g ui-fluid">
                 <div class="ui-g-12">
