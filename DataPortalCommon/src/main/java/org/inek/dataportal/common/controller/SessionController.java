@@ -281,6 +281,7 @@ public class SessionController implements Serializable {
     }
 
     public String navigate(String url) {
+        _accountFacade.countUserEnvironment(EnvironmentType.NT, url);
         try {
             PortalType portalType = PortalType.valueOf(url);
             changePortal(portalType);

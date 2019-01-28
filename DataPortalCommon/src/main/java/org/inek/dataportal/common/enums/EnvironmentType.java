@@ -6,7 +6,8 @@ package org.inek.dataportal.common.enums;
  */
 public enum EnvironmentType {
     UA("UserAgent"),
-    SR("ScreenResolution");
+    SR("ScreenResolution"),
+    NT("NavigationTarget (Portal or Feature)");
 
     private String _description;
     EnvironmentType(String description) {
