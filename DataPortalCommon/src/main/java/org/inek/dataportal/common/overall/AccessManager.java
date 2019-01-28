@@ -285,32 +285,15 @@ public class AccessManager implements Serializable {
     }
 
     /**
-     *
-     * @param feature
-     * @param state
-     * @param ownerId
-     *
-     * @return
-     *
-     * @deprecated use isWriteable instead
+     * Method for convenience only. Preferably use use isWriteable.
      */
-    @Deprecated
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId) {
         return isReadOnly(feature, state, ownerId, -1);
     }
 
     /**
-     *
-     * @param feature
-     * @param state
-     * @param ownerId
-     * @param ik
-     *
-     * @return
-     *
-     * @deprecated use isWriteable instead
+     * Method for convenience only. Preferably use use isWriteable.
      */
-    @Deprecated
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, int ik) {
         return !isWritable(feature, state, ownerId, ik);
     }
