@@ -41,15 +41,19 @@ class RenumerationCheckerTest {
     @Test
     void isFormalValidZeTest() {
         List<String> validEZes = new ArrayList<>();
-        validEZes.add("ZE01.02");
-        validEZes.add("ZE99.99");
-        validEZes.add("ZE00.00");
         validEZes.add("ZP2018-33");
         validEZes.add("ZP2017-26.010");
         validEZes.add("ZP2019-99.999");
         validEZes.add("ZP2019-00.000");
+        validEZes.add("ZP04.11");
+        validEZes.add("ZP70.30");
+        validEZes.add("ZP05.15");
+
 
         List<String> notValidZes = new ArrayList<>();
+        notValidZes.add("ZE01.02");
+        notValidZes.add("ZE99.99");
+        notValidZes.add("ZE00.00");
         notValidZes.add("ZE01.02 ");
         notValidZes.add("ZE123.99");
         notValidZes.add("ZP3015.23");
