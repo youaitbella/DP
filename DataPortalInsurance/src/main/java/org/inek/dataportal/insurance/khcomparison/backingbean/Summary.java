@@ -108,11 +108,6 @@ public class Summary {
     }
 
     public Boolean isDeleteAllowed(int ik) {
-        return !_sessionController.getAccount().getAccessRights().stream()
-                .filter(c -> c.getFeature() == Feature.HC_INSURANCE
-                && c.getIk() == ik
-                && c.canWrite())
-                .collect(Collectors.toList())
-                .isEmpty();
+        return _accessManager.obtainIksForCreation(Feature.HC_INSURANCE).contains(ik);
     }
 }
