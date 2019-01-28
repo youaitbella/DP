@@ -319,10 +319,9 @@ public class Edit {
         return new DefaultStreamedContent(stream, "applikation/" + doc.getContentTyp(), doc.getName());
     }
 
-    public String change() {
+    public void change() {
         _aebBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
-        return Pages.InsuranceKhComparisonSummary.URL();
     }
 
     public void ikChanged() {
