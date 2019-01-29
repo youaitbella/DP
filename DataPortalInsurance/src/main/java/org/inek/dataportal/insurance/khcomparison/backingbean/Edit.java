@@ -320,8 +320,17 @@ public class Edit {
     }
 
     public void change() {
+        archivBaseinformation(_aebBaseInformation);
         _aebBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
+    }
+
+    private void archivBaseinformation(AEBBaseInformation info) {
+        AEBBaseInformation baseInfo = new AEBBaseInformation(info);
+        baseInfo.setStatus(WorkflowStatus.Retired);
+        baseInfo.setLastChanged(new Date());
+        baseInfo.setLastChangeFrom(_sessionController.getAccountId());
+        _aebFacade.save(baseInfo);
     }
 
     public void ikChanged() {

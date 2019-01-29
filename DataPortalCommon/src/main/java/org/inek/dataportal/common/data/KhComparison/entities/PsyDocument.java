@@ -15,6 +15,15 @@ public class PsyDocument implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public PsyDocument() {
+    }
+
+    public PsyDocument(PsyDocument doc) {
+        this._name = doc.getName();
+        this._description = doc.getDescription();
+        this._content = doc.getContent();
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -14,6 +14,15 @@ public class RegionStructurParticularities implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public RegionStructurParticularities() {
+    }
+
+    public RegionStructurParticularities(RegionStructurParticularities structure) {
+        this._structureCategorieId = structure.getStructureCategorieId();
+        this._name = structure.getName();
+        this._description = structure.getDescription();
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

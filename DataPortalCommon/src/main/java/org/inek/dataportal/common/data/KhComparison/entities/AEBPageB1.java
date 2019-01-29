@@ -14,6 +14,19 @@ public class AEBPageB1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public AEBPageB1() {
+    }
+
+    public AEBPageB1(AEBPageB1 page) {
+        this._totalAgreementPeriod = page.getTotalAgreementPeriod();
+        this._changedTotal = page.getChangedTotal();
+        this._changedProceedsBudget = page.getChangedProceedsBudget();
+        this._sumValuationRadioRenumeration = page.getSumValuationRadioRenumeration();
+        this._sumEffectivValuationRadio = page.getSumEffectivValuationRadio();
+        this._basisRenumerationValueCompensation = page.getBasisRenumerationValueCompensation();
+        this._basisRenumerationValueNoCompensation = page.getBasisRenumerationValueNoCompensation();
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

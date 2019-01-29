@@ -14,6 +14,17 @@ public class AEBPageE3_2 extends AEBPage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public AEBPageE3_2() {
+    }
+
+    public AEBPageE3_2(AEBPageE3_2 page) {
+        this._ze = page.getZe();
+        this._renumerationKey = page.getRenumerationKey();
+        this._count = page.getCount();
+        this._renumerationValue = page.getRenumerationValue();
+        this._ops = page.getOps();
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

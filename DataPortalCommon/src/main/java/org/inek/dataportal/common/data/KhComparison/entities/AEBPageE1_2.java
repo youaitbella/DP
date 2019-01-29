@@ -12,7 +12,17 @@ import javax.persistence.*;
 @Table(name = "AEBPage_E1_2", schema = "psy")
 public class AEBPageE1_2 extends AEBPage implements Serializable {
 
+
     private static final long serialVersionUID = 1L;
+
+    public AEBPageE1_2() {
+    }
+
+    public AEBPageE1_2(AEBPageE1_2 page) {
+        this._et = page.getEt();
+        this._calculationDays = page.getCalculationDays();
+        this._valuationRadioDay = page.getValuationRadioDay();
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id

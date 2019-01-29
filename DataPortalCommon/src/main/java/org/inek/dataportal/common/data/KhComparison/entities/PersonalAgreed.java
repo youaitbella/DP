@@ -14,6 +14,15 @@ public class PersonalAgreed implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public PersonalAgreed() {
+    }
+
+    public PersonalAgreed(PersonalAgreed pAgreed) {
+        this._occupationalCategoryId = pAgreed.getOccupationalCategoryId();
+        this._complete = pAgreed.getComplete();
+        this._averageCost = pAgreed.getAverageCost();
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

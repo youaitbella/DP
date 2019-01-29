@@ -21,6 +21,72 @@ public class AEBBaseInformation implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public AEBBaseInformation() {
+    }
+
+    public AEBBaseInformation(AEBBaseInformation info) {
+        this._ik = info.getIk();
+        this._year = info.getYear();
+        this._createdFrom = info.getCreatedFrom();
+        this._lastChanged = info.getLastChanged();
+        this._lastChanged = info.getLastChanged();
+        this._lastChangeFrom = info.getLastChangeFrom();
+        this._send = info.getSend();
+        this._status = info.getStatus();
+        this._typ = info.getTyp();
+
+        for (AEBPageE1_1 page : info.getAebPageE1_1()) {
+            AEBPageE1_1 newPage = new AEBPageE1_1(page);
+            addAebPageE1_1(newPage);
+        }
+
+        for (AEBPageE1_2 page : info.getAebPageE1_2()) {
+            AEBPageE1_2 newPage = new AEBPageE1_2(page);
+            addAebPageE1_2(newPage);
+        }
+
+        for (AEBPageE2 page : info.getAebPageE2()) {
+            AEBPageE2 newPage = new AEBPageE2(page);
+            addAebPageE2(newPage);
+        }
+
+        for (AEBPageE3_1 page : info.getAebPageE3_1()) {
+            AEBPageE3_1 newPage = new AEBPageE3_1(page);
+            addAebPageE3_1(newPage);
+        }
+
+        for (AEBPageE3_2 page : info.getAebPageE3_2()) {
+            AEBPageE3_2 newPage = new AEBPageE3_2(page);
+            addAebPageE3_2(newPage);
+        }
+
+        for (AEBPageE3_3 page : info.getAebPageE3_3()) {
+            AEBPageE3_3 newPage = new AEBPageE3_3(page);
+            addAebPageE3_3(newPage);
+        }
+
+        AEBPageB1 pageB1 = new AEBPageB1(info.getAebPageB1());
+        pageB1.setBaseInformation(this);
+        this._aebPageB1 = pageB1;
+
+        for(PersonalAgreed pAgreed : info.getPersonalAgreed()) {
+            PersonalAgreed newPAgreed = new PersonalAgreed(pAgreed);
+            addPersonalAgreed(newPAgreed);
+        }
+
+        for(RegionStructurParticularities structure : info.getRegionStructurParticularities()) {
+            RegionStructurParticularities newStructure = new RegionStructurParticularities(structure);
+            addRegionStructurParticularities(newStructure);
+        }
+
+        for(PsyDocument doc : info.getPsyDocument()) {
+            PsyDocument newDoc = new PsyDocument(doc);
+            addPsyDocument(newDoc);
+        }
+    }
+
+
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -364,6 +430,11 @@ public class AEBBaseInformation implements Serializable {
         RegionStructurParticularities value = new RegionStructurParticularities();
         value.setBaseInformation(this);
         _regionStructurParticularities.add(value);
+    }
+
+    private void addRegionStructurParticularities(RegionStructurParticularities newStructure) {
+        newStructure.setBaseInformation(this);
+        this._regionStructurParticularities.add(newStructure);
     }
 
     public void removeRegionStructurParticularities(RegionStructurParticularities value) {
