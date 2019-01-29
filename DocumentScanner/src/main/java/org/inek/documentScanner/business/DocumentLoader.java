@@ -116,7 +116,7 @@ public class DocumentLoader {
             }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            _mailer.sendError("Error Documenscanner", ex);
+            _mailer.sendMail("PortalAdmin@inek-drg.de", "Documenten Scanner error", ex.getMessage());
         }
 
     }
