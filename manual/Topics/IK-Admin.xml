@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Funktionsbeauftragter</title>
   <body>
     <header>
@@ -45,74 +45,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Musterschreiben</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Beauftragung des InEK zur Einrichtung eines Funktionsbeauftragten muss schriftlich erfolgen. Das entsprechende Schreiben könnte so gestaltet sein:</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">InEK GmbH</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Auf dem Seidenberg 3 </text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">53721 Siegburg</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sehr geehrte Damen und Herren,</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">für unser Haus IK 22222222, Testhaus, beauftragen wir hiermit das InEK mit der Einrichtung folgender Funktionsbeauftragter:</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Herr Mustermann, </text><link displaytype="text" defaultstyle="true" type="weblink" href="mailto:&lt;%LINK_CAPTION%&gt;" styleclass="Normal" translate="true">mustermann@testhaus.de</link><text styleclass="Normal" translate="true"> für die Funktionen</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><tab /><text styleclass="Normal" translate="true">- Neue Untersuchungs- und Behandlungsmethoden</text></para>
-    <para styleclass="Normal"><tab /><text styleclass="Normal" translate="true">- gezielte Absenkung</text></para>
-    <para styleclass="Normal"><tab /><text styleclass="Normal" translate="true">- Teilnahme Kostenkalkulation</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Frau Musterfrau, </text><link displaytype="text" defaultstyle="true" type="weblink" href="mailto:&lt;%LINK_CAPTION%&gt;" styleclass="Normal" translate="true">musterfrau@testhaus.de</link><text styleclass="Normal" translate="true"> für die Funktionen</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><tab /><text styleclass="Normal" translate="true">- Psych-Personal-Kosten</text></para>
-    <para styleclass="Normal"><tab /><text styleclass="Normal" translate="true">- Teilnahme Kostenkalkulation</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Frau TestFrau, </text><link displaytype="text" defaultstyle="true" type="weblink" href="mailto:&lt;%LINK_CAPTION%&gt;" styleclass="Normal" translate="true">testfrau@testhaus.de</link><text styleclass="Normal" translate="true"> und Herrn Testmann, </text><link displaytype="text" defaultstyle="true" type="weblink" href="mailto:&lt;%LINK_CAPTION%&gt;" styleclass="Normal" translate="true">testmann@testhaus.de</link><text styleclass="Normal" translate="true"> &#160;für die Funktion</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><tab /><text styleclass="Normal" translate="true">- Krankenhausvergleich</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mit freundlichen Grüßen</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenhausleitung oder ppa.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wie Sie diesem Musterschreiben entnehmen können, ist es möglich ein oder mehrere Personen als Funktionsbeauftragte einrichten zu lassen. Diese können für unterschiedliche oder aber gleiche Funktionen zuständig sein. Sofern Geschäftsführung oder Prokurist für mehrere Häuser verantwortlich ist, können Sie in einem Schreiben für mehrere IK Funktionsbeauftragte einrichten lassen:</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sehr geehrte Damen und Herren,</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">für unsere Häuser IK 22222222, Testhaus und IK 222222220, Musterkrankenhaus, beauftragen wir hiermit das InEK mit der Einrichtung folgender Funktionsbeauftragter:</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Herr Mustermann, </text><link displaytype="text" defaultstyle="true" type="weblink" href="mailto:&lt;%LINK_CAPTION%&gt;" styleclass="Normal" translate="true">mustermann@testhaus.de</link><text styleclass="Normal" translate="true"> für IK 222222222 und die Funktionen</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><tab /><text styleclass="Normal" translate="true">- Neue Untersuchungs- und Behandlungsmethoden</text></para>
-    <para styleclass="Normal"><tab /><text styleclass="Normal" translate="true">- gezielte Absenkung</text></para>
-    <para styleclass="Normal"><tab /><text styleclass="Normal" translate="true">- Teilnahme Kostenkalkulation</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Frau Musterfrau, </text><link displaytype="text" defaultstyle="true" type="weblink" href="mailto:&lt;%LINK_CAPTION%&gt;" styleclass="Normal" translate="true">musterfrau@testhaus.de</link><text styleclass="Normal" translate="true"> für IK 222222220 und die Funktionen</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><tab /><text styleclass="Normal" translate="true">- Psych-Personal-Kosten</text></para>
-    <para styleclass="Normal"><tab /><text styleclass="Normal" translate="true">- Teilnahme Kostenkalkulation</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Frau TestFrau, </text><link displaytype="text" defaultstyle="true" type="weblink" href="mailto:&lt;%LINK_CAPTION%&gt;" styleclass="Normal" translate="true">testfrau@testhaus.de</link><text styleclass="Normal" translate="true"> und Herrn Testmann, </text><link displaytype="text" defaultstyle="true" type="weblink" href="mailto:&lt;%LINK_CAPTION%&gt;" styleclass="Normal" translate="true">testmann@testhaus.de</link><text styleclass="Normal" translate="true"> &#160;für IK 222222220 sowie IK 222222222 und die Funktion</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><tab /><text styleclass="Normal" translate="true">- Krankenhausvergleich</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mit freundlichen Grüßen</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Krankenhausleitung oder ppa.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wie Sie diesen Musterschreiben entnehmen können, kann ein (oder mehrere) Funktionsbeauftragter jeweils für die Kombination aus IK und Portal-Funktion eingerichtet werden.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Beauftragung des InEK zur Einrichtung eines Funktionsbeauftragten muss schriftlich erfolgen. Eine entsprechende Vorlage finden Sie auf unserer Homepage (</text><link displaytype="text" defaultstyle="true" type="weblink" href="&lt;%LINK_CAPTION%&gt;" target="_blank" styleclass="Normal" translate="true">https://www.g-drg.de/InEK_Datenportal/Musterschreiben_Funktionsbeauftragter</link><text styleclass="Normal" translate="true">).</text></para>
     <para styleclass="Normal"></para>
   </body>
 </topic>
