@@ -130,30 +130,8 @@ public class PreloadFunctionsCalcBasicsDrg {
 
     private static void preloadPersonalAccounting(DrgCalcBasics calcBasics, DrgCalcBasics priorCalcBasics) {
         calcBasics.setPersonalAccountingDescription(priorCalcBasics.getPersonalAccountingDescription());
-
-        ensurePersonalAccountingData(calcBasics);
-        for (KGLPersonalAccounting ppa : priorCalcBasics.getPersonalAccountings()) {
-            for (KGLPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
-                if (ppa.getCostTypeId() == pa.getCostTypeId()) {
-                    pa.setPriorCostAmount(ppa.getAmount());
-                    pa.setCostTypeId(ppa.getCostTypeId());
-                    pa.setExpertRating(ppa.isExpertRating());
-                    pa.setOther(ppa.isOther());
-                    pa.setServiceEvaluation(ppa.isServiceEvaluation());
-                    pa.setServiceStatistic(ppa.isServiceStatistic());
-                    pa.setStaffEvaluation(ppa.isStaffEvaluation());
-                    pa.setStaffRecording(ppa.isStaffRecording());
-                }
-            }
-        }
     }
 
-    private static void ensurePersonalAccountingData(DrgCalcBasics calcBasics) {
-        calcBasics.getPersonalAccountings().clear();
-        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(110, 0));
-        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(120, 0));
-        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(130, 0));
-    }
 
     private static void preloadRadiologyAndLab(DrgCalcBasics calcBasics, DrgCalcBasics priorCalcBasics) {
         calcBasics.getRadiologyLaboratories().clear();
