@@ -38,72 +38,42 @@ public final class SummaryData {
     private List<CalcHospitalInfo> allKvm;
     private boolean all = false;
 
-    /**
-     * @return the selectedtDataYear
-     */
     public int getSelectedtDataYear() {
         return selectedtDataYear;
     }
 
-    /**
-     * @param selectedtDataYear the selectedtDataYear to set
-     */
     public void setSelectedtDataYear(int selectedtDataYear) {
         this.selectedtDataYear = selectedtDataYear;
     }
 
-    /**
-     * @return the allKg
-     */
     public List<CalcHospitalInfo> getAllKg() {
         return allKg;
     }
 
-    /**
-     * @param allKg the allKg to set
-     */
     public void setAllKg(List<CalcHospitalInfo> allKg) {
         this.allKg = allKg;
     }
 
-    /**
-     * @return the allTe
-     */
     public List<CalcHospitalInfo> getAllTe() {
         return allTe;
     }
 
-    /**
-     * @param allTe the allTe to set
-     */
     public void setAllTe(List<CalcHospitalInfo> allTe) {
         this.allTe = allTe;
     }
 
-    /**
-     * @return the allKvm
-     */
     public List<CalcHospitalInfo> getAllKvm() {
         return allKvm;
     }
 
-    /**
-     * @param allKvm the allKvm to set
-     */
     public void setAllKvm(List<CalcHospitalInfo> allKvm) {
         this.allKvm = allKvm;
     }
 
-    /**
-     * @return the all
-     */
     public boolean isAll() {
         return all;
     }
 
-    /**
-     * @param all the all to set
-     */
     public void setAll(boolean all) {
         this.all = all;
     }

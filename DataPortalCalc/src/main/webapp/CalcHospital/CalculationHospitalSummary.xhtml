@@ -84,10 +84,20 @@
                             </h:link>
                         </pf:column>
 
-                        <pf:column headerText="Datum" sortBy="#{calc.lastChanged}">
+                        <pf:column headerText="Erstlieferung am" sortBy="#{calc.sendAt}">
+                            <h:outputText value="#{calc.sendAt}" >
+                                <f:convertDateTime pattern="dd.MM.yyyy" />
+                            </h:outputText>
+                        </pf:column>
+
+                        <pf:column headerText="Geändert am" sortBy="#{calc.lastChanged}">
                             <h:outputText value="#{calc.lastChanged}" >
                                 <f:convertDateTime pattern="dd.MM.yyyy" />
                             </h:outputText>
+                        </pf:column>
+
+                        <pf:column headerText="Geändert von" sortBy="#{calc.accountName}" filterBy="#{calc.accountName}" filterMatchMode="contains">
+                            <h:outputLabel value="#{calc.accountName}" />
                         </pf:column>
 
                         <pf:column headerText="Typ" sortBy="#{calc.name}" filterBy="#{calc.name}" filterMatchMode="contains">
@@ -150,10 +160,20 @@
                             </h:link>
                         </pf:column>
 
-                        <pf:column headerText="Datum" sortBy="#{te.lastChanged}">
+                        <pf:column headerText="Erstlieferung am" sortBy="#{te.sendAt}">
+                            <h:outputText value="#{te.sendAt}" >
+                                <f:convertDateTime pattern="dd.MM.yyyy" />
+                            </h:outputText>
+                        </pf:column>
+
+                        <pf:column headerText="Geändert am" sortBy="#{te.lastChanged}">
                             <h:outputText value="#{te.lastChanged}" >
                                 <f:convertDateTime pattern="dd.MM.yyyy" />
                             </h:outputText>
+                        </pf:column>
+
+                        <pf:column headerText="Geändert von" sortBy="#{te.accountName}" filterBy="#{te.accountName}" filterMatchMode="contains">
+                            <h:outputLabel value="#{te.accountName}" />
                         </pf:column>
 
                     </pf:dataTable>
@@ -200,18 +220,28 @@
                             </h:link>
                         </pf:column>
 
-                        <pf:column headerText="Datum" sortBy="#{kvm.lastChanged}">
+                        <pf:column headerText="Erstlieferung am" sortBy="#{kvm.sendAt}">
+                            <h:outputText value="#{kvm.sendAt}" >
+                                <f:convertDateTime pattern="dd.MM.yyyy" />
+                            </h:outputText>
+                        </pf:column>
+
+                        <pf:column headerText="Geändert am" sortBy="#{kvm.lastChanged}">
                             <h:outputText value="#{kvm.lastChanged}" >
                                 <f:convertDateTime pattern="dd.MM.yyyy" />
                             </h:outputText>
+                        </pf:column>
+
+                        <pf:column headerText="Geändert von" sortBy="#{kvm.accountName}" filterBy="#{kvm.accountName}" filterMatchMode="contains">
+                            <h:outputLabel value="#{kvm.accountName}" />
                         </pf:column>
 
                         <pf:column headerText="Typ" sortBy="#{kvm.name}" filterBy="#{kvm.name}" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <pf:selectOneMenu onchange="PF('kvmall').filter()" >
                                     <f:selectItem itemLabel="Alle" itemValue="#{null}" noSelectionOption="true" />
-                                    <f:selectItem itemLabel="Klinisches Verteilungsmodell DRG" itemValue="Klinisches Verteilungsmodell DRG" />
-                                    <f:selectItem itemLabel="Klinisches Verteilungsmodell PEPP" itemValue="Klinisches Verteilungsmodell PEPP" />
+                                    <f:selectItem itemLabel="DRG" itemValue="DRG" />
+                                    <f:selectItem itemLabel="PEPP" itemValue="PEPP" />
                                 </pf:selectOneMenu>
                             </f:facet>
                             <h:link outcome="#{summaryData.getHospitalInfoLink(kvm.type)}"

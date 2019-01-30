@@ -5,23 +5,23 @@
  */
 package org.inek.dataportal.calc.facades;
 
+import org.inek.dataportal.calc.entities.CalcHospitalInfo;
+import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.StringUtil;
+
+import javax.enterprise.context.RequestScoped;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.enterprise.context.RequestScoped;
-import javax.persistence.Query;
-import javax.transaction.Transactional;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.calc.entities.CalcHospitalInfo;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.utils.StringUtil;
 
 /**
- *
  * @author muellermi
  */
 @RequestScoped
@@ -30,9 +30,9 @@ public class CalcFacade extends AbstractDataAccess {
 
     // <editor-fold defaultstate="collapsed" desc="CalcHospital commons">
     public List<CalcHospitalInfo> getListCalcInfo(int accountId, int year,
-            WorkflowStatus statusLow,
-            WorkflowStatus statusHigh,
-            int ik) {
+                                                  WorkflowStatus statusLow,
+                                                  WorkflowStatus statusHigh,
+                                                  int ik) {
         if (ik <= 0 && accountId <= 0) {
             return new ArrayList<>();
         }
@@ -114,7 +114,7 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow,
-            WorkflowStatus statusHigh, Set<Integer> managedIks) {
+                                             WorkflowStatus statusHigh, Set<Integer> managedIks) {
         String excludedIks = managedIks.stream().map(i -> "" + i).collect(Collectors.joining(","));
         String statusCond = " between " + statusLow.getId() + " and " + statusHigh.getId();
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
@@ -173,17 +173,17 @@ public class CalcFacade extends AbstractDataAccess {
     public List<CalcHospitalInfo> getCalcBasicsByEmail(String email, int year, String filter) {
         String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, "
                 + "biStatusId as StatusId, Name, biLastChanged as LastChanged, cuName as customerName, agLastName + ', ' + agFirstName as AgentName, "
-                + "cuCity as customerTown\n"
+                + "cuCity as customerTown, acLastName + ', ' + acFirstName as AccountName, biSealed as SendAt\n"
                 + "from (select biId, biIk, 'CBD' as biType, biDataYear, biAccountID, biStatusId, biLastChanged,"
-                + " 'KGL' as Name \n"
+                + " 'KGL' as Name, biSealed \n"
                 + "from calc.KGLBaseInformation where biStatusID in (3, 5, 10) \n"
                 + "union \n"
                 + "select biId, biIk, 'CBP' as biType, biDataYear, biAccountID, biStatusId, biLastChanged,"
-                + " 'KGP' as Name \n"
+                + " 'KGP' as Name, biSealed \n"
                 + "from calc.KGPBaseInformation where biStatusID in (3, 5, 10)\n"
                 + "union \n"
                 + "select cbaId, cbaIk, 'CBA' as biType, cbaDataYear, cbaAccountID, cbaStatusId,"
-                + " cbaLastChanged, 'KGO' as Name \n"
+                + " cbaLastChanged, 'KGO' as Name, cbaSealed \n"
                 + "from calc.CalcBasicsAutopsy \n"
                 + "where cbaStatusID in (3, 5, 10)\n"
                 + ") base\n"
@@ -192,7 +192,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + " and biDataYear between year(cciValidFrom) and year(cciValidTo) and cciInfoTypeId = 14\n"
                 + "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId"
                 + " and biDataYear between year(cciaValidFrom) and year(cciaValidTo)\n"
-                + "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n"
+                + "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n" +
+                "join dbo.Account on acId = biAccountID\n"
                 + "where agEMail = '" + email + "'\n"
                 + "and (biType = 'CBD' and cciaReportTypeid = 1\n"
                 + "or biType = 'CBP' and cciaReportTypeId = 3\n"
@@ -223,18 +224,19 @@ public class CalcFacade extends AbstractDataAccess {
     public List<CalcHospitalInfo> getAllCalcBasics(int dataYear) {
         String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, "
                 + "biStatusId as StatusId, Name, biLastChanged as LastChanged, cuName as customerName, "
-                + "agLastName + ', ' + agFirstName as AgentName, cuCity as customerTown \n"
+                + "agLastName + ', ' + agFirstName as AgentName, cuCity as customerTown, acLastName + ', ' + acFirstName as AccountName, " +
+                "biSealed as SendAt \n"
                 + "from ("
                 + "select biId, biIk, 'CBD' as biType, biDataYear, biAccountID, biStatusId, biLastChanged,"
-                + " 'KGL' as Name \n"
+                + " 'KGL' as Name, biSealed \n"
                 + "from calc.KGLBaseInformation where biStatusID in (3, 5, 10) \n"
                 + "union \n"
                 + "select biId, biIk, 'CBP' as biType, biDataYear, biAccountID, biStatusId, biLastChanged,"
-                + " 'KGP' as Name \n"
+                + " 'KGP' as Name, biSealed \n"
                 + "from calc.KGPBaseInformation where biStatusID in (3, 5, 10)\n"
                 + "union \n"
                 + "select cbaId, cbaIk, 'CBA' as biType, cbaDataYear, cbaAccountID, cbaStatusId,"
-                + " cbaLastChanged, 'KGO' as Name \n"
+                + " cbaLastChanged, 'KGO' as Name, cbaSealed \n"
                 + "from calc.CalcBasicsAutopsy \n"
                 + "where cbaStatusID in (3, 5, 10)\n"
                 + ") base\n"
@@ -243,7 +245,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + " and biDataYear between year(cciValidFrom) and year(cciValidTo) and cciInfoTypeId = 14\n"
                 + "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId"
                 + " and biDataYear between year(cciaValidFrom) and year(cciaValidTo)\n"
-                + "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId and agDomainId = 'O'\n"
+                + "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId and agDomainId = 'O'\n" +
+                "join dbo.Account on acId = biAccountID\n"
                 + "where (biType = 'CBD' and cciaReportTypeid = 1\n"
                 + "or biType = 'CBP' and cciaReportTypeId = 3\n"
                 + "or biType = 'CBA' and cciaReportTypeId = 10)\n"
@@ -257,9 +260,11 @@ public class CalcFacade extends AbstractDataAccess {
 
     public List<CalcHospitalInfo> getAllSop(int year) {
         String sql = "select distinct sopId as Id, 'SOP' as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, "
-                + "sopStatusId as StatusId, cuName, sopLastChanged as LastChanged, cuName as customerName, cuCity as customerTown\n"
+                + "sopStatusId as StatusId, cuName, sopLastChanged as LastChanged, cuName as customerName, cuCity as customerTown\n" +
+                ", acLastName + ', ' + acFirstName as AccountName, sopSealed as SendAt\n"
                 + "from calc.StatementOfParticipance \n"
-                + "join CallCenterDB.dbo.ccCustomer on sopIk = cuIK\n"
+                + "join CallCenterDB.dbo.ccCustomer on sopIk = cuIK\n" +
+                "join dbo.Account on acId = sopAccountId\n"
                 + "where sopStatusId = 10 \n"
                 + "and sopDataYear = " + year + "\n"
                 + "order by cuCity";
@@ -272,14 +277,16 @@ public class CalcFacade extends AbstractDataAccess {
     public List<CalcHospitalInfo> getSopByEmail(String email, int year) {
         String sql = "select distinct sopId as Id, 'SOP' as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, "
                 + "sopStatusId as StatusId, cuName, sopLastChanged as LastChanged, cuName as customerName, "
-                + "agLastName + ', ' + agFirstName as AgentName, cuCity as customerTown\n"
+                + "agLastName + ', ' + agFirstName as AgentName, cuCity as customerTown, acLastName + ', ' + acFirstName as AccountName, " +
+                "sopSealed as SendAt\n"
                 + "from calc.StatementOfParticipance \n"
                 + "join CallCenterDB.dbo.ccCustomer on sopIk = cuIK\n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId"
                 + " and sopDataYear between year(cciValidFrom) and year(cciValidTo) and cciInfoTypeId = 14\n"
                 + "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId"
                 + " and sopDataYear between year(cciaValidFrom) and year(cciaValidTo)\n"
-                + "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n"
+                + "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n" +
+                "join dbo.Account on acId = sopAccountId\n"
                 + "where agEMail = '" + email + "'\n"
                 + "and cciaReportTypeid in (1,3,10) \n"
                 + "and sopStatusId = 10 \n"
@@ -297,14 +304,15 @@ public class CalcFacade extends AbstractDataAccess {
                 + " '" + Utils.getMessage("lblClinicalDistributionModel") + " '\n"
                 + "    + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, "
                 + "dmmLastChanged as LastChanged, cuName as customerName, "
-                + "agLastName + ', ' + agFirstName as AgentName, cuCity as customerTown\n"
+                + "agLastName + ', ' + agFirstName as AgentName, cuCity as customerTown, acLastName + ', ' + acFirstName as AccountName, " +
+                "dmmSealed as SendAt\n"
                 + "from calc.DistributionModelMaster\n"
                 + "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
                 + "and dmmDataYear between year(cciValidFrom) and year(cciValidTo)\n"
                 + "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId\n"
                 + "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n"
-                + "join dbo.Account on agEMail = acMail\n"
+                + "join dbo.Account on acId = dmmAccountId\n"
                 + "where dmmStatusId >= 10\n"
                 + "and agEMail = '" + email + "'\n"
                 + "and cciaReportTypeId in (1, 3)\n"
@@ -319,17 +327,17 @@ public class CalcFacade extends AbstractDataAccess {
     public List<CalcHospitalInfo> getAllDistributionModels(int year) {
         String sql = "select distinct dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, "
                 + "dmmStatusId as StatusId,\n"
-                + " '" + Utils.getMessage("lblClinicalDistributionModel") + " '\n"
-                + "    + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, "
+                + "case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, "
                 + "dmmLastChanged as LastChanged, cuName as customerName, "
-                + "agLastName + ', ' + agFirstName as AgentName, cuCity as customerTown\n"
+                + "agLastName + ', ' + agFirstName as AgentName, cuCity as customerTown, acLastName + ', ' + acFirstName as AccountName, " +
+                "dmmSealed as SendAt\n"
                 + "from calc.DistributionModelMaster\n"
                 + "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
                 + "and dmmDataYear between year(cciValidFrom) and year(cciValidTo)\n"
                 + "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId\n"
                 + "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId and agDomainId = 'O'\n"
-                + "join dbo.Account on agEMail = acMail\n"
+                + "join dbo.Account on acId = dmmAccountId\n"
                 + "where dmmStatusId >= 10\n"
                 + "and cciaReportTypeId in (1, 3)\n"
                 + "and dmmDataYear = " + year + "\n"

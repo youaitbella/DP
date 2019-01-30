@@ -32,7 +32,8 @@ public class CalcHospitalInfo implements Serializable {
     }
 
     public CalcHospitalInfo(int id, CalcInfoType type, int accountId, int dataYear, int ik,
-            int statusId, String name, Date lastChanged, String customerName, String advisorMail, String customerTown) {
+            int statusId, String name, Date lastChanged, String customerName, String advisorMail, String customerTown,
+                            String accountName, Date sendAt) {
         this._id = id;
         this._type = type;
         this._accountId = accountId;
@@ -44,6 +45,8 @@ public class CalcHospitalInfo implements Serializable {
         this._customerName = customerName;
         this._agentName = advisorMail;
         this._customerTown = customerTown;
+        this._accountName = accountName;
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -198,6 +201,33 @@ public class CalcHospitalInfo implements Serializable {
 
     public void setLastChanged(Date lastChanged) {
         _lastChanged = lastChanged;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property AccountName">
+    @Column(name = "AccountName")
+    private String _accountName = "";
+
+    public String getAccountName() {
+        return _accountName;
+    }
+
+    public void setAccountMail(String accountName) {
+        _accountName = accountName;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property SendAt">
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Column(name = "SendAt")
+    private Date _sendAt;
+
+    public Date getSendAt() {
+        return _sendAt;
+    }
+
+    public void setSendAt(Date sendAt) {
+        _sendAt = sendAt;
     }
     // </editor-fold>
 
