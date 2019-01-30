@@ -44,11 +44,11 @@
             <h:selectOneMenu id="externalProvision"
                              required="true"
                              requiredMessage="#{msg.msgValueNeeded}"
+                             title="Bei Teilweise Fremdvergabe: Bitte benennen Sie den teilweise fremdvergebenen Bereich sowie dessen Anteil an der Erbringung in diesem Bereich."
                              disabled="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
                              value="#{item.providedTypeId}" 
                              hideNoSelectionOption="true" >
-                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{0}"/>
+                <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{1}"/>
                 <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
                 <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{3}"/>
