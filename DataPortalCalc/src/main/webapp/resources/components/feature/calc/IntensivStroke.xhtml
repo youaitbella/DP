@@ -20,7 +20,7 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <h2>#{cc.attrs.intensiveType == 1 ? "Intensiv" : "Stroke Unit"} Datenjahr #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
+        <h2>#{cc.attrs.intensiveType == 1 ? "Intensivstationen" : "Stroke Unit Datenjahr " and editCalcBasicsDrg.calcBasics.dataYear}</h2>
         <style>
             #tbl {
                 margin-top: 20px;
@@ -146,10 +146,10 @@
                                            />
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.weightMinimum}" pattern="#,#0" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung" readonly="false"/>
+                            <inek:InputIntegerWithMessage value="#{x.weightMinimum}" pattern="#,#0" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung" title="Bitte tragen Sie den Wert 1 ein, falls keine Gewichtung vorgenommen wurde." readonly="false"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.weightMaximum}" pattern="#,#0" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung" readonly="false"/>
+                            <inek:InputIntegerWithMessage value="#{x.weightMaximum}" pattern="#,#0" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung" title="Bitte tragen Sie den Wert 1 ein, falls keine Gewichtung vorgenommen wurde." readonly="false"/>
                         </td>
                         <td>
                             <h:outputLabel id="spreizung"
@@ -173,7 +173,7 @@
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addIntensivStroke(cc.attrs.intensiveType)}"/>
         </h:commandLink>
 
-        <h2>Personal #{cc.attrs.intensiveType == 1 ? "Intensiv" : "Stroke Unit"} Datenjahr #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
+        <h2>Personal #{cc.attrs.intensiveType == 1 ? "auf Intensivstationen" : "Stroke Unit"} Datenjahr #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
         <div style="overflow-x: scroll;">
             <table id='tbl'>
                 <tr>
