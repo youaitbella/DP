@@ -5,8 +5,15 @@
  */
 package org.inek.dataportal.common.data.KhComparison.importer;
 
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.inek.dataportal.common.data.KhComparison.entities.*;
+import org.inek.dataportal.common.exceptions.FormulaInCellException;
+import org.inek.dataportal.common.exceptions.IntegerInDoubleCellException;
+import org.inek.dataportal.common.exceptions.StringInNumericCellException;
+import org.inek.dataportal.common.helper.excelimport.CellImportHelper;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -39,19 +46,15 @@ public class AebImporter {
         return _errorMessages;
     }
 
-    public void setErrorMessages(String errorMessages) {
-        this._errorMessages = errorMessages;
-    }
-
     public int getCounter() {
         return _counter;
     }
 
-    public void setCounter(int counter) {
+    private void setCounter(int counter) {
         this._counter = counter;
     }
 
-    public void increaseCounter() {
+    private void increaseCounter() {
         setCounter(getCounter() + 1);
     }
 
@@ -119,77 +122,86 @@ public class AebImporter {
             if (s.getSheetName().contains(PAGE_E1_1)) {
                 availaibleSheetNames.add(PAGE_E1_1);
                 if (!isPageInCorrectFormat(s, 6)) {
-                    LOGGER.log(Level.INFO, "Page: " + PAGE_E1_1 + " not correct");
-                    setErrorMessages(ERROR_TEXT + "Blatt " + PAGE_E1_1 + " ist nicht im richtigen Format. Bitte benutzen Sie die Vorlage.");
+                    createPageNotInCorrectFormMessag(PAGE_E1_1);
                     return false;
                 }
             } else if (s.getSheetName().contains(PAGE_E1_2)) {
                 availaibleSheetNames.add(PAGE_E1_2);
                 if (!isPageInCorrectFormat(s, 4)) {
-                    LOGGER.log(Level.INFO, "Page: " + PAGE_E1_2 + " not correct");
-                    setErrorMessages(ERROR_TEXT + "Blatt " + PAGE_E1_2 + " ist nicht im richtigen Format. Bitte benutzen Sie die Vorlage.");
+                    createPageNotInCorrectFormMessag(PAGE_E1_2);
                     return false;
                 }
             } else if (s.getSheetName().contains(PAGE_E2)) {
                 availaibleSheetNames.add(PAGE_E2);
                 if (!isPageInCorrectFormat(s, 4)) {
-                    LOGGER.log(Level.INFO, "Page: " + PAGE_E2 + " not correct");
-                    setErrorMessages(ERROR_TEXT + "Blatt " + PAGE_E2 + " ist nicht im richtigen Format. Bitte benutzen Sie die Vorlage.");
+                    createPageNotInCorrectFormMessag(PAGE_E2);
                     return false;
                 }
             } else if (s.getSheetName().contains(PAGE_E3_1)) {
                 availaibleSheetNames.add(PAGE_E3_1);
                 if (!isPageInCorrectFormat(s, 14)) {
-                    LOGGER.log(Level.INFO, "Page: " + PAGE_E3_1 + " not correct");
-                    setErrorMessages(ERROR_TEXT + "Blatt " + PAGE_E3_1 + " ist nicht im richtigen Format. Bitte benutzen Sie die Vorlage.");
+                    createPageNotInCorrectFormMessag(PAGE_E3_1);
                     return false;
                 }
             } else if (s.getSheetName().contains(PAGE_E3_2)) {
                 availaibleSheetNames.add(PAGE_E3_2);
                 if (!isPageInCorrectFormat(s, 6)) {
-                    LOGGER.log(Level.INFO, "Page: " + PAGE_E3_2 + " not correct");
-                    setErrorMessages(ERROR_TEXT + "Blatt " + PAGE_E3_2 + " ist nicht im richtigen Format. Bitte benutzen Sie die Vorlage.");
+                    createPageNotInCorrectFormMessag(PAGE_E3_2);
                     return false;
                 }
             } else if (s.getSheetName().contains(PAGE_E3_3)) {
                 availaibleSheetNames.add(PAGE_E3_3);
                 if (!isPageInCorrectFormat(s, 6)) {
-                    LOGGER.log(Level.INFO, "Page: " + PAGE_E3_3 + " not correct");
-                    setErrorMessages(ERROR_TEXT + "Blatt " + PAGE_E3_3 + " ist nicht im richtigen Format. Bitte benutzen Sie die Vorlage.");
+                    createPageNotInCorrectFormMessag(PAGE_E3_3);
                     return false;
                 }
             } else if (s.getSheetName().contains(PAGE_B1)) {
                 availaibleSheetNames.add(PAGE_B1);
                 if (!isPageB1InCorrectFormat(s, 19)) {
-                    LOGGER.log(Level.INFO, "Page: " + PAGE_B1 + " not correct");
-                    setErrorMessages(ERROR_TEXT + "Blatt " + PAGE_B1 + " ist nicht im richtigen Format. Bitte benutzen Sie die Vorlage.");
+                    createPageNotInCorrectFormMessag(PAGE_B1);
                     return false;
                 }
             }
         }
 
         if (!availaibleSheetNames.containsAll(neededSheetsNames)) {
-            setErrorMessages(ERROR_TEXT + "Nicht alle Blätter erkannt. Bitte benutzen Sie die Vorlage.");
+            addErrorMessage(ERROR_TEXT + "Nicht alle Blätter erkannt. Bitte benutzen Sie die Vorlage.");
         }
 
         return availaibleSheetNames.containsAll(neededSheetsNames);
     }
 
+    private void createPageNotInCorrectFormMessag(String page) {
+        LOGGER.log(Level.INFO, "Page: " + page + " not correct");
+        addErrorMessage(ERROR_TEXT + "Blatt " + page + " ist nicht im richtigen Format. Bitte benutzen Sie die Vorlage.");
+    }
+
     private boolean isPageB1InCorrectFormat(Sheet sheet, int neededRows) {
         int startRow = 1;
-        if (getIntFromCell(sheet.getRow(startRow).getCell(1)) == 1 &&
-                getIntFromCell(sheet.getRow(startRow).getCell(2)) == 2) {
-            return true;
+        try {
+            if (CellImportHelper.getIntegerFromCell(sheet.getRow(startRow).getCell(1)) == 1 &&
+                    CellImportHelper.getIntegerFromCell(sheet.getRow(startRow).getCell(2)) == 2) {
+                return true;
+            }
+            return false;
         }
-        return false;
+        catch(Exception ex) {
+            return false;
+        }
+
     }
 
     private boolean isPageInCorrectFormat(Sheet sheet, int neededColumns) {
         int startRow = 1;
         for (int i = 0; i < neededColumns; i++) {
-            int cellValue = getIntFromCell(sheet.getRow(startRow).getCell(i));
-            if (cellValue != i + 1) {
-                return false;
+            try {
+                int cellValue = CellImportHelper.getIntegerFromCell(sheet.getRow(startRow).getCell(i));
+                if (cellValue != i + 1) {
+                    return false;
+                }
+            }
+            catch (Exception ex) {
+
             }
         }
         return true;
@@ -201,19 +213,24 @@ public class AebImporter {
 
         for (int i = rowStart; i <= rowEnd; i++) {
             Row row = sheet.getRow(i);
-            if(row == null) {
+            if (row == null) {
                 continue;
             }
 
-            AEBPageE1_1 page = new AEBPageE1_1();
-            page.setPepp(getStringFromCell(row.getCell(0)));
-            page.setCompensationClass(getIntFromCell(row.getCell(1)));
-            page.setCaseCount(getIntFromCell(row.getCell(2)));
-            page.setCalculationDays(getIntFromCell(row.getCell(3)));
-            page.setValuationRadioDay(getDoubleFromCell(row.getCell(4)));
-            page.setImportetFrom(getImportetFromString(sheet, i));
-            info.addAebPageE1_1(page);
-            increaseCounter();
+            try {
+                AEBPageE1_1 page = new AEBPageE1_1();
+                page.setPepp(CellImportHelper.getStringFromCell(row.getCell(0)));
+                page.setCompensationClass(CellImportHelper.getIntegerFromCell(row.getCell(1)));
+                page.setCaseCount(CellImportHelper.getIntegerFromCell(row.getCell(2)));
+                page.setCalculationDays(CellImportHelper.getIntegerFromCell(row.getCell(3)));
+                page.setValuationRadioDay(CellImportHelper.getDoubleFromCell(row.getCell(4)));
+                page.setImportetFrom(getImportetFromString(sheet, i));
+                info.addAebPageE1_1(page);
+                increaseCounter();
+            } catch (Exception ex) {
+                handleImporterException(ex);
+            }
+
         }
     }
 
@@ -223,16 +240,20 @@ public class AebImporter {
 
         for (int i = rowStart; i <= rowEnd; i++) {
             Row row = sheet.getRow(i);
-            if(row == null) {
+            if (row == null) {
                 continue;
             }
-            AEBPageE1_2 page = new AEBPageE1_2();
-            page.setEt(getStringFromCell(row.getCell(0)));
-            page.setCalculationDays(getIntFromCell(row.getCell(1)));
-            page.setValuationRadioDay(getDoubleFromCell(row.getCell(2)));
-            page.setImportetFrom(getImportetFromString(sheet, i));
-            info.addAebPageE1_2(page);
-            increaseCounter();
+            try {
+                AEBPageE1_2 page = new AEBPageE1_2();
+                page.setEt(CellImportHelper.getStringFromCell(row.getCell(0)));
+                page.setCalculationDays(CellImportHelper.getIntegerFromCell(row.getCell(1)));
+                page.setValuationRadioDay(CellImportHelper.getDoubleFromCell(row.getCell(2)));
+                page.setImportetFrom(getImportetFromString(sheet, i));
+                info.addAebPageE1_2(page);
+                increaseCounter();
+            } catch (Exception ex) {
+                handleImporterException(ex);
+            }
         }
     }
 
@@ -242,16 +263,20 @@ public class AebImporter {
 
         for (int i = rowStart; i <= rowEnd; i++) {
             Row row = sheet.getRow(i);
-            if(row == null) {
+            if (row == null) {
                 continue;
             }
-            AEBPageE2 page = new AEBPageE2();
-            page.setZe(getStringFromCell(row.getCell(0)));
-            page.setZeCount(getIntFromCell(row.getCell(1)));
-            page.setValuationRadioDay(getDoubleFromCell(row.getCell(2)));
-            page.setImportetFrom(getImportetFromString(sheet, i));
-            info.addAebPageE2(page);
-            increaseCounter();
+            try {
+                AEBPageE2 page = new AEBPageE2();
+                page.setZe(CellImportHelper.getStringFromCell(row.getCell(0)));
+                page.setZeCount(CellImportHelper.getIntegerFromCell(row.getCell(1)));
+                page.setValuationRadioDay(CellImportHelper.getDoubleFromCell(row.getCell(2)));
+                page.setImportetFrom(getImportetFromString(sheet, i));
+                info.addAebPageE2(page);
+                increaseCounter();
+            } catch (Exception ex) {
+                handleImporterException(ex);
+            }
         }
     }
 
@@ -261,23 +286,27 @@ public class AebImporter {
 
         for (int i = rowStart; i <= rowEnd; i++) {
             Row row = sheet.getRow(i);
-            if(row == null) {
+            if (row == null) {
                 continue;
             }
-            AEBPageE3_1 page = new AEBPageE3_1();
-            page.setRenumeration(getStringFromCell(row.getCell(0)));
-            page.setRenumerationKey(getStringFromCell(row.getCell(1)));
-            page.setCaseCount(getIntFromCell(row.getCell(2)));
-            page.setRenumerationValue(getDoubleFromCell(row.getCell(3)));
-            page.setCaseCountDeductions(getIntFromCell(row.getCell(5)));
-            page.setDayCountDeductions(getIntFromCell(row.getCell(6)));
-            page.setDeductionPerDay(getDoubleFromCell(row.getCell(7)));
-            page.setCaseCountSurcharges(getIntFromCell(row.getCell(9)));
-            page.setDayCountSurcharges(getIntFromCell(row.getCell(10)));
-            page.setSurchargesPerDay(getDoubleFromCell(row.getCell(11)));
-            page.setImportetFrom(getImportetFromString(sheet, i));
-            info.addAebPageE3_1(page);
-            increaseCounter();
+            try {
+                AEBPageE3_1 page = new AEBPageE3_1();
+                page.setRenumeration(CellImportHelper.getStringFromCell(row.getCell(0)));
+                page.setRenumerationKey(CellImportHelper.getStringFromCell(row.getCell(1)));
+                page.setCaseCount(CellImportHelper.getIntegerFromCell(row.getCell(2)));
+                page.setRenumerationValue(CellImportHelper.getDoubleFromCell(row.getCell(3)));
+                page.setCaseCountDeductions(CellImportHelper.getIntegerFromCell(row.getCell(5)));
+                page.setDayCountDeductions(CellImportHelper.getIntegerFromCell(row.getCell(6)));
+                page.setDeductionPerDay(CellImportHelper.getDoubleFromCell(row.getCell(7)));
+                page.setCaseCountSurcharges(CellImportHelper.getIntegerFromCell(row.getCell(9)));
+                page.setDayCountSurcharges(CellImportHelper.getIntegerFromCell(row.getCell(10)));
+                page.setSurchargesPerDay(CellImportHelper.getDoubleFromCell(row.getCell(11)));
+                page.setImportetFrom(getImportetFromString(sheet, i));
+                info.addAebPageE3_1(page);
+                increaseCounter();
+            } catch (Exception ex) {
+                handleImporterException(ex);
+            }
         }
     }
 
@@ -287,18 +316,22 @@ public class AebImporter {
 
         for (int i = rowStart; i <= rowEnd; i++) {
             Row row = sheet.getRow(i);
-            if(row == null) {
+            if (row == null) {
                 continue;
             }
-            AEBPageE3_2 page = new AEBPageE3_2();
-            page.setZe(getStringFromCell(row.getCell(0)));
-            page.setRenumerationKey(getStringFromCell(row.getCell(1)));
-            page.setOps(getStringFromCell(row.getCell(2)));
-            page.setCount(getIntFromCell(row.getCell(3)));
-            page.setRenumerationValue(getDoubleFromCell(row.getCell(4)));
-            page.setImportetFrom(getImportetFromString(sheet, i));
-            info.addAebPageE3_2(page);
-            increaseCounter();
+            try {
+                AEBPageE3_2 page = new AEBPageE3_2();
+                page.setZe(CellImportHelper.getStringFromCell(row.getCell(0)));
+                page.setRenumerationKey(CellImportHelper.getStringFromCell(row.getCell(1)));
+                page.setOps(CellImportHelper.getStringFromCell(row.getCell(2)));
+                page.setCount(CellImportHelper.getIntegerFromCell(row.getCell(3)));
+                page.setRenumerationValue(CellImportHelper.getDoubleFromCell(row.getCell(4)));
+                page.setImportetFrom(getImportetFromString(sheet, i));
+                info.addAebPageE3_2(page);
+                increaseCounter();
+            } catch (Exception ex) {
+                handleImporterException(ex);
+            }
         }
     }
 
@@ -308,18 +341,22 @@ public class AebImporter {
 
         for (int i = rowStart; i <= rowEnd; i++) {
             Row row = sheet.getRow(i);
-            if(row == null) {
+            if (row == null) {
                 continue;
             }
-            AEBPageE3_3 page = new AEBPageE3_3();
-            page.setRenumeration(getStringFromCell(row.getCell(0)));
-            page.setRenumerationKey(getStringFromCell(row.getCell(1)));
-            page.setCaseCount(getIntFromCell(row.getCell(2)));
-            page.setDays(getIntFromCell(row.getCell(3)));
-            page.setRenumerationValue(getDoubleFromCell(row.getCell(4)));
-            page.setImportetFrom(getImportetFromString(sheet, i));
-            info.addAebPageE3_3(page);
-            increaseCounter();
+            try {
+                AEBPageE3_3 page = new AEBPageE3_3();
+                page.setRenumeration(CellImportHelper.getStringFromCell(row.getCell(0)));
+                page.setRenumerationKey(CellImportHelper.getStringFromCell(row.getCell(1)));
+                page.setCaseCount(CellImportHelper.getIntegerFromCell(row.getCell(2)));
+                page.setDays(CellImportHelper.getIntegerFromCell(row.getCell(3)));
+                page.setRenumerationValue(CellImportHelper.getDoubleFromCell(row.getCell(4)));
+                page.setImportetFrom(getImportetFromString(sheet, i));
+                info.addAebPageE3_3(page);
+                increaseCounter();
+            } catch (Exception ex) {
+                handleImporterException(ex);
+            }
         }
     }
 
@@ -327,26 +364,30 @@ public class AebImporter {
         int rowStart = 2;
         int rowEnd = getEndRow(sheet);
 
-        info.getAebPageB1().setTotalAgreementPeriod(getValueForForB1(sheet, rowStart, rowEnd, 1));
-        info.getAebPageB1().setChangedTotal(getValueForForB1(sheet, rowStart, rowEnd, 10));
-        info.getAebPageB1().setChangedProceedsBudget(getValueForForB1(sheet, rowStart, rowEnd, 13));
-        info.getAebPageB1().setSumValuationRadioRenumeration(getValueForForB1(sheet, rowStart, rowEnd, 16));
-        info.getAebPageB1().setSumEffectivValuationRadio(getValueForForB1(sheet, rowStart, rowEnd, 17));
-        info.getAebPageB1().setBasisRenumerationValueCompensation(getValueForForB1(sheet, rowStart, rowEnd, 18));
-        info.getAebPageB1().setBasisRenumerationValueNoCompensation(getValueForForB1(sheet, rowStart, rowEnd, 19));
+        try {
+            info.getAebPageB1().setTotalAgreementPeriod(getValueForForB1(sheet, rowStart, rowEnd, 1));
+            info.getAebPageB1().setChangedTotal(getValueForForB1(sheet, rowStart, rowEnd, 10));
+            info.getAebPageB1().setChangedProceedsBudget(getValueForForB1(sheet, rowStart, rowEnd, 13));
+            info.getAebPageB1().setSumValuationRadioRenumeration(getValueForForB1(sheet, rowStart, rowEnd, 16));
+            info.getAebPageB1().setSumEffectivValuationRadio(getValueForForB1(sheet, rowStart, rowEnd, 17));
+            info.getAebPageB1().setBasisRenumerationValueCompensation(getValueForForB1(sheet, rowStart, rowEnd, 18));
+            info.getAebPageB1().setBasisRenumerationValueNoCompensation(getValueForForB1(sheet, rowStart, rowEnd, 19));
+        } catch (Exception ex) {
+            handleImporterException(ex);
+        }
 
         increaseCounter();
     }
 
     private String getImportetFromString(Sheet sheet, int rowNo) {
-        return "Blatt " + sheet.getSheetName() + " Zeile " + String.valueOf(rowNo + 1);
+        return "Blatt " + sheet.getSheetName() + " Zeile " + rowNo + 1;
     }
 
     private Double getValueForForB1(Sheet sheet, int rowStart, int rowEnd, int runningNumber) {
         for (int i = rowStart; i <= rowEnd; i++) {
             try {
                 if ((int) sheet.getRow(i).getCell(0).getNumericCellValue() == runningNumber) {
-                    return getDoubleFromCell(sheet.getRow(i).getCell(2));
+                    return CellImportHelper.getDoubleFromCell(sheet.getRow(i).getCell(2));
                 }
             } catch (Exception ex) {
                 LOGGER.log(Level.WARNING, "Sheet B1 row: " + i, ex);
@@ -362,32 +403,18 @@ public class AebImporter {
         return sheet.getLastRowNum();
     }
 
-    private String getStringFromCell(Cell cell) {
-        try {
-            String value = cell.getStringCellValue();
-            if (value == null) {
-                return "";
-            }
-            return value;
-        } catch (Exception ex) {
-            return "";
-        }
+    private void addErrorMessage(String value) {
+        _errorMessages += value + "\n \n";
     }
 
-    private int getIntFromCell(Cell cell) {
-        try {
-            double value = cell.getNumericCellValue();
-            return (int) value;
-        } catch (Exception ex) {
-            return 0;
+    private void handleImporterException(Exception ex) {
+        if (ex.getClass().isInstance(FormulaInCellException.class)) {
+            addErrorMessage("Blatt " + ((FormulaInCellException)ex).getCell().getSheet().getSheetName() + " Zelle: "
+                    + ((FormulaInCellException)ex).getCell().getAddress() + "Formeln sind nicht erlaubt.");
         }
-    }
-
-    private double getDoubleFromCell(Cell cell) {
-        try {
-            return cell.getNumericCellValue();
-        } catch (Exception ex) {
-            return 0;
+        else if (ex.getClass().isInstance(StringInNumericCellException.class)) {
+            addErrorMessage("Blatt " + ((StringInNumericCellException)ex).getCell().getSheet().getSheetName() + " Zelle: "
+                    + ((StringInNumericCellException)ex).getCell().getAddress() + "Text in Zahlenspalte gefunden.");
         }
     }
 }
