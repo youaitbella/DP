@@ -264,6 +264,20 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="casePartialStationCnt">
+    @Column(name = "biCaseBaCnt")
+    private int _caseBaCnt;
+
+    @Min(0)
+    public int getCaseBaCnt() {
+        return _caseBaCnt;
+    }
+
+    public void setCaseBaCnt(int caseBaCnt) {
+        this._caseBaCnt = caseBaCnt;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="daysPartialStation">
     @Column(name = "biDaysPartialStation")
     @Documentation(name = "Berechnungstage teilstationär", rank = 1000)

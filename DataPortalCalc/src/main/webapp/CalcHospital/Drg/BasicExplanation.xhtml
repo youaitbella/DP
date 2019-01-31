@@ -141,6 +141,33 @@
         </tr>
         <tr>
             <td>
+                <span class="label">Fälle Belegabteilung</span>
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsDrg.calcBasics.caseBaCnt}"
+                                              required="true"
+                                              id="baCases"
+                                              renderElement="@this pDiffbaCount :logout:remaining"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsDrg.priorCalcBasics.caseBaCnt}"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffbaCount">
+                    <inek:InputIntegerWithMessage styleClass="inputwide"
+                                                  value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.caseBaCnt, editCalcBasicsDrg.calcBasics.caseBaCnt)}"
+                                                  disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <span class="label">Berechnungstage teilstationär</span>
             </td>
             <td>
