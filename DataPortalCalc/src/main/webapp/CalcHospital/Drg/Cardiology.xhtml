@@ -35,19 +35,33 @@
         <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyRoomCnt" value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyRoomCnt}">
             <f:convertNumber/>
         </h:outputLabel>
-        
+
+        <br/>
+        <h:outputLabel styleClass="label50" value="Anzahl Standorte"/>
+        <h:inputText styleClass="element15" id="cardiologyLocationCnt" value="#{editCalcBasicsDrg.calcBasics.cardiologyLocationCnt}">
+            <f:ajax event="blur" render="@this lblDiffcardiologyLocationCnt :logout:remaining" />
+            <f:convertNumber/>
+        </h:inputText>
+        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyLocationCnt}">
+            <f:convertNumber/>
+        </h:outputLabel>
+        <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyLocationCnt" value="#{editCalcBasicsDrg.calcBasics.cardiologyLocationCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyLocationCnt}">
+            <f:convertNumber/>
+        </h:outputLabel>
+
         <br/>
         <h:outputLabel styleClass="label50" value="#{msg.lblCardiologyCaseCount}"/>
         <h:inputText styleClass="element15" id="cardiologyCaseCnt" value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt}">
             <f:ajax event="blur" render="@this lblDiffcardiologyCaseCnt :logout:remaining" />
             <f:convertNumber/>
-        </h:inputText>        
+        </h:inputText>
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}">
             <f:convertNumber/>
         </h:outputLabel>
         <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyCaseCnt" value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}">
             <f:convertNumber/>
-        </h:outputLabel>        
+        </h:outputLabel>
+
     </div>
 
 </ui:composition>
