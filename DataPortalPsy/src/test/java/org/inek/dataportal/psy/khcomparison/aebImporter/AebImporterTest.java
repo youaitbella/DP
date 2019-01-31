@@ -34,7 +34,7 @@ public class AebImporterTest {
 
     @Test
     public void fullImportTest() {
-        File file = new File("D:\\tmp\\Vorlage_AEB_2018_für_Datenportal_Final.xlsx");
+        File file = new File("src\\test\\resources\\Vorlage_AEB_2018_für_Datenportal_Final.xlsx");
         Assumptions.assumeThat(file.isFile()).isTrue();
         InputStream inputStream = null;
         try {
@@ -59,7 +59,7 @@ public class AebImporterTest {
 
     @Test
     public void wrongFormatTest() {
-        File file = new File("D:\\tmp\\Vorlage_AEB_2018_für_Datenportal_FalschesFormat.xlsx");
+        File file = new File("src\\test\\resources\\Vorlage_AEB_2018_für_Datenportal_FalschesFormat.xlsx");
         Assumptions.assumeThat(file.isFile()).isTrue();
         InputStream inputStream = null;
         try {
@@ -77,7 +77,7 @@ public class AebImporterTest {
 
     @Test
     public void importB1DifferentOrderTest() {
-        File file = new File("D:\\tmp\\AEB_TestB1.xlsx");
+        File file = new File("src\\test\\resources\\AEB_TestB1.xlsx");
         Assumptions.assumeThat(file.isFile()).isTrue();
         InputStream inputStream = null;
         try {
