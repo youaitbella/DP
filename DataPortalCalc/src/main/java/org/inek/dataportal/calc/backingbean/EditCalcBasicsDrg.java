@@ -471,7 +471,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         addTopic("TopicCalcStrokeUnit", Pages.CalcDrgStrokeUnit.URL());
         addTopic("TopicCalcMedicalInfrastructure", Pages.CalcDrgMedicalInfrastructure.URL());
         addTopic("TopicCalcNonMedicalInfrastructure", Pages.CalcDrgNonMedicalInfrastructure.URL());
-        addTopic("TopicCalcStaffCost", Pages.CalcDrgStaffCost.URL());
+        //addTopic("TopicCalcStaffCost", Pages.CalcDrgStaffCost.URL());
         //addTopic("TopicCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
         addTopic("TopicCalcNeonatology", Pages.CalcDrgNeonatology.URL());
     }
@@ -1010,15 +1010,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 .mapToInt(m -> m.getAmount())
                 .sum();
         return sumAmount;
-    }
-
-    public boolean renderPersonalAccountingDescription() {
-        for (KGLPersonalAccounting pa : _calcBasics.getPersonalAccountings()) {
-            if (pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public String getContentText(int id) {

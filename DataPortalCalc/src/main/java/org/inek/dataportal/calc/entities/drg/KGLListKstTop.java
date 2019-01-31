@@ -171,6 +171,19 @@ public class KGLListKstTop implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property SumCompleteTime">
+    @Column(name = "ktSumCompleteTime")
+    private int _sumCompleteTime;
+
+    public int getSumCompleteTime() {
+        return _sumCompleteTime;
+    }
+
+    public void setSumCompleteTime(int sumCompleteTime) {
+        this._sumCompleteTime = sumCompleteTime;
+    }
+    //</editor-fold>
+
     public KGLListKstTop() {
     }
 
