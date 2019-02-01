@@ -361,7 +361,7 @@ public class AebImporter {
     }
 
     private void importPageB1(Sheet sheet, AEBBaseInformation info) {
-        int rowStart = 3;
+        int rowStart = 2;
         int rowEnd = getEndRow(sheet);
 
         try {
