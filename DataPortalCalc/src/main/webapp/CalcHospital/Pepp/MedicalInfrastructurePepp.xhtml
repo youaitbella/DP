@@ -22,7 +22,8 @@
                          requiredMessage="#{msg.msgValueNeeded}"
                          value="#{editCalcBasicsPepp.calcBasics.iblvMethodMedInfra}"
                          hideNoSelectionOption="true" 
-                         style="width: 100%;">
+                         style="width: 100%;"
+                   readonly="#{editCalcBasicsPepp.readOnly}">
             <f:selectItems value="#{calcBasicsStaticData.ibvlTypeItem}"/>
             <f:ajax event="change" render="@form :logout:remaining" /><!--render="@this :logout:remaining medInfraMethodDescription"/-->
     </h:selectOneMenu>      
@@ -54,22 +55,22 @@
             <tr>
                 <td>
                     <h:commandLink styleClass="colIcon">
-                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value="" readonly="#{editCalcBasicsPepp.readOnly}"/>
                         <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteMedInfra(item)}"/>
                         <cb:confirmDelete/>
                     </h:commandLink>
                 </td>
                 <td style="width: 15%;">
-                <inek:InputTextWithMessage value="#{item.costCenterNumber}" styleClass="inputwide" required="true"/>
+                <inek:InputTextWithMessage value="#{item.costCenterNumber}" styleClass="inputwide" required="true" readonly="#{editCalcBasicsPepp.readOnly}"/>
                 </td>
                 <td style="width: 30%">
-                <inek:InputTextWithMessage value="#{item.costCenterText}" styleClass="inputwide" required="true"/>
+                <inek:InputTextWithMessage value="#{item.costCenterText}" styleClass="inputwide" required="true" readonly="#{editCalcBasicsPepp.readOnly}"/>
                 </td>
                 <td style="width: 25%;">
-                <inek:InputTextWithMessage value="#{item.keyUsed}" styleClass="inputwide" required="true"/>
+                <inek:InputTextWithMessage value="#{item.keyUsed}" styleClass="inputwide" required="true" readonly="#{editCalcBasicsPepp.readOnly}"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" required="true" renderElement="@this sumMed:text"/>
+                <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" required="true" renderElement="@this sumMed:text" readonly="#{editCalcBasicsPepp.readOnly}"/>
                 </td>
             </tr>
         </ui:repeat>
@@ -78,7 +79,7 @@
                 <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60"/>
             </td> 
             <td>
-                <inek:InputIntegerWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsPepp.getMedInfraSum(170)}"/>
+                <inek:InputIntegerWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsPepp.getMedInfraSum(170)}" readonly="#{editCalcBasicsPepp.readOnly}"/>
             </td>
         </tr>
     </table>

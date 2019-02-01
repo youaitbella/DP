@@ -58,16 +58,16 @@
                     </h:commandLink>
                 </td>
                 <td style="width: 15%;">
-                <inek:InputTextWithMessage value="#{item.costCenterNumber}" styleClass="inputwide" required="true"/>
+                <inek:InputTextWithMessage value="#{item.costCenterNumber}" styleClass="inputwide" required="true" readonly="#{editCalcBasicsPepp.readOnly}"/>
                 </td>
                 <td style="width: 30%">
-                    <inek:InputTextWithMessage value="#{item.costCenterText}" styleClass="inputwide" required="true"/>
+                    <inek:InputTextWithMessage value="#{item.costCenterText}" styleClass="inputwide" required="true" readonly="#{editCalcBasicsPepp.readOnly}"/>
                 </td>
                 <td style="width: 25%;">
-                    <inek:InputTextWithMessage value="#{item.keyUsed}" styleClass="inputwide" required="true"/>
+                    <inek:InputTextWithMessage value="#{item.keyUsed}" styleClass="inputwide" required="true" readonly="#{editCalcBasicsPepp.readOnly}"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" required="true" renderElement="@this sumMed:text"/>
+                <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" required="true" renderElement="@this sumMed:text" readonly="#{editCalcBasicsPepp.readOnly}"/>
                 </td>
             </tr>
         </ui:repeat>
@@ -76,7 +76,7 @@
                 <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60"/>
             </td> 
             <td>
-            <inek:InputIntegerWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsPepp.getMedInfraSum(180)}"/>
+            <inek:InputIntegerWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsPepp.getMedInfraSum(180)}" readonly="#{editCalcBasicsPepp.readOnly}"/>
             </td>
         </tr>
     </table>

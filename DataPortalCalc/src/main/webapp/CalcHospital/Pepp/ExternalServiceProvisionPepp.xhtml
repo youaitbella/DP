@@ -46,7 +46,8 @@
                              requiredMessage="#{msg.msgValueNeeded}"
                              value="#{item.providedTypeId}" 
                              disabled="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
-                             hideNoSelectionOption="true" >
+                             hideNoSelectionOption="true"
+                             readonly="#{editCalcBasicsPepp.readOnly}">
                 <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                 <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{0}"/>
                 <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{1}"/>

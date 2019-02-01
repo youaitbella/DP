@@ -43,7 +43,8 @@
                              requiredMessage="#{msg.msgValueNeeded}"
                              value="#{item.serviceDocType}" 
                              hideNoSelectionOption="true"
-                             styleClass="inputwide">
+                             styleClass="inputwide"
+                                 disabled="#{editCalcBasicsPepp.readOnly}">
                 <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItem itemLabel="#{msg.lblServiceDocHome}" itemValue="#{1}"/>
                 <f:selectItem itemLabel="#{msg.lblServiceDocDKG}" itemValue="#{2}"/>
