@@ -148,6 +148,7 @@ public class Edit {
     public void save() {
         if (baseInfoisComplete(_aebBaseInformation)) {
             removeEmptyEntries(_aebBaseInformation);
+            AebCheckerHelper.ensureValuationRadios(_aebBaseInformation, _aebListItemFacade);
             _aebBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
             _aebBaseInformation.setLastChanged(new Date());
             try {

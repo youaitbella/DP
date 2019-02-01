@@ -47,6 +47,34 @@
         </tr>
         <tr>
             <td>
+                <span class="label">Erlösvolumen</span>
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsDrg.calcBasics.redeemingVolume}"
+                                              required="true"
+                                              id="redeemingVolume"
+                                              renderElement="@this pDiffredeemingVolume :logout:remaining"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsDrg.priorCalcBasics.redeemingVolume}"
+                                              disabled="true"
+                                              id="predeemingVolume"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffredeemingVolume">
+                    <inek:InputIntegerWithMessage styleClass="inputwide"
+                                                  value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.redeemingVolume, editCalcBasicsDrg.calcBasics.redeemingVolume)}"
+                                                  disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <span class="label">Anzahl kalkulationsrelevanter Fälle</span>
             </td>
             <td>
@@ -110,6 +138,33 @@
                                          />
         </h:panelGroup>
         </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label">Fälle Belegabteilung</span>
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsDrg.calcBasics.caseBaCnt}"
+                                              required="true"
+                                              id="baCases"
+                                              renderElement="@this pDiffbaCount :logout:remaining"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsDrg.priorCalcBasics.caseBaCnt}"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffbaCount">
+                    <inek:InputIntegerWithMessage styleClass="inputwide"
+                                                  value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.caseBaCnt, editCalcBasicsDrg.calcBasics.caseBaCnt)}"
+                                                  disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
         </tr>
         <tr>
             <td>

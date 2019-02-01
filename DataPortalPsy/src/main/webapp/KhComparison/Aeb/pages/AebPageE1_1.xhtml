@@ -32,7 +32,7 @@
                           value="#{page.pepp}"
                           maxlength="5"
                           readonly="#{edit.isReadOnly()}" >
-                <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
+                <pf:ajax event="blur" listener="#{edit.peppChanged(page)}" update="listpagee11" />
             </pf:inputText>
             <pf:message for="peppId" />
         </pf:column>
@@ -42,7 +42,7 @@
                             readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
+                <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" />
             </pf:inputNumber>
             <pf:message for="vclasse11" />
         </pf:column>
@@ -52,7 +52,7 @@
                             readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
+                <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" />
             </pf:inputNumber>
             <pf:message for="casecountid" />
             <f:facet name="footer">
@@ -67,7 +67,7 @@
                             readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
+                <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" />
             </pf:inputNumber>
             <pf:message for="calcdaysIde11" />
             <f:facet name="footer">

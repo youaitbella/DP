@@ -220,6 +220,20 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="biRedeemingVolume">
+    @Column(name = "biRedeemingVolume")
+    private int _redeemingVolume;
+
+    @Min(0)
+    public int getRedeemingVolume() {
+        return _redeemingVolume;
+    }
+
+    public void setRedeemingVolume(int redeemingVolume) {
+        this._redeemingVolume = redeemingVolume;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="caseInStationCnt">
     @Column(name = "biCaseInStationCnt")
     @Documentation(name = "Fälle vollstationär", rank = 1000)
@@ -247,6 +261,20 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     public void setCasePartialStationCnt(int casePartialStationCnt) {
         this._casePartialStationCnt = casePartialStationCnt;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="casePartialStationCnt">
+    @Column(name = "biCaseBaCnt")
+    private int _caseBaCnt;
+
+    @Min(0)
+    public int getCaseBaCnt() {
+        return _caseBaCnt;
+    }
+
+    public void setCaseBaCnt(int caseBaCnt) {
+        this._caseBaCnt = caseBaCnt;
     }
     //</editor-fold>
 
@@ -514,6 +542,20 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="biCardiologyLocationCnt">
+    @Column(name = "biCardiologyLocationCnt")
+    private int _cardiologyLocationCnt;
+
+    @Min(0)
+    public int getCardiologyLocationCnt() {
+        return _cardiologyLocationCnt;
+    }
+
+    public void setCardiologyLocationCnt(int cardiologyLocationCnt) {
+        this._cardiologyLocationCnt = cardiologyLocationCnt;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="cardiologyCaseCnt">
     @Column(name = "biCardiologyCaseCnt")
     @Documentation(name = "Anzahl kalkulationsrelevante Fälle Kardiologie", rank = 5000, omitOnValues = "0")
@@ -571,6 +613,20 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     public void setEndoscopyCaseCnt(int endoscopyCaseCnt) {
         this._endoscopyCaseCnt = endoscopyCaseCnt;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="biEndoscopyLocationCnt">
+    @Column(name = "biEndoscopyLocationCnt")
+    private int _endoscopyLocationCnt;
+
+    @Min(0)
+    public int getEndoscopyLocationCnt() {
+        return _endoscopyLocationCnt;
+    }
+
+    public void setEndoscopyLocationCnt(int endoscopyLocationCnt) {
+        this._endoscopyLocationCnt = endoscopyLocationCnt;
     }
     //</editor-fold>
 

@@ -216,6 +216,10 @@
                     <inek:InputIntegerWithMessage value="#{item.delimitationAmount}" required="#{!item.isEmpty()}"/>
                 </h:column>-->
                 <h:column>
+                    <f:facet name="header">Summe Gesamtzeit</f:facet>
+                    <inek:InputIntegerWithMessage value="#{item.sumCompleteTime}" required="#{!item.isEmpty()}"/>
+                </h:column>
+                <h:column>
                     <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
                     <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
                 </h:column>
