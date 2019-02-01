@@ -4,43 +4,47 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/feature/calc"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+>
 
-<!--
-    
-    <h2 title="# {msg.titleMedicalInfrastructure}"># {msg. TopicCalcMedicalInfrastructure}</h2>
--->
+    <!--
 
-    <h2>#{"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>    
-  
-  <h:selectOneMenu id="iblvFulFillment"
-                         required="true"
-                         requiredMessage="#{msg.msgValueNeeded}"
-                         value="#{editCalcBasicsPepp.calcBasics.iblvMethodMedInfra}"
-                         hideNoSelectionOption="true" 
-                         style="width: 100%;">
-            <f:selectItems value="#{calcBasicsStaticData.ibvlTypeItem}"/>
-            <f:ajax event="change" render="@form :logout:remaining" /><!--render="@this :logout:remaining medInfraMethodDescription"/-->
-    </h:selectOneMenu>      
+        <h2 title="# {msg.titleMedicalInfrastructure}"># {msg. TopicCalcMedicalInfrastructure}</h2>
+    -->
 
-  <br/>
-  <h:outputLabel id="remark" styleClass="label" rendered="#{editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 3}"
-                   value="Bitte beachten Sie, dass das Anbauverfahren lediglich bei einer erstmaligen Teilnahme als Verfahren zur Durchführung der IBLV gewählt werden darf." 
-                   />
-      
-<h:panelGroup id="medInfraMethodDescription" styleClass="inputPart" rendered="#{editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 1}">
-    <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
-    <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsPepp.calcBasics.otherMethodMedInfra}" required="#{editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 1}">
-        <f:ajax event="blur" render="@this :logout:remaining" />
-    </h:inputTextarea>
-</h:panelGroup>    
-    
-    <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur"}</h2>  
-    
+    <h2>#{"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>
+
+    <h:selectOneMenu id="iblvFulFillment"
+                     required="true"
+                     requiredMessage="#{msg.msgValueNeeded}"
+                     value="#{editCalcBasicsPepp.calcBasics.iblvMethodMedInfra}"
+                     hideNoSelectionOption="true"
+                     disabled="#{editCalcBasicsPepp.readOnly}"
+                     style="width: 100%;">
+        <f:selectItems value="#{calcBasicsStaticData.ibvlTypeItem}" />
+        <f:ajax event="change"
+                render="@form :logout:remaining" /><!--render="@this :logout:remaining medInfraMethodDescription"/-->
+    </h:selectOneMenu>
+
+    <br />
+    <h:outputLabel id="remark" styleClass="label" rendered="#{editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 3}"
+                   value="Bitte beachten Sie, dass das Anbauverfahren lediglich bei einer erstmaligen Teilnahme als Verfahren zur Durchführung der IBLV gewählt werden darf."
+    />
+
+    <h:panelGroup id="medInfraMethodDescription" styleClass="inputPart"
+                  rendered="#{editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 1}">
+        <h:outputLabel styleClass="label" for="description" value="Erläuterung:" /><br />
+        <h:inputTextarea id="description" styleClass="areaWideHigh"
+                         value="#{editCalcBasicsPepp.calcBasics.otherMethodMedInfra}"
+                         required="#{editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 1}"
+                         readonly="#{editCalcBasicsPepp.readOnly}">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputTextarea>
+    </h:panelGroup>
+
+    <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur"}</h2>
+
     <!--170 = med. Infra-->
     <table>
         <tr>
@@ -54,42 +58,52 @@
             <tr>
                 <td>
                     <h:commandLink styleClass="colIcon">
-                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteMedInfra(item)}"/>
-                        <cb:confirmDelete/>
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                        value="" rendered="#{!editCalcBasicsPepp.readOnly}" />
+                        <f:ajax event="click" render="@form :logout:remaining"
+                                listener="#{editCalcBasicsPepp.deleteMedInfra(item)}" />
+                        <cb:confirmDelete />
                     </h:commandLink>
                 </td>
                 <td style="width: 15%;">
-                <inek:InputTextWithMessage value="#{item.costCenterNumber}" styleClass="inputwide" required="true"/>
+                    <inek:InputTextWithMessage value="#{item.costCenterNumber}" styleClass="inputwide"
+                                               readonly="#{editCalcBasicsPepp.readOnly}"
+                                               required="true" />
                 </td>
                 <td style="width: 30%">
-                <inek:InputTextWithMessage value="#{item.costCenterText}" styleClass="inputwide" required="true"/>
+                    <inek:InputTextWithMessage value="#{item.costCenterText}" styleClass="inputwide" required="true"
+                                               readonly="#{editCalcBasicsPepp.readOnly}" />
                 </td>
                 <td style="width: 25%;">
-                <inek:InputTextWithMessage value="#{item.keyUsed}" styleClass="inputwide" required="true"/>
+                    <inek:InputTextWithMessage value="#{item.keyUsed}" styleClass="inputwide" required="true"
+                                               readonly="#{editCalcBasicsPepp.readOnly}" />
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" required="true" renderElement="@this sumMed:text"/>
+                    <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" required="true"
+                                                  readonly="#{editCalcBasicsPepp.readOnly}"
+                                                  renderElement="@this sumMed:text" />
                 </td>
             </tr>
         </ui:repeat>
         <tr>
             <td colspan="4">
-                <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60"/>
-            </td> 
+                <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60" />
+            </td>
             <td>
-                <inek:InputIntegerWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsPepp.getMedInfraSum(170)}"/>
+                <inek:InputIntegerWithMessage disabled="true" id="sumMed"
+                                              readonly="#{editCalcBasicsPepp.readOnly}"
+                                              value="#{editCalcBasicsPepp.getMedInfraSum(170)}" />
             </td>
         </tr>
     </table>
-    
+
     <inek:UploadButtons importer="#{editCalcBasicsPepp.getImporter('peppmedinfra')}"
-                         calcbase="#{editCalcBasicsPepp.calcBasics}" 
+                        calcbase="#{editCalcBasicsPepp.calcBasics}"
                         readOnly="#{editCalcBasicsPepp.readOnly}"
                         addListener="#{editCalcBasicsPepp.addMedInfra(170)}"
                         uploadButtonText="Upload"
                         actionDeleteTable="#{editCalcBasicsPepp.deleteKgpMedInfraList(170)}"
-                        />
+    />
 
 </ui:composition>
 

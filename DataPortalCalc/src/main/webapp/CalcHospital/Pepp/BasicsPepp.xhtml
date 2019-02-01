@@ -22,7 +22,7 @@
         <h:outputLabel styleClass="label" for="correctionNote">
             Bei Bedarf: Zusätzliche Information an das InEK, z.B. Begründung für eine Korrekturlieferung (stichwortartig)
         </h:outputLabel><br/>
-        <h:inputTextarea id="correctionNote" styleClass="areaWideHigh" value="#{editCalcBasicsPepp.calcBasics.correctionNote}">
+        <h:inputTextarea id="correctionNote" styleClass="areaWideHigh" value="#{editCalcBasicsPepp.calcBasics.correctionNote}" readonly="#{editCalcBasicsPepp.isReadOnly()}">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
     </div>

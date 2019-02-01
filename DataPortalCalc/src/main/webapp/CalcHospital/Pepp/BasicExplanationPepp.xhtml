@@ -5,7 +5,6 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
@@ -26,50 +25,52 @@
                 <span class="label">Summe kalkulationsrelevanter Kosten (EUR)</span>
             </td>
             <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.sumCalcCost}" 
-                                     required="true" 
-                                     id="sumCalcCosts"
-                                     renderElement="@this pDiffSumCalcCost :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="" 
-                                     required="false"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.sumCalcCost}" 
-                                     disabled="true"
-                                     id="pSumCalcCost"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="" 
-                                     required="false"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <h:panelGroup id="pDiffSumCalcCost">
-            <inek:InputIntegerWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.sumCalcCost, editCalcBasicsPepp.calcBasics.sumCalcCost)}" 
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
-        <td>
-        <h:panelGroup id="pDiffSumCalcCostPsy">
-            <inek:InputIntegerWithMessage styleClass="inputwide"
-                                         value="" 
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.sumCalcCost}"
+                                              required="true"
+                                              id="sumCalcCosts"
+                                              renderElement="@this pDiffSumCalcCost :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.sumCalcCost}"
+                                              disabled="true"
+                                              id="pSumCalcCost"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffSumCalcCost">
+                    <inek:InputIntegerWithMessage styleClass="inputwide"
+                                                  value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.sumCalcCost, editCalcBasicsPepp.calcBasics.sumCalcCost)}"
+                                                  disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+            <td>
+                <h:panelGroup id="pDiffSumCalcCostPsy">
+                    <inek:InputIntegerWithMessage styleClass="inputwide"
+                                                  value=""
+                                                  disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
         </tr>
         <tr>
             <td>
@@ -93,389 +94,402 @@
                 <span class="label">Fälle vollstationär</span>
             </td>
             <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.caseInStationCnt}" 
-                                     required="true" 
-                                     id="fullCases"
-                                     renderElement="@this pDiffCaseInstationCount :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.caseInStationCntPsy}" 
-                                     required="true" 
-                                     id="fullCasesPsy"
-                                     renderElement="@this pDiffCaseInstationCountPsy :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.caseInStationCnt}" 
-                                     id="pCaseInstationCount"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.caseInStationCntPsy}" 
-                                     id="pCaseInstationCountPsy"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <h:panelGroup id="pDiffCaseInstationCount">
-            <inek:InputNumberWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.caseInStationCnt, editCalcBasicsPepp.calcBasics.caseInStationCnt)}" 
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
-        <td>
-        <h:panelGroup id="pDiffCaseInstationCountPsy">
-            <inek:InputNumberWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.caseInStationCntPsy, editCalcBasicsPepp.calcBasics.caseInStationCntPsy)}" 
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.caseInStationCnt}"
+                                              required="true"
+                                              id="fullCases"
+                                              renderElement="@this pDiffCaseInstationCount :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.caseInStationCntPsy}"
+                                              required="true"
+                                              id="fullCasesPsy"
+                                              renderElement="@this pDiffCaseInstationCountPsy :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.caseInStationCnt}"
+                                              id="pCaseInstationCount"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.caseInStationCntPsy}"
+                                              id="pCaseInstationCountPsy"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffCaseInstationCount">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.caseInStationCnt, editCalcBasicsPepp.calcBasics.caseInStationCnt)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+            <td>
+                <h:panelGroup id="pDiffCaseInstationCountPsy">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.caseInStationCntPsy, editCalcBasicsPepp.calcBasics.caseInStationCntPsy)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
         </tr>
         <tr>
             <td>
                 <span class="label">Pflegetage vollstationär</span>
             </td>
             <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.careDaysInStationCnt}" 
-                                     required="true" 
-                                     id="careDaysFullCases"
-                                     renderElement="@this pDiffCareDaysStationCount :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.careDaysInStationCntPsy}" 
-                                     required="true" 
-                                     id="careDaysFullCasesPsy"
-                                     renderElement="@this pDiffCareDaysStationCountPsy :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.careDaysInStationCnt}"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.careDaysInStationCntPsy}"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <h:panelGroup id="pDiffCareDaysStationCount">
-            <inek:InputNumberWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.careDaysInStationCnt, editCalcBasicsPepp.calcBasics.careDaysInStationCnt)}"
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
-        <td>
-        <h:panelGroup id="pDiffCareDaysStationCountPsy">
-            <inek:InputNumberWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.careDaysInStationCntPsy, editCalcBasicsPepp.calcBasics.careDaysInStationCntPsy)}"
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.careDaysInStationCnt}"
+                                              required="true"
+                                              id="careDaysFullCases"
+                                              renderElement="@this pDiffCareDaysStationCount :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.careDaysInStationCntPsy}"
+                                              required="true"
+                                              id="careDaysFullCasesPsy"
+                                              renderElement="@this pDiffCareDaysStationCountPsy :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.careDaysInStationCnt}"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.careDaysInStationCntPsy}"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffCareDaysStationCount">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.careDaysInStationCnt, editCalcBasicsPepp.calcBasics.careDaysInStationCnt)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+            <td>
+                <h:panelGroup id="pDiffCareDaysStationCountPsy">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.careDaysInStationCntPsy, editCalcBasicsPepp.calcBasics.careDaysInStationCntPsy)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
         </tr>
         <tr>
             <td>
                 <span class="label">Fälle teilstationär</span>
             </td>
             <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.casePartialStationCnt}" 
-                                     required="true" 
-                                     id="halfCases"
-                                     renderElement="@this pDiffPartialStationCount :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.casePartialStationCntPsy}" 
-                                     required="true" 
-                                     id="halfCasesPsy"
-                                     renderElement="@this pDiffPartialStationCount :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.casePartialStationCnt}"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.casePartialStationCntPsy}"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <h:panelGroup id="pDiffPartialStationCount">
-            <inek:InputNumberWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.casePartialStationCnt, editCalcBasicsPepp.calcBasics.casePartialStationCnt)}"
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
-        <td>
-        <h:panelGroup id="pDiffPartialStationCountPsy">
-            <inek:InputNumberWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.casePartialStationCntPsy, editCalcBasicsPepp.calcBasics.casePartialStationCntPsy)}"
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.casePartialStationCnt}"
+                                              required="true"
+                                              id="halfCases"
+                                              renderElement="@this pDiffPartialStationCount :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.casePartialStationCntPsy}"
+                                              required="true"
+                                              id="halfCasesPsy"
+                                              renderElement="@this pDiffPartialStationCount :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.casePartialStationCnt}"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.casePartialStationCntPsy}"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffPartialStationCount">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.casePartialStationCnt, editCalcBasicsPepp.calcBasics.casePartialStationCnt)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+            <td>
+                <h:panelGroup id="pDiffPartialStationCountPsy">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.casePartialStationCntPsy, editCalcBasicsPepp.calcBasics.casePartialStationCntPsy)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
         </tr>
         <tr>
             <td>
                 <span class="label">Berechnungstage teilstationär</span>
             </td>
             <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.daysPartialStation}"
-                                     required="true" 
-                                     id="halfCalcDays"
-                                     renderElement="@this pDiffHalfCalcDays :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.daysPartialStationPsy}"
-                                     required="true" 
-                                     id="halfCalcDaysPsy"
-                                     renderElement="@this pDiffHalfCalcDaysPsy :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.daysPartialStation}"
-                                     id="pHalfCalcDays"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.daysPartialStationPsy}"
-                                     id="pHalfCalcDaysPsy"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <h:panelGroup id="pDiffHalfCalcDays">
-            <inek:InputNumberWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.daysPartialStation, editCalcBasicsPepp.calcBasics.daysPartialStation)}"
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
-        <td>
-        <h:panelGroup id="pDiffHalfCalcDaysPsy">
-            <inek:InputNumberWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.daysPartialStationPsy, editCalcBasicsPepp.calcBasics.daysPartialStationPsy)}"
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.daysPartialStation}"
+                                              required="true"
+                                              id="halfCalcDays"
+                                              renderElement="@this pDiffHalfCalcDays :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.daysPartialStationPsy}"
+                                              required="true"
+                                              id="halfCalcDaysPsy"
+                                              renderElement="@this pDiffHalfCalcDaysPsy :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.daysPartialStation}"
+                                              id="pHalfCalcDays"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.daysPartialStationPsy}"
+                                              id="pHalfCalcDaysPsy"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffHalfCalcDays">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.daysPartialStation, editCalcBasicsPepp.calcBasics.daysPartialStation)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+            <td>
+                <h:panelGroup id="pDiffHalfCalcDaysPsy">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.daysPartialStationPsy, editCalcBasicsPepp.calcBasics.daysPartialStationPsy)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
         </tr>
         <tr>
             <td>
                 <span class="label">Begleitpersonen</span>
             </td>
             <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.patientEscort}"
-                                     required="true" 
-                                     id="companions"
-                                     renderElement="@this pPatientEscort pDiffPatientEscort :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value=""
-                                     required="false" 
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.patientEscort}"
-                                     disabled="true"
-                                     id="pPatientEscort"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value=""
-                                     required="false" 
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <h:panelGroup id="pDiffPatientEscort">
-            <inek:InputNumberWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.patientEscort, editCalcBasicsPepp.calcBasics.patientEscort)}"
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value=""
-                                     required="false" 
-                                     disabled="true"
-                                     />
-        </td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.patientEscort}"
+                                              required="true"
+                                              id="companions"
+                                              renderElement="@this pPatientEscort pDiffPatientEscort :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.patientEscort}"
+                                              disabled="true"
+                                              id="pPatientEscort"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffPatientEscort">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.patientEscort, editCalcBasicsPepp.calcBasics.patientEscort)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
         </tr>
         <tr>
             <td>
                 <span class="label">rein vorstationär</span>
             </td>
             <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.preStation}"
-                                     required="true" 
-                                     id="onlyStationary"
-                                     renderElement="@this pDiffPreStation :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value=""
-                                     required="false" 
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.preStation}"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value=""
-                                     required="false" 
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <h:panelGroup id="pDiffPreStation">
-            <inek:InputNumberWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.preStation, editCalcBasicsPepp.calcBasics.preStation)}"
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value=""
-                                     required="false" 
-                                     disabled="true"
-                                     />
-        </td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.preStation}"
+                                              required="true"
+                                              id="onlyStationary"
+                                              renderElement="@this pDiffPreStation :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.preStation}"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffPreStation">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.preStation, editCalcBasicsPepp.calcBasics.preStation)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
         </tr>
         <tr>
             <td>
                 <span class="label">Betten (PSY-Bereich)</span>
             </td>
             <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.beds}"
-                                     required="true" 
-                                     renderElement="@this pDiffBeds :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value=""
-                                     required="false" 
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.beds}"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value=""
-                                     required="false" 
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <h:panelGroup id="pDiffBeds">
-            <inek:InputNumberWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.beds, editCalcBasicsPepp.calcBasics.beds)}"
-                                         disabled="true"
-                                         />
-        </h:panelGroup>
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value=""
-                                     required="false" 
-                                     disabled="true"
-                                     />
-        </td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.beds}"
+                                              required="true"
+                                              renderElement="@this pDiffBeds :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.beds}"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffBeds">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.beds, editCalcBasicsPepp.calcBasics.beds)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
         </tr>
         <tr>
             <td>
                 <span class="label">Anzahl teilstationäre Plätze (PSY-Bereich)</span>
             </td>
             <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcBasics.partialCnt}"
-                                     required="true" 
-                                     renderElement="@this pDiffPartialCnt :logout:remaining"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value=""
-                                     required="false" 
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.priorCalcBasics.partialCnt}"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value=""
-                                     required="false" 
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.partialCnt, editCalcBasicsPepp.calcBasics.partialCnt)}"
-                                     disabled="true"
-                                     />
-        </td>
-        <td>
-        <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value=""
-                                     required="false" 
-                                     disabled="true"
-                                     />
-        </td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.partialCnt}"
+                                              required="true"
+                                              renderElement="@this pDiffPartialCnt :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.partialCnt}"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputNumberWithMessage styleClass="inputwide"
+                                             value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.partialCnt, editCalcBasicsPepp.calcBasics.partialCnt)}"
+                                             disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                />
+            </td>
         </tr>
         <tbody>
 
@@ -486,138 +500,177 @@
 
     <div class="inputPart">
         <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
-        <h:inputText styleClass="inputshort" value="#{editCalcBasicsPepp.calcBasics.locationCnt}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining"/>
+        <h:inputText styleClass="inputshort" value="#{editCalcBasicsPepp.calcBasics.locationCnt}" required="true" readonly="#{editCalcBasicsPepp.isReadOnly()}">
+            <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputText>
     </div>
 
     <div class="inputPart">
-        <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor?"  
-                                 renderElement="@form diffLocation :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.difLocationSupply}" labelStyle="label"/>
+        <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor?"
+                                 renderElement="@form diffLocation :logout:remaining"
+                                 readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                                 value="#{editCalcBasicsPepp.calcBasics.difLocationSupply}" labelStyle="label" />
     </div>
 
     <div jsf:id="diffLocation" jsf:rendered="#{editCalcBasicsPepp.calcBasics.difLocationSupply}">
-    <h:dataTable  headerClass="list-header" id="exitLocation"
-                  value="#{editCalcBasicsPepp.calcBasics.locations}" var="item" width="70%" rowClasses="row1, row2" 
-                  columnClasses="colIcon, col90, colShort"
-                  rendered="true"
-                  >
+        <h:dataTable headerClass="list-header" id="exitLocation"
+                     value="#{editCalcBasicsPepp.calcBasics.locations}" var="item" width="70%" rowClasses="row1, row2"
+                     columnClasses="colIcon, col90, colShort"
+                     rendered="true"
+        >
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputText value=""/>
-            </f:facet>
-            <h:commandLink styleClass="colIcon">
-                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteLocation(item)}"/>
-                <cb:confirmDelete/>
-            </h:commandLink>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="" />
+                </f:facet>
+                <h:commandLink styleClass="colIcon">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                    value="" rendered="#{!editCalcBasicsPepp.isReadOnly()}" />
+                    <f:ajax event="click" render="@form :logout:remaining"
+                            listener="#{editCalcBasicsPepp.deleteLocation(item)}" />
+                    <cb:confirmDelete />
+                </h:commandLink>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputText value="Entlassender Standort"/><br/>
-                <h:outputText value="(aussagekräftiger Name)"/>
-            </f:facet>
-            <h:inputText value="#{item.location}" styleClass="inputwide" required="true">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Entlassender Standort" /><br />
+                    <h:outputText value="(aussagekräftiger Name)" />
+                </f:facet>
+                <h:inputText value="#{item.location}" styleClass="inputwide" required="true" readonly="#{editCalcBasicsPepp.isReadOnly()}">
+                    <f:ajax render="@this :logout:remaining" />
+                </h:inputText>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputText value="Nummer"/>
-            </f:facet>
-            <h:inputText value="#{item.locationNo}" styleClass="inputwide" required="true">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Nummer" />
+                </f:facet>
+                <h:inputText value="#{item.locationNo}" styleClass="inputwide" required="true" readonly="#{editCalcBasicsPepp.isReadOnly()}">
+                    <f:ajax render="@this :logout:remaining" />
+                </h:inputText>
+            </h:column>
 
-    </h:dataTable>
+        </h:dataTable>
 
-    <h:commandLink id="addButtonLocation" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addLocation()}"/>
-    </h:commandLink>
+        <h:commandLink id="addButtonLocation" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="#{editCalcBasicsPepp.isReadOnly()}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addLocation()}" />
+        </h:commandLink>
     </div>
-    
+
     <h2>Weitere Informationen</h2>
     <h:outputLabel styleClass="label element100" value="Einzelkosten Arzneimittel" />
-    <inek:BooleanRadioButton label="Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?"  
-                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.medicineCostMapping}" labelStyle="label element60"/><br/>
+    <inek:BooleanRadioButton label="Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?"
+                             renderElement="@this :logout:remaining"
+                             value="#{editCalcBasicsPepp.calcBasics.medicineCostMapping}"
+                             readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                             labelStyle="label element60" /><br />
 
-<!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?" value="# {editCalcBasicsPepp.calcBasics.medicineCostMapping}"/><br/>-->
-    <h:outputLabel styleClass="label element100" value="Ergänzende Datenbereitstellung zum Status der gerichtlichen Unterbringung" />
-    <inek:BooleanRadioButton label="Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?"  
-                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.courtPlacement}" labelStyle="label element60"/>
-<!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?" value="# {editCalcBasicsPepp.calcBasics.courtPlacement}"/>-->
-    <inek:BooleanRadioButton label="Ist es Ihnen möglich, die Daten in der von der ergänzenden Datenbereitstellung vorgesehenen Form aufzubereiten und zu übermitteln?"  
-                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.additionalDataAllocation}" labelStyle="label element60"/>
-<!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Ist es Ihnen möglich, die Daten in der von der ergänzenden Datenbereitstellung vorgesehenen Form aufzubereiten und zu übermitteln?" value="# {editCalcBasicsPepp.calcBasics.additionalDataAllocation}"/>-->
-    
+    <!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?" value="# {editCalcBasicsPepp.calcBasics.medicineCostMapping}"/><br/>-->
+    <h:outputLabel styleClass="label element100"
+                   value="Ergänzende Datenbereitstellung zum Status der gerichtlichen Unterbringung" />
+    <inek:BooleanRadioButton
+            label="Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?"
+            renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.courtPlacement}"
+            readonly="#{editCalcBasicsPepp.isReadOnly()}"
+            labelStyle="label element60" />
+    <!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?" value="# {editCalcBasicsPepp.calcBasics.courtPlacement}"/>-->
+    <inek:BooleanRadioButton
+            label="Ist es Ihnen möglich, die Daten in der von der ergänzenden Datenbereitstellung vorgesehenen Form aufzubereiten und zu übermitteln?"
+            renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.additionalDataAllocation}"
+            readonly="#{editCalcBasicsPepp.isReadOnly()}"
+            labelStyle="label element60" />
+    <!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Ist es Ihnen möglich, die Daten in der von der ergänzenden Datenbereitstellung vorgesehenen Form aufzubereiten und zu übermitteln?" value="# {editCalcBasicsPepp.calcBasics.additionalDataAllocation}"/>-->
+
     <h2>Berücksichtigte Abgrenzungstatbestände</h2>
 
     <ui:repeat value="#{editCalcBasicsPepp.calcBasics.delimitationFacts}" var="x" varStatus="status" id="uival">
 
         <div class="inputPart">
-            <h:outputLabel value="#{x.contentText.text}" styleClass="#{x.requireInputs ? 'blockElement' : 'blockElementLight'}" style="width: calc(100% - 22em);" title="#{msg.ttDelimitationfacts}"/> &nbsp;
-            <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{x.used}" >
-                <f:ajax event="change" render="@form :logout:remaining :script" 
-                         listener="#{sessionController.hideData(x.used or !x.requireInputs)}"/>
-                
+            <h:outputLabel value="#{x.contentText.text}"
+                           styleClass="#{x.requireInputs ? 'blockElement' : 'blockElementLight'}"
+                           readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                           style="width: calc(100% - 22em);" title="#{msg.ttDelimitationfacts}" /> &nbsp;
+            <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{x.used}" disabled="#{editCalcBasicsPepp.isReadOnly()}">
+                <f:ajax event="change" render="@form :logout:remaining :script"
+                        listener="#{sessionController.hideData(x.used or !x.requireInputs)}" />
+
             </h:selectBooleanCheckbox>
-            <h:outputLabel value="#{editCalcBasicsPepp.calcBasics.dataYear}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
-            <h:outputLabel value="#{editCalcBasicsPepp.calcBasics.dataYear - 1}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
-            <h:outputLabel value="#{msg.lblDevitation}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
+            <h:outputLabel value="#{editCalcBasicsPepp.calcBasics.dataYear}" styleClass="blockElement"
+                           style="width: 6em;" rendered="#{x.used and x.requireInputs}" />
+            <h:outputLabel value="#{editCalcBasicsPepp.calcBasics.dataYear - 1}" styleClass="blockElement"
+                           style="width: 6em;" rendered="#{x.used and x.requireInputs}" />
+            <h:outputLabel value="#{msg.lblDevitation}" styleClass="blockElement" style="width: 6em;"
+                           rendered="#{x.used and x.requireInputs}" />
         </div>
 
-        <h:dataTable value="#{calcBasicsStaticData.delimitationFactsSubTitles}" 
+        <h:dataTable value="#{calcBasicsStaticData.delimitationFactsSubTitles}"
                      rendered="#{x.used and x.requireInputs}"
-                     var="data" 
+                     var="data"
                      width="100%"
                      rowClasses="row1, row2"
                      columnClasses="colValue, col05em number, col05em number, col05em number"
                      styleClass="marginTop"
                      id="tblsubval"
-                     >
+        >
 
             <h:column>
-                <h:outputLabel rendered="#{x.requireInputs}" value="#{data}"/>
+                <h:outputLabel rendered="#{x.requireInputs}" value="#{data}" />
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
-                <inek:InputIntegerWithMessage id="data-personal" rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}" value="#{x.personalCost}"
-                                             styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:0:diff-personal:text :logout:remaining"
-                                             disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
-                <inek:InputIntegerWithMessage id="data-material" rendered="#{data eq 'Sachkosten'}" value="#{x.materialCost}"
-                                             styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:1:diff-material:text :logout:remaining"
-                                             />
-                <inek:InputIntegerWithMessage id="data-infra" rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}" value="#{x.infraCost}"
-                                             styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:2:diff-infra:text :logout:remaining"
-                                             disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
+                <inek:InputIntegerWithMessage id="data-personal"
+                                              rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}"
+                                              value="#{x.personalCost}"
+                                              styleClass="col06em" required="true"
+                                              renderElement="@this uival:#{status.index}:tblsubval:0:diff-personal:text :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                                              disabled="#{x.contentText.text eq 'Investitionskosten'}" />
+                <inek:InputIntegerWithMessage id="data-material" rendered="#{data eq 'Sachkosten'}"
+                                              value="#{x.materialCost}"
+                                              styleClass="col06em" required="true"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                                              renderElement="@this uival:#{status.index}:tblsubval:1:diff-material:text :logout:remaining"
+                />
+                <inek:InputIntegerWithMessage id="data-infra"
+                                              rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}"
+                                              value="#{x.infraCost}"
+                                              styleClass="col06em" required="true"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                                              renderElement="@this uival:#{status.index}:tblsubval:2:diff-infra:text :logout:remaining"
+                                              disabled="#{x.contentText.text eq 'Investitionskosten'}" />
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
-                <inek:InputIntegerWithMessage rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost}" styleClass="col06em" disabled="true" required="true"/>
-                <inek:InputIntegerWithMessage rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).materialCost}" styleClass="col06em" disabled="true" required="true"/>
-                <inek:InputIntegerWithMessage rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost}" styleClass="col06em" disabled="true" required="true"/>
+                <inek:InputIntegerWithMessage
+                        rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}"
+                        value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost}"
+                        styleClass="col06em" disabled="true" required="true" />
+                <inek:InputIntegerWithMessage rendered="#{data eq 'Sachkosten'}"
+                                              value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).materialCost}"
+                                              styleClass="col06em" disabled="true" required="true" />
+                <inek:InputIntegerWithMessage
+                        rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}"
+                        value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost}"
+                        styleClass="col06em" disabled="true" required="true" />
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
                 <inek:InputIntegerWithMessage id="diff-personal"
-                                             rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}" 
-                                             value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost, x.personalCost)}"
-                                             styleClass="col06em"
-                                             disabled="true"/>
+                                              rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}"
+                                              value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost, x.personalCost)}"
+                                              styleClass="col06em"
+                                              disabled="true" />
                 <inek:InputIntegerWithMessage id="diff-material"
-                                             rendered="#{data eq 'Sachkosten'}" 
-                                             value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}"
-                                             styleClass="col06em"
-                                             disabled="true"/>
+                                              rendered="#{data eq 'Sachkosten'}"
+                                              value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}"
+                                              styleClass="col06em"
+                                              disabled="true" />
                 <inek:InputIntegerWithMessage id="diff-infra"
-                                             rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}" 
-                                             value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost, x.infraCost)}"
-                                             styleClass="col06em"
-                                             disabled="true"/>
+                                              rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}"
+                                              value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost, x.infraCost)}"
+                                              styleClass="col06em"
+                                              disabled="true" />
             </h:column>
         </h:dataTable>
     </ui:repeat>

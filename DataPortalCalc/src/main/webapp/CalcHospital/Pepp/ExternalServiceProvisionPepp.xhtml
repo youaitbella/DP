@@ -36,6 +36,7 @@
                                        styleClass="element100" 
                                        value="#{item.domain}" 
                                        required="true"
+                                       disabled="#{editCalcBasicsPepp.readOnly}"
                                        rendered="#{item.serviceProvisionTypeId lt 0}"/>
         </h:column>
 
@@ -45,7 +46,7 @@
                              required="true"
                              requiredMessage="#{msg.msgValueNeeded}"
                              value="#{item.providedTypeId}" 
-                             disabled="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
+                             disabled="#{item.serviceProvisionTypeId lt 0 and empty item.domain or editCalcBasicsPepp.readOnly}"
                              hideNoSelectionOption="true" >
                 <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                 <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{0}"/>
@@ -58,13 +59,13 @@
 
         <h:column>
             <f:facet name="header">Fremdvergebene Teilbereiche</f:facet>
-            <inek:InputTextWithMessage id="partition" value="#{item.partitionExternalAssignment}" styleClass="inputwide" disabled="#{item.providedTypeId ne 3}"/>
+            <inek:InputTextWithMessage id="partition" value="#{item.partitionExternalAssignment}" styleClass="inputwide" disabled="#{item.providedTypeId ne 3}" readonly="#{editCalcBasicsPepp.readOnly}"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Anmerkungen</f:facet>
             <inek:InputTextWithMessage value="#{item.note}" 
-                                       readonly="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
+                                       readonly="#{item.serviceProvisionTypeId lt 0 and empty item.domain or editCalcBasicsPepp.readOnly}"
                                        styleClass="inputwide"/>
         </h:column>
 
@@ -72,7 +73,7 @@
             <f:facet name="header">Kosten- volumen #{editCalcBasicsPepp.calcBasics.dataYear}</f:facet>
             <inek:InputIntegerWithMessage value="#{item.amount}" 
                                          styleClassComponent="col05em" 
-                                         readonly="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
+                                         readonly="#{item.serviceProvisionTypeId lt 0 and empty item.domain or editCalcBasicsPepp.readOnly}"
                                          renderElement="@form"/>
         </h:column>
 
