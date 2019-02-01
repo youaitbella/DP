@@ -283,9 +283,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isReadOnly() {
-        //if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
-        //    return true;
-        //}
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
+            return true;
+        }
         return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL,
                 _calcBasics.getStatus(),
                 _calcBasics.getAccountId(),

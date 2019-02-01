@@ -31,7 +31,7 @@
                                      required="true" 
                                      id="sumCalcCosts"
                                      renderElement="@this pDiffSumCalcCost :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -99,7 +99,7 @@
                                      required="true" 
                                      id="fullCases"
                                      renderElement="@this pDiffCaseInstationCount :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -108,7 +108,7 @@
                                      required="true" 
                                      id="fullCasesPsy"
                                      renderElement="@this pDiffCaseInstationCountPsy :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -152,7 +152,7 @@
                                      required="true" 
                                      id="careDaysFullCases"
                                      renderElement="@this pDiffCareDaysStationCount :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -161,7 +161,7 @@
                                      required="true" 
                                      id="careDaysFullCasesPsy"
                                      renderElement="@this pDiffCareDaysStationCountPsy :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -203,7 +203,7 @@
                                      required="true" 
                                      id="halfCases"
                                      renderElement="@this pDiffPartialStationCount :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -212,7 +212,7 @@
                                      required="true" 
                                      id="halfCasesPsy"
                                      renderElement="@this pDiffPartialStationCount :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -254,7 +254,7 @@
                                      required="true" 
                                      id="halfCalcDays"
                                      renderElement="@this pDiffHalfCalcDays :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -263,7 +263,7 @@
                                      required="true" 
                                      id="halfCalcDaysPsy"
                                      renderElement="@this pDiffHalfCalcDaysPsy :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -307,7 +307,7 @@
                                      required="true" 
                                      id="companions"
                                      renderElement="@this pPatientEscort pDiffPatientEscort :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -357,7 +357,7 @@
                                      required="true" 
                                      id="onlyStationary"
                                      renderElement="@this pDiffPreStation :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -405,7 +405,7 @@
                                      value="#{editCalcBasicsPepp.calcBasics.beds}"
                                      required="true" 
                                      renderElement="@this pDiffBeds :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -453,7 +453,7 @@
                                      value="#{editCalcBasicsPepp.calcBasics.partialCnt}"
                                      required="true" 
                                      renderElement="@this pDiffPartialCnt :logout:remaining"
-                                      readonly="#{editCalcBasicsPepp.readOnly}"
+                                      readonly="true"
                                      />
         </td>
         <td>
@@ -499,14 +499,14 @@
 
     <div class="inputPart">
         <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
-        <h:inputText styleClass="inputshort" value="#{editCalcBasicsPepp.calcBasics.locationCnt}" required="true" readonly="#{editCalcBasicsPepp.readOnly}">
+        <h:inputText styleClass="inputshort" value="#{editCalcBasicsPepp.calcBasics.locationCnt}" required="true">
             <f:ajax event="blur" render="@this :logout:remaining"/>
         </h:inputText>
     </div>
 
     <div class="inputPart">
         <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor?"  
-                                 renderElement="@form diffLocation :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.difLocationSupply}" labelStyle="label" readonly="#{editCalcBasicsPepp.readOnly}"/>
+                                 renderElement="@form diffLocation :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.difLocationSupply}" labelStyle="label"/>
     </div>
 
     <div jsf:id="diffLocation" jsf:rendered="#{editCalcBasicsPepp.calcBasics.difLocationSupply}">
@@ -556,18 +556,15 @@
     <h2>Weitere Informationen</h2>
     <h:outputLabel styleClass="label element100" value="Einzelkosten Arzneimittel" />
     <inek:BooleanRadioButton label="Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?"  
-                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.medicineCostMapping}" labelStyle="label element60"
-                                 readonly="#{editCalcBasicsPepp.readOnly}"/><br/>
+                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.medicineCostMapping}" labelStyle="label element60"/><br/>
 
 <!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?" value="# {editCalcBasicsPepp.calcBasics.medicineCostMapping}"/><br/>-->
     <h:outputLabel styleClass="label element100" value="Ergänzende Datenbereitstellung zum Status der gerichtlichen Unterbringung" />
     <inek:BooleanRadioButton label="Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?"  
-                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.courtPlacement}" labelStyle="label element60"
-                                  readonly="#{editCalcBasicsPepp.readOnly}"   />
+                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.courtPlacement}" labelStyle="label element60"/>
 <!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?" value="# {editCalcBasicsPepp.calcBasics.courtPlacement}"/>-->
     <inek:BooleanRadioButton label="Ist es Ihnen möglich, die Daten in der von der ergänzenden Datenbereitstellung vorgesehenen Form aufzubereiten und zu übermitteln?"  
-                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.additionalDataAllocation}" labelStyle="label element60"
-                                 readonly="#{editCalcBasicsPepp.readOnly}"/>
+                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsPepp.calcBasics.additionalDataAllocation}" labelStyle="label element60"/>
 <!--    <inek:LabeledCheckbox styleClassLabel="label element60" label="Ist es Ihnen möglich, die Daten in der von der ergänzenden Datenbereitstellung vorgesehenen Form aufzubereiten und zu übermitteln?" value="# {editCalcBasicsPepp.calcBasics.additionalDataAllocation}"/>-->
     
     <h2>Berücksichtigte Abgrenzungstatbestände</h2>
@@ -576,9 +573,9 @@
 
         <div class="inputPart">
             <h:outputLabel value="#{x.contentText.text}" styleClass="#{x.requireInputs ? 'blockElement' : 'blockElementLight'}" style="width: calc(100% - 22em);" title="#{msg.ttDelimitationfacts}"/> &nbsp;
-            <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{x.used}" disabled="#{editCalcBasicsPepp.readOnly}" >
+            <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{x.used}" >
                 <f:ajax event="change" render="@form :logout:remaining :script" 
-                         listener="#{sessionController.hideData(x.used or !x.requireInputs)}" />
+                         listener="#{sessionController.hideData(x.used or !x.requireInputs)}"/>
                 
             </h:selectBooleanCheckbox>
             <h:outputLabel value="#{editCalcBasicsPepp.calcBasics.dataYear}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
@@ -603,13 +600,13 @@
             <h:column rendered="#{x.used and x.requireInputs}">
                 <inek:InputIntegerWithMessage id="data-personal" rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}" value="#{x.personalCost}"
                                              styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:0:diff-personal:text :logout:remaining"
-                                             disabled="#{x.contentText.text eq 'Investitionskosten' or editCalcBasicsPepp.readOnly}"/>
+                                             disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
                 <inek:InputIntegerWithMessage id="data-material" rendered="#{data eq 'Sachkosten'}" value="#{x.materialCost}"
                                              styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:1:diff-material:text :logout:remaining"
-                                              disabled="#{x.contentText.text eq 'Investitionskosten' or editCalcBasicsPepp.readOnly}"/>
+                                             />
                 <inek:InputIntegerWithMessage id="data-infra" rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}" value="#{x.infraCost}"
                                              styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:2:diff-infra:text :logout:remaining"
-                                             disabled="#{x.contentText.text eq 'Investitionskosten' or editCalcBasicsPepp.readOnly}"/>
+                                             disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
