@@ -180,12 +180,20 @@ class ProofImporterTest {
 
     private ProofRegulationStation createNewStation(SensitiveArea area, String fabNumber, String fabName,
                                                     String stationName, String locationCode) {
+        List<Months> months = new ArrayList<>();
+        months.add(Months.JANUARY);
+        months.add(Months.FEBRUARY);
+        months.add(Months.MARCH);
+
         ProofRegulationStation station = new ProofRegulationStation();
         station.setSensitiveArea(area);
         station.setFabNumber(fabNumber);
         station.setFabName(fabName);
         station.setStationName(stationName);
         station.setLocationCode(locationCode);
+        for(Months month : months) {
+            station.addNewValideMonth(month);
+        }
         return station;
     }
 

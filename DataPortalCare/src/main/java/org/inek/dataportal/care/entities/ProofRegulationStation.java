@@ -1,10 +1,13 @@
 package org.inek.dataportal.care.entities;
 
+import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.SensitiveArea;
-import org.inek.dataportal.care.enums.Shift;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -126,6 +129,28 @@ public class ProofRegulationStation implements Serializable {
     }
     //</editor-fold>
 
+    @OneToMany(mappedBy = "_proofRegulationStation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "prsmProofRegulationStationId")
+    private List<MapProofRegulationStationMonth> _valideMonths = new ArrayList<>();
+
+    public List<MapProofRegulationStationMonth> getValideMonths() {
+        return _valideMonths;
+    }
+
+    public void setValideMonths(List<MapProofRegulationStationMonth> valideMonths) {
+        this._valideMonths = valideMonths;
+    }
+
+    public void addNewValideMonth(Months month) {
+        MapProofRegulationStationMonth mapProofRegulationStationMonth = new MapProofRegulationStationMonth();
+        mapProofRegulationStationMonth.setProofRegulationStation(this);
+        mapProofRegulationStationMonth.setMonth(month);
+        _valideMonths.add(mapProofRegulationStationMonth);
+    }
+
+    public Boolean isValideForMonth(Months month) {
+        return _valideMonths.stream().anyMatch(c -> c.getMonth().equals(month));
+    }
 
     @Override
     public boolean equals(Object o) {
