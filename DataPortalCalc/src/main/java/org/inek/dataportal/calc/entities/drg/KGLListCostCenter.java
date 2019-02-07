@@ -182,6 +182,111 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="ccCountMedStaffPre">
+    @Column(name = "ccCountMedStaffPre")
+    private double _countMedStaffPre;
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCountMedStaffAfter">
+    @Column(name = "ccCountMedStaffAfter")
+    private double _countMedStaffAfter;
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeMedStaffPre">
+    @Column(name = "ccCostVolumeMedStaffPre")
+    private double _costVolumeMedStaffPre;
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeMedStaffAfter">
+    @Column(name = "ccCostVolumeMedStaffAfter")
+    private double _costVolumeMedStaffAfter;
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCountFunctionalServicePre">
+    @Column(name = "ccCountFunctionalServicePre")
+    private double _countFunctionalServicePre;
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCountFunctionalServiceAfter">
+    @Column(name = "ccCountFunctionalServiceAfter")
+    private double _countFunctionalServiceAfter;
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeFunctionalServicePre">
+    @Column(name = "ccCostVolumeFunctionalServicePre")
+    private double _costVolumeFunctionalServicePre;
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeFunctionalServiceAfter">
+    @Column(name = "ccCostVolumeFunctionalServiceAfter")
+    private double _costVolumeFunctionalServiceAfter;
+    // </editor-fold>
+
+
+    public double getCountMedStaffPre() {
+        return _countMedStaffPre;
+    }
+
+    public void setCountMedStaffPre(double countMedStaffPre) {
+        this._countMedStaffPre = countMedStaffPre;
+    }
+
+    public double getCountMedStaffAfter() {
+        return _countMedStaffAfter;
+    }
+
+    public void setCountMedStaffAfter(double countMedStaffAfter) {
+        this._countMedStaffAfter = countMedStaffAfter;
+    }
+
+    public double getCostVolumeMedStaffPre() {
+        return _costVolumeMedStaffPre;
+    }
+
+    public void setCostVolumeMedStaffPre(double costVolumeMedStaffPre) {
+        this._costVolumeMedStaffPre = costVolumeMedStaffPre;
+    }
+
+    public double getCostVolumeMedStaffAfter() {
+        return _costVolumeMedStaffAfter;
+    }
+
+    public void setCostVolumeMedStaffAfter(double costVolumeMedStaffAfter) {
+        this._costVolumeMedStaffAfter = costVolumeMedStaffAfter;
+    }
+
+    public double getCountFunctionalServicePre() {
+        return _countFunctionalServicePre;
+    }
+
+    public void setCountFunctionalServicePre(double countFunctionalServicePre) {
+        this._countFunctionalServicePre = countFunctionalServicePre;
+    }
+
+    public double getCountFunctionalServiceAfter() {
+        return _countFunctionalServiceAfter;
+    }
+
+    public void setCountFunctionalServiceAfter(double countFunctionalServiceAfter) {
+        this._countFunctionalServiceAfter = countFunctionalServiceAfter;
+    }
+
+    public double getCostVolumeFunctionalServicePre() {
+        return _costVolumeFunctionalServicePre;
+    }
+
+    public void setCostVolumeFunctionalServicePre(double costVolumeFunctionalServicePre) {
+        this._costVolumeFunctionalServicePre = costVolumeFunctionalServicePre;
+    }
+
+    public double getCostVolumeFunctionalServiceAfter() {
+        return _costVolumeFunctionalServiceAfter;
+    }
+
+    public void setCostVolumeFunctionalServiceAfter(double costVolumeFunctionalServiceAfter) {
+        this._costVolumeFunctionalServiceAfter = costVolumeFunctionalServiceAfter;
+    }
+
     public KGLListCostCenter() {
     }
 
@@ -279,6 +384,14 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
         this._serviceKeyDescription = item._serviceKeyDescription;
         this._serviceSum = item._serviceSum;
         this._baseInformationId = item._baseInformationId;
+        this._countMedStaffPre = item._countMedStaffPre;
+        this._countMedStaffAfter = item._countMedStaffAfter;
+        this._costVolumeMedStaffPre = item._costVolumeMedStaffPre;
+        this._costVolumeMedStaffAfter = item._costVolumeMedStaffAfter;
+        this._countFunctionalServicePre = item._countFunctionalServicePre;
+        this._countFunctionalServiceAfter = item._countFunctionalServiceAfter;
+        this._costVolumeFunctionalServicePre = item._costVolumeFunctionalServicePre;
+        this._costVolumeFunctionalServiceAfter = item._costVolumeFunctionalServiceAfter;
     }
 
 }

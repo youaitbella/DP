@@ -41,15 +41,59 @@
             </h:column>
 
             <h:column>
-                <f:facet name="header"><h:outputLabel value="Kostenvolumen" title="Kostenvolumen"/></f:facet>
-                <inek:InputIntegerWithMessage styleClass="element100" value="#{item.amount}" renderElement="result" readonly="#{cc.attrs.backingBean.readOnly}"/>
+                <f:facet name="header">
+                    <h:outputLabel value="Anzahl VK ÄD vor Abgrenzung"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countMedStaffPre}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="VK ÄD" title="Anzahl der zugeordneten Vollkräfte des Ärztlichen Dienstes zur Kostenstelle"/>
+                    <h:outputLabel value="Anzahl VK ÄD nach Abgrenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.fullVigorCnt}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countMedStaffAfter}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kostenvolumen ÄD vor Abgrenzung"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeMedStaffPre}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kostenvolumen ÄD Nach Abgrenzung"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeMedStaffAfter}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Anzahl VK FD vor Abgrenzung"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countFunctionalServicePre}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Anzahl VK FD nach Abgrenzung"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countFunctionalServiceAfter}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kostenvolumen FD vor Abgrenzung"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeFunctionalServicePre}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kostenvolumen FD nach Abgrenzung"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeFunctionalServiceAfter}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
             <h:column>
