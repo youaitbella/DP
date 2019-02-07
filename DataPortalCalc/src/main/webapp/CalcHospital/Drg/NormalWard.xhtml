@@ -296,8 +296,10 @@
             width: 16px;
         }
         #tbl th.colInput,
+        #tbl td.colInput,
         #tbl tfoot td.colInput {
-            width: 100px;
+            max-width: 100px !important;
+            min-width: 100px !important;
         }
         #tbl thead td.colInput {
             width: 112px;
@@ -346,7 +348,7 @@
 
     </style>
 
-    <h2>Kosten in der Kostenstellengruppe 1 (Normalstation)</h2>
+    <h2>Kosten in der Kostenstellengruppe 1 (Normalstation) nach Durchführung der Personalkostenverrechnung</h2>
 
     <div class="container marginTop">
         <table id="tbl">
@@ -354,6 +356,7 @@
                 <tr>
                     <th class="colDelete"/>
                     <th class="col9">Allgemeine Angaben</th>
+                    <th style="width: 558px;" >errechnete Kostensätze</th>
                     <th class="col3">Anzahl der zugeordneten VK</th>
                     <th class="col7">Kosten der Kostenstelle</th>
                 </tr>
@@ -385,6 +388,21 @@
                     </th>
                     <th class="colInput">
                         Auslastung
+                    </th>
+                    <th class="colInput">
+                        Kostensatz ÄD
+                    </th>
+                    <th class="colInput">
+                        Kostensatz PD
+                    </th>
+                    <th class="colInput">
+                        Kostensatz med. Infrastr.
+                    </th>
+                    <th class="colInput">
+                        Kostensatz nicht med. Infrastr.
+                    </th>
+                    <th class="colInput">
+                        Bitte bestätigen Sie die Plausibilität des errechneten Kostensatzes oder nehmen Sie ggf. Änderungen vor.
                     </th>
                     <th class="colInput">
                         Ärztlicher Dienst
@@ -441,10 +459,10 @@
                 <inek:InputTextWithMessage value="#{x.departmentAssignment}" renderElement=""/>
                 </td>
                 <td class="colInput">
-                <inek:InputIntegerWithMessage value="#{x.bedCnt}"  renderElement="calc-field-#{loop.index}:text sumBeds:text"/>
+                <inek:InputIntegerWithMessage value="#{x.bedCnt}" renderElement="calc-field-#{loop.index}:text approved sumBeds:text"/>
                 </td>
                 <td class="colInput">
-                <inek:InputIntegerWithMessage value="#{x.careDays}"  renderElement="calc-field-#{loop.index}:text"/>
+                <inek:InputIntegerWithMessage value="#{x.careDays}" minimum="100"  renderElement="calc-field-#{loop.index}:text approved"/>
                 </td>
                 <td class="colInput">
                 <inek:InputIntegerWithMessage value="#{x.pprMinutes}"/>
@@ -452,15 +470,67 @@
                 <td class="colInput">
                 <inek:InputIntegerWithMessage value="#{x.pprWeight}"  renderElement="sumAddPpr:text"/>
                 </td>
-                <td class="colInput">
-                <h:inputText title="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'Der Wert ist unter 60%!' : ''}" 
-                                             styleClass="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'red' : ''}"
-                                             id="calc-field-#{loop.index}"
-                                             value="#{(x.careDays != 0 and x.bedCnt != 0) ? (x.careDays / (x.bedCnt * 365)) : ''}" 
-                                             readonly="true">
-                    <f:convertNumber pattern="##,00%"/>
-                </h:inputText>
-                </td>
+                    <td class="colInput">
+                        <!-- Auslastung -->
+                        <h:inputText title="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'Der Wert ist unter 60%!' : ''}"
+                                     styleClass="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'red' : ''}"
+                                     id="calc-field-#{loop.index}"
+                                     value="#{(x.careDays != 0 and x.bedCnt != 0) ? (x.careDays / (x.bedCnt * 365)) : ''}"
+                                     disabled="true">
+                            <f:convertNumber pattern="##%"/>
+                        </h:inputText>
+                    </td>
+                    <!-- Kostensatz ÄD -->
+                    <td class="colInput">
+                        <h:inputText title="Max. 100 €"
+                                     id="calc-field2-#{loop.index}"
+                                     value="#{(x.medicalServiceAmount != 0 and x.careDays != 0) ? (x.medicalServiceAmount / x.careDays) : ''}"
+                                     disabled="true">
+                            <f:convertNumber pattern="## €"/>
+                        </h:inputText>
+                    </td>
+
+                    <!-- Kostensatz PD -->
+                    <td class="colInput">
+                        <h:inputText title="Max. 50 €"
+                                     id="calc-field3-#{loop.index}"
+                                     value="#{(x.nursingServiceAmount != 0 and x.pprMinutes != 0) ? (x.nursingServiceAmount / x.pprMinutes) : ''}"
+                                     disabled="true">
+                            <f:convertNumber pattern="## €"/>
+                        </h:inputText>
+                    </td>
+
+                    <!-- Kostensatz med. Infrastr. -->
+                    <td class="colInput">
+                        <h:inputText title="Max. 100 €"
+                                     id="calc-field4-#{loop.index}"
+                                     value="#{(x.medicalInfrastructureCost != 0 and x.careDays != 0) ? (x.medicalInfrastructureCost / x.careDays) : ''}"
+                                     disabled="true">
+                            <f:convertNumber pattern="## €"/>
+                        </h:inputText>
+                    </td>
+
+                    <!-- Kostensatz nicht med. Infrastr. -->
+                    <td class="colInput">
+                        <h:inputText title="Max. 150 €"
+                                     id="calc-field5-#{loop.index}"
+                                     value="#{(x.nonMedicalInfrastructureCost != 0 and x.careDays != 0) ? (x.nonMedicalInfrastructureCost / x.careDays) : ''}"
+                                     disabled="true">
+                            <f:convertNumber pattern="## €"/>
+                        </h:inputText>
+                    </td>
+
+                    <!-- Bestätigung. -->
+                    <td class="colInput">
+                        <h:selectBooleanCheckbox id="approved"
+                                style="text-align: center;" value="#{x.acceptPlausibility}"
+                                                 required="#{ (x.nonMedicalInfrastructureCost / x.careDays) gt 150
+                                                                or (x.medicalInfrastructureCost / x.careDays) gt 100
+                                                                or (x.nursingServiceAmount / x.pprMinutes) gt 50
+                                                                or (x.medicalServiceAmount / x.careDays) gt 100}}"
+                                                 readonly="#{editCalcBasicsDrg.readOnly}" />
+                    </td>
+
                 <td class="colInput">
                 <h:outputLabel styleClass="prior" 
                                rendered="#{x.prior != null}"
@@ -507,7 +577,7 @@
                                value="#{x.prior != null ? x.prior.medicalServiceAmount : ''}" >
                     <f:convertNumber type="number" locale="de"/>
                 </h:outputLabel>
-                <inek:InputIntegerWithMessage value="#{x.medicalServiceAmount}"  renderElement="diff-msa-#{loop.index} sumMedicalService2:text"/>
+                <inek:InputIntegerWithMessage value="#{x.medicalServiceAmount}"  renderElement="diff-msa-#{loop.index} approved calc-field2-#{loop.index} sumMedicalService2:text"/>
                 <h:outputLabel  id="diff-msa-#{loop.index}"
                                 styleClass="prior diff" 
                                 rendered="#{x.prior != null}"
@@ -520,7 +590,7 @@
                                value="#{x.prior != null ? x.prior.nursingServiceAmount : ''}" >
                     <f:convertNumber type="number" locale="de"/>
                 </h:outputLabel>
-                <inek:InputIntegerWithMessage value="#{x.nursingServiceAmount}"  renderElement="diff-nsa-#{loop.index} sumNurseService2:text"/>
+                <inek:InputIntegerWithMessage value="#{x.nursingServiceAmount}"  renderElement="diff-nsa-#{loop.index} approved calc-field3-#{loop.index} sumNurseService2:text"/>
                 <h:outputLabel  id="diff-nsa-#{loop.index}"
                                 styleClass="prior diff" 
                                 rendered="#{x.prior != null}"
@@ -572,7 +642,7 @@
                                value="#{x.prior != null ? x.prior.medicalInfrastructureCost : ''}" >
                     <f:convertNumber type="number" locale="de"/>
                 </h:outputLabel>
-                <inek:InputIntegerWithMessage value="#{x.medicalInfrastructureCost}"  renderElement="diff-mic-#{loop.index} sumMedInfra:text"/>
+                <inek:InputIntegerWithMessage value="#{x.medicalInfrastructureCost}"  renderElement="diff-mic-#{loop.index} approved calc-field4-#{loop.index} sumMedInfra:text"/>
                 <h:outputLabel  id="diff-mic-#{loop.index}"
                                 rendered="#{x.prior != null}"
                                 styleClass="prior diff" 
@@ -585,7 +655,7 @@
                                value="#{x.prior != null ? x.prior.nonMedicalInfrastructureCost : ''}" >
                     <f:convertNumber type="number" locale="de"/>
                 </h:outputLabel>
-                <inek:InputIntegerWithMessage value="#{x.nonMedicalInfrastructureCost}"  renderElement="diff-nmic-#{loop.index} sumNonMedInfra:text"/>
+                <inek:InputIntegerWithMessage value="#{x.nonMedicalInfrastructureCost}"  renderElement="diff-nmic-#{loop.index} approved calc-field5-#{loop.index} sumNonMedInfra:text"/>
                 <h:outputLabel  id="diff-nmic-#{loop.index}"
                                 styleClass="prior diff" 
                                 rendered="#{x.prior != null}"
@@ -610,7 +680,12 @@
             <td class="colInput">
             <inek:InputIntegerWithMessage id="sumAddPpr" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(1)}" disabled="true" />
             </td>
-            <td class="colInput"></td>
+                    <td class="colInput"></td>
+                    <td class="colInput"></td>
+                    <td class="colInput"></td>
+                    <td class="colInput"></td>
+                    <td class="colInput"></td>
+                    <td class="colInput"></td>
             <td class="colInput">
             <inek:InputIntegerWithMessage id="sumMedicalService" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(2)}" disabled="true" />
             </td>
