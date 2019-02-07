@@ -115,47 +115,30 @@
     <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="true">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addEndoscopyDifferentials()}"/>
     </h:commandLink>
-    
-       
-    <table id="endoAmbu" class="marginTop">
-        <tr>
-            <th></th>
-            <th>
-                Ambulante Leistungen im endoskopischen Bereich
-            </th>
-            <th>
-                Leistungsschlüssel
-            </th>
-            <th>
-                Anzahl erbrachter amb. Leistungen
-            </th>
-            <th>
-                abgegr. Kostenvolumen ÄD
-            </th>
-            <th>
-                abgegr. Kostenvolumen FD
-            </th>
-            <th hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
-                abgegr. Kostenvolumen med. Infrastruktur
-            </th>
-            <th hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
-                abgegr. Kostenvolumen nicht med.Infrastruktur
-            </th>
-        </tr>
-        <ui:repeat value="#{editCalcBasicsDrg.calcBasics.endoscopyAmbulant}" var="item">
-            <tr>
-                <td>
-                    <h:commandLink action="#{editCalcBasicsDrg.deleteEndoscopyAmbulant(item)}" 
-                           rendered="true"
-                           immediate="true" styleClass="colIcon">
-                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                        <cb:confirmDelete/>
-                    </h:commandLink>
-                </td>
-                <td>
+
+
+        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.endoscopyAmbulant}"
+                     var="item"
+                     id="endoAmbu"
+                     width="100%" rowClasses="row1, row2"
+                     columnClasses="colIcon, colValue, col04em, col04em, colValue">
+
+            <h:column>
+                <h:commandLink action="#{editCalcBasicsDrg.deleteEndoscopyAmbulant(item)}"
+                               rendered="true"
+                               immediate="true" styleClass="colIcon">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <cb:confirmDelete/>
+                </h:commandLink>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Ambulante Leistungen im endoskopischen Bereich</f:facet>
                 <inek:InputTextWithMessage value="#{item.ambulantService}" />
-                </td>
-                <td>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Leistungsschlüssel</f:facet>
                 <h:selectOneMenu value="#{item.serviceKey}" styleClass="inputwide" required="true">
                     <f:selectItems value="#{calcBasicsStaticData.endoscopyAmbulantTypes}" />
                     <f:ajax event="change" render="@form :logout:remaining" />
@@ -164,26 +147,29 @@
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputTextarea>
                 <h:message for="serviceKeyExplanation" id="activityKeyCommentmessage" errorClass="errorMessage"/>
-                </td>
-                <td>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Anzahl Fälle</f:facet>
+                <inek:InputIntegerWithMessage value="#{item.caseCount}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Anzahl erbrachter amb. Leistungen</f:facet>
                 <inek:InputIntegerWithMessage value="#{item.numServices}" />
-                </td>
-                <td>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">abgegr. Kostenvolumen ÄD</f:facet>
                 <inek:InputIntegerWithMessage value="#{item.costVolumeMedical}" />
-                </td>
-                <td>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">abgegr. Kostenvolumen FD</f:facet>
                 <inek:InputIntegerWithMessage value="#{item.costVolumeFunction}" />
-                </td>
-                <td hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
-                <inek:InputIntegerWithMessage value="#{item.costVolumeMedInfra}" />
-                </td>
-                <td hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
-                <inek:InputIntegerWithMessage value="#{item.costVolumeNonMedInfra}" />
-                </td>
-            </tr>
-        </ui:repeat>
-    </table>
-    
+            </h:column>
+
+        </h:dataTable>
     <h:commandLink id="addButton2" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="true">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addEndoscopyAmbulant()}"/>
     </h:commandLink>

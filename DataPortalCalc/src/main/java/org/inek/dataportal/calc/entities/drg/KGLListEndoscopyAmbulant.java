@@ -93,7 +93,7 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
     public void setServiceKey(int serviceKey) {
         this._serviceKey = serviceKey;
     }
-    
+
     @Column(name = "leaNumServices")
     @Documentation(name = "Anzahl erbrachter amb. Leistungen", rank = 20)
     private int _numServices = 0;
@@ -105,7 +105,18 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
     public void setNumServices(int numServices) {
         this._numServices = numServices;
     }
-    
+
+    @Column(name = "leaCaseCount")
+    private int _caseCount = 0;
+
+    public int getCaseCount() {
+        return _caseCount;
+    }
+
+    public void setCaseCount(int caseCount) {
+        this._caseCount = caseCount;
+    }
+
     @Column(name = "leaCostVolumeMedical")
     @Documentation(name = "abgegr. Kostenvolumen ÄD", rank = 30)
     private double _costVolumeMedical = 0.0;
