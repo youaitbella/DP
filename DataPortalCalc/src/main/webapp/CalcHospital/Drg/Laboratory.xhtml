@@ -43,10 +43,9 @@
                  var="item" 
                  width="100%"
                  rowClasses="row1, row2"
-                 columnClasses="colIcon, col1, col2, col3, col4, col5"
                  styleClass="marginTop">
 
-        <h:column>
+        <h:column headerClass="colIcon" >
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
@@ -73,6 +72,17 @@
             <h:inputText value="#{item.costCenterText}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Leistungsbereich"/>
+            </f:facet>
+
+            <h:selectOneMenu value="#{item.serviceArea}">
+                <f:selectItems value="#{calcBasicsStaticData.labServicesAreas}" />
+                <f:ajax event="change" render="@form :logout:remaining" />
+            </h:selectOneMenu>
         </h:column>
 
         <h:column>
@@ -123,7 +133,7 @@
             <f:facet name="header">
                 <h:outputLabel value="Punktwert"/><br/>
             </f:facet>
-            <inek:InputIntegerWithMessage id="point-value" value="#{(item.amountPre != 0 and item.serviceVolumePre != 0) ? item.amountPre / item.serviceVolumePre : 0}" readonly="true" pattern="0.0"/>
+            <inek:InputNumberWithMessage id="point-value" value="#{(item.amountPre != 0 and item.serviceVolumePre != 0) ? item.amountPre / item.serviceVolumePre : 0}" readonly="true"/>
         </h:column>
     </h:dataTable>
     

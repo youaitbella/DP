@@ -193,6 +193,21 @@ public class KGLListRadiologyLaboratory implements Serializable, BaseIdValue {
     }
     
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="serviceArea">
+    @Column(name = "rlServiceArea")
+    private int _serviceArea;
+
+    @JsonIgnore
+    public int getServiceArea() {
+        return _serviceArea;
+    }
+
+    public void setServiceArea(int serviceArea) {
+        this._serviceArea = serviceArea;
+    }
+
+    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Description">
     @Column(name = "rlDescription")
