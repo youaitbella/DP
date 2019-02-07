@@ -144,6 +144,46 @@ public class KGLListObstetricsGynecology implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="ogCostVolumeMedStaff">
+    @Column(name = "ogCostVolumeMedStaff")
+    private double _costVolumeMedStaff;
+
+    public double getCostVolumeMedStaff() {
+        return this._costVolumeMedStaff;
+    }
+
+    public void setCostVolumeMedStaff(double costVolumeMedStaff) {
+        this._costVolumeMedStaff = costVolumeMedStaff;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ogCostVolumeCareStaff">
+    @Column(name = "ogCostVolumeCareStaff")
+    private double _costVolumeCareStaff;
+
+    public double getCostVolumeCareStaff() {
+        return _costVolumeCareStaff;
+    }
+
+    public void setCostVolumeCareStaff(double costVolumeCareStaff) {
+        this._costVolumeCareStaff = costVolumeCareStaff;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ogCostVolumeFunctionalService">
+    @Column(name = "ogCostVolumeFunctionalService")
+    private double _costVolumeFunctionalService;
+
+    public double getCostVolumeFunctionalService() {
+        return _costVolumeFunctionalService;
+    }
+
+    public void setCostVolumeFunctionalService(double costVolumeFunctionalService) {
+        this._costVolumeFunctionalService = costVolumeFunctionalService;
+    }
+
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="ogCostTypeId">
     @Column(name = "ogCostTypeID")
     @Documentation(name = "Zuordnung Kostenstelle", rank = 11)

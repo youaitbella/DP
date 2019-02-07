@@ -80,7 +80,7 @@
                      value="#{editCalcBasicsDrg.calcBasics.obstetricsGynecologies}" 
                      var ="obstretic"
                      width="100%"
-                     columnClasses="colIcon, col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                     columnClasses="colIcon, col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
                      rowClasses="row1, row2">
 
             <h:column id="colDeleteId">
@@ -138,6 +138,21 @@
                 <inek:InputIntegerWithMessage value="#{obstretic.midwifeCnt}" styleClass="col05em number"/>
             </h:column>
 
+            <h:column>
+                <f:facet name="header">Kostenvolumen ÄD</f:facet>
+                <inek:InputNumberWithMessage value="#{obstretic.costVolumeMedStaff}" styleClass="col05em number"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Kostenvolumen Pflegedienst</f:facet>
+                <inek:InputNumberWithMessage value="#{obstretic.costVolumeCareStaff}" styleClass="col05em number"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Kostenvolumen Funktionsdienst (o. Hebammen)</f:facet>
+                <inek:InputNumberWithMessage value="#{obstretic.costVolumeFunctionalService}" styleClass="col05em number"/>
+            </h:column>
+
         </h:dataTable>
 
         <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
@@ -152,7 +167,7 @@
                      value="#{editCalcBasicsDrg.priorCalcBasics.obstetricsGynecologies}" 
                      var ="prevObstretic"
                      width="100%"
-                     columnClasses="col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                     columnClasses="col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number , col05em number"
                      rowClasses="row1, row2">
 
             <h:column>
@@ -199,6 +214,21 @@
             <h:column>
                 <f:facet name="header">Hebammen</f:facet>
                 <inek:InputIntegerWithMessage value="#{prevObstretic.midwifeCnt}" styleClass="col05em number" disabled="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Kostenvolumen ÄD</f:facet>
+                <inek:InputNumberWithMessage value="#{prevObstretic.costVolumeMedStaff}" styleClass="col05em number"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Kostenvolumen Pflegedienst</f:facet>
+                <inek:InputNumberWithMessage value="#{prevObstretic.costVolumeCareStaff}" styleClass="col05em number"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Kostenvolumen Funktionsdienst (o. Hebammen)</f:facet>
+                <inek:InputNumberWithMessage value="#{prevObstretic.costVolumeFunctionalService}" styleClass="col05em number"/>
             </h:column>
 
         </h:dataTable>
