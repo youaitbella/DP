@@ -272,6 +272,12 @@ public class AccessManager implements Serializable {
         return right.canWrite();
     }
 
+    public Boolean userHasReadAccess(Feature feature, int ik) {
+        return _sessionController.getAccount().getAccessRights()
+                .stream()
+                .anyMatch(r -> r.getIk() == ik && r.getFeature() == feature && r.canRead());
+    }
+
     public Boolean userHasWriteAccess(Feature feature, int ik) {
         return _sessionController.getAccount().getAccessRights()
                 .stream()

@@ -9,6 +9,7 @@ import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.ProofFacade;
 import org.inek.dataportal.care.utils.*;
 import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
@@ -35,6 +36,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -67,6 +69,8 @@ public class ProofEdit implements Serializable {
     private ConfigFacade _configFacade;
     @Inject
     private Mailer _mailer;
+    @Inject
+    private ReportController _reportController;
 
     private ProofRegulationBaseInformation _proofRegulationBaseInformation;
     private ProofRegulationBaseInformation _oldProofRegulationBaseInformation;
@@ -320,10 +324,9 @@ public class ProofEdit implements Serializable {
         String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());
 
         MailTemplate template = _mailer.getMailTemplate(mailTemplateName);
-        MailTemplateHelper.setPlaceholderInTemplateSubject(template, "{ik}", Integer.toString(_proofRegulationBaseInformation.getIk()));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", Integer.toString(_proofRegulationBaseInformation.getIk()));
 
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
-        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{ik}", Integer.toString(_proofRegulationBaseInformation.getIk()));
 
         if (!_mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail())) {
             LOGGER.log(Level.SEVERE, "Fehler beim Emailversand an " + _proofRegulationBaseInformation.getIk() + "(Care Proof)");
@@ -351,6 +354,14 @@ public class ProofEdit implements Serializable {
     private void loadValidIks() {
         Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CARE);
         setValidIks(_proofFacade.retrievePossibleIks(allowedIks));
+    }
+
+    public Boolean excelExportAllowed() {
+        if (_proofRegulationBaseInformation == null || _proofRegulationBaseInformation.getStatusId() < 10) {
+            return false;
+        } else {
+            return _accessManager.userHasReadAccess(Feature.CARE, _proofRegulationBaseInformation.getIk());
+        }
     }
 
     public Boolean changeAllowed() {
@@ -455,21 +466,23 @@ public class ProofEdit implements Serializable {
     }
 
     public StreamedContent downloadExcelTemplate() {
+        byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Poof_Upload_Template",
+                _proofRegulationBaseInformation.getId(), "Upload_Vorlage");
 
-        /* TODO: use ReportServer*/
-        /*byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Poof_Upload_Template",
-        _proofRegulationBaseInformation.getId(), "TestName");
+        return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Upload_Vorlage.xlsx");
 
-        StreamedContent content = new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Test.xlsx");
-        return content;*/
+    }
 
-        ProofExcelExporter exporter = new ProofExcelExporter();
-        String fileName = "Upload_Vorlage";
-        StreamedContent content = new DefaultStreamedContent(exporter.createExcelExportFile(_proofRegulationBaseInformation),
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + ".xlsx");
+    public StreamedContent exportQuarterAsExcel() {
+        String fileName = "Nachweis_" + _proofRegulationBaseInformation.getIk() + "_Q" +
+                _proofRegulationBaseInformation.getQuarter() + "_" +
+                _proofRegulationBaseInformation.getYear() + ".xlsx";
 
-        return content;
+        byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Poof_Quarder_Report",
+                _proofRegulationBaseInformation.getId(), fileName);
 
+        return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
     }
 }

@@ -222,6 +222,15 @@
                             Sofern Sie sich nicht in dem vorgegebenen Meldezeitraum befinden, wird Ihre Meldung als nicht fristgerecht angesehen." />
                         </pf:commandButton>
 
+                        <pf:commandButton value="Quartalsmeldung exportieren (Excel)"
+                                          ajax="false"
+                                          rendered="#{proofEdit.excelExportAllowed()}"
+                                          style="margin-left: 10px;"
+                                          onclick="PrimeFaces.monitorDownload(start, stop);"
+                                          icon="ui-icon-arrowthick-1-s">
+                            <pf:fileDownload value="#{proofEdit.exportQuarterAsExcel()}" />
+                        </pf:commandButton>
+
                         <pf:commandButton value="Ausnahmetatbestände ändern (Sonstige Daten und Signatur bleiben erhalten)"
                                           action="#{proofEdit.changeExceptionsFacts()}"
                                           rendered="#{proofEdit.changeAllowed() and not proofEdit.isExceptionFactsChangeMode}"

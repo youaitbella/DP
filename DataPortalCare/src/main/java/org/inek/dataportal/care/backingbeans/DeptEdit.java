@@ -250,10 +250,9 @@ public class DeptEdit implements Serializable {
         String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());
 
         MailTemplate template = _mailer.getMailTemplate(mailTemplateName);
-        MailTemplateHelper.setPlaceholderInTemplateSubject(template, "{ik}", Integer.toString(_deptBaseInformation.getIk()));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", Integer.toString(_deptBaseInformation.getIk()));
 
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
-        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{ik}", Integer.toString(_deptBaseInformation.getIk()));
 
         if (!_mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail())) {
             _mailer.sendException(Level.SEVERE,
@@ -268,15 +267,7 @@ public class DeptEdit implements Serializable {
         if (_deptBaseInformation == null || _deptBaseInformation.getStatusId() < 10) {
             return false;
         } else {
-            for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                    .filter(c -> c.canWrite() && c.getFeature() == Feature.CARE)
-                    .collect(Collectors.toList())) {
-                if (right.getIk() == _deptBaseInformation.getIk()) {
-                    return true;
-                }
-            }
-
-            return false;
+            return _accessManager.userHasWriteAccess(Feature.CARE, _deptBaseInformation.getIk());
         }
     }
 
@@ -284,14 +275,7 @@ public class DeptEdit implements Serializable {
         if (_deptBaseInformation == null || _deptBaseInformation.getStatusId() < 10) {
             return false;
         } else {
-            for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                    .filter(c -> c.canRead() && c.getFeature() == Feature.CARE)
-                    .collect(Collectors.toList())) {
-                if (right.getIk() == _deptBaseInformation.getIk()) {
-                    return true;
-                }
-            }
-            return false;
+            return _accessManager.userHasReadAccess(Feature.CARE, _deptBaseInformation.getIk());
         }
     }
 
