@@ -52,6 +52,7 @@
             <th>Name der Kostenstelle</th>
             <th>Verwendeter Schlüssel</th>
             <th>Kostenvolumen vor Durchführung der IBLV und vor Abgrenzung nicht kalkulationsrelevanter Kosten</th>
+            <th>Anteil des Kostenvolumens nach Abgrenzung</th>
         </tr>
         <ui:repeat value="#{editCalcBasicsDrg.getMedInfra(170)}" var="item" varStatus="loop">
             <tr>
@@ -71,9 +72,12 @@
             <td style="width: 25%;">
             <inek:InputTextWithMessage value="#{item.keyUsed}" styleClass="inputwide" required="true"/>
             </td>
-            <td>
-            <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" minimum="-999999999" required="true" renderElement="sumMed:text"/>
-            </td>
+                <td>
+                    <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" minimum="-999999999" required="true" renderElement="sumMed:text"/>
+                </td>
+                <td>
+                    <inek:InputIntegerWithMessage value="#{item.amountAfter}" styleClass="inputwide" minimum="-999999999" required="true" />
+                </td>
             </tr>
         </ui:repeat>
         <tr>
@@ -83,6 +87,8 @@
         <td>
         <inek:InputIntegerWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsDrg.getMedInfraSum(170)}"/>
         </td>
+            <td>
+            </td>
         </tr>
     </table>
 
@@ -93,6 +99,14 @@
                          uploadButtonText="Upload"
                          actionDeleteTable="#{editCalcBasicsDrg.deleteMedInfraItems(170)}"
                          />
+
+    <br />
+    <br />
+    <br />
+
+    <a href="/DataPortalCalc/resources/info/IBLV-Verrechnungsschlüssel - Anlage 8.pdf" target="blank"  title="IBLV-Verrechnungsschlüssel" class="bigButton">
+        IBLV-Verrechnungsschlüssel (Kostenstellen der medizinischen Infrastruktur) gem. Anlage 8, Kalkulationshandbuchs
+    </a>
 
 </ui:composition>
 

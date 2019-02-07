@@ -253,5 +253,14 @@ public class CalcBasicsStaticData {
         items.add(new SelectItem(5, "Sonstige"));
         return items;
     }
+
+    public List<SelectItem> getLabServicesAreas() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(0, ""));
+        items.add(new SelectItem(1, "Blutprodukte"));
+        items.add(new SelectItem(2, "Stammzellenaufbereitung"));
+        items.add(new SelectItem(3, "Sonstiges"));
+        return items;
+    }
     
 }

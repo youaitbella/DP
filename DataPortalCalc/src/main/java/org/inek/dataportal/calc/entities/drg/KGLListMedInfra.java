@@ -117,6 +117,19 @@ public class KGLListMedInfra implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property miAmountAfter">
+    @Column(name = "miAmountAfter")
+    private int _amountAfter;
+
+    public int getAmountAfter() {
+        return _amountAfter;
+    }
+
+    public void setAmountAfter(int amountAfter) {
+        this._amountAfter = amountAfter;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
     @Column(name = "miBaseInformationId")
     //@Documentation (name = "_baseInformationId:", rank = 50)
