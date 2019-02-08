@@ -1259,7 +1259,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "drgmedinfra":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter Med Infra">
                 return new DataImporter<KGLListMedInfra, DrgCalcBasics>(
-                        "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen",
+                        "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen;KostenvolumenNachAbgrenzung",
                         new FileHolder("MedInfra.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_MED_INFRA"),
                         Arrays.asList(
@@ -1279,10 +1279,15 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         (i, s) -> i.setKeyUsed(s),
                                         "Schlüssel: "),
                                 new DataImportCheck<KGLListMedInfra, Integer>(
-                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        ErrorCounter.obtainErrorCounter("DRG_MED_INFRA"),
                                         DataImportCheck::tryImportDoubleAsInt,
                                         (i, s) -> i.setAmount(s),
-                                        "Kostenvolumen: ")
+                                        "Kostenvolumen: "),
+                                new DataImportCheck<KGLListMedInfra, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_MED_INFRA"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setAmountAfter(s),
+                                        "Kostenvolumen nach Abgrenzung: ")
                         ),
                         (s, t) -> s.addMedInfra(t),
                         s -> s.clearMedInfra(),
@@ -1292,7 +1297,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "drgnonmedinfra":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter Non-Med Infra">
                 return new DataImporter<KGLListMedInfra, DrgCalcBasics>(
-                        "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen",
+                        "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen;KostenvolumenNachAbgrenzung",
                         new FileHolder("NonMedInfra.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_NON_MED_INFRA"),
                         Arrays.asList(
@@ -1315,7 +1320,12 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         ErrorCounter.obtainErrorCounter("DRG_NON_MED_INFRA"),
                                         DataImportCheck::tryImportDoubleAsInt,
                                         (i, s) -> i.setAmount(s),
-                                        "Kostenvolumen: ")
+                                        "Kostenvolumen: "),
+                                new DataImportCheck<KGLListMedInfra, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_MED_INFRA"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setAmountAfter(s),
+                                        "Kostenvolumen nach Abgrenzung: ")
                         ),
                         (s, t) -> s.addNonMedInfra(t),
                         s -> s.clearNonMedInfra(),
