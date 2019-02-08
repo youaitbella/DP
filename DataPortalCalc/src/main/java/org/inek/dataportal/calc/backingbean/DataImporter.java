@@ -1482,8 +1482,9 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "drgradiology":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter Radiology">
                 return new DataImporter<KGLListRadiologyLaboratory, DrgCalcBasics>(
-                        "KostenstelleNummer;KostenstelleName;Leistungsdokumentation;Beschreibung;"
-                                + "LeistungsvolumenVor;KostenvolumenVor;LeistungsvolumenNach;KostenvolumenNach",
+                        "KostenstelleNummer;KostenstelleName;Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;" +
+                                "LeistungsvolumenNach;KostenvolumenVor;KostenvolumenNach;AnzahlVKÄDVor;AnzahlVKÄDNach;KostenvolumenÄDVor;" +
+                                "KostenvolumenÄDNach;AnzahlVKFDVor;AnzahlVKFDNach;KostenvolumenFDVor;KostenvolumenFDNach",
                         new FileHolder("Radiology.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
                         Arrays.asList(
@@ -1515,18 +1516,59 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                 new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
                                         ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
                                         DataImportCheck::tryImportInteger,
-                                        (i, s) -> i.setAmountPre(s),
-                                        "KostenvolumenVor: "),
-                                new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
-                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
-                                        DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setServiceVolumePost(s),
                                         "LeistungsvolumenNach: "),
                                 new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
                                         ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
                                         DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setAmountPre(s),
+                                        "KostenvolumenVor: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setAmountPost(s),
-                                        "KostenvolumenNach: ")
+                                        "KostenvolumenNach: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCountMedStaffPre(s),
+                                        "Anzahl VK ÄD vor Abgrenzung : "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCountMedStaffAfter(s),
+                                        "Anzahl VK ÄD nach Abgrenzung : "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCostVolumeMedStaffPre(s),
+                                        "Kostenvolumen ÄD vor Abgrenzung : "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCostVolumeMedStaffAfter(s),
+                                        "Kostenvolumen ÄD nach Abgrenzung : "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCountFunctionalServicePre(s),
+                                        "Anzahl VK FD vor Abgrenzung : "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCountFunctionalServiceAfter(s),
+                                        "Anzahl VK FD nach Abgrenzung : "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCostVolumeFunctionalServicePre(s),
+                                        "Kostenvolumen FD vor Abgrenzung : "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCostVolumeFunctionalServiceAfter(s),
+                                        "Kostenvolumen FD nach Abgrenzung : ")
+
                         ),
                         (s, t) -> s.addRadiologyLaboratories(t, 9),
                         (s) -> s.clearRadiologies(),
