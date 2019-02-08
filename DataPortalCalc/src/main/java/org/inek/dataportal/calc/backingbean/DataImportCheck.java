@@ -105,7 +105,7 @@ public class DataImportCheck<T, I> implements Serializable {
         if (allowedValues.contains(data)){
             tryImportString(item, data, assign, errorMsg, counter);
         } else{
-            counter.addColumnErrorMsg(errorMsg + data);
+            counter.addColumnErrorMsg(errorMsg + data + " (Erlaubte Werte: 11, 12, 13)");
         }
     }
 
@@ -114,7 +114,7 @@ public class DataImportCheck<T, I> implements Serializable {
         if (allowedValues.contains(data)) {
             tryImportString(item, data, assign, errorMsg, counter);
         } else {
-            counter.addColumnErrorMsg(errorMsg + data);
+            counter.addColumnErrorMsg(errorMsg + data + " (Erlaubte Werte: 11)");
         }
     }
 
@@ -123,7 +123,7 @@ public class DataImportCheck<T, I> implements Serializable {
         if (allowedValues.contains(data)) {
             tryImportString(item, data, assign, errorMsg, counter);
         } else {
-            counter.addColumnErrorMsg(errorMsg + data);
+            counter.addColumnErrorMsg(errorMsg + data + " (Erlaubte Werte: 12)");
         }
     }
 
@@ -132,7 +132,7 @@ public class DataImportCheck<T, I> implements Serializable {
         if (allowedValues.contains(data)) {
             tryImportString(item, data, assign, errorMsg, counter);
         } else {
-            counter.addColumnErrorMsg(errorMsg + data);
+            counter.addColumnErrorMsg(errorMsg + data + " (Erlaubte Werte: 13)");
         }
     }
 
@@ -211,7 +211,7 @@ public class DataImportCheck<T, I> implements Serializable {
             default: type = 0;
         }
         if (type == 0) {
-            counter.addColumnErrorMsg(errorMsg + " " + data);
+            counter.addColumnErrorMsg(errorMsg + " " + data + " (Erlaubte Werte: Hauskatalog, DKG_NT, DKG-NT, EBM, GOÄ, Sonstiges)");
         }
         assign.accept(item, type);
     }
@@ -229,31 +229,11 @@ public class DataImportCheck<T, I> implements Serializable {
             default: type = 0;
         }
         if (type == 0) {
-            counter.addColumnErrorMsg(errorMsg + " " + data);
+            counter.addColumnErrorMsg(errorMsg + " " + data + " (Erlaubte Werte: Vollstationär, Teilstationär, Voll. und Teilstationär)");
         }
         assign.accept(item, type);
     }
 
-//    private void tryImportInteger(T item, String data, BiConsumer<T ,Integer> bind, String errorMsg) {
-//        try {
-//            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-//            nf.setParseIntegerOnly(true);
-//            int val = nf.parse(data).intValue();
-//            if (val < 0){
-//                bind.accept(item, 0);
-//                counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
-//            } else {
-//                bind.accept(item, val);
-//            }
-//        } catch (ParseException ex) {
-//            bind.accept(item, 0);
-//            if (data.trim().isEmpty()) {
-//                counter.addColumnInfoMsg(errorMsg + "keinen Wert angegeben");
-//            } else {
-//                counter.addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
-//            }
-//        }
-//    }
     public static <T> void tryImportDouble(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
