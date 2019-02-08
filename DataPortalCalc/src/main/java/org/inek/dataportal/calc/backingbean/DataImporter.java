@@ -1325,7 +1325,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "drglaboratory":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter Laboratory">
                 return new DataImporter<KGLListRadiologyLaboratory, DrgCalcBasics>(
-                        "KostenstelleNummer;KostenstelleName;Leistungsdokumentation;"
+                        "KostenstelleNummer;KostenstelleName;Leistungsbereich;Leistungsdokumentation;"
                                 + "Beschreibung;LeistungsvolumenVor;KostenvolumenVor;KostenvolumenNach",
                         new FileHolder("Laboratory.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
@@ -1340,6 +1340,11 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setCostCenterText(s),
                                         "KostenstelleName: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportLabServiceArea,
+                                        (i, s) -> i.setServiceArea(s),
+                                        "Leistungsbereich: "),
                                 new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
                                         ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
                                         DataImportCheck::tryImportServiceDocType,

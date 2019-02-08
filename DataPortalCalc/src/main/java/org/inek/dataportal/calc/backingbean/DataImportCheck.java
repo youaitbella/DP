@@ -183,6 +183,21 @@ public class DataImportCheck<T, I> implements Serializable {
         }
     }
 
+    public static <T> void tryImportLabServiceArea(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
+        String lowerData = data.trim().toLowerCase();
+        int type = 0;
+        switch (lowerData) {
+            case "blutprodukte": type = 1; break;
+            case "stammzellenaufbereitung": type = 2; break;
+            case "sonstiges": type = 3; break;
+            default: type = 0;
+        }
+        if (type == 0) {
+            counter.addColumnErrorMsg(errorMsg + " " + data + " (Erlaubte Werte: Blutprodukte, Stammzellenaufbereitung, Sonstiges)");
+        }
+        assign.accept(item, type);
+    }
+
     public static <T> void tryImportServiceDocType(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         String lowerData = data.trim().toLowerCase();
         int type = 0;
