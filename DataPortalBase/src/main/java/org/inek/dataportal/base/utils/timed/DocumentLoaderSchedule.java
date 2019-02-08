@@ -24,6 +24,7 @@ public class DocumentLoaderSchedule {
 
     @Schedule(hour = "*", minute = "*/1", info = "every 1 minute")
     private void monitorDocumentRoot() {
-        _docLoader.monitorDocumentRoot();
+        // TODO Remove all Documentscannercode from Base
+        //_docLoader.monitorDocumentRoot();
     }
 }
