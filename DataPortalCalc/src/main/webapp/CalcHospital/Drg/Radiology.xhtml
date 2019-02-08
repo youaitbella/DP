@@ -39,12 +39,12 @@
 
     <h2>Kostenstellengruppe 9 (Radiologie)</h2>
 
+    <div class="container marginTop">
     <h:dataTable value="#{editCalcBasicsDrg.radiologies}" 
-                 var="item" 
-                 width="100%"
+                 var="item"
+                 tableStyle="table-layout: auto"
                  rowClasses="row1, row2"
-                 columnClasses="colIcon, col1, col2, col3, col4, col5"
-                 styleClass="marginTop">
+                 columnClasses="colIcon, col1, col2, col3, col4, col5" >
 
         <h:column>
             <f:facet name="header">
@@ -105,18 +105,18 @@
 
         <h:column>
             <f:facet name="header">
-                <h:outputLabel value="Kostenvolumen"/><br/>
-                <h:outputLabel value="vor Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputIntegerWithMessage value="#{item.amountPre}" renderElement="point-value:text"/>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
                 <h:outputLabel value="Leistungsvolumen"/><br/>
                 <h:outputLabel value="nach Abgrenzung"/><br/>
             </f:facet>
             <inek:InputIntegerWithMessage value="#{item.serviceVolumePost}" renderElement="point-value2:text"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Kostenvolumen"/><br/>
+                <h:outputLabel value="vor Abgrenzung"/><br/>
+            </f:facet>
+            <inek:InputIntegerWithMessage value="#{item.amountPre}" renderElement="point-value:text"/>
         </h:column>
 
         <h:column>
@@ -140,7 +140,74 @@
             </f:facet>
             <inek:InputIntegerWithMessage id="point-value2" value="#{(item.amountPost != 0 and item.serviceVolumePost != 0) ? item.amountPost / item.serviceVolumePost : 0}" readonly="true" pattern="0.0"/>
         </h:column>
+
+        <!-- neu -->
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Anzahl VK ÄD"/><br/>
+                <h:outputLabel value="vor Abgrenzung"/><br/>
+            </f:facet>
+            <inek:InputNumberWithMessage value="#{item.countMedStaffPre}" renderElement="point-value:text"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Anzahl ÄD"/><br/>
+                <h:outputLabel value="nach Abgrenzung"/><br/>
+            </f:facet>
+            <inek:InputNumberWithMessage value="#{item.countMedStaffAfter}" renderElement="point-value:text"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Kostenvolumen ÄD"/><br/>
+                <h:outputLabel value="vor Abgrenzung"/><br/>
+            </f:facet>
+            <inek:InputNumberWithMessage value="#{item.costVolumeMedStaffPre}" renderElement="point-value:text"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Kostenvolumen ÄD"/><br/>
+                <h:outputLabel value="nach Abgrenzung"/><br/>
+            </f:facet>
+            <inek:InputNumberWithMessage value="#{item.costVolumeMedStaffAfter}" renderElement="point-value:text"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Anzahl VK FD"/><br/>
+                <h:outputLabel value="vor Abgrenzung"/><br/>
+            </f:facet>
+            <inek:InputNumberWithMessage value="#{item.countFunctionalServicePre}" renderElement="point-value:text"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Anzahl FD"/><br/>
+                <h:outputLabel value="nach Abgrenzung"/><br/>
+            </f:facet>
+            <inek:InputNumberWithMessage value="#{item.countFunctionalServiceAfter}" renderElement="point-value:text"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Kostenvolumen FD"/><br/>
+                <h:outputLabel value="vor Abgrenzung"/><br/>
+            </f:facet>
+            <inek:InputNumberWithMessage value="#{item.costVolumeFunctionalServicePre}" renderElement="point-value:text"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputLabel value="Kostenvolumen FD"/><br/>
+                <h:outputLabel value="nach Abgrenzung"/><br/>
+            </f:facet>
+            <inek:InputNumberWithMessage value="#{item.costVolumeFunctionalServiceAfter}" renderElement="point-value:text"/>
+        </h:column>
     </h:dataTable>
+
+    </div>
 
     <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('drgradiology')}"
                         calcbase="#{editCalcBasicsDrg.calcBasics}" 
