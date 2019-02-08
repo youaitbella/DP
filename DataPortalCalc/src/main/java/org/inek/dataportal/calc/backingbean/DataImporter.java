@@ -1322,7 +1322,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         (i, s) -> i.setAmount(s),
                                         "Kostenvolumen: "),
                                 new DataImportCheck<KGLListMedInfra, Integer>(
-                                        ErrorCounter.obtainErrorCounter("DRG_MED_INFRA"),
+                                        ErrorCounter.obtainErrorCounter("DRG_NON_MED_INFRA"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setAmountAfter(s),
                                         "Kostenvolumen nach Abgrenzung: ")
