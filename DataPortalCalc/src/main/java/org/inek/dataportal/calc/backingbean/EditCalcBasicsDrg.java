@@ -53,7 +53,6 @@ import org.inek.dataportal.calc.entities.drg.KGLListSpecialUnit;
 import org.inek.dataportal.calc.entities.drg.KGLNormalFeeContract;
 import org.inek.dataportal.calc.entities.drg.KGLNormalFreelancer;
 import org.inek.dataportal.calc.entities.drg.KGLNormalStationServiceDocumentationMinutes;
-import org.inek.dataportal.calc.entities.drg.KGLPersonalAccounting;
 import org.inek.dataportal.calc.entities.drg.KGLRadiologyService;
 import org.inek.dataportal.calc.entities.psy.KglPkmsAlternative;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
@@ -83,19 +82,31 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsDrg");
 
-    @Inject
     private AccessManager _accessManager;
-    @Inject
     private SessionController _sessionController;
-    @Inject
     private CalcDrgFacade _calcDrgFacade;
-    @Inject
     private ApplicationTools _appTools;
+    private DataImporterPool _importerPool;
 
     private DrgCalcBasics _calcBasics;
     private DrgCalcBasics _baseLine;
     private DrgCalcBasics _priorCalcBasics;
     // </editor-fold>
+
+    public EditCalcBasicsDrg(){ }
+    @Inject
+    public EditCalcBasicsDrg(AccessManager accessManager,
+                             SessionController sessionController,
+                             CalcDrgFacade calcDrgFacade,
+                             ApplicationTools appTools,
+                             DataImporterPool importerPool){
+        _accessManager = accessManager;
+        _sessionController = sessionController;
+        _calcDrgFacade = calcDrgFacade;
+        _appTools = appTools;
+        _importerPool = importerPool;
+    }
+
 
     @PostConstruct
     private void init() {
@@ -915,11 +926,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Utils.downloadText(content, "Normalstation.csv");
     }
 
-    @Inject
-    private DataImporterPool importerPool;
 
     public DataImporter<?, ?> getImporter(String importerName) {
-        return importerPool.getDataImporter(importerName.toLowerCase());
+        return _importerPool.getDataImporter(importerName.toLowerCase());
     }
 
     //</editor-fold>
