@@ -70,12 +70,12 @@
                     <inek:InputTextWithMessage value="#{item.countCaredays}" readonly="#{editDistributionModel.readOnly}" required="true"/>
                 </h:column>
 
-                <h:column class="col4em">
+                <h:column>
                     <f:facet name="header"><h:outputLabel value="Fallzahl" title="Anzahl Fälle"/></f:facet>
                     <inek:InputIntegerWithMessage value="#{item.countCases}" readonly="#{editDistributionModel.readOnly}" required="true"/>
                 </h:column>
 
-                <h:column class="col4em">
+                <h:column>
                     <f:facet name="header"><h:outputLabel value="Kostenvolumen" title="Kostenvolumen (€)"/></f:facet>
                     <inek:InputIntegerWithMessage value="#{item.costVolume}" 
                                                  readonly="#{editDistributionModel.readOnly}" 
@@ -83,7 +83,7 @@
                                                  renderElement="@form"/>
                 </h:column>
 
-                <h:column class="col4em">
+                <h:column>
                     <f:facet name="header"><h:outputLabel value="Kostvol/Fall" title="Durchschnittliche Kostenvolumen je Fall"/></f:facet>
                     <h:outputText value="#{item.countCases eq 0 ? null : item.costVolume/((0.1 + item.countCases) -0.1)}" 
                                   styleClass="inlineBlock fullWidth number">
