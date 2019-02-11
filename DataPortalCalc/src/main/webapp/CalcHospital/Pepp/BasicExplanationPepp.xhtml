@@ -8,7 +8,7 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <h2>Erklärung zur Kalkulationsgrundlage</h2>
+    <h2>Erklärung zur Datengrundlage</h2>
 
     <table cellspacing="9">
         <thead>
@@ -72,6 +72,64 @@
                 </h:panelGroup>
             </td>
         </tr>
+<!--Erlösvolumen-->
+        <tr>
+            <td>
+                <span class="label">Erlösvolumen</span>
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.sumCalcCost}"
+                                              required="true"
+                                              id="sumCalcCosts_"
+                                              renderElement="@this pDiffSumCalcCost_ :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                                              title="Bitte geben Sie das Erlösvolumen ohne Erlösausgleiche an."
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                                              title="Bitte geben Sie das Erlösvolumen ohne Erlösausgleiche an."
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.sumCalcCost}"
+                                              disabled="true"
+                                              id="pSumCalcCost_"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                                              title="Bitte geben Sie das Erlösvolumen ohne Erlösausgleiche an."
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value=""
+                                              required="false"
+                                              disabled="true"
+                                              title="Bitte geben Sie das Erlösvolumen ohne Erlösausgleiche an."
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffSumCalcCost_">
+                    <inek:InputIntegerWithMessage styleClass="inputwide"
+                                                  value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.sumCalcCost, editCalcBasicsPepp.calcBasics.sumCalcCost)}"
+                                                  disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+            <td>
+                <h:panelGroup id="pDiffSumCalcCostPsy_">
+                    <inek:InputIntegerWithMessage styleClass="inputwide"
+                                                  value=""
+                                                  disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+        </tr>
+        <!--Erlösvolumen  Ende-->
         <tr>
             <td>
                 <span class="label">Anzahl kalkulationsrelevanter Fälle</span>

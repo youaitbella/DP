@@ -13,6 +13,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+
+import org.inek.dataportal.calc.entities.psy.KGPListOverviewPersonalType;
 import org.inek.dataportal.calc.entities.psy.PeppCalcBasics;
 import org.inek.dataportal.calc.entities.psy.KGPListContentText;
 import org.inek.dataportal.calc.entities.psy.KGPListServiceProvisionType;
@@ -154,6 +156,14 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
         TypedQuery<KGPListContentText> query = getEntityManager().createQuery(jpql, KGPListContentText.class);
         query.setParameter("year", year);
         query.setParameter("headerIds", headerIds);
+        return query.getResultList();
+    }
+
+    public List<KGPListOverviewPersonalType> retrieveOverviewPersonalTypes(int year){
+        String jpql = "select op from KGPListOverviewPersonalType op "
+                + "where op._firstYear <= :year and op._lastYear >= :year order by op._sequence";
+        TypedQuery<KGPListOverviewPersonalType> query = getEntityManager().createQuery(jpql, KGPListOverviewPersonalType.class);
+        query.setParameter("year", year);
         return query.getResultList();
     }
 
