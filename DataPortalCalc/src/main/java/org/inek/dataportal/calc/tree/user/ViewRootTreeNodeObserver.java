@@ -1,5 +1,6 @@
 package org.inek.dataportal.calc.tree.user;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +18,7 @@ import org.inek.dataportal.common.tree.TreeNodeObserver;
 import org.inek.dataportal.common.tree.YearTreeNode;
 
 @Dependent
-public class ViewRootTreeNodeObserver implements TreeNodeObserver{
+public class ViewRootTreeNodeObserver implements TreeNodeObserver, Serializable {
     private final CalcFacade _calcFacade;
     private final AccessManager _accessManager;
     private final Instance<YearTreeNodeObserver> _yearTreeNodeObserverProvider;

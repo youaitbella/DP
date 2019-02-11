@@ -1,5 +1,6 @@
 package org.inek.dataportal.calc.tree.user;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,7 +24,7 @@ import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.tree.entityTree.CustomerTreeNode;
 
 @Dependent
-public class EditRootTreeNodeObserver implements TreeNodeObserver{
+public class EditRootTreeNodeObserver implements TreeNodeObserver, Serializable {
 
     private final CalcFacade _calcFacade;
     private final SessionController _sessionController;
