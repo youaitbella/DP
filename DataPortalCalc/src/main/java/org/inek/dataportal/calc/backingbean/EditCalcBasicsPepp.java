@@ -24,23 +24,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Id;
 import javax.persistence.OptimisticLockException;
+
+import org.inek.dataportal.calc.entities.psy.*;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.calc.entities.psy.KGPListContentText;
-import org.inek.dataportal.calc.entities.psy.KGPListCostCenter;
-import org.inek.dataportal.calc.entities.psy.KGPListDelimitationFact;
-import org.inek.dataportal.calc.entities.psy.KGPListLocation;
-import org.inek.dataportal.calc.entities.psy.KGPListRadiologyLaboratory;
-import org.inek.dataportal.calc.entities.psy.KGPListServiceProvision;
-import org.inek.dataportal.calc.entities.psy.KGPListServiceProvisionType;
-import org.inek.dataportal.calc.entities.psy.KGPListStationAlternative;
-import org.inek.dataportal.calc.entities.psy.KGPListStationServiceCost;
-import org.inek.dataportal.calc.entities.psy.KGPListTherapy;
-import org.inek.dataportal.calc.entities.psy.KGPPersonalAccounting;
-import org.inek.dataportal.calc.entities.psy.KgpListMedInfra;
-import org.inek.dataportal.calc.entities.psy.PeppCalcBasics;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.api.enums.Feature;
@@ -66,10 +55,12 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsPepp");
     private static final int ONE_HOUR = 3600;
 
-    @Inject private AccessManager _accessManager;
-    @Inject private SessionController _sessionController;
-    @Inject private CalcPsyFacade _calcFacade;
-    @Inject private ApplicationTools _appTools;
+    private AccessManager _accessManager;
+    private SessionController _sessionController;
+    private CalcPsyFacade _calcFacade;
+    private ApplicationTools _appTools;
+    private ValueLists _valueLists;
+    private DataImporterPool _importerPool;
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -95,6 +86,22 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         this._priorCalcBasics = priorCalcBasics;
     }
 
+    public EditCalcBasicsPepp(){}
+    @Inject
+    public EditCalcBasicsPepp(AccessManager accessManager,
+                              SessionController sessionController,
+                              CalcPsyFacade calcFacade,
+                              ApplicationTools appTools,
+                              ValueLists valueLists,
+                              DataImporterPool importerPool){
+        _accessManager = accessManager;
+        _sessionController = sessionController;
+        _calcFacade = calcFacade;
+        _appTools = appTools;
+        _valueLists = valueLists;
+        _importerPool = importerPool;
+    }
+
     // </editor-fold>
     @PostConstruct
     private void init() {
@@ -114,6 +121,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             retrievePriorData(_calcBasics);
             populateDelimitationFactsIfAbsent(_calcBasics);
         } else {
+            _calcBasics = newCalcBasicsPepp();
             Utils.navigate(Pages.Error.RedirectURL());
         }
     }
@@ -168,6 +176,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             }
         }
         preloadServiceProvision(calcBasics);
+        ensureOverviewPersonal(_calcFacade, calcBasics);
     }
 
     private PeppCalcBasics loadCalcBasicsPepp(String idObject) {
@@ -196,12 +205,21 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             calcBasics.setIk((int) getIks().get(0).getValue());
         }
 
+        ensureOverviewPersonal(_calcFacade, calcBasics);
+
         retrievePriorData(calcBasics);
         preloadData(calcBasics);
         return calcBasics;
     }
 
-    @Inject private ValueLists _valueLists;
+    private void ensureOverviewPersonal(CalcPsyFacade calcPsyFacade, PeppCalcBasics calcBasics) {
+        for (KGPListOverviewPersonalType spt : calcPsyFacade.retrieveOverviewPersonalTypes(calcBasics.getDataYear())) {
+            KGPListOverviewPersonal op = new KGPListOverviewPersonal();
+            op.setBaseInformationId(calcBasics.getId());
+            op.setOverviewPersonalType(spt);
+            calcBasics.addOverviewPersonal(op);
+        }
+    }
 
     private void ensurePersonalAccountingData(PeppCalcBasics calcBasics) {
         calcBasics.getPersonalAccountings().clear();
@@ -268,6 +286,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     protected void addTopics() {
         addTopic("TopicFrontPage", Pages.CalcPeppBasics.URL());
         addTopic("TopicBasicExplanation", Pages.CalcPeppBasicExplanation.URL());
+        addTopic("TopicCalcOverviewPersonal", Pages.CalcPeppOverviewPersonal.URL());
         addTopic("TopicCalcExternalServiceProvision", Pages.CalcPeppExternalServiceProvision.URL());
         addTopic("lblCalcTherapyScope", Pages.CalcPeppTherapyScope.URL());
         addTopic("TopicCalcRadiology", Pages.CalcPeppRadiology.URL());
@@ -703,10 +722,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.getKgpMedInfraList().remove(mif);
     }
 
-    @Inject private DataImporterPool importerPool;
-
     public DataImporter<?, ?> getImporter(String importerName) {
-        return importerPool.getDataImporter(importerName.toLowerCase());
+        return _importerPool.getDataImporter(importerName.toLowerCase());
     }
 
     public boolean renderPersonalAccountingDescription() {
