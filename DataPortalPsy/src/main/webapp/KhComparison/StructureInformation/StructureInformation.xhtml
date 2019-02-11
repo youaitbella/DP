@@ -53,6 +53,20 @@
                                       disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}" />
                 </div>
 
+                <div class="ui-g-1">
+                    Kommentar:
+                </div>
+
+                <div class="ui-g-5">
+                    <pf:inputTextarea id="BedCountComment"
+                                      rows="1"
+                                      cols="50"
+                                      value="#{structureInformation.comment}"
+                                      valueChangeListener="#{editStructureInformation.handleChange}"
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <pf:ajax />
+                    </pf:inputTextarea>
+                </div>
 
             </div>
         </pf:repeat>
@@ -100,6 +114,21 @@
                 <div class="ui-g-2">
                     <inek:InputNumber value="#{structureInformation.content}"
                                       disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}" />
+                </div>
+
+                <div class="ui-g-1">
+                    Kommentar:
+                </div>
+
+                <div class="ui-g-5">
+                    <pf:inputTextarea id="TherapyPartCountComment"
+                                      rows="1"
+                                      cols="50"
+                                      value="#{structureInformation.comment}"
+                                      valueChangeListener="#{editStructureInformation.handleChange}"
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <pf:ajax />
+                    </pf:inputTextarea>
                 </div>
             </div>
         </pf:repeat>

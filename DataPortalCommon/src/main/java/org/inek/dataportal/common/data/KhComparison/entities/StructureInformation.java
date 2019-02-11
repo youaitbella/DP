@@ -73,6 +73,20 @@ public class StructureInformation implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property siComment">
+    @Column(name = "siComment")
+    private String _comment = "";
+
+    public String getComment() {
+        return _comment;
+    }
+
+    public void setComment(String comment) {
+        this._comment = comment;
+    }
+
+    //</editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property Structur Categorie Categorie">
     @Column(name = "siStructureCategorie")
     @Convert(converter = StructureInformationCategorieConverter.class)
@@ -94,6 +108,7 @@ public class StructureInformation implements Serializable {
         hash = 29 * hash + Objects.hashCode(this._baseInformation);
         hash = 29 * hash + Objects.hashCode(this._validFrom);
         hash = 29 * hash + Objects.hashCode(this._content);
+        hash = 29 * hash + Objects.hashCode(this._comment);
         hash = 29 * hash + Objects.hashCode(this._structureCategorie);
         return hash;
     }
@@ -114,6 +129,9 @@ public class StructureInformation implements Serializable {
             return false;
         }
         if (!Objects.equals(this._content, other._content)) {
+            return false;
+        }
+        if (!Objects.equals(this._comment, other._comment)) {
             return false;
         }
         if (!Objects.equals(this._baseInformation, other._baseInformation)) {

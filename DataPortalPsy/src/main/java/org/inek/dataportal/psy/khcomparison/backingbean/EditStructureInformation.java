@@ -142,10 +142,6 @@ public class EditStructureInformation {
             return;
         }
 
-        if (!hasTherapyOrBeds(_structureBaseInformation)) {
-            DialogController.showInfoDialog("Daten nicht vollständig", "Geben Sie eine Anzahl Planbetten bzw. teilstationärer Therapieplätze an.");
-            return;
-        }
         try {
             String errors = StructureinformationHelper.checkForDuplicatedDates(_structureBaseInformation);
             if ("".equals(errors)) {
@@ -163,30 +159,6 @@ public class EditStructureInformation {
         } catch (Exception ex) {
             DialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
         }
-    }
-
-    private Boolean hasTherapyOrBeds(StructureBaseInformation baseInfo) {
-        Boolean hasAny = false;
-
-        for (StructureInformation info : baseInfo.getStructureInformations().stream()
-                .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.BedCount
-                        || c.getStructureCategorie() == StructureInformationCategorie.TherapyPartCount)
-                .collect(Collectors.toList())) {
-            if (!info.getContent().isEmpty()) {
-                try {
-                    int count = Integer.parseInt(info.getContent());
-                    hasAny = count > 0;
-                    if(hasAny) {
-                        return hasAny;
-                    }
-                } catch (Exception ex) {
-
-                }
-            }
-        }
-
-        return hasAny;
-
     }
 
     public void handleChange(ValueChangeEvent event) {
