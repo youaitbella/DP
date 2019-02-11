@@ -41,7 +41,7 @@
 
                 <calc:CalcHospitalNode parentNode="#{cc.attrs.treeNode}" isSealed="#{cc.attrs.isSealed}" 
                                        showSelectBox="#{cc.attrs.showSelectBox}"
-                                       showDelete="#{cc.attrs.treeNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                       showDelete="#{treeNode['class'].simpleName eq 'CustomerTreeNode' or cc.attrs.treeNode.id == sessionController.accountId ? 'true' : 'false'}"
                                        rendered="#{cc.attrs.treeNode.expanded and cc.attrs.treeNode.children.size() gt 0}"/>
             </div>
         </div>
