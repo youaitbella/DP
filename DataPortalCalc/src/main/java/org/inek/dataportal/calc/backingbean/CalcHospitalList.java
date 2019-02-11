@@ -83,7 +83,8 @@ public class CalcHospitalList {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
             Set<Integer> iks = _calcSopPsyFacade.obtainIks4NewStatementOfParticipance(
                     _sessionController.getAccountId(),
-                    Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+                    Utils.getTargetYear(Feature.CALCULATION_HOSPITAL),
+                    _appTools.isEnabled(ConfigKey.TestMode));
             _allowedButtons.put(CalcHospitalFunction.StatementOfParticipance, iks.size() > 0);
         }
         return _allowedButtons.get(CalcHospitalFunction.StatementOfParticipance);

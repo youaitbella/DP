@@ -116,13 +116,13 @@ public class CalcSopFacade extends AbstractDataAccessWithActionLog {
      * @param year
      * @return
      */
-    public Set<Integer> obtainIks4NewStatementOfParticipance(int accountId, int year) {
+    public Set<Integer> obtainIks4NewStatementOfParticipance(int accountId, int year, boolean testMode) {
         String maxValidDate = year + "-12-31";
         String sql = "select distinct cuIK\n"
                 + "from CallCenterDb.dbo.ccCustomer\n"
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n"
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n"
-                + "join dbo.Account on cdDetails = acMail and acId = " + accountId + "\n"
+                + "join dbo.Account on cdDetails = acMail" + (testMode ? "" : " and acId = " + accountId) + "\n"
                 + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and r1.mcrRoleId in (3, 12, 15, 16, 19) \n"
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 \n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
