@@ -15,7 +15,7 @@
     #{msg.hintExternalServiceProvision}
 
     <h:dataTable id="table"
-                 value="#{editCalcBasicsPepp.calcBasics.serviceProvisions}" 
+                 value="#{editCalcBasicsPepp.calcBasics.serviceProvisions}"
                  var ="item"
                  width="100%"
                  columnClasses="colIcon, col20em, colValue, colValue, colValue, col05em number, col05em number, col05em number"
@@ -45,15 +45,16 @@
             <h:selectOneMenu id="externalProvision"
                              required="true"
                              requiredMessage="#{msg.msgValueNeeded}"
-                             value="#{item.providedTypeId}" 
+                             value="#{item.providedTypeId}"
                              disabled="#{item.serviceProvisionTypeId lt 0 and empty item.domain or editCalcBasicsPepp.readOnly}"
+                             title="Bitte benennen Sie den teilweise fremdvergebenen Bereich sowie dessen Anteil an der Erbringung in diesem Bereich."
                              hideNoSelectionOption="true" >
                 <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                 <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{0}"/>
                 <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{1}"/>
                 <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
                 <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{3}"/>
-                <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+                <f:ajax event="change" render="@all :logout:remaining msgLevel"/>
             </h:selectOneMenu>
         </h:column>
 
