@@ -335,7 +335,6 @@ public class Account implements Serializable, Person {
         _adminIks.add(new IkAdmin(_id, ik, mailDomain, features));
         return true;
     }
-    // </editor-fold>
 
     public boolean addIkAdmin(int ik, String mailDomain, Feature feature) {
         Optional<IkAdmin> admin = _adminIks.stream().filter(ai -> ai.getIk() == ik).findAny();
@@ -350,6 +349,7 @@ public class Account implements Serializable, Person {
         _adminIks.add(new IkAdmin(_id, ik, mailDomain, features));
         return true;
     }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Responsibilities">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, orphanRemoval = true)

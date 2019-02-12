@@ -6,9 +6,7 @@
 package org.inek.dataportal.admin.backingbean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -17,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import org.inek.dataportal.api.enums.IkReference;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -31,10 +30,10 @@ import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.scope.FeatureScoped;
 
 /**
- *
  * @author muellermi
  */
 @Named
@@ -42,12 +41,11 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 public class IkAdmin implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Inject
+
     private SessionController _sessionController;
-    @Inject
     private AccountFacade _accountFacade;
-    @Inject
     private IkAdminFacade _ikAdminFacade;
+    private Mailer _mailer;
 
     private int _ik;
     private Account _account;
@@ -56,6 +54,20 @@ public class IkAdmin implements Serializable {
     private List<IkAccount> _adminAccounts = new ArrayList<>();
     private List<Feature> _validFeatures = new ArrayList<>();
     private List<Feature> _selectedFeatures = new ArrayList<>();
+
+    public IkAdmin() {
+    }
+
+    @Inject
+    public IkAdmin(SessionController sessionController,
+                   AccountFacade accountFacade,
+                   IkAdminFacade ikAdminFacade,
+                   Mailer mailer) {
+        _sessionController = sessionController;
+        _accountFacade = accountFacade;
+        _ikAdminFacade = ikAdminFacade;
+        _mailer = mailer;
+    }
 
     public List<Feature> getValidFeatures() {
         return _validFeatures;
@@ -148,10 +160,11 @@ public class IkAdmin implements Serializable {
     }
 
     public String saveIkAdmin() {
-        if (_account.updateIkAdmin(_ik, _mailDomain, _selectedFeatures)) {
-            _sessionController.logMessage("Added IK Admin: account=" + _account.getId() + ", ik=" + _ik);
-            collectExistingAccess(_ik);
+        if (!_account.updateIkAdmin(_ik, _mailDomain, _selectedFeatures)) {
+            return "";
         }
+        _sessionController.logMessage("Modified IK Admin: account=" + _account.getId() + ", ik=" + _ik);
+        collectExistingAccess(_ik);
 
         if (!_account.getFullIkSet().contains(_ik)) {
             _account.addIk(_ik);
@@ -170,6 +183,9 @@ public class IkAdmin implements Serializable {
         _accountFacade.merge(_account);
         DialogController.showSaveDialog();
         createAdminAccountList();
+        Map<String, String> substitutions = new HashMap<>();
+        substitutions.put("{ik}", "" + _ik);
+        _mailer.sendMailWithTemplate("IK-Admin: update", substitutions, _account);
         return "";
     }
     // </editor-fold>
@@ -184,8 +200,8 @@ public class IkAdmin implements Serializable {
             for (AccountFeature feature : account.getFeatures()) {
                 if (feature.getFeature().getIkReference() == IkReference.None
                         || accessRights
-                                .stream()
-                                .anyMatch(ar -> ar.getAccountId() == account.getId() && ar.getFeature() == feature.getFeature())) {
+                        .stream()
+                        .anyMatch(ar -> ar.getAccountId() == account.getId() && ar.getFeature() == feature.getFeature())) {
                     continue;
                 }
                 AccessRight accessRight = new AccessRight(account.getId(), ik, feature.getFeature(), Right.All);
