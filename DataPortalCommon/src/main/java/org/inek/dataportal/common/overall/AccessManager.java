@@ -1,7 +1,6 @@
 package org.inek.dataportal.common.overall;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -112,13 +111,12 @@ public class AccessManager implements Serializable {
      */
     private CooperativeRight getAchievedRight(Feature feature, int partnerId, int ik) {
         Account account = _sessionController.getAccount();
-        CooperativeRight cooperativeRight = getCooperationRights(feature, account)
+        return getCooperationRights(feature, account)
                 .stream()
                 .filter(r -> r.getOwnerId() == partnerId && r.getIk() == ik && r.getPartnerId() == account.getId())
                 .findAny()
                 .orElse(new CooperationRight())
                 .getCooperativeRight();
-        return cooperativeRight;
     }
 
     private Stream<AccessRight> obtainAccessRights(Feature feature, Predicate<AccessRight> predicate) {
@@ -151,8 +149,7 @@ public class AccessManager implements Serializable {
         if (feature.getIkUsage() == IkUsage.Direct) {
             return iks;
         }
-        Set<Integer> responsibleForIks = _sessionController.getAccount().obtainResponsibleForIks(feature, iks);
-        return responsibleForIks;
+        return _sessionController.getAccount().obtainResponsibleForIks(feature, iks);
     }
 
     public Set<Integer> retrieveDeniedManagedIks(Feature feature) {
@@ -226,7 +223,7 @@ public class AccessManager implements Serializable {
         }
 
         if (feature.getManagedBy() == ManagedBy.None || feature.getIkReference() == IkReference.None) {
-            return isUnmanagedWritable(ownerAccountId, feature, ik, state);
+            return isUnmanagedWritable(ownerAccountId, feature, ik);
         }
 
         if (ik <= 0) {
@@ -242,7 +239,7 @@ public class AccessManager implements Serializable {
         }
 
         if (feature.getManagedBy() == ManagedBy.InekOrIkAdmin && !_ikCache.isManaged(ik, feature)) {
-            return isUnmanagedWritable(ownerAccountId, feature, ik, state);
+            return isUnmanagedWritable(ownerAccountId, feature, ik);
         }
 
         return userHasWriteAccess(feature, ik);
@@ -264,7 +261,7 @@ public class AccessManager implements Serializable {
         }
     }
 
-    private boolean isUnmanagedWritable(int ownerAccountId, Feature feature, int ik, WorkflowStatus state) {
+    private boolean isUnmanagedWritable(int ownerAccountId, Feature feature, int ik) {
         if (ownerAccountId == _sessionController.getAccountId()) {
             return true;
         }
@@ -458,6 +455,13 @@ public class AccessManager implements Serializable {
         return achievedRight.canRead();
     }
 
+    public Boolean isCreateAllowed(Feature feature) {
+        if (feature.getIkReference() == IkReference.None) {
+            return true;
+        }
+        return obtainIksForCreation(feature).size() > 0;
+    }
+
     public Set<Integer> obtainIksForCreation(Feature feature) {
         if (feature.getManagedBy() == ManagedBy.IkAdminOnly) {
             return retrieveAllowedForCreationIks(feature);
@@ -469,9 +473,20 @@ public class AccessManager implements Serializable {
         return iks;
     }
 
+    public Set<Integer> obtainAllowedIks(Feature feature) {
+        Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
+        Set<Integer> deniedIks = retrieveDeniedManagedIks(feature);
+        iks.removeAll(deniedIks);
+        return retrieveEffectiveIks(feature, iks);
+    }
+
     private Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
         Set<Integer> iks = retrieveIkSet(feature, r -> r.getRight().canCreate());
         iks.removeIf(ik -> feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature));
+        return retrieveEffectiveIks(feature, iks);
+    }
+
+    private Set<Integer> retrieveEffectiveIks(Feature feature, Set<Integer> iks) {
         if (feature.getIkReference() == IkReference.None || feature.getIkUsage() == IkUsage.Direct) {
             return iks;
         }
@@ -487,39 +502,4 @@ public class AccessManager implements Serializable {
         return retrieveIkSet(feature, r -> !r.getRight().canCreate());
     }
 
-    public Boolean isCreateAllowed(Feature feature) {
-        // todo: check
-        if (feature.getIkReference() == IkReference.None) {
-            return true;
-        }
-        return obtainIksForCreation(feature).size() > 0;
-    }
-
-    public Set<Integer> obtainAllowedIks(Feature feature) {
-        Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
-        Set<Integer> deniedIks = retrieveDeniedManagedIks(feature);
-        iks.removeAll(deniedIks);
-        if (feature.getIkReference() == IkReference.None || feature.getIkUsage() == IkUsage.Direct) {
-            return iks;
-        }
-
-        Set<Integer> responsibleForIks = _sessionController.getAccount().
-                obtainResponsibleForIks(feature, iks);
-        if (feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
-            responsibleForIks = _ikCache.retrieveCorrelatedIks(feature, iks, responsibleForIks);
-        }
-        return responsibleForIks;
-    }
-
-    public List<Account> retrieveAccountsWithRightToSeal(Feature feature, int ik) {
-        // todo: implement
-        List<Account> accounts = new ArrayList<>();
-        return accounts;
-    }
-
-    public List<Account> retrieveIkAdmins(Feature feature, int ik) {
-        // todo: implement
-        List<Account> accounts = new ArrayList<>();
-        return accounts;
-    }
 }
