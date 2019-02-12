@@ -298,6 +298,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         addTopic("TopicCalcMedicalInfrastructure", Pages.CalcPeppMedicalInfrastructure.URL());
         addTopic("TopicCalcNonMedicalInfrastructure", Pages.CalcPeppNonMedicalInfrastructure.URL());
         addTopic("TopicCalcStaffCost", Pages.CalcPeppStaffCost.URL());
+        addTopic("TopicCalcStationEquivalentTreatment", Pages.CalcStationEquivalentTreatment.URL());
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">

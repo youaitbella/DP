@@ -80,6 +80,7 @@ public enum Pages {
     CalcPeppNonMedicalInfrastructure("/CalcHospital/Pepp/NonMedicalInfrastructurePepp"),
     CalcPeppStaffCost("/CalcHospital/Pepp/StaffCostPepp"),
     CalcPeppOverviewPersonal("/CalcHospital/Pepp/OverviewPersonalPepp"),
+    CalcStationEquivalentTreatment("/CalcHospital/Pepp/StationEquivalentTreatmentPepp"),
     // Obd calculation
     CalcObdEdit("/CalcHospital/Obd/Edit"),
     // clinical distribution model

@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/feature/calc"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <h2>#{msg.lblStationEquivalentTreatmentPepp}</h2>
+
+    <style>
+        #tbl {
+            margin-top: 20px;
+        }
+        #tbl tr:first-child td {
+            text-align: center;
+            font-size: 1.2em;
+        }
+        #tbl td {
+            background-color: #7F9BAF;
+            font-weight: bold;
+            color: white;
+            padding: 2px 6px 2px 6px;
+        }
+
+        #tbl {
+            width: 100px;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .prior {
+            width: 100%;
+            text-align: right;
+            display: inline-block;
+        }
+
+        .diff {
+            color: #043358;
+        }
+        .col100px {
+            min-width: 100px;
+        }
+        .col90px {
+            min-width: 90px;
+        }
+        .col80px {
+            min-width: 80px;
+        }
+        .col70px {
+            min-width: 70px;
+        }
+        .col60px {
+            min-width: 60px;
+        }
+
+    </style>
+
+    <div style="overflow-x: scroll;">
+        <table id="tbl">
+            <tr>
+                <td></td>
+                <td class="" colspan="4"></td>
+                <td colspan="2">KoArtG 1</td>
+                <td colspan="2">KoArtG 3a</td>
+                <td colspan="2">KoArtG 2</td>
+                <td colspan="2">KoArtG 3b</td>
+                <td colspan="2">KoArtG 3c</td>
+                <td colspan="2">KoArtG 3</td>
+                <td colspan="6">Personalkosten je Leistungseinheit in Euro (berechnet)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="">
+                    KSt.- Gruppe
+                </td>
+                <td class="col80px">
+                    Leistungsinhalt der Kostenstelle
+                </td>
+                <td class="">
+                    Leistungserbringung 
+                </td>
+                <td class="col80px">
+                    verwendeter Leistungs- schlüssel (z.B. Minuten, DKG-NT)
+                </td>
+                <td class="col80px">
+                    Summe Leistungs- einheiten 
+                </td>
+                <td class="">
+                    Personal- kosten
+                </td>
+                <td class="col80px">
+                    Summe Leistungs- einheiten 
+                </td>
+                <td class="">
+                    Personal- kosten
+                </td>
+                <td class="col80px">
+                    Summe Leistungs- einheiten 
+                </td>
+                <td class="">
+                    Personal- kosten
+                </td>
+                <td class="col80px">
+                    Summe Leistungs- einheiten 
+                </td>
+                <td class="">
+                    Personal- kosten
+                </td>
+                <td class="col80px">
+                    Summe Leistungs- einheiten 
+                </td>
+                <td class="">
+                    Personal- kosten
+                </td>
+                <td class="col80px">
+                    Summe Leistungs- einheiten 
+                </td>
+                <td class="">
+                    Personal- kosten
+                </td>
+                <td class="col60px">
+                    KoArtG 1
+                </td>
+                <td class="col60px">
+                    KoArtG 3a
+                </td>
+                <td class="col60px">
+                    KoArtG 2
+                </td>
+                <td class="col60px">
+                    KoArtG 3b
+                </td>
+                <td class="col60px">
+                    KoArtG 3c
+                </td>
+                <td class="col60px">
+                    KoArtG 3
+                </td>
+            </tr>
+
+            <ui:repeat id="tbl-cont1" value="#{editCalcBasicsPepp.getTherapies(27)}" var="x" varStatus="loop">
+                <tr id="row">
+                    <td>
+                <h:commandLink styleClass="colIcon">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteTherapy(x)}"/>
+                </h:commandLink>
+                </td>
+                <td>
+                <h:outputLabel value="#{x.costCenterId}" />
+                </td>
+                <td>
+                <h:inputText value="#{x.costCenterText}" >
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>
+                </td>
+                <td>
+                <h:selectOneMenu id="externalProvision"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{x.externalService}" 
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
+                    <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
+                    <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+                </h:selectOneMenu>                
+                </td>
+                <td>
+                <inek:InputTextWithMessage value="#{x.keyUsed}"  />
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt1}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-1"/>
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{x.personalCostCt1}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-1"/>
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt3a}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3a"/>
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{x.personalCostCt3a}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3a"/>
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt2}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-2"/>
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{x.personalCostCt2}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-2"/>
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt3b}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3b"/>
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{x.personalCostCt3b}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3b"/>
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt3c}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3c"/>
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{x.personalCostCt3c}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3c"/>
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt3}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3"/>
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{x.personalCostCt3}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3"/>
+                </td>
+                <td>
+                <h:outputLabel id="calc-field-1"
+                               styleClass="prior diff" 
+                               value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt1, x.serviceUnitsCt1)}" />
+
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3a"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3a, x.serviceUnitsCt3a)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-2"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt2, x.serviceUnitsCt2)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3b"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3b, x.serviceUnitsCt3b)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3c"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3c, x.serviceUnitsCt3c)}" />
+                </td>
+                <td>
+                <h:outputLabel  id="calc-field-3"
+                                styleClass="prior diff" 
+                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt3, x.serviceUnitsCt3)}" />
+                </td>
+
+                </tr>
+            </ui:repeat>
+            <tr>
+                <td colspan="23">
+            <h:commandLink id="addStationEquivalentTreatment" styleClass="addButton inputPart" value="#{msg.btnAddStationEquivalentTreatment}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addTherapyCost(27)}"/>
+            </h:commandLink>
+            </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <h:panelGroup id="pnlProtokoll" rendered="#{!editCalcBasicsPepp.readOnly}" class="inputPart">
+
+        <inek:UploadButtons importer="#{editCalcBasicsPepp.getImporter('pepptherapy')}"
+                             calcbase="#{editCalcBasicsPepp.calcBasics}" 
+                             readOnly="#{editCalcBasicsPepp.readOnly}"
+                             showAdd="false"
+                             addListener="#{editCalcBasicsPepp.addTherapyCost(27)}"
+                             uploadButtonText="Upload"
+                             actionDeleteTable="#{editCalcBasicsPepp.clearTherapyCosts()}"
+                             />
+    </h:panelGroup>
+
+
+</ui:composition>
+
