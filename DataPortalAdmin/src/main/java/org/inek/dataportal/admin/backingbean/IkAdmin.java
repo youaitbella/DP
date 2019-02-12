@@ -148,7 +148,7 @@ public class IkAdmin implements Serializable {
     }
 
     public String saveIkAdmin() {
-        if (_account.addIkAdmin(_ik, _mailDomain, _selectedFeatures)) {
+        if (_account.updateIkAdmin(_ik, _mailDomain, _selectedFeatures)) {
             _sessionController.logMessage("Added IK Admin: account=" + _account.getId() + ", ik=" + _ik);
             collectExistingAccess(_ik);
         }

@@ -104,19 +104,28 @@ public class IkAdmin implements Serializable {
         return Collections.unmodifiableList(_ikAdminFeatures);
     }
 
-    public void setIkAdminFeatures(List<IkAdminFeature> ikAdminFeatures) {
-        _ikAdminFeatures = ikAdminFeatures;
-    }
-
     public void removeIkAdminFeature(Feature feature) {
         _ikAdminFeatures.removeIf(ai -> ai.getFeature() == feature);
     }
 
-    public void addIkAdminFeature(Feature feature) {
+    public boolean addIkAdminFeature(Feature feature) {
         if (_ikAdminFeatures.stream().anyMatch(ai -> ai.getFeature() == feature)) {
-            return;
+            return false;
         }
         _ikAdminFeatures.add(new IkAdminFeature(this, feature));
+        return true;
+    }
+
+    public boolean updateIkAdminFeatures(List<Feature> features) {
+        int countBefore = _ikAdminFeatures.size();
+        _ikAdminFeatures.removeIf(c -> !features.contains(c.getFeature()));
+        boolean hasChanged = countBefore != _ikAdminFeatures.size();
+        for (Feature feature : features) {
+            if (addIkAdminFeature(feature)){
+                hasChanged = true;
+            }
+        }
+        return hasChanged;
     }
     // </editor-fold>
 
@@ -153,9 +162,6 @@ public class IkAdmin implements Serializable {
         return true;
     }
 
-    public void removeIkAdminFeaturesIfNotInList(List<Feature> features) {
-        _ikAdminFeatures.removeIf(c -> !features.contains(c.getFeature()));
-    }
     // </editor-fold>
 
 }

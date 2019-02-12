@@ -25,14 +25,18 @@ public class AccountTest {
     @Test
     public void testDisclaimerNotConfirmed2() {
         Account account = new Account();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, 2000);
-        calendar.set(Calendar.DAY_OF_YEAR, 1);
-        Date defaultDate = calendar.getTime();
+        Date defaultDate = getDefaultDate(1);
         account.setIkAdminDisclaimer(defaultDate);
         Assertions.assertThat(account.isDisclaimerConfirmed()).isFalse();
     }
-    
+
+    private Date getDefaultDate(int i) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2000);
+        calendar.set(Calendar.DAY_OF_YEAR, i);
+        return calendar.getTime();
+    }
+
     @Test
     public void testDisclaimerConfirmed() {
         Account account = new Account();
@@ -43,10 +47,7 @@ public class AccountTest {
     @Test
     public void testDisclaimerConfirmed2() {
         Account account = new Account();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, 2000);
-        calendar.set(Calendar.DAY_OF_YEAR, 2);
-        Date defaultDate = calendar.getTime();
+        Date defaultDate = getDefaultDate(2);
         account.setIkAdminDisclaimer(defaultDate);
         Assertions.assertThat(account.isDisclaimerConfirmed()).isTrue();
     }
@@ -58,7 +59,7 @@ public class AccountTest {
 
         List<Feature> featuresForIkAdmin = new ArrayList<>();
 
-        account.addIkAdmin(ik, "", featuresForIkAdmin);
+        account.updateIkAdmin(ik, "", featuresForIkAdmin);
 
         Assertions.assertThat(account.getAdminIks()).isNotEmpty().size().isEqualTo(1);
         Assertions.assertThat(account.getAdminIks().get(0).getIk()).isEqualTo(ik);
@@ -75,7 +76,7 @@ public class AccountTest {
         featuresForIkAdmin.add(Feature.CARE);
         featuresForIkAdmin.add(Feature.DROPBOX);
 
-        account.addIkAdmin(ik, "", featuresForIkAdmin);
+        account.updateIkAdmin(ik, "", featuresForIkAdmin);
 
         IkAdmin ikAdmin = account.getAdminIks().get(0);
         Assertions.assertThat(ikAdmin.getIkAdminFeatures()).isNotEmpty().size().isEqualTo(3);
@@ -92,9 +93,9 @@ public class AccountTest {
         List<Feature> featuresForIkAdmin = new ArrayList<>();
         featuresForIkAdmin.add(Feature.NUB);
 
-        account.addIkAdmin(ik, "", featuresForIkAdmin);
+        account.updateIkAdmin(ik, "", featuresForIkAdmin);
 
-        account.addIkAdmin(ik, "", featuresForIkAdmin);
+        account.updateIkAdmin(ik, "", featuresForIkAdmin);
 
         Assertions.assertThat(account.getAdminIks()).isNotEmpty().size().isEqualTo(1);
     }

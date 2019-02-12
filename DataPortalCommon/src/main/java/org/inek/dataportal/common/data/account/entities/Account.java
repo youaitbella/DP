@@ -4,17 +4,11 @@
  */
 package org.inek.dataportal.common.data.account.entities;
 
+import javafx.print.Collation;
 import org.inek.dataportal.common.data.account.iface.Person;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
@@ -35,6 +29,7 @@ import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.common.data.adm.InekRole;
@@ -43,7 +38,6 @@ import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
 
 /**
- *
  * @author muellermi
  */
 @Entity
@@ -317,11 +311,7 @@ public class Account implements Serializable, Person {
     private List<IkAdmin> _adminIks = new ArrayList<>();
 
     public List<IkAdmin> getAdminIks() {
-        return _adminIks;
-    }
-
-    public void setAdminIks(List<IkAdmin> adminIks) {
-        this._adminIks = adminIks;
+        return Collections.unmodifiableList(_adminIks);
     }
 
     public void removeIkAdmin(int ik) {
@@ -329,23 +319,18 @@ public class Account implements Serializable, Person {
     }
 
     /**
-     * Adds an ik and returns true, if ik could be added, false otherwise (ik existed)
+     * updates IkAdmin according to list
      *
      * @param ik
      * @param mailDomain
      * @param features
-     *
-     * @return
+     * @return true if changed
      */
-    public boolean addIkAdmin(int ik, String mailDomain, List<Feature> features) {
+    public boolean updateIkAdmin(int ik, String mailDomain, List<Feature> features) {
         Optional<IkAdmin> admin = _adminIks.stream().filter(ai -> ai.getIk() == ik).findAny();
         if (admin.isPresent()) {
             admin.get().setMailDomain(mailDomain);
-            for (Feature fe : features) {
-                admin.get().addIkAdminFeature(fe);
-            }
-            admin.get().removeIkAdminFeaturesIfNotInList(features);
-            return true;
+            return admin.get().updateIkAdminFeatures(features);
         }
         _adminIks.add(new IkAdmin(_id, ik, mailDomain, features));
         return true;
@@ -356,10 +341,7 @@ public class Account implements Serializable, Person {
         Optional<IkAdmin> admin = _adminIks.stream().filter(ai -> ai.getIk() == ik).findAny();
         if (admin.isPresent()) {
             admin.get().setMailDomain(mailDomain);
-            if (!admin.get().getIkAdminFeatures().stream().anyMatch(c -> c.getFeature() == feature)) {
-                admin.get().addIkAdminFeature(feature);
-            }
-            return false;
+            return admin.get().addIkAdminFeature(feature);
         }
 
         List<Feature> features = new ArrayList<>();
@@ -593,7 +575,7 @@ public class Account implements Serializable, Person {
         this._accessRights = accessRights;
     }
 
-    public void addAccessRigth (AccessRight accessRight) {
+    public void addAccessRigth(AccessRight accessRight) {
         _accessRights.add(accessRight);
     }
     // </editor-fold>

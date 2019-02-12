@@ -21,12 +21,7 @@ class IkAdminTest {
         features.add(Feature.CERT);
         features.add(Feature.DOCUMENTS);
 
-        ikAdmin.addIkAdminFeature(Feature.NUB);
-        ikAdmin.addIkAdminFeature(Feature.CERT);
-        ikAdmin.addIkAdminFeature(Feature.DOCUMENTS);
-        ikAdmin.addIkAdminFeature(Feature.DROPBOX);
-
-        ikAdmin.removeIkAdminFeaturesIfNotInList(features);
+        ikAdmin.updateIkAdminFeatures(features);
 
         Assertions.assertThat(ikAdmin.getIkAdminFeatures()).size().isEqualTo(3);
 
