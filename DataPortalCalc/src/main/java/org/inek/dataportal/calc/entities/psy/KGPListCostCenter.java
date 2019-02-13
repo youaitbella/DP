@@ -173,6 +173,110 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="ccCountMedStaffPre">
+    @Column(name = "ccCountMedStaffPre")
+    private double _countMedStaffPre;
+
+    public double getCountMedStaffPre() {
+        return _countMedStaffAfter;
+    }
+
+    public void setCountMedStaffPre(double countMedStaffPre) {
+        this._countMedStaffAfter = countMedStaffPre;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCountMedStaffAfter">
+    @Column(name = "ccCountMedStaffAfter")
+    private double _countMedStaffAfter;
+
+    public double getCountMedStaffAfter() {
+        return _countMedStaffAfter;
+    }
+
+    public void setCountMedStaffAfter(double countMedStaffAfter) {
+        this._countMedStaffAfter = countMedStaffAfter;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeMedStaffPre">
+    @Column(name = "ccCostVolumeMedStaffPre")
+    private double _costVolumeMedStaffPre;
+
+    public double getCostVolumeMedStaffPre() {
+        return _costVolumeMedStaffPre;
+    }
+
+    public void set_costVolumeMedStaffPre(double costVolumeMedStaffPre) {
+        this._costVolumeMedStaffPre = costVolumeMedStaffPre;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeMedStaffAfter">
+    @Column(name = "ccCostVolumeMedStaffAfter")
+    private double _costVolumeMedStaffAfter;
+
+    public double getCostVolumeMedStaffAfter() {
+        return _costVolumeMedStaffAfter;
+    }
+
+    public void setCostVolumeMedStaffAfter(double costVolumeMedStaffAfter) {
+        this._costVolumeMedStaffAfter = costVolumeMedStaffAfter;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCountFunctionalServicePre">
+    @Column(name = "ccCountFunctionalServicePre")
+    private double _countFunctionalServicePre;
+
+    public double getCountFunctionalServicePre() {
+        return _countFunctionalServicePre;
+    }
+
+    public void setCountFunctionalServicePre(double countFunctionalServicePre) {
+        this._countFunctionalServicePre = countFunctionalServicePre;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCountFunctionalServiceAfter">
+    @Column(name = "ccCountFunctionalServiceAfter")
+    private double _countFunctionalServiceAfter;
+
+    public double getCountFunctionalServiceAfter() {
+        return _countFunctionalServiceAfter;
+    }
+
+    public void setCountFunctionalServiceAfter(double countFunctionalServiceAfter) {
+        this._countFunctionalServiceAfter = countFunctionalServiceAfter;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeFunctionalServicePre">
+    @Column(name = "ccCostVolumeFunctionalServicePre")
+    private double _costVolumeFunctionalServicePre;
+
+    public double getCostVolumeFunctionalServicePre() {
+        return _costVolumeFunctionalServicePre;
+    }
+
+    public void setCostVolumeFunctionalServicePre(double costVolumeFunctionalServicePre) {
+        this._costVolumeFunctionalServicePre = costVolumeFunctionalServicePre;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeFunctionalServiceAfter">
+    @Column(name = "ccCostVolumeFunctionalServiceAfter")
+    private double _costVolumeFunctionalServiceAfter;
+
+    public double getCostVolumeFunctionalServiceAfter() {
+        return _costVolumeFunctionalServiceAfter;
+    }
+
+    public void setCostVolumeFunctionalServiceAfter(double costVolumeFunctionalServiceAfter) {
+        this._costVolumeFunctionalServiceAfter = costVolumeFunctionalServiceAfter;
+    }
+    // </editor-fold>
+
     public KGPListCostCenter() {
     }
 
