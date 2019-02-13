@@ -23,8 +23,31 @@ class IkAdminTest {
 
         ikAdmin.updateIkAdminFeatures(features);
 
-        Assertions.assertThat(ikAdmin.getIkAdminFeatures()).size().isEqualTo(3);
+        List<Feature> newFeatures = new ArrayList<>();
 
+        newFeatures.add(Feature.NUB);
+        newFeatures.add(Feature.DOCUMENTS);
+
+        ikAdmin.updateIkAdminFeatures(newFeatures);
+
+        Assertions.assertThat(ikAdmin.getIkAdminFeatures()).size().isEqualTo(2);
+        Assertions.assertThat(ikAdmin.getIkAdminFeatures().stream().anyMatch(c -> c.getFeature() == Feature.NUB)).isTrue();
+        Assertions.assertThat(ikAdmin.getIkAdminFeatures().stream().anyMatch(c -> c.getFeature() == Feature.DOCUMENTS)).isTrue();
+    }
+
+    @Test
+    public void concateIkAdminFeaturesTest () {
+        IkAdmin ikAdmin = new IkAdmin();
+
+        Assertions.assertThat(ikAdmin.getConcateFeatures()).isEqualTo("Keine");
+
+        ikAdmin.addIkAdminFeature(Feature.NUB);
+
+        Assertions.assertThat(ikAdmin.getConcateFeatures()).isEqualTo(Feature.NUB.getDescription());
+
+        ikAdmin.addIkAdminFeature(Feature.DROPBOX);
+
+        Assertions.assertThat(ikAdmin.getConcateFeatures()).isEqualTo(Feature.NUB.getDescription() + ", " + Feature.DROPBOX.getDescription());
     }
 
 }
