@@ -54,26 +54,7 @@ public class IcmtUpdater extends AbstractDataAccess {
         int ik = statement.getIk();
         String sql = "";
         if (calcType == 1 || calcType == 3) {
-            sql += "--Pflichthauser nachfolgende Jahre\n"
-                    + "insert into CallCenterDB.dbo.CustomerCalcInfo "
-                    + "(cciCustomerId, cciValidFrom, cciValidTo, cciCalcTypeId, cciSubCalcTypeId, cciInfoTypeId, cciDate) \n"
-                    + "select cuId, '" + dataYear + "-01-01', "
-                    + "'" + dataYear + "-12-31', " + calcType + ", "
-                    + "null, 16, null \n"
-                    + "from calc.StatementOfParticipance \n"
-                    + "join CallCenterDB.dbo.ccCustomer on sopik = cuIK \n"
-                    + "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciCalcTypeId = " + calcType + " "
-                    + "and cciInfoTypeId = 16 and cciValidTo = '" + maxValidDate + "' \n"
-                    + "where sopDataYear = " + dataYear + " \n"
-                    + "and sopStatusId = 10 \n"
-                    + "and sopIsObligatory = 1 "
-                    + "and sopIsObligatoryFollowYears = 1 \n"
-                    + "and sopIk = " + ik + " \n"
-                    + "and sopIs" + column + " = 1 \n"
-                    + "and " + calcType + " in (1,3)\n "
-                    + "and cciid is null"
-                    + "\n"
-                    + "-- delete probe oder vereinfacht \n"
+            sql += "-- delete probe oder vereinfacht \n"
                     + "delete a from CallCenterDB.dbo.CustomerCalcInfo a \n"
                     + "join CallCenterDB.dbo.ccCustomer on cuId = cciCustomerId \n"
                     + "where cciInfoTypeId in (8,7) and cuIK = " + ik + "\n"
@@ -357,15 +338,6 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "select distinct coid, " + roleID + " \n"
                 + "from " + table + " \n"
                 + "--where coid is not null \n"
-                + "\n\n"
-                //Prio setzen
-                // todo: remove prio
-                + "update a \n"
-                + "set coPrio = case when b.coid is not null then rw else 99 end \n"
-                + "from CallCenterDB.dbo.ccContact a \n"
-                + "left join " + table + " b on a.coId = b.coId \n"
-                + "where a.coCustomerId = (select distinct cuid from " + table + ") \n"
-                + "and coIsMain = 0 \n"
                 + "\n\n"
                 //Temp Tabelle löschen
                 + "drop table " + table + " \n";
