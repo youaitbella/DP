@@ -49,6 +49,7 @@
             <th>Name der Kostenstelle</th>
             <th>Verwendeter Schlüssel</th>
             <th>Kostenvolumen vor Durchführung der IBLV und vor Abgrenzung nicht kalkulationsrelevanter Kosten</th>
+            <th>Anteil des Kostenvolumens nach Abgrenzung</th>
         </tr>
         <ui:repeat value="#{editCalcBasicsPepp.getMedInfra(180)}" var="item" varStatus="loop">
             <tr>
@@ -78,6 +79,10 @@
                                                   renderElement="@this sumMed:text"
                                                   readonly="#{editCalcBasicsPepp.readOnly}" />
                 </td>
+                <td>
+                    <inek:InputIntegerWithMessage value="#{item.partCostVolumeMedStaffAfter}" styleClass="inputwide" required="true"
+                                                  maximum="100"/>
+                </td>
             </tr>
         </ui:repeat>
         <tr>
@@ -98,6 +103,15 @@
                         uploadButtonText="Upload"
                         actionDeleteTable="#{editCalcBasicsPepp.deleteKgpMedInfraList(180)}"
     />
+
+    <br />
+    <br />
+    <br />
+
+    <a href="/DataPortalCalc/resources/info/IBLV-Verrechnungsschlüssel - Anlage 9.pdf" target="blank"  title="IBLV-Verrechnungsschlüssel" class="bigButton">
+        IBLV-Verrechnungsschlüssel (Kostenstellen der nicht medizinischen Infrastruktur) gem. Anlage 9, Kalkulationshandbuchs
+    </a>
+
 
 </ui:composition>
 

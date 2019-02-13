@@ -140,6 +140,19 @@ public class KgpListMedInfra implements Serializable, BaseIdValue {
         _costTypeId = costTypeId;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="miPartCostVolumeMedStaffAfter">
+    @Column(name = "miPartCostVolumeMedStaffAfter")
+    private double _partCostVolumeMedStaffAfter;
+
+    public double getPartCostVolumeMedStaffAfter() {
+        return _partCostVolumeMedStaffAfter;
+    }
+
+    public void setPartCostVolumeMedStaffAfter(double partCostVolumeMedStaffAfter) {
+        this._partCostVolumeMedStaffAfter = partCostVolumeMedStaffAfter;
+    }
+    // </editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
@@ -154,6 +167,7 @@ public class KgpListMedInfra implements Serializable, BaseIdValue {
         hash = 97 * hash + Objects.hashCode(this._keyUsed);
         hash = 97 * hash + this._amount;
         hash = 97 * hash + this._baseInformationId;
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this._partCostVolumeMedStaffAfter) ^ (Double.doubleToLongBits(this._partCostVolumeMedStaffAfter) >>> 32));
         return hash;
     }
 
@@ -189,6 +203,10 @@ public class KgpListMedInfra implements Serializable, BaseIdValue {
             return false;
         }
         if (!Objects.equals(this._keyUsed, other._keyUsed)) {
+            return false;
+        }
+
+        if (Double.doubleToLongBits(this._partCostVolumeMedStaffAfter) != Double.doubleToLongBits(other._partCostVolumeMedStaffAfter)) {
             return false;
         }
         return true;
