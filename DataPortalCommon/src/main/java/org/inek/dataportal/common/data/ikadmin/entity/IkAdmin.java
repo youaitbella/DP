@@ -41,6 +41,23 @@ public class IkAdmin implements Serializable {
         }
     }
 
+    public String getConcateFeatures() {
+        String featureString = "";
+
+        for (IkAdminFeature feature : _ikAdminFeatures) {
+            featureString += feature.getFeature().getDescription() + ", ";
+        }
+
+        if (featureString.length() > 0) {
+            featureString = featureString.substring(0, featureString.length() - 2);
+        }
+        else {
+            featureString = "Keine";
+        }
+
+        return featureString;
+    }
+
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -128,6 +145,7 @@ public class IkAdmin implements Serializable {
         return hasChanged;
     }
     // </editor-fold>
+
 
     // <editor-fold defaultstate="collapsed" desc="hashCode & equals">
     @Override

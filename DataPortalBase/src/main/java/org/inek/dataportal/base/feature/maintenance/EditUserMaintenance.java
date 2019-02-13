@@ -34,10 +34,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -370,6 +367,9 @@ public class EditUserMaintenance extends AbstractEditController {
             MailTemplateHelper.setPlaceholderInTemplate(template, "{formalSalutation}", mailer.getFormalSalutation(admin));
             MailTemplateHelper.setPlaceholderInTemplate(template, "{user}", user);
             MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", String.valueOf(ik));
+
+            Optional<IkAdmin> ikAdmin = admin.getAdminIks().stream().filter(c -> c.getIk() == ik).findFirst();
+            ikAdmin.ifPresent(ikAdmin1 -> MailTemplateHelper.setPlaceholderInTemplate(template, "{features}", ikAdmin1.getConcateFeatures()));
 
             mailer.sendMailTemplate(template, admin.getEmail());
         }
