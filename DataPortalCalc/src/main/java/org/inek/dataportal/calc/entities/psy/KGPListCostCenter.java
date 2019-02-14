@@ -306,6 +306,15 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
         hash = 79 * hash + Objects.hashCode(this._serviceKeyDescription);
         hash = 79 * hash + (int) (Double.doubleToLongBits(this._serviceSum) ^ (Double.doubleToLongBits(this._serviceSum) >>> 32));
         hash = 79 * hash + this._baseInformationId;
+        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._countMedStaffPre) ^ (Double.doubleToLongBits(this._countMedStaffPre) >>> 32));
+        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._countMedStaffAfter) ^ (Double.doubleToLongBits(this._countMedStaffAfter) >>> 32));
+        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._costVolumeMedStaffPre) ^ (Double.doubleToLongBits(this._costVolumeMedStaffPre) >>> 32));
+        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._costVolumeMedStaffAfter) ^ (Double.doubleToLongBits(this._costVolumeMedStaffAfter) >>> 32));
+        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._countFunctionalServicePre) ^ (Double.doubleToLongBits(this._countFunctionalServicePre) >>> 32));
+        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._countFunctionalServiceAfter) ^ (Double.doubleToLongBits(this._countFunctionalServiceAfter) >>> 32));
+        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._costVolumeFunctionalServicePre) ^ (Double.doubleToLongBits(this._costVolumeFunctionalServicePre) >>> 32));
+        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._costVolumeFunctionalServiceAfter) ^ (Double.doubleToLongBits(this._costVolumeFunctionalServiceAfter) >>> 32));
+
         return hash;
     }
 
@@ -371,6 +380,14 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
         this._serviceKeyDescription = item._serviceKeyDescription;
         this._serviceSum = item._serviceSum;
         this._baseInformationId = item._baseInformationId;
+        this._countMedStaffPre = item._countMedStaffPre;
+        this._countMedStaffAfter = item._countMedStaffAfter;
+        this._costVolumeMedStaffPre = item._costVolumeMedStaffPre;
+        this._costVolumeMedStaffAfter = item._costVolumeMedStaffAfter;
+        this._countFunctionalServicePre = item._countFunctionalServicePre;
+        this._countFunctionalServiceAfter = item._countFunctionalServiceAfter;
+        this._costVolumeFunctionalServicePre = item._costVolumeFunctionalServicePre;
+        this._costVolumeFunctionalServiceAfter = item._costVolumeFunctionalServiceAfter;
     }
 
 }
