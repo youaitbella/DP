@@ -167,7 +167,9 @@ public class KgpListMedInfra implements Serializable, BaseIdValue {
         hash = 97 * hash + Objects.hashCode(this._keyUsed);
         hash = 97 * hash + this._amount;
         hash = 97 * hash + this._baseInformationId;
-        hash = 97 * hash + (int) (Double.doubleToLongBits(this._partCostVolumeMedStaffAfter) ^ (Double.doubleToLongBits(this._partCostVolumeMedStaffAfter) >>> 32));
+        hash = 97 * hash
+                + (int) (Double.doubleToLongBits(this._partCostVolumeMedStaffAfter)
+                ^ (Double.doubleToLongBits(this._partCostVolumeMedStaffAfter) >>> 32));
         return hash;
     }
 

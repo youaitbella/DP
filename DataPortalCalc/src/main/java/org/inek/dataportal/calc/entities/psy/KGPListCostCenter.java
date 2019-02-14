@@ -308,12 +308,24 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
         hash = 79 * hash + this._baseInformationId;
         hash = 79 * hash +  (int) (Double.doubleToLongBits(this._countMedStaffPre) ^ (Double.doubleToLongBits(this._countMedStaffPre) >>> 32));
         hash = 79 * hash +  (int) (Double.doubleToLongBits(this._countMedStaffAfter) ^ (Double.doubleToLongBits(this._countMedStaffAfter) >>> 32));
-        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._costVolumeMedStaffPre) ^ (Double.doubleToLongBits(this._costVolumeMedStaffPre) >>> 32));
-        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._costVolumeMedStaffAfter) ^ (Double.doubleToLongBits(this._costVolumeMedStaffAfter) >>> 32));
-        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._countFunctionalServicePre) ^ (Double.doubleToLongBits(this._countFunctionalServicePre) >>> 32));
-        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._countFunctionalServiceAfter) ^ (Double.doubleToLongBits(this._countFunctionalServiceAfter) >>> 32));
-        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._costVolumeFunctionalServicePre) ^ (Double.doubleToLongBits(this._costVolumeFunctionalServicePre) >>> 32));
-        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._costVolumeFunctionalServiceAfter) ^ (Double.doubleToLongBits(this._costVolumeFunctionalServiceAfter) >>> 32));
+        hash = 79 * hash
+                +  (int) (Double.doubleToLongBits(this._costVolumeMedStaffPre)
+                ^ (Double.doubleToLongBits(this._costVolumeMedStaffPre) >>> 32));
+        hash = 79 * hash
+                +  (int) (Double.doubleToLongBits(this._costVolumeMedStaffAfter)
+                ^ (Double.doubleToLongBits(this._costVolumeMedStaffAfter) >>> 32));
+        hash = 79 * hash
+                +  (int) (Double.doubleToLongBits(this._countFunctionalServicePre)
+                ^ (Double.doubleToLongBits(this._countFunctionalServicePre) >>> 32));
+        hash = 79 * hash
+                +  (int) (Double.doubleToLongBits(this._countFunctionalServiceAfter)
+                ^ (Double.doubleToLongBits(this._countFunctionalServiceAfter) >>> 32));
+        hash = 79 * hash
+                +  (int) (Double.doubleToLongBits(this._costVolumeFunctionalServicePre)
+                ^ (Double.doubleToLongBits(this._costVolumeFunctionalServicePre) >>> 32));
+        hash = 79 * hash
+                +  (int) (Double.doubleToLongBits(this._costVolumeFunctionalServiceAfter)
+                ^ (Double.doubleToLongBits(this._costVolumeFunctionalServiceAfter) >>> 32));
 
         return hash;
     }

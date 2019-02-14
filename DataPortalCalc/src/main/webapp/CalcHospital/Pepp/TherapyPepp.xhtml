@@ -157,7 +157,7 @@
                 <h:outputLabel value="#{x.costCenterId}" />
                 </td>
                 <td>
-                <h:inputText value="#{x.costCenterText}" >
+                <h:inputText value="#{x.costCenterText}" readonly="#{editCalcBasicsPepp.readOnly}" >
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>
                 </td>
@@ -174,43 +174,43 @@
                 </h:selectOneMenu>                
                 </td>
                 <td>
-                <inek:InputTextWithMessage value="#{x.keyUsed}"  />
+                <inek:InputTextWithMessage value="#{x.keyUsed}"  readonly="#{editCalcBasicsPepp.readOnly}" />
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt1}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-1"/>
+                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt1}" readonly="#{editCalcBasicsPepp.readOnly}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-1"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{x.personalCostCt1}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-1"/>
+                <inek:InputIntegerWithMessage value="#{x.personalCostCt1}" readonly="#{editCalcBasicsPepp.readOnly}" renderElement="@this tbl-cont1:#{loop.index}:calc-field-1"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt3a}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3a"/>
+                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt3a}" readonly="#{editCalcBasicsPepp.readOnly}" renderElement="@this tbl-cont1:#{loop.index}:calc-field-3a"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{x.personalCostCt3a}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3a"/>
+                <inek:InputIntegerWithMessage value="#{x.personalCostCt3a}" readonly="#{editCalcBasicsPepp.readOnly}" renderElement="@this tbl-cont1:#{loop.index}:calc-field-3a"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt2}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-2"/>
+                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt2}" readonly="#{editCalcBasicsPepp.readOnly}" renderElement="@this tbl-cont1:#{loop.index}:calc-field-2"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{x.personalCostCt2}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-2"/>
+                <inek:InputIntegerWithMessage value="#{x.personalCostCt2}" readonly="#{editCalcBasicsPepp.readOnly}" renderElement="@this tbl-cont1:#{loop.index}:calc-field-2"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt3b}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3b"/>
+                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt3b}" readonly="#{editCalcBasicsPepp.readOnly}" renderElement="@this tbl-cont1:#{loop.index}:calc-field-3b"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{x.personalCostCt3b}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3b"/>
+                <inek:InputIntegerWithMessage value="#{x.personalCostCt3b}" readonly="#{editCalcBasicsPepp.readOnly}" renderElement="@this tbl-cont1:#{loop.index}:calc-field-3b"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt3c}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3c"/>
+                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt3c}" readonly="#{editCalcBasicsPepp.readOnly}" renderElement="@this tbl-cont1:#{loop.index}:calc-field-3c"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{x.personalCostCt3c}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3c"/>
+                <inek:InputIntegerWithMessage value="#{x.personalCostCt3c}" readonly="#{editCalcBasicsPepp.readOnly}" renderElement="@this tbl-cont1:#{loop.index}:calc-field-3c"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt3}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3"/>
+                <inek:InputIntegerWithMessage value="#{x.serviceUnitsCt3}" readonly="#{editCalcBasicsPepp.readOnly}" renderElement="@this tbl-cont1:#{loop.index}:calc-field-3"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{x.personalCostCt3}"  renderElement="@this tbl-cont1:#{loop.index}:calc-field-3"/>
+                <inek:InputIntegerWithMessage value="#{x.personalCostCt3}" readonly="#{editCalcBasicsPepp.readOnly}" renderElement="@this tbl-cont1:#{loop.index}:calc-field-3"/>
                 </td>
                 <td>
                 <h:outputLabel id="calc-field-1"

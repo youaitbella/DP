@@ -13,12 +13,16 @@
     <h2>Anwendung des Betreuungsintensitätsmodells (einheitliches Betreuungsintensitätsmodell, veröffentlicht am 28.11.2012)</h2><br/>
     <inek:BooleanRadioButton id="bimAll" value="#{editCalcBasicsPepp.calcBasics.bimAll}" 
                              label="Leistungsdokumentation gem. einheitlichem BIM liegen in allen PSY-Fachabteilungen und Stationen vor:"
+                             readonly="#{editCalcBasicsPepp.readOnly}"
                              labelStyle="label"
                              renderElement="@form"/>
 
     <div class="inputPart">
         <span class="label">Kommentar:<sup style="font-size: 9px;">1</sup></span><br/>
-        <h:inputTextarea value="#{editCalcBasicsPepp.calcBasics.intensiveExceptionalPermission}" styleClass="areaMiddleLow" required="#{!editCalcBasicsPepp.calcBasics.bimAll}">
+        <h:inputTextarea value="#{editCalcBasicsPepp.calcBasics.intensiveExceptionalPermission}"
+                         readonly="#{editCalcBasicsPepp.readOnly}"
+                         styleClass="areaMiddleLow"
+                         required="#{!editCalcBasicsPepp.calcBasics.bimAll}">
         <f:ajax event="blur" render="@this :logout:remaining"/>
         </h:inputTextarea>
         <br/>
@@ -57,14 +61,18 @@
                 <f:facet name="header">
                     <h:outputText value="Fachabteilung (Name/Schlüssel nach § 301 SGBV)"/><br/>
                 </f:facet>
-                <inek:InputTextWithMessage value="#{item.departmentName}" styleClass="inputwide" />
+                <inek:InputTextWithMessage value="#{item.departmentName}"
+                                           readonly="#{editCalcBasicsPepp.readOnly}"
+                                           styleClass="inputwide" />
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Alternativverfahren"/>
                 </f:facet>
-                <inek:InputTextWithMessage value="#{item.alternative}" styleClass="inputwide" />
+                <inek:InputTextWithMessage value="#{item.alternative}"
+                                           readonly="#{editCalcBasicsPepp.readOnly}"
+                                           styleClass="inputwide" />
             </h:column>
 
         </h:dataTable>
@@ -126,21 +134,25 @@
             </h:commandLink>
             </td>
             <td>
-            <inek:InputTextWithMessage value="#{item.costCenterNumber}" id="cstnmb" 
+            <inek:InputTextWithMessage value="#{item.costCenterNumber}" id="cstnmb"
+                                       readonly="#{editCalcBasicsPepp.readOnly}"
                                        renderElement="@this tblNormInt2:#{loop.index}:cstnmb:text tblNormInt3:#{loop.index}:cstnmb:text"/>
             </td>
             <td>
-            <inek:InputTextWithMessage value="#{item.station}" id="station" 
+            <inek:InputTextWithMessage value="#{item.station}" id="station"
+                                       readonly="#{editCalcBasicsPepp.readOnly}"
                                        renderElement="tblNormInt2:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
             </td>
             <td>
-            <inek:InputTextWithMessage value="#{item.psyPvMapping}" id="psyPvMapping" >
+            <inek:InputTextWithMessage value="#{item.psyPvMapping}" id="psyPvMapping" readonly="#{editCalcBasicsPepp.readOnly}" >
                 <f:validateRegex pattern="([aAsSgGpP]|[kK][jJ][pP])( *, *([aAsSgGpP]|[kK][jJ][pP]))*" for="psyPvMapping"/> 
             </inek:InputTextWithMessage>
 
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.bedCnt}" renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
+            <inek:InputIntegerWithMessage value="#{item.bedCnt}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}"
+                                          renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
             </td>
             <td style="text-align: center;">
             <h:selectOneMenu value="#{item.occupancy}">
@@ -149,16 +161,23 @@
             </h:selectOneMenu>     
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.regularCareDays}" renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
+            <inek:InputIntegerWithMessage value="#{item.regularCareDays}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}"
+                                          renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.regularWeight}" />
+            <inek:InputIntegerWithMessage value="#{item.regularWeight}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}" />
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.intensiveCareDays}" renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
+            <inek:InputIntegerWithMessage value="#{item.intensiveCareDays}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}"
+                                          renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.intensiveWeight}" renderElement="@this"/>                
+            <inek:InputIntegerWithMessage value="#{item.intensiveWeight}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}"
+                                          renderElement="@this"/>
             </td>
             <td style="text-align: right;">
             <h:outputLabel id="utilization" value="#{item.getUtilization()}" />                
@@ -203,30 +222,44 @@
             </h:commandLink>
             </td>
             <td>
-            <inek:InputTextWithMessage id="cstnmb" value="#{item.costCenterNumber}" 
+            <inek:InputTextWithMessage id="cstnmb" value="#{item.costCenterNumber}"
+                                       readonly="#{editCalcBasicsPepp.readOnly}"
                                        renderElement="@this tblNormInt1:#{loop.index}:cstnmb:text tblNormInt3:#{loop.index}:cstnmb:text"/>
             </td>
             <td>
-            <inek:InputTextWithMessage id="station" value="#{item.station}" 
+            <inek:InputTextWithMessage id="station" value="#{item.station}"
+                                       readonly="#{editCalcBasicsPepp.readOnly}"
                                        renderElement="@this tblNormInt1:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.medicalServiceCnt}" renderElement="@this"/>
+            <inek:InputNumberWithMessage value="#{item.medicalServiceCnt}"
+                                         readonly="#{editCalcBasicsPepp.readOnly}"
+                                         renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.nursingServiceCnt}" renderElement="@this"/>
+            <inek:InputNumberWithMessage value="#{item.nursingServiceCnt}"
+                                         readonly="#{editCalcBasicsPepp.readOnly}"
+                                         renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.psychologistCnt}" renderElement="@this"/>
+            <inek:InputNumberWithMessage value="#{item.psychologistCnt}"
+                                         readonly="#{editCalcBasicsPepp.readOnly}"
+                                         renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.socialWorkerCnt}" renderElement="@this"/>
+            <inek:InputNumberWithMessage value="#{item.socialWorkerCnt}"
+                                         readonly="#{editCalcBasicsPepp.readOnly}"
+                                         renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.specialTherapistCnt}" renderElement="@this"/>
+            <inek:InputNumberWithMessage value="#{item.specialTherapistCnt}"
+                                         readonly="#{editCalcBasicsPepp.readOnly}"
+                                         renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.functionalServiceCnt}" renderElement="@this"/>
+            <inek:InputNumberWithMessage value="#{item.functionalServiceCnt}"
+                                         readonly="#{editCalcBasicsPepp.readOnly}"
+                                         renderElement="@this"/>
             </td>
             </tr>
         </ui:repeat>
@@ -269,36 +302,54 @@
             </h:commandLink>
             </td>
             <td>
-            <inek:InputTextWithMessage id="cstnmb" value="#{item.costCenterNumber}" 
+            <inek:InputTextWithMessage id="cstnmb" value="#{item.costCenterNumber}"
+                                       readonly="#{editCalcBasicsPepp.readOnly}"
                                        renderElement="@this tblNormInt1:#{loop.index}:cstnmb:text tblNormInt2:#{loop.index}:cstnmb:text"/>
             </td>
             <td>
-            <inek:InputTextWithMessage id="station" value="#{item.station}" 
+            <inek:InputTextWithMessage id="station" value="#{item.station}"
+                                       readonly="#{editCalcBasicsPepp.readOnly}"
                                        renderElement="@this tblNormInt1:#{loop.index}:station:text tblNormInt2:#{loop.index}:station:text"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.medicalServiceAmount}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.medicalServiceAmount}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}"
+                                          renderElement="@this"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.nursingServiceAmount}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.nursingServiceAmount}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}"
+                                          renderElement="@this"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.psychologistAmount}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.psychologistAmount}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}"
+                                          renderElement="@this"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.socialWorkerAmount}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.socialWorkerAmount}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}"
+                                          renderElement="@this"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.specialTherapistAmount}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.specialTherapistAmount}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}"
+                                          renderElement="@this"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.functionalServiceAmount}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.functionalServiceAmount}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}"
+                                          renderElement="@this"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.medicalInfrastructureAmount}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.medicalInfrastructureAmount}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}"
+                                          renderElement="@this"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.nonMedicalInfrastructureAmount}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.nonMedicalInfrastructureAmount}"
+                                          readonly="#{editCalcBasicsPepp.readOnly}"
+                                          renderElement="@this"/>
             </td>
             </tr>
         </ui:repeat>
