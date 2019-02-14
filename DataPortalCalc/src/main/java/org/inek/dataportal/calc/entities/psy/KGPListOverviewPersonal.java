@@ -25,6 +25,13 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
+    public KGPListOverviewPersonal() { }
+
+    public KGPListOverviewPersonal(int baseInformationId, KGPListOverviewPersonalType overviewPersonalType) {
+        _baseInformationId = baseInformationId;
+        _overviewPersonalType = overviewPersonalType;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,19 +64,6 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="ProvidedTypeId">
-    @Column(name = "opOverviewPersonalTypeId")
-    private int _overviewPersonalTypeId;
-
-    public int getOverviewPersonalTypeId() {
-        return _overviewPersonalTypeId;
-    }
-
-    public void setOverviewPersonalTypeId(int overviewPersonalTypeId) {
-        this._overviewPersonalTypeId = overviewPersonalTypeId;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Property KGPListServiceProvisionType">
     @OneToOne
     @PrimaryKeyJoinColumn(name = "opOverviewPersonalTypeId")
@@ -81,7 +75,6 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
 
     public void setOverviewPersonalType(KGPListOverviewPersonalType overviewPersonalType) {
         _overviewPersonalType = overviewPersonalType;
-        _overviewPersonalTypeId = overviewPersonalType == null ? -1 : overviewPersonalType.getId();
     }
     // </editor-fold>
 
@@ -97,7 +90,6 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
 
     public void setCostType(CostType costType) {
         this._costType = costType;
-        this._overviewPersonalTypeId = costType == null ? -1 : costType.getId();
     }
     // </editor-fold>
 
@@ -158,13 +150,6 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
         return false;
     }
 
-    public KGPListOverviewPersonal() {
-    }
-
-    public KGPListOverviewPersonal(int baseInformationId) {
-        _baseInformationId = baseInformationId;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
@@ -177,7 +162,7 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
         hash = 37 * hash + Objects.hashCode(this._costAmountPost);
         hash = 37 * hash + Objects.hashCode(this._baseInformationId);
         hash = 37 * hash + Objects.hashCode(this._costAmountPre);
-        hash = 37 * hash + Objects.hashCode(this._overviewPersonalTypeId);
+        hash = 37 * hash + Objects.hashCode(this._overviewPersonalType);
         return hash;
     }
 
@@ -215,7 +200,7 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
         if (!Objects.equals(this._costAmountPre, other._costAmountPre)) {
             return false;
         }
-        if (!Objects.equals(this._overviewPersonalTypeId, other._overviewPersonalTypeId)) {
+        if (!Objects.equals(this._overviewPersonalType, other._overviewPersonalType)) {
             return false;
         }
         return true;

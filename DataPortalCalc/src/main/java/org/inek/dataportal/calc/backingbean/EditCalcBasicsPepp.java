@@ -214,9 +214,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     private void ensureOverviewPersonal(CalcPsyFacade calcPsyFacade, PeppCalcBasics calcBasics) {
         for (KGPListOverviewPersonalType spt : calcPsyFacade.retrieveOverviewPersonalTypes(calcBasics.getDataYear())) {
-            KGPListOverviewPersonal op = new KGPListOverviewPersonal();
-            op.setBaseInformationId(calcBasics.getId());
-            op.setOverviewPersonalType(spt);
+            KGPListOverviewPersonal op = new KGPListOverviewPersonal(calcBasics.getId(), spt);
             calcBasics.addOverviewPersonal(op);
         }
     }
