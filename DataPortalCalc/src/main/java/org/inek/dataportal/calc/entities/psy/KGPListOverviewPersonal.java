@@ -95,15 +95,11 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
         return _costType;
     }
 
-    public void set_costType(CostType costType) {
+    public void setCostType(CostType costType) {
         this._costType = costType;
         this._overviewPersonalTypeId = costType == null ? -1 : costType.getId();
     }
     // </editor-fold>
-
-
-
-
 
     // <editor-fold defaultstate="collapsed" desc="opAmountVKPre">
     @Column(name = "opAmountVKPre")
