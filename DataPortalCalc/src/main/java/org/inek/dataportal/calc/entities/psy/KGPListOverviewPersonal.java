@@ -67,7 +67,7 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="Property KGPListServiceProvisionType">
     @OneToOne
     @PrimaryKeyJoinColumn(name = "opOverviewPersonalTypeId")
-    private KGPListOverviewPersonalType _overviewPersonalType;
+    private KGPListOverviewPersonalType _overviewPersonalType = new KGPListOverviewPersonalType();
 
     public KGPListOverviewPersonalType getOverviewPersonalType() {
         return _overviewPersonalType;
