@@ -89,7 +89,7 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="Property CostType">
     @OneToOne
     @PrimaryKeyJoinColumn(name = "opCostTypeId")
-    private CostType _costType;
+    private CostType _costType = new CostType();
 
     public CostType getCostType() {
         return _costType;

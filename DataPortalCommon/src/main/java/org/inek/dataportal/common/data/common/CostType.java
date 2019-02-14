@@ -16,7 +16,7 @@ public class CostType implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @Column (name = "ctId")
-    private Integer _id;
+    private Integer _id = -1;
     
     public int getId() {
         return _id;
