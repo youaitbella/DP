@@ -65,8 +65,8 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property KGPListServiceProvisionType">
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "opOverviewPersonalTypeId")
+    @ManyToOne
+    @JoinColumn(name = "opOverviewPersonalTypeId")
     private KGPListOverviewPersonalType _overviewPersonalType = new KGPListOverviewPersonalType();
 
     public KGPListOverviewPersonalType getOverviewPersonalType() {
@@ -80,8 +80,8 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
 
 
     // <editor-fold defaultstate="collapsed" desc="Property CostType">
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "opCostTypeId")
+    @ManyToOne
+    @JoinColumn(name = "opCostTypeId")
     private CostType _costType = new CostType();
 
     public CostType getCostType() {
