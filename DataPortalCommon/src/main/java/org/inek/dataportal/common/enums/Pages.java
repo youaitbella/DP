@@ -78,7 +78,6 @@ public enum Pages {
     CalcPeppStation("/CalcHospital/Pepp/StationPepp"),
     CalcPeppMedicalInfrastructure("/CalcHospital/Pepp/MedicalInfrastructurePepp"),
     CalcPeppNonMedicalInfrastructure("/CalcHospital/Pepp/NonMedicalInfrastructurePepp"),
-    CalcPeppStaffCost("/CalcHospital/Pepp/StaffCostPepp"),
     CalcPeppOverviewPersonal("/CalcHospital/Pepp/OverviewPersonalPepp"),
     CalcStationEquivalentTreatment("/CalcHospital/Pepp/StationEquivalentTreatmentPepp"),
     // Obd calculation
