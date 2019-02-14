@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Nachweisvereinbarung</title>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Nachweisvereinbarung</text></para>
     </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Vertragsparteien auf Bundesebene haben die Nachweisvereinbarung nach § 137i Abs. 4 SGB V über den Nachweis zur Einhaltung von Pflegepersonaluntergrenzen konsentiert. Danach sind quartalsweise (zum 15.04., 15.07., 15.10. und 15.01.) die durchschnittliche Pflegepersonalausstattung (differenziert nach Pflegefachkräften und Pflegehilfspersonal), die durchschnittliche Patientenbelegung (gemessen nach dem Mitternachtsbestand) und die Anzahl der Schichten, in denen die Pflegepersonaluntergrenzen nicht eingehalten wurden, an das InEK und die örtlichen Vertragsparteien nach § 11 KHEntgG zu melden. Die Meldung erfolgt monatsweise differenziert nach Tag-/Nacht-Schicht je Station und Krankenhausstandort für die pflegesensitiven Bereiche „Geriatrie“, „Kardiologie“, „Unfallchirurgie“ und „Intensivmedizin“. Basis der Differenzierung nach pflegesensitivem Bereich, Station und Standort ist die Meldung des Krankenhauses nach § 5 PpUGV.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Folgenden wird die Funktionalität zur Erfassung dieser Daten via </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> beschrieben.</text></para>
   </body>
 </topic>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Neue Quartalsmeldung erstellen</title>
   <body>
     <header>
@@ -14,10 +14,10 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Über den Button &quot;Neue Meldung erstellen&quot; können Sie eine neue Meldung erstellen. Der Button ist nicht vorhanden, wenn eine der folgenden Bedingungen zutrifft: </text></para>
     <para styleclass="Normal"></para>
-    <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Die Funktion ist von Seiten des InEK deaktiviert.</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Sie haben für kein Krankenhaus die Berechtigung Daten anzulegen.</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Es existieren schon Daten für die Krankenhäuser, für die Sie berechtigt sind.</text></li>
+    <list id="14" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Funktion ist von Seiten des InEK deaktiviert.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sie haben für kein Krankenhaus die Berechtigung Daten anzulegen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Es existieren schon Daten für die Krankenhäuser, für die Sie berechtigt sind.</text></li>
     </list>
   </body>
 </topic>
