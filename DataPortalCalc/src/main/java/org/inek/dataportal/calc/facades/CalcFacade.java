@@ -224,8 +224,9 @@ public class CalcFacade extends AbstractDataAccess {
     public List<CalcHospitalInfo> getAllCalcBasics(int dataYear) {
         String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, "
                 + "biStatusId as StatusId, Name, biLastChanged as LastChanged, cuName as customerName, "
-                + "isnull(agLastName + ', ' + agFirstName, '<fehlt>') as AgentName, cuCity as customerTown, acLastName + ', ' + acFirstName as AccountName, " +
-                "biSealed as SendAt \n"
+                + "isnull(agLastName + ', ' + agFirstName, '<fehlt>') as AgentName, "
+                + "cuCity as customerTown, acLastName + ', ' + acFirstName as AccountName, "
+                + "biSealed as SendAt \n"
                 + "from ("
                 + "select biId, biIk, 'CBD' as biType, biDataYear, biAccountID, biStatusId, biLastChanged,"
                 + " 'KGL' as Name, biSealed \n"
@@ -241,15 +242,15 @@ public class CalcFacade extends AbstractDataAccess {
                 + "where cbaStatusID in (3, 5, 10)\n"
                 + ") base\n"
                 + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
-                + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId"
+                + "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId"
                 + " and biDataYear between year(cciValidFrom) and year(cciValidTo) and cciInfoTypeId = 14\n"
-                + "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId"
+                + "left join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId"
                 + " and biDataYear between year(cciaValidFrom) and year(cciaValidTo)\n"
-                + "left join CallCenterDB.dbo.ccAgent on cciaAgentId = agId and agDomainId = 'O'\n" +
-                "join dbo.Account on acId = biAccountID\n"
-                + "where (biType = 'CBD' and cciaReportTypeid = 1\n"
-                + "or biType = 'CBP' and cciaReportTypeId = 3\n"
-                + "or biType = 'CBA' and cciaReportTypeId = 10)\n"
+                + "left join CallCenterDB.dbo.ccAgent on cciaAgentId = agId and agDomainId = 'O'\n"
+                + "join dbo.Account on acId = biAccountID\n"
+                + "where (biType = 'CBD' and isnull(cciaReportTypeid, 1) = 1\n"
+                + "or biType = 'CBP' and isnull(cciaReportTypeId, 3) = 3\n"
+                + "or biType = 'CBA' and isnull(cciaReportTypeId, 10) = 10)\n"
                 + "and biDataYear = " + dataYear + "\n"
                 + "order by cuCity";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
