@@ -20,40 +20,46 @@
                 <div jsf:id="inputFields">
                     <div class="inputPart">
                         <h:outputLabel for="ik" value="#{msg.lblIkShort}" styleClass="label20"/>
-                        <h:inputText id="ik" value="#{ikAdmin.ik}" styleClass="inputmedium" required="true" validator="#{sessionTools.checkIk}">
-                            <f:ajax render="@this ikName msgIk :logout:remaining mailDomain selectedFeatures" />
+                        <h:inputText id="ik" value="#{ikAdmin.ik}" styleClass="inputmedium" required="true"
+                                     validator="#{sessionTools.checkIk}">
+                            <f:ajax render="@this ikName msgIk :logout:remaining ikAdmin:mailDomain:inputText selectedFeatures"/>
                         </h:inputText>
-                        <h:outputLabel id="ikName" value="#{applicationTools.retrieveHospitalInfo(ikAdmin.ik)}" styleClass="marginLeft"/>
+                        <h:outputLabel id="ikName" value="#{applicationTools.retrieveHospitalInfo(ikAdmin.ik)}"
+                                       styleClass="marginLeft"/>
                         <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
                     </div>
 
                     <div class="inputPart">
                         <h:outputLabel for="UserEmail" value="#{msg.lblEMail}" styleClass="label20"/>
-                        <h:inputText id="UserEmail" value="#{ikAdmin.email}" validator="#{ikAdmin.checkEmail}" styleClass="inputlong">
-                            <f:ajax render="@this msgUserEmail accountId UserName UserInstitute :logout:remaining mailDomain selectedFeatures"/>
+                        <h:inputText id="UserEmail" value="#{ikAdmin.email}" validator="#{ikAdmin.checkEmail}"
+                                     styleClass="inputlong">
+                            <f:ajax render="@this msgUserEmail accountId UserName UserInstitute :logout:remaining ikAdmin:mailDomain:inputText selectedFeatures"/>
                         </h:inputText>
                         <h:message id="msgUserEmail" for="UserEmail" styleClass="errorMessage"/>
                     </div>
 
                     <div class="inputPart">
                         <h:outputLabel for="accountId" value="AccountId" styleClass="label20"/>
-                        <h:inputText id="accountId" value="#{ikAdmin.accountId}" validator="#{ikAdmin.checkAccountId}" styleClass="inputmedium">
-                            <f:ajax render="@this msgAccountId UserEmail UserName UserInstitute :logout:remaining mailDomain selectedFeatures"/>
+                        <h:inputText id="accountId" value="#{ikAdmin.accountId}" validator="#{ikAdmin.checkAccountId}"
+                                     styleClass="inputmedium">
+                            <f:ajax render="@this msgAccountId UserEmail UserName UserInstitute :logout:remaining ikAdmin:mailDomain:inputText selectedFeatures"/>
                         </h:inputText>
                         <h:message id="msgAccountId" for="accountId" styleClass="errorMessage"/>
                     </div>
 
                     <div class="inputPart">
                         <h:outputLabel value="#{msg.lblName}" styleClass="label20"/>
-                        <h:inputText id="UserName" value="#{ikAdmin.account.firstName} #{ikAdmin.account.lastName}" disabled="true" styleClass="inputlong"/>
+                        <h:inputText id="UserName" value="#{ikAdmin.account.firstName} #{ikAdmin.account.lastName}"
+                                     disabled="true" styleClass="inputlong"/>
                     </div>
 
                     <div class="inputPart">
                         <h:outputLabel value="#{msg.lblHospital}" styleClass="label20"/>
-                        <h:inputText id="UserInstitute" value="#{ikAdmin.account.company}" disabled="true" styleClass="inputlong"/>
+                        <h:inputText id="UserInstitute" value="#{ikAdmin.account.company}" disabled="true"
+                                     styleClass="inputlong"/>
                     </div>
 
-                    <hr/>
+                    <h4/>
 
                     <inek:LabeledText id="mailDomain"
                                       label="Mail-Domäne"
@@ -63,26 +69,36 @@
                                       styleClass="inputlong"
                                       singleLine="true"/>
 
-                    <pf:selectManyMenu id="selectedFeatures"
-                                       value="#{ikAdmin.selectedFeatures}"
-                                       style="width: 100%;"
-                                       converter="ikAdminFeatureConverter"
-                                       var="f"
-                                       filter="true"
-                                       filterMatchMode="contains"
-                                       showCheckbox="true">
-                        <f:selectItems value="#{ikAdmin.validFeatures}" var="feature" itemLabel="#{featur.description}" itemValue="#{feature}" />
-                        <pf:column>
-                            <h:outputText value="#{f.description}" />
-                        </pf:column>
-                    </pf:selectManyMenu>
+                    <div class="inputPart">
+                        <pf:selectManyMenu id="selectedFeatures"
+                                           value="#{ikAdmin.selectedFeatures}"
+                                           style="width: 100%;"
+                                           converter="ikAdminFeatureConverter"
+                                           var="f"
+                                           filter="true"
+                                           filterMatchMode="contains"
+                                           showCheckbox="true">
+                            <f:selectItems value="#{ikAdmin.validFeatures}" var="feature"
+                                           itemLabel="#{featur.description}" itemValue="#{feature}"/>
+                            <pf:column>
+                                <h:outputText value="#{f.description}"/>
+                            </pf:column>
+                        </pf:selectManyMenu>
 
+                    </div>
                 </div>
-                <br/>
+
+                <h4/>
 
                 <h:commandLink styleClass="bigButton"
-                               action="#{ikAdmin.saveIkAdmin}"
-                               value="#{msg.btnSave}" />
+                               action="#{ikAdmin.saveIkAdmin(true)}"
+                               value="#{msg.btnSave} mit Nachricht (sofern geändert)"/>
+
+                <h:commandLink styleClass="bigButton"
+                               action="#{ikAdmin.saveIkAdmin(false)}"
+                               value="#{msg.btnSave} ohne Nachricht"/>
+
+                <h4/>
 
                 <pf:dataTable value="#{ikAdmin.adminAccounts}"
                               var="ikAdmins"
@@ -94,7 +110,7 @@
                               paginator="true"
                               rowsPerPageTemplate="25,50,100,500">
                     <pf:column>
-                        <h:commandLink action="#{ikAdmin.deleteIkAdmin(ikAdmins)}" immediate="true" >
+                        <h:commandLink action="#{ikAdmin.deleteIkAdmin(ikAdmins)}" immediate="true">
                             <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                             <cb:confirmDelete/>
                         </h:commandLink>
@@ -106,19 +122,22 @@
                         </h:commandLink>
                     </pf:column>
 
-                    <pf:column headerText="#{msg.lblName}" filterBy="#{ikAdmins.userName}" sortBy="#{ikAdmins.userName}" filterMatchMode="contains">
+                    <pf:column headerText="#{msg.lblName}" filterBy="#{ikAdmins.userName}" sortBy="#{ikAdmins.userName}"
+                               filterMatchMode="contains">
                         <h:commandLink value="#{ikAdmins.userName}">
                             <f:ajax listener="#{ikAdmin.setInput(ikAdmins)}" render="ikAdmin:inputFields"/>
                         </h:commandLink>
                     </pf:column>
 
-                    <pf:column headerText="#{msg.lblEMail}" sortBy="#{ikAdmins.account.email}" filterBy="#{ikAdmins.account.email}">
+                    <pf:column headerText="#{msg.lblEMail}" sortBy="#{ikAdmins.account.email}"
+                               filterBy="#{ikAdmins.account.email}">
                         <h:commandLink value="#{ikAdmins.account.email}">
                             <f:ajax listener="#{ikAdmin.setInput(ikAdmins)}" render="ikAdmin:inputFields"/>
                         </h:commandLink>
                     </pf:column>
 
-                    <pf:column headerText="Mail-Domäne" sortBy="#{ikAdmins.mailDomain}" filterBy="#{ikAdmins.mailDomain}">
+                    <pf:column headerText="Mail-Domäne" sortBy="#{ikAdmins.mailDomain}"
+                               filterBy="#{ikAdmins.mailDomain}">
                         <h:commandLink value="#{ikAdmins.mailDomain}">
                             <f:ajax listener="#{ikAdmin.setInput(ikAdmins)}" render="ikAdmin:inputFields"/>
                         </h:commandLink>

@@ -142,10 +142,9 @@ public class IkAdmin implements Serializable {
     }
 
     private void updateData() {
-        if (_account == null || _ik <= 0){
-            return;
-        }
-        _adminAccounts.stream().filter( a -> a.getIk() == _ik && a.getAccount().equals(_account)).findFirst()
+        _adminAccounts.stream()
+                .filter(a -> a.getIk() == _ik && a.getAccount().equals(_account))
+                .findFirst()
                 .ifPresent(a -> setInput(a));
     }
 
@@ -169,7 +168,7 @@ public class IkAdmin implements Serializable {
         _mailDomain = mailDomain;
     }
 
-    public String saveIkAdmin() {
+    public String saveIkAdmin(boolean sendMail) {
         if (!_account.updateIkAdmin(_ik, _mailDomain, _selectedFeatures)) {
             return "";
         }
@@ -193,10 +192,27 @@ public class IkAdmin implements Serializable {
         _accountFacade.merge(_account);
         DialogController.showSaveDialog();
         createAdminAccountList();
+
+        if (sendMail) {
+            sendIkAdminStatus();
+        }
+        return "";
+    }
+
+    private void sendIkAdminStatus() {
         Map<String, String> substitutions = new HashMap<>();
         substitutions.put("{ik}", "" + _ik);
+        String features = _account.getAdminIks()
+                .stream()
+                .filter(a -> a.getIk() == _ik)
+                .map(a -> a.getIkAdminFeatures()
+                        .stream()
+                        .map(f -> " - " + f.getFeature().getDescription())
+                        .collect(Collectors.joining("\r\n")))
+                .findAny()
+                .orElse("");
+        substitutions.put("{features}", features);
         _mailer.sendMailWithTemplate("IK-Admin: update", substitutions, _account);
-        return "";
     }
     // </editor-fold>
 

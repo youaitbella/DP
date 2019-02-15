@@ -4,38 +4,21 @@
  */
 package org.inek.dataportal.common.data.account.entities;
 
-import javafx.print.Collation;
-import org.inek.dataportal.common.data.account.iface.Person;
-
-import java.io.Serializable;
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.Transient;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.FeatureState;
+import org.inek.dataportal.common.data.account.iface.Person;
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
+
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.io.Serializable;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 /**
  * @author muellermi
@@ -329,8 +312,9 @@ public class Account implements Serializable, Person {
     public boolean updateIkAdmin(int ik, String mailDomain, List<Feature> features) {
         Optional<IkAdmin> admin = _adminIks.stream().filter(ai -> ai.getIk() == ik).findAny();
         if (admin.isPresent()) {
+            boolean mailChanged = !admin.get().getMailDomain().equalsIgnoreCase(mailDomain);
             admin.get().setMailDomain(mailDomain);
-            return admin.get().updateIkAdminFeatures(features);
+            return admin.get().updateIkAdminFeatures(features) | mailChanged;
         }
         _adminIks.add(new IkAdmin(_id, ik, mailDomain, features));
         return true;
