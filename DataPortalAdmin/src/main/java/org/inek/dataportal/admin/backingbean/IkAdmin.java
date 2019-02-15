@@ -5,9 +5,23 @@
  */
 package org.inek.dataportal.admin.backingbean;
 
-import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Collectors;
+import org.inek.dataportal.admin.dao.IkAccount;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.IkReference;
+import org.inek.dataportal.api.enums.ManagedBy;
+import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.AccountFeature;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
+import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
+import org.inek.dataportal.common.enums.Right;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.scope.FeatureScoped;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -15,23 +29,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.inek.dataportal.api.enums.IkReference;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.admin.dao.IkAccount;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.api.enums.ManagedBy;
-import org.inek.dataportal.common.controller.DialogController;
-import org.inek.dataportal.common.enums.Right;
-import org.inek.dataportal.common.data.account.entities.AccountFeature;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
-import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.scope.FeatureScoped;
+import java.io.Serializable;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author muellermi
@@ -90,7 +90,7 @@ public class IkAdmin implements Serializable {
     }
 
     public void setAdminAccounts(List<IkAccount> adminAccounts) {
-        this._adminAccounts = adminAccounts;
+        _adminAccounts = adminAccounts;
     }
 
     @PostConstruct
@@ -125,6 +125,7 @@ public class IkAdmin implements Serializable {
 
     public void setEmail(String email) {
         _account = _accountFacade.findByMailOrUser(email);
+        updateData();
     }
 
     public void checkAccountId(FacesContext context, UIComponent component, Object value) {
@@ -137,6 +138,15 @@ public class IkAdmin implements Serializable {
 
     public void setAccountId(int accountId) {
         _account = _accountFacade.findAccount(accountId);
+        updateData();
+    }
+
+    private void updateData() {
+        if (_account == null || _ik <= 0){
+            return;
+        }
+        _adminAccounts.stream().filter( a -> a.getIk() == _ik && a.getAccount().equals(_account)).findFirst()
+                .ifPresent(a -> setInput(a));
     }
 
     public void setAccount(Account account) {
@@ -224,6 +234,7 @@ public class IkAdmin implements Serializable {
             ik = 0;
         }
         _ik = ik;
+        updateData();
     }
 
     public Integer getIk() {
