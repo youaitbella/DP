@@ -224,7 +224,7 @@ public class CalcFacade extends AbstractDataAccess {
     public List<CalcHospitalInfo> getAllCalcBasics(int dataYear) {
         String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, "
                 + "biStatusId as StatusId, Name, biLastChanged as LastChanged, cuName as customerName, "
-                + "agLastName + ', ' + agFirstName as AgentName, cuCity as customerTown, acLastName + ', ' + acFirstName as AccountName, " +
+                + "isnull(agLastName + ', ' + agFirstName, '<fehlt>') as AgentName, cuCity as customerTown, acLastName + ', ' + acFirstName as AccountName, " +
                 "biSealed as SendAt \n"
                 + "from ("
                 + "select biId, biIk, 'CBD' as biType, biDataYear, biAccountID, biStatusId, biLastChanged,"
@@ -245,7 +245,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + " and biDataYear between year(cciValidFrom) and year(cciValidTo) and cciInfoTypeId = 14\n"
                 + "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId"
                 + " and biDataYear between year(cciaValidFrom) and year(cciaValidTo)\n"
-                + "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId and agDomainId = 'O'\n" +
+                + "left join CallCenterDB.dbo.ccAgent on cciaAgentId = agId and agDomainId = 'O'\n" +
                 "join dbo.Account on acId = biAccountID\n"
                 + "where (biType = 'CBD' and cciaReportTypeid = 1\n"
                 + "or biType = 'CBP' and cciaReportTypeId = 3\n"
