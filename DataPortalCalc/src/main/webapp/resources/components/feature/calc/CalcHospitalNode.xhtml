@@ -4,9 +4,8 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+>
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -52,7 +51,7 @@
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:commandLink action="#{calcHospitalList.deleteHospitalInfo(node.calcHospitalInfo)}" immediate="true" rendered="#{cc.attrs.showDelete and node.calcHospitalInfo.status.value le 1}"> 
+                <h:commandLink action="#{calcHospitalList.deleteHospitalInfo(node.calcHospitalInfo)}" immediate="true" rendered="#{cc.attrs.showDelete and node.calcHospitalInfo.status.value le 1}">
                     <h:graphicImage alt="löschen" name="Icon/small/#{node.calcHospitalInfo.status.value le 9 ? 'delete.png' : 'cross.png'}"
                                     title="#{node.calcHospitalInfo.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
                     <cb:confirmDelete/>

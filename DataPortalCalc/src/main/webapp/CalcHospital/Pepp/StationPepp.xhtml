@@ -4,11 +4,8 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/feature/calc"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+>
 
     <h2>Anwendung des Betreuungsintensitätsmodells (einheitliches Betreuungsintensitätsmodell, veröffentlicht am 28.11.2012)</h2><br/>
     <inek:BooleanRadioButton id="bimAll" value="#{editCalcBasicsPepp.calcBasics.bimAll}" 
@@ -51,7 +48,9 @@
                     <h:outputText value=""/>
                 </f:facet>
                 <h:commandLink styleClass="colIcon">
-                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <h:graphicImage alt="#{msg.btnDelete}"
+                                    rendered="#{not editCalcBasicsPepp.readOnly}"
+                                    name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                     <f:ajax event="click" render="@form :logout:remaining" 
                             listener="#{editCalcBasicsPepp.deleteStationAlternative(item)}"/>
                 </h:commandLink>
@@ -76,7 +75,9 @@
             </h:column>
 
         </h:dataTable>
-        <h:commandLink styleClass="addButton button inputPart" value="#{msg.btnAddEntry}">
+        <h:commandLink styleClass="addButton button inputPart"
+                       rendered="#{not editCalcBasicsPepp.readOnly}"
+                       value="#{msg.btnAddEntry}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationAlternative()}"/>
         </h:commandLink>
     </div>
@@ -129,7 +130,9 @@
             <tr>
                 <td>
             <h:commandLink styleClass="colIcon">
-                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <h:graphicImage alt="#{msg.btnDelete}"
+                                rendered="#{not editCalcBasicsPepp.readOnly}"
+                                name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteStationServiceCost(item)}"/>
             </h:commandLink>
             </td>
@@ -187,7 +190,9 @@
         </ui:repeat>
         <tr>
             <td colspan="10">
-        <h:commandLink styleClass="addButton button inputPart" value="#{msg.btnAddEntry}">
+        <h:commandLink styleClass="addButton button inputPart"
+                       rendered="#{not editCalcBasicsPepp.readOnly}"
+                       value="#{msg.btnAddEntry}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationServiceCost()}"/>
         </h:commandLink>
         </td>
@@ -217,7 +222,9 @@
             <tr>
                 <td>
             <h:commandLink styleClass="colIcon">
-                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <h:graphicImage alt="#{msg.btnDelete}"
+                                rendered="#{not editCalcBasicsPepp.readOnly}"
+                                name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteStationServiceCost(item)}"/>
             </h:commandLink>
             </td>
@@ -265,7 +272,9 @@
         </ui:repeat>
         <tr>
             <td colspan="8">
-        <h:commandLink styleClass="addButton button inputPart" value="#{msg.btnAddEntry}">
+        <h:commandLink styleClass="addButton button inputPart"
+                       rendered="#{not editCalcBasicsPepp.readOnly}"
+                       value="#{msg.btnAddEntry}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationServiceCost()}"/>
         </h:commandLink>
         </td>
@@ -297,7 +306,9 @@
             <tr>
                 <td>
             <h:commandLink styleClass="colIcon">
-                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <h:graphicImage alt="#{msg.btnDelete}"
+                                rendered="#{not editCalcBasicsPepp.readOnly}"
+                                name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteStationServiceCost(item)}"/>
             </h:commandLink>
             </td>
