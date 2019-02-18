@@ -52,7 +52,7 @@
             <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" required="true" renderElement="@this :logout:remaining"/>
         </h:column>
 
-        <h:column class="centered">
+        <h:column>
             <f:facet name="header">
                 KoArtGr 1
             </f:facet>
@@ -61,7 +61,7 @@
             </h:selectBooleanCheckbox>
         </h:column>
 
-        <h:column class="centered">
+        <h:column>
             <f:facet name="header">
                 KoArtGr 6c
             </f:facet>
@@ -528,7 +528,10 @@
                                                                 or (x.medicalInfrastructureCost / x.careDays) gt 100
                                                                 or (x.nursingServiceAmount / x.pprMinutes) gt 50
                                                                 or (x.medicalServiceAmount / x.careDays) gt 100}}"
-                                                 readonly="#{editCalcBasicsDrg.readOnly}" />
+                                                 readonly="#{editCalcBasicsDrg.readOnly}" >
+                            <f:ajax />
+                        </h:selectBooleanCheckbox>
+                        <h:message for="approved" id="messageApproved" errorClass="errorMessage"/>
                     </td>
 
                 <td class="colInput">

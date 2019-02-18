@@ -339,7 +339,7 @@ public class KGLListCostCenterCost implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="cccAcceptPlausibility">
     @Column(name = "cccAcceptPlausibility")
-    private Boolean _acceptPlausibility;
+    private Boolean _acceptPlausibility = false;
 
     public Boolean getAcceptPlausibility() {
         return _acceptPlausibility;
