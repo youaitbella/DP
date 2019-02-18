@@ -30,9 +30,15 @@
 
         <h:column>
             <f:facet name="header">Anzahl VK vor Abgrenzung</f:facet>
-            <inek:InputNumberWithMessage value="#{item.amountVKPre}"
+            <!--<inek:InputNumberWithMessage value="#{item.amountVKPre}"
                                          renderElement="vkPre vkPost"
-                                         readonly="#{editCalcBasicsPepp.readOnly}" />
+                                         readonly="#{editCalcBasicsPepp.readOnly}" />-->
+            <h:selectOneMenu id="costType"
+                             required="true"
+                             requiredMessage="#{msg.msgValueNeeded}"
+                             value="#{item.costType}">
+                <f:selectItem itemLabel="" itemValue=""/>
+            </h:selectOneMenu>
         </h:column>
 
         <h:column>

@@ -286,13 +286,13 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         addTopic("TopicBasicExplanation", Pages.CalcPeppBasicExplanation.URL());
         addTopic("TopicCalcOverviewPersonal", Pages.CalcPeppOverviewPersonal.URL());
         addTopic("TopicCalcExternalServiceProvision", Pages.CalcPeppExternalServiceProvision.URL());
-        addTopic("lblCalcTherapyScope", Pages.CalcPeppTherapyScope.URL());
-        addTopic("TopicCalcStationEquivalentTreatment", Pages.CalcStationEquivalentTreatment.URL());
         addTopic("TopicCalcRadiology", Pages.CalcPeppRadiology.URL());
         addTopic("TopicCalcLaboratory", Pages.CalcPeppLaboratory.URL());
         addTopic("TopicCalcDiagnosticScope", Pages.CalcPeppDiagnosticScope.URL());
         addTopic("TopicCalcTherapeuticScope", Pages.CalcPeppTherapeuticScope.URL());
         addTopic("TopicCalcPatientAdmission", Pages.CalcPeppPatientAdmission.URL());
+        addTopic("lblCalcTherapyScope", Pages.CalcPeppTherapyScope.URL());
+        addTopic("TopicCalcStationEquivalentTreatment", Pages.CalcStationEquivalentTreatment.URL());
         addTopic("TopicCalcStation", Pages.CalcPeppStation.URL());
         addTopic("TopicCalcMedicalInfrastructure", Pages.CalcPeppMedicalInfrastructure.URL());
         addTopic("TopicCalcNonMedicalInfrastructure", Pages.CalcPeppNonMedicalInfrastructure.URL());
