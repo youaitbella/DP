@@ -1,5 +1,22 @@
 package org.inek.dataportal.calc.tree.user;
 
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.calc.entities.CalcHospitalInfo;
+import org.inek.dataportal.calc.facades.CalcFacade;
+import org.inek.dataportal.calc.tree.CalcHospitalTreeNode;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.tree.TreeNode;
+import org.inek.dataportal.common.tree.TreeNodeObserver;
+import org.inek.dataportal.common.tree.YearTreeNode;
+import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
+
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,22 +24,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.calc.entities.CalcHospitalInfo;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.calc.facades.CalcFacade;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.calc.tree.CalcHospitalTreeNode;
-import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
-import org.inek.dataportal.common.tree.TreeNode;
-import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.tree.YearTreeNode;
 
 @Dependent
 public class AccountTreeNodeObserver implements TreeNodeObserver, Serializable {
@@ -98,7 +99,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver, Serializable {
 
     public List<CalcHospitalInfo> obtainPartnersCalculationHospitalInfosForRead(Account account, int year) {
         List<CalcHospitalInfo> infos = new ArrayList<>();
-        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.NUB);
+        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.CALCULATION_HOSPITAL);
         Set<Integer> ikSet = account.getFullIkSet();
         ikSet.removeAll(managedIks);
         for (int ik : ikSet) {
@@ -116,7 +117,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver, Serializable {
 
     public List<CalcHospitalInfo> obtainPartnersCalculationHospitalInfosForEdit(Account account) {
         List<CalcHospitalInfo> infos = new ArrayList<>();
-        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.NUB);
+        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.CALCULATION_HOSPITAL);
         Set<Integer> ikSet = account.getFullIkSet();
         ikSet.removeAll(managedIks);
         for (int ik : ikSet) {
