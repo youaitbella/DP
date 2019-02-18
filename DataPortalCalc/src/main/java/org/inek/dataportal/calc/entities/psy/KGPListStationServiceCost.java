@@ -5,19 +5,15 @@
  */
 package org.inek.dataportal.calc.entities.psy;
 
+import org.inek.dataportal.common.data.iface.BaseIdValue;
+import org.inek.dataportal.common.utils.Documentation;
+
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
-import org.inek.dataportal.common.data.iface.BaseIdValue;
-import org.inek.dataportal.common.utils.Documentation;
 
 /**
  *

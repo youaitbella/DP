@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.calc.entities.psy;
 
+import org.inek.dataportal.common.data.common.CostType;
 import org.inek.dataportal.common.utils.Documentation;
 
 import javax.persistence.*;
@@ -51,6 +52,18 @@ public class KGPListOverviewPersonalType implements Serializable {
 
     public void setText(String text) {
         this._text = text;
+    }
+    //</editor-fold>
+
+
+    //<editor-fold defaultstate="collapsed" desc="Text">
+    @ManyToOne
+    @JoinColumn(name = "optCostTypeId")
+    @Documentation(name = "Beschreibung", rank = 10)
+    private CostType _costType;
+
+    public CostType getCostType() {
+        return _costType;
     }
     //</editor-fold>
 

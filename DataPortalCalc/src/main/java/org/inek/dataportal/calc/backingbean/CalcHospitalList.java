@@ -5,13 +5,31 @@
  */
 package org.inek.dataportal.calc.backingbean;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.calc.entities.CalcHospitalInfo;
+import org.inek.dataportal.calc.entities.drg.DrgCalcBasics;
+import org.inek.dataportal.calc.entities.psy.PeppCalcBasics;
+import org.inek.dataportal.calc.enums.CalcHospitalFunction;
+import org.inek.dataportal.calc.enums.CalcInfoType;
+import org.inek.dataportal.calc.facades.*;
+import org.inek.dataportal.common.controller.ReportController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.adm.ReportTemplate;
+import org.inek.dataportal.common.data.iface.StatusEntity;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.StreamHelper;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.KeyValueLevel;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.*;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
@@ -24,34 +42,6 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.calc.entities.CalcHospitalInfo;
-import org.inek.dataportal.calc.entities.drg.DrgCalcBasics;
-import org.inek.dataportal.calc.entities.psy.PeppCalcBasics;
-import org.inek.dataportal.common.data.iface.StatusEntity;
-import org.inek.dataportal.calc.enums.CalcHospitalFunction;
-import org.inek.dataportal.calc.enums.CalcInfoType;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.calc.facades.CalcAutopsyFacade;
-import org.inek.dataportal.calc.facades.CalcDrgFacade;
-import org.inek.dataportal.calc.facades.CalcFacade;
-import org.inek.dataportal.calc.facades.CalcPsyFacade;
-import org.inek.dataportal.calc.facades.CalcSopFacade;
-import org.inek.dataportal.calc.facades.DistributionModelFacade;
-import org.inek.dataportal.common.controller.ReportController;
-import org.inek.dataportal.common.data.adm.ReportTemplate;
-import org.inek.dataportal.common.helper.StreamHelper;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.utils.DocumentationUtil;
-import org.inek.dataportal.common.utils.KeyValueLevel;
 
 /**
  *
@@ -122,10 +112,11 @@ public class CalcHospitalList {
     }
 
     public boolean isNewCalculationBasicsDrgAllowed() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgCreateEnabled)) {
+        /*if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgCreateEnabled)) {
             return false;
         }
-        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);
+        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);*/
+        return true;
     }
 
     public String newCalculationBasicsDrg() {
@@ -133,10 +124,11 @@ public class CalcHospitalList {
     }
 
     public boolean isNewCalculationBasicsPeppAllowed() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsyCreateEnabled)) {
+        /*if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsyCreateEnabled)) {
             return false;
         }
-        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);
+        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);*/
+        return true;
     }
 
     public String newCalculationBasicsPepp() {

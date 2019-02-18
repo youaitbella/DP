@@ -6,7 +6,6 @@
 package org.inek.dataportal.calc.entities.psy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.inek.dataportal.common.data.common.CostType;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 
 import javax.persistence.*;
@@ -27,8 +26,8 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
 
     public KGPListOverviewPersonal() { }
 
-    public KGPListOverviewPersonal(int baseInformationId, KGPListOverviewPersonalType overviewPersonalType) {
-        _baseInformationId = baseInformationId;
+    public KGPListOverviewPersonal(PeppCalcBasics baseInformation, KGPListOverviewPersonalType overviewPersonalType) {
+        _baseInformation = baseInformation;
         _overviewPersonalType = overviewPersonalType;
     }
 
@@ -50,17 +49,27 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="BaseInformationId">
-    @Column(name = "opBaseInformationId")
-    private int _baseInformationId;
+    @ManyToOne
+    @JoinColumn(name = "opBaseInformationId")
+    private PeppCalcBasics _baseInformation;
+
+
+    public PeppCalcBasics getBaseInformation() {
+        return _baseInformation;
+    }
+
+    public void setBaseInformation(PeppCalcBasics baseInformation) {
+        this._baseInformation = baseInformation;
+    }
 
     @Override
     public int getBaseInformationId() {
-        return _baseInformationId;
+        return _baseInformation.getId();
     }
 
     @Override
     public void setBaseInformationId(int baseInformationId) {
-        this._baseInformationId = baseInformationId;
+        this._baseInformation.setId(baseInformationId);
     }
     // </editor-fold>
 
@@ -75,21 +84,6 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
 
     public void setOverviewPersonalType(KGPListOverviewPersonalType overviewPersonalType) {
         _overviewPersonalType = overviewPersonalType;
-    }
-    // </editor-fold>
-
-
-    // <editor-fold defaultstate="collapsed" desc="Property CostType">
-    @ManyToOne
-    @JoinColumn(name = "opCostTypeId")
-    private CostType _costType = new CostType();
-
-    public CostType getCostType() {
-        return _costType;
-    }
-
-    public void setCostType(CostType costType) {
-        this._costType = costType;
     }
     // </editor-fold>
 
@@ -160,7 +154,7 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
         hash = 37 * hash + Objects.hashCode(this._amountVKPost);
         hash = 37 * hash + Objects.hashCode(this._amountVKPre);
         hash = 37 * hash + Objects.hashCode(this._costAmountPost);
-        hash = 37 * hash + Objects.hashCode(this._baseInformationId);
+        hash = 37 * hash + Objects.hashCode(this._baseInformation);
         hash = 37 * hash + Objects.hashCode(this._costAmountPre);
         hash = 37 * hash + Objects.hashCode(this._overviewPersonalType);
         return hash;
@@ -188,7 +182,7 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
         if (this._amountVKPost != other._amountVKPost) {
             return false;
         }
-        if (this._baseInformationId != other._baseInformationId) {
+        if (this._baseInformation != other._baseInformation) {
             return false;
         }
         if (this._amountVKPre != other._amountVKPre) {

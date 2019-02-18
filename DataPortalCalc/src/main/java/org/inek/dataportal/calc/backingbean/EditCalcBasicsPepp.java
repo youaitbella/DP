@@ -1,19 +1,25 @@
 package org.inek.dataportal.calc.backingbean;
 
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.calc.CalcBasicsTransferFileCreator;
+import org.inek.dataportal.calc.entities.psy.*;
+import org.inek.dataportal.calc.facades.CalcPsyFacade;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.iface.BaseIdValue;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.ObjectUtils;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.helper.structures.FieldValues;
+import org.inek.dataportal.common.helper.structures.MessageContainer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.ValueLists;
+
 import javax.annotation.PostConstruct;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
@@ -24,26 +30,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Id;
 import javax.persistence.OptimisticLockException;
-
-import org.inek.dataportal.calc.entities.psy.*;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.iface.BaseIdValue;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.calc.facades.CalcPsyFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.helper.ObjectUtils;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.helper.structures.FieldValues;
-import org.inek.dataportal.common.helper.structures.MessageContainer;
-import org.inek.dataportal.common.utils.DocumentationUtil;
-import org.inek.dataportal.common.utils.ValueLists;
-import org.inek.dataportal.calc.CalcBasicsTransferFileCreator;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
@@ -213,8 +206,12 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private void ensureOverviewPersonal(CalcPsyFacade calcPsyFacade, PeppCalcBasics calcBasics) {
+        if (calcBasics.getOverviewPersonals().size() > 0) {
+            return;
+        }
+
         for (KGPListOverviewPersonalType spt : calcPsyFacade.retrieveOverviewPersonalTypes(calcBasics.getDataYear())) {
-            KGPListOverviewPersonal op = new KGPListOverviewPersonal(calcBasics.getId(), spt);
+            KGPListOverviewPersonal op = new KGPListOverviewPersonal(calcBasics, spt);
             calcBasics.addOverviewPersonal(op);
         }
     }

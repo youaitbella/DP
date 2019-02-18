@@ -13,52 +13,44 @@
                  value="#{editCalcBasicsPepp.calcBasics.overviewPersonals}"
                  var="item"
                  width="100%"
-                 columnClasses="col20em, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                 columnClasses="col20em, col05em, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
                  rowClasses="row1, row2">
 
         <h:column>
-            <f:facet name="header"> </f:facet>
+            <f:facet name="header">Berufsgruppe</f:facet>
             <h:outputLabel styleClass="label" value="#{item.overviewPersonalType.text}" />
         </h:column>
 
         <h:column>
             <f:facet name="header">Kostenartengruppe </f:facet>
-            <inek:InputNumberWithMessage value="#{item.costType}"
-                                         renderElement="vkPre vkPost"
-                                         readonly="#{editCalcBasicsPepp.readOnly}" />
+            <h:outputLabel styleClass="label" value="#{item.overviewPersonalType.costType.charId}"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Anzahl VK vor Abgrenzung</f:facet>
-            <!--<inek:InputNumberWithMessage value="#{item.amountVKPre}"
-                                         renderElement="vkPre vkPost"
-                                         readonly="#{editCalcBasicsPepp.readOnly}" />-->
-            <h:selectOneMenu id="costType"
-                             required="true"
-                             requiredMessage="#{msg.msgValueNeeded}"
-                             value="#{item.costType}">
-                <f:selectItem itemLabel="" itemValue=""/>
-            </h:selectOneMenu>
+            <inek:InputNumberWithMessage value="#{item.amountVKPre}"
+                                         renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 22) )}:vkPre #{component.clientId.substring(0, component.clientId.indexOf(':', 22) )}:vkPost"
+                                         readonly="#{editCalcBasicsPepp.readOnly}"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Anzahl VK nach Abgrenzung</f:facet>
             <inek:InputNumberWithMessage value="#{item.amountVKPost}"
-                                         renderElement="vkPre vkPost"
+                                         renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 22) )}:vkPre #{component.clientId.substring(0, component.clientId.indexOf(':', 22) )}:vkPost"
                                          readonly="#{editCalcBasicsPepp.readOnly}" />
         </h:column>
 
         <h:column>
             <f:facet name="header">Kostenvolumen vor Abgrenzung</f:facet>
             <inek:InputNumberWithMessage value="#{item.costAmountPre}"
-                                         renderElement="vkPre vkPost"
+                                         renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 22) )}:vkPre #{component.clientId.substring(0, component.clientId.indexOf(':', 22) )}:vkPost"
                                          readonly="#{editCalcBasicsPepp.readOnly}" />
         </h:column>
 
         <h:column>
             <f:facet name="header">Kostenvolumen nach Abgrenzung</f:facet>
             <inek:InputNumberWithMessage value="#{item.costAmountPost}"
-                                         renderElement="vkPre vkPost"
+                                         renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 22) )}:vkPre #{component.clientId.substring(0, component.clientId.indexOf(':', 22) )}:vkPost"
                                          readonly="#{editCalcBasicsPepp.readOnly}" />
         </h:column>
 
@@ -66,8 +58,7 @@
             <f:facet name="header">Je VK vor Abgrenzung</f:facet>
             <h:outputLabel id="vkPre"
                            styleClass="label"
-                           rendered="#{item.amountVKPre gt 0}"
-                           value="#{item.costAmountPre / item.amountVKPre}" >
+                           value="#{item.amountVKPre gt 0 ? item.costAmountPre / item.amountVKPre: ''}">
                 <f:convertNumber pattern="#0.00" />
             </h:outputLabel>
         </h:column>
@@ -76,8 +67,7 @@
             <f:facet name="header">Je VK nach Abgrenzung</f:facet>
             <h:outputLabel id="vkPost"
                            styleClass="label"
-                           rendered="#{item.amountVKPost gt 0}"
-                           value="#{item.costAmountPost / item.amountVKPost}" >
+                           value="#{item.amountVKPost gt 0 ? item.costAmountPost / item.amountVKPost : ''}">
                 <f:convertNumber pattern="#0.00" />
             </h:outputLabel>
         </h:column>

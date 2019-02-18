@@ -5,18 +5,12 @@
  */
 package org.inek.dataportal.calc.entities.drg;
 
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.utils.Documentation;
 import org.inek.dataportal.common.utils.IgnoreOnCompare;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  *
