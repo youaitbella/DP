@@ -109,8 +109,8 @@
                 <h:outputLabel value="Leistungsvolumen"/><br/>
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
-            <inek:InputIntegerWithMessage renderElement="#{component.namingContainer.clientId}:pointValue:text"
-                                          value="#{item.serviceVolumePre}"/>
+            <inek:InputIntegerWithMessage value="#{item.serviceVolumePre}"
+                                          renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 4))}:pointValue:text"/>
         </h:column>
 
         <h:column>
@@ -118,7 +118,8 @@
                 <h:outputLabel value="Kostenvolumen"/><br/>
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
-            <inek:InputIntegerWithMessage value="#{item.amountPre}" renderElement=":calcBasics:lab:0:pointValue:text"/>
+            <inek:InputIntegerWithMessage value="#{item.amountPre}"
+                                          renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 4))}:pointValue:text"/>
         </h:column>
 
         <h:column>
