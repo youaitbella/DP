@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("unchecked")
 public final class ObjectComparer {
 
-    private final Logger LOGGER = Logger.getLogger("ObjectUtils");
+    private static final Logger LOGGER = Logger.getLogger("ObjectUtils");
 
     public static <T> Map<String, FieldValues> getDifferences(T obj1, T obj2) {
         return getDifferences(obj1, obj2, Collections.emptyList());

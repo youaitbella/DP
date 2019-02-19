@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("unchecked")
 public final class ObjectCopier {
 
-    private final Logger LOGGER = Logger.getLogger("ObjectUtils");
+    private static final Logger LOGGER = Logger.getLogger("ObjectUtils");
 
     /**
      * Performs a deep copy of object original.
