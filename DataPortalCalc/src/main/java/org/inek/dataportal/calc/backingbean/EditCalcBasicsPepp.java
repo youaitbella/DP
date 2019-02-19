@@ -11,7 +11,8 @@ import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.ObjectUtils;
+import org.inek.dataportal.common.helper.ObjectComparer;
+import org.inek.dataportal.common.helper.ObjectCopier;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.inek.dataportal.common.helper.structures.MessageContainer;
@@ -320,7 +321,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public String saveData(boolean showSaveMessage) {
         _calcBasics.removeEmptyServiceProvisions();
 
-        if (_baseLine != null && ObjectUtils.getDifferences(_baseLine, _calcBasics, null).isEmpty()) {
+        if (_baseLine != null && ObjectComparer.getDifferences(_baseLine, _calcBasics, null).isEmpty()) {
             // nothing is changed, but we will reload the data if changed by somebody else (as indicated by a new version)
             if (_baseLine.getVersion() != _calcFacade.getCalcBasicsPsyVersion(_calcBasics.getId())) {
                 _baseLine = _calcFacade.findCalcBasicsPepp(_calcBasics.getId());
@@ -400,14 +401,13 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private Map<String, FieldValues> getDifferencesUser(PeppCalcBasics modifiedCalcBasics, List<Class> excludedTypes) {
-        Map<String, FieldValues> differencesUser = ObjectUtils.
-                getDifferences(_baseLine, modifiedCalcBasics, excludedTypes);
+        Map<String, FieldValues> differencesUser = ObjectComparer.getDifferences(_baseLine, modifiedCalcBasics, excludedTypes);
         differencesUser.remove("_statusId");
         return differencesUser;
     }
 
     private Map<String, FieldValues> getDifferencesPartner(List<Class> excludedTypes) {
-        Map<String, FieldValues> differencesPartner = ObjectUtils.getDifferences(_baseLine, _calcBasics, excludedTypes);
+        Map<String, FieldValues> differencesPartner = ObjectComparer.getDifferences(_baseLine, _calcBasics, excludedTypes);
         differencesPartner.remove("_statusId");
         differencesPartner.remove("_version");
         return differencesPartner;
@@ -424,7 +424,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             }
             FieldValues fieldValues = differencesUser.get(fieldName);
             Field field = fieldValues.getField();
-            ObjectUtils.copyFieldValue(field, modifiedCalcBasics, _calcBasics);
+            ObjectCopier.copyFieldValue(field, modifiedCalcBasics, _calcBasics);
         }
         return collisions;
     }

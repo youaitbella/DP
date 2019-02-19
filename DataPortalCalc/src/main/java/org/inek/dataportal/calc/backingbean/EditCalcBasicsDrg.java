@@ -1,23 +1,28 @@
 package org.inek.dataportal.calc.backingbean;
 
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.calc.CalcBasicsTransferFileCreator;
+import org.inek.dataportal.calc.entities.drg.*;
+import org.inek.dataportal.calc.entities.psy.KglPkmsAlternative;
+import org.inek.dataportal.calc.facades.CalcDrgFacade;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.iface.Document;
+import org.inek.dataportal.common.data.iface.BaseIdValue;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.ObjectComparer;
+import org.inek.dataportal.common.helper.ObjectCopier;
+import org.inek.dataportal.common.helper.ObjectUtils;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.helper.structures.FieldValues;
+import org.inek.dataportal.common.helper.structures.MessageContainer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+
 import javax.annotation.PostConstruct;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
@@ -28,46 +33,17 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Id;
 import javax.persistence.OptimisticLockException;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.iface.Document;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.calc.entities.drg.DrgCalcBasics;
-import org.inek.dataportal.calc.entities.drg.DrgContentText;
-import org.inek.dataportal.calc.entities.drg.DrgDelimitationFact;
-import org.inek.dataportal.calc.entities.drg.DrgHeaderText;
-import org.inek.dataportal.calc.entities.drg.DrgNeonatData;
-import org.inek.dataportal.calc.entities.drg.KGLListCentralFocus;
-import org.inek.dataportal.calc.entities.drg.KGLListCostCenter;
-import org.inek.dataportal.calc.entities.drg.KGLListCostCenterCost;
-import org.inek.dataportal.calc.entities.drg.KGLListEndoscopyAmbulant;
-import org.inek.dataportal.calc.entities.drg.KGLListEndoscopyDifferential;
-import org.inek.dataportal.calc.entities.drg.KGLListIntensivStroke;
-import org.inek.dataportal.calc.entities.drg.KGLListLocation;
-import org.inek.dataportal.calc.entities.drg.KGLListMedInfra;
-import org.inek.dataportal.calc.entities.drg.KGLListObstetricsGynecology;
-import org.inek.dataportal.calc.entities.drg.KGLListRadiologyLaboratory;
-import org.inek.dataportal.calc.entities.drg.KGLListServiceProvision;
-import org.inek.dataportal.calc.entities.drg.KGLListSpecialUnit;
-import org.inek.dataportal.calc.entities.drg.KGLNormalFeeContract;
-import org.inek.dataportal.calc.entities.drg.KGLNormalFreelancer;
-import org.inek.dataportal.calc.entities.drg.KGLNormalStationServiceDocumentationMinutes;
-import org.inek.dataportal.calc.entities.drg.KGLRadiologyService;
-import org.inek.dataportal.calc.entities.psy.KglPkmsAlternative;
-import org.inek.dataportal.common.data.iface.BaseIdValue;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.calc.facades.CalcDrgFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.helper.ObjectUtils;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.helper.structures.FieldValues;
-import org.inek.dataportal.common.helper.structures.MessageContainer;
-import org.inek.dataportal.common.utils.DocumentationUtil;
-import org.inek.dataportal.calc.CalcBasicsTransferFileCreator;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -597,14 +573,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private Map<String, FieldValues> getDifferencesUser(DrgCalcBasics modifiedCalcBasics, List<Class> excludedTypes) {
-        Map<String, FieldValues> differencesUser = ObjectUtils.
-                getDifferences(_baseLine, modifiedCalcBasics, excludedTypes);
+        Map<String, FieldValues> differencesUser = ObjectComparer.getDifferences(_baseLine, modifiedCalcBasics, excludedTypes);
         differencesUser.remove("_statusId");
         return differencesUser;
     }
 
     private Map<String, FieldValues> getDifferencesPartner(List<Class> excludedTypes) {
-        Map<String, FieldValues> differencesPartner = ObjectUtils.getDifferences(_baseLine, _calcBasics, excludedTypes);
+        Map<String, FieldValues> differencesPartner = ObjectComparer.getDifferences(_baseLine, _calcBasics, excludedTypes);
         differencesPartner.remove("_statusId");
         differencesPartner.remove("_version");
         return differencesPartner;
@@ -623,7 +598,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
             FieldValues fieldValues = differencesUser.get(fieldName);
             Field field = fieldValues.getField();
-            ObjectUtils.copyFieldValue(field, modifiedCalcBasics, _calcBasics);
+            ObjectCopier.copyFieldValue(field, modifiedCalcBasics, _calcBasics);
         }
         return collisions;
     }
