@@ -4,16 +4,14 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/feature/calc"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+>
 
-    <ui:repeat value="#{editCalcBasicsDrg.getHeaders(1)}" var="head" varStatus="status">
+    <ui:repeat id="header" value="#{editCalcBasicsDrg.getHeaders(1)}" var="head" varStatus="status">
 
-        <h:dataTable value="#{editCalcBasicsDrg.retrieveNeonatData(head.id)}" 
-                     var="data" 
+        <h:dataTable id="neo"
+                     value="#{editCalcBasicsDrg.retrieveNeonatData(head.id)}"
+                     var="data"
                      width="100%"
                      rowClasses="row1, row2"
                      columnClasses="colValue, col05em number, col05em number, col05em number"
@@ -25,27 +23,42 @@
             </h:column>
 
             <h:column>
-                <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="blockHeader"/> </f:facet>
-                <inek:InputIntegerWithMessage value="#{data.data}" styleClassComponent="col06em" rendered="#{data.contentText.decimalCount eq 0}"/>
-                <inek:InputNumberWithMessage value="#{data.data}" styleClassComponent="col06em" rendered="#{data.contentText.decimalCount gt 0}" pattern="#,##0.0"/>
+                <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}"
+                                                      styleClass="blockHeader"/> </f:facet>
+                <inek:InputIntegerWithMessage id="currentInteger"
+                                              value="#{data.data}"
+                                              styleClassComponent="col06em"
+                                              rendered="#{data.contentText.decimalCount eq 0}"
+                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 14))}:diff"/>
+                <inek:InputNumberWithMessage id="currentNumber"
+                                             value="#{data.data}"
+                                             styleClassComponent="col06em"
+                                             rendered="#{data.contentText.decimalCount gt 0}"
+                                             pattern="#,##0.0"
+                                             renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 14))}:diff"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="blockHeader"/> </f:facet>
-                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.priorData(data.contentTextId)}" disabled="true" styleClassComponent="col06em" rendered="#{data.contentText.decimalCount eq 0}"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorData(data.contentTextId)}" disabled="true" styleClassComponent="col06em" rendered="#{data.contentText.decimalCount gt 0}" pattern="#,##0.0"/>
+                <f:facet name="header"><h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"
+                                                      styleClass="blockHeader"/> </f:facet>
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.priorData(data.contentTextId)}" disabled="true"
+                                              styleClassComponent="col06em"
+                                              rendered="#{data.contentText.decimalCount eq 0}"/>
+                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorData(data.contentTextId)}" disabled="true"
+                                             styleClassComponent="col06em"
+                                             rendered="#{data.contentText.decimalCount gt 0}" pattern="#,##0.0"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="#{msg.lblDevitation}" styleClass="blockHeader"/> </f:facet>
-                <h:outputLabel id="diff" value="#{editCalcBasicsDrg.diffData(data.contentTextId)}" styleClass="col06em"/>
+                <h:outputLabel id="diff" value="#{editCalcBasicsDrg.diffData(data.contentTextId)}"
+                               styleClass="col06em"/>
             </h:column>
 
 
         </h:dataTable>
 
     </ui:repeat>
-
 
 
 </ui:composition>
