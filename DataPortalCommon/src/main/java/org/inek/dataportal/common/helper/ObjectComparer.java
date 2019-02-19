@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * @author muellermi
  */
 @SuppressWarnings("unchecked")
-public class ObjectComparer {
+public final class ObjectComparer {
 
     private final Logger LOGGER = Logger.getLogger("ObjectUtils");
 

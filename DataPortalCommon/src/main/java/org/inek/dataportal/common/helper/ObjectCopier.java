@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * @author muellermi
  */
 @SuppressWarnings("unchecked")
-public class ObjectCopier {
+public final class ObjectCopier {
 
     private final Logger LOGGER = Logger.getLogger("ObjectUtils");
 
