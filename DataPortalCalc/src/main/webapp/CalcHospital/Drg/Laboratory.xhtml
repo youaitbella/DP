@@ -86,7 +86,7 @@
 
         <h:column>
             <f:facet name="header">
-                <h:outputLabel value="Leistungsdokumentation"/>
+                <h:outputLabel value="Leistungs-dokumentation"/>
             </f:facet>
             
             <h:selectOneMenu value="#{item.service}">
@@ -134,7 +134,9 @@
             <f:facet name="header">
                 <h:outputLabel value="Punktwert"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage id="pointValue" value="#{(item.amountPre != 0 and item.serviceVolumePre != 0) ? item.amountPre / item.serviceVolumePre : 0}" readonly="true"/>
+            <inek:InputNumberWithMessage id="pointValue"
+                                         value="#{(item.amountPre != 0 and item.serviceVolumePre != 0) ? item.amountPre / item.serviceVolumePre : 0}"
+                                         disabled="true"/>
         </h:column>
 
     </h:dataTable>
