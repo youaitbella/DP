@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 public final class ObjectComparer {
 
     private static final Logger LOGGER = Logger.getLogger("ObjectUtils");
+    private Set<Object> knownObjects = new HashSet<>();
 
     public static <T> Map<String, FieldValues> getDifferences(T obj1, T obj2) {
         return getDifferences(obj1, obj2, Collections.emptyList());
@@ -59,6 +60,57 @@ public final class ObjectComparer {
 
         getDifferencesFromSuperClasses(obj1, obj2, excludedTypes, differences);
         return differences;
+    }
+
+    private <T> void getDifferencesFromSuperClasses(
+            T obj1,
+            T obj2,
+            List<Class> excludedTypes,
+            Map<String, FieldValues> differences) throws SecurityException {
+        knownObjects.add(obj1);
+
+        for (Class clazz = obj1.getClass(); !clazz.equals(Object.class); clazz = clazz.getSuperclass()) {
+            for (Field field : clazz.getDeclaredFields()) {
+                if (isFieldToIgnore(field, excludedTypes)) {
+                    continue;
+                }
+                if (!areEqualFields(field, obj1, obj2)) {
+                    try {
+                        field.setAccessible(true);
+                        FieldValues fieldValues = new FieldValues(field, field.get(obj1), field.get(obj2));
+                        differences.put(field.getName(), fieldValues);
+                    } catch (IllegalArgumentException | IllegalAccessException ex) {
+                        // won't reach this due to check within areEqualFields
+                    }
+                }
+            }
+        }
+    }
+
+    private <T> boolean areEqualFields(Field field, T obj1, T obj2) {
+
+        try {
+            field.setAccessible(true);
+            Object value1 = field.get(obj1);
+            Object value2 = field.get(obj2);
+            if (value1 == null && value2 == null) {
+                return true;
+            }
+            if (value1 == null || value2 == null) {
+                return false;
+            }
+
+            Class<?> type1 = value1.getClass();
+            Class<?> type2 = value2.getClass();
+            if (type1 != type2) {
+                return false;
+            }
+            return areEqualObjects(value1, value2);
+
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
+            LOGGER.log(Level.WARNING, "Exception during areEqualFields");
+        }
+        return false;
     }
 
     private <T> boolean areEqualObjects(T obj1, T obj2) {
@@ -115,6 +167,11 @@ public final class ObjectComparer {
     }
 
     private <T> boolean haveEqualSuperclasses(T obj1, T obj2) throws SecurityException {
+        if (knownObjects.contains(obj1)) {
+            return true;
+        }
+        knownObjects.add(obj1);
+
         for (Class clazz = obj1.getClass(); !clazz.equals(Object.class); clazz = clazz.getSuperclass()) {
             for (Field field : clazz.getDeclaredFields()) {
                 if (isFieldToIgnore(field, null)) {
@@ -128,32 +185,9 @@ public final class ObjectComparer {
         return true;
     }
 
-    private <T> void getDifferencesFromSuperClasses(
-            T obj1,
-            T obj2,
-            List<Class> excludedTypes,
-            Map<String, FieldValues> differences) throws SecurityException {
-        for (Class clazz = obj1.getClass(); !clazz.equals(Object.class); clazz = clazz.getSuperclass()) {
-            for (Field field : clazz.getDeclaredFields()) {
-                if (isFieldToIgnore(field, excludedTypes)) {
-                    continue;
-                }
-                if (!areEqualFields(field, obj1, obj2)) {
-                    try {
-                        field.setAccessible(true);
-                        FieldValues fieldValues = new FieldValues(field, field.get(obj1), field.get(obj2));
-                        differences.put(field.getName(), fieldValues);
-                    } catch (IllegalArgumentException | IllegalAccessException ex) {
-                        // won't reach this due to check within areEqualFields
-                    }
-                }
-            }
-        }
-    }
-
     private boolean isFieldToIgnore(Field field, List<Class> excludedTypes) {
         if (field.getName().startsWith("_persistence_")) {
-            // ignore fields of JPA proxy (hopefully no other start with this prefix...) 
+            // ignore fields of JPA proxy (hopefully no other start with this prefix...)
             // alternative: remember and check for all objects in object graph
             return true;
         }
@@ -193,8 +227,8 @@ public final class ObjectComparer {
         }
         for (Object item : map1.entrySet()) {
             Entry entry = (Entry) item;
-            Object key = ObjectCopier.copy(entry.getKey());
-            Object value = ObjectCopier.copy(entry.getValue());
+            Object key = entry.getKey();
+            Object value = entry.getValue();
             if (!map2.containsKey(key)) {
                 return false;
             }
@@ -205,28 +239,4 @@ public final class ObjectComparer {
         return true;
     }
 
-    private <T> boolean areEqualFields(Field field, T obj1, T obj2) {
-        try {
-            field.setAccessible(true);
-            Object value1 = field.get(obj1);
-            Object value2 = field.get(obj2);
-            if (value1 == null && value2 == null) {
-                return true;
-            }
-            if (value1 == null || value2 == null) {
-                return false;
-            }
-
-            Class<?> type1 = value1.getClass();
-            Class<?> type2 = value2.getClass();
-            if (type1 != type2) {
-                return false;
-            }
-            return areEqualObjects(value1, value2);
-
-        } catch (IllegalArgumentException | IllegalAccessException ex) {
-            LOGGER.log(Level.WARNING, "Exception during areEqualFields");
-        }
-        return false;
-    }
 }

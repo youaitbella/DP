@@ -46,6 +46,7 @@ class ObjectComparerTest {
         DummyData copy = new DummyData();
         copy.setNumber(NUMBER + 1);
         copy.setName(NAME2);
+        copy.getData().put(NUMBER, copy);
 
         Map<String, FieldValues> differences = ObjectComparer.getDifferences(original, copy);
 
