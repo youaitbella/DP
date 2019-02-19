@@ -112,11 +112,10 @@ public class CalcHospitalList {
     }
 
     public boolean isNewCalculationBasicsDrgAllowed() {
-        /*if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgCreateEnabled)) {
             return false;
         }
-        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);*/
-        return true;
+        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);
     }
 
     public String newCalculationBasicsDrg() {
@@ -124,11 +123,10 @@ public class CalcHospitalList {
     }
 
     public boolean isNewCalculationBasicsPeppAllowed() {
-        /*if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsyCreateEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsyCreateEnabled)) {
             return false;
         }
-        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);*/
-        return true;
+        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);
     }
 
     public String newCalculationBasicsPepp() {

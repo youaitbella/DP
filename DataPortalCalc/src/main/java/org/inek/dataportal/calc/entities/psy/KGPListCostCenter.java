@@ -203,7 +203,7 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
         return _costVolumeMedStaffPre;
     }
 
-    public void set_costVolumeMedStaffPre(double costVolumeMedStaffPre) {
+    public void setCostVolumeMedStaffPre(double costVolumeMedStaffPre) {
         this._costVolumeMedStaffPre = costVolumeMedStaffPre;
     }
     // </editor-fold>
