@@ -13,7 +13,7 @@ class ObjectCopierTest {
     public static final String NAME = "Name";
 
     @Test
-    void copy() {
+    void copyRetursAnObjectWithSameFieldsAndValues() {
         DummyData original = new DummyData();
         original.setNumber(NUMBER);
         original.setName(NAME);
@@ -25,19 +25,21 @@ class ObjectCopierTest {
     }
 
     @Test
-    void copyFieldValue() {
+    void copyWithCircularReferencePerformsWithoutStackOverflow() {
         DummyData original = new DummyData();
         original.setNumber(NUMBER);
         original.setName(NAME);
-        original.getData().put(NUMBER, NAME);
-        DummyData target = new DummyData();
-        // todo: ObjectCopier.copyFieldValue();
+        original.getData().put(NUMBER, original); // this caused and endless recursion / test ended with overflow
+        DummyData copy = ObjectCopier.copy(original);
+        assertThat(copy.getNumber()).isNotNull().isEqualTo(original.getNumber());
+        assertThat(copy.getName()).isNotNull().isEqualTo(original.getName());
     }
+
 
     private class DummyData {
         private int number;
         private String name;
-        private Map<Integer, String> data = new HashMap<>();
+        private Map<Integer, Object> data = new HashMap<>();
 
         public int getNumber() {
             return number;
@@ -55,11 +57,11 @@ class ObjectCopierTest {
             this.name = name;
         }
 
-        public Map<Integer, String> getData() {
+        public Map<Integer, Object> getData() {
             return data;
         }
 
-        public void setData(Map<Integer, String> data) {
+        public void setData(Map<Integer, Object> data) {
             this.data = data;
         }
     }

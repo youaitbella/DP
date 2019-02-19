@@ -3,6 +3,7 @@ package org.inek.dataportal.common.helper;
 import java.io.*;
 import java.lang.reflect.*;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 public final class ObjectCopier {
 
     private static final Logger LOGGER = Logger.getLogger("ObjectUtils");
+    private Map<Object, Object> knownObjects = new HashMap<>();
 
     /**
      * Performs a deep copy of object original.
@@ -47,10 +49,39 @@ public final class ObjectCopier {
                 break;
             }
         }
-        if (!isSerializable) {
-            return copyObject(original);
+        if (isSerializable) {
+            return streamCopy(original);
         }
+        return copyObject(original);
 
+    }
+
+    private <T> T copyObject(T source) {
+        if (source == null) {
+            return null;
+        }
+        Class<?> type = source.getClass();
+        if (type == Date.class) {
+            Date target = new Date(((Date) source).getTime());
+            return (T) target;
+        }
+        if (type.isPrimitive() || type == String.class || type == Boolean.class || type.getSuperclass() == Number.class
+                || type.getSuperclass() == Enum.class || type.getSimpleName().startsWith("XMLGregorianCalendar")) {
+            return source;
+        }
+        if (type.isArray()) {
+            Class dataType = type.getComponentType();
+            if (dataType.isPrimitive()) {
+                int len = Array.getLength(source);
+                Object target = Array.newInstance(dataType, len);
+                System.arraycopy(source, 0, target, 0, len);
+                return (T) target;
+            }
+        }
+        return copyObject(source, createTarget(source));
+    }
+
+    private <T> T streamCopy(T original) {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             try (ObjectOutputStream out = new ObjectOutputStream(bos)) {
@@ -92,31 +123,6 @@ public final class ObjectCopier {
     }
 
 
-    private <T> T copyObject(T source) {
-        if (source == null) {
-            return null;
-        }
-        Class<?> type = source.getClass();
-        if (type == Date.class) {
-            Date target = new Date(((Date) source).getTime());
-            return (T) target;
-        }
-        if (type.isPrimitive() || type == String.class || type == Boolean.class || type.getSuperclass() == Number.class
-                || type.getSuperclass() == Enum.class || type.getSimpleName().startsWith("XMLGregorianCalendar")) {
-            return source;
-        }
-        if (type.isArray()) {
-            Class dataType = type.getComponentType();
-            if (dataType.isPrimitive()) {
-                int len = Array.getLength(source);
-                Object target = Array.newInstance(dataType, len);
-                System.arraycopy(source, 0, target, 0, len);
-                return (T) target;
-            }
-        }
-        return copyObject(source, createTarget(source));
-    }
-
     /**
      * performs a deep copy from object source into target
      *
@@ -126,27 +132,35 @@ public final class ObjectCopier {
      * @return
      */
     private <T> T copyObject(T source, T target) {
-        try {
-            if (source == null || target == null) {
-                return null;
-            }
-            if (source instanceof List) {
-                return copyList(source, target);
-            }
-            if (source instanceof Map) {
-                return copyMap(source, target);
-            }
+        if (source == null || target == null) {
+            return null;
+        }
+        if (source instanceof List) {
+            return copyList(source, target);
+        }
+        if (source instanceof Map) {
+            return copyMap(source, target);
+        }
 
+        return copyFields(source, target);
+    }
+
+    private <T> T copyFields(T source, T target) {
+        if (knownObjects.containsKey(source)) {
+            return (T) knownObjects.get(source);
+        }
+        knownObjects.put(source, target);
+        try {
             for (Class clazz = source.getClass(); !clazz.equals(Object.class); clazz = clazz.getSuperclass()) {
                 for (Field field : clazz.getDeclaredFields()) {
                     performCopyFieldValue(field, source, target);
                 }
             }
+            return target;
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Error during copyObject", e);
             throw e;
         }
-        return target;
     }
 
     private <T> T copyList(T source, T target) {
