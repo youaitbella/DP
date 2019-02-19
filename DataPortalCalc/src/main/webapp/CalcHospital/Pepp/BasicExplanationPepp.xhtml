@@ -13,6 +13,7 @@
     <table cellspacing="9">
         <thead>
         <th>Bezeichnung</th>
+        <th></th>
         <th>#{editCalcBasicsPepp.calcBasics.dataYear} alle Fälle</th>
         <th>#{editCalcBasicsPepp.calcBasics.dataYear} nur Psychosomatik</th>
         <th>#{editCalcBasicsPepp.calcBasics.dataYear-1} alle Fälle</th>
@@ -23,6 +24,9 @@
         <tr>
             <td>
                 <span class="label">Summe kalkulationsrelevanter Kosten (EUR)</span>
+            </td>
+            <td>
+                <span class="label"></span>
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
@@ -75,6 +79,9 @@
         <tr>
             <td>
                 <span class="label">Erlösvolumen</span>
+            </td>
+            <td>
+                <span class="label"></span>
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
@@ -131,6 +138,9 @@
                 <span class="label">Anzahl kalkulationsrelevanter Fälle</span>
             </td>
             <td>
+                <span class="label"></span>
+            </td>
+            <td>
             </td>
             <td>
             </td>
@@ -145,7 +155,10 @@
         </tr>
         <tr>
             <td>
-                <span class="label">Fälle vollstationär</span>
+                <span class="label">vollstationär</span>
+            </td>
+            <td>
+                <span class="label">Fälle</span>
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
@@ -198,7 +211,10 @@
         </tr>
         <tr>
             <td>
-                <span class="label">Pflegetage vollstationär</span>
+                <span class="label"></span>
+            </td>
+            <td>
+                <span class="label">Berechnungstage</span>
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
@@ -249,7 +265,10 @@
         </tr>
         <tr>
             <td>
-                <span class="label">Fälle teilstationär</span>
+                <span class="label">teilstationär</span>
+            </td>
+            <td>
+                <span class="label">Fälle</span>
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
@@ -300,7 +319,10 @@
         </tr>
         <tr>
             <td>
-                <span class="label">Berechnungstage teilstationär</span>
+                <span class="label"></span>
+            </td>
+            <td>
+                <span class="label">Berechnungstage</span>
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
@@ -351,7 +373,129 @@
                 </h:panelGroup>
             </td>
         </tr>
+
+        <!---->
         <tr>
+            <td>
+                <span class="label">Stationsäquivalent</span>
+            </td>
+            <td>
+                <span class="label">Fälle</span>
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                <!--value="#{editCalcBasicsPepp.calcBasics.casePartialStationCnt}"-->
+                value="#{editCalcBasicsPepp.calcBasics.stationEquivalentCnt}"
+                required="true"
+                id="aequivalentCases"
+                renderElement="@this pDiffAequivalentStationCount :logout:remaining"
+                readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                <!--value="#{editCalcBasicsPepp.calcBasics.casePartialStationCntPsy}"-->
+                value="#{editCalcBasicsPepp.calcBasics.stationEquivalentCntPsy}"
+                required="true"
+                id="aequivalentCasesPsy"
+                renderElement="@this pDiffAequivalentStationCount :logout:remaining"
+                readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.stationEquivalentCnt}"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.stationEquivalentCntPsy}"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffAequivalentStationCount">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.stationEquivalentCnt, editCalcBasicsPepp.calcBasics.stationEquivalentCnt)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+            <td>
+                <h:panelGroup id="pDiffAequivalentStationCountPsy">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.stationEquivalentCntPsy, editCalcBasicsPepp.calcBasics.stationEquivalentCntPsy)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="label"></span>
+            </td>
+            <td>
+                <span class="label">Berechnungstage</span>
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.daysStationEquivalentCnt}"
+                                              required="true"
+                                              id="aequivalentCalcDays"
+                                              renderElement="@this pAequivalentCalcDays :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.calcBasics.daysStationEquivalentCntPsy}"
+                                              required="true"
+                                              id="aequivalentCalcDaysPsy"
+                                              renderElement="@this pAequivalentCalcDaysPsy :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.daysStationEquivalentCnt}"
+                                              id="pAequivalentCalcDays"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <inek:InputIntegerWithMessage styleClass="inputwide"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.daysStationEquivalentCntPsy}"
+                                              id="pAequivalentCalcDaysPsy"
+                                              disabled="true"
+                />
+            </td>
+            <td>
+                <h:panelGroup id="pDiffAequivalentCalcDays">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.daysStationEquivalentCnt, editCalcBasicsPepp.calcBasics.daysStationEquivalentCnt)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+            <td>
+                <h:panelGroup id="pDiffAequivalentCalcDaysPsy">
+                    <inek:InputNumberWithMessage styleClass="inputwide"
+                                                 value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.daysStationEquivalentCntPsy, editCalcBasicsPepp.calcBasics.daysStationEquivalentCntPsy)}"
+                                                 disabled="true"
+                    />
+                </h:panelGroup>
+            </td>
+        </tr>
+
+
+        <!---->
+
+
+        <tr>
+            <td>
+                <span class="label">Begleitpersonen</span>
+            </td>
             <td>
                 <span class="label">Begleitpersonen</span>
             </td>
@@ -407,6 +551,9 @@
                 <span class="label">rein vorstationär</span>
             </td>
             <td>
+                <span class="label">rein vorstationär</span>
+            </td>
+            <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.calcBasics.preStation}"
                                               required="true"
@@ -456,6 +603,9 @@
                 <span class="label">Betten (PSY-Bereich)</span>
             </td>
             <td>
+                <span class="label">Betten (PSY-Bereich)</span>
+            </td>
+            <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.calcBasics.beds}"
                                               required="true"
@@ -500,6 +650,9 @@
             </td>
         </tr>
         <tr>
+            <td>
+                <span class="label">Anzahl teilstationäre Plätze (PSY-Bereich)</span>
+            </td>
             <td>
                 <span class="label">Anzahl teilstationäre Plätze (PSY-Bereich)</span>
             </td>

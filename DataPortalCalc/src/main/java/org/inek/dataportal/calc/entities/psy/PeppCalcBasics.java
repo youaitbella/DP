@@ -1,39 +1,19 @@
 package org.inek.dataportal.calc.entities.psy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.inek.dataportal.calc.ListUtil;
+import org.inek.dataportal.common.data.iface.StatusEntity;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.Documentation;
+
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Vector;
+import java.util.*;
 import java.util.stream.Collectors;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.persistence.Version;
-import javax.validation.constraints.Size;
-import org.inek.dataportal.common.data.iface.StatusEntity;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.utils.Documentation;
-import org.inek.dataportal.calc.ListUtil;
 
 /**
  *
@@ -532,6 +512,60 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
 
     public void setOtherMethodMedInfra(String otherMethodMedInfra) {
         this._otherMethodMedInfra = otherMethodMedInfra;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property StationEquivalentCnt">
+    @Column(name = "biStationEquivalentCnt")
+    private String _stationEquivalentCnt = "";
+
+    public String getStationEquivalentCnt() {
+        return _stationEquivalentCnt;
+    }
+
+    public void setStationEquivalentCnt(String stationEquivalentCnt) {
+        this._stationEquivalentCnt = stationEquivalentCnt;
+    }
+    // </editor-fold>
+
+
+    // <editor-fold defaultstate="collapsed" desc="Property StationEquivalentCntPsy">
+    @Column(name = "biStationEquivalentCntPsy")
+    private int _stationEquivalentCntPsy;
+
+    public int getStationEquivalentCntPsy() {
+        return _stationEquivalentCntPsy;
+    }
+
+    public void setStationEquivalentCntPsy(int stationEquivalentCntPsy) {
+        this._stationEquivalentCntPsy = stationEquivalentCntPsy;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property DaysStationEquivalentCnt">
+    @Column(name = "biDaysStationEquivalentCnt")
+    private int _daysStationEquivalentCnt;
+
+    public int getDaysStationEquivalentCnt() {
+        return _daysStationEquivalentCnt;
+    }
+
+    public void setDaysStationEquivalentCnt(int daysStationEquivalentCnt) {
+        this._daysStationEquivalentCnt = daysStationEquivalentCnt;
+    }
+    // </editor-fold>
+
+
+    // <editor-fold defaultstate="collapsed" desc="Property DaysStationEquivalentCntPsy">
+    @Column(name = "biDaysStationEquivalentCntPsy")
+    private int _daysStationEquivalentCntPsy;
+
+    public int getDaysStationEquivalentCntPsy() {
+        return _daysStationEquivalentCntPsy;
+    }
+
+    public void setDaysStationEquivalentCntPsy(int daysStationEquivalentCntPsy) {
+        this._daysStationEquivalentCntPsy = daysStationEquivalentCntPsy;
     }
     // </editor-fold>
 
