@@ -34,7 +34,8 @@
             <h:outputLabel styleClass="label" value="#{item.serviceProvisionType.text}" rendered="#{item.serviceProvisionTypeId ge 0}"/>
             <inek:InputTextWithMessage styleClassComponent="element100" 
                                        styleClass="element100" 
-                                       value="#{item.domain}" 
+                                       value="#{item.domain}"
+                                       renderElement="@form"
                                        required="true"
                                        rendered="#{item.serviceProvisionTypeId lt 0}"/>
         </h:column>
@@ -46,10 +47,8 @@
                              requiredMessage="#{msg.msgValueNeeded}"
                              title="Bei Teilweise Fremdvergabe: Bitte benennen Sie den teilweise fremdvergebenen Bereich sowie dessen Anteil an der Erbringung in diesem Bereich."
                              disabled="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
-                             value="#{item.providedTypeId}" 
-                             hideNoSelectionOption="true" >
-                <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{0}" noSelectionOption="true"/>
-                <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{1}"/>
+                             value="#{item.providedTypeId}">
+                <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{1}" />
                 <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
                 <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{3}"/>
                 <f:ajax event="change" render="@all :logout:remaining msgLevel"/>

@@ -110,7 +110,7 @@ public class KGLListServiceProvision implements Serializable, BaseIdValue {
 //    @ManyToOne(optional = false)
     @Column(name = "spProvidedTypeId")
     //@Documentation(name = "Erbringungsart", rank = 40)
-    private int _providedTypeId;
+    private int _providedTypeId = 1;
 
     public int getProvidedTypeId() {
         return _providedTypeId;
