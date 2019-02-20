@@ -18,12 +18,12 @@
 <!-- IMPLEMENTATION -->
 <cc:implementation>
     <div class="container">
-        <h:dataTable
-                value="#{cc.attrs.backingBean.calcBasics.costCenters.stream().filter(c -> c.costCenterId == cc.attrs.costCenterId).toList()}"
-                var="item"
-                styleClass="marginTop" width="100%"
-                columnClasses="colIcon, col05em, colValue, col05em number, col05em number, colValue, colValue, col05em number, col05em number"
-                rowClasses="row1, row2">
+        <h:dataTable id="cost"
+                     value="#{cc.attrs.backingBean.calcBasics.costCenters.stream().filter(c -> c.costCenterId == cc.attrs.costCenterId).toList()}"
+                     var="item"
+                     styleClass="marginTop" width="100%"
+                     columnClasses="colIcon, col05em, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, colValue, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                     rowClasses="row1, row2">
 
             <h:column>
                 <f:facet name="header">
@@ -70,16 +70,21 @@
                 <f:facet name="header">
                     <h:outputLabel value="Kosten-volumen ÄD vor Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeMedStaffPre}"
-                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                <inek:InputNumberWithMessage id="medPre" styleClass="element100" value="#{item.costVolumeMedStaffPre}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             renderElement="#{component.clientId.substring(0, component.clientId.indexOf('medPre'))}resultMedPre:text"
+                                             pattern="#0.00"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:outputLabel value="Kosten-volumen ÄD nach Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeMedStaffAfter}"
-                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                <inek:InputNumberWithMessage id="medAfter" styleClass="element100"
+                                             value="#{item.costVolumeMedStaffAfter}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             renderElement="#{component.clientId.substring(0, component.clientId.indexOf('medAfter'))}resultMedAfter:text"
+                                             pattern="#0.00"/>
             </h:column>
 
             <h:column>
@@ -102,7 +107,9 @@
                 <f:facet name="header">
                     <h:outputLabel value="Kosten-volumen PD vor Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeCareServicePre}"
+                <inek:InputNumberWithMessage id="carePre" styleClass="element100"
+                                             value="#{item.costVolumeCareServicePre}"
+                                             renderElement="#{component.clientId.substring(0, component.clientId.indexOf('carePre'))}resultCarePre:text"
                                              readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
@@ -110,7 +117,9 @@
                 <f:facet name="header">
                     <h:outputLabel value="Kosten-volumen PD nach Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeCareServiceAfter}"
+                <inek:InputNumberWithMessage id="careAfter" styleClass="element100"
+                                             value="#{item.costVolumeCareServiceAfter}"
+                                             renderElement="#{component.clientId.substring(0, component.clientId.indexOf('careAfter'))}resultCareAfter:text"
                                              readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
@@ -134,7 +143,9 @@
                 <f:facet name="header">
                     <h:outputLabel value="Kosten-volumen FD vor Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeFunctionalServicePre}"
+                <inek:InputNumberWithMessage id="funcPre" styleClass="element100"
+                                             value="#{item.costVolumeFunctionalServicePre}"
+                                             renderElement="#{component.clientId.substring(0, component.clientId.indexOf('funcPre'))}resultFuncPre:text"
                                              readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
@@ -142,7 +153,9 @@
                 <f:facet name="header">
                     <h:outputLabel value="Kosten-volumen FD nach Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeFunctionalServiceAfter}"
+                <inek:InputNumberWithMessage id="funcAfter" styleClass="element100"
+                                             value="#{item.costVolumeFunctionalServiceAfter}"
+                                             renderElement="#{component.clientId.substring(0, component.clientId.indexOf('funcAfter'))}resultFuncAfter:text"
                                              readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
@@ -161,14 +174,61 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Sum. LE" title="Summe der Leistungseinheiten"/></f:facet>
-                <inek:InputIntegerWithMessage styleClass="element100" value="#{item.serviceSum}" renderElement="@form"
+                <inek:InputIntegerWithMessage id="sumLE" styleClass="element100"
+                                              value="#{item.serviceSum}"
+                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('sumLE'))}resultMedPre:text
+                                                             #{component.clientId.substring(0, component.clientId.indexOf('sumLE'))}resultMedAfter:text
+                                                             #{component.clientId.substring(0, component.clientId.indexOf('sumLE'))}resultCarePre:text
+                                                             #{component.clientId.substring(0, component.clientId.indexOf('sumLE'))}resultCareAfter:text
+                                                             #{component.clientId.substring(0, component.clientId.indexOf('sumLE'))}resultFuncPre:text
+                                                             #{component.clientId.substring(0, component.clientId.indexOf('sumLE'))}resultFuncAfter:text"
                                               readonly="#{cc.attrs.backingBean.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kost/LE ÄD vor"
                                                       title="Kostensatz je Leistungseinheiten"/></f:facet>
-                <inek:InputNumberWithMessage id="resultMed" value="#{item.costVolumeMedStaffPre / item.serviceSum}"
+                <inek:InputNumberWithMessage id="resultMedPre" value="#{item.costVolumeMedStaffPre / item.serviceSum}"
+                                             disabled="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kost/LE ÄD nach"
+                                                      title="Kostensatz je Leistungseinheiten"/></f:facet>
+                <inek:InputNumberWithMessage id="resultMedAfter"
+                                             value="#{item.costVolumeMedStaffAfter / item.serviceSum}"
+                                             disabled="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kost/LE PD vor"
+                                                      title="Kostensatz je Leistungseinheiten"/></f:facet>
+                <inek:InputNumberWithMessage id="resultCarePre"
+                                             value="#{item.costVolumeCareServicePre / item.serviceSum}"
+                                             disabled="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kost/LE PD nach"
+                                                      title="Kostensatz je Leistungseinheiten"/></f:facet>
+                <inek:InputNumberWithMessage id="resultCareAfter"
+                                             value="#{item.costVolumeCareServiceAfter / item.serviceSum}"
+                                             disabled="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kost/LE FD vor"
+                                                      title="Kostensatz je Leistungseinheiten"/></f:facet>
+                <inek:InputNumberWithMessage id="resultFuncPre"
+                                             value="#{item.costVolumeFunctionalServicePre / item.serviceSum}"
+                                             disabled="true"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kost/LE FD nach"
+                                                      title="Kostensatz je Leistungseinheiten"/></f:facet>
+                <inek:InputNumberWithMessage id="resultFuncAfter"
+                                             value="#{item.costVolumeFunctionalServiceAfter / item.serviceSum}"
                                              disabled="true"/>
             </h:column>
 
