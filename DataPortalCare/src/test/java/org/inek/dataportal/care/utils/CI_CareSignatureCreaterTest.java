@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-class CareSignatureCreaterTest {
+class CI_CareSignatureCreaterTest {
 
     @Test
     void createSignatureTest() {
