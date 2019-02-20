@@ -7,126 +7,180 @@
       xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <!-- INTERFACE -->
-    <cc:interface>
-        <cc:attribute name="costCenterId"/>
-        <cc:attribute name="importerName"/>
-        <cc:attribute name="backingBean"/> <!-- class="org.inek.dataportal.feature.calculationhospital.EditCalcBasicsDrg" might be Pepp, too -->
-    </cc:interface>
+<!-- INTERFACE -->
+<cc:interface>
+    <cc:attribute name="costCenterId"/>
+    <cc:attribute name="importerName"/>
+    <cc:attribute
+            name="backingBean"/> <!-- class="org.inek.dataportal.feature.calculationhospital.EditCalcBasicsDrg" might be Pepp, too -->
+</cc:interface>
 
-    <!-- IMPLEMENTATION -->
-    <cc:implementation>
-        <h:dataTable value="#{cc.attrs.backingBean.calcBasics.costCenters.stream().filter(c -> c.costCenterId == cc.attrs.costCenterId).toList()}" var="item"
-                     styleClass="marginTop" width="100%"
-                     columnClasses="colIcon, col05em, colValue, col05em number, col05em number, colValue, colValue, col05em number, col05em number" rowClasses="row1, row2">
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+    <div class="container">
+        <h:dataTable
+                value="#{cc.attrs.backingBean.calcBasics.costCenters.stream().filter(c -> c.costCenterId == cc.attrs.costCenterId).toList()}"
+                var="item"
+                styleClass="marginTop" width="100%"
+                columnClasses="colIcon, col05em, colValue, col05em number, col05em number, colValue, colValue, col05em number, col05em number"
+                rowClasses="row1, row2">
 
             <h:column>
                 <f:facet name="header">
-                    <h:graphicImage alt="" name="Icon/small/information.png" title="Platzieren Sie den Mauszeiger auf eine Spaltenüberschrift, um zusätzliche Informationen zu erhalten."/>
+                    <h:graphicImage alt="" name="Icon/small/information.png"
+                                    title="Platzieren Sie den Mauszeiger auf eine Spaltenüberschrift, um zusätzliche Informationen zu erhalten."/>
                 </f:facet>
-                <h:commandLink action="#{cc.attrs.backingBean.deleteCostCenter(item)}" immediate="true" rendered="#{!cc.attrs.backingBean.readOnly}">
-                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <h:commandLink action="#{cc.attrs.backingBean.deleteCostCenter(item)}" immediate="true"
+                               rendered="#{!cc.attrs.backingBean.readOnly}">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                    value=""/>
                     <cb:confirmDelete/>
                 </h:commandLink>
             </h:column>
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Nummer" title="Nummer der Kostenstelle"/></f:facet>
-                <inek:InputTextWithMessage styleClass="element100" value="#{item.costCenterNumber}" readonly="#{cc.attrs.backingBean.readOnly}"/>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.costCenterNumber}"
+                                           readonly="#{cc.attrs.backingBean.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Bezeichnung" title="Name der Kostenstelle"/></f:facet>
-                <inek:InputTextWithMessage styleClass="element100" value="#{item.costCenterText}" readonly="#{cc.attrs.backingBean.readOnly}"/>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.costCenterText}"
+                                           readonly="#{cc.attrs.backingBean.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Anzahl VK ÄD vor Abgrenzung"/>
+                    <h:outputLabel value="Anzahl VK ÄD vor Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countMedStaffPre}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countMedStaffPre}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Anzahl VK ÄD nach Abgrenzung"/>
+                    <h:outputLabel value="Anzahl VK ÄD nach Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countMedStaffAfter}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countMedStaffAfter}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Kostenvolumen ÄD vor Abgrenzung"/>
+                    <h:outputLabel value="Kosten-volumen ÄD vor Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeMedStaffPre}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeMedStaffPre}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Kostenvolumen ÄD Nach Abgrenzung"/>
+                    <h:outputLabel value="Kosten-volumen ÄD nach Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeMedStaffAfter}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeMedStaffAfter}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Anzahl VK FD vor Abgrenzung"/>
+                    <h:outputLabel value="Anzahl VK PD vor Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countFunctionalServicePre}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countCareServicePre}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Anzahl VK FD nach Abgrenzung"/>
+                    <h:outputLabel value="Anzahl VK PD nach Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countFunctionalServiceAfter}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countCareServiceAfter}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Kostenvolumen FD vor Abgrenzung"/>
+                    <h:outputLabel value="Kosten-volumen PD vor Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeFunctionalServicePre}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeCareServicePre}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Kostenvolumen FD nach Abgrenzung"/>
+                    <h:outputLabel value="Kosten-volumen PD nach Ab-grenzung"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeFunctionalServiceAfter}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeCareServiceAfter}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Anzahl VK FD vor Ab-grenzung"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countFunctionalServicePre}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Anzahl VK FD nach Ab-grenzung"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.countFunctionalServiceAfter}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kosten-volumen FD vor Ab-grenzung"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeFunctionalServicePre}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kosten-volumen FD nach Ab-grenzung"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.costVolumeFunctionalServiceAfter}"
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Leistungsschlüssel" title="Leistungsschlüssel"/></f:facet>
-                <inek:InputTextWithMessage styleClass="element100" value="#{item.serviceKey}" readonly="#{cc.attrs.backingBean.readOnly}"/>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.serviceKey}"
+                                           readonly="#{cc.attrs.backingBean.readOnly}"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header"><h:outputLabel value="Beschreibung" title="Beschreibung, falls Leistungsschlüssel abweichend vom Kalkulationshandbuch, Version 4.0"/></f:facet>
-                <inek:InputTextWithMessage styleClass="element100" value="#{item.serviceKeyDescription}" readonly="#{cc.attrs.backingBean.readOnly}"/>
+                <f:facet name="header"><h:outputLabel value="Beschreibung"
+                                                      title="Beschreibung, falls Leistungsschlüssel abweichend vom Kalkulationshandbuch, Version 4.0"/></f:facet>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.serviceKeyDescription}"
+                                           readonly="#{cc.attrs.backingBean.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Sum. LE" title="Summe der Leistungseinheiten"/></f:facet>
-                <inek:InputIntegerWithMessage styleClass="element100" value="#{item.serviceSum}" renderElement="@form" readonly="#{cc.attrs.backingBean.readOnly}"/>
+                <inek:InputIntegerWithMessage styleClass="element100" value="#{item.serviceSum}" renderElement="@form"
+                                              readonly="#{cc.attrs.backingBean.readOnly}"/>
             </h:column>
 
             <h:column>
-                <f:facet name="header"><h:outputLabel value="Kost/LE" title="Kostensatz je Leistungseinheiten"/></f:facet>
-                <h:panelGroup id="result">
-                    <inek:InputNumberWithMessage value="#{item.amount / item.serviceSum}" disabled="true"/>
-                </h:panelGroup>
+                <f:facet name="header"><h:outputLabel value="Kost/LE ÄD vor"
+                                                      title="Kostensatz je Leistungseinheiten"/></f:facet>
+                <inek:InputNumberWithMessage id="resultMed" value="#{item.costVolumeMedStaffPre / item.serviceSum}"
+                                             disabled="true"/>
             </h:column>
 
         </h:dataTable>
+    </div>
+    <inek:UploadButtons importer="#{cc.attrs.backingBean.getImporter(cc.attrs.importerName)}"
+                        calcbase="#{cc.attrs.backingBean.calcBasics}"
+                        readOnly="#{cc.attrs.backingBean.readOnly}"
+                        addListener="#{cc.attrs.backingBean.addCostCenter(cc.attrs.costCenterId)}"
+                        uploadButtonText="Upload KStGr. #{cc.attrs.costCenterId}"
+                        actionDeleteTable="#{cc.attrs.backingBean.deleteCostCenters(cc.attrs.costCenterId)}"
+    />
 
-        <inek:UploadButtons importer="#{cc.attrs.backingBean.getImporter(cc.attrs.importerName)}"
-                            calcbase="#{cc.attrs.backingBean.calcBasics}"
-                            readOnly="#{cc.attrs.backingBean.readOnly}"
-                            addListener="#{cc.attrs.backingBean.addCostCenter(cc.attrs.costCenterId)}"
-                            uploadButtonText="Upload KStGr. #{cc.attrs.costCenterId}"
-                            actionDeleteTable="#{cc.attrs.backingBean.deleteCostCenters(cc.attrs.costCenterId)}"
-                            />
-
-    </cc:implementation>
+</cc:implementation>
 </html>
