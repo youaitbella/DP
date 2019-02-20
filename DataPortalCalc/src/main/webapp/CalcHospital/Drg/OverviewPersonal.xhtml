@@ -24,28 +24,28 @@
         <h:column>
             <f:facet name="header">Anzahl VK vor Abgrenzung</f:facet>
             <inek:InputNumberWithMessage value="#{item.amountVKPre}"
-                                         renderElement="vkPre vkPost"
+                                         renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 6))}:vkPre #{component.clientId.substring(0, component.clientId.indexOf(':', 6))}:vkPost"
                                          readonly="#{editCalcBasicsDrg.readOnly}" />
         </h:column>
 
         <h:column>
             <f:facet name="header">Anzahl VK nach Abgrenzung</f:facet>
             <inek:InputNumberWithMessage value="#{item.amountVKPost}"
-                                         renderElement="vkPre vkPost"
+                                         renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 6))}:vkPre #{component.clientId.substring(0, component.clientId.indexOf(':', 6))}:vkPost"
                                          readonly="#{editCalcBasicsDrg.readOnly}" />
         </h:column>
 
         <h:column>
             <f:facet name="header">Kostenvolumen vor Abgrenzung</f:facet>
             <inek:InputNumberWithMessage value="#{item.costAmountPre}"
-                                         renderElement="vkPre vkPost"
+                                         renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 6))}:vkPre #{component.clientId.substring(0, component.clientId.indexOf(':', 6))}:vkPost"
                                          readonly="#{editCalcBasicsDrg.readOnly}" />
         </h:column>
 
         <h:column>
             <f:facet name="header">Kostenvolumen nach Abgrenzung</f:facet>
             <inek:InputNumberWithMessage value="#{item.costAmountPost}"
-                                         renderElement="vkPre vkPost"
+                                         renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 6))}:vkPre #{component.clientId.substring(0, component.clientId.indexOf(':', 6))}:vkPost"
                                          readonly="#{editCalcBasicsDrg.readOnly}" />
         </h:column>
 
@@ -53,8 +53,7 @@
             <f:facet name="header">Je VK vor Abgrenzung</f:facet>
             <h:outputLabel id="vkPre"
                            styleClass="label"
-                           rendered="#{item.amountVKPre gt 0}"
-                           value="#{item.costAmountPre / item.amountVKPre}" >
+                           value="#{item.amountVKPre gt 0 ? item.costAmountPre / item.amountVKPre : 0}" >
                 <f:convertNumber pattern="#0.00" />
             </h:outputLabel>
         </h:column>
@@ -63,8 +62,7 @@
             <f:facet name="header">Je VK nach Abgrenzung</f:facet>
             <h:outputLabel id="vkPost"
                            styleClass="label"
-                           rendered="#{item.amountVKPost gt 0}"
-                           value="#{item.costAmountPost / item.amountVKPost}" >
+                           value="#{item.amountVKPost gt 0 ? item.costAmountPost / item.amountVKPost : 0}" >
                 <f:convertNumber pattern="#0.00" />
             </h:outputLabel>
         </h:column>
