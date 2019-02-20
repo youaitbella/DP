@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "KGPListCostCenter", schema = "calc")
+@SuppressWarnings("JavaNCSS")
 public class KGPListCostCenter implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
