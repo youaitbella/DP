@@ -1,32 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.calc.entities.drg;
 
-import java.io.Serializable;
-import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.utils.Documentation;
 
-/**
- *
- * @author kunkelan
- */
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+
 @Entity
 @Table(name = "KGLListCostCenter", schema = "calc")
 public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
+
+    public KGLListCostCenter() {
+    }
+
+    public KGLListCostCenter(Integer ccID) {
+        this._id = ccID;
+    }
+
+    public KGLListCostCenter(int baseInformationId, int costCenterId) {
+        _baseInformationId = baseInformationId;
+        _costCenterId = costCenterId;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
@@ -184,43 +182,6 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="ccCountMedStaffPre">
     @Column(name = "ccCountMedStaffPre")
     private double _countMedStaffPre;
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="ccCountMedStaffAfter">
-    @Column(name = "ccCountMedStaffAfter")
-    private double _countMedStaffAfter;
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeMedStaffPre">
-    @Column(name = "ccCostVolumeMedStaffPre")
-    private double _costVolumeMedStaffPre;
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeMedStaffAfter">
-    @Column(name = "ccCostVolumeMedStaffAfter")
-    private double _costVolumeMedStaffAfter;
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="ccCountFunctionalServicePre">
-    @Column(name = "ccCountFunctionalServicePre")
-    private double _countFunctionalServicePre;
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="ccCountFunctionalServiceAfter">
-    @Column(name = "ccCountFunctionalServiceAfter")
-    private double _countFunctionalServiceAfter;
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeFunctionalServicePre">
-    @Column(name = "ccCostVolumeFunctionalServicePre")
-    private double _costVolumeFunctionalServicePre;
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeFunctionalServiceAfter">
-    @Column(name = "ccCostVolumeFunctionalServiceAfter")
-    private double _costVolumeFunctionalServiceAfter;
-    // </editor-fold>
-
 
     public double getCountMedStaffPre() {
         return _countMedStaffPre;
@@ -229,6 +190,11 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
     public void setCountMedStaffPre(double countMedStaffPre) {
         this._countMedStaffPre = countMedStaffPre;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCountMedStaffAfter">
+    @Column(name = "ccCountMedStaffAfter")
+    private double _countMedStaffAfter;
 
     public double getCountMedStaffAfter() {
         return _countMedStaffAfter;
@@ -237,6 +203,11 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
     public void setCountMedStaffAfter(double countMedStaffAfter) {
         this._countMedStaffAfter = countMedStaffAfter;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeMedStaffPre">
+    @Column(name = "ccCostVolumeMedStaffPre")
+    private double _costVolumeMedStaffPre;
 
     public double getCostVolumeMedStaffPre() {
         return _costVolumeMedStaffPre;
@@ -245,6 +216,11 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
     public void setCostVolumeMedStaffPre(double costVolumeMedStaffPre) {
         this._costVolumeMedStaffPre = costVolumeMedStaffPre;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeMedStaffAfter">
+    @Column(name = "ccCostVolumeMedStaffAfter")
+    private double _costVolumeMedStaffAfter;
 
     public double getCostVolumeMedStaffAfter() {
         return _costVolumeMedStaffAfter;
@@ -253,6 +229,63 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
     public void setCostVolumeMedStaffAfter(double costVolumeMedStaffAfter) {
         this._costVolumeMedStaffAfter = costVolumeMedStaffAfter;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCountCareServicePre">
+    @Column(name = "ccCountCareServicePre")
+    private double _countCareServicePre;
+
+    public double getCountCareServicePre() {
+        return _countCareServicePre;
+    }
+
+    public void setCountCareServicePre(double countCareServicePre) {
+        this._countCareServicePre = countCareServicePre;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCountCareServiceAfter">
+    @Column(name = "ccCountCareServiceAfter")
+    private double _countCareServiceAfter;
+
+    public double getCountCareServiceAfter() {
+        return _countCareServiceAfter;
+    }
+
+    public void setCountCareServiceAfter(double countCareServiceAfter) {
+        this._countCareServiceAfter = countCareServiceAfter;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeCareServicePre">
+    @Column(name = "ccCostVolumeCareServicePre")
+    private double _costVolumeCareServicePre;
+
+    public double getCostVolumeCareServicePre() {
+        return _costVolumeCareServicePre;
+    }
+
+    public void setCostVolumeCareServicePre(double costVolumeCareServicePre) {
+        this._costVolumeCareServicePre = costVolumeCareServicePre;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeCareServiceAfter">
+    @Column(name = "ccCostVolumeCareServiceAfter")
+    private double _costVolumeCareServiceAfter;
+
+    public double getCostVolumeCareServiceAfter() {
+        return _costVolumeCareServiceAfter;
+    }
+
+    public void setCostVolumeCareServiceAfter(double costVolumeCareServiceAfter) {
+        this._costVolumeCareServiceAfter = costVolumeCareServiceAfter;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCountFunctionalServicePre">
+    @Column(name = "ccCountFunctionalServicePre")
+    private double _countFunctionalServicePre;
 
     public double getCountFunctionalServicePre() {
         return _countFunctionalServicePre;
@@ -261,6 +294,11 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
     public void setCountFunctionalServicePre(double countFunctionalServicePre) {
         this._countFunctionalServicePre = countFunctionalServicePre;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCountFunctionalServiceAfter">
+    @Column(name = "ccCountFunctionalServiceAfter")
+    private double _countFunctionalServiceAfter;
 
     public double getCountFunctionalServiceAfter() {
         return _countFunctionalServiceAfter;
@@ -269,6 +307,11 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
     public void setCountFunctionalServiceAfter(double countFunctionalServiceAfter) {
         this._countFunctionalServiceAfter = countFunctionalServiceAfter;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeFunctionalServicePre">
+    @Column(name = "ccCostVolumeFunctionalServicePre")
+    private double _costVolumeFunctionalServicePre;
 
     public double getCostVolumeFunctionalServicePre() {
         return _costVolumeFunctionalServicePre;
@@ -276,7 +319,11 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     public void setCostVolumeFunctionalServicePre(double costVolumeFunctionalServicePre) {
         this._costVolumeFunctionalServicePre = costVolumeFunctionalServicePre;
-    }
+    }    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeFunctionalServiceAfter">
+    @Column(name = "ccCostVolumeFunctionalServiceAfter")
+    private double _costVolumeFunctionalServiceAfter;
 
     public double getCostVolumeFunctionalServiceAfter() {
         return _costVolumeFunctionalServiceAfter;
@@ -285,86 +332,46 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
     public void setCostVolumeFunctionalServiceAfter(double costVolumeFunctionalServiceAfter) {
         this._costVolumeFunctionalServiceAfter = costVolumeFunctionalServiceAfter;
     }
-
-    public KGLListCostCenter() {
-    }
-
-    public KGLListCostCenter(Integer ccID) {
-        this._id = ccID;
-    }
-
-    public KGLListCostCenter(int baseInformationId, int costCenterId) {
-        _baseInformationId = baseInformationId;
-        _costCenterId = costCenterId;
-    }
+    // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + this._id;
-
-        if (this._id != -1) {
-            return hash;
-        }
-
-        hash = 71 * hash + this._costCenterId;
-        hash = 71 * hash + Objects.hashCode(this._costCenterText);
-        hash = 71 * hash + (int) (Double.doubleToLongBits(this._amount) ^ (Double.doubleToLongBits(this._amount) >>> 32));
-        hash = 71 * hash + (int) (Double.doubleToLongBits(this._fullVigorCnt) ^ (Double.doubleToLongBits(this._fullVigorCnt) >>> 32));
-        hash = 71 * hash + Objects.hashCode(this._serviceKey);
-        hash = 71 * hash + Objects.hashCode(this._serviceKeyDescription);
-        hash = 71 * hash + (int) (Double.doubleToLongBits(this._serviceSum) ^ (Double.doubleToLongBits(this._serviceSum) >>> 32));
-        hash = 71 * hash + this._baseInformationId;
-        return hash;
+        return 2441;
     }
 
     @Override
     @SuppressWarnings("CyclomaticComplexity")
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final KGLListCostCenter other = (KGLListCostCenter) obj;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        if (this._id != -1 && this._id == other._id) {
-            return true;
-        }
+        KGLListCostCenter that = (KGLListCostCenter) o;
 
-        if (this._id != other._id) {
+        if (_id != that._id) return false;
+        if (_id > 0 && _id == that._id) return true;
+        if (_costCenterId != that._costCenterId) return false;
+        if (_amount != that._amount) return false;
+        if (Double.compare(that._fullVigorCnt, _fullVigorCnt) != 0) return false;
+        if (Double.compare(that._serviceSum, _serviceSum) != 0) return false;
+        if (_baseInformationId != that._baseInformationId) return false;
+        if (Double.compare(that._countMedStaffPre, _countMedStaffPre) != 0) return false;
+        if (Double.compare(that._countMedStaffAfter, _countMedStaffAfter) != 0) return false;
+        if (Double.compare(that._costVolumeMedStaffPre, _costVolumeMedStaffPre) != 0) return false;
+        if (Double.compare(that._costVolumeMedStaffAfter, _costVolumeMedStaffAfter) != 0) return false;
+        if (Double.compare(that._countCareServicePre, _countCareServicePre) != 0) return false;
+        if (Double.compare(that._countCareServiceAfter, _countCareServiceAfter) != 0) return false;
+        if (Double.compare(that._costVolumeCareServicePre, _costVolumeCareServicePre) != 0) return false;
+        if (Double.compare(that._costVolumeCareServiceAfter, _costVolumeCareServiceAfter) != 0) return false;
+        if (Double.compare(that._countFunctionalServicePre, _countFunctionalServicePre) != 0) return false;
+        if (Double.compare(that._countFunctionalServiceAfter, _countFunctionalServiceAfter) != 0) return false;
+        if (Double.compare(that._costVolumeFunctionalServicePre, _costVolumeFunctionalServicePre) != 0) return false;
+        if (Double.compare(that._costVolumeFunctionalServiceAfter, _costVolumeFunctionalServiceAfter) != 0)
             return false;
-        }
-        if (this._costCenterId != other._costCenterId) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this._amount) != Double.doubleToLongBits(other._amount)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this._fullVigorCnt) != Double.doubleToLongBits(other._fullVigorCnt)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this._serviceSum) != Double.doubleToLongBits(other._serviceSum)) {
-            return false;
-        }
-        if (this._baseInformationId != other._baseInformationId) {
-            return false;
-        }
-        if (!Objects.equals(this._costCenterText, other._costCenterText)) {
-            return false;
-        }
-        if (!Objects.equals(this._serviceKey, other._serviceKey)) {
-            return false;
-        }
-        if (!Objects.equals(this._serviceKeyDescription, other._serviceKeyDescription)) {
-            return false;
-        }
-        return true;
+        if (!_costCenterNumber.equals(that._costCenterNumber)) return false;
+        if (!_costCenterText.equals(that._costCenterText)) return false;
+        if (!_serviceKey.equals(that._serviceKey)) return false;
+        return _serviceKeyDescription.equals(that._serviceKeyDescription);
     }
 
     @Override
@@ -387,6 +394,10 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
         this._countMedStaffAfter = item._countMedStaffAfter;
         this._costVolumeMedStaffPre = item._costVolumeMedStaffPre;
         this._costVolumeMedStaffAfter = item._costVolumeMedStaffAfter;
+        this._countCareServicePre = item._countCareServicePre;
+        this._countCareServiceAfter = item._countCareServiceAfter;
+        this._costVolumeCareServicePre = item._costVolumeCareServicePre;
+        this._costVolumeCareServiceAfter = item._costVolumeCareServiceAfter;
         this._countFunctionalServicePre = item._countFunctionalServicePre;
         this._countFunctionalServiceAfter = item._countFunctionalServiceAfter;
         this._costVolumeFunctionalServicePre = item._costVolumeFunctionalServicePre;

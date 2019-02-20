@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.calc.entities.psy;
 
 import org.inek.dataportal.common.data.iface.BaseIdValue;
@@ -11,17 +6,24 @@ import org.inek.dataportal.common.utils.Documentation;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Objects;
 
-/**
- *
- * @author kunkelan
- */
 @Entity
 @Table(name = "KGPListCostCenter", schema = "calc")
 public class KGPListCostCenter implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
+
+    public KGPListCostCenter() {
+    }
+
+    public KGPListCostCenter(Integer ccID) {
+        this._id = ccID;
+    }
+
+    public KGPListCostCenter(int baseInformationId, int costCenterId) {
+        _baseInformationId = baseInformationId;
+        _costCenterId = costCenterId;
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Property id">
     @Id
@@ -221,6 +223,58 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="ccCountCareServicePre">
+    @Column(name = "ccCountCareServicePre")
+    private double _countCareServicePre;
+
+    public double getCountCareServicePre() {
+        return _countCareServicePre;
+    }
+
+    public void setCountCareServicePre(double countCareServicePre) {
+        this._countCareServicePre = countCareServicePre;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCountCareServiceAfter">
+    @Column(name = "ccCountCareServiceAfter")
+    private double _countCareServiceAfter;
+
+    public double getCountCareServiceAfter() {
+        return _countCareServiceAfter;
+    }
+
+    public void setCountCareServiceAfter(double countCareServiceAfter) {
+        this._countCareServiceAfter = countCareServiceAfter;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeCareServicePre">
+    @Column(name = "ccCostVolumeCareServicePre")
+    private double _costVolumeCareServicePre;
+
+    public double getCostVolumeCareServicePre() {
+        return _costVolumeCareServicePre;
+    }
+
+    public void setCostVolumeCareServicePre(double costVolumeCareServicePre) {
+        this._costVolumeCareServicePre = costVolumeCareServicePre;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ccCostVolumeCareServiceAfter">
+    @Column(name = "ccCostVolumeCareServiceAfter")
+    private double _costVolumeCareServiceAfter;
+
+    public double getCostVolumeCareServiceAfter() {
+        return _costVolumeCareServiceAfter;
+    }
+
+    public void setCostVolumeCareServiceAfter(double costVolumeCareServiceAfter) {
+        this._costVolumeCareServiceAfter = costVolumeCareServiceAfter;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="ccCountFunctionalServicePre">
     @Column(name = "ccCountFunctionalServicePre")
     private double _countFunctionalServicePre;
@@ -273,103 +327,44 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
-    public KGPListCostCenter() {
-    }
-
-    public KGPListCostCenter(Integer ccID) {
-        this._id = ccID;
-    }
-
-    public KGPListCostCenter(int baseInformationId, int costCenterId) {
-        _baseInformationId = baseInformationId;
-        _costCenterId = costCenterId;
-    }
-
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + this._id;
-        if (this._id != -1) {
-            return hash;
-        }
-        hash = 79 * hash + this._costCenterId;
-        hash = 79 * hash +_costCenterNumber.hashCode();
-        hash = 79 * hash + Objects.hashCode(this._costCenterText);
-        hash = 79 * hash + this._amount;
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._fullVigorCnt) ^ (Double.doubleToLongBits(this._fullVigorCnt) >>> 32));
-        hash = 79 * hash + Objects.hashCode(this._serviceKey);
-        hash = 79 * hash + Objects.hashCode(this._serviceKeyDescription);
-        hash = 79 * hash + (int) (Double.doubleToLongBits(this._serviceSum) ^ (Double.doubleToLongBits(this._serviceSum) >>> 32));
-        hash = 79 * hash + this._baseInformationId;
-        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._countMedStaffPre) ^ (Double.doubleToLongBits(this._countMedStaffPre) >>> 32));
-        hash = 79 * hash +  (int) (Double.doubleToLongBits(this._countMedStaffAfter) ^ (Double.doubleToLongBits(this._countMedStaffAfter) >>> 32));
-        hash = 79 * hash
-                +  (int) (Double.doubleToLongBits(this._costVolumeMedStaffPre)
-                ^ (Double.doubleToLongBits(this._costVolumeMedStaffPre) >>> 32));
-        hash = 79 * hash
-                +  (int) (Double.doubleToLongBits(this._costVolumeMedStaffAfter)
-                ^ (Double.doubleToLongBits(this._costVolumeMedStaffAfter) >>> 32));
-        hash = 79 * hash
-                +  (int) (Double.doubleToLongBits(this._countFunctionalServicePre)
-                ^ (Double.doubleToLongBits(this._countFunctionalServicePre) >>> 32));
-        hash = 79 * hash
-                +  (int) (Double.doubleToLongBits(this._countFunctionalServiceAfter)
-                ^ (Double.doubleToLongBits(this._countFunctionalServiceAfter) >>> 32));
-        hash = 79 * hash
-                +  (int) (Double.doubleToLongBits(this._costVolumeFunctionalServicePre)
-                ^ (Double.doubleToLongBits(this._costVolumeFunctionalServicePre) >>> 32));
-        hash = 79 * hash
-                +  (int) (Double.doubleToLongBits(this._costVolumeFunctionalServiceAfter)
-                ^ (Double.doubleToLongBits(this._costVolumeFunctionalServiceAfter) >>> 32));
-
-        return hash;
+        return 2441;
     }
 
     @Override
     @SuppressWarnings("CyclomaticComplexity")
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof KGPListCostCenter)) {
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        KGPListCostCenter that = (KGPListCostCenter) o;
+
+        if (_id != that._id) return false;
+        if (_id > 0 && _id == that._id) return true;
+        if (_costCenterId != that._costCenterId) return false;
+        if (_amount != that._amount) return false;
+        if (Double.compare(that._fullVigorCnt, _fullVigorCnt) != 0) return false;
+        if (Double.compare(that._serviceSum, _serviceSum) != 0) return false;
+        if (_baseInformationId != that._baseInformationId) return false;
+        if (Double.compare(that._countMedStaffPre, _countMedStaffPre) != 0) return false;
+        if (Double.compare(that._countMedStaffAfter, _countMedStaffAfter) != 0) return false;
+        if (Double.compare(that._costVolumeMedStaffPre, _costVolumeMedStaffPre) != 0) return false;
+        if (Double.compare(that._costVolumeMedStaffAfter, _costVolumeMedStaffAfter) != 0) return false;
+        if (Double.compare(that._countCareServicePre, _countCareServicePre) != 0) return false;
+        if (Double.compare(that._countCareServiceAfter, _countCareServiceAfter) != 0) return false;
+        if (Double.compare(that._costVolumeCareServicePre, _costVolumeCareServicePre) != 0) return false;
+        if (Double.compare(that._costVolumeCareServiceAfter, _costVolumeCareServiceAfter) != 0) return false;
+        if (Double.compare(that._countFunctionalServicePre, _countFunctionalServicePre) != 0) return false;
+        if (Double.compare(that._countFunctionalServiceAfter, _countFunctionalServiceAfter) != 0) return false;
+        if (Double.compare(that._costVolumeFunctionalServicePre, _costVolumeFunctionalServicePre) != 0) return false;
+        if (Double.compare(that._costVolumeFunctionalServiceAfter, _costVolumeFunctionalServiceAfter) != 0)
             return false;
-        }
-        final KGPListCostCenter other = (KGPListCostCenter) obj;
-        if (this._id != -1 && this._id == other._id) {
-            return true;
-        }
-        if (this._id != other._id) {
-            return false;
-        }
-        if (this._costCenterId != other._costCenterId) {
-            return false;
-        }
-        if (this._costCenterNumber != other._costCenterNumber) {
-            return false;
-        }
-        if (this._amount != other._amount) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this._fullVigorCnt) != Double.doubleToLongBits(other._fullVigorCnt)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this._serviceSum) != Double.doubleToLongBits(other._serviceSum)) {
-            return false;
-        }
-        if (this._baseInformationId != other._baseInformationId) {
-            return false;
-        }
-        if (!Objects.equals(this._costCenterText, other._costCenterText)) {
-            return false;
-        }
-        if (!Objects.equals(this._serviceKey, other._serviceKey)) {
-            return false;
-        }
-        if (!Objects.equals(this._serviceKeyDescription, other._serviceKeyDescription)) {
-            return false;
-        }
-        return true;
+        if (!_costCenterNumber.equals(that._costCenterNumber)) return false;
+        if (!_costCenterText.equals(that._costCenterText)) return false;
+        if (!_serviceKey.equals(that._serviceKey)) return false;
+        return _serviceKeyDescription.equals(that._serviceKeyDescription);
     }
 
     @Override
@@ -392,6 +387,10 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
         this._countMedStaffAfter = item._countMedStaffAfter;
         this._costVolumeMedStaffPre = item._costVolumeMedStaffPre;
         this._costVolumeMedStaffAfter = item._costVolumeMedStaffAfter;
+        this._countCareServicePre = item._countCareServicePre;
+        this._countCareServiceAfter = item._countCareServiceAfter;
+        this._costVolumeCareServicePre = item._costVolumeCareServicePre;
+        this._costVolumeCareServiceAfter = item._costVolumeCareServiceAfter;
         this._countFunctionalServicePre = item._countFunctionalServicePre;
         this._countFunctionalServiceAfter = item._countFunctionalServiceAfter;
         this._costVolumeFunctionalServicePre = item._costVolumeFunctionalServicePre;
