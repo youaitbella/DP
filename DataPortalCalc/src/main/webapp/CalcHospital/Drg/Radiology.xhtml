@@ -4,6 +4,7 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
 >
 
@@ -11,20 +12,25 @@
         td {
             vertical-align: top !important;
         }
+
         .col1 {
             max-width: 60px;
         }
+
         .col2 {
             max-width: 220px;
             width: 200px;
         }
+
         .col3 {
             max-width: 120px;
         }
+
         .col4 {
             max-width: 180px;
             width: 160px;
         }
+
         .col5 {
             max-width: 120px;
         }
@@ -43,175 +49,188 @@
                      var="item"
                      tableStyle="table-layout: auto"
                      rowClasses="row1, row2"
-                     columnClasses="colIcon, col1, col2, col3, col4, col5" >
+                     columnClasses="colIcon, col1, col2, col3, col4, col5">
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputText value=""/>
-            </f:facet>
-            <h:commandLink>
-                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteLaboratory(item)}"/>
-            </h:commandLink>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value=""/>
+                </f:facet>
+                <h:commandLink>
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                    value=""/>
+                    <f:ajax event="click" render="@form :logout:remaining"
+                            listener="#{editCalcBasicsDrg.deleteLaboratory(item)}"/>
+                </h:commandLink>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Nr. Kostenstelle"/>
-            </f:facet>
-            <h:inputText styleClass="inputshort" value="#{item.costCenterNumber}" >
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:inputText>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Nr. Kostenstelle"/>
+                </f:facet>
+                <h:inputText styleClass="inputshort" value="#{item.costCenterNumber}">
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                </h:inputText>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Name Kostenstelle"/><br/>
-                <h:outputLabel value="(aussagekräftiger Name)"/>
-            </f:facet>
-            <h:inputText value="#{item.costCenterText}" >
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:inputText>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Name Kostenstelle"/><br/>
+                    <h:outputLabel value="(aussagekräftiger Name)"/>
+                </f:facet>
+                <h:inputText value="#{item.costCenterText}">
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                </h:inputText>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Leistungs-dokumentation"/>
-            </f:facet>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Leistungs-dokumentation"/>
+                </f:facet>
+                <h:selectOneMenu id="service" value="#{item.service}">
+                    <f:selectItems value="#{calcBasicsStaticData.radLabServices}"/>
+                    <f:ajax event="change"
+                            render="descriptionDiv :logout:remaining"/>
+                </h:selectOneMenu>
+            </h:column>
 
-            <h:selectOneMenu value="#{item.service}">
-                <f:selectItems value="#{calcBasicsStaticData.radLabServices}" />
-                <f:ajax event="change" render="@form :logout:remaining" />
-            </h:selectOneMenu>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Beschreibung"/>
+                </f:facet>
+                <div jsf:id="descriptionDiv">
+                    <h:inputTextarea id="description"
+                                     value="#{item.description}"
+                                     rendered="#{item.service == 1 || item.service == 5}"
+                                     required="true"
+                                     class="areaWideHigh">
+                        <f:ajax event="blur" render="@this :logout:remaining msgDescrition"/>
+                    </h:inputTextarea>
+                    <h:message for="description" id="msgDescrition" errorClass="errorMessage"/>
+                </div>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Beschreibung"/>
-            </f:facet>
-            <h:inputTextarea rendered="#{item.service == 1 || item.service == 5}"  required="#{item.service == 1 || item.service == 5}" class="areaWideHigh" value="#{item.description}" >
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:inputTextarea>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Leistungs-volumen vor Abgrenzung"/><br/>
+                </f:facet>
+                <inek:InputIntegerWithMessage id="serviceVolumePre"
+                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('serviceVolumePre'))}point-value:text"
+                                              value="#{item.serviceVolumePre}"/>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Leistungs-volumen vor Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputIntegerWithMessage
-                    renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 4))}:point-value:text"
-                    value="#{item.serviceVolumePre}"/>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Leistungs-volumen nach Abgrenzung"/><br/>
+                </f:facet>
+                <inek:InputIntegerWithMessage id="serviceVolumePost" value="#{item.serviceVolumePost}"
+                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('serviceVolumePost'))}point-value2:text"/>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Leistungs-volumen nach Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputIntegerWithMessage value="#{item.serviceVolumePost}"
-                                          renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 4))}:point-value2:text"/>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kosten-volumen vor Abgrenzung"/><br/>
+                </f:facet>
+                <inek:InputIntegerWithMessage id="amountPre" value="#{item.amountPre}"
+                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountPre'))}point-value:text"/>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Kosten-volumen vor Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputIntegerWithMessage value="#{item.amountPre}"
-                                          renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 4))}:point-value:text"/>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kosten-volumen nach Abgrenzung"/><br/>
+                </f:facet>
+                <inek:InputIntegerWithMessage id="amountPost" value="#{item.amountPost}"
+                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountPost'))}point-value2:text"/>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Kosten-volumen nach Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputIntegerWithMessage value="#{item.amountPost}"
-                                          renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 4))}:point-value2:text"/>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Punktwert (Vor)"/><br/>
+                </f:facet>
+                <inek:InputIntegerWithMessage id="point-value"
+                                              value="#{(item.amountPre != 0 and item.serviceVolumePre != 0) ? item.amountPre / item.serviceVolumePre : 0}"
+                                              disabled="true" pattern="0.0"/>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Punktwert (Vor)"/><br/>
-            </f:facet>
-            <inek:InputIntegerWithMessage id="point-value"
-                                          value="#{(item.amountPre != 0 and item.serviceVolumePre != 0) ? item.amountPre / item.serviceVolumePre : 0}"
-                                          disabled="true" pattern="0.0"/>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Punktwert (Nach)"/><br/>
+                </f:facet>
+                <inek:InputIntegerWithMessage id="point-value2"
+                                              value="#{(item.amountPost != 0 and item.serviceVolumePost != 0) ? item.amountPost / item.serviceVolumePost : 0}"
+                                              disabled="true" pattern="0.0"/>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Punktwert (Nach)"/><br/>
-            </f:facet>
-            <inek:InputIntegerWithMessage id="point-value2"
-                                          value="#{(item.amountPost != 0 and item.serviceVolumePost != 0) ? item.amountPost / item.serviceVolumePost : 0}"
-                                          disabled="true" pattern="0.0"/>
-        </h:column>
+            <!-- neu -->
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Anzahl VK ÄD vor Abgrenzung"/><br/>
+                </f:facet>
+                <inek:InputNumberWithMessage value="#{item.countMedStaffPre}" renderElement="point-value:text"/>
+            </h:column>
 
-        <!-- neu -->
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Anzahl VK ÄD vor Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputNumberWithMessage value="#{item.countMedStaffPre}" renderElement="point-value:text"/>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Anzahl VK ÄD nach Abgrenzung"/><br/>
+                </f:facet>
+                <inek:InputNumberWithMessage value="#{item.countMedStaffAfter}" renderElement="point-value:text"/>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Anzahl VK ÄD nach Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputNumberWithMessage value="#{item.countMedStaffAfter}" renderElement="point-value:text"/>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kosten-volumen ÄD vor Abgrenzung"/><br/>
+                </f:facet>
+                <inek:InputNumberWithMessage value="#{item.costVolumeMedStaffPre}" renderElement="point-value:text"/>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Kosten-volumen ÄD vor Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputNumberWithMessage value="#{item.costVolumeMedStaffPre}" renderElement="point-value:text"/>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kosten-volumen ÄD nach Abgrenzung"/><br/>
+                </f:facet>
+                <inek:InputNumberWithMessage value="#{item.costVolumeMedStaffAfter}" renderElement="point-value:text"/>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Kosten-volumen ÄD nach Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputNumberWithMessage value="#{item.costVolumeMedStaffAfter}" renderElement="point-value:text"/>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Anzahl VK FD vor Abgrenzung"/><br/>
+                </f:facet>
+                <inek:InputNumberWithMessage value="#{item.countFunctionalServicePre}"
+                                             renderElement="point-value:text"/>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Anzahl VK FD vor Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputNumberWithMessage value="#{item.countFunctionalServicePre}" renderElement="point-value:text"/>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Anzahl FD nach Abgrenzung"/><br/>
+                </f:facet>
+                <inek:InputNumberWithMessage value="#{item.countFunctionalServiceAfter}"
+                                             renderElement="point-value:text"/>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Anzahl FD nach Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputNumberWithMessage value="#{item.countFunctionalServiceAfter}" renderElement="point-value:text"/>
-        </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kosten-volumen FD vor Abgrenzung"/><br/>
+                </f:facet>
+                <inek:InputNumberWithMessage value="#{item.costVolumeFunctionalServicePre}"
+                                             renderElement="point-value:text"/>
+            </h:column>
 
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Kosten-volumen FD vor Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputNumberWithMessage value="#{item.costVolumeFunctionalServicePre}" renderElement="point-value:text"/>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                <h:outputLabel value="Kosten-volumen FD nach Abgrenzung"/><br/>
-            </f:facet>
-            <inek:InputNumberWithMessage value="#{item.costVolumeFunctionalServiceAfter}" renderElement="point-value:text"/>
-        </h:column>
-    </h:dataTable>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kosten-volumen FD nach Abgrenzung"/><br/>
+                </f:facet>
+                <inek:InputNumberWithMessage value="#{item.costVolumeFunctionalServiceAfter}"
+                                             renderElement="point-value:text"/>
+            </h:column>
+        </h:dataTable>
 
     </div>
 
     <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('drgradiology')}"
-                        calcbase="#{editCalcBasicsDrg.calcBasics}" 
+                        calcbase="#{editCalcBasicsDrg.calcBasics}"
                         readOnly="#{editCalcBasicsDrg.readOnly}"
                         addListener="#{editCalcBasicsDrg.addRadiology()}"
                         uploadButtonText="Upload"
                         actionDeleteTable="#{editCalcBasicsDrg.deleteRadiologies()}"
-                        />
+    />
 
     <br/>
 
@@ -221,9 +240,11 @@
         #radioServicesTable {
             overflow-x: scroll;
         }
+
         .underlined-col {
             border-bottom: solid 1px #043358;
         }
+
         .border-right-col {
             border-right: solid 1px #043358;
         }
@@ -232,7 +253,7 @@
     <br/>
 
     <div hidden="#{editCalcBasicsDrg.calcBasics.dataYear gt 2017}">
-        <table id="radioServicesTable" >
+        <table id="radioServicesTable">
             <!--tr>
                 <td class="underlined-col border-right-col" colspan="6"><b># {editCalcBasicsDrg.calcBasics.dataYear}</b></td>
                 <td class="underlined-col border-right-col" colspan="4"><b># {editCalcBasicsDrg.calcBasics.dataYear-1}</b></td>
@@ -254,24 +275,24 @@
                     <td class="underlined-col">#{editCalcBasicsDrg.getContentText(item.rsContentTextID)}</td>
                     <td class="underlined-col">#{item.opsCode}</td>
                     <td>
-                <inek:InputIntegerWithMessage value="#{item.serviceCost}" />
-                </td>
-                <td>
-                <inek:InputIntegerWithMessage value="#{item.caseCntStationary}" />
-                </td>
-                <td>
-                <inek:InputIntegerWithMessage value="#{item.caseCntAmbulant}" />
-                </td>
-                <td>
-                <inek:InputIntegerWithMessage value="#{item.ambulantAmount}" />
-                </td>
+                        <inek:InputIntegerWithMessage value="#{item.serviceCost}"/>
+                    </td>
+                    <td>
+                        <inek:InputIntegerWithMessage value="#{item.caseCntStationary}"/>
+                    </td>
+                    <td>
+                        <inek:InputIntegerWithMessage value="#{item.caseCntAmbulant}"/>
+                    </td>
+                    <td>
+                        <inek:InputIntegerWithMessage value="#{item.ambulantAmount}"/>
+                    </td>
                 </tr>
             </ui:repeat>
         </table>
     </div>
 
     <h:panelGrid rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
-        <table id="radioServicesTable" >
+        <table id="radioServicesTable">
             <!--tr>
                 <td class="underlined-col border-right-col" colspan="6"><b># {editCalcBasicsDrg.calcBasics.dataYear}</b></td>
                 <td class="underlined-col border-right-col" colspan="4"><b># {editCalcBasicsDrg.calcBasics.dataYear-1}</b></td>
@@ -287,21 +308,21 @@
                 <th>Fallzahl ambulant</th>
                 <th class="border-right-col">abgegr. Kosten-volumen (€) ambulant</th-->
             </tr>
-            <ui:repeat value="#{editCalcBasicsDrg.calcBasics.radiologyServices}" var="item">
+            <ui:repeat value="#{editCalcBasicsDrg.calcBasics.radiologyServices}" var="serviceItem">
                 <tr>
-                    <td class="underlined-col">#{editCalcBasicsDrg.getContentText(item.rsContentTextID)}</td>
+                    <td class="underlined-col">#{editCalcBasicsDrg.getContentText(serviceItem.rsContentTextID)}</td>
                     <td>
-                <inek:InputIntegerWithMessage value="#{item.serviceCost}" />
-                </td>
-                <td>
-                <inek:InputIntegerWithMessage value="#{item.caseCntStationary}" />
-                </td>
-                <td>
-                <inek:InputIntegerWithMessage value="#{item.caseCntAmbulant}" />
-                </td>
-                <td>
-                <inek:InputIntegerWithMessage value="#{item.ambulantAmount}" />
-                </td>
+                        <inek:InputIntegerWithMessage value="#{serviceItem.serviceCost}"/>
+                    </td>
+                    <td>
+                        <inek:InputIntegerWithMessage value="#{serviceItem.caseCntStationary}"/>
+                    </td>
+                    <td>
+                        <inek:InputIntegerWithMessage value="#{serviceItem.caseCntAmbulant}"/>
+                    </td>
+                    <td>
+                        <inek:InputIntegerWithMessage value="#{serviceItem.ambulantAmount}"/>
+                    </td>
                 </tr>
             </ui:repeat>
         </table>

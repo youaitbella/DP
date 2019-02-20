@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.calc.entities.drg;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,10 +10,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- *
- * @author kunkelan
- */
 @Entity
 @Table(name = "KGLListRadiologyLaboratory", schema = "calc")
 @XmlRootElement
@@ -178,8 +169,7 @@ public class KGLListRadiologyLaboratory implements Serializable, BaseIdValue {
     @Column(name = "rlService")
     @Documentation (name = "Leistungsdokumentation", rank = 70)
     private int _service;
-    
-    @JsonIgnore
+
     public int getService() {
         return _service;
     }
