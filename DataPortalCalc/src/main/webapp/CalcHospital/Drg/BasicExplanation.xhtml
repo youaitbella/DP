@@ -5,7 +5,6 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour">
 
     <h2>Erklärung zur Kalkulationsgrundlage</h2>
@@ -23,24 +22,27 @@
             </td>
             <td>
         <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsDrg.calcBasics.sumCalcCost}" 
-                                     required="true" 
-                                     id="sumCalcCosts"
-                                     renderElement="@this pDiffSumCalcCost :logout:remaining"
+                                      value="#{editCalcBasicsDrg.calcBasics.sumCalcCost}"
+                                      required="true"
+                                      readonly="#{editCalcBasicsDrg.readOnly}"
+                                      id="sumCalcCosts"
+                                      renderElement="@this pDiffSumCalcCost :logout:remaining"
                                      />
         </td>
         <td>
         <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsDrg.priorCalcBasics.sumCalcCost}" 
-                                     disabled="true"
-                                     id="pSumCalcCost"
+                                      value="#{editCalcBasicsDrg.priorCalcBasics.sumCalcCost}"
+                                      readonly="#{editCalcBasicsDrg.readOnly}"
+                                      disabled="true"
+                                      id="pSumCalcCost"
                                      />
         </td>
         <td>
         <h:panelGroup id="pDiffSumCalcCost">
             <inek:InputIntegerWithMessage styleClass="inputwide"
-                                         value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.sumCalcCost, editCalcBasicsDrg.calcBasics.sumCalcCost)}" 
-                                         disabled="true"
+                                          value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.sumCalcCost, editCalcBasicsDrg.calcBasics.sumCalcCost)}"
+                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                          disabled="true"
                                          />
         </h:panelGroup>
         </td>
@@ -53,6 +55,7 @@
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsDrg.calcBasics.redeemingVolume}"
                                               required="true"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
                                               title="Bitte geben Sie das Erlösvolumen ohne Erlösausgleiche an."
                                               id="redeemingVolume"
                                               renderElement="@this pDiffredeemingVolume :logout:remaining"
@@ -91,17 +94,19 @@
             </td>
             <td>
         <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsDrg.calcBasics.caseInStationCnt}" 
-                                     required="true" 
-                                     id="fullCases"
-                                     renderElement="@this pDiffCaseInstationCount :logout:remaining"
+                                      value="#{editCalcBasicsDrg.calcBasics.caseInStationCnt}"
+                                      required="true"
+                                      readonly="#{editCalcBasicsDrg.readOnly}"
+                                      id="fullCases"
+                                      renderElement="@this pDiffCaseInstationCount :logout:remaining"
                                      />
         </td>
         <td>
         <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsDrg.priorCalcBasics.caseInStationCnt}" 
-                                     id="pCaseInstationCount"
-                                     disabled="true"
+                                      value="#{editCalcBasicsDrg.priorCalcBasics.caseInStationCnt}"
+                                      readonly="#{editCalcBasicsDrg.readOnly}"
+                                      id="pCaseInstationCount"
+                                      disabled="true"
                                      />
         </td>
         <td>
@@ -119,10 +124,11 @@
             </td>
             <td>
         <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsDrg.calcBasics.casePartialStationCnt}" 
-                                     required="true" 
-                                     id="halfCases"
-                                     renderElement="@this pDiffPartialStationCount :logout:remaining"
+                                      value="#{editCalcBasicsDrg.calcBasics.casePartialStationCnt}"
+                                      required="true"
+                                      readonly="#{editCalcBasicsDrg.readOnly}"
+                                      id="halfCases"
+                                      renderElement="@this pDiffPartialStationCount :logout:remaining"
                                      />
         </td>
         <td>
@@ -148,6 +154,7 @@
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsDrg.calcBasics.caseBaCnt}"
                                               required="true"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
                                               id="baCases"
                                               renderElement="@this pDiffbaCount :logout:remaining"
                 />
@@ -173,10 +180,11 @@
             </td>
             <td>
         <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsDrg.calcBasics.daysPartialStation}"
-                                     required="true" 
-                                     id="halfCalcDays"
-                                     renderElement="@this pDiffHalfCalcDays :logout:remaining"
+                                      value="#{editCalcBasicsDrg.calcBasics.daysPartialStation}"
+                                      required="true"
+                                      readonly="#{editCalcBasicsDrg.readOnly}"
+                                      id="halfCalcDays"
+                                      renderElement="@this pDiffHalfCalcDays :logout:remaining"
                                      />
         </td>
         <td>
@@ -201,10 +209,11 @@
             </td>
             <td>
         <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsDrg.calcBasics.patientEscort}"
-                                     required="true" 
-                                     id="companions"
-                                     renderElement="@this pPatientEscort pDiffPatientEscort :logout:remaining"
+                                      value="#{editCalcBasicsDrg.calcBasics.patientEscort}"
+                                      required="true"
+                                      readonly="#{editCalcBasicsDrg.readOnly}"
+                                      id="companions"
+                                      renderElement="@this pPatientEscort pDiffPatientEscort :logout:remaining"
                                      />
         </td>
         <td>
@@ -229,10 +238,11 @@
             </td>
             <td>
         <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsDrg.calcBasics.preStation}"
-                                     required="true" 
-                                     id="onlyStationary"
-                                     renderElement="@this pDiffPreStation :logout:remaining"
+                                      value="#{editCalcBasicsDrg.calcBasics.preStation}"
+                                      required="true"
+                                      readonly="#{editCalcBasicsDrg.readOnly}"
+                                      id="onlyStationary"
+                                      renderElement="@this pDiffPreStation :logout:remaining"
                                      />
         </td>
         <td>
@@ -256,9 +266,10 @@
             </td>
             <td>
         <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsDrg.calcBasics.beds}"
-                                     required="true" 
-                                     renderElement="@this pDiffBeds :logout:remaining"
+                                      value="#{editCalcBasicsDrg.calcBasics.beds}"
+                                      readonly="#{editCalcBasicsDrg.readOnly}"
+                                      required="true"
+                                      renderElement="@this pDiffBeds :logout:remaining"
                                      />
         </td>
         <td>
@@ -282,9 +293,10 @@
             </td>
             <td>
         <inek:InputIntegerWithMessage styleClass="inputwide"
-                                     value="#{editCalcBasicsDrg.calcBasics.partialCnt}"
-                                     required="true" 
-                                     renderElement="@this pDiffPartialCnt :logout:remaining"
+                                      value="#{editCalcBasicsDrg.calcBasics.partialCnt}"
+                                      required="true"
+                                      readonly="#{editCalcBasicsDrg.readOnly}"
+                                      renderElement="@this pDiffPartialCnt :logout:remaining"
                                      />
         </td>
         <td>
@@ -309,14 +321,17 @@
 
     <div class="inputPart">
         <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
-        <h:inputText styleClass="inputshort" value="#{editCalcBasicsDrg.calcBasics.locationCnt}" required="true">
+        <h:inputText styleClass="inputshort" value="#{editCalcBasicsDrg.calcBasics.locationCnt}"
+                     readonly="#{editCalcBasicsDrg.readOnly}"
+                     required="true">
             <f:ajax event="blur" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.changeLocationCount}"/>
         </h:inputText>
     </div>
 
     <div class="inputPart">
-        <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor:"  
-                                 value="#{editCalcBasicsDrg.calcBasics.difLocationSupply}" 
+        <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor:"
+                                 value="#{editCalcBasicsDrg.calcBasics.difLocationSupply}"
+                                 readonly="#{editCalcBasicsDrg.readOnly}"
                                  renderElement="@form"
                                  labelStyle="label"/>
     </div>
@@ -340,7 +355,9 @@
                 <h:outputText value=""/>
             </f:facet>
             <h:commandLink styleClass="colIcon">
-                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png"
+                                rendered="#{!editCalcBasicsDrg.readOnly}"
+                                title="#{msg.btnDelete}" value=""/>
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteLocation(item)}"/>
                 <cb:confirmDelete/>
             </h:commandLink>
@@ -350,7 +367,9 @@
             <f:facet name="header">
                 <h:outputText value="Entlassender Standort (aussagekräftiger Name)"/><br/>
             </f:facet>
-            <h:inputText value="#{item.location}" styleClass="inputwide" required="true">
+            <h:inputText value="#{item.location}" styleClass="inputwide"
+                         readonly="#{editCalcBasicsDrg.readOnly}"
+                         required="true">
                 <f:ajax render="@this :logout:remaining"/>
             </h:inputText>
         </h:column>
@@ -359,7 +378,9 @@
             <f:facet name="header">
                 <h:outputText value="Nummer"/>
             </f:facet>
-            <h:inputText value="#{item.locationNo}" styleClass="inputwide" required="true">
+            <h:inputText value="#{item.locationNo}" styleClass="inputwide"
+                         readonly="#{editCalcBasicsDrg.readOnly}"
+                         required="true">
                 <f:ajax render="@this :logout:remaining"/>
             </h:inputText>
         </h:column>
@@ -373,14 +394,16 @@
     <h2>Besondere Einrichtungen (BE)</h2>
 
     <div class="inputPart">
-        <inek:BooleanRadioButton label="Besteht für das Krankenhaus (bzw. eine Fachabteilung) eine Vereinbarung einer/mehrerer Besonderen(r) Einrichtung(en) nach den Regelungen der VBE 2017:"  
-                                 renderElement="@form :script" value="#{editCalcBasicsDrg.calcBasics.specialUnit}" labelStyle="label"
+        <inek:BooleanRadioButton label="Besteht für das Krankenhaus (bzw. eine Fachabteilung) eine Vereinbarung einer/mehrerer Besonderen(r) Einrichtung(en) nach den Regelungen der VBE 2017:"
+                                 renderElement="@form :script" value="#{editCalcBasicsDrg.calcBasics.specialUnit}"
+                                 readonly="#{editCalcBasicsDrg.readOnly}"
+                                 labelStyle="label"
                                  listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.specialUnit)}">
         </inek:BooleanRadioButton>
     </div>
 
-    <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.specialUnit}">
-        <h:dataTable  headerClass="list-header" id="special"
+    <h:panelGroup id="special" rendered="#{editCalcBasicsDrg.calcBasics.specialUnit}">
+        <h:dataTable headerClass="list-header"
                       value="#{editCalcBasicsDrg.calcBasics.specialUnits}" var="item" width="70%" rowClasses="row1, row2" 
                       columnClasses="colIcon, col03, col03, col03"
                       rendered="true"
@@ -391,7 +414,9 @@
                     <h:outputText value=""/>
                 </f:facet>
                 <h:commandLink styleClass="colIcon">
-                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png"
+                                    rendered="#{!editCalcBasicsDrg.readOnly}"
+                                    title="#{msg.btnDelete}" value=""/>
                     <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteSpecialUnit(item)}"/>
                 </h:commandLink>
             </h:column>
@@ -400,7 +425,9 @@
                 <f:facet name="header">
                     <h:outputText value="Art der BE"/><br/>
                 </f:facet>
-                <h:inputText value="#{item.type}" styleClass="inputwide" required="true">
+                <h:inputText value="#{item.type}" styleClass="inputwide"
+                             readonly="#{editCalcBasicsDrg.readOnly}"
+                             required="true">
                     <f:ajax render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
@@ -409,29 +436,37 @@
                 <f:facet name="header">
                     <h:outputText value="Fallzahl"/>
                 </f:facet>
-                <inek:InputIntegerWithMessage value="#{item.caseCnt}" styleClass="inputwide" required="true" renderElement="@this :logout:remaining" />
+                <inek:InputIntegerWithMessage value="#{item.caseCnt}" styleClass="inputwide" required="true"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              renderElement="@this :logout:remaining"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Kostenvolumen"/>
                 </f:facet>
-                <inek:InputIntegerWithMessage value="#{item.cost}" styleClass="inputwide" required="true" renderElement="@this :logout:remaining" />
+                <inek:InputIntegerWithMessage value="#{item.cost}" styleClass="inputwide" required="true"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              renderElement="@this :logout:remaining"/>
             </h:column>
 
         </h:dataTable>
 
-        <h:commandLink id="addButtonSpecial" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addSpecialUnit()}"/>
+        <h:commandLink id="addButtonSpecial" styleClass="addButton inputPart"
+                       rendered="#{!editCalcBasicsDrg.readOnly}"
+                       value="#{msg.btnAddEntry}">
+            <f:ajax event="click" render="calcBasics:special :logout:remaining"
+                    listener="#{editCalcBasicsDrg.addSpecialUnit()}"/>
         </h:commandLink>
     </h:panelGroup>
 
     <h2>Zentren und Schwerpunkte gem. § 2 Abs. 2 Satz 2 Nr. 4 KHEntgG</h2>
 
     <div class="inputPart">
-        <inek:BooleanRadioButton label="Besteht eine gesondert vereinbarte Vergütung für Zentren und Schwerpunkte gem. § 2 Abs. 2 Satz 2 Nr. 4 KHEntgG:"  
-                                 renderElement="@form :script" 
-                                 value="#{editCalcBasicsDrg.calcBasics.centralFocus}" 
+        <inek:BooleanRadioButton label="Besteht eine gesondert vereinbarte Vergütung für Zentren und Schwerpunkte gem. § 2 Abs. 2 Satz 2 Nr. 4 KHEntgG:"
+                                 renderElement="@form :script"
+                                 readonly="#{editCalcBasicsDrg.readOnly}"
+                                 value="#{editCalcBasicsDrg.calcBasics.centralFocus}"
                                  labelStyle="label"
                                  listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.centralFocus)}">
         </inek:BooleanRadioButton>
@@ -449,7 +484,9 @@
                     <h:outputText value=""/>
                 </f:facet>
                 <h:commandLink styleClass="colIcon">
-                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                    rendered="#{!editCalcBasicsDrg.readOnly}"
+                                    value=""/>
                     <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteCentralFocus(item)}" />
                 </h:commandLink>
             </h:column>
@@ -459,7 +496,9 @@
                     <h:outputText value="Zentrums- bzw. Schwerpunktbezeichnung"/><br/>
                     <h:outputText value="(aussagekräftiger Name)"/>
                 </f:facet>
-                <h:inputText value="#{item.text}" styleClass="inputwide" required="true">
+                <h:inputText value="#{item.text}" styleClass="inputwide"
+                             readonly="#{editCalcBasicsDrg.readOnly}"
+                             required="true">
                     <f:ajax render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
@@ -468,49 +507,63 @@
                 <f:facet name="header">
                     <h:outputText value="Fallzahl"/>
                 </f:facet>
-                <inek:InputIntegerWithMessage value="#{item.caseCnt}" styleClass="inputwide" required="true" renderElement="@this :logout:remaining" />
+                <inek:InputIntegerWithMessage value="#{item.caseCnt}" styleClass="inputwide" required="true"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              renderElement="@this :logout:remaining"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Personalkosten"/>
                 </f:facet>
-                <inek:InputIntegerWithMessage value="#{item.personalCost}" styleClass="inputwide" required="true" renderElement="@this :logout:remaining" />
+                <inek:InputIntegerWithMessage value="#{item.personalCost}" styleClass="inputwide" required="true"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              renderElement="@this :logout:remaining"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Sachkosten"/>
                 </f:facet>
-                <inek:InputIntegerWithMessage value="#{item.materialcost}" styleClass="inputwide" required="true" renderElement="@this :logout:remaining"/>
+                <inek:InputIntegerWithMessage value="#{item.materialcost}" styleClass="inputwide" required="true"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              renderElement="@this :logout:remaining"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Infrastrukturkosten"/>
                 </f:facet>
-                <inek:InputIntegerWithMessage value="#{item.infraCost}" styleClass="inputwide" required="true" renderElement="@this :logout:remaining"/>
+                <inek:InputIntegerWithMessage value="#{item.infraCost}" styleClass="inputwide" required="true"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              renderElement="@this :logout:remaining"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Vereinbartes Entgelt je Fall"/>
                 </f:facet>
-                <inek:InputIntegerWithMessage value="#{item.remunerationAmount}" styleClass="inputwide" required="true" renderElement="@this :logout:remaining"/>
+                <inek:InputIntegerWithMessage value="#{item.remunerationAmount}" styleClass="inputwide" required="true"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              renderElement="@this :logout:remaining"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Entgeltschlüssel"/>
                 </f:facet>
-                <h:inputText value="#{item.remunerationKey}" styleClass="inputwide" required="true">
+                <h:inputText value="#{item.remunerationKey}" styleClass="inputwide"
+                             readonly="#{editCalcBasicsDrg.readOnly}"
+                             required="true">
                     <f:ajax render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
 
         </h:dataTable>
 
-        <h:commandLink id="addButtonCentre" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <h:commandLink id="addButtonCentre" styleClass="addButton inputPart"
+                       rendered="#{!editCalcBasicsDrg.readOnly}"
+                       value="#{msg.btnAddEntry}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addCentralFocus()}"/>
         </h:commandLink>
     </h:panelGroup>
@@ -521,7 +574,9 @@
 
         <div class="inputPart">
             <h:outputLabel value="#{x.contentText.text}" styleClass="#{x.requireInputs ? 'blockElement' : 'blockElementLight'}" style="width: calc(100% - 22em);"/> &nbsp;
-            <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{x.used}" >
+            <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;"
+                                     disabled="#{editCalcBasicsDrg.readOnly}"
+                                     value="#{x.used}">
                 <f:ajax event="change" render="@form :logout:remaining delimit-content :script" 
                         listener="#{sessionController.hideData(x.used or !x.requireInputs)}"/>
             </h:selectBooleanCheckbox>
@@ -543,15 +598,22 @@
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
-                <inek:InputIntegerWithMessage id="data-personal" rendered="#{data eq 'Personalkosten'}" value="#{x.personalCost}"
-                                             styleClass="col06em" required="true" renderElement="@this diff-personal :logout:remaining"
-                                             disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
-                <inek:InputIntegerWithMessage id="data-material" rendered="#{data eq 'Sachkosten' or data eq 'Kostenvolumen'}" value="#{x.materialCost}"
-                                             styleClass="col06em" required="true" renderElement="@this diff-material :logout:remaining"
+                <inek:InputIntegerWithMessage id="data-personal" rendered="#{data eq 'Personalkosten'}"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              value="#{x.personalCost}"
+                                              styleClass="col06em" required="true" renderElement="@this diff-personal :logout:remaining"
+                                              disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
+                <inek:InputIntegerWithMessage id="data-material"
+                                              rendered="#{data eq 'Sachkosten' or data eq 'Kostenvolumen'}"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              value="#{x.materialCost}"
+                                              styleClass="col06em" required="true" renderElement="@this diff-material :logout:remaining"
                                              />
-                <inek:InputIntegerWithMessage id="data-infra" rendered="#{data eq 'Infrastrukturkosten'}" value="#{x.infraCost}"
-                                             styleClass="col06em" required="true" renderElement="@this diff-infra :logout:remaining"
-                                             disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
+                <inek:InputIntegerWithMessage id="data-infra" rendered="#{data eq 'Infrastrukturkosten'}"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              value="#{x.infraCost}"
+                                              styleClass="col06em" required="true" renderElement="@this diff-infra :logout:remaining"
+                                              disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
@@ -562,19 +624,25 @@
 
             <h:column rendered="#{x.used and x.requireInputs}">
                 <h:panelGrid id="diff-personal" style="margin: 0; padding : 0;">
-                    <inek:InputIntegerWithMessage rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).personalCost, x.personalCost)}"
-                                                 styleClass="col06em"
-                                                 disabled="true"/>
+                    <inek:InputIntegerWithMessage rendered="#{data eq 'Personalkosten'}"
+                                                  readonly="#{editCalcBasicsDrg.readOnly}"
+                                                  value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).personalCost, x.personalCost)}"
+                                                  styleClass="col06em"
+                                                  disabled="true"/>
                 </h:panelGrid>
                 <h:panelGrid id="diff-material" style="margin: 0; padding : 0;">
-                    <inek:InputIntegerWithMessage rendered="#{data eq 'Sachkosten' or data eq 'Kostenvolumen'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}"
-                                                 styleClass="col06em"
-                                                 disabled="true"/>
+                    <inek:InputIntegerWithMessage rendered="#{data eq 'Sachkosten' or data eq 'Kostenvolumen'}"
+                                                  readonly="#{editCalcBasicsDrg.readOnly}"
+                                                  value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}"
+                                                  styleClass="col06em"
+                                                  disabled="true"/>
                 </h:panelGrid>
                 <h:panelGrid id="diff-infra" style="margin: 0; padding : 0;">
-                    <inek:InputIntegerWithMessage rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).infraCost, x.infraCost)}"
-                                                 styleClass="col06em"
-                                                 disabled="true"/>
+                    <inek:InputIntegerWithMessage rendered="#{data eq 'Infrastrukturkosten'}"
+                                                  readonly="#{editCalcBasicsDrg.readOnly}"
+                                                  value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).infraCost, x.infraCost)}"
+                                                  styleClass="col06em"
+                                                  disabled="true"/>
                 </h:panelGrid>
             </h:column>
         </h:dataTable>
