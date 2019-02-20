@@ -30,10 +30,11 @@
         <h:column>
             <f:facet name="header">Bereich</f:facet>
             <h:outputLabel styleClass="label" value="#{item.serviceProvisionType.text}" rendered="#{item.serviceProvisionTypeId ge 0}"/>
-            <inek:InputTextWithMessage styleClassComponent="element100" 
-                                       styleClass="element100" 
+            <inek:InputTextWithMessage styleClassComponent="element100"
+                                       styleClass="element100"
                                        value="#{item.domain}"
                                        renderElement="@form"
+                                       readonly="#{editCalcBasicsDrg.readOnly}"
                                        required="true"
                                        rendered="#{item.serviceProvisionTypeId lt 0}"/>
         </h:column>
@@ -44,7 +45,7 @@
                              required="true"
                              requiredMessage="#{msg.msgValueNeeded}"
                              title="Bei Teilweise Fremdvergabe: Bitte benennen Sie den teilweise fremdvergebenen Bereich sowie dessen Anteil an der Erbringung in diesem Bereich."
-                             disabled="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
+                             disabled="#{item.serviceProvisionTypeId lt 0 and empty item.domain or editCalcBasicsDrg.readOnly}"
                              value="#{item.providedTypeId}">
                 <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{1}" />
                 <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
@@ -55,17 +56,18 @@
 
         <h:column>
             <f:facet name="header">Fremdvergebene Teilbereiche</f:facet>
-            <inek:InputTextWithMessage id="partition" 
-                                       value="#{item.partitionExternalAssignment}" 
+            <inek:InputTextWithMessage id="partition"
+                                       value="#{item.partitionExternalAssignment}"
                                        required="#{item.providedTypeId eq 3}"
-                                       styleClass="inputwide" 
+                                       readonly="#{editCalcBasicsDrg.readOnly}"
+                                       styleClass="inputwide"
                                        disabled="#{item.providedTypeId ne 3}"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Anmerkungen</f:facet>
-            <inek:InputTextWithMessage value="#{item.note}" 
-                                       readonly="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
+            <inek:InputTextWithMessage value="#{item.note}"
+                                       readonly="#{item.serviceProvisionTypeId lt 0 and empty item.domain or editCalcBasicsDrg.readOnly}"
                                        styleClass="inputwide"/>
         </h:column>
 
@@ -74,7 +76,7 @@
             <inek:InputIntegerWithMessage id="amount" value="#{item.amount}"
                                           styleClassComponent="col05em"
                                           disabled="#{item.providedTypeId lt 2}"
-                                          readonly="#{item.providedTypeId lt 2}"
+                                          readonly="#{item.providedTypeId lt 2 or editCalcBasicsDrg.readOnly}"
                                           renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amount'))}diff:text"
                                           required="#{item.providedTypeId gt 1}"/>
         </h:column>
