@@ -4,11 +4,9 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/feature/calc"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+>
 
     <h2>#{msg.TopicCalcExternalServiceProvision}</h2>
 
@@ -73,12 +71,12 @@
 
         <h:column>
             <f:facet name="header">Kosten- volumen #{editCalcBasicsDrg.calcBasics.dataYear}</f:facet>
-            <inek:InputIntegerWithMessage value="#{item.amount}" 
-                                         styleClassComponent="col05em" 
-                                         disabled="#{item.providedTypeId lt 2}"
-                                         readonly="#{item.providedTypeId lt 2}"
-                                         renderElement="@form" 
-                                         required="#{item.providedTypeId gt 1}"/>
+            <inek:InputIntegerWithMessage id="amount" value="#{item.amount}"
+                                          styleClassComponent="col05em"
+                                          disabled="#{item.providedTypeId lt 2}"
+                                          readonly="#{item.providedTypeId lt 2}"
+                                          renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amount'))}diff:text"
+                                          required="#{item.providedTypeId gt 1}"/>
         </h:column>
 
         <h:column>
@@ -88,7 +86,9 @@
 
         <h:column>
             <f:facet name="header">Abw.</f:facet>
-            <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorProvisionAmount(item), item.amount)}" disabled="true" styleClassComponent="col05em"/>
+            <inek:InputIntegerWithMessage id="diff"
+                                          value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorProvisionAmount(item), item.amount)}"
+                                          disabled="true" styleClassComponent="col05em"/>
         </h:column>
 
     </h:dataTable>
