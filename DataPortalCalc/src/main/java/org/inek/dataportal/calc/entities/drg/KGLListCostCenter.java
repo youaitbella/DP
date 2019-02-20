@@ -154,7 +154,6 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
     @Documentation(name = "Summe Leistungsschlüssel", rank = 70)
     private double _serviceSum;
 
-    @Min(0)
     public double getServiceSum() {
         return _serviceSum;
     }
