@@ -439,11 +439,10 @@ input[type="radio"] + label {
 .label {
   font-weight: bold;
 }
-
 .label08 {
-    font-weight: bold;
-    display: inline-block;
-    width: 8%;
+  font-weight: bold;
+  display: inline-block;
+  width: 8%;
 }
 .label10 {
   font-weight: bold;
@@ -615,17 +614,14 @@ input[type="radio"] + label {
 .element100-37em {
   width: calc(63%);
 }
-
 .element05 {
-    width: 5%;
+  width: 5%;
 }
-
 .element08 {
-    width: 8%;
+  width: 8%;
 }
-
 .element10 {
-    width: 10%;
+  width: 10%;
 }
 .element15 {
   width: 15%;

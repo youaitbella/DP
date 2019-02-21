@@ -1510,6 +1510,11 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void removeCostCenterOpAn(KGLListCostCenterOpAn costCenterOpAn) {
         _costCenterOpAn.remove(costCenterOpAn);
     }
+
+    public void clearCostCenterOpAn() {
+        _costCenterOpAn.clear();
+    }
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyServices">

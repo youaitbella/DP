@@ -1034,4 +1034,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             _calcBasics.addRoomCapability(costCenterId);
         }
     }
+
+    public void addCostCenterOpAn() {
+        _calcBasics.addCostCenterOpAn(new KGLListCostCenterOpAn());
+    }
+
+    public void deleteCostCenterOpAnTable() {
+
+    }
+
+    public void deleteCostCenterOpAn(KGLListCostCenterOpAn value) {
+        _calcBasics.removeCostCenterOpAn(value);
+    }
 }

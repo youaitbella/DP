@@ -1654,7 +1654,66 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                         KGLListRadiologyLaboratory.class
                 );
             //</editor-fold>
+            case "costcenteropan":
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter costCenterOpAn">
+                return new DataImporter<KGLListCostCenterOpAn, DrgCalcBasics>(
+                        "LaufendeNr;KostenstellenNr;KostenstellenName;Standort;Anzahl_VK_ÄD;Kostenvolumen_ÄD;" +
+                                "Anzahl_VK_FD;Kostenvolumen_FD;Leistungszeiten",
+                        new FileHolder("Radiology.csv"),
+                        ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
+                        Arrays.asList(
+                                new DataImportCheck<KGLListCostCenterOpAn, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setRunningNumber(s),
+                                        "LaufendeNr: "),
+                                new DataImportCheck<KGLListCostCenterOpAn, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setCostCenterNumber(s),
+                                        "KostenstellenNr: "),
+                                new DataImportCheck<KGLListCostCenterOpAn, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setCostCenterText(s),
+                                        "KostenstellenName: "),
+                                new DataImportCheck<KGLListCostCenterOpAn, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setLocation(s),
+                                        "Standort: "),
+                                new DataImportCheck<KGLListCostCenterOpAn, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCountMedStaff(s),
+                                        "Anzahl_VK_ÄD: "),
+                                new DataImportCheck<KGLListCostCenterOpAn, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCostVolumeMedStaff(s),
+                                        "Kostenvolumen_ÄD: "),
+                                new DataImportCheck<KGLListCostCenterOpAn, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCountFunctionalService(s),
+                                        "Anzahl_VK_FD: "),
+                                new DataImportCheck<KGLListCostCenterOpAn, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCostVolumeFunctionalService(s),
+                                        "Kostenvolumen_FD: "),
+                                new DataImportCheck<KGLListCostCenterOpAn, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setServiceTime(s),
+                                        "Leistungszeiten: ")
 
+                        ),
+                        (s, t) -> s.addCostCenterOpAn(t),
+                        s -> s.clearCostCenterOpAn(),
+                        KGLListCostCenterOpAn.class
+                );
+            //</editor-fold>
             default:
                 throw new IllegalArgumentException("unknown importer " + importer);
         }

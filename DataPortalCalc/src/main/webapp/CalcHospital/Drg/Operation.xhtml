@@ -16,99 +16,181 @@
                               value="#{editCalcBasicsDrg.calcBasics.opAn.centralOP}"
                               renderElement="@form :script"
                               readonly="#{editCalcBasicsDrg.readOnly}"
-                              listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.opAn.centralOP)}"/>
+                              listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.opAn.centralOP)}" />
 
 
         <div jsf:id="opInfo" jsf:rendered="#{editCalcBasicsDrg.calcBasics.opAn.centralOPCnt gt 0}">
-            <hr/>
+            <hr />
+            <div>
+                <h:dataTable value="#{editCalcBasicsDrg.calcBasics.costCenterOpAn}"
+                             width="100%"
+                             rowClasses="row1, row2"
+                             var="costCenter">
+
+                    <h:column headerClass="colIcon" >
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:commandLink>
+                            <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteCostCenterOpAn(costCenter)}"/>
+                        </h:commandLink>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Laufende Nr.</f:facet>
+                        <inek:InputIntegerWithMessage value="#{costCenter.runningNumber}"
+                                                      readonly="#{editCalcBasicsDrg.readOnly}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Kostenstellen Nr.</f:facet>
+                        <inek:InputTextWithMessage value="#{costCenter.costCenterNumber}"
+                                                   readonly="#{editCalcBasicsDrg.readOnly}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Bezeichnung der Kostenstelle</f:facet>
+                        <inek:InputTextWithMessage value="#{costCenter.costCenterText}"
+                                                   readonly="#{editCalcBasicsDrg.readOnly}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Standort</f:facet>
+                        <inek:InputTextWithMessage value="#{costCenter.location}"
+                                                   readonly="#{editCalcBasicsDrg.readOnly}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Anzahl VK ÄD</f:facet>
+                        <inek:InputNumberWithMessage value="#{costCenter.countMedStaff}"
+                                                     readonly="#{editCalcBasicsDrg.readOnly}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Kostenvolumen ÄD</f:facet>
+                        <inek:InputNumberWithMessage value="#{costCenter.costVolumeMedStaff}"
+                                                     readonly="#{editCalcBasicsDrg.readOnly}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Anzahl VK FD</f:facet>
+                        <inek:InputNumberWithMessage value="#{costCenter.countFunctionalService}"
+                                                     readonly="#{editCalcBasicsDrg.readOnly}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Kostenvolumen FD</f:facet>
+                        <inek:InputNumberWithMessage value="#{costCenter.costVolumeFunctionalService}"
+                                                     readonly="#{editCalcBasicsDrg.readOnly}" />
+                    </h:column>
+                </h:dataTable>
+
+                <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('costcenteropan')}"
+                                    calcbase="#{editCalcBasicsDrg.calcBasics}"
+                                    readOnly="#{editCalcBasicsDrg.readOnly}"
+                                    addListener="#{editCalcBasicsDrg.addCostCenterOpAn()}"
+                                    uploadButtonText="Upload"
+                                    actionDeleteTable="#{editCalcBasicsDrg.deleteCostCenterOpAnTable()}"
+                />
+
+            </div>
+
+            <br />
 
             <div>
-                <h:outputLabel value="" styleClass="label20"/>
+                <h:outputLabel value="" styleClass="label20" />
                 <h:panelGroup styleClass="element40">
-                    <h:outputLabel value="#{msg.lblCalcOperation}" styleClass="blockHeader2 centered"/>
+                    <h:outputLabel value="#{msg.lblCalcOperation}" styleClass="blockHeader2 centered" />
                 </h:panelGroup>
                 <h:panelGroup styleClass="element40">
-                    <h:outputLabel value="#{msg.lblCalcAnaestesia}" styleClass="blockHeader2 centered"/>
+                    <h:outputLabel value="#{msg.lblCalcAnaestesia}" styleClass="blockHeader2 centered" />
                 </h:panelGroup>
             </div>
 
             <div>
-                <h:outputLabel value="" styleClass="label20"/>
+                <h:outputLabel value="" styleClass="label20" />
                 <h:panelGroup styleClass="element20">
-                    <h:outputLabel value="ÄD" styleClass="blockHeader2 centered"/>
+                    <h:outputLabel value="ÄD" styleClass="blockHeader2 centered" />
                 </h:panelGroup>
                 <h:panelGroup styleClass="element20">
-                    <h:outputLabel value="FD/MTD" styleClass="blockHeader2 centered"/>
+                    <h:outputLabel value="FD/MTD" styleClass="blockHeader2 centered" />
                 </h:panelGroup>
                 <h:panelGroup styleClass="element20">
-                    <h:outputLabel value="ÄD" styleClass="blockHeader2 centered"/>
+                    <h:outputLabel value="ÄD" styleClass="blockHeader2 centered" />
                 </h:panelGroup>
                 <h:panelGroup styleClass="element20">
-                    <h:outputLabel value="FD/MTD" styleClass="blockHeader2 centered"/>
+                    <h:outputLabel value="FD/MTD" styleClass="blockHeader2 centered" />
                 </h:panelGroup>
             </div>
 
             <div class="inputPart">
-                <h:outputLabel value="Personalbindungszeit" styleClass="label20"/>
+                <h:outputLabel value="Personalbindungszeit" styleClass="label20" />
                 <inek:Checkbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingMsOP}" styleClass="element20"
-                               readonly="#{editCalcBasicsDrg.readOnly}"/>
+                               readonly="#{editCalcBasicsDrg.readOnly}" />
                 <inek:Checkbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingFsOP}" styleClass="element20"
-                               readonly="#{editCalcBasicsDrg.readOnly}"/>
+                               readonly="#{editCalcBasicsDrg.readOnly}" />
                 <inek:Checkbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingMsAN}" styleClass="element20"
-                               readonly="#{editCalcBasicsDrg.readOnly}"/>
+                               readonly="#{editCalcBasicsDrg.readOnly}" />
                 <inek:Checkbox value="#{editCalcBasicsDrg.calcBasics.opAn.staffBindingFsAN}" styleClass="element20"
-                               readonly="#{editCalcBasicsDrg.readOnly}"/>
+                               readonly="#{editCalcBasicsDrg.readOnly}" />
             </div>
 
             <div class="inputPart">
-                <h:outputLabel value="Schnitt-Naht-Zeit" styleClass="label20"/>
+                <h:outputLabel value="Schnitt-Naht-Zeit" styleClass="label20" />
                 <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzOP}" styleClass="element20"
                                  required="true"
                                  disabled="#{editCalcBasicsDrg.readOnly}"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsSNZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                    <f:ajax render="@form :logout:remaining"/>
+                                 hideNoSelectionOption="true">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true" />
+                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsSNZ}" var="item"
+                                   itemLabel="#{item.label}" itemValue="#{item.value}" />
+                    <f:ajax render="@form :logout:remaining" />
                 </h:selectOneMenu>
-                <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzOP}" styleClass="element20"
+                <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzOP}"
+                                 styleClass="element20"
                                  disabled="#{editCalcBasicsDrg.readOnly}"
                                  required="true"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsSNZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                    <f:ajax render="@form :logout:remaining"/>
+                                 hideNoSelectionOption="true">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true" />
+                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsSNZ}" var="item"
+                                   itemLabel="#{item.label}" itemValue="#{item.value}" />
+                    <f:ajax render="@form :logout:remaining" />
                 </h:selectOneMenu>
                 <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzAN}" styleClass="element20"
                                  disabled="#{editCalcBasicsDrg.readOnly}"
                                  required="true"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsSNZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                    <f:ajax event="change" render="@form :logout:remaining"/>
+                                 hideNoSelectionOption="true">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true" />
+                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsSNZ}" var="item"
+                                   itemLabel="#{item.label}" itemValue="#{item.value}" />
+                    <f:ajax event="change" render="@form :logout:remaining" />
                 </h:selectOneMenu>
-                <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzAN}" styleClass="element20"
+                <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzAN}"
+                                 styleClass="element20"
                                  disabled="#{editCalcBasicsDrg.readOnly}"
                                  required="true"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsSNZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                    <f:ajax event="change" render="@form :logout:remaining"/>
+                                 hideNoSelectionOption="true">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true" />
+                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsSNZ}" var="item"
+                                   itemLabel="#{item.label}" itemValue="#{item.value}" />
+                    <f:ajax event="change" render="@form :logout:remaining" />
                 </h:selectOneMenu>
             </div>
 
-            <h:panelGroup styleClass="inputPart" id="explainSnz" 
+            <h:panelGroup styleClass="inputPart" id="explainSnz"
                           rendered="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzOP eq 4 
                                       or editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzOP eq 4 
                                       or editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzAN eq 4 
                                       or editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzAN eq 4}">
-                <h:outputLabel value="Erläuterung der Alternative" styleClass="label20"/>
+                <h:outputLabel value="Erläuterung der Alternative" styleClass="label20" />
                 <h:panelGroup styleClass="element40">
                     <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.descriptionSnzOP}"
                                                styleClass="inputwide"
                                                required="true"
                                                readonly="#{editCalcBasicsDrg.readOnly}"
                                                rendered="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzOP eq 4 
-                                                           or editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzOP eq 4}"/>
+                                                           or editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzOP eq 4}" />
                 </h:panelGroup>
                 <h:panelGroup styleClass="element40">
                     <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.descriptionSnzAN}"
@@ -116,59 +198,66 @@
                                                required="true"
                                                readonly="#{editCalcBasicsDrg.readOnly}"
                                                rendered="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceSnzAN eq 
-                                                           4 or editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzAN eq 4}"/>
+                                                           4 or editCalcBasicsDrg.calcBasics.opAn.functionalServiceSnzAN eq 4}" />
                 </h:panelGroup>
             </h:panelGroup>
 
             <div class="inputPart">
-                <h:outputLabel value="Rüstzeit" styleClass="label20"/>
+                <h:outputLabel value="Rüstzeit" styleClass="label20" />
                 <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzOP}" styleClass="element20"
                                  required="true"
                                  disabled="#{editCalcBasicsDrg.readOnly}"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                    <f:ajax event="change" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.checkOption}"/>
+                                 hideNoSelectionOption="true">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true" />
+                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item"
+                                   itemLabel="#{item.label}" itemValue="#{item.value}" />
+                    <f:ajax event="change" render="@form :logout:remaining"
+                            listener="#{editCalcBasicsDrg.checkOption}" />
                 </h:selectOneMenu>
-                <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzOP}" styleClass="element20"
+                <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzOP}"
+                                 styleClass="element20"
                                  required="true"
                                  disabled="#{editCalcBasicsDrg.readOnly}"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                    <f:ajax event="change" render="@form :logout:remaining"/>
+                                 hideNoSelectionOption="true">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true" />
+                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item"
+                                   itemLabel="#{item.label}" itemValue="#{item.value}" />
+                    <f:ajax event="change" render="@form :logout:remaining" />
                 </h:selectOneMenu>
                 <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzAN}" styleClass="element20"
                                  required="true"
                                  disabled="#{editCalcBasicsDrg.readOnly}"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                    <f:ajax event="change" render="@form :logout:remaining"/>
+                                 hideNoSelectionOption="true">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true" />
+                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item"
+                                   itemLabel="#{item.label}" itemValue="#{item.value}" />
+                    <f:ajax event="change" render="@form :logout:remaining" />
                 </h:selectOneMenu>
-                <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzAN}" styleClass="element20"
+                <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzAN}"
+                                 styleClass="element20"
                                  required="true"
                                  disabled="#{editCalcBasicsDrg.readOnly}"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                    <f:ajax event="change" render="@form :logout:remaining"/>
+                                 hideNoSelectionOption="true">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true" />
+                    <f:selectItems value="#{calcBasicsStaticData.timeRecordingTypeItemsRZ}" var="item"
+                                   itemLabel="#{item.label}" itemValue="#{item.value}" />
+                    <f:ajax event="change" render="@form :logout:remaining" />
                 </h:selectOneMenu>
             </div>
 
-            <h:panelGroup styleClass="inputPart" id="explainRz" 
+            <h:panelGroup styleClass="inputPart" id="explainRz"
                           rendered="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzOP eq 4 
                                       or editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzOP eq 4 
                                       or editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzAN eq 4 
                                       or editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzAN eq 4}">
-                <h:outputLabel value="Erläuterung der Alternative" styleClass="label20"/>
+                <h:outputLabel value="Erläuterung der Alternative" styleClass="label20" />
                 <h:panelGroup styleClass="element40">
                     <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.descriptionRzOP}"
                                                required="true"
                                                readonly="#{editCalcBasicsDrg.readOnly}"
                                                styleClass="inputwide"
                                                rendered="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzOP eq 4 
-                                                           or editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzOP eq 4}"/>
+                                                           or editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzOP eq 4}" />
                 </h:panelGroup>
                 <h:panelGroup styleClass="element40">
                     <inek:InputTextWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.descriptionRzAN}"
@@ -176,55 +265,69 @@
                                                readonly="#{editCalcBasicsDrg.readOnly}"
                                                styleClass="inputwide"
                                                rendered="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceRzAN eq 
-                                                           4 or editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzAN eq 4}"/>
+                                                           4 or editCalcBasicsDrg.calcBasics.opAn.functionalServiceRzAN eq 4}" />
                 </h:panelGroup>
             </h:panelGroup>
 
 
-            <h4><h:outputLabel value="Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle (SNZ * GZF + RZ)"/></h4>
+            <h4><h:outputLabel
+                    value="Summe der verwendeten Leistungsminuten der kalkulationsrelevanten Fälle (SNZ * GZF + RZ)" />
+            </h4>
 
             <div class="inputPart">
-                <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="label20"/>
+                <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="label20" />
                 <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP}"
                                               styleClassComponent="element20 centered" styleClass="element50"
                                               title="#{msg.titleCalcOpAnSum}"
                                               readonly="#{editCalcBasicsDrg.readOnly}"
-                                              renderElement="diff" required="true"/>
+                                              renderElement="diff" required="true" />
                 <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP}"
                                               styleClassComponent="element20 centered" styleClass="element50"
                                               title="#{msg.titleCalcOpAnSum}"
                                               readonly="#{editCalcBasicsDrg.readOnly}"
-                                              renderElement="diff" required="true"/>
+                                              renderElement="diff" required="true" />
                 <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN}"
                                               styleClassComponent="element20 centered" styleClass="element50"
                                               title="#{msg.titleCalcOpAnSum}"
                                               readonly="#{editCalcBasicsDrg.readOnly}"
-                                              renderElement="diff" required="true"/>
+                                              renderElement="diff" required="true" />
                 <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN}"
                                               styleClassComponent="element20 centered" styleClass="element50"
                                               title="#{msg.titleCalcOpAnSum}"
                                               readonly="#{editCalcBasicsDrg.readOnly}"
-                                              renderElement="diff" required="true"/>
+                                              renderElement="diff" required="true" />
             </div>
 
             <div class="inputPart">
-                <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="label20"/>
-                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+                <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="label20" />
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP}"
+                                              styleClassComponent="element20 centered" styleClass="element50"
+                                              disabled="true" />
+                <inek:InputIntegerWithMessage
+                        value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP}"
+                        styleClassComponent="element20 centered" styleClass="element50" disabled="true" />
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN}"
+                                              styleClassComponent="element20 centered" styleClass="element50"
+                                              disabled="true" />
+                <inek:InputIntegerWithMessage
+                        value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN}"
+                        styleClassComponent="element20 centered" styleClass="element50" disabled="true" />
             </div>
 
             <div class="inputPart" jsf:id="diff">
-                <h:outputLabel value="Abweichung" styleClass="label20"/>
-                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP, editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP)}" 
-                                              styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP)}"
-                                              styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN)}"
-                                              styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN)}"
-                                              styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+                <h:outputLabel value="Abweichung" styleClass="label20" />
+                <inek:InputIntegerWithMessage
+                        value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP, editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP)}"
+                        styleClassComponent="element20 centered" styleClass="element50" disabled="true" />
+                <inek:InputIntegerWithMessage
+                        value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP)}"
+                        styleClassComponent="element20 centered" styleClass="element50" disabled="true" />
+                <inek:InputIntegerWithMessage
+                        value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN)}"
+                        styleClassComponent="element20 centered" styleClass="element50" disabled="true" />
+                <inek:InputIntegerWithMessage
+                        value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN)}"
+                        styleClassComponent="element20 centered" styleClass="element50" disabled="true" />
             </div>
 
             <h2>#{msg.lblTopAmbulantService}</h2>
@@ -236,12 +339,12 @@
                 <h:column>
                     <f:facet name="header">#{msg.lblNotation}</f:facet>
                     <inek:InputTextWithMessage value="#{item.text}" required="#{!item.isEmpty()}"
-                                               readonly="#{editCalcBasicsDrg.readOnly}"/>
+                                               readonly="#{editCalcBasicsDrg.readOnly}" />
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{msg.lblCaseCount}</f:facet>
                     <inek:InputIntegerWithMessage value="#{item.caseCount}" required="#{!item.isEmpty()}"
-                                                  readonly="#{editCalcBasicsDrg.readOnly}"/>
+                                                  readonly="#{editCalcBasicsDrg.readOnly}" />
                 </h:column>
                 <!--<h:column>
                     <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
@@ -250,22 +353,22 @@
                 <h:column>
                     <f:facet name="header">Summe Gesamtzeit</f:facet>
                     <inek:InputIntegerWithMessage value="#{item.sumCompleteTime}" required="#{!item.isEmpty()}"
-                                                  readonly="#{editCalcBasicsDrg.readOnly}"/>
+                                                  readonly="#{editCalcBasicsDrg.readOnly}" />
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
                     <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"
-                                                  readonly="#{editCalcBasicsDrg.readOnly}"/>
+                                                  readonly="#{editCalcBasicsDrg.readOnly}" />
                 </h:column>
                 <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
                     <f:facet name="header">Kostenvolumen ÄD</f:facet>
                     <inek:InputIntegerWithMessage value="#{item.medicalService}" required="#{!item.isEmpty()}"
-                                                  readonly="#{editCalcBasicsDrg.readOnly}"/>
+                                                  readonly="#{editCalcBasicsDrg.readOnly}" />
                 </h:column>
                 <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
                     <f:facet name="header">Kostenvolumen FD</f:facet>
                     <inek:InputIntegerWithMessage value="#{item.functionalService}" required="#{!item.isEmpty()}"
-                                                  readonly="#{editCalcBasicsDrg.readOnly}"/>
+                                                  readonly="#{editCalcBasicsDrg.readOnly}" />
                 </h:column>
             </h:dataTable>
         </div>
