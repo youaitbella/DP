@@ -6,6 +6,19 @@
 package org.inek.dataportal.calc.entities.drg;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.inek.dataportal.calc.ListUtil;
+import org.inek.dataportal.calc.backingbean.CalcBasicsStaticData;
+import org.inek.dataportal.calc.entities.psy.KglPkmsAlternative;
+import org.inek.dataportal.common.data.iface.StatusEntity;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.Documentation;
+
+import javax.faces.model.SelectItem;
+import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -15,33 +28,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
-import javax.faces.model.SelectItem;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.persistence.Version;
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.inek.dataportal.calc.entities.psy.KglPkmsAlternative;
-import org.inek.dataportal.common.data.iface.StatusEntity;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.calc.backingbean.CalcBasicsStaticData;
-import org.inek.dataportal.common.utils.Documentation;
-import org.inek.dataportal.calc.ListUtil;
 
 /**
  *
@@ -852,7 +838,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
 
     @Documentation(name = "Berücksichtigte Abgrenzungstatbestände", rank = 1120)
-    @JsonIgnore
     public List<DrgDelimitationFact> getDelimitationFactsInUse() {
         return _delimitationFacts.stream().filter(i -> i.isUsed() == true).collect(Collectors.toList());
     }
@@ -951,13 +936,11 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
 
     @Documentation(name = "Kostenstellen", headline = "Kostenstellengruppe 9 (Radiologie)", rank = 7000)
-    @JsonIgnore
     public List<KGLListRadiologyLaboratory> getRadiologies() {
         return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 9).collect(Collectors.toList());
     }
 
     @Documentation(name = "Kostenstellen", headline = "Kostenstellengruppe 10 (Laboratorien)", rank = 8000)
-    @JsonIgnore
     public List<KGLListRadiologyLaboratory> getLaboratories() {
         return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 10).collect(Collectors.toList());
     }
@@ -1527,7 +1510,20 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void removeCostCenterOpAn(KGLListCostCenterOpAn costCenterOpAn) {
         _costCenterOpAn.remove(costCenterOpAn);
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property List RadiologyServices">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "rcBaseInformationId", referencedColumnName = "biID")
+    private List<KglRoomCapability> _kglRoomCapability = new Vector<>();
+
+    public List<KglRoomCapability> getRoomCapabilities() {
+        return Collections.unmodifiableList(_kglRoomCapability);
+    }
+
+    public void addRoomCapability() {
+        _kglRoomCapability.add(new KglRoomCapability(this));
+    }
     //</editor-fold>
 
     @Override
