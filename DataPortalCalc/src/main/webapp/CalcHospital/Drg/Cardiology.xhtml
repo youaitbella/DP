@@ -22,58 +22,49 @@
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"/>
         <h:outputLabel styleClass="label15 number" value="Abweichung"/>
 
-        <br/>
+        <div class="inputPart">
         <h:outputLabel styleClass="label50" value="#{msg.lblCardiologyRoomCount}"/>
-        <h:inputText styleClass="element15"
-                     id="cardiologyRoomCnt"
-                     value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}"
-                     readonly="#{editCalcBasicsDrg.readOnly}">
+            <h:inputText styleClass="element15 number"
+                         id="cardiologyRoomCnt"
+                         value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}"
+                         readonly="#{editCalcBasicsDrg.readOnly}">
             <f:ajax event="blur" render="@this lblDiffcardiologyRoomCnt :logout:remaining" />
             <f:convertNumber/>
         </h:inputText>
 
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyRoomCnt}">
-            <f:convertNumber/>
-        </h:outputLabel>
-        <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyRoomCnt" value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyRoomCnt}">
-            <f:convertNumber/>
-        </h:outputLabel>
+            <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyRoomCnt}"/>
+            <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyRoomCnt"
+                           value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyRoomCnt}"/>
+        </div>
 
-        <br/>
-
+        <div class="inputPart">
         <h:outputLabel styleClass="label50" value="Anzahl Standorte"/>
-        <h:inputText styleClass="element15"
-                     id="cardiologyLocationCnt"
-                     value="#{editCalcBasicsDrg.calcBasics.cardiologyLocationCnt}"
-                     readonly="#{editCalcBasicsDrg.readOnly}">
+            <h:inputText styleClass="element15 number"
+                         id="cardiologyLocationCnt"
+                         value="#{editCalcBasicsDrg.calcBasics.cardiologyLocationCnt}"
+                         readonly="#{editCalcBasicsDrg.readOnly}">
             <f:ajax event="blur" render="@this lblDiffcardiologyLocationCnt :logout:remaining" />
             <f:convertNumber/>
         </h:inputText>
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyLocationCnt}">
-            <f:convertNumber/>
-        </h:outputLabel>
-        <h:outputLabel styleClass="label15 number"
-                       id="lblDiffcardiologyLocationCnt"
-                       value="#{editCalcBasicsDrg.calcBasics.cardiologyLocationCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyLocationCnt}">
-            <f:convertNumber/>
-        </h:outputLabel>
+            <h:outputLabel styleClass="label15 number"
+                           value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyLocationCnt}"/>
+            <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyLocationCnt"
+                           value="#{editCalcBasicsDrg.calcBasics.cardiologyLocationCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyLocationCnt}"/>
+        </div>
 
-        <br/>
-
+        <div class="inputPart">
         <h:outputLabel styleClass="label50" value="#{msg.lblCardiologyCaseCount}"/>
-        <h:inputText styleClass="element15"
-                     id="cardiologyCaseCnt"
-                     value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt}"
-                     readonly="#{editCalcBasicsDrg.readOnly}">
+            <h:inputText styleClass="element15 number"
+                         id="cardiologyCaseCnt"
+                         value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt}"
+                         readonly="#{editCalcBasicsDrg.readOnly}">
             <f:ajax event="blur" render="@this lblDiffcardiologyCaseCnt :logout:remaining" />
             <f:convertNumber/>
         </h:inputText>
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}">
-            <f:convertNumber/>
-        </h:outputLabel>
-        <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyCaseCnt" value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}">
-            <f:convertNumber/>
-        </h:outputLabel>
+            <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}"/>
+            <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyCaseCnt"
+                           value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}"/>
+        </div>
 
     </div>
 
