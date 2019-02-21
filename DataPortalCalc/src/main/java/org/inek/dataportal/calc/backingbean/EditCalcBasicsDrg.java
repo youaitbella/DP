@@ -24,6 +24,7 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 
 import javax.annotation.PostConstruct;
+import javax.faces.component.UIInput;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -1022,6 +1023,17 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } catch (Exception ex) {
 
         }
+    }
+
+    public void adjustAllRoomCapabilities(AjaxBehaviorEvent event) {
+        UIInput roomValue = (UIInput) event.getComponent();
+        try {
+            int rooms = Integer.parseInt(roomValue.getValue().toString());
+            System.out.println("" + rooms);
+        } catch (NumberFormatException ex) {
+            // ignore
+        }
+
     }
 
     public void adjustAllRoomCapabilities() {

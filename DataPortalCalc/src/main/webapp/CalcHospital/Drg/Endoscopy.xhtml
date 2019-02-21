@@ -29,9 +29,9 @@
             <h:outputLabel styleClass="label50" value="#{msg.lblEndoscopyRoomCount}"/>
             <h:inputText styleClass="element15 number" id="endoscopyRoomCnt"
                          value="#{editCalcBasicsDrg.calcBasics.endoscopyRoomCnt}"
-                         valueChangeListener="#{editCalcBasicsDrg.adjustAllRoomCapabilities}"
                          readonly="#{editCalcBasicsDrg.readOnly}">
-                <f:ajax event="blur" render="@form @this lblDiffendoscopyRoomCnt :logout:remaining"/>
+                <f:ajax event="blur" render="@form @this lblDiffendoscopyRoomCnt :logout:remaining"
+                        listener="#{editCalcBasicsDrg.adjustAllRoomCapabilities}"/>
                 <f:convertNumber/>
             </h:inputText>
             <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.endoscopyRoomCnt}">

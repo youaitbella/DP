@@ -29,9 +29,9 @@
             <h:inputText styleClass="element15 number"
                          id="cardiologyRoomCnt"
                          value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}"
-                         valueChangeListener="#{editCalcBasicsDrg.adjustAllRoomCapabilities}"
                          readonly="#{editCalcBasicsDrg.readOnly}">
-                <f:ajax event="blur" render="@form @this lblDiffcardiologyRoomCnt :logout:remaining"/>
+                <f:ajax event="blur" render="@form @this lblDiffcardiologyRoomCnt :logout:remaining"
+                        listener="#{editCalcBasicsDrg.adjustAllRoomCapabilities}"/>
                 <f:convertNumber/>
             </h:inputText>
 
