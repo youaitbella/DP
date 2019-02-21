@@ -1659,7 +1659,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 return new DataImporter<KGLListCostCenterOpAn, DrgCalcBasics>(
                         "LaufendeNr;KostenstellenNr;KostenstellenName;Standort;Anzahl_VK_ÄD;Kostenvolumen_ÄD;" +
                                 "Anzahl_VK_FD;Kostenvolumen_FD;Leistungszeiten",
-                        new FileHolder("Radiology.csv"),
+                        new FileHolder("Operation.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
                         Arrays.asList(
                                 new DataImportCheck<KGLListCostCenterOpAn, Integer>(

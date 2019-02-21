@@ -31,7 +31,7 @@
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
-                        <h:commandLink>
+                        <h:commandLink rendered="#{!editCalcBasicsDrg.readOnly}">
                             <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                             <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteCostCenterOpAn(costCenter)}"/>
                         </h:commandLink>
@@ -96,6 +96,7 @@
 
             </div>
 
+            <br />
             <br />
 
             <div>

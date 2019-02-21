@@ -1045,7 +1045,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void deleteCostCenterOpAnTable() {
-
+        _calcBasics.clearCostCenterOpAn();
     }
 
     public void deleteCostCenterOpAn(KGLListCostCenterOpAn value) {
