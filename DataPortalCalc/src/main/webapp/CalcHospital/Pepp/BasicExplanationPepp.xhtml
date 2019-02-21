@@ -85,10 +85,10 @@
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
-                                              value="#{editCalcBasicsPepp.calcBasics.sumCalcCost}"
+                                              value="#{editCalcBasicsPepp.calcBasics.redeemingVolume}"
                                               required="true"
-                                              id="sumCalcCosts_"
-                                              renderElement="@this pDiffSumCalcCost_ :logout:remaining"
+                                              id="redeemingVolume"
+                                              renderElement="@this pDiffredeemingVolume :logout:remaining"
                                               readonly="#{editCalcBasicsPepp.isReadOnly()}"
                                               title="Bitte geben Sie das Erlösvolumen ohne Erlösausgleiche an."
                 />
@@ -103,9 +103,9 @@
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
-                                              value="#{editCalcBasicsPepp.priorCalcBasics.sumCalcCost}"
+                                              value="#{editCalcBasicsPepp.priorCalcBasics.redeemingVolume}"
                                               disabled="true"
-                                              id="pSumCalcCost_"
+                                              id="predeemingVolume"
                                               readonly="#{editCalcBasicsPepp.isReadOnly()}"
                 />
             </td>
@@ -117,7 +117,7 @@
                 />
             </td>
             <td>
-                <h:panelGroup id="pDiffSumCalcCost_">
+                <h:panelGroup id="pDiffRedeemingVolume">
                     <inek:InputIntegerWithMessage styleClass="inputwide"
                                                   value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.sumCalcCost, editCalcBasicsPepp.calcBasics.sumCalcCost)}"
                                                   disabled="true"
@@ -125,7 +125,7 @@
                 </h:panelGroup>
             </td>
             <td>
-                <h:panelGroup id="pDiffSumCalcCostPsy_">
+                <h:panelGroup>
                     <inek:InputIntegerWithMessage styleClass="inputwide"
                                                   value=""
                                                   disabled="true"
@@ -220,8 +220,8 @@
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.calcBasics.careDaysInStationCnt}"
                                               required="true"
-                                              id="careDaysFullCases"
-                                              renderElement="@this pDiffCareDaysStationCount :logout:remaining"
+                                              id="careDaysInStationCnt"
+                                              renderElement="@this pDiffCareDaysInStationCnt :logout:remaining"
                                               readonly="#{editCalcBasicsPepp.isReadOnly()}"
                 />
             </td>
@@ -229,8 +229,8 @@
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.calcBasics.careDaysInStationCntPsy}"
                                               required="true"
-                                              id="careDaysFullCasesPsy"
-                                              renderElement="@this pDiffCareDaysStationCountPsy :logout:remaining"
+                                              id="careDaysInStationCntPsy"
+                                              renderElement="@this pDiffcareDaysInStationCntPsy :logout:remaining"
                                               readonly="#{editCalcBasicsPepp.isReadOnly()}"
                 />
             </td>
@@ -283,8 +283,8 @@
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.calcBasics.casePartialStationCntPsy}"
                                               required="true"
-                                              id="halfCasesPsy"
-                                              renderElement="@this pDiffPartialStationCount :logout:remaining"
+                                              id="casePartialStationCntPsy"
+                                              renderElement="@this pDiffCasePartialStationCntPsy :logout:remaining"
                                               readonly="#{editCalcBasicsPepp.isReadOnly()}"
                 />
             </td>
@@ -301,7 +301,7 @@
                 />
             </td>
             <td>
-                <h:panelGroup id="pDiffPartialStationCount">
+                <h:panelGroup id="pDiffCasePartialStationCnt">
                     <inek:InputNumberWithMessage styleClass="inputwide"
                                                  value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.casePartialStationCnt, editCalcBasicsPepp.calcBasics.casePartialStationCnt)}"
                                                  disabled="true"
@@ -309,7 +309,7 @@
                 </h:panelGroup>
             </td>
             <td>
-                <h:panelGroup id="pDiffPartialStationCountPsy">
+                <h:panelGroup id="pDiffCasePartialStationCntPsy">
                     <inek:InputNumberWithMessage styleClass="inputwide"
                                                  value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.casePartialStationCntPsy, editCalcBasicsPepp.calcBasics.casePartialStationCntPsy)}"
                                                  disabled="true"
@@ -328,8 +328,8 @@
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.calcBasics.daysPartialStation}"
                                               required="true"
-                                              id="halfCalcDays"
-                                              renderElement="@this pDiffHalfCalcDays :logout:remaining"
+                                              id="daysPartialStation"
+                                              renderElement="@this pDiffDaysPartialStation :logout:remaining"
                                               readonly="#{editCalcBasicsPepp.isReadOnly()}"
                 />
             </td>
@@ -337,27 +337,27 @@
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.calcBasics.daysPartialStationPsy}"
                                               required="true"
-                                              id="halfCalcDaysPsy"
-                                              renderElement="@this pDiffHalfCalcDaysPsy :logout:remaining"
+                                              id="daysPartialStationPsy"
+                                              renderElement="@this pDiffDaysPartialStationPsy :logout:remaining"
                                               readonly="#{editCalcBasicsPepp.isReadOnly()}"
                 />
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.priorCalcBasics.daysPartialStation}"
-                                              id="pHalfCalcDays"
+                                              id="pdaysPartialStation"
                                               disabled="true"
                 />
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.priorCalcBasics.daysPartialStationPsy}"
-                                              id="pHalfCalcDaysPsy"
+                                              id="pdaysPartialStationPsy"
                                               disabled="true"
                 />
             </td>
             <td>
-                <h:panelGroup id="pDiffHalfCalcDays">
+                <h:panelGroup id="pDiffDaysPartialStation">
                     <inek:InputNumberWithMessage styleClass="inputwide"
                                                  value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.daysPartialStation, editCalcBasicsPepp.calcBasics.daysPartialStation)}"
                                                  disabled="true"
@@ -365,7 +365,7 @@
                 </h:panelGroup>
             </td>
             <td>
-                <h:panelGroup id="pDiffHalfCalcDaysPsy">
+                <h:panelGroup id="pDiffdaysPartialStationPsy">
                     <inek:InputNumberWithMessage styleClass="inputwide"
                                                  value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.daysPartialStationPsy, editCalcBasicsPepp.calcBasics.daysPartialStationPsy)}"
                                                  disabled="true"
@@ -384,20 +384,20 @@
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
-                value="#{editCalcBasicsPepp.calcBasics.stationEquivalentCnt}"
-                required="true"
-                id="aequivalentCases"
-                renderElement="@this pDiffEquivalentStationCount :logout:remaining"
-                readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                                              value="#{editCalcBasicsPepp.calcBasics.stationEquivalentCnt}"
+                                              required="true"
+                                              id="stationEquivalentCnt"
+                                              renderElement="@this pDiffStationEquivalentCnt :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
                 />
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
-                value="#{editCalcBasicsPepp.calcBasics.stationEquivalentCntPsy}"
-                required="true"
-                id="aequivalentCasesPsy"
-                renderElement="@this pDiffEquivalentStationCount :logout:remaining"
-                readonly="#{editCalcBasicsPepp.isReadOnly()}"
+                                              value="#{editCalcBasicsPepp.calcBasics.stationEquivalentCntPsy}"
+                                              required="true"
+                                              id="stationEquivalentCntPsy"
+                                              renderElement="@this pDiffStationEquivalentCntPsy :logout:remaining"
+                                              readonly="#{editCalcBasicsPepp.isReadOnly()}"
                 />
             </td>
             <td>
@@ -413,7 +413,7 @@
                 />
             </td>
             <td>
-                <h:panelGroup id="pDiffEquivalentStationCount">
+                <h:panelGroup id="pDiffStationEquivalentCnt">
                     <inek:InputNumberWithMessage styleClass="inputwide"
                                                  value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.stationEquivalentCnt, editCalcBasicsPepp.calcBasics.stationEquivalentCnt)}"
                                                  disabled="true"
@@ -421,7 +421,7 @@
                 </h:panelGroup>
             </td>
             <td>
-                <h:panelGroup id="pDiffEquivalentStationCountPsy">
+                <h:panelGroup id="pDiffStationEquivalentCntPsy">
                     <inek:InputNumberWithMessage styleClass="inputwide"
                                                  value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.stationEquivalentCntPsy, editCalcBasicsPepp.calcBasics.stationEquivalentCntPsy)}"
                                                  disabled="true"
@@ -440,8 +440,8 @@
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.calcBasics.daysStationEquivalentCnt}"
                                               required="true"
-                                              id="aequivalentCalcDays"
-                                              renderElement="@this pAequivalentCalcDays :logout:remaining"
+                                              id="daysStationEquivalentCnt"
+                                              renderElement="@this pDiffDaysStationEquivalentCnt :logout:remaining"
                                               readonly="#{editCalcBasicsPepp.isReadOnly()}"
                 />
             </td>
@@ -449,27 +449,27 @@
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.calcBasics.daysStationEquivalentCntPsy}"
                                               required="true"
-                                              id="aequivalentCalcDaysPsy"
-                                              renderElement="@this pAequivalentCalcDaysPsy :logout:remaining"
+                                              id="daysStationEquivalentCntPsy"
+                                              renderElement="@this pDiffDaysStationEquivalentCntPsy :logout:remaining"
                                               readonly="#{editCalcBasicsPepp.isReadOnly()}"
                 />
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.priorCalcBasics.daysStationEquivalentCnt}"
-                                              id="pAequivalentCalcDays"
+                                              id="pdaysStationEquivalentCnt"
                                               disabled="true"
                 />
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
                                               value="#{editCalcBasicsPepp.priorCalcBasics.daysStationEquivalentCntPsy}"
-                                              id="pAequivalentCalcDaysPsy"
+                                              id="pdaysStationEquivalentCntPsy"
                                               disabled="true"
                 />
             </td>
             <td>
-                <h:panelGroup id="pDiffAequivalentCalcDays">
+                <h:panelGroup id="pDiffDaysStationEquivalentCnt">
                     <inek:InputNumberWithMessage styleClass="inputwide"
                                                  value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.daysStationEquivalentCnt, editCalcBasicsPepp.calcBasics.daysStationEquivalentCnt)}"
                                                  disabled="true"
@@ -477,7 +477,7 @@
                 </h:panelGroup>
             </td>
             <td>
-                <h:panelGroup id="pDiffAequivalentCalcDaysPsy">
+                <h:panelGroup id="pDiffDaysStationEquivalentCntPsy">
                     <inek:InputNumberWithMessage styleClass="inputwide"
                                                  value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.daysStationEquivalentCntPsy, editCalcBasicsPepp.calcBasics.daysStationEquivalentCntPsy)}"
                                                  disabled="true"

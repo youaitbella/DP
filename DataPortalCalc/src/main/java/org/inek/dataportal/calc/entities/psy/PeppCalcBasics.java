@@ -7,6 +7,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.Documentation;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -568,6 +569,19 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
         this._daysStationEquivalentCntPsy = daysStationEquivalentCntPsy;
     }
     // </editor-fold>
+
+    @Column(name = "biRedeemingVolume")
+    private int _redeemingVolume;
+
+    @Min(0)
+    public int getRedeemingVolume() {
+        return _redeemingVolume;
+    }
+
+    public void setRedeemingVolume(int redeemingVolume) {
+        this._redeemingVolume = redeemingVolume;
+    }
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="otherMethodMedInfraDesc">
     @Transient
