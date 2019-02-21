@@ -155,7 +155,7 @@
         </tr>
         <tr>
             <td>
-                <span class="label">vollstationär</span>
+                <span class="label">Vollstationär</span>
             </td>
             <td>
                 <span class="label">Fälle</span>
@@ -265,7 +265,7 @@
         </tr>
         <tr>
             <td>
-                <span class="label">teilstationär</span>
+                <span class="label">Teilstationär</span>
             </td>
             <td>
                 <span class="label">Fälle</span>
@@ -384,21 +384,19 @@
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
-                <!--value="#{editCalcBasicsPepp.calcBasics.casePartialStationCnt}"-->
                 value="#{editCalcBasicsPepp.calcBasics.stationEquivalentCnt}"
                 required="true"
                 id="aequivalentCases"
-                renderElement="@this pDiffAequivalentStationCount :logout:remaining"
+                renderElement="@this pDiffEquivalentStationCount :logout:remaining"
                 readonly="#{editCalcBasicsPepp.isReadOnly()}"
                 />
             </td>
             <td>
                 <inek:InputIntegerWithMessage styleClass="inputwide"
-                <!--value="#{editCalcBasicsPepp.calcBasics.casePartialStationCntPsy}"-->
                 value="#{editCalcBasicsPepp.calcBasics.stationEquivalentCntPsy}"
                 required="true"
                 id="aequivalentCasesPsy"
-                renderElement="@this pDiffAequivalentStationCount :logout:remaining"
+                renderElement="@this pDiffEquivalentStationCount :logout:remaining"
                 readonly="#{editCalcBasicsPepp.isReadOnly()}"
                 />
             </td>
@@ -415,7 +413,7 @@
                 />
             </td>
             <td>
-                <h:panelGroup id="pDiffAequivalentStationCount">
+                <h:panelGroup id="pDiffEquivalentStationCount">
                     <inek:InputNumberWithMessage styleClass="inputwide"
                                                  value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.stationEquivalentCnt, editCalcBasicsPepp.calcBasics.stationEquivalentCnt)}"
                                                  disabled="true"
@@ -423,7 +421,7 @@
                 </h:panelGroup>
             </td>
             <td>
-                <h:panelGroup id="pDiffAequivalentStationCountPsy">
+                <h:panelGroup id="pDiffEquivalentStationCountPsy">
                     <inek:InputNumberWithMessage styleClass="inputwide"
                                                  value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.stationEquivalentCntPsy, editCalcBasicsPepp.calcBasics.stationEquivalentCntPsy)}"
                                                  disabled="true"
