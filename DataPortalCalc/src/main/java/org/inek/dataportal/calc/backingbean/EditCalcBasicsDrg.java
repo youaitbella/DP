@@ -106,6 +106,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             PreloadFunctionsCalcBasicsDrg.
                     populateDelimitationFactsIfAbsent(_calcDrgFacade, _calcBasics, _priorCalcBasics);
             loadPriorDataForNormalWardTable(_calcBasics, _priorCalcBasics);
+            adjustAllRoomCapabilities();
         } else {
             _calcBasics = newCalcBasicsDrg();
             Utils.navigate(Pages.Error.RedirectURL());
@@ -136,7 +137,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (hasSufficientRights(calcBasics)) {
             return calcBasics;
         }
-        adjustRoomCapabilities();
         return new DrgCalcBasics();
     }
 
@@ -1024,7 +1024,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
     }
 
-    public void adjustRoomCapabilities() {
+    public void adjustAllRoomCapabilities() {
         adjustRoomCapabilities(7, _calcBasics.getCardiologyRoomCnt());
         adjustRoomCapabilities(8, _calcBasics.getEndoscopyRoomCnt());
     }
@@ -1033,6 +1033,31 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         while (_calcBasics.getRoomCapabilities(costCenterId).size() < roomCount) {
             _calcBasics.addRoomCapability(costCenterId);
         }
+    }
+
+    public List<SelectItem> getMainServices(int costCenterId) {
+        // todo: this is a quick hack to retrieve some test items
+        // need to retrieve them from KGLListHeaderText (or other appropriate table)
+        List<SelectItem> items = new ArrayList<>();
+
+        if (costCenterId == 7) {
+            items.add(new SelectItem(1, "Ablative Maßnahmen"));
+            items.add(new SelectItem(2, "Defibrillator"));
+            items.add(new SelectItem(3, "Endovaskuläre Stent-Prothesen Aorta"));
+            items.add(new SelectItem(4, "Herzklappen (minimalinvasiv)"));
+            items.add(new SelectItem(5, "Herzschrittmacher"));
+            items.add(new SelectItem(6, "Kardio Diagnostik"));
+            items.add(new SelectItem(7, "Koronarangioplastie"));
+            items.add(new SelectItem(8, " perkutan-transluminale Intervention"));
+        } else {
+            items.add(new SelectItem(1, "Gastroenterologie"));
+            items.add(new SelectItem(2, "Koloskopie"));
+            items.add(new SelectItem(3, "ERCP"));
+            items.add(new SelectItem(4, "Endoskopische Biopsien"));
+            items.add(new SelectItem(5, "Therapeutische Spülungen"));
+            items.add(new SelectItem(6, "Anlage einer Ernährungssonde (z.B. PEG)"));
+        }
+        return items;
     }
 
     public void deleteRoomCapability(KglRoomCapability roomCapability) {

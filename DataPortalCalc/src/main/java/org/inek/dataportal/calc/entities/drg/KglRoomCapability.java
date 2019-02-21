@@ -17,6 +17,7 @@ public class KglRoomCapability {
 
     //<editor-fold desc="Property Id">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rcId")
     private int id;
 
@@ -98,14 +99,14 @@ public class KglRoomCapability {
 
     //<editor-fold desc="Property MedFullVigorCount">
     @Column(name = "rcMedFullVigorCount")
-    private double mMedFullVigorCount;
+    private double medFullVigorCount;
 
-    public double getmMedFullVigorCount() {
-        return mMedFullVigorCount;
+    public double getMedFullVigorCount() {
+        return medFullVigorCount;
     }
 
-    public void setmMedFullVigorCount(double mMedFullVigorCount) {
-        this.mMedFullVigorCount = mMedFullVigorCount;
+    public void setMedFullVigorCount(double medFullVigorCount) {
+        this.medFullVigorCount = medFullVigorCount;
     }
     //</editor-fold>
 
@@ -162,7 +163,7 @@ public class KglRoomCapability {
         if (costCenterId != that.costCenterId) return false;
         if (mainServiceId != that.mainServiceId) return false;
         if (caseCount != that.caseCount) return false;
-        if (Double.compare(that.mMedFullVigorCount, mMedFullVigorCount) != 0) return false;
+        if (Double.compare(that.medFullVigorCount, medFullVigorCount) != 0) return false;
         if (Double.compare(that.medCostAmount, medCostAmount) != 0) return false;
         if (Double.compare(that.functFullVigorCount, functFullVigorCount) != 0) return false;
         if (Double.compare(that.functCostAmount, functCostAmount) != 0) return false;

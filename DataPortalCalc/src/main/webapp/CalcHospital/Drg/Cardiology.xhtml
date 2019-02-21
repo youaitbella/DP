@@ -5,7 +5,9 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-                xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:cb="http://inek.org/dataportal/clientbehaviour">
+                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/feature/calc"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+>
 
     <h2>#{msg.TopicCalcCardiology}</h2>
 
@@ -27,8 +29,9 @@
             <h:inputText styleClass="element15 number"
                          id="cardiologyRoomCnt"
                          value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}"
+                         valueChangeListener="#{editCalcBasicsDrg.adjustAllRoomCapabilities}"
                          readonly="#{editCalcBasicsDrg.readOnly}">
-                <f:ajax event="blur" render="@this lblDiffcardiologyRoomCnt :logout:remaining"/>
+                <f:ajax event="blur" render="@form @this lblDiffcardiologyRoomCnt :logout:remaining"/>
                 <f:convertNumber/>
             </h:inputText>
 
@@ -66,32 +69,9 @@
                            value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}"/>
         </div>
 
-        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.getRoomCapabilities(7)}"
-                     var="roomCapability"
-                     width="100%" rowClasses="row1, row2"
-                     columnClasses="colIcon, colValue, col04em, col04em, colValue">
+        <br/>
+        <calc:RoomCababilitiy costCenterId="7" roomCount="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}"/>
 
-            <h:column>
-                <h:commandLink action="#{editCalcBasicsDrg.deleteRoomCapability(roomCapability)}"
-                               rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.calcBasics.cardiologyRoomCnt lt editCalcBasicsDrg.calcBasics.getRoomCapabilities(7).size}"
-                               immediate="true" styleClass="colIcon">
-                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
-                                    value=""
-                                    rendered="#{!editCalcBasicsDrg.readOnly}"/>
-                    <cb:confirmDelete/>
-                </h:commandLink>
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">Benennung des Eingriffraumes</f:facet>
-                <inek:InputTextWithMessage id="roomName"
-                                           required="true"
-                                           value="#{roomCapability.roomName}"
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
-                                           styleClass="fullWidth">
-                </inek:InputTextWithMessage>
-            </h:column>
-        </h:dataTable>
     </div>
 
 </ui:composition>

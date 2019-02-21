@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cb="http://inek.org/dataportal/clientbehaviour">
+
+<!-- INTERFACE -->
+<cc:interface>
+    <cc:attribute name="costCenterId"/>
+    <cc:attribute name="roomCount"/>
+    <cc:attribute
+            name="backingBean"/> <!-- class="org.inek.dataportal.feature.calculationhospital.EditCalcBasicsDrg" might be Pepp, too -->
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+    <h4><h:outputLabel
+            value="Bitte bennenen Sie die Eingriffsräume und geben den Hauptleistugsbereich nebst Kennzahlen an"/>
+    </h4>
+    <h:dataTable value="#{editCalcBasicsDrg.calcBasics.getRoomCapabilities(cc.attrs.costCenterId)}"
+                 var="roomCapability"
+                 width="100%" rowClasses="row1, row2"
+                 columnClasses="colIcon, colValue, col08em, col07em, col07em, col07em, col07em, col07em">
+
+        <h:column>
+            <h:commandLink action="#{editCalcBasicsDrg.deleteRoomCapability(roomCapability)}"
+                           rendered="#{!editCalcBasicsDrg.readOnly and cc.attrs.roomCount lt editCalcBasicsDrg.calcBasics.getRoomCapabilities(cc.attrs.costCenterId).size()}"
+                           immediate="true" styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                value=""
+                                rendered="#{!editCalcBasicsDrg.readOnly}"/>
+                <cb:confirmDelete/>
+            </h:commandLink>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Benennung des Eingriffraumes</f:facet>
+            <inek:InputTextWithMessage id="roomName"
+                                       required="true"
+                                       value="#{roomCapability.roomName}"
+                                       readonly="#{editCalcBasicsDrg.readOnly}"
+                                       styleClass="fullWidth">
+            </inek:InputTextWithMessage>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Haupt-Leistungsbereich</f:facet>
+            <h:selectOneMenu value="#{roomCapability.mainServiceId}" styleClass="fullWidth"
+                             hideNoSelectionOption="true">
+                <f:selectItem itemLabel="wählen..." itemValue="#{0}" noSelectionOption="true"/>
+                <f:selectItems value="#{editCalcBasicsDrg.getMainServices(cc.attrs.costCenterId)}" var="mainsService"
+                               itemLabel="#{mainsService.name}" itemValue="#{mainsService.id}"/>
+                <f:ajax render="@this :logout:remaining"/>
+            </h:selectOneMenu>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Fallzahl</f:facet>
+            <inek:InputIntegerWithMessage id="caseCount"
+                                          required="true"
+                                          value="#{roomCapability.caseCount}"
+                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                          styleClass="fullWidth">
+            </inek:InputIntegerWithMessage>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Anzahl VK ÄD</f:facet>
+            <inek:InputNumberWithMessage id="medFullVigorCount"
+                                         required="true"
+                                         value="#{roomCapability.medFullVigorCount}"
+                                         readonly="#{editCalcBasicsDrg.readOnly}"
+                                         styleClass="fullWidth">
+            </inek:InputNumberWithMessage>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Kosten-volumen ÄD</f:facet>
+            <inek:InputNumberWithMessage id="medCostAmount"
+                                         required="true"
+                                         value="#{roomCapability.medCostAmount}"
+                                         readonly="#{editCalcBasicsDrg.readOnly}"
+                                         styleClass="fullWidth">
+            </inek:InputNumberWithMessage>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Anzahl VK FD</f:facet>
+            <inek:InputNumberWithMessage id="functFullVigorCount"
+                                         required="true"
+                                         value="#{roomCapability.functFullVigorCount}"
+                                         readonly="#{editCalcBasicsDrg.readOnly}"
+                                         styleClass="fullWidth">
+            </inek:InputNumberWithMessage>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Kosten-volumen FD</f:facet>
+            <inek:InputNumberWithMessage id="functCostAmount"
+                                         required="true"
+                                         value="#{roomCapability.functCostAmount}"
+                                         readonly="#{editCalcBasicsDrg.readOnly}"
+                                         styleClass="fullWidth">
+            </inek:InputNumberWithMessage>
+        </h:column>
+
+    </h:dataTable>
+
+</cc:implementation>
+</html>
