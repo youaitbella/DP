@@ -1510,6 +1510,26 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property List KGLListCostCenterOpAn">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "oaBaseInformationId", referencedColumnName = "biID")
+    private List<KGLListCostCenterOpAn> _costCenterOpAn = new Vector<>();
+
+    public List<KGLListCostCenterOpAn> getCostCenterOpAn() {
+        return _costCenterOpAn;
+    }
+
+    public void addCostCenterOpAn(KGLListCostCenterOpAn costCenterOpAn) {
+        costCenterOpAn.setBaseInformationId(_id);
+        _costCenterOpAn.add(costCenterOpAn);
+    }
+
+    public void removeCostCenterOpAn(KGLListCostCenterOpAn costCenterOpAn) {
+        _costCenterOpAn.remove(costCenterOpAn);
+    }
+
+    //</editor-fold>
+
     @Override
     public int hashCode() {
         return _id;
