@@ -149,6 +149,7 @@ public class KglRoomCapability {
 
     //<editor-fold desc="equals, hashcode">
     @Override
+    @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
