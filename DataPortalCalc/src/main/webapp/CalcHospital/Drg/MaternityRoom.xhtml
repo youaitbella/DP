@@ -27,56 +27,62 @@
                                             || editCalcBasicsDrg.calcBasics.obstetrical}">
         <h2>Erbrachte Leistungen</h2>
 
-        <h:outputLabel styleClass="label50" value=" "/>
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear}"/>
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"/>
-        <h:outputLabel styleClass="label15 number" value="Abweichung"/>
+        <h:outputLabel styleClass="label60" value=" "/>
+        <h:outputLabel styleClass="label10 number" value="#{editCalcBasicsDrg.calcBasics.dataYear}"/>
+        <h:outputLabel styleClass="label10 number" value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"/>
+        <h:outputLabel styleClass="label10 number" value="Abweichung"/>
 
-        <br/>
-        <h:outputLabel styleClass="label50" value="Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden (ausschließlich für vollstationäre Patientinnen)"/>
-        <h:inputText styleClass="element15" id="deliveryRoomHours"
+        <div class="inputPart">
+            <h:outputLabel styleClass="label60"
+                           value="Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden (ausschließlich für vollstationäre Patientinnen)"/>
+            <h:inputText styleClass="element10 number" id="deliveryRoomHours"
                      value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours}"
                      readonly="#{editCalcBasicsDrg.readOnly}"
                      required="true">
             <f:ajax event="blur" render="@this lblDiffDeliveryRoomHours :logout:remaining" />
             <f:convertNumber/>
-        </h:inputText>        
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}">
-            <f:convertNumber/>
-        </h:outputLabel>
-        <h:outputLabel styleClass="label15 number" id="lblDiffDeliveryRoomHours" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours - editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}">
-            <f:convertNumber/>
-        </h:outputLabel>
+        </h:inputText>
+            <h:outputLabel styleClass="label10 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}"/>
+            <h:outputLabel styleClass="label10 number" id="lblDiffDeliveryRoomHours"
+                           value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours - editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}"/>
+        </div>
 
-        <br/>
-        <h:outputLabel styleClass="label50"  value="davon für vorgeburtliche Kreißsaalaufenthalte"/>
-
-        <h:inputText styleClass="element15" id="preBirthHabitationCnt"
+        <div class="inputPart">
+            <h:outputLabel styleClass="label60" value="davon für vorgeburtliche Kreißsaalaufenthalte"/>
+            <h:inputText styleClass="element10 number" id="preBirthHabitationCnt"
                      value="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt}"
                      readonly="#{editCalcBasicsDrg.readOnly}"
                      required="true">
             <f:ajax event="blur" render="@this lblDiffPreBirthHabitantCnt :maternity:txtStructure :logout:remaining" />
         </h:inputText>
-        <h:outputLabel styleClass="label15 number" id="lblPreBirthHabitantCnt" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt}"/>
-        <h:outputLabel styleClass="label15 number" id="lblDiffPreBirthHabitantCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt - editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt}"/>
+            <h:outputLabel styleClass="label10 number" id="lblPreBirthHabitantCnt"
+                           value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt}"/>
+            <h:outputLabel styleClass="label10 number" id="lblDiffPreBirthHabitantCnt"
+                           value="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt - editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt}"/>
+        </div>
 
-        <br/>
-        <h:outputLabel styleClass="label50"  value="Anzahl vollstationär geborener Kinder"/>
-        <h:inputText styleClass="element15" id="instationBirthCnt"
+        <div class="inputPart">
+            <h:outputLabel styleClass="label60" value="Anzahl vollstationär geborener Kinder"/>
+            <h:inputText styleClass="element10 number" id="instationBirthCnt"
                      value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}"
                      readonly="#{editCalcBasicsDrg.readOnly}"
                      required="true">
             <f:ajax event="blur" render="@this lblDiffInstationBirthCnt :logout:remaining" />
         </h:inputText>
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
-        <h:outputLabel styleClass="label15 number" id="lblDiffInstationBirthCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt - editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
+            <h:outputLabel styleClass="label10 number"
+                           value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
+            <h:outputLabel styleClass="label10 number" id="lblDiffInstationBirthCnt"
+                           value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt - editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
+        </div>
 
-        <br/>
-        <h:outputLabel styleClass="label50" value="Bei vorgeburtlichen Fällen fielen im Datenjahr 2017 keine 'Aufenthaltszeiten der Patientin im Kreißsaal' an:"/>
+        <div class="inputPart">
+            <h:outputLabel styleClass="label60"
+                           value="Bei vorgeburtlichen Fällen fielen im Datenjahr #{editCalcBasicsDrg.calcBasics.dataYear} keine 'Aufenthaltszeiten der Patientin im Kreißsaal' an:"/>
         <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.noDeliveryRoomHabitation}"
                                  disabled="#{editCalcBasicsDrg.readOnly}">
             <f:ajax event="change" render="@this :logout:remaining" />
         </h:selectBooleanCheckbox>
+        </div>
 
         <br/>
         <h:outputLabel styleClass="label" value="Bitte erläutern Sie (kurz) die Organisationsstrukturen in diesem Bereich:"></h:outputLabel>
