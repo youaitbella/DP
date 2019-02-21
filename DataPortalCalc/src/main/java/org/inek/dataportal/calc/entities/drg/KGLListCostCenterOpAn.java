@@ -179,6 +179,7 @@ public class KGLListCostCenterOpAn implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
 
+    @SuppressWarnings({"CyclomaticComplexity", "JavaNCSS"})
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -197,6 +198,7 @@ public class KGLListCostCenterOpAn implements Serializable, BaseIdValue {
                 Objects.equals(_location, that._location);
     }
 
+    @SuppressWarnings({"CyclomaticComplexity", "JavaNCSS"})
     @Override
     public int hashCode() {
         return Objects.hash(_id, _baseInformationId, _runningNumber, _costCenterNumber, _costCenterText, _location,
