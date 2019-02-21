@@ -17,7 +17,7 @@ public class KglRoomCapability {
     //<editor-fold desc="Property Id">
     @Id
     @Column(name = "rcId")
-    int id;
+    private int id;
 
     public int getId() {
         return id;
@@ -31,7 +31,7 @@ public class KglRoomCapability {
     //<editor-fold desc="Property BaseInformation">
     @ManyToOne
     @JoinColumn(name = "rcBaseInformationId")
-    DrgCalcBasics baseInformation;
+    private DrgCalcBasics baseInformation;
 
     public DrgCalcBasics getBaseInformation() {
         return baseInformation;
@@ -44,7 +44,7 @@ public class KglRoomCapability {
 
     //<editor-fold desc="Property CostCenterId">
     @Column(name = "rcCostCenterId")
-    int costCenterId;
+    private int costCenterId;
 
     public int getCostCenterId() {
         return costCenterId;
@@ -58,7 +58,7 @@ public class KglRoomCapability {
     //<editor-fold desc="Property RoomName">
     @Column(name = "rcRoomName")
     @Size(max = 250)
-    String roomName = "";
+    private String roomName = "";
 
     public String getRoomName() {
         return roomName;
@@ -71,7 +71,7 @@ public class KglRoomCapability {
 
     //<editor-fold desc="Property MainServiceId">
     @Column(name = "rcMainServiceId")
-    int mainServiceId;
+    private int mainServiceId;
 
     public int getMainServiceId() {
         return mainServiceId;
@@ -84,7 +84,7 @@ public class KglRoomCapability {
 
     //<editor-fold desc="Property CaseCount">
     @Column(name = "rcCaseCount")
-    int caseCount;
+    private int caseCount;
 
     public int getCaseCount() {
         return caseCount;
@@ -97,7 +97,7 @@ public class KglRoomCapability {
 
     //<editor-fold desc="Property MedFullVigorCount">
     @Column(name = "rcMedFullVigorCount")
-    double mMedFullVigorCount;
+    private double mMedFullVigorCount;
 
     public double getmMedFullVigorCount() {
         return mMedFullVigorCount;
@@ -110,7 +110,7 @@ public class KglRoomCapability {
 
     //<editor-fold desc="Property MedCostAmount">
     @Column(name = "rcMedCostAmount")
-    double medCostAmount;
+    private double medCostAmount;
 
     public double getMedCostAmount() {
         return medCostAmount;
@@ -123,7 +123,7 @@ public class KglRoomCapability {
 
     //<editor-fold desc="Property FunctFullVigorCount">
     @Column(name = "rcFunctFullVigorCount")
-    double functFullVigorCount;
+    private double functFullVigorCount;
 
     public double getFunctFullVigorCount() {
         return functFullVigorCount;
@@ -136,7 +136,7 @@ public class KglRoomCapability {
 
     //<editor-fold desc="Property FunctCostAmount">
     @Column(name = "rcFunctCostAmount")
-    double functCostAmount;
+    private double functCostAmount;
 
     public double getFunctCostAmount() {
         return functCostAmount;
