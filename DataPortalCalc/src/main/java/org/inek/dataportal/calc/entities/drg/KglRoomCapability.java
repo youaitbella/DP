@@ -10,8 +10,9 @@ public class KglRoomCapability {
     public KglRoomCapability() {
     }
 
-    public KglRoomCapability(DrgCalcBasics baseInformation) {
+    public KglRoomCapability(DrgCalcBasics baseInformation, int costCenterId) {
         this.baseInformation = baseInformation;
+        this.costCenterId = costCenterId;
     }
 
     //<editor-fold desc="Property Id">

@@ -46,7 +46,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
- *
  * @author muellermi
  */
 @Named
@@ -69,13 +68,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private DrgCalcBasics _priorCalcBasics;
     // </editor-fold>
 
-    public EditCalcBasicsDrg(){ }
+    public EditCalcBasicsDrg() {
+    }
+
     @Inject
     public EditCalcBasicsDrg(AccessManager accessManager,
                              SessionController sessionController,
                              CalcDrgFacade calcDrgFacade,
                              ApplicationTools appTools,
-                             DataImporterPool importerPool){
+                             DataImporterPool importerPool) {
         _accessManager = accessManager;
         _sessionController = sessionController;
         _calcDrgFacade = calcDrgFacade;
@@ -135,6 +136,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (hasSufficientRights(calcBasics)) {
             return calcBasics;
         }
+        adjustRoomCapabilities();
         return new DrgCalcBasics();
     }
 
@@ -615,9 +617,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public boolean isSealEnabled() {
         return isSendEnabled()
                 && _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL,
-                        _calcBasics.getStatus(),
-                        _calcBasics.getAccountId(),
-                        _calcBasics.getIk());
+                _calcBasics.getStatus(),
+                _calcBasics.getAccountId(),
+                _calcBasics.getIk());
     }
 
     private boolean isSendEnabled() {
@@ -627,9 +629,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public boolean isApprovalRequestEnabled() {
         return isSendEnabled()
                 && _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL,
-                        _calcBasics.getStatus(),
-                        _calcBasics.getAccountId(),
-                        _calcBasics.getIk());
+                _calcBasics.getStatus(),
+                _calcBasics.getAccountId(),
+                _calcBasics.getIk());
     }
 
     public boolean isTakeEnabled() {
@@ -1022,4 +1024,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
     }
 
+    public void adjustRoomCapabilities() {
+        adjustRoomCapabilities(7, _calcBasics.getCardiologyRoomCnt());
+        adjustRoomCapabilities(8, _calcBasics.getEndoscopyRoomCnt());
+    }
+
+    public void adjustRoomCapabilities(int costCenterId, int roomCount) {
+        while (_calcBasics.getRoomCapabilities(costCenterId).size() < roomCount) {
+            _calcBasics.addRoomCapability(costCenterId);
+        }
+    }
 }
