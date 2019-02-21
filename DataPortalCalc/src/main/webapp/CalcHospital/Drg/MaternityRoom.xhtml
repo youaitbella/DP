@@ -4,21 +4,22 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <h2 title="#{msg.titleMaternityRoom}">#{msg.TopicCalcMaternityRoom}</h2>
 
-    <inek:LabeledCheckbox label="#{msg.lblHasGynecology}" 
+    <inek:LabeledCheckbox label="#{msg.lblHasGynecology}"
                           styleClassLabel="label60"
                           value="#{editCalcBasicsDrg.calcBasics.gynecology}"
+                          readonly="#{editCalcBasicsDrg.readOnly}"
                           renderElement="@form :script"
                           listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
-    <inek:LabeledCheckbox label="#{msg.lblHasObstetrical}" 
+    <inek:LabeledCheckbox label="#{msg.lblHasObstetrical}"
                           styleClassLabel="label60"
                           value="#{editCalcBasicsDrg.calcBasics.obstetrical}"
+                          readonly="#{editCalcBasicsDrg.readOnly}"
                           renderElement="@form :script"
                           listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
 
@@ -33,7 +34,10 @@
 
         <br/>
         <h:outputLabel styleClass="label50" value="Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden (ausschließlich für vollstationäre Patientinnen)"/>
-        <h:inputText styleClass="element15" id="deliveryRoomHours" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours}" required="true">
+        <h:inputText styleClass="element15" id="deliveryRoomHours"
+                     value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours}"
+                     readonly="#{editCalcBasicsDrg.readOnly}"
+                     required="true">
             <f:ajax event="blur" render="@this lblDiffDeliveryRoomHours :logout:remaining" />
             <f:convertNumber/>
         </h:inputText>        
@@ -47,7 +51,10 @@
         <br/>
         <h:outputLabel styleClass="label50"  value="davon für vorgeburtliche Kreißsaalaufenthalte"/>
 
-        <h:inputText styleClass="element15" id="preBirthHabitationCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt}" required="true">
+        <h:inputText styleClass="element15" id="preBirthHabitationCnt"
+                     value="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt}"
+                     readonly="#{editCalcBasicsDrg.readOnly}"
+                     required="true">
             <f:ajax event="blur" render="@this lblDiffPreBirthHabitantCnt :maternity:txtStructure :logout:remaining" />
         </h:inputText>
         <h:outputLabel styleClass="label15 number" id="lblPreBirthHabitantCnt" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt}"/>
@@ -55,7 +62,10 @@
 
         <br/>
         <h:outputLabel styleClass="label50"  value="Anzahl vollstationär geborener Kinder"/>
-        <h:inputText styleClass="element15" id="instationBirthCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}" required="true">
+        <h:inputText styleClass="element15" id="instationBirthCnt"
+                     value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}"
+                     readonly="#{editCalcBasicsDrg.readOnly}"
+                     required="true">
             <f:ajax event="blur" render="@this lblDiffInstationBirthCnt :logout:remaining" />
         </h:inputText>
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
@@ -63,13 +73,16 @@
 
         <br/>
         <h:outputLabel styleClass="label50" value="Bei vorgeburtlichen Fällen fielen im Datenjahr 2017 keine 'Aufenthaltszeiten der Patientin im Kreißsaal' an:"/>
-        <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.noDeliveryRoomHabitation}">
+        <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.noDeliveryRoomHabitation}"
+                                 disabled="#{editCalcBasicsDrg.readOnly}">
             <f:ajax event="change" render="@this :logout:remaining" />
         </h:selectBooleanCheckbox>
 
         <br/>
         <h:outputLabel styleClass="label" value="Bitte erläutern Sie (kurz) die Organisationsstrukturen in diesem Bereich:"></h:outputLabel>
-        <h:inputTextarea id="txtStructure" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomOrganizationalStructure}" 
+        <h:inputTextarea id="txtStructure" styleClass="areaWideHigh"
+                         value="#{editCalcBasicsDrg.calcBasics.deliveryRoomOrganizationalStructure}"
+                         readonly="#{editCalcBasicsDrg.readOnly}"
                          rendered="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt == 0}" >
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
@@ -87,7 +100,8 @@
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:commandLink action="#{editCalcBasicsDrg.deleteObstreticsGynecology(obstretic)}" immediate="true" rendered="true">
+                <h:commandLink action="#{editCalcBasicsDrg.deleteObstreticsGynecology(obstretic)}" immediate="true"
+                               rendered="#{!editCalcBasicsDrg.readOnly}">
                     <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                     <cb:confirmDelete/>
                 </h:commandLink>
@@ -96,17 +110,19 @@
             <h:column>
                 <f:facet name="header">Kostenstelle</f:facet>
                 <!--h:outputLabel styleClass="label" value="# {obstretic.costCenterText}" rendered="true"/-->
-                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                           value="#{obstretic.costCenterText}" rendered="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100"
+                                           value="#{obstretic.costCenterText}"
+                                           readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Kostenstellengruppe</f:facet>
-                <h:selectOneMenu id="externalProvision"
+                <h:selectOneMenu id="costGroup"
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{obstretic.costTypeId}" 
-                                 hideNoSelectionOption="true" 
+                                 value="#{obstretic.costTypeId}"
+                                 disabled="#{editCalcBasicsDrg.readOnly}"
+                                 hideNoSelectionOption="true"
                                  styleClass="inputshort">
                     <f:selectItem itemLabel="1" itemValue="#{1}"/>
                     <f:selectItem itemLabel="4" itemValue="#{4}"/>
@@ -120,37 +136,52 @@
 
             <h:column>
                 <f:facet name="header">Ärztlicher Dienst</f:facet>
-                <inek:InputIntegerWithMessage id="partition" value="#{obstretic.medicalServiceCnt}" styleClass="col05em number" />
+                <inek:InputIntegerWithMessage id="partition"
+                                              value="#{obstretic.medicalServiceCnt}"
+                                              styleClass="col05em number"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Pflegedienst</f:facet>
-                <inek:InputIntegerWithMessage value="#{obstretic.nursingServiceCnt}" styleClass="col05em number" />
+                <inek:InputIntegerWithMessage value="#{obstretic.nursingServiceCnt}"
+                                              styleClass="col05em number"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Funktionsdienst (ohne Hebammen)</f:facet>
-                <inek:InputIntegerWithMessage value="#{obstretic.functionalServiceCnt}" styleClass="col05em number"/>
+                <inek:InputIntegerWithMessage value="#{obstretic.functionalServiceCnt}"
+                                              styleClass="col05em number"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Hebammen</f:facet>
-                <inek:InputIntegerWithMessage value="#{obstretic.midwifeCnt}" styleClass="col05em number"/>
+                <inek:InputIntegerWithMessage value="#{obstretic.midwifeCnt}"
+                                              styleClass="col05em number"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Kostenvolumen ÄD</f:facet>
-                <inek:InputNumberWithMessage value="#{obstretic.costVolumeMedStaff}" styleClass="col05em number"/>
+                <inek:InputNumberWithMessage value="#{obstretic.costVolumeMedStaff}"
+                                             styleClass="col05em number"
+                                             readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Kostenvolumen Pflegedienst</f:facet>
-                <inek:InputNumberWithMessage value="#{obstretic.costVolumeCareStaff}" styleClass="col05em number"/>
+                <inek:InputNumberWithMessage value="#{obstretic.costVolumeCareStaff}"
+                                             styleClass="col05em number"
+                                             readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Kostenvolumen Funktionsdienst (o. Hebammen)</f:facet>
-                <inek:InputNumberWithMessage value="#{obstretic.costVolumeFunctionalService}" styleClass="col05em number"/>
+                <inek:InputNumberWithMessage value="#{obstretic.costVolumeFunctionalService}"
+                                             styleClass="col05em number"
+                                             readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
         </h:dataTable>
@@ -172,16 +203,16 @@
 
             <h:column>
                 <f:facet name="header">Kostenstelle</f:facet>
-                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                           value="#{prevObstretic.costCenterText}" rendered="true" disabled="true"/>
+                <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100"
+                                           value="#{prevObstretic.costCenterText}" disabled="true"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Kostenstellengruppe</f:facet>
-                <h:selectOneMenu id="externalProvision"
+                <h:selectOneMenu id="costGroup2"
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{prevObstretic.costTypeId}" 
+                                 value="#{prevObstretic.costTypeId}"
                                  hideNoSelectionOption="true"
                                  styleClass="inputshort"
                                  disabled="true"
@@ -218,17 +249,23 @@
 
             <h:column>
                 <f:facet name="header">Kostenvolumen ÄD</f:facet>
-                <inek:InputNumberWithMessage value="#{prevObstretic.costVolumeMedStaff}" styleClass="col05em number"/>
+                <inek:InputNumberWithMessage value="#{prevObstretic.costVolumeMedStaff}"
+                                             styleClass="col05em number"
+                                             readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Kostenvolumen Pflegedienst</f:facet>
-                <inek:InputNumberWithMessage value="#{prevObstretic.costVolumeCareStaff}" styleClass="col05em number"/>
+                <inek:InputNumberWithMessage value="#{prevObstretic.costVolumeCareStaff}"
+                                             styleClass="col05em number"
+                                             readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Kostenvolumen Funktionsdienst (o. Hebammen)</f:facet>
-                <inek:InputNumberWithMessage value="#{prevObstretic.costVolumeFunctionalService}" styleClass="col05em number"/>
+                <inek:InputNumberWithMessage value="#{prevObstretic.costVolumeFunctionalService}"
+                                             styleClass="col05em number"
+                                             readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
         </h:dataTable>
@@ -239,27 +276,36 @@
                      columnClasses="colValue, col14, col14, col14" rowClasses="row1, row2">
             <h:column>
                 <f:facet name="header">#{msg.lblNotation}</f:facet>
-                <inek:InputTextWithMessage value="#{item.text}" required="#{!item.isEmpty()}"/>
+                <inek:InputTextWithMessage value="#{item.text}"
+                                           required="#{!item.isEmpty()}"
+                                           readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{msg.lblCaseCount}</f:facet>
-                <inek:InputIntegerWithMessage value="#{item.caseCount}" required="#{!item.isEmpty()}"/>
+                <inek:InputIntegerWithMessage value="#{item.caseCount}"
+                                              required="#{!item.isEmpty()}"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
-            <!--<h:column>
-                <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
-                <inek:InputIntegerWithMessage value="#{item.delimitationAmount}" required="#{!item.isEmpty()}"/>
-            </h:column>-->
+
             <h:column>
                 <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
+                <inek:InputIntegerWithMessage value="#{item.amount}"
+                                              required="#{!item.isEmpty()}"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
+
             <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
                 <f:facet name="header">Kostenvolumen ÄD</f:facet>
-                <inek:InputIntegerWithMessage value="#{item.medicalService}" required="#{!item.isEmpty()}" />
+                <inek:InputIntegerWithMessage value="#{item.medicalService}"
+                                              required="#{!item.isEmpty()}"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
+
             <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
                 <f:facet name="header">Kostenvolumen FD</f:facet>
-                <inek:InputIntegerWithMessage value="#{item.functionalService}" required="#{!item.isEmpty()}" />
+                <inek:InputIntegerWithMessage value="#{item.functionalService}"
+                                              required="#{!item.isEmpty()}"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
 
         </h:dataTable>
