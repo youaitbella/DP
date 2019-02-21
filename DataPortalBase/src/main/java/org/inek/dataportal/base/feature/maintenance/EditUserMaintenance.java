@@ -257,8 +257,9 @@ public class EditUserMaintenance extends AbstractEditController {
 
     public void addFeature(Feature feature) {
         AccountFeature af = createAccountFeature(feature);
-
         _account.getFeatures().add(af);
+        DialogController.showInfoDialog("Eingabe bestätigen",
+                "Bitte bestätigen Sie Ihre Eingabe über den Speicherbutton.");
     }
 
     public String saveFeatures() {
