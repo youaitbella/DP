@@ -5,7 +5,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+                xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:cb="http://inek.org/dataportal/clientbehaviour">
 
     <h2>#{msg.TopicCalcCardiology}</h2>
 
@@ -23,14 +23,14 @@
         <h:outputLabel styleClass="label15 number" value="Abweichung"/>
 
         <div class="inputPart">
-        <h:outputLabel styleClass="label50" value="#{msg.lblCardiologyRoomCount}"/>
+            <h:outputLabel styleClass="label50" value="#{msg.lblCardiologyRoomCount}"/>
             <h:inputText styleClass="element15 number"
                          id="cardiologyRoomCnt"
                          value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}"
                          readonly="#{editCalcBasicsDrg.readOnly}">
-            <f:ajax event="blur" render="@this lblDiffcardiologyRoomCnt :logout:remaining" />
-            <f:convertNumber/>
-        </h:inputText>
+                <f:ajax event="blur" render="@this lblDiffcardiologyRoomCnt :logout:remaining"/>
+                <f:convertNumber/>
+            </h:inputText>
 
             <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyRoomCnt}"/>
             <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyRoomCnt"
@@ -38,14 +38,14 @@
         </div>
 
         <div class="inputPart">
-        <h:outputLabel styleClass="label50" value="Anzahl Standorte"/>
+            <h:outputLabel styleClass="label50" value="Anzahl Standorte"/>
             <h:inputText styleClass="element15 number"
                          id="cardiologyLocationCnt"
                          value="#{editCalcBasicsDrg.calcBasics.cardiologyLocationCnt}"
                          readonly="#{editCalcBasicsDrg.readOnly}">
-            <f:ajax event="blur" render="@this lblDiffcardiologyLocationCnt :logout:remaining" />
-            <f:convertNumber/>
-        </h:inputText>
+                <f:ajax event="blur" render="@this lblDiffcardiologyLocationCnt :logout:remaining"/>
+                <f:convertNumber/>
+            </h:inputText>
             <h:outputLabel styleClass="label15 number"
                            value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyLocationCnt}"/>
             <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyLocationCnt"
@@ -53,19 +53,45 @@
         </div>
 
         <div class="inputPart">
-        <h:outputLabel styleClass="label50" value="#{msg.lblCardiologyCaseCount}"/>
+            <h:outputLabel styleClass="label50" value="#{msg.lblCardiologyCaseCount}"/>
             <h:inputText styleClass="element15 number"
                          id="cardiologyCaseCnt"
                          value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt}"
                          readonly="#{editCalcBasicsDrg.readOnly}">
-            <f:ajax event="blur" render="@this lblDiffcardiologyCaseCnt :logout:remaining" />
-            <f:convertNumber/>
-        </h:inputText>
+                <f:ajax event="blur" render="@this lblDiffcardiologyCaseCnt :logout:remaining"/>
+                <f:convertNumber/>
+            </h:inputText>
             <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}"/>
             <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyCaseCnt"
                            value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}"/>
         </div>
 
+        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.getRoomCapabilities(7)}"
+                     var="roomCapability"
+                     width="100%" rowClasses="row1, row2"
+                     columnClasses="colIcon, colValue, col04em, col04em, colValue">
+
+            <h:column>
+                <h:commandLink action="#{editCalcBasicsDrg.deleteRoomCapability(roomCapability)}"
+                               rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.calcBasics.cardiologyRoomCnt lt editCalcBasicsDrg.calcBasics.getRoomCapabilities(7).size}"
+                               immediate="true" styleClass="colIcon">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                    value=""
+                                    rendered="#{!editCalcBasicsDrg.readOnly}"/>
+                    <cb:confirmDelete/>
+                </h:commandLink>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Benennung des Eingriffraumes</f:facet>
+                <inek:InputTextWithMessage id="roomName"
+                                           required="true"
+                                           value="#{roomCapability.roomName}"
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="fullWidth">
+                </inek:InputTextWithMessage>
+            </h:column>
+        </h:dataTable>
     </div>
 
 </ui:composition>

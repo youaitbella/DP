@@ -1529,6 +1529,10 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void addRoomCapability(int costCenterId) {
         _kglRoomCapability.add(new KglRoomCapability(this, costCenterId));
     }
+
+    public void deleteRoomCapability(KglRoomCapability roomCapability) {
+        _kglRoomCapability.remove(roomCapability);
+    }
     //</editor-fold>
 
     @Override
