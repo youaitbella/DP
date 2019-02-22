@@ -18,10 +18,18 @@
 <!-- IMPLEMENTATION -->
 <cc:implementation>
     <div class="container">
+
+        <style>
+            .paddingLeft {
+                padding-left: 20px;
+            }
+        </style>
+
         <h:dataTable id="cost"
                      value="#{cc.attrs.backingBean.calcBasics.costCenters.stream().filter(c -> c.costCenterId == cc.attrs.costCenterId).toList()}"
                      var="item"
                      styleClass="marginTop" width="100%"
+                     headerClass="paddingLeft"
                      columnClasses="colIcon, col05em, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, colValue, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
                      rowClasses="row1, row2">
 
