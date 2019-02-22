@@ -14,6 +14,15 @@ import java.util.List;
 class CellImportHelperTest {
 
     @Test
+    void getStringFromCellWithNullTest() {
+        try {
+            Assertions.assertThat(CellImportHelper.getStringFromCell(null, true)).isEqualTo("");
+        } catch (Exception ex) {
+            Assertions.assertThat(true).isFalse();
+        }
+    }
+
+    @Test
     void getStringFromCellWithFormulaTest() {
         Cell newCell = createNewCell();
 
@@ -46,7 +55,7 @@ class CellImportHelperTest {
             try {
                 Assertions.assertThat(CellImportHelper.getStringFromCell(pair.cell)).isEqualTo(pair.expected);
             } catch (Exception ex) {
-                Assertions.assertThat(ex).doesNotThrowAnyException();
+                Assertions.assertThat(true).isFalse();
             }
         }
     }
@@ -63,7 +72,7 @@ class CellImportHelperTest {
             try {
                 Assertions.assertThat(CellImportHelper.getStringFromCell(pair.cell)).isEqualTo(pair.expected);
             } catch (Exception ex) {
-                Assertions.assertThat(ex).doesNotThrowAnyException();
+                Assertions.assertThat(true).isFalse();
             }
         }
     }
@@ -80,8 +89,17 @@ class CellImportHelperTest {
             try {
                 Assertions.assertThat(CellImportHelper.getStringFromCell(pair.cell)).isEqualTo(pair.expected);
             } catch (Exception ex) {
-                Assertions.assertThat(ex).doesNotThrowAnyException();
+                Assertions.assertThat(true).isFalse();
             }
+        }
+    }
+
+    @Test
+    void getIntegerFromCellWithNullTest() {
+        try {
+            Assertions.assertThat(CellImportHelper.getIntegerFromCell(null, true, true)).isEqualTo(0);
+        } catch (Exception ex) {
+            Assertions.assertThat(true).isFalse();
         }
     }
 
@@ -92,7 +110,7 @@ class CellImportHelperTest {
         newCell.setCellType(CellType.FORMULA);
 
         try {
-            Assertions.assertThat(CellImportHelper.getIntegerFromCell(newCell, true)).isEqualTo(1);
+            Assertions.assertThat(CellImportHelper.getIntegerFromCell(newCell)).isEqualTo(1);
         } catch (Exception ex) {
             Assertions.assertThat(ex).isExactlyInstanceOf(FormulaInCellException.class);
             Assertions.assertThat(((FormulaInCellException) ex).getCell()).isEqualTo(newCell);
@@ -111,9 +129,9 @@ class CellImportHelperTest {
 
         for (Tuple<Cell, Integer> pair : values) {
             try {
-                Assertions.assertThat(CellImportHelper.getIntegerFromCell(pair.cell, false)).isEqualTo(pair.expected);
+                Assertions.assertThat(CellImportHelper.getIntegerFromCell(pair.cell)).isEqualTo(pair.expected);
             } catch (Exception ex) {
-                Assertions.assertThat(ex).doesNotThrowAnyException();
+                Assertions.assertThat(true).isFalse();
             }
         }
 
@@ -128,7 +146,7 @@ class CellImportHelperTest {
 
         for (Tuple<Cell, Integer> pair : values) {
             try {
-                Assertions.assertThat(CellImportHelper.getIntegerFromCell(pair.cell, false)).isEqualTo(pair.expected);
+                Assertions.assertThat(CellImportHelper.getIntegerFromCell(pair.cell, false, false)).isEqualTo(pair.expected);
             } catch (Exception ex) {
                 Assertions.assertThat(ex).isExactlyInstanceOf(IntegerInDoubleCellException.class);
                 Assertions.assertThat(((IntegerInDoubleCellException) ex).getCell()).isEqualTo(pair.cell);
@@ -147,9 +165,9 @@ class CellImportHelperTest {
 
         for (Tuple<Cell, Integer> pair : values) {
             try {
-                Assertions.assertThat(CellImportHelper.getIntegerFromCell(pair.cell, true)).isEqualTo(pair.expected);
+                Assertions.assertThat(CellImportHelper.getIntegerFromCell(pair.cell)).isEqualTo(pair.expected);
             } catch (Exception ex) {
-                Assertions.assertThat(ex).doesNotThrowAnyException();
+                Assertions.assertThat(true).isFalse();
             }
         }
     }
@@ -163,11 +181,20 @@ class CellImportHelperTest {
 
         for (Tuple<Cell, Integer> pair : values) {
             try {
-                Assertions.assertThat(CellImportHelper.getIntegerFromCell(pair.cell, true)).isEqualTo(pair.expected);
+                Assertions.assertThat(CellImportHelper.getIntegerFromCell(pair.cell)).isEqualTo(pair.expected);
             } catch (Exception ex) {
                 Assertions.assertThat(ex).isExactlyInstanceOf(StringInNumericCellException.class);
                 Assertions.assertThat(((StringInNumericCellException) ex).getCell()).isEqualTo(pair.cell);
             }
+        }
+    }
+
+    @Test
+    void getDoubleFromCellWithNullTest() {
+        try {
+            Assertions.assertThat(CellImportHelper.getDoubleFromCell(null, true)).isEqualTo(0);
+        } catch (Exception ex) {
+            Assertions.assertThat(true).isFalse();
         }
     }
 
@@ -197,7 +224,7 @@ class CellImportHelperTest {
             try {
                 Assertions.assertThat(CellImportHelper.getDoubleFromCell(pair.cell)).isEqualTo(pair.expected);
             } catch (Exception ex) {
-                Assertions.assertThat(ex).doesNotThrowAnyException();
+                Assertions.assertThat(true).isFalse();
             }
         }
     }
@@ -214,7 +241,7 @@ class CellImportHelperTest {
             try {
                 Assertions.assertThat(CellImportHelper.getDoubleFromCell(pair.cell)).isEqualTo(pair.expected);
             } catch (Exception ex) {
-                Assertions.assertThat(ex).doesNotThrowAnyException();
+                Assertions.assertThat(true).isFalse();
             }
         }
     }

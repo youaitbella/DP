@@ -221,7 +221,7 @@ public class AebImporter {
                 AEBPageE1_1 page = new AEBPageE1_1();
                 page.setPepp(CellImportHelper.getStringFromCell(row.getCell(0)));
                 page.setCompensationClass(CellImportHelper.getIntegerFromCell(row.getCell(1)));
-                page.setCaseCount(CellImportHelper.getIntegerFromCell(row.getCell(2)));
+                page.setCaseCount(CellImportHelper.getIntegerFromCell(row.getCell(2), false, true));
                 page.setCalculationDays(CellImportHelper.getIntegerFromCell(row.getCell(3)));
                 page.setValuationRadioDay(CellImportHelper.getDoubleFromCell(row.getCell(4)));
                 page.setImportetFrom(getImportetFromString(sheet, i));
@@ -348,7 +348,7 @@ public class AebImporter {
                 AEBPageE3_3 page = new AEBPageE3_3();
                 page.setRenumeration(CellImportHelper.getStringFromCell(row.getCell(0)));
                 page.setRenumerationKey(CellImportHelper.getStringFromCell(row.getCell(1)));
-                page.setCaseCount(CellImportHelper.getIntegerFromCell(row.getCell(2)));
+                page.setCaseCount(CellImportHelper.getIntegerFromCell(row.getCell(2), false, true));
                 page.setDays(CellImportHelper.getIntegerFromCell(row.getCell(3)));
                 page.setRenumerationValue(CellImportHelper.getDoubleFromCell(row.getCell(4)));
                 page.setImportetFrom(getImportetFromString(sheet, i));
@@ -387,7 +387,7 @@ public class AebImporter {
         for (int i = rowStart; i <= rowEnd; i++) {
             try {
                 if ((int) sheet.getRow(i).getCell(0).getNumericCellValue() == runningNumber) {
-                    return CellImportHelper.getDoubleFromCell(sheet.getRow(i).getCell(2));
+                    return CellImportHelper.getDoubleFromCell(sheet.getRow(i).getCell(2), true);
                 }
             } catch (Exception ex) {
                 LOGGER.log(Level.WARNING, "Sheet B1 row: " + i, ex);

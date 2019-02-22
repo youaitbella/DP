@@ -9,6 +9,11 @@ import org.inek.dataportal.common.exceptions.StringInNumericCellException;
 public class CellImportHelper {
 
     public static String getStringFromCell(Cell cell) throws Exception {
+        return getStringFromCell(cell, false);
+    }
+
+    public static String getStringFromCell(Cell cell, Boolean allowNullValue) throws Exception {
+        if (cell == null && allowNullValue) return "";
         isFormulaInCellCheck(cell);
         if (cell.getCellTypeEnum().equals(CellType.NUMERIC)) {
             try {
@@ -22,12 +27,12 @@ public class CellImportHelper {
     }
 
     public static Integer getIntegerFromCell(Cell cell) throws Exception {
-        return getIntegerFromCell(cell, true);
+        return getIntegerFromCell(cell, true, false);
     }
 
-    public static Integer getIntegerFromCell(Cell cell, Boolean acceptDouble) throws Exception {
+    public static Integer getIntegerFromCell(Cell cell, Boolean acceptDouble, Boolean allowNullValue) throws Exception {
+        if (cell == null && allowNullValue) return 0;
         isFormulaInCellCheck(cell);
-
         if (cell.getCellTypeEnum().equals(CellType.NUMERIC)) {
             int numericCellValue = (int) cell.getNumericCellValue();
             if (numericCellValue == cell.getNumericCellValue() || acceptDouble) {
@@ -36,13 +41,18 @@ public class CellImportHelper {
                 throw new IntegerInDoubleCellException(cell);
             }
         } else {
+            if (allowNullValue) return 0;
             throw new StringInNumericCellException(cell);
         }
     }
 
     public static double getDoubleFromCell(Cell cell) throws Exception {
-        isFormulaInCellCheck(cell);
+        return getDoubleFromCell(cell, false);
+    }
 
+    public static double getDoubleFromCell(Cell cell, Boolean allowNullValue) throws Exception {
+        if (cell == null && allowNullValue) return 0;
+        isFormulaInCellCheck(cell);
         if (cell.getCellTypeEnum().equals(CellType.NUMERIC)) {
             return cell.getNumericCellValue();
         } else {
@@ -51,6 +61,7 @@ public class CellImportHelper {
     }
 
     private static void isFormulaInCellCheck(Cell cell) throws Exception {
+        if (cell == null) return;
         if (cell.getCellTypeEnum().equals(CellType.FORMULA)) {
             throw new FormulaInCellException(cell);
         }

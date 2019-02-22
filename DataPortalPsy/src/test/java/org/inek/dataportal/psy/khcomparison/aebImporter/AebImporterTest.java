@@ -58,6 +58,30 @@ public class AebImporterTest {
     }
 
     @Test
+    public void importWithAllowedEmptyColumnTest() {
+        File file = new File("src\\test\\resources\\AEB_Test_Leere_Spalte.xlsx");
+        Assumptions.assumeThat(file.isFile()).isTrue();
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (Exception ex) {
+
+        }
+
+        AebImporter importer = new AebImporter();
+        AEBBaseInformation baseInfo = new AEBBaseInformation();
+        baseInfo.setAebPageB1(new AEBPageB1());
+
+        Assertions.assertThat(importer.startImport(baseInfo, inputStream)).isTrue();
+
+        Assertions.assertThat(baseInfo.getAebPageE1_1()).hasSize(2);
+        Assertions.assertThat(baseInfo.getAebPageE1_1().get(0).getCaseCount()).isEqualTo(0);
+        Assertions.assertThat(baseInfo.getAebPageE1_1().get(1).getCaseCount()).isEqualTo(0);
+        Assertions.assertThat(baseInfo.getAebPageE3_3()).hasSize(1);
+        Assertions.assertThat(baseInfo.getAebPageE3_3().get(0).getCaseCount()).isEqualTo(0);
+    }
+
+    @Test
     public void wrongFormatTest() {
         File file = new File("src\\test\\resources\\Vorlage_AEB_2018_für_Datenportal_FalschesFormat.xlsx");
         Assumptions.assumeThat(file.isFile()).isTrue();
