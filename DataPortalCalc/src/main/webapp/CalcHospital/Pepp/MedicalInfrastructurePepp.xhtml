@@ -53,7 +53,7 @@
             <th>Name der Kostenstelle</th>
             <th>Verwendeter Schlüssel</th>
             <th>Kostenvolumen vor Durchführung der IBLV und vor Abgrenzung nicht kalkulationsrelevanter Kosten</th>
-            <th>Anteil des Kostenvolumens nach Abgrenzung</th>
+            <th>Anteil des Kostenvolumens nach Abgrenzung(%)</th>
         </tr>
         <ui:repeat value="#{editCalcBasicsPepp.getMedInfra(170)}" var="item" varStatus="loop">
             <tr>
@@ -86,7 +86,8 @@
                 </td>
                 <td>
                     <inek:InputIntegerWithMessage value="#{item.partCostVolumeMedStaffAfter}" styleClass="inputwide" required="true"
-                                                  maximum="100"/>
+                                                  maximum="100">
+                    </inek:InputIntegerWithMessage>
                 </td>
             </tr>
         </ui:repeat>
