@@ -45,7 +45,6 @@
                                  hideNoSelectionOption="true">
                     <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
                     <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
-                    <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
                     <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
                 </h:selectOneMenu>
             </td>

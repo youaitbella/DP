@@ -55,20 +55,20 @@
         </h:column>
 
         <h:column>
-            <f:facet name="header">Je VK vor Abgrenzung</f:facet>
+            <f:facet name="header">Kosten je VK vor Abgrenzung</f:facet>
             <h:outputLabel id="vkPre"
                            styleClass="label"
                            value="#{item.amountVKPre gt 0 ? item.costAmountPre / item.amountVKPre: ''}">
-                <f:convertNumber pattern="#0.00" />
+                <f:convertNumber pattern="#,##0.00"/>
             </h:outputLabel>
         </h:column>
 
         <h:column>
-            <f:facet name="header">Je VK nach Abgrenzung</f:facet>
+            <f:facet name="header">Kosten je VK nach Abgrenzung</f:facet>
             <h:outputLabel id="vkPost"
                            styleClass="label"
                            value="#{item.amountVKPost gt 0 ? item.costAmountPost / item.amountVKPost : ''}">
-                <f:convertNumber pattern="#0.00" />
+                <f:convertNumber pattern="#,##0.00"/>
             </h:outputLabel>
         </h:column>
 
