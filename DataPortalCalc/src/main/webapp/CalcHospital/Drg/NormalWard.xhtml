@@ -11,271 +11,122 @@
     <h2>Ergänzende Angaben zur Normalstation</h2>
 
     <inek:LabeledCheckbox label="Das Krankenhaus hat Ärzte in freier Mitarbeit beschäftigt"
+                          readonly="#{editCalcBasicsDrg.readOnly}"
                           value="#{editCalcBasicsDrg.calcBasics.normalFreelancing}"
-                          renderElement="@form :logout:remaining"/>
+                          renderElement="normalFreelancing :logout:remaining"/>
 
-    <h:dataTable headerClass="list-header" id="centre"
-                 value="#{editCalcBasicsDrg.calcBasics.normalFreelancers}" var="item" width="100%"
-                 rowClasses="row1, row2"
-                 columnClasses=",,,,centered, centered"
-                 rendered="#{editCalcBasicsDrg.calcBasics.normalFreelancing}"
-    >
-
-        <h:column>
-            <f:facet name="header">
-
-            </f:facet>
-            <h:commandLink styleClass="colIcon">
-                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                <f:ajax event="click" render="@form :logout:remaining"
-                        listener="#{editCalcBasicsDrg.deleteFreelancer(item)}"/>
-            </h:commandLink>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                Bereich
-            </f:facet>
-            <h:inputText value="#{item.division}" styleClass="inputwide" required="true">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                Anzahl Vollkräfte
-            </f:facet>
-            <inek:InputNumberWithMessage value="#{item.fullVigorCnt}" styleClass="inputwide" required="true"
-                                         renderElement="@this :logout:remaining"/>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                Kostenvolumen (€)
-            </f:facet>
-            <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" required="true"
-                                          renderElement="@this :logout:remaining"/>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                KoArtGr 1
-            </f:facet>
-            <h:selectBooleanCheckbox style="text-align: center;" value="#{item.costType1}" required="true"
-                                     readonly="#{item.costType6c}">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:selectBooleanCheckbox>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                KoArtGr 6c
-            </f:facet>
-            <h:selectBooleanCheckbox value="#{item.costType6c}" required="true" readonly="#{item.costType1}">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:selectBooleanCheckbox>
-        </h:column>
-
-    </h:dataTable>
-
-    <h:commandLink rendered="#{editCalcBasicsDrg.calcBasics.normalFreelancing}" id="addButton"
-                   styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addFreelancer()}"/>
-    </h:commandLink>
-
-    <h2>Honorarverträge gemäß § 121 Abs. 5 SGB V mit Belegärzten</h2>
-
-    <inek:LabeledCheckbox label="Honorarverträge gemäß § 121 Abs. 5 SGB V mit Belegärzten"
-                          value="#{editCalcBasicsDrg.calcBasics.feeContract}" renderElement="@form :logout:remaining"/>
-
-    <h:dataTable headerClass="list-header" id="feeContract"
-                 value="#{editCalcBasicsDrg.calcBasics.normalFeeContracts}" var="item" width="100%"
-                 rowClasses="row1, row2"
-                 columnClasses=""
-                 rendered="#{editCalcBasicsDrg.calcBasics.feeContract}"
-    >
-        <h:column>
-            <f:facet name="header">
-
-            </f:facet>
-            <h:commandLink styleClass="colIcon">
-                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                <f:ajax event="click" render="@form :logout:remaining"
-                        listener="#{editCalcBasicsDrg.deleteFeeContract(item)}"/>
-            </h:commandLink>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                Bereich
-            </f:facet>
-            <h:inputText value="#{item.division}" styleClass="inputwide" required="true">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                FAB-Schlüssel gemäß § 301 SGB V (4-stellig)
-            </f:facet>
-            <h:inputText value="#{item.departmentKey}" styleClass="inputwide" required="true">
-                <f:ajax render="@this :logout:remaining"/>
-            </h:inputText>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                Anzahl Fälle
-            </f:facet>
-            <inek:InputIntegerWithMessage value="#{item.caseCnt}" styleClass="inputwide" required="true"
-                                          renderElement="@this :logout:remaining"/>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">
-                abgegrenztes Kostenvolumen (€)
-            </f:facet>
-            <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" required="true"
-                                          renderElement="@this :logout:remaining"/>
-        </h:column>
-
-
-    </h:dataTable>
-
-    <h:commandLink rendered="#{editCalcBasicsDrg.calcBasics.feeContract}" id="addButton2"
-                   styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addFeeContract()}"/>
-    </h:commandLink>
-
-    <h2>Leistungsdokumentation für die Kostenartengruppen 2, 4a und 6a</h2>
-
-    <table id="serviceCost">
-        <tr>
-            <th class="colInput">Dokumentation</th>
-        </tr>
-        <c:forEach items="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentations}" var="item"
-                   varStatus="loop">
-            <tr>
-                <td>
-                    <inek:BooleanRadioButton value="#{item.used}" label="#{item.contentText.text}">
-                        <f:ajax event="clientChange"
-                                render="@form :script"
-                                listener="#{sessionController.hideData(not item.used or item.contentTextId ne 85)}"/>
-                    </inek:BooleanRadioButton>
-                    <h:panelGroup id="ServiceDocumentationMinutes"
-                                  rendered="#{!item.used and item.contentTextId == 85}">
-                        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentationMinutes}"
-                                     var="minutes"
-                                     width="100%"
-                                     rowClasses="row1, row2"
-                        >
-                            <h:column>
-                                <h:commandLink styleClass="colIcon">
-                                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png"
-                                                    title="#{msg.btnDelete}" value=""/>
-                                    <f:ajax event="click" render="@form :logout:remaining"
-                                            listener="#{editCalcBasicsDrg.deleteNormalStationServiceDocMinutes(minutes)}"/>
-                                </h:commandLink>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Fachabteilung</f:facet>
-                                <h:inputText styleClass="inputwide" value="#{minutes.department}"
-                                             required="#{!item.used}">
-                                    <f:ajax event="blur" render="@this :logout:remaining"/>
-                                </h:inputText>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">FAB-Schlüssel gemäß § 301 SGB V (4-stellig)</f:facet>
-                                <h:inputText styleClass="inputwide" value="#{minutes.departmentKey}"
-                                             required="#{!item.used}">
-                                    <f:ajax event="blur" render="@this :logout:remaining"/>
-                                </h:inputText>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Alternativverfahren</f:facet>
-                                <h:inputText styleClass="inputwide" value="#{minutes.alternative}"
-                                             required="#{!item.used}">
-                                    <f:ajax event="blur" render="@this :logout:remaining"/>
-                                </h:inputText>
-                            </h:column>
-                        </h:dataTable>
-                        <h:commandLink id="addButton5" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                            <f:ajax event="click" render="@form :logout:remaining"
-                                    listener="#{editCalcBasicsDrg.addNormalStationServiceDocMinutes()}"/>
-                        </h:commandLink>
-                    </h:panelGroup>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
-
-    <h2>Hochaufwendige Pflegeleistungen</h2>
-
-    <div class="inputPart">
-        <inek:BooleanRadioButton
-                label="Es liegen Patienten mit hochaufwendiger Pflege i.S.d. Pflegekomplexmaßnahmen-Scores (PKMS) vor:"
-                labelStyle="label"
-                value="#{editCalcBasicsDrg.calcBasics.pkmsComplex}" renderElement="@form"/>
-    </div>
-
-    <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.pkmsComplex}">
-        <div>
-            <h:outputLabel styleClass="label50" value=""/>
-            <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear}"/>
-            <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"/>
-
-            <br/>
-            <h:outputLabel value="Anzahl der kalkulierten Fälle mit Pflegekomplexmaßnahmen-Score (PKMS):"
-                           styleClass="label50"/>
-            <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcBasics.pkmsCaseCnt}" styleClass="inputMedium"/>
-            <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.pkmsCaseCnt}">
-                <f:convertNumber/>
-            </h:outputLabel>
-        </div>
-        <div class="inputPart">
-            <h:outputLabel value="Die Erfassung des PKMS liegt in allen relevanten Normalstationen vor:"
-                           styleClass="label element37em"/>
-            <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.pkmsRecording}">
-                <f:selectItem itemValue="0" itemLabel="Nein"/>
-                <f:selectItem itemValue="1" itemLabel="Ja"/>
-                <f:selectItem itemValue="2" itemLabel="KIS-integriert"/>
-                <f:selectItem itemValue="3" itemLabel="Manuell"/>
-                <f:ajax event="change" render="@form :logout:remaining"/>
-            </h:selectOneMenu>
-        </div>
-
-        <inek:LabeledText id="pkmsOther"
-                          label="Bitte erläutern"
-                          styleClassLabel="label marginRight"
-                          value="#{editCalcBasicsDrg.calcBasics.pkmsOther}"
-                          singleLine="true"
-                          required="true"
-                          rendered="#{editCalcBasicsDrg.calcBasics.pkmsRecording eq 4}"/>
-
-        <h:dataTable headerClass="list-header" id="pkmsAlt"
-                     value="#{editCalcBasicsDrg.calcBasics.pkmsAlternatives}" var="item" width="100%"
+    <div jsf:id="normalFreelancing">
+        <h:dataTable headerClass="list-header" id="centre"
+                     value="#{editCalcBasicsDrg.calcBasics.normalFreelancers}" var="item" width="100%"
                      rowClasses="row1, row2"
-                     columnClasses=""
-                     rendered="#{editCalcBasicsDrg.calcBasics.pkmsRecording == 0}"
+                     columnClasses=",,,,centered, centered"
+                     rendered="#{editCalcBasicsDrg.calcBasics.normalFreelancing}"
         >
+
             <h:column>
                 <f:facet name="header">
 
                 </f:facet>
-                <h:commandLink styleClass="colIcon">
+                <h:commandLink styleClass="colIcon" rendered="#{!editCalcBasicsDrg.readOnly}">
                     <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
                                     value=""/>
                     <f:ajax event="click" render="@form :logout:remaining"
-                            listener="#{editCalcBasicsDrg.deletePkmsService(item)}"/>
+                            listener="#{editCalcBasicsDrg.deleteFreelancer(item)}"/>
                 </h:commandLink>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    Fachabteilung
+                    Bereich
                 </f:facet>
-                <h:inputText styleClass="inputwide" value="#{item.department}">
-                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                <h:inputText value="#{item.division}" styleClass="inputwide"
+                             readonly="#{editCalcBasicsDrg.readOnly}"
+                             required="true">
+                    <f:ajax render="@this :logout:remaining"/>
+                </h:inputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    Anzahl Vollkräfte
+                </f:facet>
+                <inek:InputNumberWithMessage value="#{item.fullVigorCnt}" styleClass="inputwide" required="true"
+                                             readonly="#{editCalcBasicsDrg.readOnly}"
+                                             renderElement="@this :logout:remaining"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    Kostenvolumen (€)
+                </f:facet>
+                <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" required="true"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              renderElement="@this :logout:remaining"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    KoArtGr 1
+                </f:facet>
+                <h:selectBooleanCheckbox style="text-align: center;" value="#{item.costType1}" required="true"
+                                         disabled="#{editCalcBasicsDrg.readOnly or item.costType6c}">
+                    <f:ajax render="@this :logout:remaining"/>
+                </h:selectBooleanCheckbox>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    KoArtGr 6c
+                </f:facet>
+                <h:selectBooleanCheckbox value="#{item.costType6c}" required="true"
+                                         disabled="#{editCalcBasicsDrg.readOnly or item.costType1}">
+                    <f:ajax render="@this :logout:remaining"/>
+                </h:selectBooleanCheckbox>
+            </h:column>
+
+        </h:dataTable>
+
+        <h:commandLink rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.calcBasics.normalFreelancing}"
+                       id="addButton"
+                       styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addFreelancer()}"/>
+        </h:commandLink>
+    </div>
+
+    <h2>Honorarverträge gemäß § 121 Abs. 5 SGB V mit Belegärzten</h2>
+
+    <inek:LabeledCheckbox label="Honorarverträge gemäß § 121 Abs. 5 SGB V mit Belegärzten"
+                          readonly="#{editCalcBasicsDrg.readOnly}"
+                          value="#{editCalcBasicsDrg.calcBasics.feeContract}"
+                          renderElement="feeContract :logout:remaining"/>
+
+    <div jsf:id="feeContract">
+        <h:dataTable headerClass="list-header"
+                     value="#{editCalcBasicsDrg.calcBasics.normalFeeContracts}" var="item" width="100%"
+                     rowClasses="row1, row2"
+                     columnClasses=""
+                     rendered="#{editCalcBasicsDrg.calcBasics.feeContract}"
+        >
+            <h:column>
+                <f:facet name="header">
+
+                </f:facet>
+                <h:commandLink styleClass="colIcon" rendered="#{!editCalcBasicsDrg.readOnly}">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                    value=""/>
+                    <f:ajax event="click" render="@form :logout:remaining"
+                            listener="#{editCalcBasicsDrg.deleteFeeContract(item)}"/>
+                </h:commandLink>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    Bereich
+                </f:facet>
+                <h:inputText value="#{item.division}" styleClass="inputwide"
+                             readonly="#{editCalcBasicsDrg.readOnly}"
+                             required="true">
+                    <f:ajax render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
 
@@ -283,27 +134,218 @@
                 <f:facet name="header">
                     FAB-Schlüssel gemäß § 301 SGB V (4-stellig)
                 </f:facet>
-                <h:inputText styleClass="inputwide" value="#{item.departmentKey}">
-                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                <h:inputText value="#{item.departmentKey}" styleClass="inputwide"
+                             readonly="#{editCalcBasicsDrg.readOnly}"
+                             required="true">
+                    <f:ajax render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    Alternativverfahren
+                    Anzahl Fälle
                 </f:facet>
-                <h:inputText styleClass="inputwide" value="#{item.alternative}">
-                    <f:ajax event="blur" render="@this :logout:remaining"/>
-                </h:inputText>
+                <inek:InputIntegerWithMessage value="#{item.caseCnt}" styleClass="inputwide" required="true"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              renderElement="@this :logout:remaining"/>
             </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    abgegrenztes Kostenvolumen (€)
+                </f:facet>
+                <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" required="true"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              renderElement="@this :logout:remaining"/>
+            </h:column>
+
+
         </h:dataTable>
 
-        <h:commandLink id="addButton3" rendered="#{editCalcBasicsDrg.calcBasics.pkmsRecording == 0}"
+        <h:commandLink rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.calcBasics.feeContract}"
+                       id="addButton2"
                        styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addPkmsService()}"/>
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addFeeContract()}"/>
         </h:commandLink>
+    </div>
 
-    </h:panelGroup>
+    <h2>Leistungsdokumentation für die Kostenartengruppen 2, 4a und 6a</h2>
+
+    <div jsf:id="serviceCost">
+        <table>
+            <tr>
+                <th class="colInput">Dokumentation</th>
+            </tr>
+            <c:forEach items="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentations}" var="item"
+                       varStatus="loop">
+                <tr>
+                    <td>
+                        <inek:BooleanRadioButton value="#{item.used}" label="#{item.contentText.text}"
+                                                 readonly="#{editCalcBasicsDrg.readOnly}">
+                            <f:ajax event="clientChange"
+                                    render="serviceCost :logout:remaining :script"
+                                    listener="#{sessionController.hideData(not item.used or item.contentTextId ne 85)}"/>
+                        </inek:BooleanRadioButton>
+                        <h:panelGroup id="ServiceDocumentationMinutes"
+                                      rendered="#{!item.used and item.contentTextId == 85}">
+                            <h:dataTable
+                                    value="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentationMinutes}"
+                                    var="minutes"
+                                    width="100%"
+                                    rowClasses="row1, row2"
+                            >
+                                <h:column>
+                                    <h:commandLink styleClass="colIcon" rendered="#{!editCalcBasicsDrg.readOnly}">
+                                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png"
+                                                        title="#{msg.btnDelete}" value=""/>
+                                        <f:ajax event="click" render="@form :logout:remaining"
+                                                listener="#{editCalcBasicsDrg.deleteNormalStationServiceDocMinutes(minutes)}"/>
+                                    </h:commandLink>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Fachabteilung</f:facet>
+                                    <h:inputText styleClass="inputwide" value="#{minutes.department}"
+                                                 readonly="#{editCalcBasicsDrg.readOnly}"
+                                                 required="#{!item.used}">
+                                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                                    </h:inputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">FAB-Schlüssel gemäß § 301 SGB V (4-stellig)</f:facet>
+                                    <h:inputText styleClass="inputwide" value="#{minutes.departmentKey}"
+                                                 readonly="#{editCalcBasicsDrg.readOnly}"
+                                                 required="#{!item.used}">
+                                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                                    </h:inputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Alternativverfahren</f:facet>
+                                    <h:inputText styleClass="inputwide" value="#{minutes.alternative}"
+                                                 readonly="#{editCalcBasicsDrg.readOnly}"
+                                                 required="#{!item.used}">
+                                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                                    </h:inputText>
+                                </h:column>
+                            </h:dataTable>
+                            <h:commandLink id="addButton5" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                                           rendered="#{!editCalcBasicsDrg.readOnly}">
+                                <f:ajax event="click" render="serviceCost :logout:remaining"
+                                        listener="#{editCalcBasicsDrg.addNormalStationServiceDocMinutes()}"/>
+                            </h:commandLink>
+                        </h:panelGroup>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+
+    <h2>Hochaufwendige Pflegeleistungen</h2>
+
+    <div class="inputPart">
+        <inek:BooleanRadioButton
+                label="Es liegen Patienten mit hochaufwendiger Pflege i.S.d. Pflegekomplexmaßnahmen-Scores (PKMS) vor:"
+                labelStyle="label"
+                readonly="#{editCalcBasicsDrg.readOnly}"
+                value="#{editCalcBasicsDrg.calcBasics.pkmsComplex}"
+                renderElement="@this pkmsComplex :logout:remaining"/>
+    </div>
+
+    <div jsf:id="pkmsComplex">
+        <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.pkmsComplex}">
+            <div>
+                <h:outputLabel styleClass="label50" value=""/>
+                <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear}"/>
+                <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"/>
+
+                <br/>
+                <h:outputLabel value="Anzahl der kalkulierten Fälle mit Pflegekomplexmaßnahmen-Score (PKMS):"
+                               styleClass="label50"/>
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcBasics.pkmsCaseCnt}"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
+                                              styleClass="inputMedium"/>
+                <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.pkmsCaseCnt}">
+                    <f:convertNumber/>
+                </h:outputLabel>
+            </div>
+            <div class="inputPart">
+                <h:outputLabel value="Die Erfassung des PKMS liegt in allen relevanten Normalstationen vor:"
+                               styleClass="label element37em"/>
+                <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.pkmsRecording}"
+                                 disabled="#{editCalcBasicsDrg.readOnly}">
+                    <f:selectItem itemValue="0" itemLabel="Nein"/>
+                    <f:selectItem itemValue="1" itemLabel="Ja"/>
+                    <f:selectItem itemValue="2" itemLabel="KIS-integriert"/>
+                    <f:selectItem itemValue="3" itemLabel="Manuell"/>
+                    <f:ajax event="change" render="pkmsComplex :logout:remaining"/>
+                </h:selectOneMenu>
+            </div>
+
+            <inek:LabeledText id="pkmsOther"
+                              label="Bitte erläutern"
+                              styleClassLabel="label marginRight"
+                              value="#{editCalcBasicsDrg.calcBasics.pkmsOther}"
+                              singleLine="true"
+                              required="true"
+                              rendered="#{editCalcBasicsDrg.calcBasics.pkmsRecording eq 4}"/>
+
+            <h:dataTable headerClass="list-header" id="pkmsAlt"
+                         value="#{editCalcBasicsDrg.calcBasics.pkmsAlternatives}" var="item" width="100%"
+                         rowClasses="row1, row2"
+                         columnClasses=""
+                         rendered="#{editCalcBasicsDrg.calcBasics.pkmsRecording == 0}"
+            >
+                <h:column>
+                    <f:facet name="header">
+
+                    </f:facet>
+                    <h:commandLink styleClass="colIcon" rendered="#{!editCalcBasicsDrg.readOnly}">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                        value=""/>
+                        <f:ajax event="click" render="pkmsComplex :logout:remaining"
+                                listener="#{editCalcBasicsDrg.deletePkmsService(item)}"/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        Fachabteilung
+                    </f:facet>
+                    <h:inputText styleClass="inputwide" value="#{item.department}"
+                                 readonly="#{editCalcBasicsDrg.readOnly}">
+                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                    </h:inputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        FAB-Schlüssel gemäß § 301 SGB V (4-stellig)
+                    </f:facet>
+                    <h:inputText styleClass="inputwide" value="#{item.departmentKey}"
+                                 readonly="#{editCalcBasicsDrg.readOnly}">
+                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                    </h:inputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        Alternativverfahren
+                    </f:facet>
+                    <h:inputText styleClass="inputwide" value="#{item.alternative}"
+                                 readonly="#{editCalcBasicsDrg.readOnly}">
+                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                    </h:inputText>
+                </h:column>
+            </h:dataTable>
+
+            <h:commandLink id="addButton3"
+                           rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.calcBasics.pkmsRecording == 0}"
+                           styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+                <f:ajax event="click" render="pkmsComplex :logout:remaining"
+                        listener="#{editCalcBasicsDrg.addPkmsService()}"/>
+            </h:commandLink>
+
+        </h:panelGroup>
+    </div>
 
     <style>
         #tbl {
@@ -321,10 +363,6 @@
             max-height: 300px;
             overflow-y: scroll;
             width: 100%;
-        }
-
-        #tbl .colDelete {
-            width: 16px;
         }
 
         #tbl th.colInput,
@@ -397,14 +435,14 @@
         <table id="tbl">
             <thead>
             <tr>
-                <th class="colDelete"/>
+                <th class="colIcon"/>
                 <th class="col9">Allgemeine Angaben</th>
                 <th style="width: 558px;">errechnete Kostensätze</th>
                 <th class="col3">Anzahl der zugeordneten VK</th>
                 <th class="col7">Kosten der Kostenstelle</th>
             </tr>
             <tr>
-                <th class="colDelete"/>
+                <th class="colIcon"/>
                 <th class="colInput">
                     Nummer der Kostenstelle
                 </th>
@@ -484,39 +522,49 @@
             <ui:repeat id="tableContent" value="#{editCalcBasicsDrg.calcBasics.costCenterCosts}" var="x"
                        varStatus="loop">
                 <tr>
-                    <td class="colDelete">
-                        <h:commandLink styleClass="colIcon">
+                    <td class="colIcon">
+                        <h:commandLink rendered="#{!editCalcBasicsDrg.readOnly}">
                             <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
                                             value=""/>
                             <f:ajax event="click" render="@form :logout:remaining"
                                     listener="#{editCalcBasicsDrg.deleteCostCenterCosts(x)}"/>
                         </h:commandLink>
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/emptyPlaceholder.png" value=""
+                                        rendered="#{editCalcBasicsDrg.readOnly}"/>
                     </td>
                     <td class="colInput">
-                        <inek:InputTextWithMessage value="#{x.costCenterNumber}"/>
+                        <inek:InputTextWithMessage value="#{x.costCenterNumber}"
+                                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
                     </td>
                     <td class="colInput">
-                        <inek:InputTextWithMessage value="#{x.costCenterText}"/>
+                        <inek:InputTextWithMessage value="#{x.costCenterText}"
+                                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
                     </td>
                     <td class="colInput">
-                        <inek:InputTextWithMessage value="#{x.departmentKey}"/>
+                        <inek:InputTextWithMessage value="#{x.departmentKey}"
+                                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
                     </td>
                     <td class="colInput">
-                        <inek:InputTextWithMessage value="#{x.departmentAssignment}" renderElement=""/>
+                        <inek:InputTextWithMessage value="#{x.departmentAssignment}"
+                                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
                     </td>
                     <td class="colInput">
                         <inek:InputIntegerWithMessage value="#{x.bedCnt}"
+                                                      readonly="#{editCalcBasicsDrg.readOnly}"
                                                       renderElement="tableContent:#{loop.index}:workload approved sumBeds:text"/>
                     </td>
                     <td class="colInput">
                         <inek:InputIntegerWithMessage value="#{x.careDays}" minimum="100"
+                                                      readonly="#{editCalcBasicsDrg.readOnly}"
                                                       renderElement="tableContent:#{loop.index}:workload approved"/>
                     </td>
                     <td class="colInput">
-                        <inek:InputIntegerWithMessage value="#{x.pprMinutes}"/>
+                        <inek:InputIntegerWithMessage value="#{x.pprMinutes}"
+                                                      readonly="#{editCalcBasicsDrg.readOnly}"/>
                     </td>
                     <td class="colInput">
-                        <inek:InputIntegerWithMessage value="#{x.pprWeight}" renderElement="sumAddPpr:text"/>
+                        <inek:InputIntegerWithMessage value="#{x.pprWeight}" renderElement="sumAddPpr:text"
+                                                      readonly="#{editCalcBasicsDrg.readOnly}"/>
                     </td>
                     <td class="colInput">
                         <!-- Auslastung -->
@@ -577,7 +625,7 @@
                                                                 or (x.medicalInfrastructureCost / x.careDays) gt 100
                                                                 or (x.nursingServiceAmount / x.pprMinutes) gt 50
                                                                 or (x.medicalServiceAmount / x.careDays) gt 100}}"
-                                                 readonly="#{editCalcBasicsDrg.readOnly}">
+                                                 disabled="#{editCalcBasicsDrg.readOnly}">
                             <f:ajax/>
                         </h:selectBooleanCheckbox>
                         <h:message for="approved" id="messageApproved" errorClass="errorMessage"/>
@@ -591,6 +639,7 @@
                             <f:convertNumber pattern="#0.00" locale="de"/>
                         </h:outputLabel>
                         <inek:InputNumberWithMessage value="#{x.medicalServiceCnt}"
+                                                     readonly="#{editCalcBasicsDrg.readOnly}"
                                                      renderElement="tableContent:#{loop.index}:diff-msc sumMedicalService:text"/>
                         <h:outputLabel id="diff-msc"
                                        styleClass="prior diff"
@@ -605,6 +654,7 @@
                             <f:convertNumber pattern="#0.00" locale="de"/>
                         </h:outputLabel>
                         <inek:InputNumberWithMessage value="#{x.nursingServiceCnt}"
+                                                     readonly="#{editCalcBasicsDrg.readOnly}"
                                                      renderElement="tableContent:#{loop.index}:diff-nsc sumNurseService:text"/>
                         <h:outputLabel id="diff-nsc"
                                        styleClass="prior diff"
@@ -619,6 +669,7 @@
                             <f:convertNumber pattern="#0.00" locale="de"/>
                         </h:outputLabel>
                         <inek:InputNumberWithMessage value="#{x.functionalServiceCnt}"
+                                                     readonly="#{editCalcBasicsDrg.readOnly}"
                                                      renderElement="tableContent:#{loop.index}:diff-fsc sumFuncService:text"/>
                         <h:outputLabel id="diff-fsc"
                                        styleClass="prior diff"
@@ -633,6 +684,7 @@
                             <f:convertNumber type="number" locale="de"/>
                         </h:outputLabel>
                         <inek:InputIntegerWithMessage value="#{x.medicalServiceAmount}"
+                                                      readonly="#{editCalcBasicsDrg.readOnly}"
                                                       renderElement="tableContent:#{loop.index}:diff-msa approved tableContent:#{loop.index}:rateDoctor sumMedicalService2:text"/>
                         <h:outputLabel id="diff-msa"
                                        styleClass="prior diff"
@@ -647,6 +699,7 @@
                             <f:convertNumber type="number" locale="de"/>
                         </h:outputLabel>
                         <inek:InputIntegerWithMessage value="#{x.nursingServiceAmount}"
+                                                      readonly="#{editCalcBasicsDrg.readOnly}"
                                                       renderElement="tableContent:#{loop.index}:diff-nsa approved tableContent:#{loop.index}:rateCare sumNurseService2:text"/>
                         <h:outputLabel id="diff-nsa"
                                        styleClass="prior diff"
@@ -661,6 +714,7 @@
                             <f:convertNumber type="number" locale="de"/>
                         </h:outputLabel>
                         <inek:InputIntegerWithMessage value="#{x.functionalServiceAmount}"
+                                                      readonly="#{editCalcBasicsDrg.readOnly}"
                                                       renderElement="tableContent:#{loop.index}:diff-fsa} sumFuncService2:text"/>
                         <h:outputLabel id="diff-fsa"
                                        styleClass="prior diff"
@@ -675,6 +729,7 @@
                             <f:convertNumber type="number" locale="de"/>
                         </h:outputLabel>
                         <inek:InputIntegerWithMessage value="#{x.overheadsMedicine}"
+                                                      readonly="#{editCalcBasicsDrg.readOnly}"
                                                       renderElement="tableContent:#{loop.index}:diff-oa sumShareMedicine:text"/>
                         <h:outputLabel id="diff-oa"
                                        styleClass="prior diff"
@@ -689,6 +744,7 @@
                             <f:convertNumber type="number" locale="de"/>
                         </h:outputLabel>
                         <inek:InputIntegerWithMessage value="#{x.overheadsMedicalGoods}"
+                                                      readonly="#{editCalcBasicsDrg.readOnly}"
                                                       renderElement="tableContent:#{loop.index}:diff-omg sumShareMedicineStuff:text"/>
                         <h:outputLabel id="diff-omg"
                                        rendered="#{x.prior != null}"
@@ -703,6 +759,7 @@
                             <f:convertNumber type="number" locale="de"/>
                         </h:outputLabel>
                         <inek:InputIntegerWithMessage value="#{x.medicalInfrastructureCost}"
+                                                      readonly="#{editCalcBasicsDrg.readOnly}"
                                                       renderElement="tableContent:#{loop.index}:diff-mic approved tableContent:#{loop.index}:rateMedInfra sumMedInfra:text"/>
                         <h:outputLabel id="diff-mic"
                                        rendered="#{x.prior != null}"
@@ -717,6 +774,7 @@
                             <f:convertNumber type="number" locale="de"/>
                         </h:outputLabel>
                         <inek:InputIntegerWithMessage value="#{x.nonMedicalInfrastructureCost}"
+                                                      readonly="#{editCalcBasicsDrg.readOnly}"
                                                       renderElement="tableContent:#{loop.index}:diff-nmic approved tableContent:#{loop.index}:rateNonMedInfra sumNonMedInfra:text"/>
                         <h:outputLabel id="diff-nmic"
                                        styleClass="prior diff"
@@ -729,7 +787,7 @@
 
             <tfoot>
             <tr>
-                <td class="colDelete"/>
+                <td class="colIcon"/>
                 <td class="colInput">Summen</td>
                 <td class="colInput"/>
                 <td class="colInput"/>
