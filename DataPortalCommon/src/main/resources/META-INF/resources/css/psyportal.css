@@ -921,6 +921,9 @@ col08 {
 .col12em {
   width: 12em;
 }
+.col14em {
+  width: 14em;
+}
 .col16em {
   width: 16em;
 }
@@ -1379,7 +1382,7 @@ th {
   background: radial-gradient(circle at top left, #ffffff 0%, #008000 100%);
 }
 sup {
-    font-size: 0.75em;
+  font-size: 0.75em;
 }
 input[type=text].hasError {
   border: solid 1px red;
@@ -1396,20 +1399,17 @@ html.progress * {
 .transparentBackground td {
   background: transparent !important;
 }
-
 .smallFont {
-    font-size: 0.9em;
+  font-size: 0.9em;
 }
-
 .borderCollapse {
-    border-collapse: collapse;
+  border-collapse: collapse;
 }
-
 .borderedTable table,
 .borderedTable th,
 .borderedTable td {
-    border-collapse: collapse;
-    border: 1px solid #C6D2DB;
+  border-collapse: collapse;
+  border: 1px solid #C6D2DB;
 }
 #content .activemenu a {
   background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active_psy.png.xhtml");

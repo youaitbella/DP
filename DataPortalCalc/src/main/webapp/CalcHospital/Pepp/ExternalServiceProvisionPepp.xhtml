@@ -16,7 +16,7 @@
                  value="#{editCalcBasicsPepp.calcBasics.serviceProvisions}"
                  var ="item"
                  width="100%"
-                 columnClasses="colIcon, col20em, colValue, colValue, colValue, col05em number, col05em number, col05em number"
+                 columnClasses="colIcon, col20em, col14em, colValue, colValue, col05em number, col05em number, col05em number"
                  rowClasses="row1, row2">
 
         <h:column>
@@ -44,6 +44,7 @@
                              required="true"
                              requiredMessage="#{msg.msgValueNeeded}"
                              value="#{item.providedTypeId}"
+                             styleClass="fullWidth"
                              disabled="#{item.serviceProvisionTypeId lt 0 and empty item.domain or editCalcBasicsPepp.readOnly}"
                              title="Bitte benennen Sie den teilweise fremdvergebenen Bereich sowie dessen Anteil an der Erbringung in diesem Bereich."
                              hideNoSelectionOption="true" >
