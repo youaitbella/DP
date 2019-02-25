@@ -172,7 +172,7 @@
     <h2>Leistungsdokumentation für die Kostenartengruppen 2, 4a und 6a</h2>
 
     <div jsf:id="serviceCost">
-        <table>
+        <table width="100%">
             <tr>
                 <th class="colInput">Dokumentation</th>
             </tr>
@@ -181,6 +181,7 @@
                 <tr>
                     <td>
                         <inek:BooleanRadioButton value="#{item.used}" label="#{item.contentText.text}"
+                                                 labelStyle="element50"
                                                  readonly="#{editCalcBasicsDrg.readOnly}">
                             <f:ajax event="clientChange"
                                     render="serviceCost :logout:remaining :script"
@@ -244,7 +245,7 @@
     <div class="inputPart">
         <inek:BooleanRadioButton
                 label="Es liegen Patienten mit hochaufwendiger Pflege i.S.d. Pflegekomplexmaßnahmen-Scores (PKMS) vor:"
-                labelStyle="label"
+                labelStyle="label50"
                 readonly="#{editCalcBasicsDrg.readOnly}"
                 value="#{editCalcBasicsDrg.calcBasics.pkmsComplex}"
                 renderElement="@this pkmsComplex :logout:remaining"/>
@@ -262,14 +263,14 @@
                                styleClass="label50"/>
                 <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcBasics.pkmsCaseCnt}"
                                               readonly="#{editCalcBasicsDrg.readOnly}"
-                                              styleClass="inputMedium"/>
+                                              styleClass="element15"/>
                 <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.pkmsCaseCnt}">
                     <f:convertNumber/>
                 </h:outputLabel>
             </div>
             <div class="inputPart">
                 <h:outputLabel value="Die Erfassung des PKMS liegt in allen relevanten Normalstationen vor:"
-                               styleClass="label element37em"/>
+                               styleClass="label50"/>
                 <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.pkmsRecording}"
                                  disabled="#{editCalcBasicsDrg.readOnly}">
                     <f:selectItem itemValue="0" itemLabel="Nein"/>
@@ -288,62 +289,64 @@
                               required="true"
                               rendered="#{editCalcBasicsDrg.calcBasics.pkmsRecording eq 4}"/>
 
-            <h:dataTable headerClass="list-header" id="pkmsAlt"
-                         value="#{editCalcBasicsDrg.calcBasics.pkmsAlternatives}" var="item" width="100%"
-                         rowClasses="row1, row2"
-                         columnClasses=""
-                         rendered="#{editCalcBasicsDrg.calcBasics.pkmsRecording == 0}"
-            >
-                <h:column>
-                    <f:facet name="header">
+            <div class="marginTop">
+                <h:dataTable headerClass="list-header" id="pkmsAlt"
+                             value="#{editCalcBasicsDrg.calcBasics.pkmsAlternatives}" var="item" width="100%"
+                             rowClasses="row1, row2"
+                             columnClasses=""
+                             rendered="#{editCalcBasicsDrg.calcBasics.pkmsRecording == 0}"
+                >
+                    <h:column>
+                        <f:facet name="header">
 
-                    </f:facet>
-                    <h:commandLink styleClass="colIcon" rendered="#{!editCalcBasicsDrg.readOnly}">
-                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
-                                        value=""/>
-                        <f:ajax event="click" render="pkmsComplex :logout:remaining"
-                                listener="#{editCalcBasicsDrg.deletePkmsService(item)}"/>
-                    </h:commandLink>
-                </h:column>
+                        </f:facet>
+                        <h:commandLink styleClass="colIcon" rendered="#{!editCalcBasicsDrg.readOnly}">
+                            <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                            value=""/>
+                            <f:ajax event="click" render="pkmsComplex :logout:remaining"
+                                    listener="#{editCalcBasicsDrg.deletePkmsService(item)}"/>
+                        </h:commandLink>
+                    </h:column>
 
-                <h:column>
-                    <f:facet name="header">
-                        Fachabteilung
-                    </f:facet>
-                    <h:inputText styleClass="inputwide" value="#{item.department}"
-                                 readonly="#{editCalcBasicsDrg.readOnly}">
-                        <f:ajax event="blur" render="@this :logout:remaining"/>
-                    </h:inputText>
-                </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Fachabteilung
+                        </f:facet>
+                        <h:inputText styleClass="inputwide" value="#{item.department}"
+                                     readonly="#{editCalcBasicsDrg.readOnly}">
+                            <f:ajax event="blur" render="@this :logout:remaining"/>
+                        </h:inputText>
+                    </h:column>
 
-                <h:column>
-                    <f:facet name="header">
-                        FAB-Schlüssel gemäß § 301 SGB V (4-stellig)
-                    </f:facet>
-                    <h:inputText styleClass="inputwide" value="#{item.departmentKey}"
-                                 readonly="#{editCalcBasicsDrg.readOnly}">
-                        <f:ajax event="blur" render="@this :logout:remaining"/>
-                    </h:inputText>
-                </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            FAB-Schlüssel gemäß § 301 SGB V (4-stellig)
+                        </f:facet>
+                        <h:inputText styleClass="inputwide" value="#{item.departmentKey}"
+                                     readonly="#{editCalcBasicsDrg.readOnly}">
+                            <f:ajax event="blur" render="@this :logout:remaining"/>
+                        </h:inputText>
+                    </h:column>
 
-                <h:column>
-                    <f:facet name="header">
-                        Alternativverfahren
-                    </f:facet>
-                    <h:inputText styleClass="inputwide" value="#{item.alternative}"
-                                 readonly="#{editCalcBasicsDrg.readOnly}">
-                        <f:ajax event="blur" render="@this :logout:remaining"/>
-                    </h:inputText>
-                </h:column>
-            </h:dataTable>
+                    <h:column>
+                        <f:facet name="header">
+                            Alternativverfahren
+                        </f:facet>
+                        <h:inputText styleClass="inputwide" value="#{item.alternative}"
+                                     readonly="#{editCalcBasicsDrg.readOnly}">
+                            <f:ajax event="blur" render="@this :logout:remaining"/>
+                        </h:inputText>
+                    </h:column>
+                </h:dataTable>
 
-            <h:commandLink id="addButton3"
-                           rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.calcBasics.pkmsRecording == 0}"
-                           styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                <f:ajax event="click" render="pkmsComplex :logout:remaining"
-                        listener="#{editCalcBasicsDrg.addPkmsService()}"/>
-            </h:commandLink>
-
+                <h:commandLink id="addButton3"
+                               rendered="#{!editCalcBasicsDrg.readOnly and editCalcBasicsDrg.calcBasics.pkmsRecording == 0}"
+                               styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+                    <f:ajax event="click" render="pkmsComplex :logout:remaining"
+                            listener="#{editCalcBasicsDrg.addPkmsService()}"/>
+                </h:commandLink>
+                <br/>
+            </div>
         </h:panelGroup>
     </div>
 
