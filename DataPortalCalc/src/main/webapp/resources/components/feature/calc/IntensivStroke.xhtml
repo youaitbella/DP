@@ -10,6 +10,7 @@
 
     <!-- INTERFACE -->
     <cc:interface>
+        <cc:attribute name="readonly"/>
         <cc:attribute name="intensiveType" />
         <cc:attribute name="uploadListener" method-signature="void listener()"/>
         <cc:attribute name="actionTemplate" method-signature="void listener()"/>
@@ -105,38 +106,55 @@
                 <ui:repeat id="tbl-int1" value="#{editCalcBasicsDrg.getIntensivStroke(cc.attrs.intensiveType) }" var="x" varStatus="loop">
                     <tr>
                         <td>
-                            <h:commandLink styleClass="colIcon">
+                            <h:commandLink styleClass="colIcon" rendered="#{!editCalcBasicsDrg.readOnly}">
                                 <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteIntensivStroke(x)}"/>
                             </h:commandLink>
                         </td>
                         <td>
-                            <inek:InputTextWithMessage id="costCenterText1" value="#{x.costCenterText}" renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:costCenterText2:text"/>
+                            <inek:InputTextWithMessage id="costCenterText1" value="#{x.costCenterText}"
+                                                       readonly="#{editCalcBasicsDrg.readOnly}"
+                                                       renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:costCenterText2:text"/>
                         </td>
                         <td>
-                            <inek:InputTextWithMessage id="department1" value="#{x.departmentAssignment}" renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:department2:text"/>
+                            <inek:InputTextWithMessage id="department1" value="#{x.departmentAssignment}"
+                                                       readonly="#{editCalcBasicsDrg.readOnly}"
+                                                       renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:department2:text"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.bedCnt}" pattern="#,##0" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:utilization"/>
+                            <inek:InputIntegerWithMessage value="#{x.bedCnt}" pattern="#,##0"
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                                          renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:utilization"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.caseCnt}" renderElement="@this calc-field-#{loop.index}:text"/>
+                            <inek:InputIntegerWithMessage value="#{x.caseCnt}"
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                                          renderElement="@this calc-field-#{loop.index}:text"/>
                         </td>
                         <td>
-                            <inek:Checkbox value="#{cc.attrs.intensiveType == 1 ? x.ops8980 : x.ops8981}" renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:medServCnt:text"/>
+                            <inek:Checkbox value="#{cc.attrs.intensiveType == 1 ? x.ops8980 : x.ops8981}"
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:medServCnt:text"/>
                         </td>
                         <td>
-                            <inek:Checkbox value="#{cc.attrs.intensiveType == 1 ? x.ops898f : x.ops898b}"  renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:medServCnt:text"/>
+                            <inek:Checkbox value="#{cc.attrs.intensiveType == 1 ? x.ops898f : x.ops898b}"
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:medServCnt:text"/>
                         </td>
                         <td>
                             <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100"
+                                                       readonly="#{editCalcBasicsDrg.readOnly}"
                                                        value="#{x.minimumCriteriaPeriod}" rendered="true"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.intensivHoursNotweighted}" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:utilization sumIntNotWeighted"/>
+                            <inek:InputIntegerWithMessage value="#{x.intensivHoursNotweighted}"
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                                          renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:utilization sumIntNotWeighted"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.intensivHoursWeighted}" renderElement="@this diff-msc-#{loop.index} sumIntWeighted"/>
+                            <inek:InputIntegerWithMessage value="#{x.intensivHoursWeighted}"
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                                          renderElement="@this diff-msc-#{loop.index} sumIntWeighted"/>
                         </td>
                         <td>
                             <h:outputLabel id="utilization" value="#{x.calcUtilization()}"
@@ -145,10 +163,16 @@
                                            />
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.weightMinimum}" pattern="#,#0" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung" title="Bitte tragen Sie den Wert 1 ein, falls keine Gewichtung vorgenommen wurde." readonly="false"/>
+                            <inek:InputIntegerWithMessage value="#{x.weightMinimum}" pattern="#,#0"
+                                                          renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung"
+                                                          title="Bitte tragen Sie den Wert 1 ein, falls keine Gewichtung vorgenommen wurde."
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.weightMaximum}" pattern="#,#0" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung" title="Bitte tragen Sie den Wert 1 ein, falls keine Gewichtung vorgenommen wurde." readonly="false"/>
+                            <inek:InputIntegerWithMessage value="#{x.weightMaximum}" pattern="#,#0"
+                                                          renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung"
+                                                          title="Bitte tragen Sie den Wert 1 ein, falls keine Gewichtung vorgenommen wurde."
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"/>
                         </td>
                         <td>
                             <h:outputLabel id="spreizung"
@@ -160,7 +184,9 @@
                             </h:outputLabel>
                         </td>
                         <td>
-                            <inek:InputTextWithMessage value="#{x.weightDescription}"  renderElement="diff-oa-#{loop.index} sumShareMedicine:text"/>
+                            <inek:InputTextWithMessage value="#{x.weightDescription}"
+                                                       readonly="#{editCalcBasicsDrg.readOnly}"
+                                                       renderElement="diff-oa-#{loop.index} sumShareMedicine:text"/>
                         </td>
                     </tr>
                 </ui:repeat>
@@ -226,16 +252,20 @@
                 <ui:repeat id="tbl-cont" value="#{editCalcBasicsDrg.getIntensivStroke(cc.attrs.intensiveType)}" var="x" varStatus="loop">
                     <tr>
                         <td>
-                            <h:commandLink styleClass="colIcon">
+                            <h:commandLink styleClass="colIcon" rendered="#{!editCalcBasicsDrg.readOnly}">
                                 <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteIntensivStroke(x)}"/>
                             </h:commandLink>
                         </td>
                         <td>
-                            <inek:InputTextWithMessage id="costCenterText2" value="#{x.costCenterText}" renderElement="#{cc.attrs.id}:tbl-int1:#{loop.index}:costCenterText1:text"/>
+                            <inek:InputTextWithMessage id="costCenterText2" value="#{x.costCenterText}"
+                                                       readonly="#{editCalcBasicsDrg.readOnly}"
+                                                       renderElement="#{cc.attrs.id}:tbl-int1:#{loop.index}:costCenterText1:text"/>
                         </td>
                         <td>
-                            <inek:InputTextWithMessage id="department2" value="#{x.departmentAssignment}" renderElement="#{cc.attrs.id}:tbl-int1:#{loop.index}:department1:text"/>
+                            <inek:InputTextWithMessage id="department2" value="#{x.departmentAssignment}"
+                                                       readonly="#{editCalcBasicsDrg.readOnly}"
+                                                       renderElement="#{cc.attrs.id}:tbl-int1:#{loop.index}:department1:text"/>
                         </td>
 
 
@@ -244,46 +274,72 @@
                                                          value="#{x.medicalServiceCnt}" rendered="true"
                                                          title='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "Intensivkode 8-980 oder 8-98f verlangen mindestens 5 VK" : ""}'
                                                          styleClass='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "red" : ""}'
+                                                         readonly="#{editCalcBasicsDrg.readOnly}"
                                                          renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:costPerMedical" pattern="#0.00"
                                                          />
                         </td>
                         <td>
                             <inek:InputNumberWithMessage styleClassComponent="element100" styleClass="element100"
-                                                         value="#{x.nursingServiceCnt}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerNursing" pattern="#0.00"/>
+                                                         value="#{x.nursingServiceCnt}"
+                                                         readonly="#{editCalcBasicsDrg.readOnly}"
+                                                         rendered="true"
+                                                         renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerNursing"
+                                                         pattern="#0.00"/>
                         </td>
                         <td>
                             <inek:InputNumberWithMessage styleClassComponent="element100" styleClass="element100"
-                                                         value="#{x.functionalServiceCnt}" rendered="true" pattern="#0.00" />
+                                                         value="#{x.functionalServiceCnt}"
+                                                         readonly="#{editCalcBasicsDrg.readOnly}"
+                                                         rendered="true" pattern="#0.00"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
-                                                          value="#{x.medicalServiceCost}" rendered="true"
+                                                          value="#{x.medicalServiceCost}"
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                                          rendered="true"
                                                           renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerMedical"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
-                                                          value="#{x.nursingServiceCost}" rendered="true"
+                                                          value="#{x.nursingServiceCost}"
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                                          rendered="true"
                                                           renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerNursing"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
-                                                          value="#{x.functionalServiceCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
+                                                          value="#{x.functionalServiceCost}"
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                                          rendered="true"
+                                                          renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
-                                                          value="#{x.overheadsMedicine}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
+                                                          value="#{x.overheadsMedicine}"
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                                          rendered="true"
+                                                          renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
-                                                          value="#{x.overheadMedicalGoods}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
+                                                          value="#{x.overheadMedicalGoods}"
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                                          rendered="true"
+                                                          renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
-                                                          value="#{x.medicalInfrastructureCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
+                                                          value="#{x.medicalInfrastructureCost}"
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                                          rendered="true"
+                                                          renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
-                                                          value="#{x.nonMedicalInfrastructureCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
+                                                          value="#{x.nonMedicalInfrastructureCost}"
+                                                          readonly="#{editCalcBasicsDrg.readOnly}"
+                                                          rendered="true"
+                                                          renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
                             <h:outputLabel id="overallCost" styleClass="element100 number" value="#{x.overallCost}" rendered="true">
