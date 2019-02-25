@@ -1047,29 +1047,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
     }
 
-    public List<SelectItem> getMainServices(int costCenterId) {
-        // todo: this is a quick hack to retrieve some test items
-        // need to retrieve them from KGLListHeaderText (or other appropriate table)
-        List<SelectItem> items = new ArrayList<>();
+    private Map<Integer, List<SelectItem>> _serviceItems = new HashMap<>();
 
-        if (costCenterId == 7) {
-            items.add(new SelectItem(1, "Ablative Maßnahmen"));
-            items.add(new SelectItem(2, "Defibrillator"));
-            items.add(new SelectItem(3, "Endovaskuläre Stent-Prothesen Aorta"));
-            items.add(new SelectItem(4, "Herzklappen (minimalinvasiv)"));
-            items.add(new SelectItem(5, "Herzschrittmacher"));
-            items.add(new SelectItem(6, "Kardio Diagnostik"));
-            items.add(new SelectItem(7, "Koronarangioplastie"));
-            items.add(new SelectItem(8, " perkutan-transluminale Intervention"));
-        } else {
-            items.add(new SelectItem(1, "Gastroenterologie"));
-            items.add(new SelectItem(2, "Koloskopie"));
-            items.add(new SelectItem(3, "ERCP"));
-            items.add(new SelectItem(4, "Endoskopische Biopsien"));
-            items.add(new SelectItem(5, "Therapeutische Spülungen"));
-            items.add(new SelectItem(6, "Anlage einer Ernährungssonde (z.B. PEG)"));
+    public List<SelectItem> getMainServices(int costCenterId) {
+        int sheetId = costCenterId == 7 ? 6 : 7;   // todo: replace sheetIds by enum
+        if (!_serviceItems.containsKey(sheetId)) {
+            List<SelectItem> items = _calcDrgFacade
+                    .retrieveHeaderTexts(Calendar.getInstance().get(Calendar.YEAR), sheetId, 0)
+                    .stream()
+                    .map(h -> new SelectItem(h.getSequence(), h.getText()))
+                    .collect(Collectors.toList());
+            _serviceItems.put(sheetId, items);
         }
-        return items;
+        return _serviceItems.get(sheetId);
     }
 
     public void deleteRoomCapability(KglRoomCapability roomCapability) {

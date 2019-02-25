@@ -96,132 +96,137 @@
         <h4><h:outputLabel
                 value="Bitte geben Sie an für welche endoskopischen Bereiche Sie nicht den Leistungsschlüssel Eingriffszeit verwenden"/>
         </h4>
-        <h:dataTable value="#{editCalcBasicsDrg.endoscopyDifferentials}"
-                     var="data"
-                     headerClass="smallFont paddingElement"
-                     styleClass="borderedTable borderCollapse"
-                     width="100%" rowClasses="row1, row2"
-                     columnClasses="colIcon, colValue, col04em, col04em, colValue">
+        <div jsf:id="endoscopyDifferentials">
+            <h:dataTable value="#{editCalcBasicsDrg.endoscopyDifferentials}"
+                         var="data"
+                         headerClass="smallFont paddingElement"
+                         styleClass="borderedTable borderCollapse"
+                         width="100%" rowClasses="row1, row2"
+                         columnClasses="colIcon, colValue, col04em, col04em, colValue">
 
-            <h:column>
-                <h:commandLink action="#{editCalcBasicsDrg.deleteEndoscopyDifferential(data)}"
-                               rendered="true"
-                               immediate="true" styleClass="colIcon">
-                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
-                                    value=""
-                                    rendered="#{!editCalcBasicsDrg.readOnly}"/>
-                    <cb:confirmDelete/>
-                </h:commandLink>
-            </h:column>
+                <h:column>
+                    <h:commandLink action="#{editCalcBasicsDrg.deleteEndoscopyDifferential(data)}"
+                                   rendered="true"
+                                   immediate="true" styleClass="colIcon">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                        value=""
+                                        rendered="#{!editCalcBasicsDrg.readOnly}"/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">Endoskopischer Bereich</f:facet>
-                <inek:InputTextWithMessage id="endoscopyDivision"
-                                           required="true"
-                                           value="#{data.division}"
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
-                                           styleClass="fullWidth">
-                    <!--<f:validator validatorId="EmailValidator" for="contactMail"/>-->
-                </inek:InputTextWithMessage>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">Endoskopischer Bereich</f:facet>
+                    <inek:InputTextWithMessage id="endoscopyDivision"
+                                               required="true"
+                                               value="#{data.division}"
+                                               readonly="#{editCalcBasicsDrg.readOnly}"
+                                               styleClass="fullWidth">
+                        <!--<f:validator validatorId="EmailValidator" for="contactMail"/>-->
+                    </inek:InputTextWithMessage>
+                </h:column>
 
-            <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear le 2016}">
-                <f:facet name="header">Leistungsschlüssel</f:facet>
-                <inek:InputTextWithMessage id="endoscopyKey"
-                                           required="#{editCalcBasicsDrg.calcBasics.dataYear le 2016}"
-                                           value="#{data.activityKey}"
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
-                                           styleClass="fullWidth">
-                    <!--<f:validator validatorId="EmailValidator" for="contactMail"/>-->
-                </inek:InputTextWithMessage>
-            </h:column>
+                <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear le 2016}">
+                    <f:facet name="header">Leistungsschlüssel</f:facet>
+                    <inek:InputTextWithMessage id="endoscopyKey"
+                                               required="#{editCalcBasicsDrg.calcBasics.dataYear le 2016}"
+                                               value="#{data.activityKey}"
+                                               readonly="#{editCalcBasicsDrg.readOnly}"
+                                               styleClass="fullWidth">
+                        <!--<f:validator validatorId="EmailValidator" for="contactMail"/>-->
+                    </inek:InputTextWithMessage>
+                </h:column>
 
-            <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
-                <f:facet name="header">Erläuterung</f:facet>
-                <h:inputTextarea id="activityKeyComment"
-                                 value="#{data.activityKeyComment}"
-                                 required="#{data.division.length() != 0}"
-                                 readonly="#{editCalcBasicsDrg.readOnly}"
-                                 requiredMessage="#{msg.msgValueNeeded}">
-                    <f:ajax event="blur" render="@this msgActivityKeyComment :logout:remaining"/>
-                </h:inputTextarea>
-                <h:message for="activityKeyComment" id="msgActivityKeyComment" errorClass="errorMessage"/>
-            </h:column>
-        </h:dataTable>
-
+                <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
+                    <f:facet name="header">Erläuterung</f:facet>
+                    <h:inputTextarea id="activityKeyComment"
+                                     value="#{data.activityKeyComment}"
+                                     required="#{data.division.length() != 0}"
+                                     readonly="#{editCalcBasicsDrg.readOnly}"
+                                     requiredMessage="#{msg.msgValueNeeded}">
+                        <f:ajax event="blur" render="@this msgActivityKeyComment :logout:remaining"/>
+                    </h:inputTextarea>
+                    <h:message for="activityKeyComment" id="msgActivityKeyComment" errorClass="errorMessage"/>
+                </h:column>
+            </h:dataTable>
+        </div>
         <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                        rendered="#{!editCalcBasicsDrg.readOnly}">
-            <f:ajax event="click" render="@form :logout:remaining"
+            <f:ajax event="click" render="endoscopyDifferentials :logout:remaining"
                     listener="#{editCalcBasicsDrg.addEndoscopyDifferentials()}"/>
         </h:commandLink>
 
 
-        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.endoscopyAmbulant}"
-                     var="item"
-                     id="endoAmbu"
-                     styleClass="borderedTable borderCollapse"
-                     headerClass="smallFont paddingElement"
-                     width="100%" rowClasses="row1, row2"
-                     columnClasses="colIcon, colValue, col04em, col04em, colValue">
+        <div jsf:id="endoscopyAmbulant" class="marginTop01em">
+            <h:dataTable value="#{editCalcBasicsDrg.calcBasics.endoscopyAmbulant}"
+                         var="item"
+                         id="endoAmbu"
+                         styleClass="borderedTable borderCollapse"
+                         headerClass="smallFont paddingElement"
+                         width="100%" rowClasses="row1, row2"
+                         columnClasses="colIcon, colValue, col04em, col04em, colValue">
 
-            <h:column>
-                <h:commandLink action="#{editCalcBasicsDrg.deleteEndoscopyAmbulant(item)}"
-                               rendered="#{!editCalcBasicsDrg.readOnly}"
-                               immediate="true" styleClass="colIcon">
-                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
-                                    value=""/>
-                    <cb:confirmDelete/>
-                </h:commandLink>
-            </h:column>
+                <h:column>
+                    <h:commandLink action="#{editCalcBasicsDrg.deleteEndoscopyAmbulant(item)}"
+                                   rendered="#{!editCalcBasicsDrg.readOnly}"
+                                   immediate="true" styleClass="colIcon">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                        value=""/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">Ambulante Leistungen im endoskopischen Bereich</f:facet>
-                <inek:InputTextWithMessage value="#{item.ambulantService}"
-                                           readonly="#{editCalcBasicsDrg.readOnly}"/>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">Ambulante Leistungen im endoskopischen Bereich</f:facet>
+                    <inek:InputTextWithMessage value="#{item.ambulantService}"
+                                               readonly="#{editCalcBasicsDrg.readOnly}"/>
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">Leistungsschlüssel</f:facet>
-                <h:selectOneMenu value="#{item.serviceKey}" styleClass="inputwide" required="true"
-                                 disabled="#{editCalcBasicsDrg.readOnly}">
-                    <f:selectItems value="#{calcBasicsStaticData.endoscopyAmbulantTypes}"/>
-                    <f:ajax event="change" render="@form :logout:remaining"/>
-                </h:selectOneMenu>
-                <h:inputTextarea id="serviceKeyExplanation" rendered="#{item.serviceKey == 4 or item.serviceKey == 3}"
-                                 required="true" styleClass="inputwide"
-                                 value="#{item.miscText}"
-                                 readonly="#{editCalcBasicsDrg.readOnly}">
-                    <f:ajax event="blur" render="@this :logout:remaining"/>
-                </h:inputTextarea>
-                <h:message for="serviceKeyExplanation" id="activityKeyCommentmessage" errorClass="errorMessage"/>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">Leistungsschlüssel</f:facet>
+                    <h:selectOneMenu value="#{item.serviceKey}" styleClass="inputwide" required="true"
+                                     disabled="#{editCalcBasicsDrg.readOnly}">
+                        <f:selectItems value="#{calcBasicsStaticData.endoscopyAmbulantTypes}"/>
+                        <f:ajax event="change" render="@form :logout:remaining"/>
+                    </h:selectOneMenu>
+                    <h:inputTextarea id="serviceKeyExplanation"
+                                     rendered="#{item.serviceKey == 4 or item.serviceKey == 3}"
+                                     required="true" styleClass="inputwide"
+                                     value="#{item.miscText}"
+                                     readonly="#{editCalcBasicsDrg.readOnly}">
+                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                    </h:inputTextarea>
+                    <h:message for="serviceKeyExplanation" id="activityKeyCommentmessage" errorClass="errorMessage"/>
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">Anzahl Fälle</f:facet>
-                <inek:InputIntegerWithMessage value="#{item.caseCount}" readonly="#{editCalcBasicsDrg.readOnly}"/>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">Anzahl Fälle</f:facet>
+                    <inek:InputIntegerWithMessage value="#{item.caseCount}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">Anzahl erbrachter amb. Leistungen</f:facet>
-                <inek:InputIntegerWithMessage value="#{item.numServices}" readonly="#{editCalcBasicsDrg.readOnly}"/>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">Anzahl erbrachter amb. Leistungen</f:facet>
+                    <inek:InputIntegerWithMessage value="#{item.numServices}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">abgegr. Kostenvolumen ÄD</f:facet>
-                <inek:InputIntegerWithMessage value="#{item.costVolumeMedical}"
-                                              readonly="#{editCalcBasicsDrg.readOnly}"/>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">abgegr. Kostenvolumen ÄD</f:facet>
+                    <inek:InputIntegerWithMessage value="#{item.costVolumeMedical}"
+                                                  readonly="#{editCalcBasicsDrg.readOnly}"/>
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">abgegr. Kostenvolumen FD</f:facet>
-                <inek:InputIntegerWithMessage value="#{item.costVolumeFunction}"
-                                              readonly="#{editCalcBasicsDrg.readOnly}"/>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">abgegr. Kostenvolumen FD</f:facet>
+                    <inek:InputIntegerWithMessage value="#{item.costVolumeFunction}"
+                                                  readonly="#{editCalcBasicsDrg.readOnly}"/>
+                </h:column>
 
-        </h:dataTable>
+            </h:dataTable>
+        </div>
+
         <h:commandLink id="addButton2" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                        rendered="#{!editCalcBasicsDrg.readOnly}">
-            <f:ajax event="click" render="@form :logout:remaining"
+            <f:ajax event="click" render="endoscopyAmbulant :logout:remaining"
                     listener="#{editCalcBasicsDrg.addEndoscopyAmbulant()}"/>
         </h:commandLink>
     </div>
