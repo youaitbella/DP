@@ -43,13 +43,14 @@
                  width="100%"
                  styleClass="borderedTable borderCollapse marginTop"
                  headerClass="smallFont paddingElement"
-                 rowClasses="row1, row2">
+                 rowClasses="row1, row2"
+                 columnClasses="colIcon, col08em, colValue, col13em, col07em, colValue, col08em, col08em, col08em, col06em">
 
-        <h:column headerClass="colIcon" >
+        <h:column>
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
-            <h:commandLink>
+            <h:commandLink rendered="#{!editCalcBasicsDrg.readOnly}">
                 <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteLaboratory(item)}"/>
             </h:commandLink>
@@ -59,7 +60,8 @@
             <f:facet name="header">
                 <h:outputLabel value="Nr. Kostenstelle"/>
             </f:facet>
-            <h:inputText styleClass="inputshort" value="#{item.costCenterNumber}" >
+            <h:inputText value="#{item.costCenterNumber}" readonly="#{editCalcBasicsDrg.readOnly}"
+                         styleClass="fullWidth">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
@@ -69,7 +71,7 @@
                 <h:outputLabel value="Name Kostenstelle"/><br/>
                 <h:outputLabel value="(aussagekräftiger Name)"/>
             </f:facet>
-            <h:inputText value="#{item.costCenterText}" >
+            <h:inputText value="#{item.costCenterText}" readonly="#{editCalcBasicsDrg.readOnly}" styleClass="fullWidth">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
@@ -79,7 +81,8 @@
                 <h:outputLabel value="Leistungsbereich"/>
             </f:facet>
 
-            <h:selectOneMenu value="#{item.serviceArea}">
+            <h:selectOneMenu value="#{item.serviceArea}" disabled="#{editCalcBasicsDrg.readOnly}"
+                             styleClass="fullWidth">
                 <f:selectItems value="#{calcBasicsStaticData.labServicesAreas}" />
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectOneMenu>
@@ -89,8 +92,8 @@
             <f:facet name="header">
                 <h:outputLabel value="Leistungs-dokumentation"/>
             </f:facet>
-            
-            <h:selectOneMenu value="#{item.service}">
+
+            <h:selectOneMenu value="#{item.service}" disabled="#{editCalcBasicsDrg.readOnly}" styleClass="fullWidth">
                 <f:selectItems value="#{calcBasicsStaticData.radLabServices}" />
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectOneMenu>
@@ -100,7 +103,12 @@
             <f:facet name="header">
                 <h:outputLabel value="Beschreibung"/>
             </f:facet>
-            <h:inputTextarea rendered="#{item.service == 1 || item.service == 5}"  required="#{item.service == 1 || item.service == 5}" class="areaWideHigh" value="#{item.description}" >
+            <h:inputTextarea rendered="#{item.service == 1 || item.service == 5}"
+                             required="#{item.service == 1 || item.service == 5}"
+                             class="areaWideHigh"
+                             value="#{item.description}"
+                             styleClass="fullWidth"
+                             readonly="#{editCalcBasicsDrg.readOnly}">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputTextarea>
         </h:column>
@@ -111,6 +119,7 @@
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
             <inek:InputIntegerWithMessage value="#{item.serviceVolumePre}"
+                                          readonly="#{editCalcBasicsDrg.readOnly}"
                                           renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 4))}:pointValue:text"/>
         </h:column>
 
@@ -120,6 +129,7 @@
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
             <inek:InputIntegerWithMessage value="#{item.amountPre}"
+                                          readonly="#{editCalcBasicsDrg.readOnly}"
                                           renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 4))}:pointValue:text"/>
         </h:column>
 
@@ -128,7 +138,7 @@
                 <h:outputLabel value="Kostenvolumen"/><br/>
                 <h:outputLabel value="nach Abgrenzung"/><br/>
             </f:facet>
-            <inek:InputIntegerWithMessage value="#{item.amountPost}" />
+            <inek:InputIntegerWithMessage value="#{item.amountPost}" readonly="#{editCalcBasicsDrg.readOnly}"/>
         </h:column>
 
         <h:column id="colPointValue">
