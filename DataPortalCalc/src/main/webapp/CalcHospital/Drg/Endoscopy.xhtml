@@ -26,6 +26,27 @@
         <h:outputLabel styleClass="label15 number" value="Abweichung"/>
 
         <div class="inputPart">
+            <h:outputLabel styleClass="label50" value="Anzahl Standorte"/>
+            <h:inputText styleClass="element15 number" id="endoscopyLocationCnt"
+                         value="#{editCalcBasicsDrg.calcBasics.endoscopyLocationCnt}"
+                         readonly="#{editCalcBasicsDrg.readOnly}">
+                <f:ajax event="blur" render="@this lblDiffendoscopyLocationCnt :logout:remaining"/>
+                <f:convertNumber/>
+            </h:inputText>
+            <ui:remove>
+                <!-- activate in 2020 -->
+                <h:outputLabel styleClass="label15 number"
+                               value="#{editCalcBasicsDrg.priorCalcBasics.endoscopyLocationCnt}">
+                    <f:convertNumber/>
+                </h:outputLabel>
+                <h:outputLabel styleClass="label15 number" id="lblDiffendoscopyLocationCnt"
+                               value="#{editCalcBasicsDrg.calcBasics.endoscopyLocationCnt - editCalcBasicsDrg.priorCalcBasics.endoscopyLocationCnt}">
+                    <f:convertNumber/>
+                </h:outputLabel>
+            </ui:remove>
+        </div>
+
+        <div class="inputPart">
             <h:outputLabel styleClass="label50" value="#{msg.lblEndoscopyRoomCount}"/>
             <h:inputText styleClass="element15 number" id="endoscopyRoomCnt"
                          value="#{editCalcBasicsDrg.calcBasics.endoscopyRoomCnt}"
@@ -39,24 +60,6 @@
             </h:outputLabel>
             <h:outputLabel styleClass="label15 number" id="lblDiffendoscopyRoomCnt"
                            value="#{editCalcBasicsDrg.calcBasics.endoscopyRoomCnt - editCalcBasicsDrg.priorCalcBasics.endoscopyRoomCnt}">
-                <f:convertNumber/>
-            </h:outputLabel>
-        </div>
-
-        <div class="inputPart">
-            <h:outputLabel styleClass="label50" value="Anzahl Standorte"/>
-            <h:inputText styleClass="element15 number" id="endoscopyLocationCnt"
-                         value="#{editCalcBasicsDrg.calcBasics.endoscopyLocationCnt}"
-                         readonly="#{editCalcBasicsDrg.readOnly}">
-                <f:ajax event="blur" render="@this lblDiffendoscopyLocationCnt :logout:remaining"/>
-                <f:convertNumber/>
-            </h:inputText>
-            <h:outputLabel styleClass="label15 number"
-                           value="#{editCalcBasicsDrg.priorCalcBasics.endoscopyLocationCnt}">
-                <f:convertNumber/>
-            </h:outputLabel>
-            <h:outputLabel styleClass="label15 number" id="lblDiffendoscopyLocationCnt"
-                           value="#{editCalcBasicsDrg.calcBasics.endoscopyLocationCnt - editCalcBasicsDrg.priorCalcBasics.endoscopyLocationCnt}">
                 <f:convertNumber/>
             </h:outputLabel>
         </div>
