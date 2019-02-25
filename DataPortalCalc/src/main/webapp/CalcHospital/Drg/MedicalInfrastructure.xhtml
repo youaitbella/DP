@@ -19,7 +19,8 @@
                      required="true"
                      requiredMessage="#{msg.msgValueNeeded}"
                      value="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra}"
-                     hideNoSelectionOption="true" 
+                     disabled="#{editCalcBasicsDrg.readOnly}"
+                     hideNoSelectionOption="true"
                      style="width: 100%;">
         <f:selectItems value="#{calcBasicsStaticData.ibvlTypeItem}"/>
         <f:ajax event="change" render="@form :logout:remaining" /><!--render="@this :logout:remaining medInfraMethodDescription"/-->
@@ -32,9 +33,10 @@
 
     <h:panelGroup id="medInfraMethodDescription" styleClass="inputPart" rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
         <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
-        <h:inputTextarea id="description" 
-                         styleClass="areaWideHigh" 
-                         value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}" 
+        <h:inputTextarea id="description"
+                         styleClass="areaWideHigh"
+                         value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}"
+                         readonly="#{editCalcBasicsDrg.readOnly}"
                          required="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
@@ -55,26 +57,38 @@
         <ui:repeat value="#{editCalcBasicsDrg.getMedInfra(170)}" var="item" varStatus="loop">
             <tr>
                 <td>
-            <h:commandLink styleClass="colIcon">
+                    <h:commandLink styleClass="colIcon" rendered="#{!editCalcBasicsDrg.readOnly}">
                 <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteMedInfra(item)}"/>
                 <cb:confirmDelete/>
             </h:commandLink>
             </td>
             <td style="width: 15%;">
-            <inek:InputTextWithMessage value="#{item.costCenterNumber}" styleClass="inputwide" required="true"/>
+                <inek:InputTextWithMessage value="#{item.costCenterNumber}"
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="inputwide"
+                                           required="true"/>
             </td>
             <td style="width: 30%">
-            <inek:InputTextWithMessage value="#{item.costCenterText}" styleClass="inputwide" required="true"/>
+                <inek:InputTextWithMessage value="#{item.costCenterText}"
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="inputwide" required="true"/>
             </td>
             <td style="width: 25%;">
-            <inek:InputTextWithMessage value="#{item.keyUsed}" styleClass="inputwide" required="true"/>
+                <inek:InputTextWithMessage value="#{item.keyUsed}"
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="inputwide" required="true"/>
             </td>
                 <td>
-                    <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" minimum="-999999999" required="true" renderElement="sumMed:text"/>
+                    <inek:InputIntegerWithMessage value="#{item.amount}"
+                                                  readonly="#{editCalcBasicsDrg.readOnly}"
+                                                  styleClass="inputwide" minimum="-999999999" required="true"
+                                                  renderElement="sumMed:text"/>
                 </td>
                 <td>
-                    <inek:InputIntegerWithMessage value="#{item.amountAfter}" styleClass="inputwide" minimum="-999999999" required="true" />
+                    <inek:InputIntegerWithMessage value="#{item.amountAfter}"
+                                                  readonly="#{editCalcBasicsDrg.readOnly}"
+                                                  styleClass="inputwide" minimum="-999999999" required="true"/>
                 </td>
             </tr>
         </ui:repeat>
