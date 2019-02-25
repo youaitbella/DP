@@ -27,11 +27,13 @@
                                                       styleClass="blockHeader"/> </f:facet>
                 <inek:InputIntegerWithMessage id="currentInteger"
                                               value="#{data.data}"
+                                              readonly="#{editCalcBasicsDrg.readOnly}"
                                               styleClassComponent="col06em"
                                               rendered="#{data.contentText.decimalCount eq 0}"
                                               renderElement="#{component.clientId.substring(0, component.clientId.indexOf(':', 14))}:diff"/>
                 <inek:InputNumberWithMessage id="currentNumber"
                                              value="#{data.data}"
+                                             readonly="#{editCalcBasicsDrg.readOnly}"
                                              styleClassComponent="col06em"
                                              rendered="#{data.contentText.decimalCount gt 0}"
                                              pattern="#,##0.0"
