@@ -39,10 +39,11 @@
 
     <h:dataTable id="lab"
                  value="#{editCalcBasicsDrg.laboratories}"
-                 var="item" 
+                 var="item"
                  width="100%"
-                 rowClasses="row1, row2"
-                 styleClass="marginTop">
+                 styleClass="borderedTable borderCollapse marginTop"
+                 headerClass="smallFont paddingElement"
+                 rowClasses="row1, row2">
 
         <h:column headerClass="colIcon" >
             <f:facet name="header">

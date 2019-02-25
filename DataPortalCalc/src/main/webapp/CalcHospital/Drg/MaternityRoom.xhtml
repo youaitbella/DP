@@ -96,9 +96,11 @@
         <h2>Kostenstellen der erbrachten Leistungen #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
 
         <h:dataTable id="tblObstretics"
-                     value="#{editCalcBasicsDrg.calcBasics.obstetricsGynecologies}" 
+                     value="#{editCalcBasicsDrg.calcBasics.obstetricsGynecologies}"
                      var ="obstretic"
                      width="100%"
+                     styleClass="borderedTable borderCollapse"
+                     headerClass="paddingElement smallFont"
                      columnClasses="colIcon, col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
                      rowClasses="row1, row2">
 
@@ -201,10 +203,12 @@
         <h2>Kostenstellen der erbrachten Leistungen #{editCalcBasicsDrg.calcBasics.dataYear - 1}</h2>
 
         <h:dataTable id="tblPrevObstretics"
-                     value="#{editCalcBasicsDrg.priorCalcBasics.obstetricsGynecologies}" 
+                     value="#{editCalcBasicsDrg.priorCalcBasics.obstetricsGynecologies}"
                      var ="prevObstretic"
+                     styleClass="borderedTable borderCollapse"
+                     headerClass="paddingElement smallFont"
                      width="100%"
-                     columnClasses="col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number , col05em number"
+                     columnClasses="colIcon, col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
                      rowClasses="row1, row2">
 
             <h:column>

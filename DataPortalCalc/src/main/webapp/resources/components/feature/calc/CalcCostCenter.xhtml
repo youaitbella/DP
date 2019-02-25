@@ -19,18 +19,15 @@
 <cc:implementation>
     <div class="container">
 
-        <style>
-            .paddingLeft {
-                padding-left: 20px;
-            }
-        </style>
-
         <h:dataTable id="cost"
                      value="#{cc.attrs.backingBean.calcBasics.costCenters.stream().filter(c -> c.costCenterId == cc.attrs.costCenterId).toList()}"
                      var="item"
-                     styleClass="marginTop" width="100%"
-                     headerClass="paddingLeft"
-                     columnClasses="colIcon, col05em, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, colValue, colValue, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                     styleClass="marginTop borderedTable borderCollapse" width="100%"
+                     headerClass="paddingElement smallFont"
+                     columnClasses="colIcon, col05em, colValue, col05em number, col05em number, col05em number, col05em number,
+                     col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number,
+                     col05em number, colValue, colValue, col05em number, col05em number, col05em number, col05em number,
+                     col05em number, col05em number, col05em number"
                      rowClasses="row1, row2">
 
             <h:column>
@@ -60,7 +57,8 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Anzahl VK ÄD vor Ab-grenzung"/>
+                    <h:outputLabel value="Anzahl VK ÄD vor Abgrenzung"
+                                   title="Anzahl Vollkräfte Ärztlicher Dienst vor Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.countMedStaffPre}"
                                              readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
@@ -68,7 +66,8 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Anzahl VK ÄD nach Ab-grenzung"/>
+                    <h:outputLabel value="Anzahl VK ÄD nach Abgrenzung"
+                                   title="Anzahl Vollkräfte Ärztlicher Dienst nach Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.countMedStaffAfter}"
                                              readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
@@ -76,7 +75,8 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Kosten-volumen ÄD vor Ab-grenzung"/>
+                    <h:outputLabel value="Kosten-volumen ÄD vor Abgrenzung"
+                                   title="Kostenvolumen Ärztlicher Dienst vor Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage id="medPre" styleClass="element100" value="#{item.costVolumeMedStaffPre}"
                                              readonly="#{cc.attrs.backingBean.readOnly}"
@@ -86,7 +86,8 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Kosten-volumen ÄD nach Ab-grenzung"/>
+                    <h:outputLabel value="Kosten-volumen ÄD nach Abgrenzung"
+                                   title="Kostenvolumen Ärztlicher Dienst nach Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage id="medAfter" styleClass="element100"
                                              value="#{item.costVolumeMedStaffAfter}"
@@ -97,7 +98,8 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Anzahl VK PD vor Ab-grenzung"/>
+                    <h:outputLabel value="Anzahl VK PD vor Abgrenzung"
+                                   title="Anzahl Vollkräfte Pflegedienst vor Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.countCareServicePre}"
                                              readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
@@ -105,7 +107,8 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Anzahl VK PD nach Ab-grenzung"/>
+                    <h:outputLabel value="Anzahl VK PD nach Abgrenzung"
+                                   title="Anzahl Vollkräfte Pflegedienst nach Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.countCareServiceAfter}"
                                              readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
@@ -113,7 +116,8 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Kosten-volumen PD vor Ab-grenzung"/>
+                    <h:outputLabel value="Kosten-volumen PD vor Abgrenzung"
+                                   title="Kostenvolumen Pflegedienst vor Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage id="carePre" styleClass="element100"
                                              value="#{item.costVolumeCareServicePre}"
@@ -123,7 +127,8 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Kosten-volumen PD nach Ab-grenzung"/>
+                    <h:outputLabel value="Kosten-volumen PD nach Abgrenzung"
+                                   title="Kostenvolumen Pflegedienst nach Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage id="careAfter" styleClass="element100"
                                              value="#{item.costVolumeCareServiceAfter}"
@@ -133,7 +138,8 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Anzahl VK FD vor Ab-grenzung"/>
+                    <h:outputLabel value="Anzahl VK FD vor Abgrenzung"
+                                   title="Anzahl Vollkräfte Funktionsdienst vor Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.countFunctionalServicePre}"
                                              readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
@@ -141,7 +147,8 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Anzahl VK FD nach Ab-grenzung"/>
+                    <h:outputLabel value="Anzahl VK FD nach Abgrenzung"
+                                   title="Anzahl Vollkräfte Funktionsdienst nach Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.countFunctionalServiceAfter}"
                                              readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
@@ -149,7 +156,8 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Kosten-volumen FD vor Ab-grenzung"/>
+                    <h:outputLabel value="Kosten-volumen FD vor Abgrenzung"
+                                   title="Kostenvolumen Funktionsdienst vor Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage id="funcPre" styleClass="element100"
                                              value="#{item.costVolumeFunctionalServicePre}"
@@ -159,7 +167,8 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Kosten-volumen FD nach Ab-grenzung"/>
+                    <h:outputLabel value="Kosten-volumen FD nach Abgrenzung"
+                                   title="Kostenvolumen Funktionsdienst nach Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage id="funcAfter" styleClass="element100"
                                              value="#{item.costVolumeFunctionalServiceAfter}"
@@ -195,14 +204,14 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kost/LE ÄD vor"
-                                                      title="Kostensatz je Leistungseinheiten"/></f:facet>
+                                                      title="Kostensatz Ärztlicher Dienst je Leistungseinheit vor Abgrenzung"/></f:facet>
                 <inek:InputNumberWithMessage id="resultMedPre" value="#{item.costVolumeMedStaffPre / item.serviceSum}"
                                              disabled="true"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kost/LE ÄD nach"
-                                                      title="Kostensatz je Leistungseinheiten"/></f:facet>
+                                                      title="Kostensatz Ärztlicher Dienst je Leistungseinheit nach Abgrenzung"/></f:facet>
                 <inek:InputNumberWithMessage id="resultMedAfter"
                                              value="#{item.costVolumeMedStaffAfter / item.serviceSum}"
                                              disabled="true"/>
@@ -210,7 +219,7 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kost/LE PD vor"
-                                                      title="Kostensatz je Leistungseinheiten"/></f:facet>
+                                                      title="Kostensatz Pflegedienst je Leistungseinheit vor Abgrenzung"/></f:facet>
                 <inek:InputNumberWithMessage id="resultCarePre"
                                              value="#{item.costVolumeCareServicePre / item.serviceSum}"
                                              disabled="true"/>
@@ -218,7 +227,7 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kost/LE PD nach"
-                                                      title="Kostensatz je Leistungseinheiten"/></f:facet>
+                                                      title="Kostensatz Pflegedienst je Leistungseinheit nach Abgrenzung"/></f:facet>
                 <inek:InputNumberWithMessage id="resultCareAfter"
                                              value="#{item.costVolumeCareServiceAfter / item.serviceSum}"
                                              disabled="true"/>
@@ -226,7 +235,7 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kost/LE FD vor"
-                                                      title="Kostensatz je Leistungseinheiten"/></f:facet>
+                                                      title="Kostensatz Funtionsdienst je Leistungseinheit vor Abgrenzung"/></f:facet>
                 <inek:InputNumberWithMessage id="resultFuncPre"
                                              value="#{item.costVolumeFunctionalServicePre / item.serviceSum}"
                                              disabled="true"/>
@@ -234,7 +243,7 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kost/LE FD nach"
-                                                      title="Kostensatz je Leistungseinheiten"/></f:facet>
+                                                      title="Kostensatz Funtionsdienst je Leistungseinheit nach Abgrenzung"/></f:facet>
                 <inek:InputNumberWithMessage id="resultFuncAfter"
                                              value="#{item.costVolumeFunctionalServiceAfter / item.serviceSum}"
                                              disabled="true"/>
