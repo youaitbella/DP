@@ -52,6 +52,7 @@
         <h:column>
             <f:facet name="header">Haupt-Leistungsbereich</f:facet>
             <h:selectOneMenu value="#{roomCapability.mainServiceId}" styleClass="fullWidth"
+                             disabled="#{editCalcBasicsDrg.readOnly}"
                              hideNoSelectionOption="true">
                 <f:selectItem itemLabel="wählen..." itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItems value="#{editCalcBasicsDrg.getMainServices(cc.attrs.costCenterId)}" var="mainsService"
