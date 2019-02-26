@@ -33,10 +33,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
                 + "join Account a "
                 + "WHERE d._domainId = dd._id and d._agentAccountId = a._id  and d._accountId = :accountId "
                 + "ORDER BY d._id DESC";
-        // does not work properly :(
-//        TypedQuery<DocInfo> query = getEntityManager().createQuery(sql, DocInfo.class);
-//        query.setParameter("accountId", accountId);
-//        return query.getResultList();
+
         Query query = getEntityManager().createQuery(sql);
         query.setParameter("accountId", accountId);
         @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
@@ -184,4 +181,11 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         return result;
     }
 
+    public List<String> getInvalidFileNamePatterns() {
+        String sql = "select rfpPattern\n" +
+                "from adm.listRejectedFilePatterns";
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked") List<String> result = query.getResultList();
+        return result;
+    }
 }

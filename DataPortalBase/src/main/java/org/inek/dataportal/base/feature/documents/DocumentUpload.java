@@ -20,6 +20,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.base.feature.agency.entities.Agency;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -342,6 +344,9 @@ public class DocumentUpload implements Serializable {
         if (_documents.isEmpty()) {
             return "";
         }
+        if (documentsHasInvalidFilenames()) {
+            return "";
+        }
         Set<Account> accounts = new HashSet<>();
         for (AccountDocument accountDocument : _documents) {
             accountDocument.setValidity(_availability);
@@ -375,6 +380,21 @@ public class DocumentUpload implements Serializable {
         _documents.clear();
         loadLastDocuments();
         return "";
+    }
+
+    private boolean documentsHasInvalidFilenames() {
+        List<String> invalidPatterns = _docFacade.getInvalidFileNamePatterns();
+        for (AccountDocument doc : _documents) {
+            for (String pattern : invalidPatterns) {
+                if (doc.getName().matches(pattern)) {
+                    DialogController.showErrorDialog("Unzulässiger Dateiname", "[" + doc.getName() + "] " +
+                            "entält einen verbotenen Namen. Bitte überprüfen Sie, ob Sie das korrekte Dokument hochladen wollen, " +
+                            "und ändern Sie ggf. den Namen und laden Sie das Dokument erneut hoch");
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public String saveDocumentForInek() {
