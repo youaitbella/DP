@@ -5,14 +5,24 @@
  */
 package org.inek.dataportal.base.feature.documents;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.base.enums.DocumentTarget;
+import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
+import org.inek.dataportal.base.facades.account.DocumentDomainFacade;
+import org.inek.dataportal.base.feature.agency.entities.Agency;
+import org.inek.dataportal.base.feature.agency.facades.AgencyFacade;
+import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.AccountDocument;
+import org.inek.dataportal.common.data.account.entities.DocumentDomain;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.MailTemplateFacade;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.scope.FeatureScoped;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -20,24 +30,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.inek.dataportal.common.controller.DialogController;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.base.feature.agency.entities.Agency;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountDocument;
-import org.inek.dataportal.common.data.account.entities.DocumentDomain;
-import org.inek.dataportal.base.enums.DocumentTarget;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.base.feature.agency.facades.AgencyFacade;
-import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.base.facades.account.DocumentDomainFacade;
-import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.common.mail.MailTemplateFacade;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.mail.Mailer;
+import java.io.Serializable;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -388,8 +383,9 @@ public class DocumentUpload implements Serializable {
             for (String pattern : invalidPatterns) {
                 if (doc.getName().matches(pattern)) {
                     DialogController.showErrorDialog("Unzulässiger Dateiname", "[" + doc.getName() + "] " +
-                            "entält einen verbotenen Namen. Bitte überprüfen Sie, ob Sie das korrekte Dokument hochladen wollen, " +
-                            "und ändern Sie ggf. den Namen und laden Sie das Dokument erneut hoch");
+                            "gehört gemäß Dateinamen zu den unzulässigen Dateien. " +
+                            "Bitte überprüfen Sie, ob Sie dieses Dokument im Ausnahmefall tatsächlich hochladen müssen. " +
+                            "Falls ja, ändern Sie bitte den Namen und laden Sie das Dokument erneut hoch.");
                     return true;
                 }
             }
