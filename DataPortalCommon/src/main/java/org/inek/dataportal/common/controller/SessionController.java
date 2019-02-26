@@ -720,7 +720,7 @@ public class SessionController implements Serializable {
         Map<String, String> substitutions = new HashMap<>();
         substitutions.put("{name}", _account.getDisplayName());
         substitutions.put("{ik}", "" + ik);
-        substitutions.put("{feature}", feature.name());
+        substitutions.put("{feature}", feature.getDescription());
 
         List<Right> rights = new ArrayList<>();
         rights.add(Right.All);

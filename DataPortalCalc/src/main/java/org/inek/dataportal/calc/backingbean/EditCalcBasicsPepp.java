@@ -584,6 +584,12 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
         _calcBasics.setStatus(WorkflowStatus.ApprovalRequested);
         saveData(false);
+        try {
+            _sessionController.requestApproval(_calcBasics.getIk(), Feature.CALCULATION_HOSPITAL);
+        }
+        catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+        }
         return "";
     }
 

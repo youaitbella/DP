@@ -395,6 +395,12 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         _calcBasics.setStatus(WorkflowStatus.ApprovalRequested);
         setModifiedInfo();
         _calcBasics = _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
+        try {
+            _sessionController.requestApproval(_calcBasics.getIk(), Feature.CALCULATION_HOSPITAL);
+        }
+        catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+        }
         return "";
     }
 
