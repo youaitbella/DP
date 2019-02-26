@@ -8,14 +8,13 @@ import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.common.data.common.CustomerType;
 
 import javax.ejb.Stateless;
-import java.io.Serializable;
 
 /**
  *
  * @author muellermi
  */
 @Stateless
-public class CustomerTypeFacade extends AbstractFacade<CustomerType> implements Serializable {
+public class CustomerTypeFacade extends AbstractFacade<CustomerType> {
 
     public CustomerTypeFacade (){
         super(CustomerType.class);

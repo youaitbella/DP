@@ -7,11 +7,10 @@ import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.io.Serializable;
 import java.util.List;
 
 @Stateless
-public class ContactRoleFacade extends AbstractFacade<ContactRole> implements Serializable {
+public class ContactRoleFacade extends AbstractFacade<ContactRole> {
 
     public ContactRoleFacade() {
         super(ContactRole.class);
