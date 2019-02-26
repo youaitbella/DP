@@ -1,15 +1,17 @@
 package org.inek.dataportal.common.data.icmt.facade;
 
 import org.inek.dataportal.common.data.AbstractFacade;
-import java.util.List;
+import org.inek.dataportal.common.data.icmt.entities.ContactRole;
+
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.common.data.icmt.entities.ContactRole;
+import java.io.Serializable;
+import java.util.List;
 
 @Stateless
-public class ContactRoleFacade extends AbstractFacade<ContactRole> {
+public class ContactRoleFacade extends AbstractFacade<ContactRole> implements Serializable {
 
     public ContactRoleFacade() {
         super(ContactRole.class);

@@ -5,13 +5,14 @@
 //../Licenses/license-default.txt
 package org.inek.dataportal.common.mail;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import org.inek.dataportal.api.helper.Const;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.account.entities.*;
+import org.inek.dataportal.common.data.account.iface.Person;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.helper.Utils;
+
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -20,27 +21,21 @@ import javax.ejb.Startup;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpServletRequest;
-import org.inek.dataportal.api.helper.Const;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountChangeMail;
-import org.inek.dataportal.common.data.account.entities.AccountFeatureRequest;
-import org.inek.dataportal.common.data.account.entities.AccountRequest;
-import org.inek.dataportal.common.data.account.iface.Person;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.data.account.entities.PasswordRequest;
-import org.inek.dataportal.common.helper.Utils;
+import java.io.File;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import static org.inek.dataportal.common.helper.Placeholder.*;
 
 /**
@@ -49,7 +44,7 @@ import static org.inek.dataportal.common.helper.Placeholder.*;
  */
 @Singleton
 @Startup
-public class Mailer {
+public class Mailer implements Serializable {
 
     protected static final Logger LOGGER = Logger.getLogger("Mailer");
 

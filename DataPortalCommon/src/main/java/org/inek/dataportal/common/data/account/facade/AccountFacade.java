@@ -1,38 +1,16 @@
 package org.inek.dataportal.common.data.account.facade;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
-import javax.ejb.Stateless;
-import javax.faces.model.SelectItem;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import org.inek.dataportal.common.data.account.entities.PasswordRequest;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountChangeMail;
-import org.inek.dataportal.common.data.account.entities.AccountFeature;
-import org.inek.dataportal.common.data.account.entities.AccountPwd;
-import org.inek.dataportal.common.data.account.entities.AccountRequest;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.api.enums.IkReference;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.account.entities.*;
 import org.inek.dataportal.common.data.common.User;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.enums.EnvironmentType;
+import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
@@ -41,12 +19,23 @@ import org.inek.dataportal.common.utils.Crypt;
 import org.inek.dataportal.common.utils.ObjectUtil;
 import org.inek.dataportal.common.utils.StringUtil;
 
+import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import java.io.Serializable;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
+
 /**
  *
  * @author vohldo
  */
 @Stateless
-public class AccountFacade extends AbstractDataAccess {
+public class AccountFacade extends AbstractDataAccess implements Serializable {
 
     @Inject
     private AccountPwdFacade _accountPwdFacade;

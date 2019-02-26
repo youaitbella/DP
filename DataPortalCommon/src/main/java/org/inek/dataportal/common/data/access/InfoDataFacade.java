@@ -5,21 +5,23 @@
 package org.inek.dataportal.common.data.access;
 
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import java.util.List;
+import org.inek.dataportal.common.data.common.ListFeature;
+import org.inek.dataportal.common.data.common.ListWorkflowStatus;
+import org.inek.dataportal.common.data.common.TrashMail;
+
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.common.data.common.ListFeature;
-import org.inek.dataportal.common.data.common.ListWorkflowStatus;
-import org.inek.dataportal.common.data.common.TrashMail;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * This is a facade to various informative data
  * @author muellermi
  */
 @Stateless
-public class InfoDataFacade extends AbstractDataAccess {
+public class InfoDataFacade extends AbstractDataAccess implements Serializable {
 
     public boolean isTrashMailDomain(String domain) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();

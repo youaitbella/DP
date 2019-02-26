@@ -1,13 +1,5 @@
 package org.inek.dataportal.common.data.adm.facade;
 
-import java.util.Date;
-import java.util.List;
-import javax.ejb.Asynchronous;
-import javax.ejb.Schedule;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.Query;
-import javax.transaction.Transactional;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.adm.ActionLog;
@@ -16,8 +8,18 @@ import org.inek.dataportal.common.data.adm.Log;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.DateUtils;
 
+import javax.ejb.Asynchronous;
+import javax.ejb.Schedule;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
 @Stateless
-public class LogFacade extends AbstractDataAccess {
+public class LogFacade extends AbstractDataAccess implements Serializable {
 
     private SessionController _sessionController;
 

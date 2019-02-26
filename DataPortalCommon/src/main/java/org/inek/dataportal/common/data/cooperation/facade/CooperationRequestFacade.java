@@ -1,23 +1,25 @@
 package org.inek.dataportal.common.data.cooperation.facade;
 
-import java.util.Date;
-import java.util.List;
+import org.inek.dataportal.common.data.AbstractFacade;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.cooperation.entities.CooperationRequest;
+
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.cooperation.entities.CooperationRequest;
-import org.inek.dataportal.common.data.AbstractFacade;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author muellermi
  */
 @Stateless
-public class CooperationRequestFacade extends AbstractFacade<CooperationRequest> {
+public class CooperationRequestFacade extends AbstractFacade<CooperationRequest> implements Serializable {
 
     public CooperationRequestFacade() {
         super(CooperationRequest.class);
