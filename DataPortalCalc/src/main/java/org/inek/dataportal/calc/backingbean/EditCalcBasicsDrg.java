@@ -1,7 +1,6 @@
 package org.inek.dataportal.calc.backingbean;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.calc.CalcBasicsTransferFileCreator;
 import org.inek.dataportal.calc.entities.drg.*;
 import org.inek.dataportal.calc.entities.psy.KglPkmsAlternative;
 import org.inek.dataportal.calc.facades.CalcDrgFacade;
@@ -13,10 +12,7 @@ import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.ObjectComparer;
-import org.inek.dataportal.common.helper.ObjectCopier;
-import org.inek.dataportal.common.helper.ObjectUtils;
-import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.helper.*;
 import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.inek.dataportal.common.helper.structures.MessageContainer;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -732,7 +728,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.setSealed(Calendar.getInstance().getTime());
         _calcBasics = _calcDrgFacade.saveCalcBasicsDrg(_calcBasics);
 
-        CalcBasicsTransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);
+        TransferFileCreator.createObjectTransferFile(_sessionController, _calcBasics, _calcBasics.getIk(), "KGL");
 
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
