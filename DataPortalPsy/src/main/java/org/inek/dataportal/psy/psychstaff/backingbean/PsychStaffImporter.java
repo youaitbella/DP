@@ -19,6 +19,7 @@ import org.inek.dataportal.psy.psychstaff.enums.PsychType;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.StringUtil;
 import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -31,11 +32,11 @@ public class PsychStaffImporter {
     private static final String NUMBER_6_VALID_FOR_KIDS_ONLY = "Die laufende Nummer 6 (Logopädie) ist nur bei KJP zulässig";
     private static final String ERROR_IN_LINE = "Fehler in Zeile ";
 
-    public static String importAgreed(Part file, StaffProof staffProof, PsychType type) {
+    public static String importAgreed(UploadedFile file, StaffProof staffProof, PsychType type) {
         String msg = "";
         int count = 0;
         try {
-            Scanner scanner = new Scanner(file.getInputStream());
+            Scanner scanner = new Scanner(file.getInputstream());
             if (!scanner.hasNextLine()) {
                 return NOTHING_TO_IMPORT;
             }
@@ -86,11 +87,11 @@ public class PsychStaffImporter {
         staffProofAgreed.setAvgCost(avgCosts);
     }
 
-    public static String importEffective(Part file, StaffProof staffProof, PsychType type) {
+    public static String importEffective(UploadedFile file, StaffProof staffProof, PsychType type) {
         String msg = "";
         int count = 0;
         try {
-            Scanner scanner = new Scanner(file.getInputStream());
+            Scanner scanner = new Scanner(file.getInputstream());
             if (!scanner.hasNextLine()) {
                 return NOTHING_TO_IMPORT;
             }
@@ -143,11 +144,11 @@ public class PsychStaffImporter {
         staffProofEffective.setStaffingDeductionOther(deductionOther);
     }
 
-    public static String importExplanation(Part file, StaffProof staffProof, PsychType type) {
+    public static String importExplanation(UploadedFile file, StaffProof staffProof, PsychType type) {
         String msg = "";
         int count = 0;
         try {
-            Scanner scanner = new Scanner(file.getInputStream());
+            Scanner scanner = new Scanner(file.getInputstream());
             if (!scanner.hasNextLine()) {
                 return NOTHING_TO_IMPORT;
             }

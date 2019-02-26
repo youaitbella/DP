@@ -71,7 +71,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     private ApplicationTools _appTools;
     private Mailer _mailer;
     private StaffProof _staffProof;
-    private Part _file;
     private List<ExclusionFact> _exclusionFacts;
 
     public EditPsyStaff() {
@@ -157,7 +156,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public void handleFileUpload(FileUploadEvent event) {
-        LOGGER.log(Level.INFO, "File uplaoded: " + event.getFile().getFileName());
+        LOGGER.log(Level.INFO, "File uploaded: " + event.getFile().getFileName());
         putDocument(event.getFile().getFileName(), event.getFile().getContents());
         DialogController.showInfoDialog("Upload erfolgreich",
                 "Die Datei " + event.getFile().getFileName() + " wurde erfolgreich hochgeladen");
@@ -623,14 +622,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionOther()).sum();
     }
 
-    public Part getFile() {
-        return _file;
-    }
-
-    public void setFile(Part file) {
-        _file = file;
-    }
-
     public String getAllowedFileExtensions() {
         return allowedFileExtensions().stream().collect(Collectors.joining(", "));
     }
@@ -700,39 +691,31 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return "";
     }
 
-    public void importData() {
-        if (_file == null) {
-            return;
-        }
-
+    public void importData(FileUploadEvent event) {
         String msg = "";
         switch (getActiveTopicKey()) {
             case TOPIC_BASE:
                 return;
             case TOPIC_ADULTS1:
-                msg = PsychStaffImporter.importAgreed(_file, _staffProof, PsychType.Adults);
+                msg = PsychStaffImporter.importAgreed(event.getFile(), _staffProof, PsychType.Adults);
                 break;
             case TOPIC_KIDS1:
-                msg = PsychStaffImporter.importAgreed(_file, _staffProof, PsychType.Kids);
+                msg = PsychStaffImporter.importAgreed(event.getFile(), _staffProof, PsychType.Kids);
                 break;
             case TOPIC_ADULTS2:
-                msg = PsychStaffImporter.importEffective(_file, _staffProof, PsychType.Adults);
+                msg = PsychStaffImporter.importEffective(event.getFile(), _staffProof, PsychType.Adults);
                 break;
             case TOPIC_KIDS2:
-                msg = PsychStaffImporter.importEffective(_file, _staffProof, PsychType.Kids);
+                msg = PsychStaffImporter.importEffective(event.getFile(), _staffProof, PsychType.Kids);
                 break;
             default:
                 return;
         }
-
-        _sessionController.alertClient(msg);
+        DialogController.showOldAlertMessage(msg);
+        //_sessionController.alertClient(msg);
     }
 
-    public void importExplanation() {
-        if (_file == null) {
-            return;
-        }
-
+    public void importExplanation(FileUploadEvent event) {
         String msg = "";
         switch (getActiveTopicKey()) {
             case TOPIC_BASE:
@@ -742,16 +725,16 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             case TOPIC_KIDS1:
                 return;
             case TOPIC_ADULTS2:
-                msg = PsychStaffImporter.importExplanation(_file, _staffProof, PsychType.Adults);
+                msg = PsychStaffImporter.importExplanation(event.getFile(), _staffProof, PsychType.Adults);
                 break;
             case TOPIC_KIDS2:
-                msg = PsychStaffImporter.importExplanation(_file, _staffProof, PsychType.Kids);
+                msg = PsychStaffImporter.importExplanation(event.getFile(), _staffProof, PsychType.Kids);
                 break;
             default:
                 return;
         }
-
-        _sessionController.alertClient(msg);
+        DialogController.showOldAlertMessage(msg);
+        //_sessionController.alertClient(msg);
     }
 
     public void countChanged(StaffProofEffective item, int key) {

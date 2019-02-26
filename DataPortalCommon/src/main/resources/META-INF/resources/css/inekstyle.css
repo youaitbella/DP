@@ -185,6 +185,31 @@
     border: none;
 }
 
+.inekUploader div div span {
+    background-color: transparent;
+    color: black;
+    border: none;
+}
+
+/* Uploader Psy */
+
+.inekUploaderPsy span {
+    background-color: #43791f;
+    color: white;
+    text-shadow: none;
+}
+
+.inekUploaderPsy div {
+    background-color: transparent;
+    border: none;
+}
+
+.inekUploaderPsy div div span {
+    background-color: transparent;
+    color: black;
+    border: none;
+}
+
 /* Tabs Overrides */
 
 .ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li {

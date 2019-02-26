@@ -6,31 +6,28 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:pf="http://primefaces.org/ui"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
-        <h:outputStylesheet name="css/fileuploader.css"/>
-        <h:outputScript name="script/fileuploader.js"/>
+        <h:outputStylesheet name="css/fileuploader.css" />
+        <h:outputScript name="script/fileuploader.js" />
         <h:form id="psychStaff" enctype="multipart/form-data">
-            
-            <h1><h:commandLink value="#{featureMsg.namePSYCH_STAFF}" 
-                               action="#{sessionController.navigate(sessionTools.pages.PsychStaffSummary)}" 
+
+            <h1><h:commandLink value="#{featureMsg.namePSYCH_STAFF}"
+                               action="#{sessionController.navigate(sessionTools.pages.PsychStaffSummary)}"
                                immediate="true">
-                </h:commandLink></h1>
+            </h:commandLink></h1>
 
 
             <div class="tab" jsf:id="psyStaffMenu">
                 <ul class="tab">
                     <ui:repeat value="#{editPsyStaff.visibleTopics}" var="topic" varStatus="status">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
-                        <h:commandLink value="#{topic.title}" 
-                                       styleClass="fullWithCentered" 
-                                       action="#{editPsyStaff.changeTabPage(topic.key)}" 
-                                       immediate="true"/>
+                            <h:commandLink value="#{topic.title}"
+                                           styleClass="fullWithCentered"
+                                           action="#{editPsyStaff.changeTabPage(topic.key)}"
+                                           immediate="true" />
                         </li>
                     </ui:repeat>
                 </ul>
@@ -43,7 +40,7 @@
                 <h:panelGroup rendered="#{editPsyStaff.staffProof.ik gt 0}">
                     <div class="toolBar" jsf:rendered="#{editPsyStaff.pdfImportEnabled}" style="margin-right: 1em;">
 
-                        <pf:fileUpload styleClass="inekUploader"
+                        <pf:fileUpload styleClass="inekUploaderPsy"
                                        fileUploadListener="#{editPsyStaff.handleFileUpload}"
                                        mode="advanced"
                                        auto="true"
@@ -57,6 +54,38 @@
                                        update="@form" />
                     </div>
 
+                    <div class="toolBar">
+                        <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.closeEnabled}">
+                            <pf:fileUpload styleClass="inekUploaderPsy"
+                                           fileUploadListener="#{editPsyStaff.importData}"
+                                           mode="advanced"
+                                           auto="true"
+                                           fileLimit="1"
+                                           fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
+                                           invalidFileMessage="Es dürfen nur CSV oder Textdateien hochgeladen werden"
+                                           allowTypes="/(\.|\/)(csv|txt)$/"
+                                           cancelLabel="Abbrechen"
+                                           uploadLabel="Datei Hochladen"
+                                           label="Daten importieren (CSV)"
+                                           update="@form" />
+                        </div>
+
+                        <div class="uploadFile inlineBlock"
+                             jsf:rendered="#{editPsyStaff.closeEnabled and editPsyStaff.activeTopicKey.startsWith('topicAppendix2')}">
+                            <pf:fileUpload styleClass="inekUploaderPsy"
+                                           fileUploadListener="#{editPsyStaff.importExplanation}"
+                                           mode="advanced"
+                                           auto="true"
+                                           fileLimit="1"
+                                           fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
+                                           invalidFileMessage="Es dürfen nur CSV oder Textdateien hochgeladen werden"
+                                           allowTypes="/(\.|\/)(csv|txt)$/"
+                                           cancelLabel="Abbrechen"
+                                           uploadLabel="Datei Hochladen"
+                                           label="Erläuterung importieren (CSV)"
+                                           update="@form" />
+                        </div>
+                    </div>
 
 
                     <div class="toolBar">
@@ -67,32 +96,6 @@
                                        rendered="#{not editPsyStaff.readOnly and not editPsyStaff.closedStateActionEnabled and not editPsyStaff.complete}">
                         </h:commandLink>
 
-                        <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.closeEnabled}">
-                            <h:inputFile id="importFile" 
-                                         style="width: 160px;"
-                                         p:accept=".csv, .txt"
-                                         styleClass="hiddenFile bigButton"  
-                                         value="#{editPsyStaff.file}">
-                                <f:ajax listener="#{editPsyStaff.importData}" render="@all"/>
-                            </h:inputFile>
-                            <div class="fakeFile">
-                                <h:outputLabel style="margin-top: 9px;" styleClass="bigButton element100" value="Daten hochladen (CSV)"/>
-                            </div>
-                        </div>
-
-                        <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.closeEnabled and editPsyStaff.activeTopicKey.startsWith('topicAppendix2')}">
-                            <h:inputFile id="importExplanation" 
-                                         style="width: 160px;"
-                                         p:accept=".csv, .txt"
-                                         styleClass="hiddenFile bigButton"  
-                                         value="#{editPsyStaff.file}">
-                                <f:ajax listener="#{editPsyStaff.importExplanation}" render="@all"/>
-                            </h:inputFile>
-                            <div class="fakeFile">
-                                <h:outputLabel style="margin-top: 9px;" styleClass="bigButton element100" value="Erläuterung hochladen"/>
-                            </div>
-                        </div>
-
                         <h:commandLink styleClass="bigButton highlightColor"
                                        immediate="false"
                                        action="#{editPsyStaff.close}"
@@ -100,7 +103,7 @@
                                        rendered="#{editPsyStaff.closeEnabled}"
                                        title="#{msg.msgCloseWithSignature}"
                                        onclick="return confirm('#{msg.msgCloseWithSignature}');"
-                                       >
+                        >
                         </h:commandLink>
 
                         <!--PDF-->
@@ -119,7 +122,7 @@
                                        rendered="#{editPsyStaff.dataExportEnabled}"
                                        title="Dies erzeugt eine elektronisch lesbare Datei zum Versand an die Krankenkassen">
                         </h:commandLink>
-                        
+
                         <h:commandLink styleClass="bigButton"
                                        immediate="true"
                                        action="#{editPsyStaff.setLastChangeAtNow()}"

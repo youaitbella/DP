@@ -41,4 +41,9 @@ public class DialogController{
     public static void showSendDialog() {
         PrimeFaces.current().executeScript("swal('Daten Gesendet', 'Ihre Daten wurden erfolgreich an das InEK gesendet', 'success');");
     }
+
+    public static void showOldAlertMessage(String message) {
+        String script = "alert ('" + message.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+        PrimeFaces.current().executeScript(script);
+    }
 }
