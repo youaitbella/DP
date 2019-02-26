@@ -1,18 +1,27 @@
 package org.inek.dataportal.common.controller;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.FeatureState;
+import org.inek.dataportal.api.enums.PortalType;
+import org.inek.dataportal.api.helper.Const;
+import org.inek.dataportal.common.data.access.CustomerTypeFacade;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.AccountFeature;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.adm.InekRole;
+import org.inek.dataportal.common.data.adm.Log;
+import org.inek.dataportal.common.data.adm.facade.LogFacade;
+import org.inek.dataportal.common.data.common.CustomerType;
+import org.inek.dataportal.common.data.common.User;
+import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
+import org.inek.dataportal.common.enums.*;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
+import org.inek.dataportal.common.helper.Topic;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
+
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -20,34 +29,17 @@ import javax.inject.Named;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.data.common.CustomerType;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountFeature;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.api.enums.FeatureState;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.api.enums.PortalType;
-import org.inek.dataportal.api.helper.Const;
-import static org.inek.dataportal.api.helper.Const.REQUEST_ID;
-import static org.inek.dataportal.api.helper.Const.REQUEST_TOKEN;
-import static org.inek.dataportal.api.helper.Const.SERVICE_PORT;
-import org.inek.dataportal.common.helper.EnvironmentInfo;
-import org.inek.dataportal.common.data.access.CustomerTypeFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.adm.facade.LogFacade;
-import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
-import org.inek.dataportal.common.data.adm.InekRole;
-import org.inek.dataportal.common.data.adm.Log;
-import org.inek.dataportal.common.data.common.User;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.EnvironmentType;
-import org.inek.dataportal.common.enums.Right;
-import org.inek.dataportal.common.enums.Stage;
-import org.inek.dataportal.common.helper.Topic;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static org.inek.dataportal.api.helper.Const.*;
 
 /**
  *
@@ -301,13 +293,16 @@ public class SessionController implements Serializable {
             return;
         }
         try {
-            url = url + "?token=" + getToken() + "&portal=" + portalType.name();
+            String token = getToken();
+            if ("".equals(token)) {
+                LOGGER.log(Level.SEVERE, "Error during changePortal: All retries failed");
+                return;
+            }
+            url = url + "?token=" + token + "&portal=" + portalType.name();
             performLogout("");
             FacesContext.getCurrentInstance().getExternalContext().redirect(url);
         } catch (Throwable ex) {
-            LOGGER.log(Level.SEVERE, "Error during changePortal" + ex.getMessage(), ex);
-            logMessage("ChangePortal failed: " + obtainConnectionInfo());
-
+            LOGGER.log(Level.SEVERE, "Error during changePortal" + ex.getMessage());
         }
     }
 
@@ -319,22 +314,23 @@ public class SessionController implements Serializable {
         return url;
     }
 
-    public String getToken() throws IOException {
+    public String getToken() {
         String token;
         int retry = 0;
         do {
-            token = request(REQUEST_TOKEN, "" + getAccountId());
-        } while ("".equals(token) && 2 < retry++);
+            token = request(REQUEST_TOKEN, "" + getAccountId(), 100 * retry);
+        } while ("".equals(token) && 5 > retry++);
         return token;
     }
 
-    private String request(String type, String data) {
+    private String request(String type, String data, int additionalMillis) {
+        int timeout = 100 + additionalMillis;
         try (DatagramSocket socket = new DatagramSocket()) {
-            socket.setSoTimeout(400);
+            socket.setSoTimeout(timeout);
             broadcast(socket, type + data);
             return receive(socket);
         } catch (Throwable ex) {
-            LOGGER.log(Level.SEVERE, "Error during request" + ex.getMessage(), ex);
+            LOGGER.log(Level.SEVERE, MessageFormat.format("Error during request [timeout={0}]: {1}", timeout, ex.getMessage()));
         }
         return "";
     }
@@ -360,7 +356,10 @@ public class SessionController implements Serializable {
     private int getId(String token) {
         String idString;
         try {
-            idString = request(REQUEST_ID, token);
+            int retry = 0;
+            do {
+                idString = request(REQUEST_ID, token, 100 * retry);
+            } while ("".equals(idString) && 5 > retry++);
             return Integer.parseInt(idString);
         } catch (NumberFormatException ex) {
             return Integer.MIN_VALUE;
