@@ -1,5 +1,6 @@
 package org.inek.dataportal.care.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.care.enums.Months;
 
 import javax.persistence.*;
@@ -36,12 +37,15 @@ public class MapProofRegulationStationMonth implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property prsSensitiveAreaIds">
     @ManyToOne
     @JoinColumn(name = "prsmProofRegulationStationId")
+    @JsonIgnore
     private ProofRegulationStation _proofRegulationStation;
 
+    @JsonIgnore
     public ProofRegulationStation getProofRegulationStation() {
         return _proofRegulationStation;
     }
 
+    @JsonIgnore
     public void setProofRegulationStation(ProofRegulationStation proofRegulationStation) {
         this._proofRegulationStation = proofRegulationStation;
     }

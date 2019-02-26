@@ -17,6 +17,7 @@ import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.MailTemplateHelper;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -348,6 +349,14 @@ public class ProofEdit implements Serializable {
         _proofRegulationBaseInformation.setStatus(WorkflowStatus.Provided);
         _proofRegulationBaseInformation.setSignature(CareSignatureCreater.createPvSignature());
         save();
+        try {
+            TransferFileCreator.createObjectTransferFile(_sessionController, _proofRegulationBaseInformation,
+                    _proofRegulationBaseInformation.getIk(), "PPUGV");
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Error duringTransferFileCreation PPUG: ik: " + _proofRegulationBaseInformation.getIk());
+            _mailer.sendError("Error duringTransferFileCreation PPUG: ik: " + _proofRegulationBaseInformation.getIk() + " year: " +
+                    _proofRegulationBaseInformation.getYear() + " quarder: " + _proofRegulationBaseInformation.getQuarter(), ex);
+        }
         setIsReadOnly(true);
     }
 

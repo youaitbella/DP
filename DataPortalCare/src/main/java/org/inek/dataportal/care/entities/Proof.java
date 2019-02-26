@@ -1,5 +1,6 @@
 package org.inek.dataportal.care.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
 
@@ -74,12 +75,15 @@ public class Proof implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="BaseInformation">
     @ManyToOne
     @JoinColumn(name = "prProofRegulationBaseInformationId")
+    @JsonIgnore
     private ProofRegulationBaseInformation _baseInformation;
 
+    @JsonIgnore
     public ProofRegulationBaseInformation getBaseInformation() {
         return _baseInformation;
     }
 
+    @JsonIgnore
     public void setBaseInformation(ProofRegulationBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
     }
@@ -224,23 +228,29 @@ public class Proof implements Serializable {
     }
 
     @Transient
+    @JsonIgnore
     private double _ppug;
 
     @Transient
+    @JsonIgnore
     private double _part;
 
+    @JsonIgnore
     public double getPpug() {
         return _ppug;
     }
 
+    @JsonIgnore
     public void setPpug(double ppug) {
         this._ppug = ppug;
     }
 
+    @JsonIgnore
     public double getPart() {
         return _part;
     }
 
+    @JsonIgnore
     public void setPart(double part) {
         this._part = part;
     }

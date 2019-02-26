@@ -1,5 +1,7 @@
 package org.inek.dataportal.care.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -41,12 +43,15 @@ public class ProofExceptionFact implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Proof">
     @ManyToOne
     @JoinColumn(name = "pefProofId")
+    @JsonIgnore
     private Proof _proof;
 
+    @JsonIgnore
     public Proof getProof() {
         return _proof;
     }
 
+    @JsonIgnore
     public void setProof(Proof proof) {
         this._proof = proof;
     }
