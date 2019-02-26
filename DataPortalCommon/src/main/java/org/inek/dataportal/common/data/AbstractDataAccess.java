@@ -1,5 +1,13 @@
 package org.inek.dataportal.common.data;
 
+import org.eclipse.persistence.jpa.JpaQuery;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -7,14 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import org.eclipse.persistence.jpa.JpaQuery;
 
-public abstract class AbstractDataAccess {
+public abstract class AbstractDataAccess implements Serializable {
     private static final long serialVersionUID = 1L;
 
     protected static final Logger LOGGER = Logger.getLogger("DataAccess");

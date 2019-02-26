@@ -1,17 +1,19 @@
 package org.inek.dataportal.common.data;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.eclipse.persistence.jpa.JpaQuery;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.eclipse.persistence.jpa.JpaQuery;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,7 +21,7 @@ import org.eclipse.persistence.jpa.JpaQuery;
  * @author muellermi
  */
 @Deprecated
-public abstract class AbstractFacade<T> {
+public abstract class AbstractFacade<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     protected static final Logger LOGGER = Logger.getLogger("Facade");

@@ -14,12 +14,11 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Stateless
-public class LogFacade extends AbstractDataAccess implements Serializable {
+public class LogFacade extends AbstractDataAccess {
 
     private SessionController _sessionController;
 

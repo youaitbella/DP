@@ -13,7 +13,6 @@ import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -21,7 +20,7 @@ import java.util.List;
  * @author muellermi
  */
 @Stateless
-public class InfoDataFacade extends AbstractDataAccess implements Serializable {
+public class InfoDataFacade extends AbstractDataAccess {
 
     public boolean isTrashMailDomain(String domain) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();

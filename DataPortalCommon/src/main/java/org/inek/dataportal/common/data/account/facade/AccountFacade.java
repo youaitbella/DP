@@ -25,7 +25,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -35,7 +34,7 @@ import java.util.stream.Collectors;
  * @author vohldo
  */
 @Stateless
-public class AccountFacade extends AbstractDataAccess implements Serializable {
+public class AccountFacade extends AbstractDataAccess {
 
     @Inject
     private AccountPwdFacade _accountPwdFacade;

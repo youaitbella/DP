@@ -4,10 +4,10 @@
  */
 package org.inek.dataportal.base.feature.dropbox.facade;
 
-import org.inek.dataportal.common.data.AbstractFacade;
-import javax.ejb.Stateless;
-import javax.inject.Named;
 import org.inek.dataportal.base.feature.dropbox.entities.DropBoxType;
+import org.inek.dataportal.common.data.AbstractFacade;
+
+import javax.ejb.Stateless;
 
 /**
  *

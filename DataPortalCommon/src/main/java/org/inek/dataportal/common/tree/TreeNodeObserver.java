@@ -1,12 +1,13 @@
 package org.inek.dataportal.common.tree;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
  *
  * @author muellermi
  */
-public interface TreeNodeObserver {
+public interface TreeNodeObserver extends Serializable {
 
     Collection<TreeNode> obtainChildren(TreeNode treeNode);
 

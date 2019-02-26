@@ -4,38 +4,23 @@
  */
 package org.inek.dataportal.drg.nub.facades;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
-import javax.ejb.Schedule;
-import javax.ejb.Singleton;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.drg.nub.entities.NubFormerRequest;
-import org.inek.dataportal.drg.nub.entities.NubFormerRequestMerged;
-import org.inek.dataportal.drg.nub.entities.NubMethodInfo;
-import org.inek.dataportal.drg.nub.entities.NubRequest;
-import org.inek.dataportal.drg.nub.entities.NubRequestHistory;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.structures.ProposalInfo;
 import org.inek.dataportal.common.utils.DateUtils;
+import org.inek.dataportal.drg.nub.entities.*;
+
+import javax.ejb.Schedule;
+import javax.ejb.Singleton;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 /**
  *
