@@ -193,10 +193,10 @@ public class SessionController implements Serializable {
 
     public void performLogout(String message) {
         if (_account != null) {
-            FeatureScopedContextHolder.Instance.destroyAllBeans();
             logMessage(message);
-            _featureHolder.clear();
             _account = null;
+            FeatureScopedContextHolder.Instance.destroyAllBeans();
+            _featureHolder.clear();
             _portalType = PortalType.BASE;
         }
         invalidateSession();
@@ -272,17 +272,25 @@ public class SessionController implements Serializable {
         return loginAndSetTopics(mailOrUser, password, _portalType);
     }
 
+    private long _lastNavigate;
     public String navigate(String url) {
+        long ts = new Date().getTime();
+        if (_lastNavigate > 0 && ts - _lastNavigate < 1000) {
+            return "";
+        }
+        _lastNavigate = ts;
         _accountFacade.countUserEnvironment(EnvironmentType.NT, url);
         try {
             PortalType portalType = PortalType.valueOf(url);
             changePortal(portalType);
+            _lastNavigate = 0;
             return "";
         } catch (IllegalArgumentException ex) {
             // its not a portal, its an url
             logMessage("Navigate: URL=" + url);
             setCurrentTopicByUrl(url);
             FeatureScopedContextHolder.Instance.destroyAllBeans();
+            _lastNavigate = 0;
             return url + "?faces-redirect=true";
         }
     }
