@@ -3,9 +3,7 @@
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/Templates/PortalMenuTemplate.xhtml"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:pf="http://primefaces.org/ui"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
@@ -16,7 +14,8 @@
 
             <h1><h:commandLink value="#{featureMsg.namePSYCH_STAFF}"
                                action="#{sessionController.navigate(sessionTools.pages.PsychStaffSummary)}"
-                               immediate="true">
+                               immediate="true"
+                               onclick="PF('navigationDialog').show();">
             </h:commandLink></h1>
 
 

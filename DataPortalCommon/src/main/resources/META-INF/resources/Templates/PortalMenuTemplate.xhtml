@@ -4,11 +4,19 @@
                 template="/Templates/PortalTemplate.xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="userInfo">
+        <style>
+            .ui-widget-overlay {
+                opacity: 0 !important;
+            }
+        </style>
+        <pf:dialog widgetVar="navigationDialog" modal="true" height="150" width="250"
+                   style="opacity: 0.3 !important;">
+            <h:outputText value="Einen Augenblick bitte - die gewünschte Funktion wird geladen."/>
+        </pf:dialog>
 
         <c:if test="#{sessionController.loggedIn}">
             <h:form id="logout">
@@ -31,9 +39,11 @@
 
         <ui:repeat value="#{sessionController.topics}" var="topic">
             <li class="#{topic.active ? 'activemenu' : 'menu'}">
-                <h:commandLink action="#{sessionController.navigate(topic.outcome)}" value="#{topic.title}" immediate="true">
+                <h:commandLink action="#{sessionController.navigate(topic.outcome)}" value="#{topic.title}"
+                               immediate="true" onclick="PF('navigationDialog').show();">
                     <h:panelGroup rendered="#{documentList.renderNumDocs(topic.title)}" styleClass="notifier">
-                        <h:outputLabel id="docs" styleClass="notifierNum" value="#{documentList.getNumberOfUnreadDocs(topic.title)}" />
+                        <h:outputLabel id="docs" styleClass="notifierNum"
+                                       value="#{documentList.getNumberOfUnreadDocs(topic.title)}"/>
                     </h:panelGroup>
                 </h:commandLink>
             </li>
@@ -43,7 +53,8 @@
 
         <c:if test="#{sessionController.loggedIn}">
             <li class="#{empty(sessionController.currentTopic) ? 'activemenu' : 'menu'}">
-                <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}"/>
+                <h:commandLink value="#{msg.lblSummary}"
+                               action="#{sessionController.navigate(sessionTools.pages.MainApp)}"/>
             </li>
         </c:if>
 

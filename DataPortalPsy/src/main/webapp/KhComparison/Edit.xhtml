@@ -9,7 +9,9 @@
     <ui:define name="content">
         <h:form>
             <h1>
-                <h:commandLink value="Datenerfassung für den Krankenhausvergleich" action="#{sessionController.navigate(sessionTools.pages.KhComparisonSummary)}" immediate="true"/>
+                <h:commandLink value="Datenerfassung für den Krankenhausvergleich"
+                               action="#{sessionController.navigate(sessionTools.pages.KhComparisonSummary)}"
+                               immediate="true" onclick="PF('navigationDialog').show();"/>
             </h1>
         </h:form>
         <h:form>
