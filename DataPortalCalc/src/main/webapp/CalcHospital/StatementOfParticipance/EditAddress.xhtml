@@ -2,7 +2,6 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="Edit.xhtml"
-                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/feature/calc"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -45,23 +44,23 @@
             <h:panelGrid columns="1">
                 <div class="inputPart">
 
-                    <inek:BooleanRadioButton label="#{msg.lblStatementInv}" 
-                                             value="#{editStatementOfParticipance.statement.invCalc}" 
-                                             renderElement="@form"
+                    <inek:BooleanRadioButton label="#{msg.lblStatementInv}"
+                                             value="#{editStatementOfParticipance.statement.invCalc}"
+                                             renderElement="sop:contact sop:consultant"
                                              readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enableInvCalc}"/>
                 </div>
 
                 <div class="inputPart">
-                    <inek:BooleanRadioButton label="#{msg.lblStatementTpg}" 
-                                             value="#{editStatementOfParticipance.statement.tpgCalc}" 
-                                             renderElement="@form"
+                    <inek:BooleanRadioButton label="#{msg.lblStatementTpg}"
+                                             value="#{editStatementOfParticipance.statement.tpgCalc}"
+                                             renderElement="sop:contact sop:consultant"
                                              readonly="#{editStatementOfParticipance.readOnly}"/>
                 </div>
 
                 <div class="inputPart">
-                    <inek:BooleanRadioButton label="#{msg.lblStatementObd}" 
-                                             value="#{editStatementOfParticipance.statement.obdCalc}" 
-                                             renderElement="@form"
+                    <inek:BooleanRadioButton label="#{msg.lblStatementObd}"
+                                             value="#{editStatementOfParticipance.statement.obdCalc}"
+                                             renderElement="sop:contact sop:consultant"
                                              readonly="#{editStatementOfParticipance.readOnly}"/>
                 </div>
             </h:panelGrid>
@@ -84,18 +83,20 @@
             </div>
             <h2>#{msg.lblContactPerson}</h2>
             <h:panelGroup id="contact">
-                <calc:CalcContactTable value="#{editStatementOfParticipance.hospitalContacts}" 
+                <calc:CalcContactTable value="#{editStatementOfParticipance.hospitalContacts}"
                                        allowDrg="#{editStatementOfParticipance.statement.drgCalc}"
                                        allowPsy="#{editStatementOfParticipance.statement.psyCalc}"
                                        allowInv="#{editStatementOfParticipance.statement.invCalc}"
                                        allowTpg="#{editStatementOfParticipance.statement.tpgCalc}"
                                        allowObd="#{editStatementOfParticipance.statement.obdCalc}"
                                        queryDomain="true"
+                                       renderElement="sop:contact"
                                        readonly="#{editStatementOfParticipance.readOnly}"/>
             </h:panelGroup>
             <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                            rendered="#{!editStatementOfParticipance.readOnly}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editStatementOfParticipance.addContact}"/>
+                <f:ajax event="click" render="sop:contact :logout:remaining"
+                        listener="#{editStatementOfParticipance.addContact}"/>
             </h:commandLink>
 
 
@@ -104,13 +105,12 @@
             <h:panelGroup styleClass="inputPart" id="consultantData">
 
                 <div class="marginTop01em">
-                    <inek:BooleanRadioButton label="#{msg.lblCalcUseConsultant}" 
-                                             value="#{editStatementOfParticipance.statement.withConsultant}" 
-                                             labelStyle="col45em" 
+                    <inek:BooleanRadioButton label="#{msg.lblCalcUseConsultant}"
+                                             value="#{editStatementOfParticipance.statement.withConsultant}"
+                                             labelStyle="col45em"
                                              readonly="#{editStatementOfParticipance.readOnly}"
-                                             renderElement="@form"/>
+                                             renderElement="sop:consultantData"/>
                 </div>
-
 
                 <div jsf:rendered="#{editStatementOfParticipance.statement.withConsultant}">
                     <inek:LabeledText id="consultantCompany" 
@@ -120,24 +120,27 @@
                                       styleClass="col50em"/> 
 
                     <div class="marginTop01em">
-                        <inek:BooleanRadioButton label="#{msg.lblCalcConsultantMailDistribution}" 
-                                                 value="#{editStatementOfParticipance.statement.consultantSendMail}" 
+                        <inek:BooleanRadioButton label="#{msg.lblCalcConsultantMailDistribution}"
+                                                 value="#{editStatementOfParticipance.statement.consultantSendMail}"
                                                  readonly="#{editStatementOfParticipance.readOnly}"
                                                  labelStyle="col45em"
-                                                 renderElement="@form"/>
+                                                 renderElement="sop:consultant"/>
                     </div>
 
-                    <calc:CalcContactTable id="consultant"
-                                           value="#{editStatementOfParticipance.consultants}" 
-                                           readonly="#{editStatementOfParticipance.readOnly or !editStatementOfParticipance.statement.consultantSendMail}"
-                                           allowDrg="#{editStatementOfParticipance.statement.drgCalc}"
-                                           allowPsy="#{editStatementOfParticipance.statement.psyCalc}"
-                                           allowInv="#{editStatementOfParticipance.statement.invCalc}"
-                                           allowTpg="#{editStatementOfParticipance.statement.tpgCalc}"
-                                           allowObd="#{editStatementOfParticipance.statement.obdCalc}"
-                                           queryDomain="true"/>
+                    <h:panelGroup id="consultant">
+                        <calc:CalcContactTable value="#{editStatementOfParticipance.consultants}"
+                                               readonly="#{editStatementOfParticipance.readOnly or !editStatementOfParticipance.statement.consultantSendMail}"
+                                               allowDrg="#{editStatementOfParticipance.statement.drgCalc}"
+                                               allowPsy="#{editStatementOfParticipance.statement.psyCalc}"
+                                               allowInv="#{editStatementOfParticipance.statement.invCalc}"
+                                               allowTpg="#{editStatementOfParticipance.statement.tpgCalc}"
+                                               allowObd="#{editStatementOfParticipance.statement.obdCalc}"
+                                               renderElement="sop:consultant"
+                                               queryDomain="true"/>
+                    </h:panelGroup>
                     <h:commandLink id="addButtonConsultant" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="#{!editStatementOfParticipance.readOnly}">
-                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editStatementOfParticipance.addConsultant}"/>
+                        <f:ajax event="click" render="sop:consultant :logout:remaining"
+                                listener="#{editStatementOfParticipance.addConsultant}"/>
                     </h:commandLink>
                 </div>
             </h:panelGroup>

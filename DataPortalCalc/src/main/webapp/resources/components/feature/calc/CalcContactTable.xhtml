@@ -6,43 +6,45 @@
       xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+>
 
-    <!-- INTERFACE -->
-    <cc:interface>
-        <cc:attribute name="value"/>
-        <cc:attribute name="readonly" default="false"/>
-        <cc:attribute name="enableDelete" default="true"/>
-        <cc:attribute name="queryDomain" default="true"/>
-        <cc:attribute name="allowDrg" default="true"/>
-        <cc:attribute name="allowPsy" default="true"/>
-        <cc:attribute name="allowInv" default="true"/>
-        <cc:attribute name="allowTpg" default="true"/>
-        <cc:attribute name="allowObd" default="true"/>
-    </cc:interface>
+<!-- INTERFACE -->
+<cc:interface>
+    <cc:attribute name="value"/>
+    <cc:attribute name="readonly" default="false"/>
+    <cc:attribute name="renderElement" default="@this"/>
+    <cc:attribute name="enableDelete" default="true"/>
+    <cc:attribute name="queryDomain" default="true"/>
+    <cc:attribute name="allowDrg" default="true"/>
+    <cc:attribute name="allowPsy" default="true"/>
+    <cc:attribute name="allowInv" default="true"/>
+    <cc:attribute name="allowTpg" default="true"/>
+    <cc:attribute name="allowObd" default="true"/>
+</cc:interface>
 
-    <!-- IMPLEMENTATION -->
-    <div>
-    <cc:implementation>
-
-        <h:dataTable value="#{cc.attrs.value}" 
-                     var="contact" 
-                     width="100%" rowClasses="row1, row2" 
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+    <h:dataTable value="#{cc.attrs.value}"
+                 var="contact"
+                 width="100%" rowClasses="row1, row2"
                      columnClasses="colIcon, col04em, col04em, volValue, colValue, colValue, volValue, volValue">
 
             <h:column>
-                <h:commandLink action="#{editStatementOfParticipance.deleteContact(contact)}" 
+                <h:commandLink action="#{editStatementOfParticipance.deleteContact(contact)}"
                                rendered="#{!cc.attrs.readonly and cc.attrs.enableDelete}"
                                immediate="true" styleClass="colIcon">
-                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                    value=""/>
                     <cb:confirmDelete/>
                 </h:commandLink>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblSalutation}</f:facet>
-                <h:selectOneMenu styleClass="inputshort required " id="cbxGender" value="#{contact.gender}" hideNoSelectionOption="true" 
-                                 required="true" requiredMessage="#{msg.msgChooseEntryShort}" disabled="#{cc.attrs.readonly}">
+                <h:selectOneMenu styleClass="inputshort required " id="cbxGender" value="#{contact.gender}"
+                                 hideNoSelectionOption="true"
+                                 required="true" requiredMessage="#{msg.msgChooseEntryShort}"
+                                 disabled="#{cc.attrs.readonly}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItem itemLabel="#{msg.salutationFemale}" itemValue="1"/>
                     <f:selectItem itemLabel="#{msg.salutationMale}" itemValue="2"/>
@@ -53,69 +55,72 @@
 
             <h:column>
                 <f:facet name="header">#{msg.lblTitle}</f:facet>
-                <inek:InputTextWithMessage id="contactTitle" value="#{contact.title}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage id="contactTitle" value="#{contact.title}" readonly="#{cc.attrs.readonly}"
+                                           styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblFirstName}</f:facet>
-                <inek:InputTextWithMessage value="#{contact.firstName}" required="true" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage value="#{contact.firstName}" required="true" readonly="#{cc.attrs.readonly}"
+                                           styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblLastName}</f:facet>
-                <inek:InputTextWithMessage value="#{contact.lastName}" required="true" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage value="#{contact.lastName}" required="true" readonly="#{cc.attrs.readonly}"
+                                           styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblPhone}</f:facet>
-                <inek:InputTextWithMessage value="#{contact.phone}" required="true" readonly="#{cc.attrs.readonly}" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage value="#{contact.phone}" required="true" readonly="#{cc.attrs.readonly}"
+                                           styleClass="fullWidth"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">#{msg.lblMail}</f:facet>
-                <h:inputText id="contactMail" required="true" value="#{contact.mail}" readonly="#{cc.attrs.readonly}" styleClass="fullWidth required ">
+                <h:inputText id="contactMail" required="true" value="#{contact.mail}" readonly="#{cc.attrs.readonly}"
+                             styleClass="fullWidth required ">
                     <f:validator validatorId="EmailValidator" for="contactMail"/>
-                    <f:ajax event="blur" render="@form :logout:remaining" />
+                    <f:ajax event="blur" render="@this msgContactMail :logout:remaining"/>
                 </h:inputText>
                 <h:message for="contactMail" id="msgContactMail" errorClass="errorMessage"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblDrg}</f:facet>
-                <inek:Checkbox value="#{contact.drg}" renderElement="@form"
+                <inek:Checkbox value="#{contact.drg}" renderElement="#{cc.attrs.renderElement}"
                                readonly="#{cc.attrs.readonly or !cc.attrs.allowDrg or !contact.drg and cc.attrs.value.stream().filter(c -> c.drg).count() ge 3}"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblPsy}</f:facet>
-                <inek:Checkbox value="#{contact.psy}" renderElement="@form"
+                <inek:Checkbox value="#{contact.psy}" renderElement="#{cc.attrs.renderElement}"
                                readonly="#{cc.attrs.readonly or !cc.attrs.allowPsy or !contact.psy and cc.attrs.value.stream().filter(c -> c.psy).count() ge 3}"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblInv}</f:facet>
-                <inek:Checkbox value="#{contact.inv}" renderElement="@form"
+                <inek:Checkbox value="#{contact.inv}" renderElement="#{cc.attrs.renderElement}"
                                readonly="#{cc.attrs.readonly or !cc.attrs.allowInv or !contact.inv and cc.attrs.value.stream().filter(c -> c.inv).count() ge 3}"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblTpg}</f:facet>
-                <inek:Checkbox value="#{contact.tpg}" renderElement="@form"
+                <inek:Checkbox value="#{contact.tpg}" renderElement="#{cc.attrs.renderElement}"
                                readonly="#{cc.attrs.readonly or !cc.attrs.allowTpg or !contact.tpg and cc.attrs.value.stream().filter(c -> c.tpg).count() ge 3}"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblObd}</f:facet>
-                <inek:Checkbox value="#{contact.obd}" renderElement="@form"
+                <inek:Checkbox value="#{contact.obd}" renderElement="#{cc.attrs.renderElement}"
                                readonly="#{cc.attrs.readonly or !cc.attrs.allowObd or !contact.obd and cc.attrs.value.stream().filter(c -> c.obd).count() ge 3}"/>
             </h:column>
 
         </h:dataTable>
-        
+
         <h:panelGroup id="info-email" rendered="#{editStatementOfParticipance.emailInfo.length() > 0}">
             <h:outputText escape="false" value="#{editStatementOfParticipance.emailInfo}"/>
         </h:panelGroup>
-
-    </cc:implementation>
-    </div>
+</cc:implementation>
 </html>
