@@ -1,14 +1,15 @@
 package org.inek.dataportal.common.overall;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import org.inek.dataportal.common.data.access.CustomerTypeFacade;
+import org.inek.dataportal.common.data.access.InfoDataFacade;
+import org.inek.dataportal.common.data.common.CustomerType;
+import org.inek.dataportal.common.data.icmt.entities.ContactRole;
+import org.inek.dataportal.common.data.icmt.facade.ContactRoleFacade;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.faceletvalidators.EmailValidator;
+import org.inek.dataportal.common.helper.Utils;
+
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -18,15 +19,9 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.data.icmt.entities.ContactRole;
-import org.inek.dataportal.common.data.common.CustomerType;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.data.icmt.facade.ContactRoleFacade;
-import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
-import org.inek.dataportal.common.data.access.CustomerTypeFacade;
-import org.inek.dataportal.common.data.access.InfoDataFacade;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.faceletvalidators.EmailValidator;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  *
@@ -42,10 +37,14 @@ public class SessionTools implements Serializable {
     private List<Integer> _hospitals;
     private int _result;
     private Map<String, String> _pages;
-    @Inject private transient ContactRoleFacade _contactRoleFacade;
-    @Inject private transient CustomerTypeFacade _typeFacade;
-    @Inject private transient InfoDataFacade _trashMailfacade;
-    @Inject private transient CustomerFacade _customerFacade;
+    @Inject
+    private ContactRoleFacade _contactRoleFacade;
+    @Inject
+    private CustomerTypeFacade _typeFacade;
+    @Inject
+    private InfoDataFacade _trashMailfacade;
+    @Inject
+    private CustomerFacade _customerFacade;
 
     public int getCurrentYear() {
         return Calendar.getInstance().get(Calendar.YEAR);
