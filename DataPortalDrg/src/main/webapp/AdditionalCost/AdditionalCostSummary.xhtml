@@ -4,15 +4,10 @@
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:ac="http://xmlns.jcp.org/jsf/composite/components/feature/additionalcost"
-                xmlns:pf='http://primefaces.org/ui'
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common">
+>
 
     <ui:define name="content">
-        #{additionalCostTreeHandler.refreshNodes()}
-        #{inekAcTreeHandler.refreshNodes()}
-
         <h:form class="paddingElement">
             <h1>#{featureMsg.nameADDITIONAL_COST}</h1>
 
