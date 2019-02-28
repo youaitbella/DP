@@ -1,19 +1,15 @@
 package org.inek.dataportal.common.controller;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.PortalType;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.common.helper.Topics;
+
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  *
@@ -42,10 +38,6 @@ public class FeatureHolder implements Serializable {
         IFeatureController controller = _featureFactory.createController(feature, sessionController);
         _featureControllers.put(feature.name(), controller);
         _topics.addTopics(controller.getTopics());
-    }
-
-    public Iterable<IFeatureController> getFeatureControllers() {
-        return _featureControllers.values();
     }
 
     public IFeatureController getFeatureController(Feature feature) {
