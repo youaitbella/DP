@@ -4,10 +4,9 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-                >
+>
 
     <h2 style="margin-top: 1em;"></h2>
     <inek:LabeledCheckbox id="chkAgreement"
@@ -46,11 +45,11 @@
 
         <h:column>
             <f:facet name="header"><h:outputLabel value="Betrag" title="Bitte geben Sie den vereinbarten Betrag an"/></f:facet>
-            <inek:InputTextWithMessage styleClass="element100"
-                                       value="#{item.amount}"
-                                       readonly="#{editSpecificFunction.readOnly}"
-                                       disabled="#{item.percent gt 0}"
-                                       required="true"/>
+            <inek:InputIntegerWithMessage styleClass="element100"
+                                          value="#{item.amount}"
+                                          readonly="#{editSpecificFunction.readOnly}"
+                                          disabled="#{item.percent gt 0}"
+                                          required="true"/>
         </h:column>
 
         <h:column>
