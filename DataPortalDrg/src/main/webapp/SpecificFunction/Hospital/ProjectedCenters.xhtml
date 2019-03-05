@@ -4,7 +4,6 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
 
@@ -21,7 +20,7 @@
 
     <ui:repeat id="projectedCenters" value="#{editSpecificFunction.request.requestProjectedCenters}" var="center" 
                rendered="#{editSpecificFunction.request.willNegotiate}" varStatus="status">
-        <div class="rectangle">
+        <div class="rectangle" jsf:id="projectedCenter">
             <div class="inputPart">
                 <h:commandLink rendered="#{!editSpecificFunction.readOnly}">
                     <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
@@ -45,15 +44,15 @@
                                  disabled="#{editSpecificFunction.readOnly}">
                     <f:converter converterId="CenterNameConverter"/>
                     <f:selectItems value="#{editSpecificFunction.getCenterNames(centerName.id)}" var="centerName" itemValue="#{centerName}" itemLabel="#{centerName.name}"/>
-                    <f:ajax event="change" render=":specificFuntion:projectedCenters:#{status.index}:otherName :specificFuntion:projectedCenters:#{status.index}:centerData :logout:remaining msgCenterName"/>
+                    <f:ajax event="change" render="otherName centerData :logout:remaining msgCenterName"/>
                 </h:selectOneMenu>
                 <h:message for="centerName" id="msgCenterName" styleClass="errorMessage"/>
 
                 <div jsf:id="otherName">
                     <inek:LabeledText label="Bezeichnung"
                                       title="Bezeichung eines sonstigen Zentrums"
-                                      value="#{center.otherCenterName}" 
-                                      styleClassLabel="label element12em" 
+                                      value="#{center.otherCenterName}"
+                                      styleClassLabel="label element12em"
                                       styleClass="element100-12em"
                                       readonly="#{editSpecificFunction.readOnly}"
                                       rendered="#{center.centerName.id eq -1}"
@@ -89,7 +88,7 @@
                                                   value="#{center.specificFunctions}">
                                 <f:selectItems value="#{editSpecificFunction.specificFunctions}" var="function" itemValue="#{function}" itemLabel="#{function.text}"/>
                                 <f:converter converterId="SpecificFunctionConverter"/>
-                                <f:ajax event="change" render=":specificFuntion:projectedCenters:#{status.index}:otherTasks :logout:remaining msgSpecificFunction"/>
+                                <f:ajax event="change" render=" otherTasks :logout:remaining msgSpecificFunction"/>
                             </h:selectManyCheckbox>
                         </div>
                         <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage elementRight70"/>
