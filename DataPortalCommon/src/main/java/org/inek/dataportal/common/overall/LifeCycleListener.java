@@ -26,7 +26,7 @@ public class LifeCycleListener implements PhaseListener {
                 markRequired(root, root);
             }
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage());
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
