@@ -38,6 +38,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static org.inek.dataportal.api.helper.Const.*;
 
@@ -89,6 +90,14 @@ public class SessionController implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<Topic> getTopics() {
         return _featureHolder.getTopics();
+    }
+
+    public List<Topic> getTopicsForCurrentPortal() {
+        return _featureHolder.getTopics().stream().filter(c -> c.getOutcome().contains("/")).collect(Collectors.toList());
+    }
+
+    public List<Topic> getTopicsForOtherPortals() {
+        return _featureHolder.getTopics().stream().filter(c -> !c.getOutcome().contains("/")).collect(Collectors.toList());
     }
 
     public String getCurrentTopic() {

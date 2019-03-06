@@ -117,15 +117,10 @@
                     <div id="menu" class="navi" role="navigation">
                         <h:form id="nav">
                             <ul>
-                                <ui:insert name="menuList">menuList</ui:insert>
                                 <li>
                                     <a href="https://daten.inek.org/manual/#{sessionController.manual}" target="blank"  title="#{msg.titleManual}">#{msg.lblUserManual}</a>
                                 </li>
-                                <ui:remove>
-                                    <li onclick="showHelpDialog();">
-                                        <a href="#">Hilfe / Unterstützung</a>
-                                    </li>
-                                </ui:remove>
+                                <ui:insert name="menuList">menuList</ui:insert>
                             </ul>
                         </h:form>
 
