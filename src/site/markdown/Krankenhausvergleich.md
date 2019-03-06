@@ -2,45 +2,45 @@
 
 ## Zielsetzung
 
-Mit dem Gesetz zur Weiterentwicklung der Versorgung und der Vergütung für psychiatrische und psychosomatische Leistungen (PsychVVG) vom 19.12.2016 wurde in § 4 BPflV ein leis-tungsbezogener Krankenhausvergleich eingeführt.
+Mit dem Gesetz zur Weiterentwicklung der Versorgung und der Vergütung für psychiatrische und psychosomatische Leistungen (PsychVVG) vom 19.12.2016 wurde in § 4 BPflV ein leistungsbezogener Krankenhausvergleich eingeführt.
 
 Dieser Leistungsvergleich dient insbesondere als Basis für Budgetverhandlungen.
-Dabei werden dem Krankenhaus, über dessen Budget verhandelt wird, die Daten einer oder mehrerer Vergleichsgruppe(n) gegenüber gestellt.
+Dabei werden dem Krankenhaus (KH), über dessen Budget verhandelt wird, die Daten einer oder mehrerer Vergleichsgruppe(n) gegenüber gestellt.
 
 Jedes Krankenhaus ist für den Vergleich einem Bundesland und einem Fachgebiet zugeordnet.
 
 Die Vergleichgruppe setzt sich zusammen aus
 
-a) allen KH aus dem selben Bundesland und dem selben Fachgebiet 
+a) allen KH aus dem selben Bundesland mit dem selben Fachgebiet 
 b) allen KH aus demselben Bundesland
 c) allen KH bundesweit mit dem selben Fachgebiet 
 
-Bei mehr als 15 KH in Gruppe a) ist diese für den Vergleich zu nutzen. Maßgeblich ist die Anzahl vorhandener KH, nicht die Anzahl Datenlieferungen.
+Bei mehr als 15 KH in Gruppe a) ist diese für den Vergleich zu nutzen. Maßgeblich ist die Anzahl bestehender KH, nicht die Anzahl Datenlieferungen (zu vergleichender Daten).
 
 Für den Vergleich kommen Daten aus unterschiedlichen Zeiträumen zum Tragen
 
 1. aktuell 
-2. Jahresgleich Vereinbarungsjahr -1
-3. Jahresgleich Vereinbarungsjahr -2 
+2. Jahresgleich Vereinbarungsjahr - 1
+3. Jahresgleich Vereinbarungsjahr - 2 
 
-Für aktuell werden aus allen Häusern der Vergleichsgruppe die jeweils letzten (bezogen auf Vereinbarungsjahr) vorliegenden Vereinbarungen, die älter als das Vereinbarungsjahr sind, genutzt.
+Für aktuell werden aus allen Häusern der Vergleichsgruppe die jeweils letzten (bezogen auf Vereinbarungsjahr) vorliegenden Daten, die älter als das Vereinbarungsjahr sind, genutzt.
 Bei jahresgleichen ("sortenreinen") Vergleichen stammen alle Vereinbarungen aus dem selben Jahr. 
 Ein "sortenreiner" Vergleich ist nur möglich, wenn vom zu vergleichenden Krankenhaus bereits eine Vereinbarung für das betreffende Jahr vorliegt.
 
-Die Vergleichswerte für die Verhandlungen werden aus dem jeweils aktuellen Datenbestand berechnet.
-Da sich dieser Bestand jederzeit ändern kann, wird der berechnete Stand unter einer Id "eingefroren" und kann von den Verhandlungspartnern jederzeit wieder abgerufen werden.
+Die Vergleichswerte für die Verhandlungen werden aus dem jeweils aktuell vorliegendem Datenbestand berechnet.
+Da sich dieser Bestand jederzeit ändern kann, wird die Auswertung unter einer Id "eingefroren" und kann von den Verhandlungspartnern jederzeit wieder abgerufen werden.
 
 Die Vergleichswerte auf Bundes- sowie Landesebene werden darüber hinaus zu bestimmten Stichtagen (Quartalsbeginn) berechnet und in ihrer neusten Form für die Öffentlichkeit zugänglich zur Verfügung gestellt.
 
 ## Zuordnung Fachgebiet und Land
 
 Das Fachgebiet entspricht einer der drei PEPP-Strukturkategorien oder "Sonstige". 
-Die Zuordnung eines Fachgebiets zu einem Krankenhaus erfolgt initial anhand vorliegender Daten (Vereinbarung, ersatzweise §21). 
+Die Zuordnung eines Fachgebiets zu einem Krankenhaus erfolgt initial anhand vorliegender Daten (letzte Vereinbarung, ersatzweise §21). 
 Hierbei gilt: Entfallen mehr als 70% der Berechnungstage auf ein Fachgebiet, wird dieses dem KH zugeordnet, andernfalls "Sonstige". 
 Die Zuordnung wird für jedes Vereinbarungsjahr erneut festgelegt und in einer Datenbank-Tabelle hinterlegt.
 
 Die Zuordnung zu einem Bundesland erfolgt anhand des Standortes. 
-Sollte ein Krankenhaus über mehrere Standorte in unterschiedlichen Bundesländern verfügen, so gilt im Regelfall die Adresse des Genehmigungsbescheids. 
+Sollte ein Krankenhaus über mehrere Standorte in unterschiedlichen Bundesländern verfügen, so sendet das KH eine Information über das zu Grunde liegende Bundesland (gilt im Regelfall entsprechend der Adresse des Genehmigungsbescheids) an das InEK. 
 Die Zuordnung zu einem Bundesland wird ebenfalls in der Datenbank hinterlegt.
 
 ## Datenerfassung
@@ -48,14 +48,21 @@ Die Zuordnung zu einem Bundesland wird ebenfalls in der Datenbank hinterlegt.
 Für den Vergleich werden diverse Daten benötigt. 
 Teilweise werden diese bereits vom InEK im Rahmen der §21-Datenlieferung sowie Psych-Personalnachweis erhoben bzw. gesammelt.
 Für weitere Daten wie AEB, Strukturinformation werden neue Erfassungsformulare bereitgestellt.
-Ein Großteil der Daten liegt dabei sowohl den Krankenhäusern als auch den Krankenkassen vor.
-Auch wenn das Gesetz vorgibt, wer für welche Daten (primär) lieferverpflichtet ist, haben sich die Vertragspartner geeinigt, dass der jeweils andere Partner die Daten als Fallback erfassen darf.
+Ein Teil der Daten, wie beispielsweise die Daten der AEB, liegen dabei sowohl dem Krankenhaus als auch der Krankenkasse (KK) vor.
+Auch wenn das Gesetz vorgibt, wer für welche Daten (primär) lieferverpflichtet ist, haben sich die Vertragspartner geeinigt, dass der jeweils andere Partner solche Daten als Fallback erfassen darf.
+
+Im Rahmen der Datenerfassung werden Plausibilitätsprüfungen durchgeführt. Unplausible Daten können zwar gespeichert, nicht aber an das InEK gesendet werden. 
+Somit hat der Anwender hat die Möglichkeit, die Daten vor dem abschließenden Sendevorgang zu überarbeiten.
+
+Werden Daten von beiden Partnern erfasst, so werden diese getrennt abgelegt. Es bleibt damit nachvollziehbar, welche Daten vom KH bzw. der KK erfasst wurden.
+Die beiden Datensätze werden vom System automatisch verglichen. Bei (signifikanten) Abweichungen werden beide Partner informiert und erhalten Gelegenheit zur Korrektur oder Bestätigung (Datenlieferung erhält Status "Korrektur bzw. Konkretisierung angefordert" und kann editiert werden) des eigenen Datensatzes. Erst wenn keine (signifikanten) Abweichungen vorliegen, werden diese Daten im Vergleich genutzt (*andernfalls Krankenhaus mit Hinweis "ausgeschlossen wegen abweichender Daten" in die Liste der beteiligten Häuser aufnehmen?*). 
+Insbesondere kann für das KH bei abweichenden Daten kein Vergleich durchgeführt werden. 
+Damit liegt es im Interesse der Partner, Abweichungen vor Verhandlungsbeginn zu klären.
+Ein besonderes Clearingverfahren ist somit nicht erforderlich. 
 
 Liegen Daten von beiden Partnern vor, so werden im Vergleich die Daten des primär lieferverpflichteten Partners genutzt.
-Insofern sind die Eingaben der beiden Partner getrennt zu erfassen und zu speichern.
-Insbesondere dürfen Korrekturen nur im "eigenen" Datenstand erfolgen.
 
-Die Berechtigung der Anwender erfolgt grundsätzlich über einen IK-Admin.  
+Die Berechtigung der Anwender erfolgt grundsätzlich über einen IK-Admin. 
 
 Krankenhaus lieferverplichtet:
 Der IK-Admin des Krankenhauses legt auf Ebene eines IK fest, welcher Anwender mit welchen Rechten die zu dem betreffenden IK gehörenden Daten bearbeiten darf.
@@ -69,6 +76,15 @@ Der Krankenhausmitarbeiter kann - im Rahmen seiner Rechte - die Daten für sein 
 
 Der GKV stellt dem InEK eine Liste zur Verfügung, welche Krankenkasse (IK) für welches Krankenhaus (IK) die Federführung übernimmt.
 
+Entsprechend dem aktuellen Stand (06.03.2019) besteht der Wunsch, die Anzahl der Anwender und Zuständigkeiten zu beschränken.
+
+### Plausiprüfungen
+
+In ihrer Vereinbarung fordern die Vereinbarungspartner, die Daten auf Plausibilität zu prüfen, bevor sie für den Vergleich zugelassen werden.
+
+- In Schlüsselfeldern wie PEPP, ET, ZE, Entgelt, OPS erfolgt eine Prüfung gegen eine für das betreffende Jahr hinterlegte Liste. Sollten für einzelne Felder im Datenportal keine abschließenden Listen hinterlegt werden können, so erfolgt mindestens eine formale Prüfung und eine Warung, wenn der eingegebene Wert nicht in der Liste enthalten ist.
+- Die Eingaben in allen Feldern werden entsprechend ihrem Datgentyp geprüft (Beispiel: Im Feld "Anzahl" sind nur Ziffern zulässig. Die Anzahl muss [> 0] | [darf nicht < 0] sein).
+- Beim Upload werden zusätzliche Informationen wie "Bewertungsrelation/Tag" erfasst. Diese werden gegen die für das betreffende Jahr gültigen Werte geprüft. Bei Abweichungen wird das Feld gegen die Werte der anderen Jahre geprüft. Wird daruch für den gesamten Upload ein anderes Jahr erkannt, so erfolgt eine entsprechend Meldung ("Sie versuchen Daten aus xxxx für yyyy hochzuladen. Vorgang fortsetzen?"). Hier kann der Anwender den Upload abbrechen. Bei erfolgtem Upload werden alle fehlerhaften Felder in einem Uploadprotokoll gelistet.
 
 ## Auswertung
 
