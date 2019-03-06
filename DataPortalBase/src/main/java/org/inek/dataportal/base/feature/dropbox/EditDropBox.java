@@ -10,21 +10,25 @@ import org.inek.dataportal.api.helper.Const;
 import org.inek.dataportal.base.feature.dropbox.entities.DropBox;
 import org.inek.dataportal.base.feature.dropbox.entities.DropBoxItem;
 import org.inek.dataportal.base.feature.dropbox.facade.DropBoxFacade;
+import org.inek.dataportal.base.feature.dropbox.helper.DropBoxFileHelper;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.scope.FeatureScoped;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.Access;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -44,38 +48,33 @@ public class EditDropBox implements Serializable {
     private SessionController _sessionController;
     @Inject
     private DropBoxFacade _dropBoxFacade;
+    @Inject
+    private ApplicationTools _applicationTools;
+
     private DropBox _dropBox;
     @Inject
     private Mailer _mailer;
     @Inject
     private AccessManager _accessManager;
 
-    public EditDropBox() {
-        //System.out.println("ctor EditDropBox");
-    }
-
     @PostConstruct
     private void init() {
-        //LOGGER.log(Level.WARNING, "Init EditDropBox");
         Object dbId = Utils.getFlash().get("dbId");
         _dropBox = loadDropBox(dbId);
-
+        _dropBox.setUploadDir(getUploadDir());
     }
 
     private DropBox loadDropBox(Object dbId) {
-        DropBoxController dropBoxController = (DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX);
         try {
             int id = Integer.parseInt("" + dbId);
             DropBox dropBox = _dropBoxFacade.findById(id);
             if (_accessManager.isAccessAllowed(Feature.DROPBOX, WorkflowStatus.New, dropBox.getAccountId(), dropBox.getIK())) {
-                dropBoxController.setCurrentDropBox(dropBox);
                 return dropBox;
             }
             DialogController.showAccessDeniedDialog();
         } catch (NumberFormatException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage());
         }
-        dropBoxController.setCurrentDropBox(null);
         return null;
     }
 
@@ -84,14 +83,31 @@ public class EditDropBox implements Serializable {
     }
 
     public List<DropBoxItem> getUploadedFiles() {
-        DropBoxController dropBoxController = (DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX);
-        return dropBoxController.getUploadedFiles(_dropBox);
+        return DropBoxFileHelper.getUploadedFiles(_dropBox);
     }
 
-    public String deleteFile(String fileName) {
-        DropBoxController dropBoxController = (DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX);
-        dropBoxController.deleteFileOfDropBox(_dropBox, fileName);
-        return "";
+    private void addFileToDropbox(UploadedFile file) {
+        File uploadDir = _dropBox.getUploadDir();
+        uploadDir.mkdirs();
+        try (FileOutputStream fos = new FileOutputStream(new File(uploadDir, file.getFileName()))) {
+            StreamHelper.copyStream(file.getInputstream(), fos);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Error saving File for DropBox: " + _dropBox.getDropBoxId() + " Message: " + ex.getMessage() + " " + ex);
+        }
+    }
+
+    private File getUploadDir() {
+        File uploadRoot = new File(_applicationTools.readConfig(ConfigKey.FolderRoot), _applicationTools.readConfig(ConfigKey.FolderUpload));
+        return new File(uploadRoot, _dropBox.getDirectory());
+    }
+
+    public void handleFileUpload(FileUploadEvent event) {
+        LOGGER.log(Level.INFO, "File for dropbox " + _dropBox.getDropBoxId() + " uploaded: " + event.getFile().getFileName());
+        addFileToDropbox(event.getFile());
+    }
+
+    public void deleteFile(String fileName) {
+        DropBoxFileHelper.deleteFileFromDropBox(_dropBox, fileName);
     }
 
     public String formatSize(long size) {
@@ -111,23 +127,33 @@ public class EditDropBox implements Serializable {
         return p1 + "," + p2;
     }
 
-    public String sealDropBox() {
-        DropBoxController dropBoxController = (DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX);
+    public void sealDropBox() {
         try {
-            File target = dropBoxController.sealDropBox(_dropBoxFacade, _dropBox);
+            if (!dropBoxIsComplete()) {
+                return;
+            }
+            File target = DropBoxFileHelper.sealDropBox(_dropBoxFacade, _dropBox,
+                    _applicationTools.readConfig(ConfigKey.FolderRoot), _sessionController.getAccount());
             if (!_dropBox.getDropboxType().isNeedsIK()) {
                 notifyInek(target);
             }
             DialogController.showSendDialog();
-            return Pages.DropBoxUpload.URL();
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, null, e);
-            return Pages.Error.URL();
+            LOGGER.log(Level.SEVERE, "Error on save DropBox " + _dropBox.getDropBoxId(), e);
         }
     }
 
-    public String refresh() {
-        return "";
+    private boolean dropBoxIsComplete() {
+        if (DropBoxFileHelper.getUploadedFiles(_dropBox).size() == 0) {
+            DialogController.showInfoDialog("Keine Dateien vorhanden", "Bitte laden Sie mindestens eine Datei in die " +
+                    "DropBox um diese an das InEK zu senden.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean dropBoxContainsDecryptedFiles() {
+        return DropBoxFileHelper.dropBoxContainsDecryptedFiles(_dropBox);
     }
 
     private void notifyInek(File target) {

@@ -3,6 +3,7 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pf="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <f:metadata>
@@ -10,120 +11,82 @@
     </f:metadata>
 
     <ui:define name="content">
-        <h:outputStylesheet name="css/fileuploader.css" />
-        <h:outputScript name="script/fileuploader.js"/>
-        <script>
-            var fileCounter = 0;
-            function createUploader(act, loc) {
-                var uploader = new qq.FileUploader({
-                    element: document.getElementById('file-uploader'),
-                    action: '#{request.contextPath}/upload/dropbox',
-                    debug: true,
-                    allowedExtensions: [], //['zip', '7z', 'rar', 'gpg', 'pgp'],
-                    onSubmit: function (id, fileName) {
-                        fileCounter++;
-                    },
-                    onCancel: function (id, fileName) {
-                        fileCounter--;
-                        if (fileCounter == 0) {
-                            //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
-                        }
-                    },
-                    onComplete: function (id, fileName, responseJSON) {
-                        fileCounter--;
-                        if (fileCounter == 0) {
-                            // To display the uploaded file, we need to refresh the page.
-                            // Window location would force a non-JSF navigation, ignoring our existing conversation
-                            //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
-                            // Thus, let JS click an element to get a JSF refresh
-                            document.getElementById('form:refresh').click();
-                        }
-                    },
-                    template: '<div class="qq-uploader">' +
-                            '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
-                            '<div class="qq-upload-button">Datei hochladen</div>' +
-                            '<ul class="qq-upload-list"></ul>' +
-                            '</div>'
-                });
-            }
-            addOnLoadFunction(createUploader);
-        </script>
         <h:form>
-            <h1><h:commandLink value="#{msg.lblDropBoxSystem}" action="#{sessionController.navigate(sessionTools.pages.DropBoxSummary)}" immediate="true"/></h1>
+            <h1><h:commandLink value="#{msg.lblDropBoxSystem}"
+                               action="#{sessionController.navigate(sessionTools.pages.DropBoxSummary)}"
+                               immediate="true" /></h1>
         </h:form>
 
         <h:form id="form">
 
             <div class="edit">
-                <p>
-                    <h:outputLabel styleClass="label" for="id" value="#{msg.lblId}:"/>
-                    <br/>
-                    <h:outputText id="id" value="#{editDropBox.dropBox.dropBoxId}"/>
-                </p>
-                <p>
-                    <h:outputLabel styleClass="label" for="description" value="#{msg.lblDescription}:"/>
-                    <br/>
-                    <h:outputText id="description" value="#{editDropBox.dropBox.description}"/>
-                </p>
-                <p>
-                    <h:outputLabel styleClass="label" for="dropboxType" value="#{msg.lblType}:"/>
-                    <br/>
-                    <h:outputText id="dropboxType" value="#{editDropBox.dropBox.dropboxType.name}"/>
-                </p>
-                <p>
-                    <h:outputLabel styleClass="label" for="ik" value="#{msg.lblIK}:"/>
-                    <br/>
-                    <h:outputText id="ik" value="#{editDropBox.dropBox.IK}"/>
-                </p>
-                <p>
-                    <h:outputLabel styleClass="label" for="hospitalName" value="#{msg.lblHospital}:"/>
-                    <br/>
-                    <h:outputText id="hospitalName" value="#{applicationTools.retrieveHospitalInfo(editDropBox.dropBox.IK)}"/>
-                </p>
-                <p>
-                    <h:panelGroup rendered="#{editDropBox.uploadedFiles.size() > 0}">
-                        <p><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></p>
-                        <h:dataTable  headerClass="list-header" id="tblDropBoxes"
-                                      value="#{editDropBox.uploadedFiles}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue, colSize">
-                            <h:column id="colDeleteId" rendered="#{!editDropBox.dropBox.complete}">
-                                <f:facet name="header">
-                                    <h:outputText value=""/>
-                                </f:facet>
-                                <h:commandLink action="#{editDropBox.deleteFile(file.name)}" immediate="true" >
-                                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                                </h:commandLink>
-                            </h:column>
-                            <h:column id="colName">
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg.lblName}"/>
-                                </f:facet>
-                                <h:outputText id="filename" value="#{file.name}"/>
-                            </h:column>
-                            <h:column id="colSize">
-                                <f:facet name="header">
-                                    <h:outputText value="#{msg.lblSize}" style=""/>
-                                </f:facet>
-                                <h:outputText styleClass="fileSize" id="fileSize" value="#{editDropBox.formatSize(file.size)}"/>
-                            </h:column>
-                        </h:dataTable>
-                    </h:panelGroup>
-                </p>
-                <h:panelGroup rendered="#{!editDropBox.dropBox.complete}" styleClass="toolBar">
-                    <br/>
-                    <div id="file-uploader">
-                        <noscript>
-                            <p>Please enable JavaScript to use file uploader.</p>
-                            <!-- or put a simple form for upload here -->
-                        </noscript>
-                    </div>
-                    <br/>
-                    <h:commandLink styleClass="bigButton" action="#{editDropBox.sealDropBox}" value="#{msg.btnSealDropBox}"
-                                   disabled="#{editDropBox.uploadedFiles.size() == 0}">
-                    </h:commandLink>
-                    <h:outputLabel value="#{msg.infoSealDropBox}"/>
+                <pf:panelGrid columns="2" style="margin-bottom: 20px;" styleClass="inekPanelGridSmall">
+                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblId}:" />
+                    <pf:outputLabel value="#{editDropBox.dropBox.dropBoxId}" />
+
+                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblDescription}:" />
+                    <pf:outputLabel value="#{editDropBox.dropBox.description}" />
+
+                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblType}:" />
+                    <pf:outputLabel value="#{editDropBox.dropBox.dropboxType.name}" />
+
+                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblIK}:" />
+                    <pf:outputLabel value="#{editDropBox.dropBox.IK}" />
+
+                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblHospital}:" />
+                    <pf:outputLabel value="#{applicationTools.retrieveHospitalInfo(editDropBox.dropBox.IK)}" />
+                </pf:panelGrid>
+
+                <h2>Dateien in der Dropbox:</h2>
+                <pf:dataTable id="uploadedFiles"
+                              tableStyleClass="inekTableBase"
+                              tableStyle="table-layout: auto; width: 99%;"
+                              value="#{editDropBox.uploadedFiles}"
+                              emptyMessage="Keine Dateien vorhanden"
+                              var="dropBox">
+                    <pf:column styleClass="colIcon" rendered="#{not editDropBox.dropBox.complete}">
+                        <h:commandLink action="#{editDropBox.deleteFile(dropBox.name)}" immediate="true">
+                            <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png"
+                                            title="#{msg.btnDelete}" value="" />
+                        </h:commandLink>
+                    </pf:column>
+
+                    <pf:column headerText="Datei">
+                        <pf:outputLabel value="#{dropBox.name}" />
+                    </pf:column>
+
+                    <pf:column headerText="Dateigröße" style="text-align: right">
+                        <h:outputText value="#{editDropBox.formatSize(dropBox.size)}" />
+                    </pf:column>
+
+                </pf:dataTable>
+
+                <h:panelGroup rendered="#{editDropBox.dropBoxContainsDecryptedFiles() and not editDropBox.dropBox.complete}"
+                              style="margin-top: 20px; margin-bottom: 20px;"
+                              styleClass="warningWide">
+                    Wir haben unverschlüsselte Dateien in Ihrer DropBox entdeckt. Sofern Sie eine Datenlieferung nach §21
+                    oder zur PPUG-Weiterentwicklung senden wollen, muss diese verschlüsselt über die DropBox hochgeladen werden.
+                    Zur Verschlüsselung können Sie den <a href="https://www.g-drg.de/Datenlieferung_gem._21_KHEntgG/InEK_DatenDienst" target="blank">InEK DatenDienst</a> verwenden.
+                    Eine ausführliche Anleitung finden Sie im <a href="https://download.g-drg.de/DatenDienst/DatenDienst.pdf" target="blank">InEK DatenDienst Anwenderhandbuch</a>.
                 </h:panelGroup>
-                <!-- next comes a hidden element to force a JSF conform refresh -->
-                <h:commandLink id="refresh" style="display: none" action="#{editDropBox.refresh}" value="refresh"/>
+
+                <h:panelGroup rendered="#{!editDropBox.dropBox.complete}" styleClass="toolBar">
+                    <br />
+                    <pf:fileUpload styleClass="inekUploader"
+                                   fileUploadListener="#{editDropBox.handleFileUpload}"
+                                   mode="advanced"
+                                   multiple="true"
+                                   auto="true"
+                                   uploadLabel="Datei hochladen"
+                                   label="Datei hochladen"
+                                   update="@form" />
+
+                    <br />
+                    <pf:commandButton styleClass="btnDrg"
+                                      action="#{editDropBox.sealDropBox}"
+                                      update="@form"
+                                      value="#{msg.btnSealDropBox} (ans InEK senden)" />
+                </h:panelGroup>
 
             </div>
         </h:form>

@@ -2,6 +2,7 @@ package org.inek.dataportal.base.feature.dropbox.entities;
 
 import org.inek.dataportal.common.data.account.entities.Account;
 
+import java.io.File;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -64,6 +65,17 @@ public class DropBox implements Serializable {
     @JoinColumn(name = "dbiDropBoxId", referencedColumnName = "dbId")
     @OrderBy("_name")
     private List<DropBoxItem> _items;
+
+    @Transient
+    private File _uploadDir;
+
+    public File getUploadDir() {
+        return _uploadDir;
+    }
+
+    public void setUploadDir(File uploadDir) {
+        this._uploadDir = uploadDir;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Integer getDropBoxId() {

@@ -319,6 +319,12 @@
     width: 100%
 }
 
+.inekPanelGridSmall {
+
+}
+
+.inekPanelGridSmall tr,
+.inekPanelGridSmall td,
 .inekPanelGrid tr,
 .inekPanelGrid td {
     background-color: transparent;

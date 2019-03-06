@@ -124,7 +124,8 @@ public class ToolUploadServlet extends HttpServlet {
             StreamHelper.copyStream(is, fos);
             fos.flush();
         }
-        ((DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX)).sealDropBox(_dropBoxFacade, dropBox);
+        ((DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX)).sealDropBox(_dropBoxFacade, dropBox,
+                _sessionController.getAccount());
         _sessionController.logMessage("Datendienst: Upload ok");
         httpUtil.getResponse().setStatus(HttpServletResponse.SC_OK);
         httpUtil.writeStatus("success");
