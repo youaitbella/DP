@@ -43,6 +43,11 @@ Die Zuordnung zu einem Bundesland erfolgt anhand des Standortes.
 Sollte ein Krankenhaus über mehrere Standorte in unterschiedlichen Bundesländern verfügen, so sendet das KH eine Information über das zu Grunde liegende Bundesland (gilt im Regelfall entsprechend der Adresse des Genehmigungsbescheids) an das InEK. 
 Die Zuordnung zu einem Bundesland wird ebenfalls in der Datenbank hinterlegt.
 
+Das für den Vergleich zugrunde liegende Land wird in den Erfassungsmasken jeweils links neben dem Ik nach dem Ort angezeigt.
+In einem Popup (Tooltip, oder Klick auf Info-Icon) wird erläutert, wie der Anwender das Land ändern lassen kann (z.B. schriftliche Info ans InEK).
+
+Hinweis zur Umsetzung: Die Tabelle *ExpectedHospital* wird in *HospitalProperties* umbenannt und um zusätzliche Informationen (Land, Fachgebiet, ...) angereichert.
+
 ## Datenerfassung
 
 Für den Vergleich werden diverse Daten benötigt. 
@@ -81,18 +86,34 @@ Entsprechend dem aktuellen Stand (06.03.2019) besteht der Wunsch, die Anzahl der
 ### Plausiprüfungen
 
 In ihrer Vereinbarung fordern die Vereinbarungspartner, die Daten auf Plausibilität zu prüfen, bevor sie für den Vergleich zugelassen werden.
+Dabei können Prüfungen, die sich auf ein einzelnes Feld beziehen, unmitelbar nach der Eingabe erfolgen. 
+Bei Verknüfungen von Feldern sind möglicherweise nocht nicht alle Daten erfasst, so dass eine Prüfung störend wirken kann; solche Felder werden vor dem Senden geprüft.
+
+#### Feldprüfung
 
 - In Schlüsselfeldern wie PEPP, ET, ZE, Entgelt, OPS erfolgt eine Prüfung gegen eine für das betreffende Jahr hinterlegte Liste. Sollten für einzelne Felder im Datenportal keine abschließenden Listen hinterlegt werden können, so erfolgt mindestens eine formale Prüfung und eine Warung, wenn der eingegebene Wert nicht in der Liste enthalten ist.
 - Die Eingaben in allen Feldern werden entsprechend ihrem Datgentyp geprüft (Beispiel: Im Feld "Anzahl" sind nur Ziffern zulässig. Die Anzahl muss [> 0] | [darf nicht < 0] sein).
 - Beim Upload werden zusätzliche Informationen wie "Bewertungsrelation/Tag" erfasst. Diese werden gegen die für das betreffende Jahr gültigen Werte geprüft. Bei Abweichungen wird das Feld gegen die Werte der anderen Jahre geprüft. Wird daruch für den gesamten Upload ein anderes Jahr erkannt, so erfolgt eine entsprechend Meldung ("Sie versuchen Daten aus xxxx für yyyy hochzuladen. Vorgang fortsetzen?"). Hier kann der Anwender den Upload abbrechen. Bei erfolgtem Upload werden alle fehlerhaften Felder in einem Uploadprotokoll gelistet.
 
+#### Gesamtprüfung
+
+1. E1.1: Fall x Vergütungsklasse = Berechnungstage
+2. Summe Bewertungsrelationen aus E1.1 + Summe Bewertungsrelationen aus E1.2 = Wert in B1, Nr. 17
+3. B1 Nr. 16 / B1 Nr. 17 = B1 Nr. 18
+4. Senden von AEB nur möglich, wenn Strukturinfo vorhanden 
+
+Bei der Gleichheit in 2. und 3. werden geringe Toleranzen (Rundungsfehler) zugelassen.
+
 ## Auswertung
 
 Zur Auswertung des Krankenhausvergleichs stehen dem Anwender nach Eingabe der IK des zu vergleichenden Krankenhauses je drei Auswahlmöglichkeiten für Region/Fachgebiet und Zeitraum zur Verfügung
 
-Aus der Kombination a-c sowie 1-3 ergeben sich 9 unterschiedliche Auswertungen. Noch zu klären: 
-- Anwender darf wählen
-- Es werden immer alle möglichen Auswertungen (3, 6, oder 9, jenachdem ob jahresgleich möglich) erstellt.
+Aus der Kombination a-c sowie 1-3 ergeben sich 9 unterschiedliche Auswertungen, die beispielsweise als Matrix oder Liste dargestellt werden.
+Bei jeder (zulässigen) Kombination kann der Anwender mittelc Checkbox (Ankreuzfeld) markieren, ob hierfür eine Auswertung erstellt wird.
+Sofern eine Auswertung unter Angabe einer Id gespeichert wird, erfolgt über die Auswertungsdaten eine Prüfsummenberechnung (z.B. SHA512).
+Gleiche Daten ergeben somit die gleiche Prüfsumme. 
+Da eine solche Prüfsumme relativ lang ist, wird eine numerisch ID vergeben und die Prüfsumme zugeordnet / mit den Daten gespeichert.
+Auswertungen mit gleicher Prüfsumme erhalten die gleiche ID. 
 
 Nach Start der Auswertung wird ein Ecxel-Sheet (vorläufiger, noch nicht konsentierter Stand [Auswertungsergebnis_Krankenhausvergleich](/uploads/465b6b3dc9cb50c2320175c2f098318a/Auswertungsergebnis_Krankenhausvergleich_Entwurf_181102_final.xlsx)) für jede der angefragten Auswertungen befüllt und dem Anwender zum Download angeboten. Hierzu wird ein Excel-Formular als Vorlage genutzt und vom Report-Server via SQL-Statements befüllt. Die Auswertung ist sehr umfangreich, so dass es möglich sein könnte, dass die Befüllung einen dem wartenden Anwender zumutbaren Zeitraum (z.B. 10 sek) überschreitet. Im Rahmen der Implementierung wird (abhängig von der dann bekannten Generierungsdauer) entschieden, ob das System dem Anwender die Datei per Knopfdruck zur Verfügung stellt, oder ob der "Start"-Knopf die Auswertung lediglich antriggert und das System die Datei dem Anwender im Dokumentenbereich zur Verfügung stellt. In diesem Fall sendet das System nach Generierung der Daten eine Nachricht an den Anwender. Sofern der Anwender noch im System arbeitet, kann diese Nachricht im Portal (z.B. Popup) erfolgen, andernfalls per Mail.
 
