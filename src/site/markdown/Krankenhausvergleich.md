@@ -91,4 +91,5 @@ Das System bietet zwei "Startknöpfe" zur
 Wenn nicht jeder Vergleich gespeichert wird, könnte bei einer "Verhandlungsgrundlage" die ID automatisch an Partner übermittelt werden.
 
 Neben "individuellen" Auswertungen (Anwender startet nach Selektion), werden für die Öffentlichkeit Auwertungen zu festgelegten Zeitpunkten (Quartal) erstellt und im System für den Abruf bereitgestellt. Hier wird ein Dialog erstellt, welcher für jedem interessierten Portalnutzer (ohne Freigabe) zugänglich ist. Der Anwender wählt einen Bericht (z.B. Link-Liste) und der Download startet unmittelbar.
+
 [Zurück zum Hauptdokument](DataPortal.md#FunctionalRequirements)
