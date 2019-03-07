@@ -1,24 +1,20 @@
 package org.inek.dataportal.psy.psychstaff.entity;
 
+import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
+import org.inek.dataportal.common.data.iface.StatusEntity;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.Crypt;
+import org.inek.dataportal.common.utils.Documentation;
+import org.inek.dataportal.psy.psychstaff.enums.PsychType;
+
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Vector;
+import java.util.*;
 import java.util.stream.Collectors;
-import javax.persistence.*;
-import javax.validation.constraints.Size;
-import org.inek.dataportal.common.data.iface.StatusEntity;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.psy.psychstaff.enums.PsychType;
-import org.inek.dataportal.common.utils.Crypt;
-import org.inek.dataportal.common.utils.Documentation;
-import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
 
 /**
  *
@@ -677,7 +673,6 @@ public class StaffProof implements Serializable, StatusEntity {
         // we use a delimitter to distinguish the concatenation of "cummutative" values
         // eg. id = 1; AccountId = 11, without deli: "111", with deli: "1^11"
         //     id = 11; AccountId = 1, without deli: "111" (as before!), with deli: "11^1"
-        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
         String data = "^"
                 + getId() + "^"
                 + getAccountId() + "^"
@@ -686,7 +681,6 @@ public class StaffProof implements Serializable, StatusEntity {
                 + getCalculationType() + "^"
                 + getAdultsAgreedDays() + "^"
                 + getKidsAgreedDays() + "^"
-                + df.format(getStatusApx1Changed()) + "^"
                 + getProofsAgreedData(PsychType.Adults)
                 + getProofsAgreedData(PsychType.Kids);
         return Crypt.getHash64("SHA-1", data);  // sha-1 is sufficiant for this purpose and keeps the result short
@@ -713,7 +707,6 @@ public class StaffProof implements Serializable, StatusEntity {
         // we use a delimitter to distinguish the concatenation of "cummutative" values
         // eg. id = 1; AccountId = 11, without deli: "111", with deli: "1^11"
         //     id = 11; AccountId = 1, without deli: "111" (as before!), with deli: "11^1"
-        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
         String data = "^"
                 + getId() + "^"
                 + getAccountId() + "^"
@@ -724,7 +717,6 @@ public class StaffProof implements Serializable, StatusEntity {
                 + getAdultsEffectiveCosts() + "^"
                 + getKidsEffectiveDays() + "^"
                 + getKidsEffectiveCosts() + "^"
-                + df.format(getStatusApx2Changed()) + "^"
                 + getProofsEffectiveData(PsychType.Adults)
                 + getExplanationData(PsychType.Adults)
                 + getProofsEffectiveData(PsychType.Kids)
