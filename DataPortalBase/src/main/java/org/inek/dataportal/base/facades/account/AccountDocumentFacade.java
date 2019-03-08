@@ -43,23 +43,25 @@ public class AccountDocumentFacade extends AbstractDataAccess {
     }
 
     public List<DocInfo> getDocInfos(int accountId) {
-        String sql = "SELECT ad._id, ad._name, dd._name, ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
-                + "    concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')'), ad._sendToProcess "
+        String sql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo(" +
+                "      ad._id, ad._name, dd._name, ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+                + "    '', concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')'), ad._sendToProcess) "
                 + "FROM AccountDocument ad "
                 + "join DocumentDomain dd "
                 + "join Account a "
                 + "WHERE ad._domainId = dd._id and ad._agentAccountId = a._id  and ad._accountId = :accountId "
                 + "ORDER BY ad._id DESC";
 
-        Query query = getEntityManager().createQuery(sql);
+        TypedQuery<DocInfo> query = getEntityManager().createQuery(sql, DocInfo.class);
         query.setParameter("accountId", accountId);
-        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
-        List<DocInfo> docInfos = new ArrayList<>();
-        for (Object[] obj : objects) {
-            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
-                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], "", (String) obj[9], (boolean) obj[10]));
-        }
-        return docInfos;
+        return query.getResultList();
+//        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
+//        List<DocInfo> docInfos = new ArrayList<>();
+//        for (Object[] obj : objects) {
+//            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
+//                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], "", (String) obj[9], (boolean) obj[10]));
+//        }
+//        return docInfos;
     }
 
     public List<DocInfo> getSupervisedDocInfos(List<Integer> accountIds, String filter, int maxAge) {
