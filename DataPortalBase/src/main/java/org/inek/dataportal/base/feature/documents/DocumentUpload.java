@@ -7,8 +7,8 @@ package org.inek.dataportal.base.feature.documents;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.base.enums.DocumentTarget;
-import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.base.facades.account.DocumentDomainFacade;
+import org.inek.dataportal.base.facades.account.DocumentFacade;
 import org.inek.dataportal.base.feature.agency.entities.Agency;
 import org.inek.dataportal.base.feature.agency.facades.AgencyFacade;
 import org.inek.dataportal.common.controller.DialogController;
@@ -421,7 +421,8 @@ public class DocumentUpload implements Serializable {
         return "";
     }
 
-    @Inject private AccountDocumentFacade _docFacade;
+    @Inject
+    private DocumentFacade _docFacade;
 
     private void storeDocument(AccountDocument accountDocument, int accountId) {
         accountDocument.setAccountId(accountId);

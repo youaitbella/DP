@@ -1,23 +1,24 @@
 package org.inek.dataportal.base.feature.documents;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.base.facades.account.DocumentFacade;
+import org.inek.dataportal.base.facades.account.WaitingDocumentFacade;
+import org.inek.dataportal.base.helper.tree.DocumentInfoTreeNode;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.AccountDocument;
+import org.inek.dataportal.common.data.account.entities.WaitingDocument;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.helper.StreamHelper;
+import org.inek.dataportal.common.helper.structures.DocInfo;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.tree.RootNode;
+import org.inek.dataportal.common.tree.TreeNode;
+import org.inek.dataportal.common.tree.TreeNodeObserver;
+import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
+import org.inek.dataportal.common.utils.Helper;
+
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -26,24 +27,16 @@ import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountDocument;
-import org.inek.dataportal.common.data.account.entities.WaitingDocument;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
-import org.inek.dataportal.base.facades.account.WaitingDocumentFacade;
-import org.inek.dataportal.common.helper.StreamHelper;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.helper.structures.DocInfo;
-import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
-import org.inek.dataportal.base.helper.tree.DocumentInfoTreeNode;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.tree.RootNode;
-import org.inek.dataportal.common.tree.TreeNode;
-import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.utils.Helper;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.nio.charset.Charset;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -60,7 +53,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     @Inject
     private WaitingDocumentFacade _waitingDocFacade;
     @Inject
-    private AccountDocumentFacade _accountDocFacade;
+    private DocumentFacade _accountDocFacade;
 
     private final RootNode _rootNode = RootNode.create(0, this);
 

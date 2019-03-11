@@ -5,7 +5,7 @@
 package org.inek.dataportal.base.feature.documents;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
+import org.inek.dataportal.base.facades.account.DocumentFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
@@ -38,7 +38,7 @@ public class EditDocument extends AbstractEditController {
     private static final Logger LOGGER = Logger.getLogger("EditDocument");
 
     @Inject
-    private AccountDocumentFacade _accDocFacade;
+    private DocumentFacade _accDocFacade;
     @Inject
     private ConfigFacade _configFacade;
     @Inject

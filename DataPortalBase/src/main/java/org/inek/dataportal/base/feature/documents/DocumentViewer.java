@@ -1,27 +1,29 @@
 package org.inek.dataportal.base.feature.documents;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.inek.dataportal.base.facades.account.DocumentFacade;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
+import org.inek.dataportal.common.data.cooperation.facade.PortalMessageFacade;
+import org.inek.dataportal.common.helper.structures.DocInfo;
+
 import javax.annotation.PostConstruct;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
-import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
-import org.inek.dataportal.common.data.cooperation.facade.PortalMessageFacade;
-import org.inek.dataportal.common.helper.structures.DocInfo;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
 public class DocumentViewer implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Inject private AccountDocumentFacade _accountDocFacade;
+    @Inject
+    private DocumentFacade _accountDocFacade;
     @Inject private SessionController _sessionController;
     @Inject private PortalMessageFacade _messageFacade;
     @Inject private CooperationRequestFacade _cooperationRequestFacade;

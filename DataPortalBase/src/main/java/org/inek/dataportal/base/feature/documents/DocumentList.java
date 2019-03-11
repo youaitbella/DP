@@ -1,6 +1,6 @@
 package org.inek.dataportal.base.feature.documents;
 
-import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
+import org.inek.dataportal.base.facades.account.DocumentFacade;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
@@ -27,7 +27,7 @@ public class DocumentList implements Serializable {
     @Inject
     private AccountFacade _accFacade;
     @Inject
-    private AccountDocumentFacade _accountDocFacade;
+    private DocumentFacade _accountDocFacade;
     @Inject
     private SessionController _sessionController;
     @Inject

@@ -21,18 +21,26 @@ import java.util.List;
 import java.util.logging.Level;
 
 @Stateless
-public class AccountDocumentFacade extends AbstractDataAccess {
+public class DocumentFacade extends AbstractDataAccess {
 
     public CommonDocument findCommonDocument(int documentId) {
         return find(CommonDocument.class, documentId);
     }
 
-    public AccountDocument findAccountDocument(int id) {
-        return find(AccountDocument.class, id);
+    public void remove(CommonDocument commonDocument) {
+        super.remove(commonDocument);
     }
 
-    public AccountDocument findFresh(int id) {
-        return findFresh(AccountDocument.class, id);
+    public CommonDocument merge(CommonDocument commonDocument) {
+        return super.merge(commonDocument);
+    }
+
+    public void persist(CommonDocument commonDocument) {
+        super.persist(commonDocument);
+    }
+
+    public AccountDocument findAccountDocument(int id) {
+        return find(AccountDocument.class, id);
     }
 
     public void remove(AccountDocument accountDocument) {
