@@ -329,12 +329,6 @@ public class DocumentUpload implements Serializable {
                 || _documentTarget == DocumentTarget.IK && _ik > 0);
     }
 
-    public boolean isSaveForInekEnabled() {
-        return _documents.size() > 0
-                && _domain != null 
-                && (getSenderIks().size() <= 1 || _senderIk > 0);
-    }
-
     public String saveDocument() {
         if (_documents.isEmpty()) {
             return "";

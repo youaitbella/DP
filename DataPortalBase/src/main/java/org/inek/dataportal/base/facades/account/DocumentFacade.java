@@ -108,6 +108,7 @@ public class DocumentFacade extends AbstractDataAccess {
     }
 
     public List<DocInfo> getSupervisedDocInfos(List<Integer> accountIds, String filter, int maxAge) {
+        // see comment above
         String jpql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo("
                 + "           ad._id, cd._name, cd._domain._name, "
                 + "           ad._created, ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, '', "
