@@ -43,43 +43,35 @@ public class AccountDocumentFacade extends AbstractDataAccess {
     }
 
     public List<DocInfo> getDocInfos(int accountId) {
-        String sql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo(" +
-                "      ad._id, ad._name, dd._name, ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+        String jpql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo(" +
+                "      ad._id, COALESCE(cd._name, ad._name), COALESCE(cd._domain._name, ad._domain._name), ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
                 + "    '', concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')'), ad._sendToProcess) "
                 + "FROM AccountDocument ad "
-                + "join DocumentDomain dd "
-                + "join Account a "
-                + "WHERE ad._domainId = dd._id and ad._agentAccountId = a._id  and ad._accountId = :accountId "
+                + "join CommonDocument cd "
+                + "join Account a on ad._documentId = cd._id "
+                + "WHERE ad._agentAccountId = a._id  and ad._accountId = :accountId "
                 + "ORDER BY ad._id DESC";
 
-        TypedQuery<DocInfo> query = getEntityManager().createQuery(sql, DocInfo.class);
+        TypedQuery<DocInfo> query = getEntityManager().createQuery(jpql, DocInfo.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
-//        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
-//        List<DocInfo> docInfos = new ArrayList<>();
-//        for (Object[] obj : objects) {
-//            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
-//                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], "", (String) obj[9], (boolean) obj[10]));
-//        }
-//        return docInfos;
     }
 
     public List<DocInfo> getSupervisedDocInfos(List<Integer> accountIds, String filter, int maxAge) {
-        String jpql = "SELECT ad._id, ad._name, dd._name, ad._created, null, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+        String jpql = "SELECT ad._id, ad._name, ad._domain._name, ad._created, null, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
                 + "    min(ai._ik), max(ai._ik), count(ai._ik), "
                 + "    concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')'), ad._sendToProcess "
                 + "FROM AccountDocument ad "
-                + "join DocumentDomain dd "
                 + "join Account a "
                 + "join AccountIk ai "
-                + "WHERE ad._domainId = dd._id and ad._accountId = a._id "
+                + "WHERE ad._accountId = a._id "
                 + "  and a._id = ai._accountId"
                 + "  and ad._agentAccountId in :accountIds "
                 + "  and ad._created > :refDate "
                 + (filter.isEmpty()
                 ? ""
-                : " and (ad._name like :filter or ai._ik = :numFilter or a._company like :filter or a._town like :filter or dd._name like :filter) ")
-                + "GROUP BY ad._id, ad._name, dd._name, ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+                : " and (ad._name like :filter or ai._ik = :numFilter or a._company like :filter or a._town like :filter or ad._domain._name like :filter) ")
+                + "GROUP BY ad._id, ad._name, ad._domain._name, ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
                 + "    a._company, a._town, a._firstName, a._lastName, ad._sendToProcess "
                 + "ORDER BY ad._read, ad._created DESC";
         Query query = getEntityManager().createQuery(jpql); //.setMaxResults(100);
@@ -134,7 +126,8 @@ public class AccountDocumentFacade extends AbstractDataAccess {
     }
 
     public List<String> getNewDocs(int accountId) {
-        String jpql = "SELECT ad._name FROM AccountDocument ad WHERE ad._accountId = :accountId and ad._created > :referenceDate ORDER BY ad._id DESC";
+        String jpql = "SELECT ad._name FROM AccountDocument ad " +
+                "WHERE ad._accountId = :accountId and ad._created > :referenceDate ORDER BY ad._id DESC";
         TypedQuery<String> query = getEntityManager().createQuery(jpql, String.class);
         query.setParameter("accountId", accountId);
         query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-30));
