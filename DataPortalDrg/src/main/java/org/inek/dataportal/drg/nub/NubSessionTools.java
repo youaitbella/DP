@@ -1,48 +1,44 @@
 package org.inek.dataportal.drg.nub;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.ObjectCopier;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.helper.structures.MessageContainer;
+import org.inek.dataportal.common.helper.structures.ProposalInfo;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.tree.ProposalInfoTreeNode;
+import org.inek.dataportal.common.tree.RootNode;
+import org.inek.dataportal.common.tree.TreeNode;
+import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.KeyValueLevel;
+import org.inek.dataportal.drg.nub.entities.NubRequest;
+import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
+import org.inek.dataportal.drg.nub.tree.AccountTreeNodeObserver;
+import org.inek.dataportal.drg.nub.tree.EditRootTreeNodeObserver;
+import org.inek.dataportal.drg.nub.tree.ViewRootTreeNodeObserver;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Instance;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.drg.nub.entities.NubRequest;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
-import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.drg.nub.tree.AccountTreeNodeObserver;
-import org.inek.dataportal.drg.nub.tree.EditRootTreeNodeObserver;
-import org.inek.dataportal.drg.nub.tree.ViewRootTreeNodeObserver;
-import org.inek.dataportal.common.helper.ObjectUtils;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.helper.structures.MessageContainer;
-import org.inek.dataportal.common.helper.structures.ProposalInfo;
-import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
-import org.inek.dataportal.common.tree.ProposalInfoTreeNode;
-import org.inek.dataportal.common.tree.RootNode;
-import org.inek.dataportal.common.tree.TreeNode;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.utils.DocumentationUtil;
-import org.inek.dataportal.common.utils.KeyValueLevel;
+import java.io.Serializable;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 // todo: devide into several classes, use a specialized TreeNodeObserver on every level
 // todo: use customer node for iks managed by ikAdmin
@@ -225,7 +221,7 @@ public class NubSessionTools implements Serializable {
         if (nubRequest.getTargetYear() < targetYear) {
             // data from last year, not sealed so far
             // we need a new id, thus delete old and create new nub request
-            NubRequest copy = ObjectUtils.copy(nubRequest);
+            NubRequest copy = ObjectCopier.copy(nubRequest);
             copy.setId(-1);
             copy.setTargetYear(targetYear);
             nubRequest.setLastChangedBy(_sessionController.getAccountId());
@@ -490,7 +486,7 @@ public class NubSessionTools implements Serializable {
     public boolean copyNubRequest(NubRequest nubRequest) {
         int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
         int targetAccountId = _sessionController.getAccountId();
-        NubRequest copy = ObjectUtils.copy(nubRequest);
+        NubRequest copy = ObjectCopier.copy(nubRequest);
         copy.setId(-1);
         copy.setIk(0);
         copy.setStatus(WorkflowStatus.New);
