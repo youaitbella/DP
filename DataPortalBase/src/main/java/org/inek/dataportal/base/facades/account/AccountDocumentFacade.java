@@ -2,6 +2,7 @@ package org.inek.dataportal.base.facades.account;
 
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
+import org.inek.dataportal.common.data.common.CommonDocument;
 import org.inek.dataportal.common.helper.structures.DocInfo;
 import org.inek.dataportal.common.utils.DateUtils;
 
@@ -22,7 +23,11 @@ import java.util.logging.Level;
 @Stateless
 public class AccountDocumentFacade extends AbstractDataAccess {
 
-    public AccountDocument find(int id) {
+    public CommonDocument findCommonDocument(int documentId) {
+        return find(CommonDocument.class, documentId);
+    }
+
+    public AccountDocument findAccountDocument(int id) {
         return find(AccountDocument.class, id);
     }
 
@@ -43,8 +48,9 @@ public class AccountDocumentFacade extends AbstractDataAccess {
     }
 
     public List<DocInfo> getDocInfos(int accountId) {
-        String jpql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo(" +
-                "      ad._id, COALESCE(cd._name, ad._name), COALESCE(cd._domain._name, ad._domain._name), ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+        String jpql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo("
+                + "      ad._id, COALESCE(cd._name, ad._name), COALESCE(cd._domain._name, ad._domain._name), "
+                + "ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
                 + "    '', concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')'), ad._sendToProcess) "
                 + "FROM AccountDocument ad "
                 + "join CommonDocument cd "
@@ -70,11 +76,12 @@ public class AccountDocumentFacade extends AbstractDataAccess {
                 + "  and ad._created > :refDate "
                 + (filter.isEmpty()
                 ? ""
-                : " and (ad._name like :filter or ai._ik = :numFilter or a._company like :filter or a._town like :filter or ad._domain._name like :filter) ")
+                : " and (ad._name like :filter or ai._ik = :numFilter or a._company like :filter " +
+                "or a._town like :filter or ad._domain._name like :filter) ")
                 + "GROUP BY ad._id, ad._name, ad._domain._name, ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
                 + "    a._company, a._town, a._firstName, a._lastName, ad._sendToProcess "
                 + "ORDER BY ad._read, ad._created DESC";
-        Query query = getEntityManager().createQuery(jpql); //.setMaxResults(100);
+        Query query = getEntityManager().createQuery(jpql);
         query.setParameter("accountIds", accountIds);
         if (!filter.isEmpty()) {
             int numFilter;
@@ -87,7 +94,6 @@ public class AccountDocumentFacade extends AbstractDataAccess {
             query.setParameter("filter", "%" + filter + "%");
         }
         query.setParameter("refDate", DateUtils.getDateWithDayOffset(-maxAge));
-        //dumpSql(query);
         @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
@@ -200,4 +206,5 @@ public class AccountDocumentFacade extends AbstractDataAccess {
         @SuppressWarnings("unchecked") List<String> result = query.getResultList();
         return result;
     }
+
 }

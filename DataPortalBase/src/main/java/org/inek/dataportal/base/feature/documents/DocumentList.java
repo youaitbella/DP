@@ -187,7 +187,7 @@ public class DocumentList implements Serializable {
                 if (info.getAgentId() != accIk.getAccountId() || info.getSenderIk() != accIk.getIk()) {
                     continue;
                 }
-                AccountDocument doc = _accountDocFacade.find(info.getAccountDocumentId());
+                AccountDocument doc = _accountDocFacade.findAccountDocument(info.getAccountDocumentId());
                 docs.add(doc);
             }
             try {

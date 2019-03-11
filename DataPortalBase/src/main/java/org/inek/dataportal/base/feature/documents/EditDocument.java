@@ -4,27 +4,28 @@
  */
 package org.inek.dataportal.base.feature.documents;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.account.entities.AccountDocument;
+import org.inek.dataportal.common.data.common.CommonDocument;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.helper.StreamHelper;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.Helper;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.AccountDocument;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.helper.StreamHelper;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.utils.Helper;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -39,25 +40,23 @@ public class EditDocument extends AbstractEditController {
     @Inject
     private AccountDocumentFacade _accDocFacade;
     @Inject
-    private AccountFacade _accFacade;
-    @Inject
     private ConfigFacade _configFacade;
     @Inject
     private SessionController _sessionController;
 
-    public String downloadDocument(int docId) {
+    public String downloadDocument(int accountDocumentId) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
-        AccountDocument doc = _accDocFacade.find(docId);
+        AccountDocument doc = _accDocFacade.findAccountDocument(accountDocumentId);
         if (doc == null) {
-            LOGGER.log(Level.WARNING, "Document not found: {0}", docId);
+            LOGGER.log(Level.WARNING, "Document not found: {0}", accountDocumentId);
             return "";
         }
         if (_sessionController.getAccountId() != doc.getAccountId() && !_sessionController.isInekUser(Feature.DOCUMENTS)) {
             return "";
         }
         try {
-            byte[] buffer = doc.getContent();
+            byte[] buffer = retrieveContent(doc);
             externalContext.setResponseHeader("Content-Type", Helper.getContentType(doc.getName()));
             externalContext.setResponseHeader("Content-Length", "" + buffer.length);
             externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + doc.getName() + "\"");
@@ -79,8 +78,16 @@ public class EditDocument extends AbstractEditController {
         return "";
     }
 
+    private byte[] retrieveContent(AccountDocument doc) {
+        if (doc.getDocumentId() == 0) {
+            return doc.getContent();
+        }
+        CommonDocument document = _accDocFacade.findCommonDocument(doc.getDocumentId());
+        return document.getContent();
+    }
+
     public String deleteDocument(int docId) {
-        AccountDocument doc = _accDocFacade.find(docId);
+        AccountDocument doc = _accDocFacade.findAccountDocument(docId);
 
         if (doc != null && _sessionController.getAccountId() == doc.getAccountId()) {
             _accDocFacade.remove(doc);
