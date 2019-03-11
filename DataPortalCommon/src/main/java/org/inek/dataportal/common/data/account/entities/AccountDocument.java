@@ -149,7 +149,7 @@ public class AccountDocument implements Serializable, Document {
 
     //<editor-fold defaultstate="collapsed" desc="Property SenderIk">
     @Column(name = "adSenderIk")
-    private int _senderIk;
+    private int _senderIk = -1;
     
     public int getSenderIk() {
         return _senderIk;
