@@ -114,9 +114,8 @@ public abstract class AbstractDataAccess implements Serializable {
         _em.getEntityManagerFactory().getCache().evict(clazz);
     }
 
-    protected void dumpSql(Query query) {
-        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
-        System.out.println(sql);
+    protected String dumpSql(Query query) {
+        return query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
     }
 
     public String getDatabaseName() {

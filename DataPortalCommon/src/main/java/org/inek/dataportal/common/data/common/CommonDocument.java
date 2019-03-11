@@ -78,7 +78,7 @@ public class CommonDocument implements Document {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Domain">
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "docDomainId")
     private DocumentDomain _domain;
 
