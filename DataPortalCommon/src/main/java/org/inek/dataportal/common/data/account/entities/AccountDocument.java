@@ -215,16 +215,4 @@ public class AccountDocument implements Serializable, Document {
         _lastChanged = Calendar.getInstance().getTime();
     }
 
-    //<editor-fold desc="Property SendToProcess">
-    @Column(name = "adSendToProcess")
-    private boolean _sendToProcess;
-
-    public boolean isSendToProcess() {
-        return _sendToProcess;
-    }
-
-    public void setSendToProcess(boolean sendToProcess) {
-        this._sendToProcess = sendToProcess;
-    }
-    //</editor-fold>
 }

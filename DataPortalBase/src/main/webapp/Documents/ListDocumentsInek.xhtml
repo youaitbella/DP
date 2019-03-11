@@ -42,16 +42,6 @@
                     </h:commandLink>
                 </h:column>
                 
-                <h:column id="colProcess">
-                    <f:facet name="header">
-                        <h:outputText value=""/>
-                    </f:facet>
-                    <h:selectBooleanCheckbox value="#{doc.selected}" rendered="#{!doc.sendToProcess or doc.agentId == 0}">
-                        <f:ajax event="change" render="@form :logout:remaining"/>
-                    </h:selectBooleanCheckbox>
-                </h:column>
-                
-
                 <h:column id="colDomain">
                     <f:facet name="header">
                         <h:commandLink value="Bereich #{documentList.sortCriteria.equals('domain') ? (documentList.descending ? '↓' : '↑') : ''}">
@@ -124,9 +114,7 @@
                     </h:commandLink>
                 </h:column>
             </h:dataTable>
-            <h:commandLink rendered="#{documentList.hasSelected()}" styleClass="button" id="process-button" value="Ausgewählte Dokumente an Prozess senden" action="#{documentList.sendDocumentsToProcess()}" >
-                <f:ajax execute="@all" render="@form"/>
-            </h:commandLink>
+
         </h:form>
 
     </ui:define>

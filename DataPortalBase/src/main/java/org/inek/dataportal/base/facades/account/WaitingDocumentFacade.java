@@ -1,20 +1,21 @@
 package org.inek.dataportal.base.facades.account;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
+import org.inek.dataportal.common.data.AbstractFacade;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.WaitingDocument;
+import org.inek.dataportal.common.data.account.entities.WaitingDocumentInfo;
+import org.inek.dataportal.common.helper.structures.DocInfo;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.utils.DateUtils;
+
 import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.WaitingDocument;
-import org.inek.dataportal.common.data.account.entities.WaitingDocumentInfo;
-import org.inek.dataportal.common.data.AbstractFacade;
-import org.inek.dataportal.common.helper.structures.DocInfo;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.utils.DateUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 
 @Stateless
 public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
@@ -54,8 +55,7 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
                     info.getAgentAccountId(),
                     0,
                     "",
-                    receipientInfo,
-                    false
+                    receipientInfo
             );
             docInfos.add(docInfo);
         }

@@ -5,10 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- *
- * @author muellermi
- */
 public class DocInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,8 +19,6 @@ public class DocInfo implements Serializable {
     private final int _senderIk;
     private final String _agentName;
     private final String _tag;
-    private final boolean _sendToProcess;
-    private boolean _isSelected;
 
     @SuppressWarnings("ParameterNumber")
     public DocInfo(
@@ -38,8 +32,7 @@ public class DocInfo implements Serializable {
             int agentId,
             int senderIk,
             String agentName,
-            String tag,
-            boolean sendToProcess
+            String tag
     ) {
         _accountDocumentId = accountDocumentId;
         _name = name;
@@ -52,7 +45,6 @@ public class DocInfo implements Serializable {
         _senderIk = senderIk;
         _agentName = agentName;
         _tag = tag;
-        _sendToProcess = sendToProcess;
     }
 
     public int getAccountDocumentId() {
@@ -110,15 +102,4 @@ public class DocInfo implements Serializable {
         return _senderIk;
     }
 
-    public boolean isSendToProcess() {
-        return _sendToProcess;
-    }
-
-    public boolean isSelected() {
-        return _isSelected;
-    }
-
-    public void setSelected(boolean isSelected) {
-        _isSelected = isSelected;
-    }
 }

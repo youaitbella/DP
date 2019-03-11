@@ -3,11 +3,9 @@ package org.inek.dataportal.base.feature.documents;
 import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
 import org.inek.dataportal.common.data.cooperation.facade.PortalMessageFacade;
-import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.DocInfo;
 
@@ -142,95 +140,6 @@ public class DocumentList implements Serializable {
         return "" + count;
     }
 
-    public boolean hasSelected() {
-        return _documents.stream().anyMatch((_doc) -> (_doc.isSelected()));
-    }
-
-    public void sendDocumentsToProcess() {
-        List<AccountIk> senders = new ArrayList<>();
-        List<DocInfo> _processDocs = new ArrayList<>();
-        createSenderList(_processDocs, senders);
-        createTransferFiles(senders, _processDocs);
-        _documents = _accountDocFacade.getDocInfos(_sessionController.getAccountId());
-    }
-
-    private void createSenderList(List<DocInfo> _processDocs, List<AccountIk> senders) {
-        for (DocInfo info : _documents) {
-            if (!info.isSelected()) {
-                continue;
-            }
-            _processDocs.add(info);
-            AccountIk accIk = new AccountIk(info.getAgentId(), info.getSenderIk());
-            boolean contains = false;
-            for (AccountIk ai : senders) {
-                if (ai.getIk() == info.getSenderIk() && info.getAgentId() == ai.getAccountId()) {
-                    contains = true;
-                    break;
-                }
-            }
-            if (contains) {
-                continue;
-            }
-            senders.add(accIk);
-        }
-    }
-
-    private void createTransferFiles(List<AccountIk> senders, List<DocInfo> _processDocs) {
-        for (AccountIk accIk : senders) {
-            List<AccountDocument> docs = new ArrayList<>();
-            String email = _accFacade.findAccount(accIk.getAccountId()).getEmail();
-            String subject = "InEK Datenportal - Dokument(e) für IK " + accIk.getIk() + " bearbeitet";
-            if (accIk.getIk() < 1) {
-                subject = "InEK Datenportal - Dokument(e) bearbeitet";
-            }
-            for (DocInfo info : _processDocs) {
-                if (info.getAgentId() != accIk.getAccountId() || info.getSenderIk() != accIk.getIk()) {
-                    continue;
-                }
-                AccountDocument doc = _accountDocFacade.findAccountDocument(info.getAccountDocumentId());
-                docs.add(doc);
-            }
-            try {
-                TransferFileCreator.createInekDocumentFiles(_configFacade, docs, email, subject);
-                markDocsAsProcessed(docs);
-            } catch (Exception ex) {
-            }
-        }
-    }
-
-    private void markDocsAsProcessed(List<AccountDocument> docs) {
-        for (AccountDocument doc : docs) {
-            doc.setSendToProcess(true);
-            _accountDocFacade.merge(doc);
-        }
-    }
-
-    private class AccountIk {
-
-        private Integer _accountId;
-        private Integer _ik;
-
-        AccountIk(Integer accountId, Integer ik) {
-            _accountId = accountId;
-            _ik = ik;
-        }
-
-        public Integer getAccountId() {
-            return _accountId;
-        }
-
-        public void setAccountId(Integer accountId) {
-            this._accountId = accountId;
-        }
-
-        public Integer getIk() {
-            return _ik;
-        }
-
-        public void setIk(Integer ik) {
-            this._ik = ik;
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">
     private String _sortCriteria = "";
