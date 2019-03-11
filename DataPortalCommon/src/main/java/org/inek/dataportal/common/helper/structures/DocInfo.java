@@ -12,7 +12,7 @@ import java.util.Date;
 public class DocInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private final int _id;
+    private final int _accountDocumentId;
     private final String _name;
     private final String _domain;
     private final Date _created;
@@ -28,20 +28,20 @@ public class DocInfo implements Serializable {
 
     @SuppressWarnings("ParameterNumber")
     public DocInfo(
-            int id, 
-            String name, 
-            String domain, 
-            Date created, 
-            Date validUntil, 
-            boolean isRead, 
-            int accountId, 
-            int agentId, 
-            int senderIk, 
-            String agentName, 
+            int accountDocumentId,
+            String name,
+            String domain,
+            Date created,
+            Date validUntil,
+            boolean isRead,
+            int accountId,
+            int agentId,
+            int senderIk,
+            String agentName,
             String tag,
             boolean sendToProcess
     ) {
-        _id = id;
+        _accountDocumentId = accountDocumentId;
         _name = name;
         _domain = domain;
         _created = created;
@@ -55,8 +55,8 @@ public class DocInfo implements Serializable {
         _sendToProcess = sendToProcess;
     }
 
-    public int getId() {
-        return _id;
+    public int getAccountDocumentId() {
+        return _accountDocumentId;
     }
 
     public String getName() {

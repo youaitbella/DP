@@ -1,24 +1,25 @@
 package org.inek.dataportal.base.feature.documents;
 
+import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.account.entities.AccountDocument;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
+import org.inek.dataportal.common.data.cooperation.facade.PortalMessageFacade;
+import org.inek.dataportal.common.helper.TransferFileCreator;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.helper.structures.DocInfo;
+
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.AccountDocument;
-import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
-import org.inek.dataportal.common.data.cooperation.facade.PortalMessageFacade;
-import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.helper.TransferFileCreator;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.helper.structures.DocInfo;
 
 @Named
 @ViewScoped
@@ -110,7 +111,7 @@ public class DocumentList implements Serializable {
             List<DocInfo> docs = getDocuments();
             if (getDocuments().size() > 0) {
                 for (DocInfo doc : docs) {
-                    if (!_accountDocFacade.isDocRead((int) doc.getId())) {
+                    if (!_accountDocFacade.isDocRead((int) doc.getAccountDocumentId())) {
                         return true;
                     }
                 }
@@ -128,7 +129,7 @@ public class DocumentList implements Serializable {
         if ("Dokumente".equals(topic)) {
             List<DocInfo> docs = new ArrayList<>();
             for (DocInfo doc : getDocuments()) {
-                if (!_accountDocFacade.isDocRead((int) doc.getId())) {
+                if (!_accountDocFacade.isDocRead((int) doc.getAccountDocumentId())) {
                     docs.add(doc);
                 }
             }
@@ -186,7 +187,7 @@ public class DocumentList implements Serializable {
                 if (info.getAgentId() != accIk.getAccountId() || info.getSenderIk() != accIk.getIk()) {
                     continue;
                 }
-                AccountDocument doc = _accountDocFacade.find(info.getId());
+                AccountDocument doc = _accountDocFacade.find(info.getAccountDocumentId());
                 docs.add(doc);
             }
             try {
