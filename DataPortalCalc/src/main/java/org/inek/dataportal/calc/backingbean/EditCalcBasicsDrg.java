@@ -344,39 +344,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public int getSumIntensivStrokeWeighted() {
-        List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
-        int result = 0;
-        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
-            result += intensivStroke.getIntensivHoursWeighted();
-        }
-        return result;
+        return _calcBasics.getIntensivStrokes().stream().mapToInt(i -> i.getIntensivHoursWeighted()).sum();
     }
 
     public int getPriorSumIntensivStrokeWeighted() {
-        List<KGLListIntensivStroke> intensivStrokes = _priorCalcBasics.getIntensivStrokes();
-        int result = 0;
-        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
-            result += intensivStroke.getIntensivHoursWeighted();
-        }
-        return result;
+        return _priorCalcBasics.getIntensivStrokes().stream().mapToInt(i -> i.getIntensivHoursWeighted()).sum();
     }
 
     public int getSumIntensivStrokeNotWeighted() {
-        List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
-        int result = 0;
-        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
-            result += intensivStroke.getIntensivHoursNotweighted();
-        }
-        return result;
+        return _calcBasics.getIntensivStrokes().stream().mapToInt(i -> i.getIntensivHoursNotweighted()).sum();
     }
 
     public int getPriorSumIntensivStrokeNotWeighted() {
-        List<KGLListIntensivStroke> intensivStrokes = _priorCalcBasics.getIntensivStrokes();
-        int result = 0;
-        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
-            result += intensivStroke.getIntensivHoursNotweighted();
-        }
-        return result;
+        return _priorCalcBasics.getIntensivStrokes().stream().mapToInt(i -> i.getIntensivHoursNotweighted()).sum();
     }
 
     public List<Double> getCostCenterCostsSums() {
