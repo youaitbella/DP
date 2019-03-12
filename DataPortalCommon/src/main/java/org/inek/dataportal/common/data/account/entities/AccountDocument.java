@@ -24,7 +24,7 @@ public class AccountDocument implements Serializable, Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "adId")
-    private Integer _id;
+    private Integer _id = -1;
 
     public Integer getId() {
         return _id;

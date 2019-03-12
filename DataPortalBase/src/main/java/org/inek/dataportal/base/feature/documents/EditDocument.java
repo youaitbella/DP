@@ -6,7 +6,7 @@ import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
-import org.inek.dataportal.common.data.common.CommonDocument;
+import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.StreamHelper;
@@ -47,11 +47,19 @@ public class EditDocument extends AbstractEditController {
         if (_sessionController.getAccountId() != doc.getAccountId() && !_sessionController.isInekUser(Feature.DOCUMENTS)) {
             return "";
         }
+
+        Document document;
+        if (doc.getDocumentId() == 0) {
+            document = doc;
+        } else {
+            document = _documentFacade.findCommonDocument(doc.getDocumentId());
+        }
+
         try {
-            byte[] buffer = retrieveContent(doc);
-            externalContext.setResponseHeader("Content-Type", Helper.getContentType(doc.getName()));
+            byte[] buffer = document.getContent();
+            externalContext.setResponseHeader("Content-Type", Helper.getContentType(document.getName()));
             externalContext.setResponseHeader("Content-Length", "" + buffer.length);
-            externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + doc.getName() + "\"");
+            externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + document.getName() + "\"");
             ByteArrayInputStream is = new ByteArrayInputStream(buffer);
             new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
 
@@ -68,14 +76,6 @@ public class EditDocument extends AbstractEditController {
         }
 
         return "";
-    }
-
-    private byte[] retrieveContent(AccountDocument doc) {
-        if (doc.getDocumentId() == 0) {
-            return doc.getContent();
-        }
-        CommonDocument document = _documentFacade.findCommonDocument(doc.getDocumentId());
-        return document.getContent();
     }
 
     public String deleteDocument(int docId) {
