@@ -45,6 +45,14 @@ public class DocumentScannerBean implements Serializable {
         _documentScannerConfig.setRemoveOldWaitingDocumentsEnabled(!_documentScannerConfig.isRemoveOldWaitingDocumentsEnabled());
     }
 
+    public Boolean getUpdateStatus() {
+        return _documentScannerConfig.isUpdateEnabled();
+    }
+
+    public void switchUpdateOldDocuments() {
+        _documentScannerConfig.setUpdateEnabled(!_documentScannerConfig.isUpdateEnabled());
+    }
+
     public void sendTestErrorMail() {
         _mailer.sendMail("portaladmin@inek-drg.de", "Testmail Dokumentenscanner", "Testemail");
     }

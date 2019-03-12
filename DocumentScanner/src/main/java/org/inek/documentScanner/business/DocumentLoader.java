@@ -195,7 +195,7 @@ public class DocumentLoader {
         doc.setDomain(domain);
         doc.setAccountId(importInfo.getUploadAccount().getId());
         _docFacade.saveCommonDocument(doc);
-        LOGGER.log(Level.INFO, "CommonDocument created: {0} for account {1}", name);
+        LOGGER.log(Level.INFO, "CommonDocument created: {0}", name);
         return doc;
     }
 

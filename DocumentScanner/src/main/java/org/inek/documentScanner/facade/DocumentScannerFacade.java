@@ -14,6 +14,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 
 @Stateless
@@ -60,9 +61,12 @@ public class DocumentScannerFacade extends AbstractDataAccess {
     }
 
     public AccountDocument saveAccountDocument(AccountDocument document) {
-        persist(document);
-        clearCache();
-        return document;
+        if (document.getId() <= 0) {
+            persist(document);
+            clearCache();
+            return document;
+        }
+        return merge(document);
     }
 
     @Asynchronous
@@ -81,5 +85,15 @@ public class DocumentScannerFacade extends AbstractDataAccess {
     public void saveWaitingDocument(WaitingDocument waitingDocument) {
         persist(waitingDocument);
     }
-    
+
+    public Optional<AccountDocument> findAccountDocumentWithContent() {
+        String jpql = "Select a from AccountDocument a where a._documentId = 0";
+        TypedQuery<AccountDocument> query = getEntityManager().createQuery(jpql, AccountDocument.class);
+        query.setMaxResults(1);
+        List<AccountDocument> documents = query.getResultList();
+        if (documents.size() == 0) {
+            return Optional.empty();
+        }
+        return Optional.of(documents.get(0));
+    }
 }
