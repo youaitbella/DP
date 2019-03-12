@@ -263,7 +263,7 @@ public class DocumentFacade extends AbstractDataAccess {
         String sql = "delete from CommonDocument cd "
                 + "WHERE not exists(select 1 from AccountDocument ad where ad._documentId = cd._id) "
                 + "      and cd._created < :date";
-        Query query = getEntityManager().createQuery(sql, AccountDocument.class);
+        Query query = getEntityManager().createQuery(sql, CommonDocument.class);
         query.setParameter("date", DateUtils.getDateWithDayOffset(-3));
         query.executeUpdate();
     }

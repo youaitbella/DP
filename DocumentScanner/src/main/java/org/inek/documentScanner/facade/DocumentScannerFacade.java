@@ -1,27 +1,21 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.documentScanner.facade;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.logging.Level;
-import javax.ejb.Asynchronous;
 import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.account.entities.DocumentDomain;
+import org.inek.dataportal.common.data.account.entities.WaitingDocument;
+import org.inek.dataportal.common.data.common.CommonDocument;
+import org.inek.dataportal.common.utils.DateUtils;
 
+import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.common.data.account.entities.AccountDocument;
-import org.inek.dataportal.common.data.account.entities.WaitingDocument;
-import org.inek.dataportal.common.utils.DateUtils;
+import java.util.Calendar;
+import java.util.List;
+import java.util.logging.Level;
 
-/**
- * @author muellermi
- */
 @Stateless
 public class DocumentScannerFacade extends AbstractDataAccess {
 
@@ -43,18 +37,34 @@ public class DocumentScannerFacade extends AbstractDataAccess {
         return d;
     }
 
-    public int removeOldDocuments() {
+    public int removeOldAccountDocuments() {
         String sql = "DELETE FROM AccountDocument d WHERE d._validUntil < :date";
         Query query = getEntityManager().createQuery(sql, AccountDocument.class);
         query.setParameter("date", Calendar.getInstance().getTime());
         return query.executeUpdate();
     }
 
-    public AccountDocument saveAccountDocument(AccountDocument accountDocument) {
-        persist(accountDocument);
-        return accountDocument;
+    public int removeOldCommonDocuments() {
+        String sql = "delete from CommonDocument cd "
+                + "WHERE not exists(select 1 from AccountDocument ad where ad._documentId = cd._id) "
+                + "      and cd._created < :date";
+        Query query = getEntityManager().createQuery(sql, CommonDocument.class);
+        query.setParameter("date", DateUtils.getDateWithDayOffset(-3));
+        return query.executeUpdate();
     }
-    
+
+    public CommonDocument saveCommonDocument(CommonDocument document) {
+        persist(document);
+        clearCache();
+        return document;
+    }
+
+    public AccountDocument saveAccountDocument(AccountDocument document) {
+        persist(document);
+        clearCache();
+        return document;
+    }
+
     @Asynchronous
     public void deleteOldWaitingDocuments() {
         String sql = "SELECT p FROM WaitingDocument p WHERE p._timestamp < :referenceDate";

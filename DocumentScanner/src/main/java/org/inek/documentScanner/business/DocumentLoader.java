@@ -7,6 +7,7 @@ import org.inek.dataportal.common.data.account.entities.DocumentDomain;
 import org.inek.dataportal.common.data.account.entities.WaitingDocument;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.data.common.CommonDocument;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.documentScanner.facade.DocumentScannerFacade;
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -158,6 +161,13 @@ public class DocumentLoader {
     private void createDocuments(DocumentImportInfo importInfo) {
         int validity = _config.readConfigInt(ConfigKey.ReportValidity);
         Map<String, byte[]> files = importInfo.getFiles();
+
+        List<CommonDocument> commonDocuments = new ArrayList<>();
+        for (String name : files.keySet()) {
+            CommonDocument document = createCommonDocument(name, files.get(name), importInfo);
+            commonDocuments.add(document);
+        }
+
         for (Account account : importInfo.getAccounts()) {
             String subject = importInfo.getSubject();
             String body = importInfo.getBody();
@@ -171,26 +181,31 @@ public class DocumentLoader {
                 subject = template.getSubject();
             }
 
-            for (String name : files.keySet()) {
-                createAccountDocument(account, files, name, validity, importInfo);
+            for (CommonDocument commonDocument : commonDocuments) {
+                createAccountDocument(account, commonDocument, validity);
             }
             _mailer.sendMailFrom(importInfo.getSender(), account.getEmail(), bcc, subject, body);
         }
     }
 
-    private void createAccountDocument(Account account, Map<String, byte[]> files, String name, int validity,
-                                       DocumentImportInfo importInfo) {
-        AccountDocument doc = new AccountDocument();
-        doc.setAccountId(account.getId());
-        doc.setContent(files.get(name));
-        doc.setName(name);
-        doc.setValidity(validity);
+    private CommonDocument createCommonDocument(String name, byte[] content, DocumentImportInfo importInfo) {
+        CommonDocument doc = new CommonDocument(name);
+        doc.setContent(content);
         DocumentDomain domain = _docFacade.findOrCreateForName(importInfo.getDomain(name));
         doc.setDomain(domain);
-        doc.setAgentAccountId(importInfo.getUploadAccount().getId());
-        _docFacade.saveAccountDocument(doc);
-        _docFacade.clearCache();
-        LOGGER.log(Level.INFO, "Document created: {0} for account {1}", new Object[]{name, account.getId()});
+        doc.setAccountId(importInfo.getUploadAccount().getId());
+        _docFacade.saveCommonDocument(doc);
+        LOGGER.log(Level.INFO, "CommonDocument created: {0} for account {1}", name);
+        return doc;
+    }
+
+    private void createAccountDocument(Account account, CommonDocument commonDocument, int validity) {
+        AccountDocument accountDocument = new AccountDocument(commonDocument.getId());
+        accountDocument.setAccountId(account.getId());
+        accountDocument.setValidity(validity);
+        accountDocument.setDomain(commonDocument.getDomain());
+        _docFacade.saveAccountDocument(accountDocument);
+        LOGGER.log(Level.INFO, "Document created: {0} for account {1}", new Object[]{commonDocument.getName(), account.getId()});
     }
 
     private synchronized void createWaitingDocuments(DocumentImportInfo importInfo) {

@@ -8,6 +8,7 @@
 </head>
 <body>
 <h:form>
+    <h1>Basisverzeichnis: #{documentScannerBean.baseDir}</h1>
     <h1 style="background-color: #{documentScannerBean.documentScanStatus ? 'green' : 'red'}">Aktueller Status von DocumentenScan Scanning: #{documentScannerBean.documentScanStatus}</h1>
 
     <h:commandButton actionListener="#{documentScannerBean.switchDocumentScanner()}"
