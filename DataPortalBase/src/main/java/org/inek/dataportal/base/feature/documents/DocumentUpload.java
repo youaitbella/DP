@@ -18,6 +18,7 @@ import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.account.entities.DocumentDomain;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.data.common.CommonDocument;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.MailTemplateFacade;
 import org.inek.dataportal.common.mail.Mailer;
@@ -49,7 +50,7 @@ public class DocumentUpload implements Serializable {
     @Inject
     private AgencyFacade _agencyFacade;
 
-    private final List<AccountDocument> _documents = new ArrayList<>();
+    private final List<CommonDocument> _documents = new ArrayList<>();
 
     // <editor-fold defaultstate="collapsed" desc="Property DocumentTarget">
     private DocumentTarget _documentTarget = DocumentTarget.Account;
@@ -282,24 +283,24 @@ public class DocumentUpload implements Serializable {
             return "";
         }
         Set<Account> accounts = new HashSet<>();
-        for (AccountDocument accountDocument : _documents) {
-            accountDocument.setValidity(_availability);
+        for (CommonDocument commonDocument : _documents) {
+            storeDocument(commonDocument);
 
             switch (_documentTarget) {
                 case Account:
-                    storeDocument(accountDocument, _account.getId());
+                    createAccountDocument(commonDocument, _account.getId());
                     accounts.add(_account);
                     break;
                 case Agency:
                     for (Account account : _agencyFacade.findAgencyAccounts(_agencyId)) {
-                        storeDocument(accountDocument, account.getId());
+                        createAccountDocument(commonDocument, account.getId());
                         accounts.add(account);
                     }
                     break;
                 case IK:
                     for (Account account : _accounts) {
                         if (account.isSelected()) {
-                            storeDocument(accountDocument, account.getId());
+                            createAccountDocument(commonDocument, account.getId());
                             accounts.add(account);
                         }
                     }
@@ -318,7 +319,7 @@ public class DocumentUpload implements Serializable {
 
     private boolean documentsHasInvalidFilenames() {
         List<String> invalidPatterns = _docFacade.getInvalidFileNamePatterns();
-        for (AccountDocument doc : _documents) {
+        for (CommonDocument doc : _documents) {
             for (String pattern : invalidPatterns) {
                 if (doc.getName().matches(pattern)) {
                     DialogController.showErrorDialog("Unzulässiger Dateiname", "[" + doc.getName() + "] " +
@@ -333,23 +334,30 @@ public class DocumentUpload implements Serializable {
     }
 
 
-    private void storeDocument(AccountDocument accountDocument, int accountId) {
-        accountDocument.setAccountId(accountId);
-        accountDocument.setDomain(_domain);
-        accountDocument.setAgentAccountId(_sessionController.getAccountId());
-        _docFacade.save(accountDocument);
+    private void storeDocument(CommonDocument commonDocument) {
+        commonDocument.setAccountId(_sessionController.getAccountId());
+        commonDocument.setDomain(_domain);
+        _docFacade.persist(commonDocument);
     }
 
-    public List<AccountDocument> getDocuments() {
+    private void createAccountDocument(CommonDocument commonDocument, int accountId) {
+        AccountDocument accountDocument = new AccountDocument(commonDocument.getId());
+        accountDocument.setAccountId(accountId);
+        accountDocument.setValidity(_availability);
+        accountDocument.setDomain(commonDocument.getDomain());
+        _docFacade.persist(accountDocument);
+    }
+
+    public List<CommonDocument> getDocuments() {
         return Collections.unmodifiableList(_documents);
     }
 
-    public AccountDocument findOrCreateByName(String filename) {
-        AccountDocument document = _documents
+    public CommonDocument findOrCreateByName(String filename) {
+        CommonDocument document = _documents
                 .stream()
                 .filter(d -> d.getName().equals(filename))
                 .findFirst()
-                .orElse(new AccountDocument(filename));
+                .orElse(new CommonDocument(filename));
         if (!_documents.contains(document)) {
             _documents.add(document);
         }

@@ -13,7 +13,6 @@ import javax.faces.model.SelectItem;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -259,15 +258,6 @@ public class DocumentFacade extends AbstractDataAccess {
         Query query = getEntityManager().createQuery(sql, AccountDocument.class);
         query.setParameter("date", Calendar.getInstance().getTime());
         query.executeUpdate();
-    }
-
-    public AccountDocument save(AccountDocument accountDocument) {
-        persist(accountDocument);
-        clearCache();
-        AccountDocument savedDoc = findFresh(AccountDocument.class, accountDocument.getId());
-        String delDate = new SimpleDateFormat("yyyy-MM-dd").format(savedDoc.getValidUntil());
-        LOGGER.log(Level.INFO, "Document saved: {0}, valid until: {1}", new Object[]{savedDoc.getName(), delDate});
-        return savedDoc;
     }
 
     public List<Integer> getAgentIds() {

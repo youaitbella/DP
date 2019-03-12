@@ -2,7 +2,7 @@ package org.inek.dataportal.base.upload;
 
 import org.inek.dataportal.api.helper.Const;
 import org.inek.dataportal.base.feature.documents.DocumentUpload;
-import org.inek.dataportal.common.data.account.entities.AccountDocument;
+import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.upload.AbstractUploadServlet;
 import org.inek.dataportal.common.upload.HttpUtil;
@@ -26,7 +26,7 @@ public class DocumentUploadServlet extends AbstractUploadServlet {
                 = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
         DocumentUpload docUpload = FeatureScopedContextHolder.Instance.getBean(DocumentUpload.class, map);
 
-        AccountDocument document = docUpload.findOrCreateByName(filename);
+        Document document = docUpload.findOrCreateByName(filename);
         document.setContent(StreamUtils.stream2blob(is, getInitialSize(httpUtil)));
     }
 

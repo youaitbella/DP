@@ -16,8 +16,8 @@ public class AccountDocument implements Serializable, Document {
     
     public AccountDocument() {}
 
-    public AccountDocument(String name) {
-        _name = name;
+    public AccountDocument(int documentId) {
+        _documentId = documentId;
     }
 
     //<editor-fold desc="Property Id">
@@ -105,7 +105,8 @@ public class AccountDocument implements Serializable, Document {
 
     //<editor-fold desc="Property Name">
     @Column(name = "adName")
-    private String _name;
+    @Deprecated
+    private String _name = "";
 
     @Override
     public String getName() {
@@ -121,7 +122,8 @@ public class AccountDocument implements Serializable, Document {
     //<editor-fold desc="Property Content">
     @Lob
     @Column(name = "adContent")
-    private byte[] _content;
+    @Deprecated
+    private byte[] _content = new byte[0];
 
     @Override
     public byte[] getContent() {
@@ -161,8 +163,9 @@ public class AccountDocument implements Serializable, Document {
     //</editor-fold>
 
     //<editor-fold desc="Property DocumentDomain">
-    @ManyToOne()
-    @JoinColumn(name = "adDocumentDomainId")
+    @ManyToOne
+    @JoinColumn(name = "adDocumentDomainId", insertable = false, updatable = false)
+    @Deprecated
     private DocumentDomain _domain;
 
     public DocumentDomain getDomain() {

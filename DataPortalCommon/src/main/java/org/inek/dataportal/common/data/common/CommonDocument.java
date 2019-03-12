@@ -6,13 +6,19 @@ import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.common.data.converter.FeatureConverter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.Date;
 
 @Entity
 @Table(name = "Document")
 public class CommonDocument implements Document {
+
+    public CommonDocument() {
+    }
+
+    public CommonDocument(String name) {
+        _name = name;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -29,7 +35,6 @@ public class CommonDocument implements Document {
     @Column(name = "docCreated")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _created = Calendar.getInstance().getTime();
-    ;
 
     public Date getCreated() {
         return _created;
@@ -52,9 +57,8 @@ public class CommonDocument implements Document {
     // <editor-fold defaultstate="collapsed" desc="Property Feature">
     @Column(name = "docFeatureId")
     @Convert(converter = FeatureConverter.class)
-    private Feature _feature;
+    private Feature _feature = Feature.UNKNOWN;
 
-    @NotNull
     public Feature getFeature() {
         return _feature;
     }

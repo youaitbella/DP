@@ -8,6 +8,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.account.entities.WaitingDocument;
+import org.inek.dataportal.common.data.common.CommonDocument;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.structures.DocInfo;
@@ -53,7 +54,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     @Inject
     private WaitingDocumentFacade _waitingDocFacade;
     @Inject
-    private DocumentFacade _accountDocFacade;
+    private DocumentFacade _documentFacade;
 
     private final RootNode _rootNode = RootNode.create(0, this);
 
@@ -242,23 +243,35 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         if (waitingDoc == null) {
             throw new IllegalArgumentException("WaitingDocument not found: " + docId);
         }
+        CommonDocument commonDocument = createCommonDocument(waitingDoc);
         List<Account> accounts = waitingDoc.getAccounts();
         for (Account account : accounts) {
-            createAccountDocument(account, waitingDoc);
+            createAccountDocument(account, commonDocument, waitingDoc.getValidity());
         }
         String jsonMail = waitingDoc.getJsonMail();
         _waitingDocFacade.remove(waitingDoc);
         return new MailInfo(jsonMail, accounts);
     }
 
-    private void createAccountDocument(Account account, WaitingDocument waitingDoc) {
-        AccountDocument accountDoc = new AccountDocument(waitingDoc.getName());
-        accountDoc.setAccountId(account.getId());
-        accountDoc.setContent(waitingDoc.getContent());
-        accountDoc.setDomain(waitingDoc.getDomain());
-        accountDoc.setAgentAccountId(waitingDoc.getAgentAccountId());
-        accountDoc.setValidity(waitingDoc.getValidity());
-        _accountDocFacade.save(accountDoc);
+    private CommonDocument createCommonDocument(WaitingDocument waitingDoc) {
+        CommonDocument commonDocument = new CommonDocument(waitingDoc.getName());
+        commonDocument.setContent(waitingDoc.getContent());
+        commonDocument.setDomain(waitingDoc.getDomain());
+        commonDocument.setAccountId(waitingDoc.getAgentAccountId());
+        _documentFacade.persist(commonDocument);
+        return commonDocument;
+    }
+
+    private void createAccountDocument(Account account, CommonDocument commonDocument, int validity) {
+        AccountDocument accountDocument = new AccountDocument(commonDocument.getId());
+        accountDocument.setAccountId(account.getId());
+        accountDocument.setAgentAccountId(commonDocument.getAccountId());
+        accountDocument.setValidity(validity);
+        accountDocument.setDomain(commonDocument.getDomain());
+        _documentFacade.persist(accountDocument);
+        if (account == _sessionController.getAccount()) {
+            _sessionController.refreshAccount(account.getId());
+        }
     }
 
     @Inject
