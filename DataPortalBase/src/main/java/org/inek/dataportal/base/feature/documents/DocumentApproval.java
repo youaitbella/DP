@@ -258,7 +258,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         commonDocument.setContent(waitingDoc.getContent());
         commonDocument.setDomain(waitingDoc.getDomain());
         commonDocument.setAccountId(waitingDoc.getAgentAccountId());
-        _documentFacade.persist(commonDocument);
+        _documentFacade.saveCommonDocument(commonDocument);
         return commonDocument;
     }
 
@@ -268,7 +268,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         accountDocument.setAgentAccountId(commonDocument.getAccountId());
         accountDocument.setValidity(validity);
         accountDocument.setDomain(commonDocument.getDomain());
-        _documentFacade.persist(accountDocument);
+        _documentFacade.saveAccountDocument(accountDocument);
         if (account == _sessionController.getAccount()) {
             _sessionController.refreshAccount(account.getId());
         }

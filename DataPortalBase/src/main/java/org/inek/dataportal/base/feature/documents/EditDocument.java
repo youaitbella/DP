@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.base.feature.documents;
 
 import org.inek.dataportal.api.enums.Feature;
@@ -27,10 +23,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author muellermi
- */
 @Named
 @RequestScoped
 public class EditDocument extends AbstractEditController {
@@ -38,7 +30,7 @@ public class EditDocument extends AbstractEditController {
     private static final Logger LOGGER = Logger.getLogger("EditDocument");
 
     @Inject
-    private DocumentFacade _accDocFacade;
+    private DocumentFacade _documentFacade;
     @Inject
     private ConfigFacade _configFacade;
     @Inject
@@ -47,7 +39,7 @@ public class EditDocument extends AbstractEditController {
     public String downloadDocument(int accountDocumentId) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
-        AccountDocument doc = _accDocFacade.findAccountDocument(accountDocumentId);
+        AccountDocument doc = _documentFacade.findAccountDocument(accountDocumentId);
         if (doc == null) {
             LOGGER.log(Level.WARNING, "Document not found: {0}", accountDocumentId);
             return "";
@@ -72,7 +64,7 @@ public class EditDocument extends AbstractEditController {
             if (_sessionController.getAccountId() == doc.getAccountId()) {
                 doc.setRead(true);
             }
-            _accDocFacade.merge(doc);
+            _documentFacade.saveAccountDocument(doc);
         }
 
         return "";
@@ -82,32 +74,31 @@ public class EditDocument extends AbstractEditController {
         if (doc.getDocumentId() == 0) {
             return doc.getContent();
         }
-        CommonDocument document = _accDocFacade.findCommonDocument(doc.getDocumentId());
+        CommonDocument document = _documentFacade.findCommonDocument(doc.getDocumentId());
         return document.getContent();
     }
 
     public String deleteDocument(int docId) {
-        AccountDocument doc = _accDocFacade.findAccountDocument(docId);
+        AccountDocument doc = _documentFacade.findAccountDocument(docId);
 
         if (doc != null && _sessionController.getAccountId() == doc.getAccountId()) {
-            _accDocFacade.remove(doc);
+            _documentFacade.remove(doc);
         }
         return "";
     }
 
     public String
-            getConfirmMessage(String name,
-                    String dateString
-            ) {
+    getConfirmMessage(String name, String dateString) {
         String msg
                 = name
                 + " vom " + dateString
                 + "\n"
                 + Utils
-                        .getMessage("msgConfirmDelete");
-        msg
-                = msg
-                        .replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
+                .getMessage("msgConfirmDelete")
+                .replace("\r\n", "\n")
+                .replace("\n", "\\r\\n")
+                .replace("'", "\\'")
+                .replace("\"", "\\'");
 
         return "return confirm ('" + msg
                 + "');";
@@ -116,6 +107,5 @@ public class EditDocument extends AbstractEditController {
 
     @Override
     protected void addTopics() {
-
     }
 }

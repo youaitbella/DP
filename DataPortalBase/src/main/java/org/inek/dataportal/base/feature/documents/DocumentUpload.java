@@ -337,7 +337,7 @@ public class DocumentUpload implements Serializable {
     private void storeDocument(CommonDocument commonDocument) {
         commonDocument.setAccountId(_sessionController.getAccountId());
         commonDocument.setDomain(_domain);
-        _docFacade.persist(commonDocument);
+        _docFacade.saveCommonDocument(commonDocument);
     }
 
     private void createAccountDocument(CommonDocument commonDocument, int accountId) {
@@ -345,7 +345,7 @@ public class DocumentUpload implements Serializable {
         accountDocument.setAccountId(accountId);
         accountDocument.setValidity(_availability);
         accountDocument.setDomain(commonDocument.getDomain());
-        _docFacade.persist(accountDocument);
+        _docFacade.saveAccountDocument(accountDocument);
     }
 
     public List<CommonDocument> getDocuments() {

@@ -25,16 +25,12 @@ public class DocumentFacade extends AbstractDataAccess {
         return find(CommonDocument.class, documentId);
     }
 
-    public void remove(CommonDocument commonDocument) {
-        super.remove(commonDocument);
-    }
-
-    public CommonDocument merge(CommonDocument commonDocument) {
-        return super.merge(commonDocument);
-    }
-
-    public void persist(CommonDocument commonDocument) {
-        super.persist(commonDocument);
+    public CommonDocument saveCommonDocument(CommonDocument document) {
+        if (document.getId() <= 0) {
+            super.persist(document);
+            return document;
+        }
+        return merge(document);
     }
 
     public AccountDocument findAccountDocument(int id) {
@@ -45,12 +41,12 @@ public class DocumentFacade extends AbstractDataAccess {
         super.remove(accountDocument);
     }
 
-    public AccountDocument merge(AccountDocument accountDocument) {
-        return super.merge(accountDocument);
-    }
-
-    public void persist(AccountDocument accountDocument) {
-        super.persist(accountDocument);
+    public AccountDocument saveAccountDocument(AccountDocument document) {
+        if (document.getId() <= 0) {
+            super.persist(document);
+            return document;
+        }
+        return merge(document);
     }
 
     public List<DocInfo> getDocInfos(int accountId) {
@@ -248,15 +244,27 @@ public class DocumentFacade extends AbstractDataAccess {
     @Schedule(hour = "2", minute = "15", info = "once a day")
     //@Schedule(hour = "*", minute = "*/1", info = "once a minute")
     private void scheduleSweepOldDocuments() {
-        sweepOldDocuments();
+        sweepOldAccountDocuments();
+        sweepOldCommonDocuments();
     }
 
     @Asynchronous
-    private void sweepOldDocuments() {
-        LOGGER.log(Level.INFO, "Sweeping old documents");
+    private void sweepOldAccountDocuments() {
+        LOGGER.log(Level.INFO, "Sweeping old AccountDocuments");
         String sql = "DELETE FROM AccountDocument ad WHERE ad._validUntil < :date";
         Query query = getEntityManager().createQuery(sql, AccountDocument.class);
         query.setParameter("date", Calendar.getInstance().getTime());
+        query.executeUpdate();
+    }
+
+    @Asynchronous
+    private void sweepOldCommonDocuments() {
+        LOGGER.log(Level.INFO, "Sweeping old CommonDocuments");
+        String sql = "delete from CommonDocument cd "
+                + "WHERE not exists(select 1 from AccountDocument ad where ad._documentId = cd._id) "
+                + "      and cd._created < :date";
+        Query query = getEntityManager().createQuery(sql, AccountDocument.class);
+        query.setParameter("date", DateUtils.getDateWithDayOffset(-3));
         query.executeUpdate();
     }
 
