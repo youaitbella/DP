@@ -12,6 +12,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -45,7 +46,46 @@ public class DocumentFacade extends AbstractDataAccess {
         return merge(document);
     }
 
+    @SuppressWarnings("unchecked")
     public List<DocInfo> getDocInfos(int accountId) {
+        String jpql = "SELECT ad._id, cd._name, cd._domain._name, "
+                + "      ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+                + "    '' as agent, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') as tag "
+                + "FROM AccountDocument ad "
+                + "join CommonDocument cd  on ad._documentId = cd._id "
+                + "join Account a on ad._accountId = a._id "
+                + "WHERE ad._accountId = :accountId "
+                + "ORDER BY ad._id DESC";
+
+        Query query = getEntityManager().createQuery(jpql);
+        query.setParameter("accountId", accountId);
+        List<Object[]> objects = query.getResultList();
+        List<DocInfo> docInfos = new ArrayList<>();
+        for (Object[] obj : objects) {
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
+                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], (String) obj[9], (String) obj[10]));
+        }
+
+        jpql = "SELECT  ad._id, ad._name, ad._domain._name, "
+                + "      ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+                + "    '' as agent, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') as tag "
+                + "FROM AccountDocument ad "
+                + "join Account a on ad._accountId = a._id "
+                + "WHERE ad._documentId = 0 "
+                + "      and ad._accountId = :accountId "
+                + "ORDER BY ad._id DESC";
+
+        query = getEntityManager().createQuery(jpql);
+        query.setParameter("accountId", accountId);
+        objects = query.getResultList();
+        for (Object[] obj : objects) {
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
+                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], (String) obj[9], (String) obj[10]));
+        }
+        return docInfos;
+    }
+
+    public List<DocInfo> getDocInfos_Payara5(int accountId) {
         /*
         sadly within this code
 
@@ -98,7 +138,96 @@ public class DocumentFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    @SuppressWarnings("unchecked")
     public List<DocInfo> getSupervisedDocInfos(List<Integer> accountIds, String filter, int maxAge) {
+        // see comment above
+        String jpql = "SELECT ad._id, cd._name, cd._domain._name, "
+                + "           ad._created, ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, '', "
+                + "           concat (cast(min(ai._ik) as varchar), "
+                + "               case count(ai._ik) "
+                + "                   when 1 then '' "
+                + "                   when 2 then concat (', ', cast(max(ai._ik) as varchar)) "
+                + "                   else concat (', ..., ', cast(max(ai._ik) as varchar)) end, "
+                + "               ' ', a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') "
+                + "FROM AccountDocument ad "
+                + "join CommonDocument cd  on ad._documentId = cd._id "
+                + "join Account a on ad._accountId = a._id "
+                + "join AccountIk ai on a._id = ai._accountId "
+                + "WHERE ad._agentAccountId in :accountIds "
+                + "  and ad._created > :refDate "
+                + (filter.isEmpty()
+                ? ""
+                : " and (ad._name like :filter or ai._ik = :numFilter or a._company like :filter "
+                + " or a._town like :filter or ad._domain._name like :filter) ")
+                + "GROUP BY ad._id, cd._name, cd._domain._name, "
+                + "    ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+                + "    a._company, a._town, a._firstName, a._lastName "
+                + "ORDER BY ad._read, ad._created DESC";
+        Query query = getEntityManager().createQuery(jpql);
+        query.setParameter("accountIds", accountIds);
+        if (!filter.isEmpty()) {
+            int numFilter;
+            try {
+                numFilter = Integer.parseInt(filter);
+            } catch (Exception ex) {
+                numFilter = -999;
+            }
+            query.setParameter("numFilter", numFilter);
+            query.setParameter("filter", "%" + filter + "%");
+        }
+        query.setParameter("refDate", DateUtils.getDateWithDayOffset(-maxAge));
+        List<Object[]> objects = query.getResultList();
+        List<DocInfo> docInfos = new ArrayList<>();
+        for (Object[] obj : objects) {
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
+                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], (String) obj[9], (String) obj[10]));
+        }
+
+        jpql = "SELECT  ad._id, ad._name, ad._domain._name, "
+                + "           ad._created, ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, '', "
+                + "           concat (cast(min(ai._ik) as varchar), "
+                + "               case count(ai._ik) "
+                + "                   when 1 then '' "
+                + "                   when 2 then concat (', ', cast(max(ai._ik) as varchar)) "
+                + "                   else concat (', ..., ', cast(max(ai._ik) as varchar)) end, "
+                + "               ' ', a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') "
+                + "FROM AccountDocument ad "
+                + "join Account a on ad._accountId = a._id "
+                + "join AccountIk ai on a._id = ai._accountId "
+                + "WHERE  ad._documentId = 0 "
+                + "  and ad._agentAccountId in :accountIds "
+                + "  and ad._created > :refDate "
+                + (filter.isEmpty()
+                ? ""
+                : " and (ad._name like :filter or ai._ik = :numFilter or a._company like :filter "
+                + " or a._town like :filter or ad._domain._name like :filter) ")
+                + "GROUP BY ad._id, ad._name, ad._domain._name, "
+                + "    ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+                + "    a._company, a._town, a._firstName, a._lastName "
+                + "ORDER BY ad._read, ad._created DESC";
+
+        query = getEntityManager().createQuery(jpql);
+        query.setParameter("accountIds", accountIds);
+        if (!filter.isEmpty()) {
+            int numFilter;
+            try {
+                numFilter = Integer.parseInt(filter);
+            } catch (Exception ex) {
+                numFilter = -999;
+            }
+            query.setParameter("numFilter", numFilter);
+            query.setParameter("filter", "%" + filter + "%");
+        }
+        query.setParameter("refDate", DateUtils.getDateWithDayOffset(-maxAge));
+        objects = query.getResultList();
+        for (Object[] obj : objects) {
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
+                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], (String) obj[9], (String) obj[10]));
+        }
+        return docInfos;
+    }
+
+    public List<DocInfo> getSupervisedDocInfos_Payara5(List<Integer> accountIds, String filter, int maxAge) {
         // see comment above
         String jpql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo("
                 + "           ad._id, cd._name, cd._domain._name, "
