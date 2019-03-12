@@ -6,17 +6,13 @@ import org.inek.dataportal.common.data.common.CommonDocument;
 import org.inek.dataportal.common.helper.structures.DocInfo;
 import org.inek.dataportal.common.utils.DateUtils;
 
-import javax.ejb.Asynchronous;
-import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
 
 @Stateless
 public class DocumentFacade extends AbstractDataAccess {
@@ -239,33 +235,6 @@ public class DocumentFacade extends AbstractDataAccess {
         } catch (NoResultException ex) {
             return false;
         }
-    }
-
-    @Schedule(hour = "2", minute = "15", info = "once a day")
-    //@Schedule(hour = "*", minute = "*/1", info = "once a minute")
-    private void scheduleSweepOldDocuments() {
-        sweepOldAccountDocuments();
-        sweepOldCommonDocuments();
-    }
-
-    @Asynchronous
-    private void sweepOldAccountDocuments() {
-        LOGGER.log(Level.INFO, "Sweeping old AccountDocuments");
-        String sql = "DELETE FROM AccountDocument ad WHERE ad._validUntil < :date";
-        Query query = getEntityManager().createQuery(sql, AccountDocument.class);
-        query.setParameter("date", Calendar.getInstance().getTime());
-        query.executeUpdate();
-    }
-
-    @Asynchronous
-    private void sweepOldCommonDocuments() {
-        LOGGER.log(Level.INFO, "Sweeping old CommonDocuments");
-        String sql = "delete from CommonDocument cd "
-                + "WHERE not exists(select 1 from AccountDocument ad where ad._documentId = cd._id) "
-                + "      and cd._created < :date";
-        Query query = getEntityManager().createQuery(sql, CommonDocument.class);
-        query.setParameter("date", DateUtils.getDateWithDayOffset(-3));
-        query.executeUpdate();
     }
 
     public List<Integer> getAgentIds() {
