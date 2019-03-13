@@ -5,14 +5,9 @@
  */
 package org.inek.dataportal.calc.entities.drg;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  *
@@ -142,6 +137,16 @@ public class DrgContentText implements Serializable {
         this._inputRequired = value;
     }
     // </editor-fold>
+
+    //<editor-fold desc="OpsCode">
+    @Column(name = "ctOpsCode")
+    private String _opsCode = "";
+
+    public String getOpsCode() {
+        return _opsCode;
+    }
+    //</editor-fold>
+
 
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
