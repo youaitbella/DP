@@ -103,11 +103,11 @@ public class KGLListCostCenterOpAn implements Serializable, BaseIdValue {
     private String _location = "";
 
     public String getLocation() {
-        return _costCenterText;
+        return _location;
     }
 
     public void setLocation(String location) {
-        this._costCenterText = location;
+        this._location = location;
     }
     // </editor-fold>
 
