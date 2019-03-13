@@ -39,17 +39,17 @@ public class DocumentScannerFacade extends AbstractDataAccess {
     }
 
     public int removeOldAccountDocuments() {
-        String sql = "DELETE FROM AccountDocument d WHERE d._validUntil < :date";
-        Query query = getEntityManager().createQuery(sql, AccountDocument.class);
+        String jpql = "DELETE FROM AccountDocument d WHERE d._validUntil < :date";
+        Query query = getEntityManager().createQuery(jpql, AccountDocument.class);
         query.setParameter("date", Calendar.getInstance().getTime());
         return query.executeUpdate();
     }
 
     public int removeOldCommonDocuments() {
-        String sql = "delete from CommonDocument cd "
+        String jpql = "delete from CommonDocument cd "
                 + "WHERE not exists(select 1 from AccountDocument ad where ad._documentId = cd._id) "
                 + "      and cd._created < :date";
-        Query query = getEntityManager().createQuery(sql, CommonDocument.class);
+        Query query = getEntityManager().createQuery(jpql, CommonDocument.class);
         query.setParameter("date", DateUtils.getDateWithDayOffset(-3));
         return query.executeUpdate();
     }
@@ -71,8 +71,8 @@ public class DocumentScannerFacade extends AbstractDataAccess {
 
     @Asynchronous
     public void deleteOldWaitingDocuments() {
-        String sql = "SELECT p FROM WaitingDocument p WHERE p._timestamp < :referenceDate";
-        TypedQuery<WaitingDocument> query = getEntityManager().createQuery(sql, WaitingDocument.class);
+        String jpql = "SELECT p FROM WaitingDocument p WHERE p._timestamp < :referenceDate";
+        TypedQuery<WaitingDocument> query = getEntityManager().createQuery(jpql, WaitingDocument.class);
         query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-60));
         List<WaitingDocument> docs = query.getResultList();
         for (WaitingDocument doc : docs) {
