@@ -1658,7 +1658,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter costCenterOpAn">
                 return new DataImporter<KGLListCostCenterOpAn, DrgCalcBasics>(
                         "LaufendeNr;KostenstellenNr;KostenstellenName;Standort;Anzahl_VK_ÄD;Kostenvolumen_ÄD;" +
-                                "Anzahl_VK_FD;Kostenvolumen_FD;Leistungszeiten",
+                                "Anzahl_VK_FD;Kostenvolumen_FD;Gesamtzeit",
                         new FileHolder("Operation.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
                         Arrays.asList(
@@ -1706,7 +1706,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         ErrorCounter.obtainErrorCounter("DRG_costCenterOpAn"),
                                         DataImportCheck::tryImportDouble,
                                         (i, s) -> i.setServiceTime(s),
-                                        "Leistungszeiten: ")
+                                        "Gesamtzeit: ")
 
                         ),
                         (s, t) -> s.addCostCenterOpAn(t),
