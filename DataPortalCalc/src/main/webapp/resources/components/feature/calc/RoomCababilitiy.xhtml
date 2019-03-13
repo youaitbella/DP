@@ -64,8 +64,8 @@
         <h:column>
             <f:facet name="header">Erläuterung</f:facet>
             <inek:InputTextWithMessage id="explanation"
+                                       title="Bitte erläutern Sie den Haupt-Leistungsbereich 'Sonstige'. Bei Bedarf können Sie andere Bereiche ebenfalls erläutern."
                                        required="#{roomCapability.mainServiceId eq 99}"
-                                       disabled="#{roomCapability.mainServiceId ne 99}"
                                        value="#{roomCapability.explanation}"
                                        readonly="#{editCalcBasicsDrg.readOnly}"
                                        styleClass="fullWidth">
