@@ -84,6 +84,20 @@ public class KglRoomCapability {
     }
     //</editor-fold>
 
+    //<editor-fold desc="Property Explanation">
+    @Column(name = "rcExplanation")
+    @Size(max = 250)
+    private String explanation = "";
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
+    //</editor-fold>
+
     //<editor-fold desc="Property CaseCount">
     @Column(name = "rcCaseCount")
     private int caseCount;
