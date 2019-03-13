@@ -347,7 +347,7 @@ public class ProofEdit implements Serializable {
         }
         _proofRegulationBaseInformation.setSend(new Date());
         _proofRegulationBaseInformation.setStatus(WorkflowStatus.Provided);
-        _proofRegulationBaseInformation.setSignature(CareSignatureCreater.createPvSignature());
+        _proofRegulationBaseInformation.setSignature(CareSignatureCreater.createPvSignature(_proofRegulationBaseInformation));
         save();
         try {
             TransferFileCreator.createObjectTransferFile(_sessionController, _proofRegulationBaseInformation,
