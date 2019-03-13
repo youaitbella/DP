@@ -58,7 +58,7 @@ public class DocumentScannerBean implements Serializable {
     }
 
     public String getBaseDir() {
-        return _config.readConfig(ConfigKey.FolderRoot) + "/" + _config.readConfig(ConfigKey.FolderDocumentScanBase);
+        return _config.readConfig(ConfigKey.FolderRoot) + _config.readConfig(ConfigKey.FolderDocumentScanBase);
 
     }
 }
