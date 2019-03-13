@@ -189,5 +189,15 @@ public class KglRoomCapability {
     public int hashCode() {
         return 79273424;
     }
+
+    public boolean isEmpty() {
+        return mainServiceId == 0
+                & roomName.length() == 0
+                & caseCount == 0
+                & medFullVigorCount == 0
+                & medCostAmount == 0
+                & functFullVigorCount == 0
+                & functCostAmount == 0;
+    }
     //</editor-fold>
 }

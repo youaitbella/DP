@@ -746,8 +746,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         saveData(false);
         try {
             _sessionController.requestApproval(_calcBasics.getIk(), Feature.CALCULATION_HOSPITAL);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
         }
         return "";
@@ -1014,7 +1013,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         UIInput roomValue = (UIInput) event.getComponent();
         try {
             int rooms = Integer.parseInt(roomValue.getValue().toString());
-            System.out.println("" + rooms);
         } catch (NumberFormatException ex) {
             // ignore
         }
@@ -1030,6 +1028,17 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         while (_calcBasics.getRoomCapabilities(costCenterId).size() < roomCount) {
             _calcBasics.addRoomCapability(costCenterId);
         }
+
+        List<KglRoomCapability> roomCapabilities = _calcBasics.getRoomCapabilities(costCenterId);
+        for (KglRoomCapability capability : roomCapabilities) {
+            if (_calcBasics.getRoomCapabilities(costCenterId).size() <= roomCount) {
+                break;
+            }
+            if (capability.isEmpty()) {
+                _calcBasics.deleteRoomCapability(capability);
+            }
+        }
+
     }
 
     private Map<Integer, List<SelectItem>> _serviceItems = new HashMap<>();
