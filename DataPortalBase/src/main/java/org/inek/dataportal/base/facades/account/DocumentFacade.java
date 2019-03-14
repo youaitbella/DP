@@ -1,6 +1,7 @@
 package org.inek.dataportal.base.facades.account;
 
 import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.common.CommonDocument;
 import org.inek.dataportal.common.helper.structures.DocInfo;
@@ -36,6 +37,15 @@ public class DocumentFacade extends AbstractDataAccess {
 
     public void remove(AccountDocument accountDocument) {
         super.remove(accountDocument);
+    }
+
+    public AccountDocument createAccountDocument(Account account, CommonDocument commonDocument, int validity) {
+        AccountDocument accountDocument = new AccountDocument(commonDocument.getId());
+        accountDocument.setAccountId(account.getId());
+        accountDocument.setValidity(validity);
+        accountDocument.setDomain(commonDocument.getDomain());
+        saveAccountDocument(accountDocument);
+        return accountDocument;
     }
 
     public AccountDocument saveAccountDocument(AccountDocument document) {

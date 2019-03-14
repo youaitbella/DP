@@ -1,6 +1,7 @@
 package org.inek.documentScanner.facade;
 
 import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.account.entities.DocumentDomain;
 import org.inek.dataportal.common.data.account.entities.WaitingDocument;
@@ -58,6 +59,15 @@ public class DocumentScannerFacade extends AbstractDataAccess {
         persist(document);
         clearCache();
         return document;
+    }
+
+    public AccountDocument createAccountDocument(Account account, CommonDocument commonDocument, int validity) {
+        AccountDocument accountDocument = new AccountDocument(commonDocument.getId());
+        accountDocument.setAccountId(account.getId());
+        accountDocument.setValidity(validity);
+        accountDocument.setDomain(commonDocument.getDomain());
+        saveAccountDocument(accountDocument);
+        return accountDocument;
     }
 
     public AccountDocument saveAccountDocument(AccountDocument document) {

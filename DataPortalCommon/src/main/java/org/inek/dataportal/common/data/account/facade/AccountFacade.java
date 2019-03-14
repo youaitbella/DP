@@ -56,6 +56,35 @@ public class AccountFacade extends AbstractDataAccess {
         super(em);
     }
 
+    private void deleteOrphanRights(int accountId) {
+        String jpql = "delete from AccessRight ar "
+                + " where ar._accountId = :accountId "
+                + "  and ar._id not in (\n"
+                + "    select ar._id \n"
+                + "    from AccessRight ar\n"
+                + "    join AccountIk ai on ar._accountId = ai._accountId and ar._ik = ai._ik\n"
+                + "    where ar._accountId = :accountId\n"
+                + ")";
+        deleteOrphanRights(accountId, jpql);
+
+
+        jpql = "delete from AccessRight ar "
+                + " where ar._accountId = :accountId "
+                + "  and ar._id not in (\n"
+                + "    select ar._id \n"
+                + "    from AccessRight ar\n"
+                + "    join AccountFeature af on ar._accountId = af._accountId and ar._feature = af._feature\n"
+                + "    where ar._accountId = :accountId \n"
+                + ")";
+        deleteOrphanRights(accountId, jpql);
+    }
+
+    private void deleteOrphanRights(int accountId, String jpql) {
+        Query query = getEntityManager().createQuery(jpql);
+        query.setParameter("accountId", accountId);
+        query.executeUpdate();
+    }
+
     public Account findByMailOrUser(String mailOrUser) {
         String query = "SELECT a FROM Account a WHERE a._email = :mailOrUser or a._user = :mailOrUser";
         List<Account> list = getEntityManager().createQuery(query, Account.class).setParameter("mailOrUser", mailOrUser).
@@ -153,6 +182,7 @@ public class AccountFacade extends AbstractDataAccess {
             }
         }
         Account managedAccount = merge(account);
+        deleteOrphanRights(account.getId());
         return managedAccount;
     }
 

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.base.feature.documents;
 
 import org.inek.dataportal.api.enums.Feature;
@@ -288,19 +283,19 @@ public class DocumentUpload implements Serializable {
 
             switch (_documentTarget) {
                 case Account:
-                    createAccountDocument(commonDocument, _account.getId());
+                    _docFacade.createAccountDocument(_account, commonDocument, _availability);
                     accounts.add(_account);
                     break;
                 case Agency:
                     for (Account account : _agencyFacade.findAgencyAccounts(_agencyId)) {
-                        createAccountDocument(commonDocument, account.getId());
+                        _docFacade.createAccountDocument(account, commonDocument, _availability);
                         accounts.add(account);
                     }
                     break;
                 case IK:
                     for (Account account : _accounts) {
                         if (account.isSelected()) {
-                            createAccountDocument(commonDocument, account.getId());
+                            _docFacade.createAccountDocument(account, commonDocument, _availability);
                             accounts.add(account);
                         }
                     }
@@ -340,14 +335,6 @@ public class DocumentUpload implements Serializable {
         _docFacade.saveCommonDocument(commonDocument);
     }
 
-    private void createAccountDocument(CommonDocument commonDocument, int accountId) {
-        AccountDocument accountDocument = new AccountDocument(commonDocument.getId());
-        accountDocument.setAccountId(accountId);
-        accountDocument.setValidity(_availability);
-        accountDocument.setDomain(commonDocument.getDomain());
-        _docFacade.saveAccountDocument(accountDocument);
-    }
-
     public List<CommonDocument> getDocuments() {
         return Collections.unmodifiableList(_documents);
     }
@@ -370,7 +357,8 @@ public class DocumentUpload implements Serializable {
     }
 
     public String downloadDocument(AccountDocument doc) {
-        return Utils.downloadDocument(doc);
+        CommonDocument document = _docFacade.findCommonDocument(doc.getDocumentId());
+        return Utils.downloadDocument(document);
     }
 
     public String refresh() {

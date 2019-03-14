@@ -2,7 +2,6 @@ package org.inek.documentScanner.business;
 
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.account.entities.DocumentDomain;
 import org.inek.dataportal.common.data.account.entities.WaitingDocument;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
@@ -200,11 +199,7 @@ public class DocumentLoader {
     }
 
     private void createAccountDocument(Account account, CommonDocument commonDocument, int validity) {
-        AccountDocument accountDocument = new AccountDocument(commonDocument.getId());
-        accountDocument.setAccountId(account.getId());
-        accountDocument.setValidity(validity);
-        accountDocument.setDomain(commonDocument.getDomain());
-        _docFacade.saveAccountDocument(accountDocument);
+        _docFacade.createAccountDocument(account, commonDocument, validity);
         LOGGER.log(Level.INFO, "Document created: {0} for account {1}", new Object[]{commonDocument.getName(), account.getId()});
     }
 
