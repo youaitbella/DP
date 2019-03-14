@@ -9,7 +9,6 @@ import org.inek.dataportal.base.feature.agency.facades.AgencyFacade;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.account.entities.DocumentDomain;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
@@ -351,13 +350,12 @@ public class DocumentUpload implements Serializable {
         return document;
     }
 
-    public String deleteDocument(AccountDocument doc) {
+    public String deleteDocument(CommonDocument doc) {
         _documents.remove(doc);
         return "";
     }
 
-    public String downloadDocument(AccountDocument doc) {
-        CommonDocument document = _docFacade.findCommonDocument(doc.getDocumentId());
+    public String downloadDocument(CommonDocument document) {
         return Utils.downloadDocument(document);
     }
 
