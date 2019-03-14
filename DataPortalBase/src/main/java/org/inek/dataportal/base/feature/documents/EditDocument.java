@@ -8,18 +8,11 @@ import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.utils.Helper;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,8 +30,6 @@ public class EditDocument extends AbstractEditController {
     private SessionController _sessionController;
 
     public String downloadDocument(int accountDocumentId) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
         AccountDocument doc = _documentFacade.findAccountDocument(accountDocumentId);
         if (doc == null) {
             LOGGER.log(Level.WARNING, "Document not found: {0}", accountDocumentId);
@@ -48,26 +39,9 @@ public class EditDocument extends AbstractEditController {
             return "";
         }
 
-        Document document;
-        if (doc.getDocumentId() == 0) {
-            document = doc;
-        } else {
-            document = _documentFacade.findCommonDocument(doc.getDocumentId());
-        }
+        Document document = _documentFacade.findCommonDocument(doc.getDocumentId());
 
-        try {
-            byte[] buffer = document.getContent();
-            externalContext.setResponseHeader("Content-Type", Helper.getContentType(document.getName()));
-            externalContext.setResponseHeader("Content-Length", "" + buffer.length);
-            externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + document.getName() + "\"");
-            ByteArrayInputStream is = new ByteArrayInputStream(buffer);
-            new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
-
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-            return Pages.Error.URL();
-        }
-        facesContext.responseComplete();
+        Utils.downloadDocument(document);
         if (_configFacade.readConfigBool(ConfigKey.DocumentSetRead)) {
             if (_sessionController.getAccountId() == doc.getAccountId()) {
                 doc.setRead(true);

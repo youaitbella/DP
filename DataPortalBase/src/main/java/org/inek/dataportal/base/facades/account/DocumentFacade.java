@@ -76,45 +76,10 @@ public class DocumentFacade extends AbstractDataAccess {
                     (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], (String) obj[9], (String) obj[10]));
         }
 
-        jpql = "SELECT  ad._id, ad._name, ad._domain._name, "
-                + "      ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
-                + "    '' as agent, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') as tag "
-                + "FROM AccountDocument ad "
-                + "join Account a on ad._accountId = a._id "
-                + "WHERE ad._documentId = 0 "
-                + "      and ad._accountId = :accountId "
-                + "ORDER BY ad._id DESC";
-
-        query = getEntityManager().createQuery(jpql);
-        query.setParameter("accountId", accountId);
-        objects = query.getResultList();
-        for (Object[] obj : objects) {
-            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
-                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], (String) obj[9], (String) obj[10]));
-        }
         return docInfos;
     }
 
     public List<DocInfo> getDocInfos_Payara5(int accountId) {
-        /*
-        sadly within this code
-
-        String jpql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo("
-                + "      ad._id, COALESCE(cd._name, ad._name), COALESCE(cd._domain._name, ad._domain._name), "
-                + "      ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
-                + "    '', concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')')) "
-                + "FROM AccountDocument ad "
-                + "left join CommonDocument cd  on ad._documentId = cd._id "
-                + "join Account a on ad._accountId = a._id "
-                + "WHERE ad._accountId = :accountId "
-                + "ORDER BY ad._id DESC";
-
-         the left join fails on cd._domain._name (the two dot element) resulting in an inner join :(
-
-         Thus, we use a join and add a second list without a join.
-         The second list contins the old-style documents stored within accountDocument
-         Once this table does not contain a blob anymore, wa are able to remove getDocInfosFromAccountDocument
-         */
         String jpql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo("
                 + "      ad._id, cd._name, cd._domain._name, "
                 + "      ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
@@ -123,24 +88,6 @@ public class DocumentFacade extends AbstractDataAccess {
                 + "join CommonDocument cd  on ad._documentId = cd._id "
                 + "join Account a on ad._accountId = a._id "
                 + "WHERE ad._accountId = :accountId "
-                + "ORDER BY ad._id DESC";
-
-        TypedQuery<DocInfo> query = getEntityManager().createQuery(jpql, DocInfo.class);
-        query.setParameter("accountId", accountId);
-        List<DocInfo> docInfos = query.getResultList();
-        docInfos.addAll(getDocInfosFromAccountDocument(accountId));
-        return docInfos;
-    }
-
-    private List<DocInfo> getDocInfosFromAccountDocument(int accountId) {
-        String jpql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo("
-                + "      ad._id, ad._name, ad._domain._name, "
-                + "      ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
-                + "    '', concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')')) "
-                + "FROM AccountDocument ad "
-                + "join Account a on ad._accountId = a._id "
-                + "WHERE ad._documentId = 0 "
-                + "      and ad._accountId = :accountId "
                 + "ORDER BY ad._id DESC";
 
         TypedQuery<DocInfo> query = getEntityManager().createQuery(jpql, DocInfo.class);
@@ -163,7 +110,7 @@ public class DocumentFacade extends AbstractDataAccess {
                 + "join CommonDocument cd  on ad._documentId = cd._id "
                 + "join Account a on ad._accountId = a._id "
                 + "join AccountIk ai on a._id = ai._accountId "
-                + "WHERE ad._agentAccountId in :accountIds "
+                + "WHERE cd._accountId in :accountIds "
                 + "  and ad._created > :refDate "
                 + (filter.isEmpty()
                 ? ""
@@ -193,52 +140,10 @@ public class DocumentFacade extends AbstractDataAccess {
                     (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], (String) obj[9], (String) obj[10]));
         }
 
-        jpql = "SELECT  ad._id, ad._name, ad._domain._name, "
-                + "           ad._created, ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, '', "
-                + "           concat (cast(min(ai._ik) as varchar), "
-                + "               case count(ai._ik) "
-                + "                   when 1 then '' "
-                + "                   when 2 then concat (', ', cast(max(ai._ik) as varchar)) "
-                + "                   else concat (', ..., ', cast(max(ai._ik) as varchar)) end, "
-                + "               ' ', a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') "
-                + "FROM AccountDocument ad "
-                + "join Account a on ad._accountId = a._id "
-                + "join AccountIk ai on a._id = ai._accountId "
-                + "WHERE  ad._documentId = 0 "
-                + "  and ad._agentAccountId in :accountIds "
-                + "  and ad._created > :refDate "
-                + (filter.isEmpty()
-                ? ""
-                : " and (ad._name like :filter or ai._ik = :numFilter or a._company like :filter "
-                + " or a._town like :filter or ad._domain._name like :filter) ")
-                + "GROUP BY ad._id, ad._name, ad._domain._name, "
-                + "    ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
-                + "    a._company, a._town, a._firstName, a._lastName "
-                + "ORDER BY ad._read, ad._created DESC";
-
-        query = getEntityManager().createQuery(jpql);
-        query.setParameter("accountIds", accountIds);
-        if (!filter.isEmpty()) {
-            int numFilter;
-            try {
-                numFilter = Integer.parseInt(filter);
-            } catch (Exception ex) {
-                numFilter = -999;
-            }
-            query.setParameter("numFilter", numFilter);
-            query.setParameter("filter", "%" + filter + "%");
-        }
-        query.setParameter("refDate", DateUtils.getDateWithDayOffset(-maxAge));
-        objects = query.getResultList();
-        for (Object[] obj : objects) {
-            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
-                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], (String) obj[9], (String) obj[10]));
-        }
         return docInfos;
     }
 
     public List<DocInfo> getSupervisedDocInfos_Payara5(List<Integer> accountIds, String filter, int maxAge) {
-        // see comment above
         String jpql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo("
                 + "           ad._id, cd._name, cd._domain._name, "
                 + "           ad._created, ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, '', "
@@ -259,48 +164,6 @@ public class DocumentFacade extends AbstractDataAccess {
                 : " and (ad._name like :filter or ai._ik = :numFilter or a._company like :filter "
                 + " or a._town like :filter or ad._domain._name like :filter) ")
                 + "GROUP BY ad._id, cd._name, cd._domain._name, "
-                + "    ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
-                + "    a._company, a._town, a._firstName, a._lastName "
-                + "ORDER BY ad._read, ad._created DESC";
-        TypedQuery<DocInfo> query = getEntityManager().createQuery(jpql, DocInfo.class);
-        query.setParameter("accountIds", accountIds);
-        if (!filter.isEmpty()) {
-            int numFilter;
-            try {
-                numFilter = Integer.parseInt(filter);
-            } catch (Exception ex) {
-                numFilter = -999;
-            }
-            query.setParameter("numFilter", numFilter);
-            query.setParameter("filter", "%" + filter + "%");
-        }
-        query.setParameter("refDate", DateUtils.getDateWithDayOffset(-maxAge));
-        List<DocInfo> docInfos = query.getResultList();
-        docInfos.addAll(getSupervisedDocInfosFromAccountDocument(accountIds, filter, maxAge));
-        return docInfos;
-    }
-
-    public List<DocInfo> getSupervisedDocInfosFromAccountDocument(List<Integer> accountIds, String filter, int maxAge) {
-        String jpql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo("
-                + "           ad._id, ad._name, ad._domain._name, "
-                + "           ad._created, ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, '', "
-                + "           concat (cast(min(ai._ik) as varchar), "
-                + "               case count(ai._ik) "
-                + "                   when 1 then '' "
-                + "                   when 2 then concat (', ', cast(max(ai._ik) as varchar)) "
-                + "                   else concat (', ..., ', cast(max(ai._ik) as varchar)) end, "
-                + "               ' ', a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')')) "
-                + "FROM AccountDocument ad "
-                + "join Account a on ad._accountId = a._id "
-                + "join AccountIk ai on a._id = ai._accountId "
-                + "WHERE  ad._documentId = 0 "
-                + "  and ad._agentAccountId in :accountIds "
-                + "  and ad._created > :refDate "
-                + (filter.isEmpty()
-                ? ""
-                : " and (ad._name like :filter or ai._ik = :numFilter or a._company like :filter "
-                + " or a._town like :filter or ad._domain._name like :filter) ")
-                + "GROUP BY ad._id, ad._name, ad._domain._name, "
                 + "    ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
                 + "    a._company, a._town, a._firstName, a._lastName "
                 + "ORDER BY ad._read, ad._created DESC";

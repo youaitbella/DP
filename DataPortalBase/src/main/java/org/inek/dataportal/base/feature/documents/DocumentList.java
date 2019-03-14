@@ -2,8 +2,6 @@ package org.inek.dataportal.base.feature.documents;
 
 import org.inek.dataportal.base.facades.account.DocumentFacade;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
 import org.inek.dataportal.common.data.cooperation.facade.PortalMessageFacade;
 import org.inek.dataportal.common.helper.Utils;
@@ -25,8 +23,6 @@ public class DocumentList implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Inject
-    private AccountFacade _accFacade;
-    @Inject
     private DocumentFacade _accountDocFacade;
     @Inject
     private SessionController _sessionController;
@@ -34,8 +30,6 @@ public class DocumentList implements Serializable {
     private PortalMessageFacade _messageFacade;
     @Inject
     private CooperationRequestFacade _cooperationRequestFacade;
-    @Inject
-    private ConfigFacade _configFacade;
 
     private String _filter = "";
 
@@ -97,14 +91,15 @@ public class DocumentList implements Serializable {
         return getDocuments().size() > 0;
     }
 
-    public String readDoc(int docId) {
+    //<editor-fold desc="For PortalMenuTemplate">
+    public String readDoc(int docId) {  // do not delete, used in PortalMenuTemplate
         if (_accountDocFacade.isDocRead(docId)) {
             return "tick.png";
         }
         return "error.png";
     }
 
-    public boolean renderNumDocs(String topic) {
+    public boolean renderNumDocs(String topic) { // do not delete, used in PortalMenuTemplate
         if ("Dokumente".equals(topic)) {
             List<DocInfo> docs = getDocuments();
             if (getDocuments().size() > 0) {
@@ -122,7 +117,7 @@ public class DocumentList implements Serializable {
         return false;
     }
 
-    public String getNumberOfUnreadDocs(String topic) {
+    public String getNumberOfUnreadDocs(String topic) { // do not delete, used in PortalMenuTemplate
         int count = 0;
         if ("Dokumente".equals(topic)) {
             List<DocInfo> docs = new ArrayList<>();
@@ -139,6 +134,7 @@ public class DocumentList implements Serializable {
         }
         return "" + count;
     }
+    //</editor-fold>
 
 
     // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">
