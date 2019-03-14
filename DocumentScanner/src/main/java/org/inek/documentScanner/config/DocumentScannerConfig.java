@@ -9,15 +9,6 @@ public class DocumentScannerConfig {
 
     private Boolean _scanEnabled = false;
 
-    public Boolean isUpdateEnabled() {
-        return _updateEnabled;
-    }
-
-    public void setUpdateEnabled(Boolean updateEnabled) {
-        this._updateEnabled = updateEnabled;
-    }
-
-    private Boolean _updateEnabled = false;
     private Boolean _removeOldDocumentsEnabled = false;
     private Boolean _removeOldWaitingDocumentsEnabled = false;
 
