@@ -7,7 +7,6 @@ import org.inek.documentScanner.config.DocumentScannerConfig;
 import org.inek.documentScanner.facade.DocumentScannerFacade;
 
 import javax.ejb.Asynchronous;
-import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.Optional;
@@ -26,13 +25,6 @@ public class DocumentUpdater {
     private DocumentScannerConfig _documentScannerConfig;
     @Inject
     private DocumentScannerFacade _docFacade;
-
-    @Schedule(hour = "*", minute = "*", second = "*/1", info = "every 1 second")
-    private void scheduleUpdate() {
-        if (_documentScannerConfig.isUpdateEnabled()) {
-            update();
-        }
-    }
 
     @Asynchronous
     private void update() {
