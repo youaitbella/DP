@@ -57,6 +57,7 @@ public class AccountFacade extends AbstractDataAccess {
     }
 
     private void deleteOrphanRights(int accountId) {
+/*
         String jpql = "delete from AccessRight ar "
                 + " where ar._accountId = :accountId "
                 + "  and ar._id not in (\n"
@@ -77,6 +78,7 @@ public class AccountFacade extends AbstractDataAccess {
                 + "    where ar._accountId = :accountId \n"
                 + ")";
         deleteOrphanRights(accountId, jpql);
+*/
     }
 
     private void deleteOrphanRights(int accountId, String jpql) {
