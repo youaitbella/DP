@@ -50,6 +50,7 @@
 
                 <div class="ui-g-2">
                     <inek:InputNumber value="#{structureInformation.content}"
+                                      minValue="0"
                                       disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}" />
                 </div>
 
@@ -113,6 +114,7 @@
                 </div>
                 <div class="ui-g-2">
                     <inek:InputNumber value="#{structureInformation.content}"
+                                      minValue="0"
                                       disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}" />
                 </div>
 
