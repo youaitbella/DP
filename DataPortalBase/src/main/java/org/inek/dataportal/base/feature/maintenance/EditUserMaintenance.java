@@ -264,7 +264,7 @@ public class EditUserMaintenance extends AbstractEditController {
             _sessionController.refreshAccount(_account.getId());
             DialogController.showSaveDialog();
         } catch (Exception ex) {
-            DialogController.showInfoMessage("Fehler beim speichern");
+            DialogController.showInfoMessage("Fehler beim Speichern: " + ex.getMessage());
         }
         return "";
     }

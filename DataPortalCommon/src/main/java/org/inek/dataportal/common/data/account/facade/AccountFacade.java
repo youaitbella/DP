@@ -57,33 +57,27 @@ public class AccountFacade extends AbstractDataAccess {
     }
 
     private void deleteOrphanRights(int accountId) {
-/*
-        String jpql = "delete from AccessRight ar "
-                + " where ar._accountId = :accountId "
-                + "  and ar._id not in (\n"
-                + "    select ar._id \n"
-                + "    from AccessRight ar\n"
-                + "    join AccountIk ai on ar._accountId = ai._accountId and ar._ik = ai._ik\n"
-                + "    where ar._accountId = :accountId\n"
+        String sql = "delete ikadm.AccessRight where arid in (\n"
+                + "    select arid \n"
+                + "    from ikadm.AccessRight\n"
+                + "    left join AccountAdditionalIK on arAccountId = aaiAccountId and arik = aaiik\n"
+                + "    where arAccountId = ? and aaiId is null\n"
                 + ")";
-        deleteOrphanRights(accountId, jpql);
+        deleteOrphanRights(accountId, sql);
 
 
-        jpql = "delete from AccessRight ar "
-                + " where ar._accountId = :accountId "
-                + "  and ar._id not in (\n"
-                + "    select ar._id \n"
-                + "    from AccessRight ar\n"
-                + "    join AccountFeature af on ar._accountId = af._accountId and ar._feature = af._feature\n"
-                + "    where ar._accountId = :accountId \n"
+        sql = "delete ikadm.AccessRight where arid in (\n"
+                + "    select arid \n"
+                + "    from ikadm.AccessRight\n"
+                + "    left join AccountFeature on arAccountId = afAccountId and arFeatureId = afFeatureId\n"
+                + "    where arAccountId = ? and afId is null\n"
                 + ")";
-        deleteOrphanRights(accountId, jpql);
-*/
+        deleteOrphanRights(accountId, sql);
     }
 
-    private void deleteOrphanRights(int accountId, String jpql) {
-        Query query = getEntityManager().createQuery(jpql);
-        query.setParameter("accountId", accountId);
+    private void deleteOrphanRights(int accountId, String sql) {
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.setParameter(1, accountId);
         query.executeUpdate();
     }
 
