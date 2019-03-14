@@ -41,7 +41,7 @@ public class EditDocument extends AbstractEditController {
 
         Document document = _documentFacade.findCommonDocument(doc.getDocumentId());
 
-        Utils.downloadDocument(document);
+        String target = Utils.downloadDocument(document);
         if (_configFacade.readConfigBool(ConfigKey.DocumentSetRead)) {
             if (_sessionController.getAccountId() == doc.getAccountId()) {
                 doc.setRead(true);
@@ -49,7 +49,7 @@ public class EditDocument extends AbstractEditController {
             _documentFacade.saveAccountDocument(doc);
         }
 
-        return "";
+        return target;
     }
 
     public String deleteDocument(int docId) {

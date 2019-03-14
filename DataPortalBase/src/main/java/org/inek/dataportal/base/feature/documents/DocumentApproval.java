@@ -298,8 +298,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
             LOGGER.log(Level.SEVERE, "Doocument or content missing: {0}", docId);
             return Pages.Error.URL();
         }
-        Utils.downloadDocument(doc);
-        return "";
+        return Utils.downloadDocument(doc);
     }
 
     private static final class MailInfo {
