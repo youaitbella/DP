@@ -388,6 +388,10 @@ public class ProofEdit implements Serializable {
         return _configFacade.readConfigBool(ConfigKey.IsCareProofSendEnabled);
     }
 
+    public Boolean sendAllowedForToday() {
+        return ProofHelper.proofIsAllowedForSend(_proofRegulationBaseInformation);
+    }
+
     public void change() {
         _oldProofRegulationBaseInformation = copyBaseInformation(_proofRegulationBaseInformation);
         _proofRegulationBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);

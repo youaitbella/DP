@@ -258,11 +258,15 @@
                                           onstart="PF('dlgLoadingData').show()"
                                           oncomplete="PF('dlgLoadingData').hide()"
                                           rendered="#{!proofEdit.isReadOnly and proofEdit.sendAllowed()}"
+                                          disabled="#{not proofEdit.sendAllowedForToday()}"
                                           styleClass="green-button"
                                           style="margin-left: 10px;"
                                           icon="fa fa-arrow-right"
                                           iconPos="right"
                                           update="@(.ui-message) @form" />
+                        <pf:outputLabel rendered="#{not proofEdit.sendAllowedForToday()}"
+                                        style="padding-left: 10px"
+                                        value="Die Daten können erst am Ende des Quartals ans InEK gesendet werden" />
                     </div>
                 </div>
             </div>
