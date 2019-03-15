@@ -1,12 +1,13 @@
 package org.inek.dataportal.common.data.ikadmin.entity;
 
-import org.inek.dataportal.common.data.common.User;
-import java.io.Serializable;
-import javax.persistence.*;
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Right;
+import org.inek.dataportal.common.data.common.User;
 import org.inek.dataportal.common.data.converter.FeatureConverter;
 import org.inek.dataportal.common.data.converter.RightConverter;
+import org.inek.dataportal.common.enums.Right;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "AccessRight", schema = "ikadm")
@@ -14,8 +15,10 @@ import org.inek.dataportal.common.data.converter.RightConverter;
     @NamedQuery(name="AccessRight.findByIk",
                 query="select ar from AccessRight ar where ar._ik = :ik"),
     @NamedQuery(name="AccessRight.findByIk+Feature",
-                query="select ar from AccessRight ar where ar._ik = :ik and ar._feature in :features")
-}) 
+            query = "select ar from AccessRight ar where ar._ik = :ik and ar._feature in :features"),
+        @NamedQuery(name = "AccessRight.findByRight",
+                query = "select ar from AccessRight ar where ar._ik = :ik and ar._feature = :feature and ar._accountId = :accountId")
+})
 public class AccessRight implements Serializable {
 
     private static final long serialVersionUID = 1L;

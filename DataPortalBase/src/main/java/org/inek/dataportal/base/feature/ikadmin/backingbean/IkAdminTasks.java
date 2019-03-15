@@ -1,35 +1,31 @@
 package org.inek.dataportal.base.feature.ikadmin.backingbean;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import org.eclipse.persistence.exceptions.DatabaseException;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.IkReference;
+import org.inek.dataportal.api.enums.IkUsage;
+import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.common.User;
+import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
+import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.Right;
+import org.inek.dataportal.common.helper.Utils;
+
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.api.enums.IkReference;
-import org.inek.dataportal.api.enums.IkUsage;
-import org.inek.dataportal.common.controller.DialogController;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
-import org.inek.dataportal.common.data.common.User;
-import org.inek.dataportal.common.enums.Right;
-import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
-import org.inek.dataportal.common.helper.Utils;
+import java.io.Serializable;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
@@ -232,7 +228,13 @@ public class IkAdminTasks implements Serializable {
         Feature feature = Feature.getFeatureFromId(_featureId);
         User user = new User(_account);
         AccessRight accessRight = new AccessRight(user, _ik, feature, Right.Deny);
-        _ikAdminFacade.saveAccessRight(accessRight);
+        try {
+            _ikAdminFacade.saveAccessRight(accessRight);
+        } catch (DatabaseException ex) {
+            // in one case, we've got a duplicate key error
+            // thus, we try to read an existing right
+            accessRight = _ikAdminFacade.readAccessRight(accessRight);
+        }
         _accessRights.add(accessRight);
         if (!_account.getFullIkSet().contains(_ik)) {
             _account.addIk(_ik);

@@ -30,6 +30,15 @@ public class IkAdminFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    public AccessRight readAccessRight(AccessRight accessRight) {
+        String name = "AccessRight.findByRight";
+        TypedQuery<AccessRight> query = getEntityManager().createNamedQuery(name, AccessRight.class);
+        query.setParameter("ik", accessRight.getIk());
+        query.setParameter("feature", accessRight.getFeature());
+        query.setParameter("accountId", accessRight.getAccountId());
+        return query.getSingleResult();
+    }
+
     public AccessRight saveAccessRight(AccessRight accessRight) {
         if (accessRight.getId() > 0) {
             return merge(accessRight);
