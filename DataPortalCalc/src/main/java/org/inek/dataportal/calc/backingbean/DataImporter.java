@@ -706,8 +706,10 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 return new DataImporter<KGLListCostCenter, DrgCalcBasics>(
                         "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;" +
                                 "AnzahlVKÄDVor;AnzahlVKÄDNach;" +
-                                "AnzahlVKFDVor;AnzahlVKFDNach;" +
                                 "KostenvolumenÄDVor;KostenvolumenÄDNach;" +
+                                "AnzahlVKPDVor;AnzahlVKPDNach;" +
+                                "KostenvolumenPDVor;KostenvolumenPDNach;" +
+                                "AnzahlVKFDVor;AnzahlVKFDNach;" +
                                 "KostenvolumenFDVor;KostenvolumenFDNach;" +
                                 "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
                         new FileHolder("Kostenstellengruppe_11.csv"),
@@ -751,6 +753,26 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                 new DataImportCheck<KGLListCostCenter, Double>(
                                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_11"),
                                         DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCountCareServicePre(s),
+                                        "Anzahl VK PD vor Abgrenzung : "),
+                                new DataImportCheck<KGLListCostCenter, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_11"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCountCareServiceAfter(s),
+                                        "Anzahl VK PD nach Abgrenzung : "),
+                                new DataImportCheck<KGLListCostCenter, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_11"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCostVolumeCareServicePre(s),
+                                        "Kostenvolumen PD vor Abgrenzung : "),
+                                new DataImportCheck<KGLListCostCenter, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_11"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCostVolumeCareServiceAfter(s),
+                                        "Kostenvolumen PD nach Abgrenzung : "),
+                                new DataImportCheck<KGLListCostCenter, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_11"),
+                                        DataImportCheck::tryImportDouble,
                                         (i, s) -> i.setCountFunctionalServicePre(s),
                                         "Anzahl VK FD vor Abgrenzung : "),
                                 new DataImportCheck<KGLListCostCenter, Double>(
@@ -791,9 +813,14 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "drgcostcenter12":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter costCenter">
                 return new DataImporter<KGLListCostCenter, DrgCalcBasics>(
-                        "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;AnzahlVKÄDVor;AnzahlVKÄDNach;KostenvolumenÄDVor;" +
-                                "KostenvolumenÄDNach;AnzahlVKFDVor;AnzahlVKFDNach;KostenvolumenFDVor;KostenvolumenFDNach;Leistungsschlüssel;" +
-                                "Beschreibung;SummeLeistungseinheiten",
+                        "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;" +
+                                "AnzahlVKÄDVor;AnzahlVKÄDNach;" +
+                                "KostenvolumenÄDVor;KostenvolumenÄDNach;" +
+                                "AnzahlVKPDVor;AnzahlVKPDNach;" +
+                                "KostenvolumenPDVor;KostenvolumenPDNach;" +
+                                "AnzahlVKFDVor;AnzahlVKFDNach;" +
+                                "KostenvolumenFDVor;KostenvolumenFDNach;" +
+                                "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
                         new FileHolder("Kostenstellengruppe_12.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_12"),
                         Arrays.asList(
@@ -832,6 +859,26 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         DataImportCheck::tryImportDouble,
                                         (i, s) -> i.setCostVolumeMedStaffAfter(s),
                                         "Kostenvolumen ÄD nach Abgrenzung : "),
+                                new DataImportCheck<KGLListCostCenter, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_12"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCountCareServicePre(s),
+                                        "Anzahl VK PD vor Abgrenzung : "),
+                                new DataImportCheck<KGLListCostCenter, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_12"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCountCareServiceAfter(s),
+                                        "Anzahl VK PD nach Abgrenzung : "),
+                                new DataImportCheck<KGLListCostCenter, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_12"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCostVolumeCareServicePre(s),
+                                        "Kostenvolumen PD vor Abgrenzung : "),
+                                new DataImportCheck<KGLListCostCenter, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_12"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCostVolumeCareServiceAfter(s),
+                                        "Kostenvolumen PD nach Abgrenzung : "),
                                 new DataImportCheck<KGLListCostCenter, Double>(
                                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_12"),
                                         DataImportCheck::tryImportDouble,
@@ -875,9 +922,14 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "drgcostcenter13":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter costCenter">
                 return new DataImporter<KGLListCostCenter, DrgCalcBasics>(
-                        "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;AnzahlVKÄDVor;AnzahlVKÄDNach;KostenvolumenÄDVor;" +
-                                "KostenvolumenÄDNach;AnzahlVKFDVor;AnzahlVKFDNach;KostenvolumenFDVor;KostenvolumenFDNach;Leistungsschlüssel;" +
-                                "Beschreibung;SummeLeistungseinheiten",
+                        "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;" +
+                                "AnzahlVKÄDVor;AnzahlVKÄDNach;" +
+                                "KostenvolumenÄDVor;KostenvolumenÄDNach;" +
+                                "AnzahlVKPDVor;AnzahlVKPDNach;" +
+                                "KostenvolumenPDVor;KostenvolumenPDNach;" +
+                                "AnzahlVKFDVor;AnzahlVKFDNach;" +
+                                "KostenvolumenFDVor;KostenvolumenFDNach;" +
+                                "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
                         new FileHolder("Kostenstellengruppe_13.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_13"),
                         Arrays.asList(
@@ -916,6 +968,26 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         DataImportCheck::tryImportDouble,
                                         (i, s) -> i.setCostVolumeMedStaffAfter(s),
                                         "Kostenvolumen ÄD nach Abgrenzung : "),
+                                new DataImportCheck<KGLListCostCenter, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_13"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCountCareServicePre(s),
+                                        "Anzahl VK PD vor Abgrenzung : "),
+                                new DataImportCheck<KGLListCostCenter, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_13"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCountCareServiceAfter(s),
+                                        "Anzahl VK PD nach Abgrenzung : "),
+                                new DataImportCheck<KGLListCostCenter, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_13"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCostVolumeCareServiceAfter(s),
+                                        "Kostenvolumen PD vor Abgrenzung : "),
+                                new DataImportCheck<KGLListCostCenter, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_13"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setCostVolumeCareServiceAfter(s),
+                                        "Kostenvolumen PD nach Abgrenzung : "),
                                 new DataImportCheck<KGLListCostCenter, Double>(
                                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER_13"),
                                         DataImportCheck::tryImportDouble,
