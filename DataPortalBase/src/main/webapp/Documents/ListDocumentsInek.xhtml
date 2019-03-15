@@ -55,18 +55,6 @@
                     </h:commandLink>
                 </h:column>
 
-                <h:column id="colIk">
-                    <f:facet name="header">
-                        <h:commandLink value="IK #{documentList.sortCriteria.equals('senderik') ? (documentList.descending ? '↓' : '↑') : ''}">
-                            <f:ajax listener="#{documentList.setSortCriteria('senderik')}" render="@form :logout:remaining"/>
-                        </h:commandLink>
-                    </f:facet>
-                    <h:commandLink action="#{editDocument.downloadDocument(doc.accountDocumentId)}"
-                                   value="#{doc.senderIk}" immediate="true">
-                        <f:ajax event="blur" render="@form"/>
-                    </h:commandLink>
-                </h:column>
-
                 <h:column id="colSender">
                     <f:facet name="header">
                         <h:commandLink value="Absender #{documentList.sortCriteria.equals('sender') ? (documentList.descending ? '↓' : '↑') : ''}">
