@@ -53,7 +53,6 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
                     false,
                     accountId,
                     info.getAgentAccountId(),
-                    0,
                     "",
                     receipientInfo
             );

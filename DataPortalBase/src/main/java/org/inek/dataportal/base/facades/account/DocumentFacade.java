@@ -44,6 +44,7 @@ public class DocumentFacade extends AbstractDataAccess {
         accountDocument.setAccountId(account.getId());
         accountDocument.setValidity(validity);
         accountDocument.setDomain(commonDocument.getDomain());
+        accountDocument.setName(commonDocument.getName());
         saveAccountDocument(accountDocument);
         return accountDocument;
     }
@@ -59,7 +60,7 @@ public class DocumentFacade extends AbstractDataAccess {
     @SuppressWarnings("unchecked")
     public List<DocInfo> getDocInfos(int accountId) {
         String jpql = "SELECT ad._id, cd._name, cd._domain._name, "
-                + "      ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+                + "      ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, "
                 + "    '' as agent, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') as tag "
                 + "FROM AccountDocument ad "
                 + "join CommonDocument cd  on ad._documentId = cd._id "
@@ -73,7 +74,7 @@ public class DocumentFacade extends AbstractDataAccess {
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
             docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
-                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], (String) obj[9], (String) obj[10]));
+                    (boolean) obj[5], (int) obj[6], (int) obj[7], (String) obj[8], (String) obj[9]));
         }
 
         return docInfos;
@@ -82,7 +83,7 @@ public class DocumentFacade extends AbstractDataAccess {
     public List<DocInfo> getDocInfos_Payara5(int accountId) {
         String jpql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo("
                 + "      ad._id, cd._name, cd._domain._name, "
-                + "      ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+                + "      ad._created, ad._validUntil, ad._read, ad._accountId, ad._agentAccountId, "
                 + "    '', concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')')) "
                 + "FROM AccountDocument ad "
                 + "join CommonDocument cd  on ad._documentId = cd._id "
@@ -99,7 +100,7 @@ public class DocumentFacade extends AbstractDataAccess {
     public List<DocInfo> getSupervisedDocInfos(List<Integer> accountIds, String filter, int maxAge) {
         // see comment above
         String jpql = "SELECT ad._id, cd._name, cd._domain._name, "
-                + "           ad._created, ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, '', "
+                + "           ad._created, ad._created, ad._read, ad._accountId, ad._agentAccountId, '', "
                 + "           concat (cast(min(ai._ik) as varchar), "
                 + "               case count(ai._ik) "
                 + "                   when 1 then '' "
@@ -117,7 +118,7 @@ public class DocumentFacade extends AbstractDataAccess {
                 : " and (ad._name like :filter or ai._ik = :numFilter or a._company like :filter "
                 + " or a._town like :filter or ad._domain._name like :filter) ")
                 + "GROUP BY ad._id, cd._name, cd._domain._name, "
-                + "    ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+                + "    ad._created, ad._read, ad._accountId, ad._agentAccountId, "
                 + "    a._company, a._town, a._firstName, a._lastName "
                 + "ORDER BY ad._read, ad._created DESC";
         Query query = getEntityManager().createQuery(jpql);
@@ -137,7 +138,7 @@ public class DocumentFacade extends AbstractDataAccess {
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
             docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
-                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], (String) obj[9], (String) obj[10]));
+                    (boolean) obj[5], (int) obj[6], (int) obj[7], (String) obj[8], (String) obj[9]));
         }
 
         return docInfos;
@@ -146,7 +147,7 @@ public class DocumentFacade extends AbstractDataAccess {
     public List<DocInfo> getSupervisedDocInfos_Payara5(List<Integer> accountIds, String filter, int maxAge) {
         String jpql = "SELECT new org.inek.dataportal.common.helper.structures.DocInfo("
                 + "           ad._id, cd._name, cd._domain._name, "
-                + "           ad._created, ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, '', "
+                + "           ad._created, ad._created, ad._read, ad._accountId, ad._agentAccountId, '', "
                 + "           concat (cast(min(ai._ik) as varchar), "
                 + "               case count(ai._ik) "
                 + "                   when 1 then '' "
@@ -164,7 +165,7 @@ public class DocumentFacade extends AbstractDataAccess {
                 : " and (ad._name like :filter or ai._ik = :numFilter or a._company like :filter "
                 + " or a._town like :filter or ad._domain._name like :filter) ")
                 + "GROUP BY ad._id, cd._name, cd._domain._name, "
-                + "    ad._created, ad._read, ad._accountId, ad._agentAccountId, ad._senderIk, "
+                + "    ad._created, ad._read, ad._accountId, ad._agentAccountId, "
                 + "    a._company, a._town, a._firstName, a._lastName "
                 + "ORDER BY ad._read, ad._created DESC";
         TypedQuery<DocInfo> query = getEntityManager().createQuery(jpql, DocInfo.class);

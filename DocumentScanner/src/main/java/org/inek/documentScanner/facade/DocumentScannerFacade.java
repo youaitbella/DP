@@ -66,6 +66,7 @@ public class DocumentScannerFacade extends AbstractDataAccess {
         accountDocument.setAccountId(account.getId());
         accountDocument.setValidity(validity);
         accountDocument.setDomain(commonDocument.getDomain());
+        accountDocument.setName(commonDocument.getName());
         saveAccountDocument(accountDocument);
         return accountDocument;
     }

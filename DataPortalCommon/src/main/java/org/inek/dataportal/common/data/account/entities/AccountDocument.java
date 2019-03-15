@@ -149,19 +149,6 @@ public class AccountDocument implements Serializable, Document {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property SenderIk">
-    @Column(name = "adSenderIk")
-    private int _senderIk = -1;
-    
-    public int getSenderIk() {
-        return _senderIk;
-    }
-    
-    public void setSenderIk(int senderIk) {
-        this._senderIk = senderIk;
-    }
-    //</editor-fold>
-
     //<editor-fold desc="Property DocumentDomain">
     @ManyToOne
     @JoinColumn(name = "adDocumentDomainId", insertable = false, updatable = false)

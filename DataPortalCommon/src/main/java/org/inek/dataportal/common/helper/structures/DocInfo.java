@@ -16,7 +16,6 @@ public class DocInfo implements Serializable {
     private final boolean _isRead;
     private final int _accountId;
     private final int _agentId;
-    private final int _senderIk;
     private final String _agentName;
     private final String _tag;
 
@@ -30,7 +29,6 @@ public class DocInfo implements Serializable {
             boolean isRead,
             int accountId,
             int agentId,
-            int senderIk,
             String agentName,
             String tag
     ) {
@@ -42,7 +40,6 @@ public class DocInfo implements Serializable {
         _isRead = isRead;
         _accountId = accountId;
         _agentId = agentId;
-        _senderIk = senderIk;
         _agentName = agentName;
         _tag = tag;
     }
@@ -97,9 +94,6 @@ public class DocInfo implements Serializable {
 
     public int getAgentId() {
         return _agentId;
-    }
-    public int getSenderIk() {
-        return _senderIk;
     }
 
 }
