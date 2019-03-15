@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.data.ikadmin.facade;
 
+import org.eclipse.persistence.exceptions.DatabaseException;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -40,12 +41,19 @@ public class IkAdminFacade extends AbstractDataAccess {
     }
 
     public AccessRight saveAccessRight(AccessRight accessRight) {
-        if (accessRight.getId() > 0) {
-            return merge(accessRight);
-        } else {
-            persist(accessRight);
-            return accessRight;
+        try {
+            if (accessRight.getId() > 0) {
+                return merge(accessRight);
+            } else {
+                persist(accessRight);
+                return accessRight;
+            }
+        } catch (DatabaseException ex) {
+            // in one case (concurrent access?), we've got a duplicate key error
+            // thus, we try to read an existing right
+            return readAccessRight(accessRight);
         }
+
     }
 
     public Account findAccount(int userId) {
@@ -77,7 +85,6 @@ public class IkAdminFacade extends AbstractDataAccess {
      * Checks for a list of iks, which of them are managed by an ik admin
      *
      * @param iks
-     *
      * @return managedIks
      */
     public List<Integer> dertermineManagegIks(List<Integer> iks) {

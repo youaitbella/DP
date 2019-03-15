@@ -1,6 +1,5 @@
 package org.inek.dataportal.base.feature.ikadmin.backingbean;
 
-import org.eclipse.persistence.exceptions.DatabaseException;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.IkReference;
 import org.inek.dataportal.api.enums.IkUsage;
@@ -228,13 +227,7 @@ public class IkAdminTasks implements Serializable {
         Feature feature = Feature.getFeatureFromId(_featureId);
         User user = new User(_account);
         AccessRight accessRight = new AccessRight(user, _ik, feature, Right.Deny);
-        try {
-            _ikAdminFacade.saveAccessRight(accessRight);
-        } catch (DatabaseException ex) {
-            // in one case, we've got a duplicate key error
-            // thus, we try to read an existing right
-            accessRight = _ikAdminFacade.readAccessRight(accessRight);
-        }
+        accessRight = _ikAdminFacade.saveAccessRight(accessRight);
         _accessRights.add(accessRight);
         if (!_account.getFullIkSet().contains(_ik)) {
             _account.addIk(_ik);
@@ -253,8 +246,8 @@ public class IkAdminTasks implements Serializable {
         for (AccessRight ar : accessRights) {
             if (!accessRights.stream()
                     .anyMatch(c -> c.getIk() == ar.getIk()
-                    && c.getFeature() == ar.getFeature()
-                    && c.getRight() != Right.Deny)) {
+                            && c.getFeature() == ar.getFeature()
+                            && c.getRight() != Right.Deny)) {
                 return false;
             }
         }
