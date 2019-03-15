@@ -64,11 +64,11 @@ public class EditDocument extends AbstractEditController {
     public String
     getConfirmMessage(String name, String dateString) {
         String msg
-                = name
+                = (name
                 + " vom " + dateString
                 + "\n"
                 + Utils
-                .getMessage("msgConfirmDelete")
+                .getMessage("msgConfirmDelete"))
                 .replace("\r\n", "\n")
                 .replace("\n", "\\r\\n")
                 .replace("'", "\\'")
