@@ -8,6 +8,7 @@ import javax.inject.Named;
 public class DocumentScannerConfig {
 
     private Boolean _scanEnabled = false;
+
     private Boolean _removeOldDocumentsEnabled = false;
     private Boolean _removeOldWaitingDocumentsEnabled = false;
 

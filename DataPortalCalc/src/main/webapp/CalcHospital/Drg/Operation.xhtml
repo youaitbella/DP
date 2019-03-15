@@ -84,6 +84,12 @@
                         <inek:InputNumberWithMessage value="#{costCenter.costVolumeFunctionalService}"
                                                      readonly="#{editCalcBasicsDrg.readOnly}" />
                     </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Gesamtzeit</f:facet>
+                        <inek:InputNumberWithMessage value="#{costCenter.serviceTime}"
+                                                     readonly="#{editCalcBasicsDrg.readOnly}" />
+                    </h:column>
                 </h:dataTable>
 
                 <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('costcenteropan')}"

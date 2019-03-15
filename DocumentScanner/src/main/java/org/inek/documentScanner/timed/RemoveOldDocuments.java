@@ -1,6 +1,7 @@
 package org.inek.documentScanner.timed;
 
 import org.inek.documentScanner.config.DocumentScannerConfig;
+import org.inek.documentScanner.facade.DocumentScannerFacade;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
@@ -8,11 +9,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.inek.documentScanner.facade.DocumentScannerFacade;
 
-/**
- * @author vohldo
- */
 @Stateless
 public class RemoveOldDocuments {
 
@@ -38,8 +35,10 @@ public class RemoveOldDocuments {
     @Asynchronous
     private void deleteOldDocuments() {
         try {
-            int removedDocs = _docFacade.removeOldDocuments();
-            LOGGER.log(Level.INFO, "Removed docs: " + removedDocs);
+            int removedDocs = _docFacade.removeOldAccountDocuments();
+            LOGGER.log(Level.INFO, "Removed AccountDocuments: " + removedDocs);
+            removedDocs = _docFacade.removeOldCommonDocuments();
+            LOGGER.log(Level.INFO, "Removed CommonDocuments: " + removedDocs);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error during removing old docs: " + ex.getMessage(), ex);
         }

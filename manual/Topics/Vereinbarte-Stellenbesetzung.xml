@@ -41,7 +41,16 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Bitte beachten Sie, dass zu einer termingerechten Lieferung der Daten der Upload dieses Dokuments erforderlich ist.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sollten die erfassten Daten fehlerhaft sein oder andere Gründe für eine notwendige Änderung vorliegen, so können Sie die Daten mittels </text><text styleclass="ButtonPsy" translate="true">[ Datensatz ändern ]</text><text styleclass="Normal" translate="true"> wieder in den Editiermodus versetzen. Dabei verliert die Signatur ihre Gültigkeit. Wenn Sie dann später die Eingabe erneut abschließen, erhält der Datensatz eine neue Signatur. </text></para>
+      <para styleclass="Normal">
+          <text styleclass="Normal" translate="true">Sollten die erfassten Daten fehlerhaft sein oder andere Gründe für
+              eine notwendige Änderung vorliegen, so können Sie die Daten mittels
+          </text>
+          <text styleclass="ButtonPsy" translate="true">[ Datensatz ändern ]</text>
+          <text styleclass="Normal" translate="true">wieder in den Editiermodus versetzen. Dabei verliert die Signatur
+              ihre Gültigkeit. Wenn Sie dann später die Eingabe erneut abschließen, erhält der Datensatz bei eine neue
+              Signatur. Sofern Sie die Daten nicht verändert haben, wird die vorherige Signatur dafür erneut genutzt.
+          </text>
+      </para>
     <para styleclass="Normal"></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Ausnahmetatbestände</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Da Ausnahmetatbestände nicht den Standardablauf darstellen, wurden sie weiter oben im Sinne der Darstellung des Standardablaufs nicht abgebildet. Wie erwähnt, ist teilweise die Eingabe einer Begründung erforderlich, teilweise ist ein Abschluss durch den vorübergehenden Charakter eines Ausnahmetatbestands nicht möglich. Beispiele hierfür finden Sie in den folgenden Abbildungen.</text></para>

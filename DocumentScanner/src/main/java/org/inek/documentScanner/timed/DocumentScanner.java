@@ -9,9 +9,6 @@ import javax.inject.Inject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * @author vohldo
- */
 @Stateless
 public class DocumentScanner {
 

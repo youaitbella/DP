@@ -1,11 +1,12 @@
 package org.inek.documentScanner.backingBean;
 
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.documentScanner.config.DocumentScannerConfig;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import java.io.Serializable;
 
@@ -17,6 +18,8 @@ public class DocumentScannerBean implements Serializable {
     private DocumentScannerConfig _documentScannerConfig;
     @Inject
     private Mailer _mailer;
+    @Inject
+    private ConfigFacade _config;
 
     public Boolean getDocumentScanStatus() {
         return _documentScannerConfig.isScanEnabled();
@@ -44,5 +47,10 @@ public class DocumentScannerBean implements Serializable {
 
     public void sendTestErrorMail() {
         _mailer.sendMail("portaladmin@inek-drg.de", "Testmail Dokumentenscanner", "Testemail");
+    }
+
+    public String getBaseDir() {
+        return _config.readConfig(ConfigKey.FolderRoot) + _config.readConfig(ConfigKey.FolderDocumentScanBase);
+
     }
 }

@@ -5,29 +5,23 @@
  */
 package org.inek.dataportal.calc.facades;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.calc.entities.drg.*;
+import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
+import org.inek.dataportal.common.data.iface.BaseIdValue;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import org.inek.dataportal.calc.entities.drg.DrgCalcBasics;
-import org.inek.dataportal.calc.entities.drg.DrgContentText;
-import org.inek.dataportal.calc.entities.drg.DrgHeaderText;
-import org.inek.dataportal.calc.entities.drg.KGLListContentTextOps;
-import org.inek.dataportal.calc.entities.drg.KGLListServiceProvision;
-import org.inek.dataportal.calc.entities.drg.KGLListServiceProvisionType;
-import org.inek.dataportal.calc.entities.drg.KglOpAn;
-import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.data.iface.BaseIdValue;
-import org.inek.dataportal.calc.entities.drg.KGLListOverviewPersonalType;
-import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -114,15 +108,6 @@ public class CalcDrgFacade extends AbstractDataAccessWithActionLog {
         String jpql = "select pt from KGLListServiceProvisionType pt where pt._text = :text";
         TypedQuery<KGLListServiceProvisionType> query = getEntityManager().createQuery(jpql, KGLListServiceProvisionType.class);
         query.setParameter("text", text);
-        return query.getSingleResult();
-    }
-    
-    
-
-    public KGLListContentTextOps findOpsCodeByContentTextId(int contextTextId) {
-        String jpql = "select cto from KGLListContentTextOps cto where cto._contentTextId = :id";
-        TypedQuery<KGLListContentTextOps> query = getEntityManager().createQuery(jpql, KGLListContentTextOps.class);
-        query.setParameter("id", contextTextId);
         return query.getSingleResult();
     }
 

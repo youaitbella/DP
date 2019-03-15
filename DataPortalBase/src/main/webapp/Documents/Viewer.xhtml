@@ -2,11 +2,9 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="DocumentsSummary.xhtml"
-                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+>
 
     <ui:define name="documentContent">
         <h:form id="approval">
@@ -36,7 +34,8 @@
                             <f:ajax listener="#{documentViewer.setSortCriteria('receipient')}" render="@form :logout:remaining"/>
                         </h:commandLink>
                     </f:facet>
-                    <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.tag}" immediate="true">
+                    <h:commandLink action="#{editDocument.downloadDocument(doc.accountDocumentId)}" value="#{doc.tag}"
+                                   immediate="true">
                         <f:ajax event="blur" render="@form"/>
                     </h:commandLink>
                 </h:column>
@@ -47,7 +46,8 @@
                             <f:ajax listener="#{documentViewer.setSortCriteria('domain')}" render="@form :logout:remaining"/>
                         </h:commandLink>
                     </f:facet>
-                    <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.domain}" immediate="true">
+                    <h:commandLink action="#{editDocument.downloadDocument(doc.accountDocumentId)}"
+                                   value="#{doc.domain}" immediate="true">
                         <f:ajax event="blur" render="@form"/>
                     </h:commandLink>
                 </h:column>
@@ -58,7 +58,8 @@
                             <f:ajax listener="#{documentViewer.setSortCriteria('document')}" render="@form :logout:remaining"/>
                         </h:commandLink>
                     </f:facet>
-                    <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.name}" immediate="true">
+                    <h:commandLink action="#{editDocument.downloadDocument(doc.accountDocumentId)}" value="#{doc.name}"
+                                   immediate="true">
                         <f:ajax event="blur" render="@form"/>
                     </h:commandLink>
                 </h:column>
@@ -69,7 +70,8 @@
                             <f:ajax listener="#{documentViewer.setSortCriteria('date')}" render="@form :logout:remaining"/>
                         </h:commandLink>
                     </f:facet>
-                    <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.longCreatedString}" immediate="true">
+                    <h:commandLink action="#{editDocument.downloadDocument(doc.accountDocumentId)}"
+                                   value="#{doc.longCreatedString}" immediate="true">
                         <f:ajax event="blur" render="@form"/>
                     </h:commandLink>
                 </h:column>

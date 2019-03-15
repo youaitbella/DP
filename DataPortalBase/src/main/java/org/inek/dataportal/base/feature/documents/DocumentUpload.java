@@ -1,29 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.base.feature.documents;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.base.enums.DocumentTarget;
-import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.base.facades.account.DocumentDomainFacade;
+import org.inek.dataportal.base.facades.account.DocumentFacade;
 import org.inek.dataportal.base.feature.agency.entities.Agency;
 import org.inek.dataportal.base.feature.agency.facades.AgencyFacade;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.account.entities.DocumentDomain;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.data.common.CommonDocument;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.MailTemplateFacade;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.scope.FeatureScoped;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -32,7 +26,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -46,14 +39,12 @@ public class DocumentUpload implements Serializable {
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
     @Inject private Mailer _mailer;
-    private final List<AccountDocument> _documents = new ArrayList<>();
+    @Inject
+    private DocumentFacade _docFacade;
+    @Inject
+    private AgencyFacade _agencyFacade;
 
-    @PostConstruct
-    private void init() {
-        _senderIk = getSenderIks().isEmpty() 
-                ? -1 
-                : getSenderIks().size() == 1 ? getSenderIks().stream().findFirst().get() : 0;
-    }
+    private final List<CommonDocument> _documents = new ArrayList<>();
 
     // <editor-fold defaultstate="collapsed" desc="Property DocumentTarget">
     private DocumentTarget _documentTarget = DocumentTarget.Account;
@@ -112,8 +103,6 @@ public class DocumentUpload implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Agencies">
-    @Inject private AgencyFacade _agencyFacade;
-
     public List<Agency> getAgencies() {
         return _agencyFacade.findAllAgencies();
     }
@@ -127,54 +116,6 @@ public class DocumentUpload implements Serializable {
         return _accounts;
     }
     // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property InekAccounts">
-    private final List<Account> _inekAccounts = new ArrayList<>();
-
-    public List<Account> getInekAccounts() {
-        if (_inekAccounts.isEmpty()) {
-            for (Account account : _accountFacade.getInekContacts(_sessionController.getAccount())) {
-                _inekAccounts.add(account);
-            }
-            for (Account account : _accountFacade.getInekAccounts()) {
-                if (!_inekAccounts.contains(account)) {
-                    _inekAccounts.add(account);
-                }
-            }
-        }
-        for(int i = 0; i < _inekAccounts.size(); i++) {
-            Account acc = _inekAccounts.get(i);
-            if(acc.isDeactivated())
-                _inekAccounts.remove(acc);
-        }
-        return _inekAccounts;
-    }
-    // </editor-fold>
-
-    public void ikChanged() {
-        // dummy method for composite componen
-    }
-
-    //<editor-fold defaultstate="collapsed" desc="Property SenderIk">
-    private int _senderIk;
-    
-    public int getSenderIk() {
-        return _senderIk;
-    }
-    
-    public void setSenderIk(int senderIk) {
-        this._senderIk = senderIk;
-    }
-    //</editor-fold>
-    
-    private Set<Integer> _senderIks;
-
-    public Set<Integer> getSenderIks() {
-        if (_senderIks == null) {
-            _senderIks = _sessionController.getAccount().getFullIkSet();
-        }
-        return _senderIks;
-    }
 
     // <editor-fold defaultstate="collapsed" desc="Property AvailableUntil">
     private int _availability = 400;
@@ -225,18 +166,17 @@ public class DocumentUpload implements Serializable {
     public List<DocumentDomain> getDomains() {
         return _domainFacade.findAll();
     } 
-    public List<DocumentDomain> getPublicDomains() {
-        return _domainFacade.findAll().stream().filter(d -> d.isPublicUsable()).collect(Collectors.toList());
-    }
 
     public String getEmail() {
         return _account == null ? "" : _account.getEmail();
     }
 
     public void setEmail(String email) {
+        // dummy to satisfy JSF
     }
 
     public void setAccountId(int accountId) {
+        // dummy to satisfy JSF
     }
 
     public int getAccountId() {
@@ -329,12 +269,6 @@ public class DocumentUpload implements Serializable {
                 || _documentTarget == DocumentTarget.IK && _ik > 0);
     }
 
-    public boolean isSaveForInekEnabled() {
-        return _documents.size() > 0
-                && _domain != null 
-                && (getSenderIks().size() <= 1 || _senderIk > 0);
-    }
-
     public String saveDocument() {
         if (_documents.isEmpty()) {
             return "";
@@ -343,24 +277,24 @@ public class DocumentUpload implements Serializable {
             return "";
         }
         Set<Account> accounts = new HashSet<>();
-        for (AccountDocument accountDocument : _documents) {
-            accountDocument.setValidity(_availability);
+        for (CommonDocument commonDocument : _documents) {
+            storeDocument(commonDocument);
 
             switch (_documentTarget) {
                 case Account:
-                    storeDocument(accountDocument, _account.getId());
+                    _docFacade.createAccountDocument(_account, commonDocument, _availability);
                     accounts.add(_account);
                     break;
                 case Agency:
                     for (Account account : _agencyFacade.findAgencyAccounts(_agencyId)) {
-                        storeDocument(accountDocument, account.getId());
+                        _docFacade.createAccountDocument(account, commonDocument, _availability);
                         accounts.add(account);
                     }
                     break;
                 case IK:
                     for (Account account : _accounts) {
                         if (account.isSelected()) {
-                            storeDocument(accountDocument, account.getId());
+                            _docFacade.createAccountDocument(account, commonDocument, _availability);
                             accounts.add(account);
                         }
                     }
@@ -379,7 +313,7 @@ public class DocumentUpload implements Serializable {
 
     private boolean documentsHasInvalidFilenames() {
         List<String> invalidPatterns = _docFacade.getInvalidFileNamePatterns();
-        for (AccountDocument doc : _documents) {
+        for (CommonDocument doc : _documents) {
             for (String pattern : invalidPatterns) {
                 if (doc.getName().matches(pattern)) {
                     DialogController.showErrorDialog("Unzulässiger Dateiname", "[" + doc.getName() + "] " +
@@ -393,55 +327,36 @@ public class DocumentUpload implements Serializable {
         return false;
     }
 
-    public String saveDocumentForInek() {
-        if (_documents.isEmpty()) {
-            return "";
-        }
-        Set<Account> accounts = new HashSet<>();
-        for (AccountDocument accountDocument : _documents) {
-            accountDocument.setValidity(_availability);
 
-            for (Account account : _inekAccounts) {
-                if (account.isSelected()) {
-                    storeDocument(accountDocument, account.getId());
-                    accounts.add(account);
-                }
-            }
-        }
-        if(accounts.isEmpty()) {
-            _sessionController.setScript("alert('Bitte wählen Sie mindestens einen Empfänger aus.');");
-            return "";
-        }
-        _mailTemplate = "Neue Dokumente";  // fixed template
-        for (Account account : accounts) {
-            sendNotification(account);
-        }
-        _documents.clear();
-        _sessionController.setScript("alert('Dokumente ans InEK gesendet.');");
-        return "";
+    private void storeDocument(CommonDocument commonDocument) {
+        commonDocument.setAccountId(_sessionController.getAccountId());
+        commonDocument.setDomain(_domain);
+        _docFacade.saveCommonDocument(commonDocument);
     }
 
-    @Inject private AccountDocumentFacade _docFacade;
-
-    private void storeDocument(AccountDocument accountDocument, int accountId) {
-        accountDocument.setAccountId(accountId);
-        accountDocument.setDomain(_domain);
-        accountDocument.setAgentAccountId(_sessionController.getAccountId());
-        accountDocument.setSenderIk(_senderIk);
-        _docFacade.save(accountDocument);
+    public List<CommonDocument> getDocuments() {
+        return Collections.unmodifiableList(_documents);
     }
 
-    public List<AccountDocument> getDocuments() {
-        return _documents;
+    public CommonDocument findOrCreateByName(String filename) {
+        CommonDocument document = _documents
+                .stream()
+                .filter(d -> d.getName().equals(filename))
+                .findFirst()
+                .orElse(new CommonDocument(filename));
+        if (!_documents.contains(document)) {
+            _documents.add(document);
+        }
+        return document;
     }
 
-    public String deleteDocument(AccountDocument doc) {
+    public String deleteDocument(CommonDocument doc) {
         _documents.remove(doc);
         return "";
     }
 
-    public String downloadDocument(AccountDocument doc) {
-        return Utils.downloadDocument(doc);
+    public String downloadDocument(CommonDocument document) {
+        return Utils.downloadDocument(document);
     }
 
     public String refresh() {

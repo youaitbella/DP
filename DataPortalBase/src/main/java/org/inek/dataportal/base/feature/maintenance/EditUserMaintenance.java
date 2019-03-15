@@ -2,7 +2,6 @@ package org.inek.dataportal.base.feature.maintenance;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.FeatureState;
-import org.inek.dataportal.api.enums.ManagedBy;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -13,11 +12,9 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.faceletvalidators.NameValidator;
 import org.inek.dataportal.common.helper.AccessRightHelper;
 import org.inek.dataportal.common.helper.MailTemplateHelper;
@@ -36,7 +33,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.*;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  * @author muellermi
@@ -227,7 +223,7 @@ public class EditUserMaintenance extends AbstractEditController {
 
     public String save() {
         if (_sessionTools.isHospital(_account.getCustomerTypeId()) && _account.getFullIkSet().isEmpty()) {
-            DialogController.showWarningDialog("Bitte mindestens eine IK eingeben", "Fehler beim speichern");
+            DialogController.showWarningDialog("Bitte mindestens eine IK eingeben", "Fehler beim Speichern");
         } else {
             checkIKAdminRights(_account);
             _account.setUser(_user);
@@ -268,7 +264,7 @@ public class EditUserMaintenance extends AbstractEditController {
             _sessionController.refreshAccount(_account.getId());
             DialogController.showSaveDialog();
         } catch (Exception ex) {
-            DialogController.showInfoMessage("Fehler beim speichern");
+            DialogController.showInfoMessage("Fehler beim Speichern: " + ex.getMessage());
         }
         return "";
     }

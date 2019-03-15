@@ -84,6 +84,20 @@ public class KglRoomCapability {
     }
     //</editor-fold>
 
+    //<editor-fold desc="Property Explanation">
+    @Column(name = "rcExplanation")
+    @Size(max = 250)
+    private String explanation = "";
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
+    //</editor-fold>
+
     //<editor-fold desc="Property CaseCount">
     @Column(name = "rcCaseCount")
     private int caseCount;
@@ -174,6 +188,16 @@ public class KglRoomCapability {
     @Override
     public int hashCode() {
         return 79273424;
+    }
+
+    public boolean isEmpty() {
+        return mainServiceId == 0
+                & roomName.length() == 0
+                & caseCount == 0
+                & medFullVigorCount == 0
+                & medCostAmount == 0
+                & functFullVigorCount == 0
+                & functCostAmount == 0;
     }
     //</editor-fold>
 }

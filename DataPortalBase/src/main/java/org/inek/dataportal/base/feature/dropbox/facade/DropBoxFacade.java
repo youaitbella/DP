@@ -4,24 +4,27 @@
  */
 package org.inek.dataportal.base.feature.dropbox.facade;
 
+import org.inek.dataportal.base.feature.dropbox.entities.DropBox;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.AbstractFacade;
-import java.io.File;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-import java.util.logging.Level;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.overall.ApplicationTools;
+
 import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.base.feature.dropbox.entities.DropBox;
-import org.inek.dataportal.common.enums.ConfigKey;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+import java.util.logging.Level;
 
 /**
  *
@@ -153,7 +156,6 @@ public class DropBoxFacade extends AbstractDataAccess {
         String jpql = "SELECT d from DropBox d join Account a WHERE d._accountId = a._id and d._validUntil + a._dropBoxHoldTime < :date";
         TypedQuery<DropBox> query = getEntityManager().createQuery(jpql, DropBox.class);
         query.setParameter("date", Calendar.getInstance().getTime());
-        //dumpSql(query);
         return query.getResultList();
     }
 

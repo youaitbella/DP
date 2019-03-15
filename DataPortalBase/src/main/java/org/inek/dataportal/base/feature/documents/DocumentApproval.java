@@ -1,23 +1,23 @@
 package org.inek.dataportal.base.feature.documents;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.base.facades.account.DocumentFacade;
+import org.inek.dataportal.base.facades.account.WaitingDocumentFacade;
+import org.inek.dataportal.base.helper.tree.DocumentInfoTreeNode;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.WaitingDocument;
+import org.inek.dataportal.common.data.common.CommonDocument;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.helper.structures.DocInfo;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.tree.RootNode;
+import org.inek.dataportal.common.tree.TreeNode;
+import org.inek.dataportal.common.tree.TreeNodeObserver;
+import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
+
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -26,24 +26,15 @@ import javax.inject.Named;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountDocument;
-import org.inek.dataportal.common.data.account.entities.WaitingDocument;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
-import org.inek.dataportal.base.facades.account.WaitingDocumentFacade;
-import org.inek.dataportal.common.helper.StreamHelper;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.helper.structures.DocInfo;
-import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
-import org.inek.dataportal.base.helper.tree.DocumentInfoTreeNode;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.tree.RootNode;
-import org.inek.dataportal.common.tree.TreeNode;
-import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.utils.Helper;
+import java.io.ByteArrayInputStream;
+import java.io.Serializable;
+import java.nio.charset.Charset;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -60,7 +51,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     @Inject
     private WaitingDocumentFacade _waitingDocFacade;
     @Inject
-    private AccountDocumentFacade _accountDocFacade;
+    private DocumentFacade _documentFacade;
 
     private final RootNode _rootNode = RootNode.create(0, this);
 
@@ -249,23 +240,30 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         if (waitingDoc == null) {
             throw new IllegalArgumentException("WaitingDocument not found: " + docId);
         }
+        CommonDocument commonDocument = createCommonDocument(waitingDoc);
         List<Account> accounts = waitingDoc.getAccounts();
         for (Account account : accounts) {
-            createAccountDocument(account, waitingDoc);
+            createAccountDocument(account, commonDocument, waitingDoc.getValidity());
         }
         String jsonMail = waitingDoc.getJsonMail();
         _waitingDocFacade.remove(waitingDoc);
         return new MailInfo(jsonMail, accounts);
     }
 
-    private void createAccountDocument(Account account, WaitingDocument waitingDoc) {
-        AccountDocument accountDoc = new AccountDocument(waitingDoc.getName());
-        accountDoc.setAccountId(account.getId());
-        accountDoc.setContent(waitingDoc.getContent());
-        accountDoc.setDomain(waitingDoc.getDomain());
-        accountDoc.setAgentAccountId(waitingDoc.getAgentAccountId());
-        accountDoc.setValidity(waitingDoc.getValidity());
-        _accountDocFacade.save(accountDoc);
+    private CommonDocument createCommonDocument(WaitingDocument waitingDoc) {
+        CommonDocument commonDocument = new CommonDocument(waitingDoc.getName());
+        commonDocument.setContent(waitingDoc.getContent());
+        commonDocument.setDomain(waitingDoc.getDomain());
+        commonDocument.setAccountId(waitingDoc.getAgentAccountId());
+        _documentFacade.saveCommonDocument(commonDocument);
+        return commonDocument;
+    }
+
+    private void createAccountDocument(Account account, CommonDocument commonDocument, int validity) {
+        _documentFacade.createAccountDocument(account, commonDocument, validity);
+        if (account == _sessionController.getAccount()) {
+            _sessionController.refreshAccount(account.getId());
+        }
     }
 
     @Inject
@@ -300,20 +298,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
             LOGGER.log(Level.SEVERE, "Doocument or content missing: {0}", docId);
             return Pages.Error.URL();
         }
-        try {
-            byte[] buffer = doc.getContent();
-            externalContext.setResponseHeader("Content-Type", Helper.getContentType(doc.getName()));
-            externalContext.setResponseHeader("Content-Length", "" + buffer.length);
-            externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + doc.getName() + "\"");
-            ByteArrayInputStream is = new ByteArrayInputStream(buffer);
-            StreamHelper.copyStream(is, externalContext.getResponseOutputStream());
-
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-            return Pages.Error.URL();
-        }
-        facesContext.responseComplete();
-        return "";
+        return Utils.downloadDocument(doc);
     }
 
     private static final class MailInfo {

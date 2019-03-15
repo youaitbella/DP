@@ -3,89 +3,95 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:pf="http://primefaces.org/ui"
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <f:metadata>
-        <f:viewParam name="dbId" id="ppId" value="#{flash.dbId}" />
+        <f:viewParam name="dbId" id="ppId" value="#{flash.dbId}"/>
     </f:metadata>
 
     <ui:define name="content">
         <h:form>
             <h1><h:commandLink value="#{msg.lblDropBoxSystem}"
                                action="#{sessionController.navigate(sessionTools.pages.DropBoxSummary)}"
-                               immediate="true" /></h1>
+                               immediate="true"/></h1>
         </h:form>
 
         <h:form id="form">
 
             <div class="edit">
                 <pf:panelGrid columns="2" style="margin-bottom: 20px;" styleClass="inekPanelGridSmall">
-                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblId}:" />
-                    <pf:outputLabel value="#{editDropBox.dropBox.dropBoxId}" />
+                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblId}:"/>
+                    <pf:outputLabel value="#{editDropBox.dropBox.dropBoxId}"/>
 
-                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblDescription}:" />
-                    <pf:outputLabel value="#{editDropBox.dropBox.description}" />
+                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblDescription}:"/>
+                    <pf:outputLabel value="#{editDropBox.dropBox.description}"/>
 
-                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblType}:" />
-                    <pf:outputLabel value="#{editDropBox.dropBox.dropboxType.name}" />
+                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblType}:"/>
+                    <pf:outputLabel value="#{editDropBox.dropBox.dropboxType.name}"/>
 
-                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblIK}:" />
-                    <pf:outputLabel value="#{editDropBox.dropBox.IK}" />
+                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblIK}:"/>
+                    <pf:outputLabel value="#{editDropBox.dropBox.IK}"/>
 
-                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblHospital}:" />
-                    <pf:outputLabel value="#{applicationTools.retrieveHospitalInfo(editDropBox.dropBox.IK)}" />
+                    <pf:outputLabel style="font-weight: bold;" value="#{msg.lblHospital}:"/>
+                    <pf:outputLabel value="#{applicationTools.retrieveHospitalInfo(editDropBox.dropBox.IK)}"/>
                 </pf:panelGrid>
 
                 <h2>Dateien in der Dropbox:</h2>
-                <pf:dataTable id="uploadedFiles"
-                              tableStyleClass="inekTableBase"
-                              tableStyle="table-layout: auto; width: 99%;"
-                              value="#{editDropBox.uploadedFiles}"
-                              emptyMessage="Keine Dateien vorhanden"
-                              var="dropBox">
-                    <pf:column styleClass="colIcon" rendered="#{not editDropBox.dropBox.complete}">
-                        <h:commandLink action="#{editDropBox.deleteFile(dropBox.name)}" immediate="true">
-                            <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png"
-                                            title="#{msg.btnDelete}" value="" />
-                        </h:commandLink>
-                    </pf:column>
+                <div jsf:id="uploadedFiles">
+                    <pf:dataTable tableStyleClass="inekTableBase"
+                                  tableStyle="table-layout: auto; width: 99%;"
+                                  value="#{editDropBox.uploadedFiles}"
+                                  emptyMessage="Keine Dateien vorhanden"
+                                  var="dropBox">
+                        <pf:column styleClass="colIcon" rendered="#{not editDropBox.dropBox.complete}">
+                            <h:commandLink action="#{editDropBox.deleteFile(dropBox.name)}" immediate="true">
+                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png"
+                                                title="#{msg.btnDelete}" value=""/>
+                            </h:commandLink>
+                        </pf:column>
 
-                    <pf:column headerText="Datei">
-                        <pf:outputLabel value="#{dropBox.name}" />
-                    </pf:column>
+                        <pf:column headerText="Datei">
+                            <pf:outputLabel value="#{dropBox.name}"/>
+                        </pf:column>
 
-                    <pf:column headerText="Dateigröße" style="text-align: right">
-                        <h:outputText value="#{editDropBox.formatSize(dropBox.size)}" />
-                    </pf:column>
+                        <pf:column headerText="Dateigröße" style="text-align: right">
+                            <h:outputText value="#{editDropBox.formatSize(dropBox.size)}"/>
+                        </pf:column>
 
-                </pf:dataTable>
+                    </pf:dataTable>
+                    <h:panelGroup
+                            rendered="#{editDropBox.dropBoxContainsDecryptedFiles() and not editDropBox.dropBox.complete}"
+                            style="margin-top: 20px; margin-bottom: 20px;"
+                            styleClass="warningWide">
+                        Wir haben mindestens eine unverschlüsselte Datei in Ihrer DropBox erkannt. Sofern Sie eine Datenlieferung nach §21
+                        oder zur PPUG-Weiterentwicklung senden wollen, muss diese vor der Übermittlung verschlüsselt werden.
+                        Zum Prüfen, Verschlüsseln und Senden können Sie den <a
+                            href="https://www.g-drg.de/Datenlieferung_gem._21_KHEntgG/InEK_DatenDienst"
+                            target="blank">InEK DatenDienst</a> verwenden.
+                        Eine ausführliche Anleitung finden Sie im <a
+                            href="https://download.g-drg.de/DatenDienst/DatenDienst.pdf"
+                            target="blank">InEK DatenDienst Anwenderhandbuch</a>.
+                    </h:panelGroup>
+                </div>
 
-                <h:panelGroup rendered="#{editDropBox.dropBoxContainsDecryptedFiles() and not editDropBox.dropBox.complete}"
-                              style="margin-top: 20px; margin-bottom: 20px;"
-                              styleClass="warningWide">
-                    Wir haben unverschlüsselte Dateien in Ihrer DropBox entdeckt. Sofern Sie eine Datenlieferung nach §21
-                    oder zur PPUG-Weiterentwicklung senden wollen, muss diese verschlüsselt über die DropBox hochgeladen werden.
-                    Zur Verschlüsselung können Sie den <a href="https://www.g-drg.de/Datenlieferung_gem._21_KHEntgG/InEK_DatenDienst" target="blank">InEK DatenDienst</a> verwenden.
-                    Eine ausführliche Anleitung finden Sie im <a href="https://download.g-drg.de/DatenDienst/DatenDienst.pdf" target="blank">InEK DatenDienst Anwenderhandbuch</a>.
-                </h:panelGroup>
-
-                <h:panelGroup rendered="#{!editDropBox.dropBox.complete}" styleClass="toolBar">
-                    <br />
+                <h:panelGroup id="buttons" rendered="#{!editDropBox.dropBox.complete}" styleClass="toolBar">
+                    <br/>
                     <pf:fileUpload styleClass="inekUploader"
                                    fileUploadListener="#{editDropBox.handleFileUpload}"
                                    mode="advanced"
-                                   multiple="true"
+                                   multiple="false"
                                    auto="true"
                                    uploadLabel="Datei hochladen"
                                    label="Datei hochladen"
-                                   update="@form" />
+                                   update="uploadedFiles"/>
 
-                    <br />
+                    <br/>
                     <pf:commandButton styleClass="btnDrg"
                                       action="#{editDropBox.sealDropBox}"
-                                      update="@form"
-                                      value="#{msg.btnSealDropBox} (ans InEK senden)" />
+                                      update="uploadedFiles buttons"
+                                      value="#{msg.btnSealDropBox} (ans InEK senden)"/>
                 </h:panelGroup>
 
             </div>

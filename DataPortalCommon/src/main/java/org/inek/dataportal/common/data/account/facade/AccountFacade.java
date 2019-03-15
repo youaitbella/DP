@@ -56,6 +56,31 @@ public class AccountFacade extends AbstractDataAccess {
         super(em);
     }
 
+    private void deleteOrphanRights(int accountId) {
+        String sql = "delete ikadm.AccessRight where arid in (\n"
+                + "    select arid \n"
+                + "    from ikadm.AccessRight\n"
+                + "    left join AccountAdditionalIK on arAccountId = aaiAccountId and arik = aaiik\n"
+                + "    where arAccountId = ? and aaiId is null\n"
+                + ")";
+        deleteOrphanRights(accountId, sql);
+
+
+        sql = "delete ikadm.AccessRight where arid in (\n"
+                + "    select arid \n"
+                + "    from ikadm.AccessRight\n"
+                + "    left join AccountFeature on arAccountId = afAccountId and arFeatureId = afFeatureId\n"
+                + "    where arAccountId = ? and afId is null\n"
+                + ")";
+        deleteOrphanRights(accountId, sql);
+    }
+
+    private void deleteOrphanRights(int accountId, String sql) {
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.setParameter(1, accountId);
+        query.executeUpdate();
+    }
+
     public Account findByMailOrUser(String mailOrUser) {
         String query = "SELECT a FROM Account a WHERE a._email = :mailOrUser or a._user = :mailOrUser";
         List<Account> list = getEntityManager().createQuery(query, Account.class).setParameter("mailOrUser", mailOrUser).
@@ -153,6 +178,7 @@ public class AccountFacade extends AbstractDataAccess {
             }
         }
         Account managedAccount = merge(account);
+        deleteOrphanRights(account.getId());
         return managedAccount;
     }
 

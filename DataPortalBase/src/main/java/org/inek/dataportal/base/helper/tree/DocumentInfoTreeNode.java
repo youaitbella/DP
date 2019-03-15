@@ -24,7 +24,7 @@ public final class DocumentInfoTreeNode extends TreeNode{
     private DocumentInfoTreeNode(TreeNode parent, DocInfo info) {
         super(parent);
         _info = info;
-        setId(info.getId());
+        setId(info.getAccountDocumentId());
         setExpanded(true);
     }
     

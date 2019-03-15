@@ -17,6 +17,7 @@ import org.inek.dataportal.common.enums.StructureInformationCategorie;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.psy.khcomparison.helper.StructureInformationChecker;
 import org.inek.dataportal.psy.khcomparison.helper.StructureinformationHelper;
 
 import javax.annotation.PostConstruct;
@@ -142,6 +143,14 @@ public class EditStructureInformation {
             return;
         }
 
+        ensureStructureInformations();
+
+        String checkError = StructureInformationChecker.checkStructureBaseInformation(_structureBaseInformation);
+        if (!"".equals(checkError)) {
+            DialogController.showInfoDialog("Daten nicht vollständig", checkError);
+            return;
+        }
+
         try {
             String errors = StructureinformationHelper.checkForDuplicatedDates(_structureBaseInformation);
             if ("".equals(errors)) {
@@ -158,6 +167,21 @@ public class EditStructureInformation {
 
         } catch (Exception ex) {
             DialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
+            _sessionController.getMailer().sendError(ex.getMessage(), ex);
+        }
+    }
+
+    private void ensureStructureInformations() {
+        for (StructureInformation info : getStructureInformationsByStructureCategorie(StructureInformationCategorie.BedCount.name())) {
+            if (info.getContent() == null) {
+                info.setContent("");
+            }
+        }
+
+        for (StructureInformation info : getStructureInformationsByStructureCategorie(StructureInformationCategorie.TherapyPartCount.name())) {
+            if (info.getContent() == null) {
+                info.setContent("");
+            }
         }
     }
 

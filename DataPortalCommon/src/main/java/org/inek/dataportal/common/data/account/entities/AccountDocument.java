@@ -1,23 +1,12 @@
 package org.inek.dataportal.common.data.account.entities;
 
+import org.inek.dataportal.common.data.account.iface.Document;
+import org.inek.dataportal.common.utils.DateUtils;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.Transient;
-import org.inek.dataportal.common.data.account.iface.Document;
-import org.inek.dataportal.common.utils.DateUtils;
 
 @Entity
 @Table(name = "AccountDocument")
@@ -27,15 +16,25 @@ public class AccountDocument implements Serializable, Document {
     
     public AccountDocument() {}
 
-    public AccountDocument(String name) {
-        _name = name;
+    public AccountDocument(int documentId) {
+        _documentId = documentId;
     }
 
+    //<editor-fold desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "adId")
-    private Integer _id;
-    
+    private Integer _id = -1;
+
+    public Integer getId() {
+        return _id;
+    }
+
+    public void setId(Integer id) {
+        _id = id;
+    }
+    //</editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "adAccountId")
     private int _accountId;
@@ -61,11 +60,22 @@ public class AccountDocument implements Serializable, Document {
         _agentAccountId = agentAccountId;
     }
     // </editor-fold>
-        
+
+    //<editor-fold desc="Property Created">
     @Column(name = "adCreated")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _created;
-    
+
+    public Date getCreated() {
+        return _created;
+    }
+
+    public void setCreated(Date created) {
+        _created = created;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property LastChanged">
     @Column(name = "adLastChanged")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastChanged;
@@ -77,49 +87,12 @@ public class AccountDocument implements Serializable, Document {
     public void setLastChanged(Date lastChanged) {
         this._lastChanged = lastChanged;
     }
-    
+    //</editor-fold>
+
+    //<editor-fold desc="Property ValidUntil">
     @Column(name = "adValidUntil")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _validUntil;
-
-    @Column(name = "adName")
-    private String _name;
-    
-    @Lob
-    @Column(name = "adContent")
-    private byte[] _content;
-    
-    @Column(name = "adIsRead")
-    private boolean _read;
-    
-    //<editor-fold defaultstate="collapsed" desc="Property SenderIk">
-    @Column(name = "adSenderIk")
-    private int _senderIk;
-    
-    public int getSenderIk() {
-        return _senderIk;
-    }
-    
-    public void setSenderIk(int senderIk) {
-        this._senderIk = senderIk;
-    }
-    //</editor-fold>
-            
-    public Integer getId() {
-        return _id;
-    }
-
-    public void setId(Integer id) {
-        _id = id;
-    }
-
-    public Date getCreated() {
-        return _created;
-    }
-
-    public void setCreated(Date created) {
-        _created = created;
-    }
 
     public Date getValidUntil() {
         return _validUntil;
@@ -128,7 +101,13 @@ public class AccountDocument implements Serializable, Document {
     public void setValidUntil(Date validUntil) {
         _validUntil = validUntil;
     }
-    
+    //</editor-fold>
+
+    //<editor-fold desc="Property Name">
+    @Column(name = "adName")
+    @Deprecated
+    private String _name = "";
+
     @Override
     public String getName() {
         return _name;
@@ -138,26 +117,14 @@ public class AccountDocument implements Serializable, Document {
     public void setName(String name) {
         _name = name;
     }
+    //</editor-fold>
 
-    @Column(name = "adDocumentDomainId", updatable = false, insertable = false)
-    private int _domainId;
+    //<editor-fold desc="Property Content">
+    @Lob
+    @Column(name = "adContent")
+    @Deprecated
+    private byte[] _content = new byte[0];
 
-    public int getDomainId() {
-        return _domainId;
-    }
-
-    @OneToOne()
-    @JoinColumn(name = "adDocumentDomainId")
-    private DocumentDomain _domain;
-
-    public DocumentDomain getDomain() {
-        return _domain;
-    }
-
-    public void setDomain(DocumentDomain domain) {
-        _domain = domain;
-    }
-    
     @Override
     public byte[] getContent() {
         return _content;
@@ -167,6 +134,11 @@ public class AccountDocument implements Serializable, Document {
     public void setContent(byte[] content) {
         _content = content;
     }
+    //</editor-fold>
+
+    //<editor-fold desc="Property IsRead">
+    @Column(name = "adIsRead")
+    private boolean _read;
 
     public boolean isRead() {
         return _read;
@@ -175,7 +147,38 @@ public class AccountDocument implements Serializable, Document {
     public void setRead(boolean read) {
         _read = read;
     }
-    
+    //</editor-fold>
+
+    //<editor-fold desc="Property DocumentDomain">
+    @ManyToOne
+    @JoinColumn(name = "adDocumentDomainId", insertable = false, updatable = false)
+    @Deprecated
+    private DocumentDomain _domain;
+
+    public DocumentDomain getDomain() {
+        return _domain;
+    }
+
+    public void setDomain(DocumentDomain domain) {
+        _domain = domain;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property DocumentId">
+    @Column(name = "adDocumentId")
+    private int _documentId;
+
+    public int getDocumentId() {
+        return _documentId;
+    }
+
+    public void setDocumentId(int documentId) {
+        this._documentId = documentId;
+    }
+    //</editor-fold>
+
+
+    //<editor-fold desc="Transioent Validity">
     @Transient
     private int _validity = 1000;
 
@@ -186,6 +189,7 @@ public class AccountDocument implements Serializable, Document {
     public void setValidity(int validity) {
         _validity = validity;
     }
+    //</editor-fold>
     
     @PrePersist
     private void tagCreated() {
@@ -200,15 +204,5 @@ public class AccountDocument implements Serializable, Document {
     private void tagChanged() {
         _lastChanged = Calendar.getInstance().getTime();
     }
-    
-    @Column(name = "adSendToProcess")
-    private boolean _sendToProcess;
 
-    public boolean isSendToProcess() {
-        return _sendToProcess;
-    }
-
-    public void setSendToProcess(boolean sendToProcess) {
-        this._sendToProcess = sendToProcess;
-    }
 }

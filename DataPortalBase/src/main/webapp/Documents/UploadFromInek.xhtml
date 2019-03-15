@@ -5,7 +5,6 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="documentContent">
@@ -187,8 +186,8 @@
             <div class="inputPart">
                 <h:panelGroup rendered="#{documentUpload.documents.size() > 0}">
                     <div class="inputPart"><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></div>
-                    <h:dataTable  headerClass="list-header" id="tblDropBoxes"
-                                  value="#{documentUpload.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
+                    <h:dataTable headerClass="list-header"
+                                 value="#{documentUpload.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
 
                         <h:column id="colDeleteId">
                             <h:commandLink action="#{documentUpload.deleteDocument(file)}" immediate="true" >

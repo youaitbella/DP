@@ -118,6 +118,7 @@ public class ToolUploadServlet extends HttpServlet {
         int ik = Integer.parseInt(params.get("ik"));
         DropBox dropBox = createDropBox(filename, ik);
         File dir = ((DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX)).getUploadDir(dropBox);
+        dropBox.setUploadDir(dir);
         dir.mkdirs();
         try (InputStream is = part.getInputStream();
                 FileOutputStream fos = new FileOutputStream(new File(dir, filename))) {

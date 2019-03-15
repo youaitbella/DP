@@ -5,6 +5,9 @@
  */
 package org.inek.dataportal.calc.backingbean;
 
+import org.inek.dataportal.calc.entities.drg.*;
+import org.inek.dataportal.calc.facades.CalcDrgFacade;
+
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
@@ -12,27 +15,6 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import org.inek.dataportal.calc.entities.drg.DrgCalcBasics;
-import org.inek.dataportal.calc.entities.drg.DrgContentText;
-import org.inek.dataportal.calc.entities.drg.DrgDelimitationFact;
-import org.inek.dataportal.calc.entities.drg.DrgNeonatData;
-import org.inek.dataportal.calc.entities.drg.KGLListCentralFocus;
-import org.inek.dataportal.calc.entities.drg.KGLListContentTextOps;
-import org.inek.dataportal.calc.entities.drg.KGLListCostCenterCost;
-import org.inek.dataportal.calc.entities.drg.KGLListLocation;
-import org.inek.dataportal.calc.entities.drg.KGLListObstetricsGynecology;
-import org.inek.dataportal.calc.entities.drg.KGLListRadiologyLaboratory;
-import org.inek.dataportal.calc.entities.drg.KGLListServiceProvision;
-import org.inek.dataportal.calc.entities.drg.KGLListServiceProvisionType;
-import org.inek.dataportal.calc.entities.drg.KGLNormalFeeContract;
-import org.inek.dataportal.calc.entities.drg.KGLNormalFreelancer;
-import org.inek.dataportal.calc.entities.drg.KGLNormalStationServiceDocumentation;
-import org.inek.dataportal.calc.entities.drg.KGLPersonalAccounting;
-import org.inek.dataportal.calc.entities.drg.KGLRadiologyService;
-import org.inek.dataportal.calc.entities.drg.KglOpAn;
-import org.inek.dataportal.calc.entities.drg.KGLListOverviewPersonalType;
-import org.inek.dataportal.calc.entities.drg.KGLListOverviewPersonal;
-import org.inek.dataportal.calc.facades.CalcDrgFacade;
 
 /**
  *
@@ -295,10 +277,7 @@ public class PreloadFunctionsCalcBasicsDrg {
                 KGLRadiologyService rs = new KGLRadiologyService();
                 rs.setBaseInformationId(calcBasics.getId());
                 rs.setRsContentTextID(ct.getId());
-                KGLListContentTextOps ops = calcDrgFacade.findOpsCodeByContentTextId(ct.getId());
-                if (ops != null) {
-                    rs.setOpsCode(ops.getOpsCode());
-                }
+                rs.setOpsCode(ct.getOpsCode());
                 calcBasics.getRadiologyServices().add(rs);
             }
         }

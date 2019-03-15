@@ -1,16 +1,32 @@
 package org.inek.dataportal.drg.nub;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-import java.util.logging.Logger;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.ProcedureFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.account.iface.Document;
+import org.inek.dataportal.common.data.icmt.entities.Customer;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
+import org.inek.dataportal.common.enums.CodeType;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.ObjectComparer;
+import org.inek.dataportal.common.helper.ObjectCopier;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.helper.structures.FieldValues;
+import org.inek.dataportal.common.helper.structures.MessageContainer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.drg.controller.SessionHelper;
+import org.inek.dataportal.drg.nub.entities.NubFormerRequestMerged;
+import org.inek.dataportal.drg.nub.entities.NubRequest;
+import org.inek.dataportal.drg.nub.entities.NubRequestDocument;
+import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -21,31 +37,9 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.icmt.entities.Customer;
-import org.inek.dataportal.common.data.account.iface.Document;
-import org.inek.dataportal.drg.nub.entities.NubFormerRequestMerged;
-import org.inek.dataportal.drg.nub.entities.NubRequest;
-import org.inek.dataportal.drg.nub.entities.NubRequestDocument;
-import org.inek.dataportal.common.enums.CodeType;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
-import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.access.ProcedureFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.helper.ObjectUtils;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.helper.structures.FieldValues;
-import org.inek.dataportal.common.helper.structures.MessageContainer;
-import org.inek.dataportal.common.utils.DocumentationUtil;
-import org.inek.dataportal.drg.controller.SessionHelper;
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.logging.Logger;
 
 @Named
 @FeatureScoped
@@ -424,7 +418,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     private Map<String, FieldValues> getDifferencesUser(NubRequest modifiedNubRequest, List<Class> excludedTypes) {
-        Map<String, FieldValues> differencesUser = ObjectUtils.
+        Map<String, FieldValues> differencesUser = ObjectComparer.
                 getDifferences(_nubRequestBaseline, modifiedNubRequest, excludedTypes);
         differencesUser.remove("_status");
         differencesUser.remove("_lastChangedBy");
@@ -436,7 +430,7 @@ public class EditNubRequest extends AbstractEditController {
             // sealed by partner. By definition this is the new version and there are no differences
             return Collections.emptyMap();
         }
-        Map<String, FieldValues> differencesPartner = ObjectUtils.
+        Map<String, FieldValues> differencesPartner = ObjectComparer.
                 getDifferences(_nubRequestBaseline, _nubRequest, excludedTypes);
         differencesPartner.remove("_status");
         differencesPartner.remove("_version");
@@ -455,7 +449,7 @@ public class EditNubRequest extends AbstractEditController {
             }
             FieldValues fieldValues = differencesUser.get(fieldName);
             Field field = fieldValues.getField();
-            ObjectUtils.copyFieldValue(field, modifiedNubRequest, _nubRequest);
+            ObjectCopier.copyFieldValue(field, modifiedNubRequest, _nubRequest);
         }
         return collisions;
     }

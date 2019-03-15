@@ -1,19 +1,19 @@
 package org.inek.dataportal.base.upload;
 
-import org.inek.dataportal.common.upload.HttpUtil;
+import org.inek.dataportal.api.helper.Const;
+import org.inek.dataportal.base.feature.documents.DocumentUpload;
+import org.inek.dataportal.common.data.account.iface.Document;
+import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.upload.AbstractUploadServlet;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
+import org.inek.dataportal.common.upload.HttpUtil;
+import org.inek.dataportal.common.utils.StreamUtils;
+
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
-import org.inek.dataportal.api.helper.Const;
-import org.inek.dataportal.common.data.account.entities.AccountDocument;
-import org.inek.dataportal.base.feature.documents.DocumentUpload;
-import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
-import org.inek.dataportal.common.utils.StreamUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
 
 @WebServlet(urlPatterns = {"/upload/document"}, name = "DocumentUploadServlet")
 @MultipartConfig(fileSizeThreshold = 16 * 1024 * 1024, maxFileSize = Integer.MAX_VALUE - 5)
@@ -26,15 +26,7 @@ public class DocumentUploadServlet extends AbstractUploadServlet {
                 = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
         DocumentUpload docUpload = FeatureScopedContextHolder.Instance.getBean(DocumentUpload.class, map);
 
-        List<AccountDocument> documents = docUpload.getDocuments();
-        AccountDocument document = documents
-                .stream()
-                .filter(d -> d.getName().equals(filename))
-                .findFirst()
-                .orElse(new AccountDocument(filename));
-        if (!documents.contains(document)) {
-            documents.add(document);
-        }
+        Document document = docUpload.findOrCreateByName(filename);
         document.setContent(StreamUtils.stream2blob(is, getInitialSize(httpUtil)));
     }
 

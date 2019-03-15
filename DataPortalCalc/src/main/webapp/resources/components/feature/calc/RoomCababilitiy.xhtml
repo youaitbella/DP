@@ -57,9 +57,21 @@
                 <f:selectItem itemLabel="wählen..." itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItems value="#{editCalcBasicsDrg.getMainServices(cc.attrs.costCenterId)}" var="mainsService"
                                itemLabel="#{mainsService.name}" itemValue="#{mainsService.id}"/>
-                <f:ajax render="@this :logout:remaining"/>
+                <f:ajax render="@this :logout:remaining explanation:text"/>
             </h:selectOneMenu>
         </h:column>
+
+        <h:column>
+            <f:facet name="header">Erläuterung</f:facet>
+            <inek:InputTextWithMessage id="explanation"
+                                       title="Bitte erläutern Sie den Haupt-Leistungsbereich 'Sonstige'. Bei Bedarf können Sie andere Bereiche ebenfalls erläutern."
+                                       required="#{roomCapability.mainServiceId eq 99}"
+                                       value="#{roomCapability.explanation}"
+                                       readonly="#{editCalcBasicsDrg.readOnly}"
+                                       styleClass="fullWidth">
+            </inek:InputTextWithMessage>
+        </h:column>
+
 
         <h:column>
             <f:facet name="header">Fallzahl</f:facet>

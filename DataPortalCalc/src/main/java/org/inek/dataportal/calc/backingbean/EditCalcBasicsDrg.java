@@ -12,7 +12,10 @@ import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.*;
+import org.inek.dataportal.common.helper.ObjectComparer;
+import org.inek.dataportal.common.helper.ObjectCopier;
+import org.inek.dataportal.common.helper.TransferFileCreator;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.inek.dataportal.common.helper.structures.MessageContainer;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -341,39 +344,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public int getSumIntensivStrokeWeighted() {
-        List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
-        int result = 0;
-        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
-            result += intensivStroke.getIntensivHoursWeighted();
-        }
-        return result;
+        return _calcBasics.getIntensivStrokes().stream().mapToInt(i -> i.getIntensivHoursWeighted()).sum();
     }
 
     public int getPriorSumIntensivStrokeWeighted() {
-        List<KGLListIntensivStroke> intensivStrokes = _priorCalcBasics.getIntensivStrokes();
-        int result = 0;
-        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
-            result += intensivStroke.getIntensivHoursWeighted();
-        }
-        return result;
+        return _priorCalcBasics.getIntensivStrokes().stream().mapToInt(i -> i.getIntensivHoursWeighted()).sum();
     }
 
     public int getSumIntensivStrokeNotWeighted() {
-        List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
-        int result = 0;
-        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
-            result += intensivStroke.getIntensivHoursNotweighted();
-        }
-        return result;
+        return _calcBasics.getIntensivStrokes().stream().mapToInt(i -> i.getIntensivHoursNotweighted()).sum();
     }
 
     public int getPriorSumIntensivStrokeNotWeighted() {
-        List<KGLListIntensivStroke> intensivStrokes = _priorCalcBasics.getIntensivStrokes();
-        int result = 0;
-        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
-            result += intensivStroke.getIntensivHoursNotweighted();
-        }
-        return result;
+        return _priorCalcBasics.getIntensivStrokes().stream().mapToInt(i -> i.getIntensivHoursNotweighted()).sum();
     }
 
     public List<Double> getCostCenterCostsSums() {
@@ -493,7 +476,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.removeEmptyServiceProvisions();
         removeEmptyLocations();
 
-        if (_baseLine != null && ObjectUtils.getDifferences(_baseLine, _calcBasics, null).isEmpty()) {
+        if (_baseLine != null && ObjectComparer.getDifferences(_baseLine, _calcBasics, null).isEmpty()) {
             // nothing is changed, but we will reload the data if changed by somebody else (as indicated by a new version)
             if (_baseLine.getVersion() != _calcDrgFacade.getCalcBasicsDrgVersion(_calcBasics.getId())) {
                 _baseLine = _calcDrgFacade.findCalcBasicsDrg(_calcBasics.getId());
@@ -763,8 +746,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         saveData(false);
         try {
             _sessionController.requestApproval(_calcBasics.getIk(), Feature.CALCULATION_HOSPITAL);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
         }
         return "";
@@ -1031,7 +1013,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         UIInput roomValue = (UIInput) event.getComponent();
         try {
             int rooms = Integer.parseInt(roomValue.getValue().toString());
-            System.out.println("" + rooms);
         } catch (NumberFormatException ex) {
             // ignore
         }
@@ -1047,6 +1028,17 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         while (_calcBasics.getRoomCapabilities(costCenterId).size() < roomCount) {
             _calcBasics.addRoomCapability(costCenterId);
         }
+
+        List<KglRoomCapability> roomCapabilities = _calcBasics.getRoomCapabilities(costCenterId);
+        for (KglRoomCapability capability : roomCapabilities) {
+            if (_calcBasics.getRoomCapabilities(costCenterId).size() <= roomCount) {
+                break;
+            }
+            if (capability.isEmpty()) {
+                _calcBasics.deleteRoomCapability(capability);
+            }
+        }
+
     }
 
     private Map<Integer, List<SelectItem>> _serviceItems = new HashMap<>();

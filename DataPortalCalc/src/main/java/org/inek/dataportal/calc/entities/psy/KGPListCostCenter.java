@@ -177,11 +177,11 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
     private double _countMedStaffPre;
 
     public double getCountMedStaffPre() {
-        return _countMedStaffAfter;
+        return _countMedStaffPre;
     }
 
     public void setCountMedStaffPre(double countMedStaffPre) {
-        this._countMedStaffAfter = countMedStaffPre;
+        this._countMedStaffPre = countMedStaffPre;
     }
     // </editor-fold>
 
