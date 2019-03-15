@@ -73,17 +73,22 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property KGPListServiceProvisionType">
+    // <editor-fold defaultstate="collapsed" desc="Property OverviewPersonalType">
     @ManyToOne
     @JoinColumn(name = "opOverviewPersonalTypeId")
     private KGPListOverviewPersonalType _overviewPersonalType = new KGPListOverviewPersonalType();
 
+    @JsonIgnore
     public KGPListOverviewPersonalType getOverviewPersonalType() {
         return _overviewPersonalType;
     }
 
     public void setOverviewPersonalType(KGPListOverviewPersonalType overviewPersonalType) {
         _overviewPersonalType = overviewPersonalType;
+    }
+
+    public int getOverviewPersonalTypeId() { // for JSON transferfile
+        return _overviewPersonalType == null ? -1 : _overviewPersonalType.getId();
     }
     // </editor-fold>
 

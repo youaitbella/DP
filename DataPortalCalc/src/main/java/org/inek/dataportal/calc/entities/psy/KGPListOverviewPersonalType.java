@@ -55,8 +55,7 @@ public class KGPListOverviewPersonalType implements Serializable {
     }
     //</editor-fold>
 
-
-    //<editor-fold defaultstate="collapsed" desc="Text">
+    //<editor-fold defaultstate="collapsed" desc="CostType">
     @ManyToOne
     @JoinColumn(name = "optCostTypeId")
     @Documentation(name = "Beschreibung", rank = 10)

@@ -6,18 +6,12 @@
 package org.inek.dataportal.calc.entities.drg;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.inek.dataportal.common.data.iface.BaseIdValue;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.inek.dataportal.common.data.iface.BaseIdValue;
 
 /**
  *
@@ -62,31 +56,22 @@ public class KGLListOverviewPersonal implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="ProvidedTypeId">
-    @Column(name = "opOverviewPersonalTypeId")
-    private int _overviewPersonalTypeId;
-
-    public int getOverviewPersonalTypeId() {
-        return _overviewPersonalTypeId;
-    }
-
-    public void setOverviewPersonalTypeId(int overviewPersonalTypeId) {
-        this._overviewPersonalTypeId = overviewPersonalTypeId;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property KGLListServiceProvisionType">
-    @OneToOne
+    // <editor-fold defaultstate="collapsed" desc="Property OverviewPersonalType">
+    @ManyToOne
     @PrimaryKeyJoinColumn(name = "opOverviewPersonalTypeId")
-    private KGLListOverviewPersonalType _overviewPersonalType;
+    private KGLListOverviewPersonalType _overviewPersonalType = new KGLListOverviewPersonalType();
 
+    @JsonIgnore
     public KGLListOverviewPersonalType getOverviewPersonalType() {
         return _overviewPersonalType;
     }
 
     public void setOverviewPersonalType(KGLListOverviewPersonalType overviewPersonalType) {
         _overviewPersonalType = overviewPersonalType;
-        _overviewPersonalTypeId = overviewPersonalType == null ? -1 : overviewPersonalType.getId();
+    }
+
+    public int getOverviewPersonalTypeId() { // for JSON transferfile
+        return _overviewPersonalType == null ? -1 : _overviewPersonalType.getId();
     }
     // </editor-fold>
 
@@ -166,7 +151,6 @@ public class KGLListOverviewPersonal implements Serializable, BaseIdValue {
         hash = 37 * hash + Objects.hashCode(this._costAmountPost);
         hash = 37 * hash + Objects.hashCode(this._baseInformationId);
         hash = 37 * hash + Objects.hashCode(this._costAmountPre);
-        hash = 37 * hash + Objects.hashCode(this._overviewPersonalTypeId);
         return hash;
     }
 
@@ -202,9 +186,6 @@ public class KGLListOverviewPersonal implements Serializable, BaseIdValue {
             return false;
         }
         if (!Objects.equals(this._costAmountPre, other._costAmountPre)) {
-            return false;
-        }
-        if (!Objects.equals(this._overviewPersonalTypeId, other._overviewPersonalTypeId)) {
             return false;
         }
         return true;
