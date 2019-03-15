@@ -58,7 +58,7 @@ public class KGLListOverviewPersonal implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="Property OverviewPersonalType">
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "opOverviewPersonalTypeId")
+    @JoinColumn(name = "opOverviewPersonalTypeId")
     private KGLListOverviewPersonalType _overviewPersonalType = new KGLListOverviewPersonalType();
 
     @JsonIgnore
