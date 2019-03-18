@@ -27,14 +27,16 @@ public class ProofImporter {
     private static final int CELL_HELPNURSE = 9;
     private static final int CELL_PATIENT_OCCUPANCY = 10;
     private static final int CELL_COUNT_SHIFT_NOT_RESPECTED = 11;
+    private static final int CELL_COMMENT = 12;
 
 
     private static final Logger LOGGER = Logger.getLogger(ProofImporter.class.getName());
     private String _message = "";
     private int _rowCounter = 0;
+    private Boolean _isBwHospital = false;
 
-    public ProofImporter() {
-
+    public ProofImporter(boolean isBwHospital) {
+        _isBwHospital = isBwHospital;
     }
 
     public String getMessage() {
@@ -96,6 +98,7 @@ public class ProofImporter {
             tmpProof.setHelpNurse(getDoubleFromCell(row.getCell(CELL_HELPNURSE), true));
             tmpProof.setPatientOccupancy(getDoubleFromCell(row.getCell(CELL_PATIENT_OCCUPANCY), true));
             tmpProof.setCountShiftNotRespected(getIntFromCell(row.getCell(CELL_COUNT_SHIFT_NOT_RESPECTED)));
+            tmpProof.setComment(getCommentFromCell(row.getCell(CELL_COMMENT)));
 
             checkProofIsValid(tmpProof, row);
 
@@ -104,11 +107,13 @@ public class ProofImporter {
             proofFromRow.setHelpNurse(tmpProof.getHelpNurse());
             proofFromRow.setPatientOccupancy(tmpProof.getPatientOccupancy());
             proofFromRow.setCountShiftNotRespected(tmpProof.getCountShiftNotRespected());
+            proofFromRow.setComment(tmpProof.getComment());
             _rowCounter++;
         } catch (InvalidValueException ex) {
             addMessage(ex.getMessage());
         }
     }
+
 
     private void checkProofIsValid(Proof proof, Row row) throws InvalidValueException {
         checkCountShift(proof.getCountShift(), row.getCell(CELL_COUNT_SHIFT));
@@ -187,6 +192,23 @@ public class ProofImporter {
             return String.valueOf(valueInt);
         } catch (Exception ex) {
             return cell.getStringCellValue();
+        }
+    }
+
+    private String getCommentFromCell(Cell cell) {
+        if (cell == null) {
+            return "";
+        }
+        else {
+            String stringFromCell = getStringFromCell(cell);
+            if (!stringFromCell.equals("") && !_isBwHospital) {
+                LOGGER.log(Level.INFO, "Using comment is not allowed for ik. Adress:" + cell.getAddress());
+                addMessage("Kommentarspalte ist nur für Bundeswehkrankenhäuser. Wert an Position " + cell.getAddress() + " wird ignoriert");
+                return "";
+            }
+            else {
+                return stringFromCell;
+            }
         }
     }
 

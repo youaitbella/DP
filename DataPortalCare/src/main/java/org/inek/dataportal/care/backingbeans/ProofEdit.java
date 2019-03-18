@@ -480,7 +480,7 @@ public class ProofEdit implements Serializable {
 
     public void handleFileUpload(FileUploadEvent event) {
         try {
-            ProofImporter importer = new ProofImporter();
+            ProofImporter importer = new ProofImporter(_isBwHospital);
             importer.handleProofUpload(_proofRegulationBaseInformation, event.getFile().getInputstream());
             setUploadMessage(importer.getMessage());
         } catch (Exception ex) {

@@ -42,7 +42,7 @@ class ProofImporterTest {
 
         }
 
-        ProofImporter importer = new ProofImporter();
+        ProofImporter importer = new ProofImporter(false);
 
         Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isTrue();
         Assertions.assertThat(info.getProofs().stream().filter(c -> c.getMonth().equals(Months.JANUARY) && c.getShift().equals(Shift.NIGHT))
@@ -71,7 +71,7 @@ class ProofImporterTest {
 
         }
 
-        ProofImporter importer = new ProofImporter();
+        ProofImporter importer = new ProofImporter(false);
 
         Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isTrue();
         Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getNurse() > 0)).isFalse();
@@ -101,7 +101,7 @@ class ProofImporterTest {
 
         }
 
-        ProofImporter importer = new ProofImporter();
+        ProofImporter importer = new ProofImporter(false);
 
         Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isTrue();
         Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getNurse() > 0)).isTrue();
@@ -134,11 +134,74 @@ class ProofImporterTest {
 
         }
 
-        ProofImporter importer = new ProofImporter();
+        ProofImporter importer = new ProofImporter(false);
 
         Assertions.assertThat(info.getProofs().stream().filter(c -> c.getNurse() == 0)).hasSize(24);
         Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isTrue();
         Assertions.assertThat(info.getProofs().stream().filter(c -> c.getNurse() == 0)).hasSize(0);
+    }
+
+    @Test
+    void handleProofUploadFullImportWithCommentTest() {
+        ProofRegulationBaseInformation info = new ProofRegulationBaseInformation();
+
+        List<ProofRegulationStation> stations = new ArrayList<>();
+
+        stations.add(createNewStation(SensitiveArea.GERIATRIE, "0200", "Geriatrie", "G1", "1"));
+        stations.add(createNewStation(SensitiveArea.INTENSIVMEDIZIN, "3600", "Intensivmedizin", "INT interdisziplinär", "1"));
+        stations.add(createNewStation(SensitiveArea.INTENSIVMEDIZIN, "0100", "Innere Medizin", "K1", "1"));
+        stations.add(createNewStation(SensitiveArea.KARDIOLOGIE, "0100", "Innere Medizin", "K1", "1"));
+
+        createProofs(info, stations, 2019, 1);
+
+        Assertions.assertThat(info.getProofs()).hasSize(24);
+
+        File file = new File(FILE_BASE_FOLDER + "ProofExampleFullWithComment.xlsx");
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (Exception ex) {
+
+        }
+
+        ProofImporter importer = new ProofImporter(true);
+
+        Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getComment().equals(""))).hasSize(22);
+        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getComment().equals("Kommentar mit Sonderzeichen !\"§$%&/()"))).hasSize(1);
+        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getComment().equals("Keinen Kommentar, Aber andere Anmerkungen"))).hasSize(1);
+    }
+
+    @Test
+    void handleProofUploadFullImportWithCommentNoBwHospitalTest() {
+        ProofRegulationBaseInformation info = new ProofRegulationBaseInformation();
+
+        List<ProofRegulationStation> stations = new ArrayList<>();
+
+        stations.add(createNewStation(SensitiveArea.GERIATRIE, "0200", "Geriatrie", "G1", "1"));
+        stations.add(createNewStation(SensitiveArea.INTENSIVMEDIZIN, "3600", "Intensivmedizin", "INT interdisziplinär", "1"));
+        stations.add(createNewStation(SensitiveArea.INTENSIVMEDIZIN, "0100", "Innere Medizin", "K1", "1"));
+        stations.add(createNewStation(SensitiveArea.KARDIOLOGIE, "0100", "Innere Medizin", "K1", "1"));
+
+        createProofs(info, stations, 2019, 1);
+
+        Assertions.assertThat(info.getProofs()).hasSize(24);
+
+        File file = new File(FILE_BASE_FOLDER + "ProofExampleFullWithComment.xlsx");
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (Exception ex) {
+
+        }
+
+        ProofImporter importer = new ProofImporter(false);
+
+        Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getComment().equals(""))).hasSize(24);
+        Assertions.assertThat(importer.getMessage()).isNotEqualTo("");
     }
 
     @Test
@@ -161,7 +224,7 @@ class ProofImporterTest {
 
         }
 
-        ProofImporter importer = new ProofImporter();
+        ProofImporter importer = new ProofImporter(false);
 
         Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isTrue();
 
@@ -191,7 +254,7 @@ class ProofImporterTest {
         station.setFabName(fabName);
         station.setStationName(stationName);
         station.setLocationCode(locationCode);
-        for(Months month : months) {
+        for (Months month : months) {
             station.addNewValideMonth(month);
         }
         return station;
