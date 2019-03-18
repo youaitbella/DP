@@ -17,18 +17,28 @@
                     </div>
 
                     <div class="menu" style="padding-top: 50px;">
-                        <po:menu>
-                            <c:forEach items="#{sessionController.topics}" var="topic">
-                                <pf:menuitem value="#{topic.title}"
-                                             action="#{sessionController.navigate(topic.outcome)}"/>
-                            </c:forEach>
+                        <po:menu id="menu">
                             <pf:menuitem value="#{msg.lblUserManual}"
                                          icon="fa fa-book"
                                          target="blank"
                                          url="https://daten.inek.org/manual/#{sessionController.manual}"/>
 
+                            <pf:submenu id="submenu1" label="#{sessionController.portalType.area}">
+                                <c:forEach items="#{sessionController.topicsForCurrentPortal}" var="topic" varStatus="loop">
+                                    <pf:menuitem value="#{topic.title}"
+                                                 id="menu_#{loop.index}"
+                                                 action="#{sessionController.navigate(topic.outcome)}"/>
+                                </c:forEach>
+                            </pf:submenu>
+
+                            <c:forEach items="#{sessionController.topicsForOtherPortals}" var="topic">
+                                <pf:menuitem value="#{topic.title}"
+                                             action="#{sessionController.navigate(topic.outcome)}"/>
+                            </c:forEach>
+
                         </po:menu>
                     </div>
+
                 </div>
             </div>
         </div>
