@@ -212,7 +212,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     private List<Proof> _proofs = new ArrayList<>();
 
     public List<Proof> getProofs() {
-        return Collections.unmodifiableList(_proofs);
+        return _proofs;
     }
 
     public void addProof(Proof proof) {
