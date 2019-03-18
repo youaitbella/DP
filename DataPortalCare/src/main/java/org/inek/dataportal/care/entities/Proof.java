@@ -58,17 +58,23 @@ public class Proof implements Serializable {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Dept Station">
+    //<editor-fold defaultstate="collapsed" desc="Proof Station">
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "prProofRegulationStationId")
     private ProofRegulationStation _proofRegulationStation;
 
+    @JsonIgnore
     public ProofRegulationStation getProofRegulationStation() {
         return _proofRegulationStation;
     }
 
     public void setProofRegulationStation(ProofRegulationStation proofRegulationStation) {
         this._proofRegulationStation = proofRegulationStation;
+    }
+
+    public int getProofRegulationStationId() {
+        return _proofRegulationStation.getId();
     }
     //</editor-fold>
 
