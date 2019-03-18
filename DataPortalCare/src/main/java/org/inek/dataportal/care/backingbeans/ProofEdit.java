@@ -85,6 +85,15 @@ public class ProofEdit implements Serializable {
     private BaseDataManager _baseDatamanager;
     private List<SelectItem> _listExceptionsFacts;
     private List<SortMeta> _preSortOrder = new ArrayList<>();
+    private Boolean _isBwHospital = false;
+
+    public Boolean getIsBwHospital() {
+        return _isBwHospital;
+    }
+
+    public void setIsBwHospital(Boolean isBwHospital) {
+        this._isBwHospital = isBwHospital;
+    }
 
     public List<SelectItem> getListExceptionsFacts() {
         return _listExceptionsFacts;
@@ -187,6 +196,7 @@ public class ProofEdit implements Serializable {
             loadExceptionsFactsList();
             fillExceptionsFactsList(_proofRegulationBaseInformation);
             _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
+            setIsBwHospital(_sessionController.getApplicationTools().isBwHospital(_proofRegulationBaseInformation.getIk()));
         }
         setReadOnly();
         buildSortOrder();
@@ -279,6 +289,7 @@ public class ProofEdit implements Serializable {
         save();
         _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
         setReadOnly();
+        setIsBwHospital(_sessionController.getApplicationTools().isBwHospital(_proofRegulationBaseInformation.getIk()));
     }
 
     private void loadBaseDataManager() {

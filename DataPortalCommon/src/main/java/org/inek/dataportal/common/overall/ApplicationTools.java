@@ -158,6 +158,11 @@ public class ApplicationTools {
         return _customerInfo.get(ik).getTown();
     }
 
+    public Boolean isBwHospital(int ik) {
+        Customer customerByIK = _customerFacade.getCustomerByIK(ik);
+        return customerByIK.getCustomerTypeId() == 45;
+    }
+
     private void ensureCustomerInfo(int ik) {
         if (_customerInfo.containsKey(ik)) {
             return;

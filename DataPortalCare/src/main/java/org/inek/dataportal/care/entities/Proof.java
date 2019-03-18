@@ -213,6 +213,19 @@ public class Proof implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Comment">
+    @Column(name = "prComment")
+    private String _comment = "";
+
+    public String getComment() {
+        return _comment;
+    }
+
+    public void setComment(String comment) {
+        this._comment = comment;
+    }
+    //</editor-fold>
+
     @OneToMany(mappedBy = "_proof", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "pefProofId")
     private List<ProofExceptionFact> _proofExceptionFact = new ArrayList<>();

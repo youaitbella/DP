@@ -199,6 +199,12 @@
                                      locale="de_DE" />
                 </h:outputLabel>
             </pf:column>
+            <pf:column headerText="Kommentar" rendered="#{proofEdit.isBwHospital}">
+                <pf:inputTextarea value="#{proof.comment}"
+                                       Style="width: 96%;"
+                                       readonly="#{proofEdit.isReadOnly}" />
+            </pf:column>
+
         </pf:dataTable>
     </div>
     <br />
