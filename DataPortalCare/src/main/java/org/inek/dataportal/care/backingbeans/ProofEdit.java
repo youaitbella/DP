@@ -366,7 +366,7 @@ public class ProofEdit implements Serializable {
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error duringTransferFileCreation PPUG: ik: " + _proofRegulationBaseInformation.getIk());
             _mailer.sendError("Error duringTransferFileCreation PPUG: ik: " + _proofRegulationBaseInformation.getIk() + " year: " +
-                    _proofRegulationBaseInformation.getYear() + " quarder: " + _proofRegulationBaseInformation.getQuarter(), ex);
+                    _proofRegulationBaseInformation.getYear() + " quarter: " + _proofRegulationBaseInformation.getQuarter(), ex);
         }
         setIsReadOnly(true);
     }
