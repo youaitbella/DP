@@ -201,7 +201,7 @@ public class ProofImporter {
         }
         else {
             String stringFromCell = getStringFromCell(cell);
-            if (!stringFromCell.equals("") && !_isBwHospital) {
+            if (!"".equals(stringFromCell) && !_isBwHospital) {
                 LOGGER.log(Level.INFO, "Using comment is not allowed for ik. Adress:" + cell.getAddress());
                 addMessage("Kommentarspalte ist nur für Bundeswehkrankenhäuser. Wert an Position " + cell.getAddress() + " wird ignoriert");
                 return "";
