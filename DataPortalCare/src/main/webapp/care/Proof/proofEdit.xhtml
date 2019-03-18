@@ -218,8 +218,8 @@
                                           rendered="#{proofEdit.changeAllowed() and not proofEdit.isExceptionFactsChangeMode}"
                                           style="margin-left: 10px;"
                                           update="@(.ui-message) @form" >
-                            <pf:confirm header="Daten wirklich ändern?" message="Durch diesen Vorgang wird eine neue Signatur für Ihre Meldung erstellt.
-                            Sofern Sie sich nicht in dem vorgegebenen Meldezeitraum befinden, wird Ihre Meldung als nicht fristgerecht angesehen." />
+                            <pf:confirm header="Daten wirklich ändern?" message="Durch diesen Vorgang wird die bestehende Signatur ungültig.
+                            Beim erneuten abschließenden Senden wird aus den Daten eine dann gültige Signatur berechnet."/>
                         </pf:commandButton>
 
                         <pf:commandButton value="Quartalsmeldung exportieren (Excel)"
