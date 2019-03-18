@@ -9,10 +9,9 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author lautenti
@@ -213,21 +212,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     private List<Proof> _proofs = new ArrayList<>();
 
     public List<Proof> getProofs() {
-        return _proofs;
-    }
-
-    public void setProofs(List<Proof> proofs) {
-        this._proofs = proofs;
-    }
-
-    public void addNewProof() {
-        Proof proof = new Proof();
-        proof.setBaseInformation(this);
-        _proofs.add(proof);
-    }
-
-    public void removeProof(Proof proof) {
-        _proofs.remove(proof);
+        return Collections.unmodifiableList(_proofs);
     }
 
     public void addProof(Proof proof) {

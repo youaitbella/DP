@@ -13,7 +13,7 @@ import java.util.List;
 public class CareSignatureCheckerFacade extends AbstractDataAccess {
 
     public SignatureEntry retrieveInformationForSignature(String signature) {
-        String sql = "select bi.prbiSignature, bi.prbiIk, cu.cuName, bi.prbiYear, bi.prbiQuarter\n" +
+        String sql = "select new org.inek.dataportal.insurance.care.backingbeanbi.prbiSignature, bi.prbiIk, cu.cuName, bi.prbiYear, bi.prbiQuarter\n" +
                 "from care.ProofRegulationBaseInformation bi\n" +
                 "join CallCenterDB.dbo.ccCustomer cu on cu.cuIK = bi.prbiIk\n" +
                 "where prbiStatusId = 10\n" +
