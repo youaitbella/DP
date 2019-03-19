@@ -73,6 +73,7 @@ public class Proof implements Serializable {
         this._proofRegulationStation = proofRegulationStation;
     }
 
+    //Using only for JSON Export
     public int getProofRegulationStationId() {
         return _proofRegulationStation.getId();
     }
@@ -92,6 +93,11 @@ public class Proof implements Serializable {
     @JsonIgnore
     public void setBaseInformation(ProofRegulationBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
+    }
+
+    //Using only for JSON Export
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
     }
     //</editor-fold>
 
