@@ -158,6 +158,9 @@ public class ProofImporter {
     }
 
     private Optional<Proof> getProofFromRow(ProofRegulationBaseInformation info, Row row) {
+        if (row.getCell(CELL_SENSITIVEAREA) == null) {
+            return Optional.empty();
+        }
         Optional<Proof> first = info.getProofs().stream()
                 .filter(c -> c.getProofRegulationStation().getSensitiveArea() ==
                         SensitiveArea.getByName(getStringFromCell(row.getCell(CELL_SENSITIVEAREA))))
