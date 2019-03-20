@@ -13,7 +13,7 @@ import java.util.Map;
 public final class ErrorCounter implements Serializable {
 
     @SuppressWarnings("ConstantName")
-    private static final Map<String, ErrorCounter> counters = new HashMap<>();
+    private final Map<String, ErrorCounter> counters = new HashMap<>();
     private static final long serialVersionUID = 1L;
     private String _errorMsg = "";
     private int _infoColumnCount = 0;
@@ -21,8 +21,9 @@ public final class ErrorCounter implements Serializable {
     private int _totalCount = 0;
     private int _errorColumnCount = 0;
 
-    private ErrorCounter() {
+    public ErrorCounter() {
         // use only ErrorCounters via obtainErrorCounter
+        // but to have one counter for each user or more explicit for each backing bean
     }
 
     /**
@@ -31,7 +32,7 @@ public final class ErrorCounter implements Serializable {
      * @param importer name who demands an ErrorCounter.
      * @return the named ErrorCounter
      */
-    public static ErrorCounter obtainErrorCounter(String importer) {
+    public ErrorCounter obtainErrorCounter(String importer) {
         if (!counters.containsKey(importer)) {
             counters.put(importer, new ErrorCounter());
         }

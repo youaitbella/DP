@@ -26,26 +26,26 @@ import org.inek.dataportal.common.utils.StringUtil;
 public class DataImportCheck<T, I> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private final ErrorCounter counter;
+    //private final ErrorCounter counter;
     private final QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check;
     private final BiConsumer<T, I> assign;
     private final String errorMsg;
 
     public DataImportCheck(
-            ErrorCounter counter,
+            //ErrorCounter counter,
             QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check, BiConsumer<T, I> assign,
             String errorMsg) {
-        this.counter = counter;
+        //this.counter = counter;
         this.check = check;
         this.assign = assign;
         this.errorMsg = errorMsg;
     }
 
-    public void resetCounter() {
-        counter.reset();
-    }
+//    public void resetCounter() {
+//        counter.reset();
+//    }
 
-    public void tryImport(T item, String data) {
+    public void tryImport(T item, String data, ErrorCounter counter) {
         check.accept(item, data, assign, errorMsg, counter);
     }
 
