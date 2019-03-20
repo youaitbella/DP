@@ -99,6 +99,42 @@ public class CompareAEBPageE3_2Test {
         com.compareAEBPageE3_2(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.2 - Spalte 4 - ZP2018-32 - EP01 - 6-007.15: Unterschied von ",
                 "Blatt E3.2 - Spalte 4 - ZP2018-32 - EP01 - 6-007.16: Unterschied von ");
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 100, 0));
+        list2.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 105, 0));
+
+        com.compareAEBPageE3_2(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 100, 0));
+        list2.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 106, 0));
+
+        com.compareAEBPageE3_2(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.2 - Spalte 4 - ZP2018-32 - EP01 - 6-007.16: Unterschied von ");
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 100, 0));
+        list2.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 96, 0));
+
+        com.compareAEBPageE3_2(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 100, 0));
+        list2.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 94, 0));
+
+        com.compareAEBPageE3_2(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.2 - Spalte 4 - ZP2018-32 - EP01 - 6-007.16: Unterschied von ");
     }
 
     @Test
@@ -127,6 +163,42 @@ public class CompareAEBPageE3_2Test {
         com.compareAEBPageE3_2(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.2 - Spalte 5 - ZP2018-32 - EP01 - 6-007.15: Unterschied von ",
                 "Blatt E3.2 - Spalte 5 - ZP2018-32 - EP01 - 6-007.16: Unterschied von ");
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 0, 100));
+        list2.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 0, 105));
+
+        com.compareAEBPageE3_2(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 0, 100));
+        list2.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 0, 106));
+
+        com.compareAEBPageE3_2(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.2 - Spalte 5 - ZP2018-32 - EP01 - 6-007.16: Unterschied von ");
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 0, 100));
+        list2.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 0, 96));
+
+        com.compareAEBPageE3_2(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 0, 100));
+        list2.add(createNewPage("ZP2018-32", "EP01", "6-007.16", 0, 94));
+
+        com.compareAEBPageE3_2(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.2 - Spalte 5 - ZP2018-32 - EP01 - 6-007.16: Unterschied von ");
     }
 
     public AEBPageE3_2 createNewPage(String ze,

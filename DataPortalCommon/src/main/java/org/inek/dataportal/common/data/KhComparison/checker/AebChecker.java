@@ -21,10 +21,12 @@ public class AebChecker {
     private String _message = "";
 
     private Boolean _removeWrongEntries;
+    private Boolean _sendCheck;
 
-    public AebChecker(AEBListItemFacade facade, Boolean removeWrongEntries) {
+    public AebChecker(AEBListItemFacade facade, Boolean removeWrongEntries, Boolean sendCheck) {
         _aebListItemFacade = facade;
         _removeWrongEntries = removeWrongEntries;
+        _sendCheck = sendCheck;
     }
 
     public String getMessage() {
@@ -42,7 +44,34 @@ public class AebChecker {
         checkPageE3_1(info);
         checkPageE3_2(info);
         checkPageE3_3(info);
+        if (_sendCheck) {
+            checkPageB1(info);
+        }
         return getMessage().isEmpty();
+    }
+
+    private void checkPageB1(AEBBaseInformation info) {
+        int allowedDiffernz = 5;
+
+        double sumE1_1 = 0;
+        double sumE1_2 = 0;
+
+        for (AEBPageE1_1 pageE1_1 : info.getAebPageE1_1()) {
+            sumE1_1 += pageE1_1.getSumValuationRadio();
+        }
+
+        for (AEBPageE1_2 pageE1_2 : info.getAebPageE1_2()) {
+            sumE1_2 += pageE1_2.getSumValuationRadio();
+        }
+
+        if (Math.abs(sumE1_1 + sumE1_2 - info.getAebPageB1().getSumEffectivValuationRadio()) > allowedDiffernz) {
+            addMessage("Blatt B1: Nr. 17 ist ungleich Summe Bewertungsrelationen E1.1 + E1.2");
+        }
+
+        if (info.getAebPageB1().getSumValuationRadioRenumeration() / info.getAebPageB1().getSumEffectivValuationRadio()
+                != info.getAebPageB1().getBasisRenumerationValueCompensation()) {
+            addMessage("Blatt B1: Nr. 18 ist ungleich Nr. 16 / Nr. 17");
+        }
     }
 
     private void checkPageE3_1(AEBBaseInformation info) {
@@ -103,6 +132,12 @@ public class AebChecker {
             double value = _aebListItemFacade.getValuationRadioDaysByPepp(page.getPepp(),
                     page.getCompensationClass(),
                     info.getYear());
+            if (value == 0) {
+                peppsForRemove.add(page);
+                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getPepp() + "] Vergütungsklasse " +
+                        "[" + page.getCompensationClass() + "] ist nicht im Katalog " + info.getYear() + " vorhanden");
+                continue;
+            }
             if (page.getValuationRadioDay() != value) {
                 addMessage(page.getImportetFrom() + ": Pepp: " + page.getPepp() + " - "
                         + page.getCompensationClass()
@@ -112,6 +147,14 @@ public class AebChecker {
                         + value
                 );
                 page.setValuationRadioDay(value);
+                continue;
+            }
+            if (_sendCheck && page.getCompensationClass() * page.getCaseCount() != page.getCalculationDays()) {
+                peppsForRemove.add(page);
+                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getPepp() + "] Vergütungsklasse [" + page.getCompensationClass() + "]: " +
+                        "Berechnungstage [" + page.getCalculationDays() + "] stimmen nicht mit ermittelten Berechnungstagen " +
+                        "[" + (page.getCompensationClass() * page.getCaseCount()) + "] überein.");
+                continue;
             }
         }
         if (_removeWrongEntries) {
@@ -131,6 +174,11 @@ public class AebChecker {
             }
             double value = _aebListItemFacade.getValuationRadioDaysByEt(page.getEt(),
                     info.getYear());
+            if (value == 0) {
+                etForRemove.add(page);
+                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getEt() + "] ist nicht im Katalog " + info.getYear() + " vorhanden");
+                continue;
+            }
             if (page.getValuationRadioDay() != value) {
                 addMessage(page.getImportetFrom() + ": ET: " + page.getEt()
                         + ": Unterschiedliche Werte. Eingetragen: "
@@ -158,6 +206,11 @@ public class AebChecker {
             }
             double value = _aebListItemFacade.getValuationRadioDaysByZe(page.getZe(),
                     info.getYear());
+            if (value == 0) {
+                zeForRemove.add(page);
+                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getZe() + "] ist nicht im Katalog " + info.getYear() + " vorhanden");
+                continue;
+            }
             if (page.getValuationRadioDay() != value) {
                 addMessage(page.getImportetFrom() + ": Ze: " + page.getZe()
                         + ": Unterschiedliche Werte. Eingetragen: "

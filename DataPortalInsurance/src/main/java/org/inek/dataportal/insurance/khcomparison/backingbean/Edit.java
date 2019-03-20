@@ -187,7 +187,7 @@ public class Edit {
     }
 
     private boolean baseInfoIsFormalCorrect(AEBBaseInformation info) {
-        AebChecker checker = new AebChecker(_aebListItemFacade, false);
+        AebChecker checker = new AebChecker(_aebListItemFacade, false, false);
         if(!checker.checkAeb(info)) {
             _errorMessage = checker.getMessage();
             return false;

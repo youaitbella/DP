@@ -32,7 +32,9 @@
                    uploadLabel="Datei Hochladen"
                    label="Exceldatei auswählen"
                    update="@form" />
-
+    <ui:remove>
+    <h2 jsf:rendered="#{edit.errorMessage.length() gt 0}">Fehlerprotokoll:</h2>
+    </ui:remove>
     <pf:inputTextarea value="#{edit.errorMessage}"
                       rendered="#{edit.errorMessage.length() gt 0}"
                       style="width: 100%; max-height: 500px" />

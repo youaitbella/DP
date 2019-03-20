@@ -53,6 +53,12 @@ public class CompareAEBPageB1Test {
         com.compareAEBPageB1(createNewPage(1224425, 0, 0, 0, 0, 0, 0),
                 createNewPage(422782572, 0, 0, 0, 0, 0, 0));
         Assertions.assertThat(com.getResult()).contains("Blatt B1 - Gesamtbetrag für den Vereinbarungszeitraum: Unterschied von ");
+
+        com.setResult("");
+
+        com.compareAEBPageB1(createNewPage(1000, 0, 0, 0, 0, 0, 0),
+                createNewPage(1049, 0, 0, 0, 0, 0, 0));
+        Assertions.assertThat(com.getResult()).isEmpty();
     }
 
     @Test
@@ -71,6 +77,12 @@ public class CompareAEBPageB1Test {
         com.compareAEBPageB1(createNewPage(0, 12244250, 0, 0, 0, 0, 0),
                 createNewPage(0, 1224425123, 0, 0, 0, 0, 0));
         Assertions.assertThat(com.getResult()).contains("Blatt B1 - Veränderter Gesamtbetrag: Unterschied von ");
+
+        com.setResult("");
+
+        com.compareAEBPageB1(createNewPage(0, 1000, 0, 0, 0, 0, 0),
+                createNewPage(0, 1049, 0, 0, 0, 0, 0));
+        Assertions.assertThat(com.getResult()).isEmpty();
     }
 
     @Test
@@ -89,6 +101,12 @@ public class CompareAEBPageB1Test {
         com.compareAEBPageB1(createNewPage(0, 0, 12244250, 0, 0, 0, 0),
                 createNewPage(0, 0, 1224425123, 0, 0, 0, 0));
         Assertions.assertThat(com.getResult()).contains("Blatt B1 - Verändertes Erlösbudget: Unterschied von ");
+
+        com.setResult("");
+
+        com.compareAEBPageB1(createNewPage(0, 0, 1000, 0, 0, 0, 0),
+                createNewPage(0, 0, 1049, 0, 0, 0, 0));
+        Assertions.assertThat(com.getResult()).isEmpty();
     }
 
     @Test
@@ -107,6 +125,12 @@ public class CompareAEBPageB1Test {
         com.compareAEBPageB1(createNewPage(0, 0, 0, 4141410, 0, 0, 0),
                 createNewPage(0, 0, 0, 11414140, 0, 0, 0));
         Assertions.assertThat(com.getResult()).contains("Blatt B1 - Summe mit Bewertungsrelationen bewertete Entgelte: Unterschied von ");
+
+        com.setResult("");
+
+        com.compareAEBPageB1(createNewPage(0, 0, 0, 1000, 0, 0, 0),
+                createNewPage(0, 0, 0, 1049, 0, 0, 0));
+        Assertions.assertThat(com.getResult()).isEmpty();
     }
 
     public AEBPageB1 createNewPage(double total,

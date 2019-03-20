@@ -89,6 +89,42 @@ public class CompareAEBPageE3_3Test {
 
         com.compareAEBPageE3_3(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.3 - Spalte 3 - P001Z - P03: Unterschied von ", "Blatt E3.3 - Spalte 3 - P001A - P03: Unterschied von ");
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("P001A", "P03", 100, 0, 0));
+        list2.add(createNewPage("P001A", "P03", 105, 0, 0));
+
+        com.compareAEBPageE3_3(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("P001A", "P03", 100, 0, 0));
+        list2.add(createNewPage("P001A", "P03", 106, 0, 0));
+
+        com.compareAEBPageE3_3(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.3 - Spalte 3 - P001A - P03: Unterschied von ");
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("P001A", "P03", 100, 0, 0));
+        list2.add(createNewPage("P001A", "P03", 96, 0, 0));
+
+        com.compareAEBPageE3_3(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("P001A", "P03", 100, 0, 0));
+        list2.add(createNewPage("P001A", "P03", 95, 0, 0));
+
+        com.compareAEBPageE3_3(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.3 - Spalte 3 - P001A - P03: Unterschied von ");
     }
 
     @Test
@@ -116,6 +152,43 @@ public class CompareAEBPageE3_3Test {
 
         com.compareAEBPageE3_3(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.3 - Spalte 5 - P001Z - P03: Unterschied von ", "Blatt E3.3 - Spalte 5 - P001A - P03: Unterschied von ");
+
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("P001A", "P03", 0, 100, 0));
+        list2.add(createNewPage("P001A", "P03", 0, 105, 0));
+
+        com.compareAEBPageE3_3(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("P001A", "P03", 0, 100, 0));
+        list2.add(createNewPage("P001A", "P03", 0, 106, 0));
+
+        com.compareAEBPageE3_3(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.3 - Spalte 5 - P001A - P03: Unterschied von ");
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("P001A", "P03", 0, 100, 0));
+        list2.add(createNewPage("P001A", "P03", 0, 96, 0));
+
+        com.compareAEBPageE3_3(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("P001A", "P03", 0, 100, 0));
+        list2.add(createNewPage("P001A", "P03", 0, 95, 0));
+
+        com.compareAEBPageE3_3(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.3 - Spalte 5 - P001A - P03: Unterschied von ");
     }
 
     @Test
@@ -143,6 +216,42 @@ public class CompareAEBPageE3_3Test {
 
         com.compareAEBPageE3_3(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.3 - Spalte 4 - P001Z - P03: Unterschied von ", "Blatt E3.3 - Spalte 4 - P001A - P03: Unterschied von ");
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("P001A", "P03", 0, 0, 100));
+        list2.add(createNewPage("P001A", "P03", 0, 0, 105));
+
+        com.compareAEBPageE3_3(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("P001A", "P03", 0, 0, 100));
+        list2.add(createNewPage("P001A", "P03", 0, 0, 106));
+
+        com.compareAEBPageE3_3(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.3 - Spalte 4 - P001A - P03: Unterschied von ");
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("P001A", "P03", 0, 0, 100));
+        list2.add(createNewPage("P001A", "P03", 0, 0, 96));
+
+        com.compareAEBPageE3_3(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("P001A", "P03", 0, 0, 100));
+        list2.add(createNewPage("P001A", "P03", 0, 0, 95));
+
+        com.compareAEBPageE3_3(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.3 - Spalte 4 - P001A - P03: Unterschied von ");
     }
 
     public AEBPageE3_3 createNewPage(String renumeration,

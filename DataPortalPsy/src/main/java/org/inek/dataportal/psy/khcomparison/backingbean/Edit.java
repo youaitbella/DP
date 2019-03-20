@@ -38,7 +38,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.ByteArrayInputStream;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author lautenti
@@ -131,6 +134,16 @@ public class Edit {
         }
     }
 
+    public Boolean isChangeAllowed() {
+        return _aebBaseInformation.getStatus() == WorkflowStatus.Provided &&
+                _accessManager.userHasWriteAccess(Feature.HC_HOSPITAL, _aebBaseInformation.getIk());
+    }
+
+    public Boolean isSendAllowed() {
+        return _aebBaseInformation.getStatus().getId() <= WorkflowStatus.Provided.getId() &&
+                _accessManager.userHasWriteAccess(Feature.HC_HOSPITAL, _aebBaseInformation.getIk());
+    }
+
     private AEBBaseInformation createNewAebBaseInformation() {
         AEBBaseInformation info = new AEBBaseInformation();
         info.setTyp(CustomerTyp.Hospital.id());
@@ -150,8 +163,13 @@ public class Edit {
         return info;
     }
 
-    public void save() {
-        if (baseInfoisComplete(_aebBaseInformation)) {
+    public void saveAeb() {
+        save(false);
+    }
+
+    private Boolean save(Boolean sendCheck) {
+        _errorMessage = "";
+        if (baseInfoisComplete(_aebBaseInformation) && baseInfoIsCorrect(_aebBaseInformation, sendCheck)) {
             removeEmptyEntries(_aebBaseInformation);
             AebCheckerHelper.ensureValuationRadios(_aebBaseInformation, _aebListItemFacade);
             _aebBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
@@ -167,34 +185,47 @@ public class Edit {
             } catch (Exception ex) {
                 DialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
                 _mailer.sendError("AEB Fehler beim speichern", ex);
+                return false;
             }
+            return true;
         } else {
-            DialogController.
-                    showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
+            DialogController.showWarningDialog("Fehler beim Speichern",
+                    "Bitte geben Sie eine gültige IK und Datenjahr an und überprüfen Sie das Fehlerprotokoll");
+            return false;
         }
     }
 
     public String send() {
-        if (baseInfoisComplete(_aebBaseInformation) && baseInfoIsFormalCorrect(_aebBaseInformation)) {
-            _aebBaseInformation.setStatus(WorkflowStatus.Provided);
-            _aebBaseInformation.setSend(new Date());
-            save();
+        if (!ikHasStructureInformations()) {
+            DialogController.showWarningDialog("Senden nicht möglich",
+                    "Es wurden noch keine Strukturinformationen für das IK " + _aebBaseInformation.getIk() + " erfasst");
+            return "";
+        }
+        WorkflowStatus oldState = _aebBaseInformation.getStatus();
+        Date oldSend = _aebBaseInformation.getSend();
+        _aebBaseInformation.setStatus(WorkflowStatus.Provided);
+        _aebBaseInformation.setSend(new Date());
+        if (save(true)) {
             if (aebContainsDifferences()) {
                 DialogController.showWarningDialog("Unterschiede in der AEB festgestellt",
-                        "Es wurden Unterschiede in bereits abgegeben Information für die IK "
-                        + _aebBaseInformation.getIk() + " festgestellt");
+                        "Es wurden Unterschiede in bereits abgegeben Information für das IK "
+                                + _aebBaseInformation.getIk() + " festgestellt");
             }
             return Pages.KhComparisonSummary.URL();
         } else {
-            DialogController.showWarningDialog("Fehler beim Speichern",
-                    "Bitte geben Sie eine gültige IK und Datenjahr an und überprüfen Sie das Fehlerprotokoll");
+            _aebBaseInformation.setStatus(oldState);
+            _aebBaseInformation.setSend(oldSend);
             return "";
         }
     }
 
-    private boolean baseInfoIsFormalCorrect(AEBBaseInformation info) {
-        AebChecker checker = new AebChecker(_aebListItemFacade, false);
-        if(!checker.checkAeb(info)) {
+    private boolean ikHasStructureInformations() {
+        return _aebFacade.structureBaseInformaionAvailable(_aebBaseInformation.getIk());
+    }
+
+    private boolean baseInfoIsCorrect(AEBBaseInformation info, Boolean sendCheck) {
+        AebChecker checker = new AebChecker(_aebListItemFacade, false, sendCheck);
+        if (!checker.checkAeb(info)) {
             _errorMessage = checker.getMessage();
             return false;
         }

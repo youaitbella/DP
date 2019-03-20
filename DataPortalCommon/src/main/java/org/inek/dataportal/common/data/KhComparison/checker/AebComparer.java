@@ -18,6 +18,8 @@ import java.util.NoSuchElementException;
 @SuppressWarnings("LineLength")
 public class AebComparer {
 
+    private static final double TOLERANCE_PERCENT = 5.0;
+
     private String _result = "";
 
     public String getResult() {
@@ -247,13 +249,15 @@ public class AebComparer {
     }
 
     private void compareInt(int value1, int value2, String page) {
-        if (value1 != value2) {
+        double reductionRate = Math.abs(100 * ((value1 - value2) / (double)value2));
+        if (reductionRate > TOLERANCE_PERCENT) {
             addMessage(page + ": Unterschied von KK: " + value1 + " zu KH: " + value2);
         }
     }
 
     private void compareDouble(double value1, double value2, String page) {
-        if (value1 != value2) {
+        double reductionRate = Math.abs(100 * ((value1 - value2) / (double)value2));
+        if (reductionRate > TOLERANCE_PERCENT) {
             addMessage(page + ": Unterschied von KK: " + Math.round(100.0 * value1) / 100.0 + " zu KH: " + Math.round(100.0 * value2) / 100.0);
         }
     }

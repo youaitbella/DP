@@ -61,23 +61,21 @@
                                   value="Datensatz ändern"
                                   action="#{edit.change()}"
                                   update="@form"
-                                  rendered="#{edit.isReadOnly()}"/>
+                                  rendered="#{edit.isChangeAllowed()}"/>
                 <pf:commandButton styleClass="btnPsy"
                                   value="Speichern"
                                   onstart="PF('dialogProcess').show()"
                                   oncomplete="PF('dialogProcess').hide()"
-                                  action="#{edit.save()}"
+                                  action="#{edit.saveAeb()}"
                                   update="@(.ui-message) @form"
-                                  immediate="true"
-                                  rendered="#{!edit.isReadOnly()}"/>
+                                  rendered="#{edit.isSendAllowed()}"/>
                 <pf:commandButton value="Ans InEK senden"
                                   update="@(.ui-message) @form"
                                   onstart="PF('dialogProcess').show()"
                                   oncomplete="PF('dialogProcess').hide()"
                                   action="#{edit.send()}"
                                   styleClass="btnSend arrow-right"
-                                  immediate="true"
-                                  rendered="#{!edit.isReadOnly()}"/>
+                                  rendered="#{edit.isSendAllowed()}"/>
             </div>
 
         </h:form>

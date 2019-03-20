@@ -91,6 +91,42 @@ public class CompareAEBPageE1_2Test {
 
         com.compareAEBPageE1_2(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E1.2 - Spalte 2 - ET02: Unterschied von ", "Blatt E1.2 - Spalte 2 - ET03: Unterschied von");
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("ET03", 104));
+        list2.add(createNewPage("ET03", 100));
+
+        com.compareAEBPageE1_2(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("ET03", 106));
+        list2.add(createNewPage("ET03", 100));
+
+        com.compareAEBPageE1_2(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E1.2 - Spalte 2 - ET03: Unterschied von");
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("ET03", 95));
+        list2.add(createNewPage("ET03", 100));
+
+        com.compareAEBPageE1_2(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
+
+        com.setResult("");
+        list1.clear();
+        list2.clear();
+        list1.add(createNewPage("ET03", 95));
+        list2.add(createNewPage("ET03", 101));
+
+        com.compareAEBPageE1_2(list1, list2);
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E1.2 - Spalte 2 - ET03: Unterschied von");
     }
 
     public AEBPageE1_2 createNewPage(String et, int calculationDays) {
