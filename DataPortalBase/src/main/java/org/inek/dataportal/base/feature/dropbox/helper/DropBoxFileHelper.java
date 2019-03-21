@@ -8,6 +8,8 @@ import org.inek.dataportal.common.helper.StreamHelper;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -64,8 +66,8 @@ public class DropBoxFileHelper {
         targetParent.mkdirs();
         File target;
         do {
-            Date ts = Calendar.getInstance().getTime();
-            target = new File(targetParent, "Box" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ".zip");
+            target = new File(targetParent, "Box" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")) + "_"
+                    + dropBox.getIK() + ".zip");
         } while (target.exists());
         workingFile.renameTo(target);
         if (!deleteDir(sourceDir)) {
