@@ -117,7 +117,7 @@ public class TransferFileCreator {
         File file;
         do {
             ts = Calendar.getInstance().getTime();
-            file = new File(targetDir, "Box" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ".zip");
+            file = new File(targetDir, "Box" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + "_" + ik + ".zip");
         } while (file.exists());
         zipFile.renameTo(file);
     }
