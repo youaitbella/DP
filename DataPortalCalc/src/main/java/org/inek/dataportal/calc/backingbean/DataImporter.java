@@ -25,17 +25,40 @@ import java.util.logging.Logger;
  * BaseIdValue.setBaseInformationId where the needed id is obtained by StatusEntity.getId. So the object of the second
  * type will be the owner of the objects of the first type.
  *
- * @author kunkelan
  * @param <T> Type to import will create elements of this type
  * @param <S> DrgCaclBasics or PeppCalcBasic dataholder to which the items generated belongs. StatusEntity gives the
- * possibility to get the id to store it in T items which can set the BaseInformationId of itself. So these two types
- * are bound to each other in a loosly way, up to now only the two Types mentioned.
- *
+ *            possibility to get the id to store it in T items which can set the BaseInformationId of itself. So these two types
+ *            are bound to each other in a loosly way, up to now only the two Types mentioned.
+ * @author kunkelan
  */
 public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger(DataImporter.class.getName());
+    private final FileHolder fileHolder;
+    private final ErrorCounter errorCounter;
+    private final String headLine;
+    private final List<DataImportCheck<T, ?>> checkers;
+    private final BiConsumer<S, T> dataSink;
+    private final Class<T> clazz;
+    private final Consumer<S> clearList;
+    private boolean showJournal = false;
+
+    //    ),
+//
+//    PEPP_THERAPY(
+//
+//            )
+    private DataImporter(String headLine, FileHolder fileHolder, ErrorCounter errorCounter,
+                         List<DataImportCheck<T, ?>> checker, BiConsumer<S, T> dataSink, Consumer<S> clearList, Class<T> clazz) {
+        this.headLine = headLine;
+        this.fileHolder = fileHolder;
+        this.errorCounter = errorCounter;
+        this.checkers = checker;
+        this.dataSink = dataSink;
+        this.clazz = clazz;
+        this.clearList = clearList;
+    }
 
     @SuppressWarnings({"MethodLength", "JavaNCSS", "MultipleStringLiterals"})
     public static DataImporter obtainDataImporter(String importer) {
@@ -147,13 +170,13 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                         ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
                         Arrays.asList(
                                 new DataImportCheck<KgpListMedInfra, String>(
-                                ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
-                                DataImportCheck::tryImportString,
-                                (i, s) -> {
-                                    i.setCostTypeId(170);
-                                    i.setCostCenterNumber(s);
-                                },
-                                "Nummer der Kostenstelle ungültig: "),
+                                        ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> {
+                                            i.setCostTypeId(170);
+                                            i.setCostCenterNumber(s);
+                                        },
+                                        "Nummer der Kostenstelle ungültig: "),
                                 new DataImportCheck<KgpListMedInfra, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
                                         DataImportCheck::tryImportString,
@@ -202,13 +225,13 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                         ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
                         Arrays.asList(
                                 new DataImportCheck<KgpListMedInfra, String>(
-                                ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
-                                DataImportCheck::tryImportString,
-                                (i, s) -> {
-                                    i.setCostTypeId(180);
-                                    i.setCostCenterNumber(s);
-                                },
-                                "Nummer der Kostenstelle ungültig: "),
+                                        ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> {
+                                            i.setCostTypeId(180);
+                                            i.setCostCenterNumber(s);
+                                        },
+                                        "Nummer der Kostenstelle ungültig: "),
                                 new DataImportCheck<KgpListMedInfra, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
                                         DataImportCheck::tryImportString,
@@ -251,7 +274,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter costCenter">
                 return new DataImporter<KGPListCostCenter, PeppCalcBasics>(
                         "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;"
-                        + "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
+                                + "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
                         new FileHolder("Kostenstellengruppe_11_12_13.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
                         Arrays.asList(
@@ -670,7 +693,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter costCenter">
                 return new DataImporter<KGLListCostCenter, DrgCalcBasics>(
                         "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;"
-                        + "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
+                                + "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
                         new FileHolder("Kostenstellengruppe_11_12_13.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER"),
                         Arrays.asList(
@@ -1050,16 +1073,16 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter stationServiceCost">
                 return new DataImporter<KGPListStationServiceCost, PeppCalcBasics>(
                         "Nummer der Kostenstelle;Station;Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P);"
-                        + "Anzahl Betten;Belegung;"
-                        + "Summe Pflegetage Regelbehandlung;Summe Gewichtungspunkte** Regelbehandlung;"
-                        + "Summe Pflegetage Intensivbehandlung;Summe Gewichtungspunkte** Intensivbehandlung;"
-                        + "VK Ärztlicher Dienst;VK Pflegedienst/Erziehungsdienst;VK Psychologen;"
-                        + "VK Sozialarbeiter/Sozial-/Heil-pädagogen;VK Spezialtherapeuten;"
-                        + "VK med.-techn. Dienst/Funktionsdienst;Kosten Ärztlicher Dienst;"
-                        + "Kosten Pflegedienst/Erziehungsdienst;Kosten Psychologen;"
-                        + "Kosten Sozialarbeiter/Sozial-/Heil-pädagogen;Kosten Spezialtherapeuten;"
-                        + "Kosten med.-techn. Dienst/Funktionsdienst;Kosten med. Infrastruktur;"
-                        + "Kosten nicht med. Infrastruktur",
+                                + "Anzahl Betten;Belegung;"
+                                + "Summe Pflegetage Regelbehandlung;Summe Gewichtungspunkte** Regelbehandlung;"
+                                + "Summe Pflegetage Intensivbehandlung;Summe Gewichtungspunkte** Intensivbehandlung;"
+                                + "VK Ärztlicher Dienst;VK Pflegedienst/Erziehungsdienst;VK Psychologen;"
+                                + "VK Sozialarbeiter/Sozial-/Heil-pädagogen;VK Spezialtherapeuten;"
+                                + "VK med.-techn. Dienst/Funktionsdienst;Kosten Ärztlicher Dienst;"
+                                + "Kosten Pflegedienst/Erziehungsdienst;Kosten Psychologen;"
+                                + "Kosten Sozialarbeiter/Sozial-/Heil-pädagogen;Kosten Spezialtherapeuten;"
+                                + "Kosten med.-techn. Dienst/Funktionsdienst;Kosten med. Infrastruktur;"
+                                + "Kosten nicht med. Infrastruktur",
                         new FileHolder("Station_kstg_21_22.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                         Arrays.asList(
@@ -1187,12 +1210,12 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter therapy">
                 return new DataImporter<KGPListTherapy, PeppCalcBasics>(
                         "KST-Gruppe;Leistungsinhalt der Kostenstelle;Fremdvergabe;"
-                        + "Leistungsschlüssel;KoArtG 1 Summe Leistungseinheiten;KoArtG 1 Personalkosten;"
-                        + "KoArtG 3a Summe Leistungseinheiten;KoArtG 3a Personalkosten;"
-                        + "KoArtG 2 Summe Leistungseinheiten;KoArtG 2 Personalkosten;"
-                        + "KoArtG 3b Summe Leistungseinheiten;KoArtG 3b Personalkosten;"
-                        + "KoArtG 3c Summe Leistungseinheiten;KoArtG 3c Personalkosten;"
-                        + "KoArtG 3 Summe Leistungseinheiten;KoArtG 3 Personalkosten",
+                                + "Leistungsschlüssel;KoArtG 1 Summe Leistungseinheiten;KoArtG 1 Personalkosten;"
+                                + "KoArtG 3a Summe Leistungseinheiten;KoArtG 3a Personalkosten;"
+                                + "KoArtG 2 Summe Leistungseinheiten;KoArtG 2 Personalkosten;"
+                                + "KoArtG 3b Summe Leistungseinheiten;KoArtG 3b Personalkosten;"
+                                + "KoArtG 3c Summe Leistungseinheiten;KoArtG 3c Personalkosten;"
+                                + "KoArtG 3 Summe Leistungseinheiten;KoArtG 3 Personalkosten",
                         new FileHolder("Therapeutischer_Bereich_.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                         Arrays.asList(
@@ -1285,11 +1308,11 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter Normal Ward">
                 return new DataImporter<KGLListCostCenterCost, DrgCalcBasics>(
                         "NummerKostenstelle;NameKostenstelle;FABSchluessel;"
-                        + "BelegungFAB;Bettenzahl;Pflegetage;PPRMinuten;zusaetlicheGewichtung;"
-                        + "AerztlicherDienstVK;PflegedienstVK;FunktionsdienstVK;"
-                        + "AerztlicherDienstKostenstelle;PflegedienstKostenstelle;"
-                        + "FunktionsdienstKostenstelle;ArzneimittelKostenstelle;"
-                        + "medSachbedarfKostenstelle;medInfraKostenstelle;nichtMedInfraKostenstelle",
+                                + "BelegungFAB;Bettenzahl;Pflegetage;PPRMinuten;zusaetlicheGewichtung;"
+                                + "AerztlicherDienstVK;PflegedienstVK;FunktionsdienstVK;"
+                                + "AerztlicherDienstKostenstelle;PflegedienstKostenstelle;"
+                                + "FunktionsdienstKostenstelle;ArzneimittelKostenstelle;"
+                                + "medSachbedarfKostenstelle;medInfraKostenstelle;nichtMedInfraKostenstelle",
                         new FileHolder("Normalstation.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_NORMAL_WARD"),
                         Arrays.asList(
@@ -1393,11 +1416,11 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter Intensive">
                 return new DataImporter<KGLListIntensivStroke, DrgCalcBasics>(
                         "Intensivstation;FAB;Anzahl_Betten;Anzahl_Fälle;Mindestmerkmale_OPS_8-980_erfüllt;"
-                        + "Mindestmerkmale_OPS_8-98f_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
-                        + "Summe_gewichtete_Intensivstunden;Summe_ungewichtete_Intensivstunden;"
-                        + "Minimum;Maximum;Erläuterung;Vollkraft_ÄD;Vollkraft_PD;Vollkraft_FD;"
-                        + "Kosten_ÄD;Kosten_PD;Kosten_FD;Kosten_GK_Arzneimittel;Kosten_GK_med_Sachbedarf;"
-                        + "Kosten_med_Infra;Kosten_nicht_med_Infra",
+                                + "Mindestmerkmale_OPS_8-98f_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
+                                + "Summe_gewichtete_Intensivstunden;Summe_ungewichtete_Intensivstunden;"
+                                + "Minimum;Maximum;Erläuterung;Vollkraft_ÄD;Vollkraft_PD;Vollkraft_FD;"
+                                + "Kosten_ÄD;Kosten_PD;Kosten_FD;Kosten_GK_Arzneimittel;Kosten_GK_med_Sachbedarf;"
+                                + "Kosten_med_Infra;Kosten_nicht_med_Infra",
                         new FileHolder("Intensiv.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_INTENSIVE"),
                         Arrays.asList(
@@ -1521,11 +1544,11 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter Stroke Unit">
                 return new DataImporter<KGLListIntensivStroke, DrgCalcBasics>(
                         "Intensivstation;FAB;Anzahl_Betten;Anzahl_Fälle;Mindestmerkmale_OPS_8-981_erfüllt;"
-                        + "Mindestmerkmale_OPS_8-98b_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
-                        + "Summe_gewichtete_Intensivstunden;Summe_ungewichtete_Intensivstunden;"
-                        + "Minimum;Maximum;Erläuterung;Vollkraft_ÄD;Vollkraft_PD;Vollkraft_FD;"
-                        + "Kosten_ÄD;Kosten_PD;Kosten_FD;Kosten_GK_Arzneimittel;Kosten_GK_med_Sachbedarf;"
-                        + "Kosten_med_Infra;Kosten_nicht_med_Infra",
+                                + "Mindestmerkmale_OPS_8-98b_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
+                                + "Summe_gewichtete_Intensivstunden;Summe_ungewichtete_Intensivstunden;"
+                                + "Minimum;Maximum;Erläuterung;Vollkraft_ÄD;Vollkraft_PD;Vollkraft_FD;"
+                                + "Kosten_ÄD;Kosten_PD;Kosten_FD;Kosten_GK_Arzneimittel;Kosten_GK_med_Sachbedarf;"
+                                + "Kosten_med_Infra;Kosten_nicht_med_Infra",
                         new FileHolder("StrokeUnit.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
                         Arrays.asList(
@@ -1936,22 +1959,6 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
         }
     }
 
-//    ),
-//
-//    PEPP_THERAPY(
-//
-//            )
-    private DataImporter(String headLine, FileHolder fileHolder, ErrorCounter errorCounter,
-            List<DataImportCheck<T, ?>> checker, BiConsumer<S, T> dataSink, Consumer<S> clearList, Class<T> clazz) {
-        this.headLine = headLine;
-        this.fileHolder = fileHolder;
-        this.errorCounter = errorCounter;
-        this.checkers = checker;
-        this.dataSink = dataSink;
-        this.clazz = clazz;
-        this.clearList = clearList;
-    }
-
     public void uploadNotices(S calcBasics) {
         try {
             resetCounter();
@@ -2082,13 +2089,4 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
     public void setShowJournal(boolean showJournal) {
         this.showJournal = showJournal;
     }
-
-    private final FileHolder fileHolder;
-    private final ErrorCounter errorCounter;
-    private final String headLine;
-    private final List<DataImportCheck<T, ?>> checkers;
-    private final BiConsumer<S, T> dataSink;
-    private boolean showJournal = false;
-    private final Class<T> clazz;
-    private final Consumer<S> clearList;
 }
