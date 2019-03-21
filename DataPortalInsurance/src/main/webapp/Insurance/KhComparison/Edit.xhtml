@@ -63,7 +63,7 @@
                                   rendered="#{edit.isChangeable()}" /> 
                 <pf:commandButton styleClass="btnInsurance"
                                   value="Speichern"
-                                  action="#{edit.save()}"
+                                  action="#{edit.saveAeb()}"
                                   onstart="PF('dialogProcess').show()"
                                   oncomplete="PF('dialogProcess').hide()"
                                   update="@(.ui-message) @form"

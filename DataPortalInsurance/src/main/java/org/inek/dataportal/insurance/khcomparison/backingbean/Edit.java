@@ -145,8 +145,13 @@ public class Edit {
         return info;
     }
 
-    public void save() {
-        if (baseInfoisComplete(_aebBaseInformation)) {
+    public void saveAeb() {
+        save(false);
+    }
+
+    private Boolean save(Boolean sendCheck) {
+        _errorMessage = "";
+        if (baseInfoisComplete(_aebBaseInformation) && baseInfoIsCorrect(_aebBaseInformation, sendCheck)) {
             removeEmptyEntries(_aebBaseInformation);
             AebCheckerHelper.ensureValuationRadios(_aebBaseInformation, _aebListItemFacade);
             _aebBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
@@ -162,33 +167,38 @@ public class Edit {
             } catch (Exception ex) {
                 DialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
                 _mailer.sendError("AEB Fehler beim speichern", ex);
+                return false;
             }
+            return true;
         } else {
-            DialogController.showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Jahr an");
+            DialogController.showWarningDialog("Fehler beim Speichern",
+                    "Bitte geben Sie eine gültige IK und Datenjahr an und überprüfen Sie das Fehlerprotokoll");
+            return false;
         }
     }
 
     public String send() {
-        if (baseInfoisComplete(_aebBaseInformation) && baseInfoIsFormalCorrect(_aebBaseInformation)) {
-            _aebBaseInformation.setStatus(WorkflowStatus.Provided);
-            _aebBaseInformation.setSend(new Date());
-            save();
+        WorkflowStatus oldState = _aebBaseInformation.getStatus();
+        Date oldSend = _aebBaseInformation.getSend();
+        _aebBaseInformation.setStatus(WorkflowStatus.Provided);
+        _aebBaseInformation.setSend(new Date());
+        if (save(true)) {
             if (aebContainsDifferences()) {
                 DialogController.showWarningDialog("Unterschiede in der AEB festgestellt",
-                        "Es wurden Unterschiede in bereits abgegeben Information für die IK "
+                        "Es wurden Unterschiede in bereits abgegeben Information für das IK "
                                 + _aebBaseInformation.getIk() + " festgestellt");
             }
             return Pages.InsuranceKhComparisonSummary.URL();
         } else {
-            DialogController.showWarningDialog("Fehler beim Speichern",
-                    "Bitte geben Sie eine gültige IK und Datenjahr an und überprüfen Sie das Fehlerprotokoll");
+            _aebBaseInformation.setStatus(oldState);
+            _aebBaseInformation.setSend(oldSend);
             return "";
         }
     }
 
-    private boolean baseInfoIsFormalCorrect(AEBBaseInformation info) {
-        AebChecker checker = new AebChecker(_aebListItemFacade, false, false);
-        if(!checker.checkAeb(info)) {
+    private boolean baseInfoIsCorrect(AEBBaseInformation info, Boolean sendCheck) {
+        AebChecker checker = new AebChecker(_aebListItemFacade, false, sendCheck);
+        if (!checker.checkAeb(info)) {
             _errorMessage = checker.getMessage();
             return false;
         }
