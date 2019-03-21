@@ -163,13 +163,13 @@
                                            />
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.weightMinimum}" pattern="#,#0"
+                            <inek:InputNumberWithMessage value="#{x.weightMinimum}"
                                                           renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung"
                                                           title="Bitte tragen Sie den Wert 1 ein, falls keine Gewichtung vorgenommen wurde."
                                                           readonly="#{editCalcBasicsDrg.readOnly}"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.weightMaximum}" pattern="#,#0"
+                            <inek:InputNumberWithMessage value="#{x.weightMaximum}"
                                                           renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung"
                                                           title="Bitte tragen Sie den Wert 1 ein, falls keine Gewichtung vorgenommen wurde."
                                                           readonly="#{editCalcBasicsDrg.readOnly}"/>
