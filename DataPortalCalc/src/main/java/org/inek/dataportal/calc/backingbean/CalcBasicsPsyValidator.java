@@ -34,7 +34,6 @@ public final class CalcBasicsPsyValidator {
         checkDiagnosticScope(calcBasics, message);
         checkStationaryScope(calcBasics, message);
         checkInfrastructure(calcBasics, message);
-        checkStaffCost(calcBasics, message);
 
         return message;
     }
@@ -146,25 +145,7 @@ public final class CalcBasicsPsyValidator {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="checkStaffCost">
-    private static void checkStaffCost(PeppCalcBasics calcBasics, MessageContainer message) {
-        final String pageName = "TopicCalcStaffCost";
-        final String elementId = "";
-        List<KGPPersonalAccounting> personalAccountings = calcBasics.getPersonalAccountings();
-        for (KGPPersonalAccounting accounting : personalAccountings) {
-            boolean methodChecked = accounting.isExpertRating() 
-                    || accounting.isOther()
-                    || accounting.isServiceEvaluation()
-                    || accounting.isServiceStatistic()
-                    || accounting.isStaffEvaluation()
-                    || accounting.isStaffRecording();
-            int amount = accounting.getAmount();
-            String costTypeText = accounting.getCostType().getText();
-            checkFieldsCheckAndAmountSetOrEmpty(message, methodChecked, amount, costTypeText,elementId, pageName);
-        }
-    }
-    //</editor-fold>
-    
+
     /**
      * Fill data msgKey, elementId, topicKey in the given MessageContainer when the value is empty.
      * 
