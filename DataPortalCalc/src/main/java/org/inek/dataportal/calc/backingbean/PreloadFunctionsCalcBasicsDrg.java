@@ -32,7 +32,6 @@ public class PreloadFunctionsCalcBasicsDrg {
         preloadCentralFocuses(calcBasics, priorCalcBasics);
         calcBasics.getDelimitationFacts().clear();
         populateDelimitationFactsIfAbsent(calcDrgFacade, calcBasics, priorCalcBasics);
-        preloadPersonalAccounting(calcBasics, priorCalcBasics);
         preloadRadiologyAndLab(calcBasics, priorCalcBasics);
         preloadObstetricsGynecologies(calcBasics, priorCalcBasics);
         preloadNormalWard(calcBasics, priorCalcBasics);
@@ -108,10 +107,6 @@ public class PreloadFunctionsCalcBasicsDrg {
         return priorCalcBasics.getDelimitationFacts().stream()
                 .filter(f -> f.getContentTextId() == contentTextId)
                 .findAny().orElse(new DrgDelimitationFact());
-    }
-
-    private static void preloadPersonalAccounting(DrgCalcBasics calcBasics, DrgCalcBasics priorCalcBasics) {
-        calcBasics.setPersonalAccountingDescription(priorCalcBasics.getPersonalAccountingDescription());
     }
 
 

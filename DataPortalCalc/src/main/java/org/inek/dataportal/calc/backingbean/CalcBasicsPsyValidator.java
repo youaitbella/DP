@@ -205,19 +205,6 @@ public final class CalcBasicsPsyValidator {
         }
     }
     
-    private static void checkFieldsCheckAndAmountSetOrEmpty(MessageContainer message,
-            boolean methodChecked, int amount,
-            String costTypeText, String elementId, String pageName) {
-        if (methodChecked ^ (0 != amount)) {
-            if (methodChecked) {
-                applyMessageValues(message, "Bitte Kostenvolumen für " + costTypeText + " angeben.",
-                        pageName, elementId);
-            } else {
-                applyMessageValues(message, "Bitte Verfahren für " + costTypeText + " auswählen.", pageName, elementId);
-            }
-        }
-    }
-
 
     /**
      * Copy the parameter into the message container, performing some checks.

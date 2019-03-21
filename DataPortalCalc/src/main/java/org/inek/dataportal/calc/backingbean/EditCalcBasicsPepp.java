@@ -148,27 +148,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         calcBasics.setOtherMethodMedInfra(_priorCalcBasics.getOtherMethodMedInfra());
         calcBasics.setIblvMethodMedInfra(_priorCalcBasics.getIblvMethodMedInfra());
 
-        // Personal Accounting
-        calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
-        ensurePersonalAccountingData(calcBasics);
-
-        Map<Integer, KGPPersonalAccounting> priorPersonalAccountingsAmount = new HashMap<>();
-        for (KGPPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
-            priorPersonalAccountingsAmount.put(ppa.getCostTypeId(), ppa);
-        }
-
-        for (KGPPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
-            if (priorPersonalAccountingsAmount.containsKey(pa.getCostTypeId())) {
-                KGPPersonalAccounting ppa = priorPersonalAccountingsAmount.get(pa.getCostTypeId());
-                pa.setPriorCostAmount(ppa.getAmount());
-                pa.setExpertRating(ppa.isExpertRating());
-                pa.setOther(ppa.isOther());
-                pa.setServiceEvaluation(ppa.isServiceEvaluation());
-                pa.setServiceStatistic(ppa.isServiceStatistic());
-                pa.setStaffEvaluation(ppa.isStaffEvaluation());
-                pa.setStaffRecording(ppa.isStaffRecording());
-            }
-        }
         preloadServiceProvision(calcBasics);
         ensureOverviewPersonal(_calcFacade, calcBasics);
     }
@@ -217,15 +196,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
     }
 
-    private void ensurePersonalAccountingData(PeppCalcBasics calcBasics) {
-        calcBasics.getPersonalAccountings().clear();
-        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(110), 0));
-        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(120), 0));
-        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(130), 0));
-        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(131), 0));
-        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(132), 0));
-        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(133), 0));
-    }
 
     private void preloadServiceProvision(PeppCalcBasics calcBasics) {
         calcBasics.getServiceProvisions().clear();
