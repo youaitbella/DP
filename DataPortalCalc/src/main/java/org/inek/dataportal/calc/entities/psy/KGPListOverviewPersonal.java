@@ -53,11 +53,12 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
     @JoinColumn(name = "opBaseInformationId")
     private PeppCalcBasics _baseInformation;
 
-
+    @JsonIgnore
     public PeppCalcBasics getBaseInformation() {
         return _baseInformation;
     }
 
+    @JsonIgnore
     public void setBaseInformation(PeppCalcBasics baseInformation) {
         this._baseInformation = baseInformation;
     }
