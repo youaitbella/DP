@@ -142,10 +142,11 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "peppmedinfra":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter medInfra">
                 return new DataImporter<KgpListMedInfra, PeppCalcBasics>(
-                        "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen",
+                        "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen;AnteilKostenvolumenNachAbgrenzung",
                         new FileHolder("Med_Infra.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
-                        Arrays.asList(new DataImportCheck<KgpListMedInfra, String>(
+                        Arrays.asList(
+                                new DataImportCheck<KgpListMedInfra, String>(
                                 ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
                                 DataImportCheck::tryImportString,
                                 (i, s) -> {
@@ -176,7 +177,15 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                             i.setCostTypeId(170);
                                             i.setAmount(s);
                                         },
-                                        "Kostenvolumen ungültig: ")
+                                        "Kostenvolumen ungültig: "),
+                                new DataImportCheck<KgpListMedInfra, Integer>(
+                                        ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
+                                        DataImportCheck::tryImportRoundedInteger,
+                                        (i, s) -> {
+                                            i.setCostTypeId(170);
+                                            i.setPartCostVolumeMedStaffAfter(s);
+                                        },
+                                        "Kostenvolumen nach Abgrenzung ungültig: ")
                         ),
                         //s -> s.getKgpMedInfraList().stream().filter(t -> 170 == t.getCostTypeId()).collect(Collectors.toList()),
                         //(s, t) -> s.getKgpMedInfraList().add(t),
@@ -188,10 +197,11 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "peppnonmedinfra":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter nonMedInfra">
                 return new DataImporter<KgpListMedInfra, PeppCalcBasics>(
-                        "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen",
+                        "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen,AnteilKostenvolumenNachAbgrenzung",
                         new FileHolder("NON_Med_Infra.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
-                        Arrays.asList(new DataImportCheck<KgpListMedInfra, String>(
+                        Arrays.asList(
+                                new DataImportCheck<KgpListMedInfra, String>(
                                 ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
                                 DataImportCheck::tryImportString,
                                 (i, s) -> {
@@ -222,7 +232,15 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                             i.setCostTypeId(180);
                                             i.setAmount(s);
                                         },
-                                        "Kostenvolumen ungültig: ")
+                                        "Kostenvolumen ungültig: "),
+                                new DataImportCheck<KgpListMedInfra, Integer>(
+                                        ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
+                                        DataImportCheck::tryImportRoundedInteger,
+                                        (i, s) -> {
+                                            i.setCostTypeId(180);
+                                            i.setPartCostVolumeMedStaffAfter(s);
+                                        },
+                                        "Kostenvolumen nach Abgrenzung ungültig: ")
                         ),
                         (s, t) -> s.addMedInfraItem(t),
                         s -> s.deleteKgpMedInfraList(170),
@@ -1668,7 +1686,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "drgnonmedinfra":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter Non-Med Infra">
                 return new DataImporter<KGLListMedInfra, DrgCalcBasics>(
-                        "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen;KostenvolumenNachAbgrenzung",
+                        "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen;AnteilKostenvolumenNachAbgrenzung",
                         new FileHolder("NonMedInfra.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_NON_MED_INFRA"),
                         Arrays.asList(
