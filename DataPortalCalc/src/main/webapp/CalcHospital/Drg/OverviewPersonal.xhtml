@@ -54,7 +54,7 @@
             <h:outputLabel id="vkPre"
                            styleClass="label"
                            value="#{item.amountVKPre gt 0 ? item.costAmountPre / item.amountVKPre : 0}" >
-                <f:convertNumber pattern="#0.00" />
+                <f:convertNumber pattern="#,##0.00" />
             </h:outputLabel>
         </h:column>
 
@@ -63,7 +63,7 @@
             <h:outputLabel id="vkPost"
                            styleClass="label"
                            value="#{item.amountVKPost gt 0 ? item.costAmountPost / item.amountVKPost : 0}" >
-                <f:convertNumber pattern="#0.00" />
+                <f:convertNumber pattern="#,##0.00" />
             </h:outputLabel>
         </h:column>
 
