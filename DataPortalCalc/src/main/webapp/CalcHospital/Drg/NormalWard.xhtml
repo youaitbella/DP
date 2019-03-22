@@ -557,7 +557,7 @@
                                                       renderElement="tableContent:#{loop.index}:workload approved sumBeds:text"/>
                     </td>
                     <td class="colInput">
-                        <inek:InputIntegerWithMessage value="#{x.careDays}" minimum="100"
+                        <inek:InputIntegerWithMessage value="#{x.careDays}" minimum="50"
                                                       readonly="#{editCalcBasicsDrg.readOnly}"
                                                       renderElement="tableContent:#{loop.index}:workload approved"/>
                     </td>
@@ -596,7 +596,7 @@
                                      id="rateCare"
                                      value="#{(x.nursingServiceAmount != 0 and x.pprMinutes != 0) ? (x.nursingServiceAmount / x.pprMinutes) : ''}"
                                      disabled="true">
-                            <f:convertNumber pattern="## €"/>
+                            <f:convertNumber pattern="#0.00€"/>
                         </h:inputText>
                     </td>
 

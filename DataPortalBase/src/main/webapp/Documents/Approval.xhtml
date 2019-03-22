@@ -2,10 +2,8 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="DocumentsSummary.xhtml"
-                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:pf="http://primefaces.org/ui">
 
@@ -75,7 +73,9 @@
                                         <f:ajax listener="#{documentApproval.setSortCriteria('rceipient')}" render="@form :logout:remaining"/>
                                     </h:commandLink>
                                 </f:facet>
-                                <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.tag}" immediate="true">
+                                <h:commandLink
+                                        action="#{documentApproval.downloadDocument(docNode.docInfo.accountDocumentId)}"
+                                        value="#{docNode.docInfo.tag}" immediate="true">
                                     <f:ajax event="blur" render="@form"/>
                                 </h:commandLink>
                             </h:column>
@@ -86,7 +86,9 @@
                                         <f:ajax listener="#{documentApproval.setSortCriteria('domain')}" render="@form :logout:remaining"/>
                                     </h:commandLink>
                                 </f:facet>
-                                <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.domain}" immediate="true">
+                                <h:commandLink
+                                        action="#{documentApproval.downloadDocument(docNode.docInfo.accountDocumentId)}"
+                                        value="#{docNode.docInfo.domain}" immediate="true">
                                     <f:ajax event="blur" render="@form"/>
                                 </h:commandLink>
                             </h:column>
@@ -97,7 +99,9 @@
                                         <f:ajax listener="#{documentApproval.setSortCriteria('document')}" render="@form :logout:remaining"/>
                                     </h:commandLink>
                                 </f:facet>
-                                <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.name}" immediate="true">
+                                <h:commandLink
+                                        action="#{documentApproval.downloadDocument(docNode.docInfo.accountDocumentId)}"
+                                        value="#{docNode.docInfo.name}" immediate="true">
                                     <f:ajax event="blur" render="@form"/>
                                 </h:commandLink>
                             </h:column>
@@ -108,7 +112,9 @@
                                         <f:ajax listener="#{documentApproval.setSortCriteria('date')}" render="@form :logout:remaining"/>
                                     </h:commandLink>
                                 </f:facet>
-                                <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.longCreatedString}" immediate="true">
+                                <h:commandLink
+                                        action="#{documentApproval.downloadDocument(docNode.docInfo.accountDocumentId)}"
+                                        value="#{docNode.docInfo.longCreatedString}" immediate="true">
                                     <f:ajax event="blur" render="@form"/>
                                 </h:commandLink>
                             </h:column>
