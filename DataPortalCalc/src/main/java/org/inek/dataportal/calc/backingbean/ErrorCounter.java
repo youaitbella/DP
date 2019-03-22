@@ -81,10 +81,15 @@ public final class ErrorCounter implements Serializable {
     public String getMessage() {
         String msg = (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n";
         if (_errorColumnCount > 0){
-            msg += _errorColumnCount + " fehlerhafte Spalte(n) eingelesen (siehe unten). Bitte prüfen Sie die Daten.\r\n";
+            msg += _errorColumnCount + " fehlerhafte Spalte"
+                    + (_errorColumnCount == 1 ? " " : "n ") + "eingelesen (siehe unten).\r\n";
         }
         if (_infoColumnCount > 0){
-            msg += _infoColumnCount + " nicht angegebene Werte (siehe unten). Bitte prüfen Sie die Daten.\r\n";
+            msg += _infoColumnCount + " nicht "
+                    + (_infoColumnCount == 1 ? "angebener Wert" : "angegebene Werte") + " (siehe unten).\r\n";
+        }
+        if (_errorColumnCount > 0 || _infoColumnCount > 0) {
+            msg += "\n Es wurden keine Daten übernommen. Bitte korrigieren Sie Ihre Daten.\n";
         }
         return msg + _errorMsg;
     }
