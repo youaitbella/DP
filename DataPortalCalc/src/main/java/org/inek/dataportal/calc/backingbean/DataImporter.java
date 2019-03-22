@@ -206,7 +206,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "peppnonmedinfra":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter nonMedInfra">
                 return new DataImporter<KgpListMedInfra, PeppCalcBasics>(
-                        "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen,AnteilKostenvolumenNachAbgrenzung",
+                        "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen;AnteilKostenvolumenNachAbgrenzung",
                         new FileHolder("NON_Med_Infra.csv"),
                         new ErrorCounter(),
                         Arrays.asList(
@@ -1427,7 +1427,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "drgmedinfra":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter Med Infra">
                 return new DataImporter<KGLListMedInfra, DrgCalcBasics>(
-                        "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen;KostenvolumenNachAbgrenzung",
+                        "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen;AnteilKostenvolumenNachAbgrenzung",
                         new FileHolder("MedInfra.csv"),
                         new ErrorCounter(), //errorCounter.obtainErrorCounter("DRG_MED_INFRA"),
                         Arrays.asList(
