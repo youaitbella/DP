@@ -188,8 +188,8 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                             i.setAmount(s);
                                         },
                                         "Kostenvolumen ungültig: "),
-                                new DataImportCheck<KgpListMedInfra, Integer>(
-                                        DataImportCheck::tryImportRoundedInteger,
+                                new DataImportCheck<KgpListMedInfra, Double>(
+                                        DataImportCheck::tryImportDoubleBetween0and1,
                                         (i, s) -> {
                                             i.setCostTypeId(170);
                                             i.setPartCostVolumeMedStaffAfter(s);
@@ -238,8 +238,8 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                             i.setAmount(s);
                                         },
                                         "Kostenvolumen ungültig: "),
-                                new DataImportCheck<KgpListMedInfra, Integer>(
-                                        DataImportCheck::tryImportRoundedInteger,
+                                new DataImportCheck<KgpListMedInfra, Double>(
+                                        DataImportCheck::tryImportDoubleBetween0and1,
                                         (i, s) -> {
                                             i.setCostTypeId(180);
                                             i.setPartCostVolumeMedStaffAfter(s);

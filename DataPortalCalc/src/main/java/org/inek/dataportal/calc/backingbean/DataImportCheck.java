@@ -247,4 +247,27 @@ class DataImportCheck<T, I> implements Serializable {
         }
     }
 
+    static <T> void tryImportDoubleBetween0and1(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
+        try {
+            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
+            nf.setParseIntegerOnly(false);
+            double val = nf.parse(data).doubleValue();
+            if (val < 0.0) {
+                assign.accept(item, 0.0);
+                counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
+            } if (val > 1.0) {
+                assign.accept(item, 0.0);
+                counter.addColumnErrorMsg(errorMsg + "Wert darf nicht größer als 1.0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
+            } else {
+                assign.accept(item, val);
+            }
+        } catch (ParseException ex) {
+            assign.accept(item, 0.0);
+            if (data.trim().isEmpty()) {
+                counter.addColumnInfoMsg(errorMsg + "keinen Wert angegeben");
+            } else {
+                counter.addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            }
+        }
+    }
 }
