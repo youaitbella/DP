@@ -211,12 +211,12 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                         new ErrorCounter(),
                         Arrays.asList(
                                 new DataImportCheck<KgpListMedInfra, String>(
-                                DataImportCheck::tryImportString,
-                                (i, s) -> {
-                                    i.setCostTypeId(180);
-                                    i.setCostCenterNumber(s);
-                                },
-                                "Nummer der Kostenstelle ungültig: "),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> {
+                                            i.setCostTypeId(180);
+                                            i.setCostCenterNumber(s);
+                                        },
+                                        "Nummer der Kostenstelle ungültig: "),
                                 new DataImportCheck<KgpListMedInfra, String>(
                                         DataImportCheck::tryImportString,
                                         (i, s) -> {
