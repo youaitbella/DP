@@ -22,7 +22,6 @@ import java.util.function.BiConsumer;
  *
  * @param <T> Type of Element which holds the info (row in a table)
  * @param <I> Type of info to read (column in a Tablerow)
- *
  * @author kunkelan
  */
 class DataImportCheck<T, I> implements Serializable {
@@ -93,9 +92,9 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportCostCenterId(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
         List<String> allowedValues = Arrays.asList("11", "12", "13");
-        if (allowedValues.contains(data)){
+        if (allowedValues.contains(data)) {
             tryImportString(item, data, assign, errorMsg, counter);
-        } else{
+        } else {
             counter.addColumnErrorMsg(errorMsg + data + " (Erlaubte Werte: 11, 12, 13)");
         }
     }
@@ -127,9 +126,9 @@ class DataImportCheck<T, I> implements Serializable {
     }
 
     static <T> void tryImportDoubleAsInt(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
-        try{
+        try {
             int val = StringUtil.parseLocalizedDoubleAsInt(data);
-            if (val < 0){
+            if (val < 0) {
                 assign.accept(item, 0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
             } else {
@@ -177,10 +176,17 @@ class DataImportCheck<T, I> implements Serializable {
         String lowerData = data.trim().toLowerCase();
         int type;
         switch (lowerData) {
-            case "blutprodukte": type = 1; break;
-            case "stammzellenaufbereitung": type = 2; break;
-            case "sonstiges": type = 3; break;
-            default: type = 0;
+            case "blutprodukte":
+                type = 1;
+                break;
+            case "stammzellenaufbereitung":
+                type = 2;
+                break;
+            case "sonstiges":
+                type = 3;
+                break;
+            default:
+                type = 0;
         }
         if (type == 0) {
             counter.addColumnErrorMsg(errorMsg + " " + data + " (Erlaubte Werte: Blutprodukte, Stammzellenaufbereitung, Sonstiges)");
@@ -192,13 +198,26 @@ class DataImportCheck<T, I> implements Serializable {
         String lowerData = data.trim().toLowerCase();
         int type;
         switch (lowerData) {
-            case "hauskatalog": type = 1; break;
-            case "dkg_nt": type = 2; break;
-            case "dkg-nt": type = 2; break;
-            case "ebm": type = 3; break;
-            case "goä": type = 4; break;
-            case "sonstiges": type = 5; break;
-            default: type = 0;
+            case "hauskatalog":
+                type = 1;
+                break;
+            case "dkg_nt":
+                type = 2;
+                break;
+            case "dkg-nt":
+                type = 2;
+                break;
+            case "ebm":
+                type = 3;
+                break;
+            case "goä":
+                type = 4;
+                break;
+            case "sonstiges":
+                type = 5;
+                break;
+            default:
+                type = 0;
         }
         if (type == 0) {
             counter.addColumnErrorMsg(errorMsg + " " + data + " (Erlaubte Werte: Hauskatalog, DKG_NT, DKG-NT, EBM, GOÄ, Sonstiges)");
@@ -210,13 +229,17 @@ class DataImportCheck<T, I> implements Serializable {
         String lowerData = data.trim().toLowerCase();
         int type;
         switch (lowerData) {
-            case "vollstationär": type = 1;
+            case "vollstationär":
+                type = 1;
                 break;
-            case "teilstationär": type = 2;
+            case "teilstationär":
+                type = 2;
                 break;
-            case "voll- und teilstationär": type = 3;
+            case "voll- und teilstationär":
+                type = 3;
                 break;
-            default: type = 0;
+            default:
+                type = 0;
         }
         if (type == 0) {
             counter.addColumnErrorMsg(errorMsg + " " + data + " (Erlaubte Werte: Vollstationär, Teilstationär, Voll. und Teilstationär)");
@@ -249,7 +272,8 @@ class DataImportCheck<T, I> implements Serializable {
             if (val < 0.0) {
                 assign.accept(item, 0.0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
-            } if (val > 1.0) {
+            }
+            if (val > 1.0) {
                 assign.accept(item, 0.0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht größer als 1.0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
             } else {
