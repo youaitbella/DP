@@ -5,15 +5,17 @@
  */
 package org.inek.dataportal.calc.backingbean;
 
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.StringUtil;
+
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.BiConsumer;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.utils.StringUtil;
 
 /**
  * Holds the Info where the data will be stored and which check to perform to validate the input.
@@ -53,9 +55,7 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         try {
-            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-            nf.setParseIntegerOnly(true);
-            int val = nf.parse(data).intValue();
+            int val = parseInteger(data);
             if (val < 0) {
                 assign.accept(item, 0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
@@ -74,9 +74,7 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportRoundedInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         try {
-            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-            nf.setParseIntegerOnly(false);
-            int val = (int) Math.round(nf.parse(data).doubleValue());
+            int val = (int) Math.round(parseDouble(data));
             if (val < 0) {
                 assign.accept(item, 0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
@@ -228,9 +226,7 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportDouble(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
         try {
-            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-            nf.setParseIntegerOnly(false);
-            double val = nf.parse(data).doubleValue();
+            double val = parseDouble(data);
             if (val < 0) {
                 assign.accept(item, 0.0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
@@ -249,9 +245,7 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportDoubleBetween0and1(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
         try {
-            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-            nf.setParseIntegerOnly(false);
-            double val = nf.parse(data).doubleValue();
+            double val = parseDouble(data);
             if (val < 0.0) {
                 assign.accept(item, 0.0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
@@ -269,5 +263,32 @@ class DataImportCheck<T, I> implements Serializable {
                 counter.addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
             }
         }
+    }
+
+
+    private static int parseInteger(String data) throws ParseException {
+        NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
+        nf.setParseIntegerOnly(true);
+
+        ParsePosition parsePosition = new ParsePosition(0);
+        int val = nf.parse(data, parsePosition).intValue();
+        if (parsePosition.getIndex() != data.length()) {
+            parsePosition.setErrorIndex(parsePosition.getIndex());
+            throw new ParseException("keine Ganzzahl", parsePosition.getIndex());
+        }
+        return val;
+    }
+
+    private static double parseDouble(String data) throws ParseException {
+        NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
+        nf.setParseIntegerOnly(false);
+
+        ParsePosition parsePosition = new ParsePosition(0);
+        double val = nf.parse(data, parsePosition).doubleValue();
+        if (parsePosition.getIndex() != data.length()) {
+            parsePosition.setErrorIndex(parsePosition.getIndex());
+            throw new ParseException("keine Gleitkommazahl", parsePosition.getIndex());
+        }
+        return val;
     }
 }
