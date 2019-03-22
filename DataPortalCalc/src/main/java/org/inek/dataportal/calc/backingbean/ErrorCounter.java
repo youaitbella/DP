@@ -13,7 +13,6 @@ import java.util.Map;
 public final class ErrorCounter implements Serializable {
 
     @SuppressWarnings("ConstantName")
-    private static final Map<String, ErrorCounter> counters = new HashMap<>();
     private static final long serialVersionUID = 1L;
     private String _errorMsg = "";
     private int _infoColumnCount = 0;
@@ -21,27 +20,13 @@ public final class ErrorCounter implements Serializable {
     private int _totalCount = 0;
     private int _errorColumnCount = 0;
 
-    private ErrorCounter() {
-        // use only ErrorCounters via obtainErrorCounter
-    }
-
-    /**
-     * Return the named ErrorCounter, generating one if not exists.
-     *
-     * @param importer name who demands an ErrorCounter.
-     * @return the named ErrorCounter
-     */
-    public static ErrorCounter obtainErrorCounter(String importer) {
-        if (!counters.containsKey(importer)) {
-            counters.put(importer, new ErrorCounter());
-        }
-        return counters.get(importer);
+    ErrorCounter() {
     }
 
     /**
      * For a new upload clear the old message.
      */
-    public void reset() {
+    void reset() {
         _errorMsg = "";
         _infoColumnCount = 0;
         _errorRowCount = 0;
@@ -49,25 +34,25 @@ public final class ErrorCounter implements Serializable {
         _errorColumnCount = 0;
     }
 
-    public boolean containsError() {
+    boolean containsError() {
         return _errorMsg.contains("Fehler") || _errorMsg.contains("Hinweis");
     }
 
-    public void incRowCounter() {
+    void incRowCounter() {
         _totalCount++;
     }
 
-    public void addRowErrorMsg(String message) {
+    void addRowErrorMsg(String message) {
         _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
         _errorRowCount++;
     }
 
-    public void addColumnErrorMsg(String message) {
+    void addColumnErrorMsg(String message) {
         _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
         _errorColumnCount++;
     }
 
-    public void addColumnInfoMsg(String message) {
+    void addColumnInfoMsg(String message) {
         _errorMsg += "\r\nHinweis in Zeile " + _totalCount + ": " + message;
         _infoColumnCount++;
     }

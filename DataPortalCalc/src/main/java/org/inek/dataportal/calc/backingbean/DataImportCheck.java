@@ -23,33 +23,26 @@ import org.inek.dataportal.common.utils.StringUtil;
  *
  * @author kunkelan
  */
-public class DataImportCheck<T, I> implements Serializable {
+class DataImportCheck<T, I> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private final ErrorCounter counter;
     private final QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check;
     private final BiConsumer<T, I> assign;
     private final String errorMsg;
 
-    public DataImportCheck(
-            ErrorCounter counter,
+    DataImportCheck(
             QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check, BiConsumer<T, I> assign,
             String errorMsg) {
-        this.counter = counter;
         this.check = check;
         this.assign = assign;
         this.errorMsg = errorMsg;
     }
 
-    public void resetCounter() {
-        counter.reset();
-    }
-
-    public void tryImport(T item, String data) {
+    void tryImport(T item, String data, ErrorCounter counter) {
         check.accept(item, data, assign, errorMsg, counter);
     }
 
-    public static <T> void tryImportString(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportString(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
         try {
             //@SuppressWarnings("unchecked") I val = (I) data;
             assign.accept(item, data);
@@ -58,7 +51,7 @@ public class DataImportCheck<T, I> implements Serializable {
         }
     }
 
-    public static <T> void tryImportInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(true);
@@ -79,7 +72,7 @@ public class DataImportCheck<T, I> implements Serializable {
         }
     }
 
-    public static <T> void tryImportRoundedInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportRoundedInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(false);
@@ -100,7 +93,7 @@ public class DataImportCheck<T, I> implements Serializable {
         }
     }
 
-    public static <T> void tryImportCostCenterId(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportCostCenterId(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
         List<String> allowedValues = Arrays.asList("11", "12", "13");
         if (allowedValues.contains(data)){
             tryImportString(item, data, assign, errorMsg, counter);
@@ -109,34 +102,33 @@ public class DataImportCheck<T, I> implements Serializable {
         }
     }
 
-    public static <T> void tryImportCostCenterId11(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
-        List<String> allowedValues = Arrays.asList("11");
-        if (allowedValues.contains(data)) {
+    static <T> void tryImportCostCenterId11(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
+        if ("11".equalsIgnoreCase(data)) {
             tryImportString(item, data, assign, errorMsg, counter);
         } else {
             counter.addColumnErrorMsg(errorMsg + data + " (Erlaubte Werte: 11)");
         }
     }
 
-    public static <T> void tryImportCostCenterId12(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportCostCenterId12(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
         List<String> allowedValues = Arrays.asList("12");
-        if (allowedValues.contains(data)) {
+        if ("12".equalsIgnoreCase(data)) {
             tryImportString(item, data, assign, errorMsg, counter);
         } else {
             counter.addColumnErrorMsg(errorMsg + data + " (Erlaubte Werte: 12)");
         }
     }
 
-    public static <T> void tryImportCostCenterId13(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportCostCenterId13(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
         List<String> allowedValues = Arrays.asList("13");
-        if (allowedValues.contains(data)) {
+        if ("13".equalsIgnoreCase(data)) {
             tryImportString(item, data, assign, errorMsg, counter);
         } else {
             counter.addColumnErrorMsg(errorMsg + data + " (Erlaubte Werte: 13)");
         }
     }
 
-    public static <T> void tryImportDoubleAsInt(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportDoubleAsInt(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         try{
             int val = StringUtil.parseLocalizedDoubleAsInt(data);
             if (val < 0){
@@ -155,7 +147,7 @@ public class DataImportCheck<T, I> implements Serializable {
         }
     }
 
-    public static <T> void tryImportBoolean(T item, String data, BiConsumer<T, Boolean> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportBoolean(T item, String data, BiConsumer<T, Boolean> assign, String errorMsg, ErrorCounter counter) {
         try {
             if ((data.trim().length() > 1) || (data.trim().length() == 1 && !data.trim().toLowerCase().equals("x"))) {
                 assign.accept(item, false);
@@ -169,7 +161,7 @@ public class DataImportCheck<T, I> implements Serializable {
         }
     }
 
-    public static <T> void tryImportFremdvergabe(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportFremdvergabe(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         String lowerData = data.trim().toLowerCase();
         if (lowerData.startsWith("keine")) {
             assign.accept(item, 0);
@@ -183,9 +175,9 @@ public class DataImportCheck<T, I> implements Serializable {
         }
     }
 
-    public static <T> void tryImportLabServiceArea(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportLabServiceArea(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         String lowerData = data.trim().toLowerCase();
-        int type = 0;
+        int type;
         switch (lowerData) {
             case "blutprodukte": type = 1; break;
             case "stammzellenaufbereitung": type = 2; break;
@@ -198,9 +190,9 @@ public class DataImportCheck<T, I> implements Serializable {
         assign.accept(item, type);
     }
 
-    public static <T> void tryImportServiceDocType(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportServiceDocType(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         String lowerData = data.trim().toLowerCase();
-        int type = 0;
+        int type;
         switch (lowerData) {
             case "hauskatalog": type = 1; break;
             case "dkg_nt": type = 2; break;
@@ -216,9 +208,9 @@ public class DataImportCheck<T, I> implements Serializable {
         assign.accept(item, type);
     }
 
-    public static <T> void tryImportOccupancyType(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportOccupancyType(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         String lowerData = data.trim().toLowerCase();
-        int type = 0;
+        int type;
         switch (lowerData) {
             case "vollstationär": type = 1;
                 break;
@@ -234,7 +226,7 @@ public class DataImportCheck<T, I> implements Serializable {
         assign.accept(item, type);
     }
 
-    public static <T> void tryImportDouble(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportDouble(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(false);
