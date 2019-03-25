@@ -51,7 +51,9 @@
 
                             <h:column>
                                 <div onclick="changeCSSColor('approval')">
-                                    <pf:commandLink action="#{documentApproval.approve(docNode.docInfo.id)}" immediate="true" update="@form">
+                                    <pf:commandLink
+                                            action="#{documentApproval.approve(docNode.docInfo.accountDocumentId)}"
+                                            immediate="true" update="@form">
                                         <pf:confirm  header="Dokument Freigeben" message="Dokument #{docNode.docInfo.name} wirklich freigeben?" icon="ui-icon-info" />
                                         <pf:graphicImage alt="freigeben" name="Icon/small/key.png" title="Freigabe" value=""/>
                                     </pf:commandLink>
@@ -60,7 +62,9 @@
 
                             <h:column>
                                 <div onclick="changeCSSColor('delete')">
-                                    <pf:commandLink immediate="true" action="#{documentApproval.delete(docNode.docInfo.id)}" update="@form">
+                                    <pf:commandLink immediate="true"
+                                                    action="#{documentApproval.delete(docNode.docInfo.accountDocumentId)}"
+                                                    update="@form">
                                         <pf:confirm header="Dokument Löschen" message="Dokument #{docNode.docInfo.name} wirklich löschen?" icon="ui-icon-alert"/>
                                         <pf:graphicImage alt="Löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                                     </pf:commandLink>
