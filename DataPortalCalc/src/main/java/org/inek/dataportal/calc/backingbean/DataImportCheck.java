@@ -51,7 +51,7 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         try {
-            int val = DataImporterValueImporter.parseInteger(data);
+            int val = NumberParser.parseInteger(data);
             if (val < 0) {
                 assign.accept(item, 0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
@@ -70,7 +70,7 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportRoundedInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         try {
-            int val = (int) Math.round(DataImporterValueImporter.parseDouble(data));
+            int val = (int) Math.round(NumberParser.parseDouble(data));
             if (val < 0) {
                 assign.accept(item, 0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
@@ -246,7 +246,7 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportDouble(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
         try {
-            double val = DataImporterValueImporter.parseDouble(data);
+            double val = NumberParser.parseDouble(data);
             if (val < 0) {
                 assign.accept(item, 0.0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
@@ -265,7 +265,7 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportDoubleBetween0and1(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
         try {
-            double val = DataImporterValueImporter.parseDouble(data);
+            double val = NumberParser.parseDouble(data);
             if (val < 0.0) {
                 assign.accept(item, 0.0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
