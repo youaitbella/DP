@@ -188,8 +188,8 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                             i.setAmount(s);
                                         },
                                         "Kostenvolumen nach Abgrenzung ungültig"),
-                                new DataImportCheck<KgpListMedInfra, Double>(
-                                        DataImportCheck::tryImportDoubleAndInteger,
+                                new DataImportCheck<KgpListMedInfra, Integer>(
+                                        DataImportCheck::tryImportFractionOrPercentAsInteger,
                                         (i, s) -> {
                                             i.setCostTypeId(170);
                                             i.setPartCostVolumeMedStaffAfter(s);
@@ -238,8 +238,8 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                             i.setAmount(s);
                                         },
                                         "Kostenvolumen nach Abgrenzung ungültig"),
-                                new DataImportCheck<KgpListMedInfra, Double>(
-                                        DataImportCheck::tryImportDoubleAndInteger,
+                                new DataImportCheck<KgpListMedInfra, Integer>(
+                                        DataImportCheck::tryImportFractionOrPercentAsInteger,
                                         (i, s) -> {
                                             i.setCostTypeId(180);
                                             i.setPartCostVolumeMedStaffAfter(s);

@@ -77,13 +77,13 @@
             <td>
                 <inek:InputIntegerWithMessage value="#{item.amount}"
                                               readonly="#{editCalcBasicsDrg.readOnly}"
-                                              styleClass="inputwide" minimum="-999999999" required="true"
+                                              styleClass="inputwide" required="true"
                                               renderElement="sumMed:text"/>
             </td>
                 <td>
                     <inek:InputIntegerWithMessage value="#{item.amountAfter}"
                                                   readonly="#{editCalcBasicsDrg.readOnly}"
-                                                  styleClass="inputwide" minimum="-999999999" required="true"/>
+                                                  styleClass="inputwide" maximum="100" required="true"/>
                 </td>
             </tr>
         </ui:repeat>

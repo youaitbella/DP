@@ -138,13 +138,13 @@ public class KgpListMedInfra implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="miPartCostVolumeMedStaffAfter">
     @Column(name = "miPartCostVolumeMedStaffAfter")
-    private double _partCostVolumeMedStaffAfter;
+    private double _partCostVolumeMedStaffAfter;  // todo: change to int after DB update
 
-    public double getPartCostVolumeMedStaffAfter() {
-        return _partCostVolumeMedStaffAfter;
+    public int getPartCostVolumeMedStaffAfter() {
+        return (int) _partCostVolumeMedStaffAfter;
     }
 
-    public void setPartCostVolumeMedStaffAfter(double partCostVolumeMedStaffAfter) {
+    public void setPartCostVolumeMedStaffAfter(int partCostVolumeMedStaffAfter) {
         this._partCostVolumeMedStaffAfter = partCostVolumeMedStaffAfter;
     }
     // </editor-fold>
