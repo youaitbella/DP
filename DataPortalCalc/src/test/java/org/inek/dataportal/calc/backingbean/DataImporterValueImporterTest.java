@@ -65,6 +65,26 @@ class DataImporterValueImporterTest {
     }
 
     @Test
+    void parseIntegerWith_1a_ThrowsException() {
+        String value = "1a";
+        Throwable exception = assertThrows(ParseException.class, () -> {
+            NumberParser.parseInteger(value);
+        });
+
+        assertThat(exception.getMessage()).isEqualTo(NumberParser.NOT_AN_INTEGER);
+    }
+
+    @Test
+    void parseIntegerWith_a1_ThrowsException() {
+        String value = "a1";
+        Throwable exception = assertThrows(ParseException.class, () -> {
+            NumberParser.parseInteger(value);
+        });
+
+        assertThat(exception.getMessage()).isEqualTo(NumberParser.NOT_AN_INTEGER);
+    }
+
+    @Test
     void parseDoubleWith_1_Returns_1() {
         String value = "1";
 
