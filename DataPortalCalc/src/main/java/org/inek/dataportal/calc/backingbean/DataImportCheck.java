@@ -9,15 +9,10 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.StringUtil;
 
 import java.io.Serializable;
-import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.BiConsumer;
-
-import org.inek.dataportal.calc.backingbean.DataImporterValueImporter;
 
 /**
  * Holds the Info where the data will be stored and which check to perform to validate the input.
@@ -38,7 +33,7 @@ class DataImportCheck<T, I> implements Serializable {
             String errorMsg) {
         this.check = check;
         this.assign = assign;
-        this.errorMsg = errorMsg;
+        this.errorMsg = errorMsg + ": ";
     }
 
     void tryImport(T item, String data, ErrorCounter counter) {
