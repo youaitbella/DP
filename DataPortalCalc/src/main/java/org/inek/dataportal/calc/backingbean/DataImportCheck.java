@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.BiConsumer;
 
+import org.inek.dataportal.calc.backingbean.DataImporterValueImporter;
+
 /**
  * Holds the Info where the data will be stored and which check to perform to validate the input.
  *
@@ -54,7 +56,7 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         try {
-            int val = parseInteger(data);
+            int val = DataImporterValueImporter.parseInteger(data);
             if (val < 0) {
                 assign.accept(item, 0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
@@ -73,7 +75,7 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportRoundedInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         try {
-            int val = (int) Math.round(parseDouble(data));
+            int val = (int) Math.round(DataImporterValueImporter.parseDouble(data));
             if (val < 0) {
                 assign.accept(item, 0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
@@ -249,7 +251,7 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportDouble(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
         try {
-            double val = parseDouble(data);
+            double val = DataImporterValueImporter.parseDouble(data);
             if (val < 0) {
                 assign.accept(item, 0.0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
@@ -268,7 +270,7 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportDoubleBetween0and1(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
         try {
-            double val = parseDouble(data);
+            double val = DataImporterValueImporter.parseDouble(data);
             if (val < 0.0) {
                 assign.accept(item, 0.0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
@@ -289,30 +291,4 @@ class DataImportCheck<T, I> implements Serializable {
         }
     }
 
-
-    private static int parseInteger(String data) throws ParseException {
-        NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-        nf.setParseIntegerOnly(true);
-
-        ParsePosition parsePosition = new ParsePosition(0);
-        int val = nf.parse(data, parsePosition).intValue();
-        if (parsePosition.getIndex() != data.length()) {
-            parsePosition.setErrorIndex(parsePosition.getIndex());
-            throw new ParseException("keine Ganzzahl", parsePosition.getIndex());
-        }
-        return val;
-    }
-
-    private static double parseDouble(String data) throws ParseException {
-        NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-        nf.setParseIntegerOnly(false);
-
-        ParsePosition parsePosition = new ParsePosition(0);
-        double val = nf.parse(data, parsePosition).doubleValue();
-        if (parsePosition.getIndex() != data.length()) {
-            parsePosition.setErrorIndex(parsePosition.getIndex());
-            throw new ParseException("keine Gleitkommazahl", parsePosition.getIndex());
-        }
-        return val;
-    }
 }
