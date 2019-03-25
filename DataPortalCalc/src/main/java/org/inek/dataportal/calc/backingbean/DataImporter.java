@@ -1723,6 +1723,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 }
             }
 
+            showJournal = errorCounter.containsError();
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
