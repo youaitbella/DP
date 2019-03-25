@@ -71,7 +71,8 @@ public class DistributionModelFacade extends AbstractDataAccessWithActionLog {
                 + "             select 1\n"
                 + "             from calc.DistributionModelMaster\n"
                 + "             where dmmDataYear = " + year + "\n"
-                + "                     and dmmType = 0\n"
+                + "                     and dmmType = 0\n" +
+                                        "and dmmStatusId in (0, 10, 20)"
                 + "                     and sopIk = dmmIk\n"
                 + "     )";
 
