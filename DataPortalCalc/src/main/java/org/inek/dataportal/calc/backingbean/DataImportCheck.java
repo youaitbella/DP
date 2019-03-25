@@ -141,6 +141,27 @@ class DataImportCheck<T, I> implements Serializable {
         }
     }
 
+    static <T> void tryImportDoubleAndInteger(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
+        try {
+            Double val = StringUtil.parseLocalizedDouble(data);
+            if (val < 0) {
+                assign.accept(item, 0.0);
+                counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
+            } else if (val > 0 && val < 1) {
+                assign.accept(item, val * 100);
+            } else {
+                assign.accept(item, val);
+            }
+        } catch (NumberFormatException ex) {
+            assign.accept(item, 0.0);
+            if (data.trim().isEmpty()) {
+                counter.addColumnInfoMsg(errorMsg + "keinen Wert angegeben");
+            } else {
+                counter.addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            }
+        }
+    }
+
     static <T> void tryImportBoolean(T item, String data, BiConsumer<T, Boolean> assign, String errorMsg, ErrorCounter counter) {
         try {
             if ((data.trim().length() > 1) || (data.trim().length() == 1 && !data.trim().toLowerCase().equals("x"))) {

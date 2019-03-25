@@ -187,9 +187,9 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                             i.setCostTypeId(170);
                                             i.setAmount(s);
                                         },
-                                        "Kostenvolumen ungültig"),
+                                        "Kostenvolumen nach Abgrenzung ungültig"),
                                 new DataImportCheck<KgpListMedInfra, Double>(
-                                        DataImportCheck::tryImportDoubleBetween0and1,
+                                        DataImportCheck::tryImportDoubleAndInteger,
                                         (i, s) -> {
                                             i.setCostTypeId(170);
                                             i.setPartCostVolumeMedStaffAfter(s);
@@ -237,9 +237,9 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                             i.setCostTypeId(180);
                                             i.setAmount(s);
                                         },
-                                        "Kostenvolumen ungültig"),
+                                        "Kostenvolumen nach Abgrenzung ungültig"),
                                 new DataImportCheck<KgpListMedInfra, Double>(
-                                        DataImportCheck::tryImportDoubleBetween0and1,
+                                        DataImportCheck::tryImportDoubleAndInteger,
                                         (i, s) -> {
                                             i.setCostTypeId(180);
                                             i.setPartCostVolumeMedStaffAfter(s);
@@ -247,7 +247,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         "Kostenvolumen nach Abgrenzung ungültig")
                         ),
                         PeppCalcBasics::addMedInfraItem,
-                        s -> s.deleteKgpMedInfraList(170),
+                        s -> s.deleteKgpMedInfraList(180),
                         KgpListMedInfra.class
                 );
             //</editor-fold>
