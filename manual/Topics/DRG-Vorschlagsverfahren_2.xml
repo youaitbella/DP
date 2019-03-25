@@ -26,19 +26,16 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">In Bemerkungen können Sie wahlfreie zusätzliche Informationen erfassen. Bei Bearbeitung durch mehrere Personen können Sie dieses Feld beispielsweise für die Abstimmung untereinander nutzen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Kooperation</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie die Funktion Kooperation nutzen und Ihrem Kooperationspartner entsprechende Rechte eingeräumt oder von diesem erhalten haben, können zusätzliche oder geäderte Schaltflächen(Buttons) sichtbar sein:</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Existiert ein Supervisor, der für Sie Ihre Daten an das InEK sendet, so wird die Schaltfläche </text><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" translate="true"> ersetzt durch </text><text styleclass="Button" translate="true">[ zur Freigabe an Partner ]</text><text styleclass="Normal" translate="true">. Sobald Sie Ihre Daten erfasst haben, können Sie diese damit zu Freigabe durch Ihrem Partner markieren. Der Status des Vorschlags ändert sich von &quot;Neu / in Erfassung&quot; (</text><image src="edit.png" scale="100.00%" styleclass="Image Caption"></image><text styleclass="Normal" translate="true">) auf &quot;Freigabe erforderlich&quot; (</text><image src="timed.png" scale="100.00%" styleclass="Image Caption"></image><text styleclass="Normal" translate="true">). Bei Ihrem Partner ist der Vorschlag nun mit diesem Status sichtbar.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sind Sie umgekehrt für Ihren Kooperationspartner als Supervisor tätig, so sehen Sie neben </text><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" translate="true"> eine weitere Schaltfläche </text><text styleclass="Button" translate="true">[ Korrektur anfordern ]</text><text styleclass="Normal" translate="true">. Damit können Sie einen Vorschlag an der Ersteller zurück verweisen. Da dies entgegen dem normalen Arbeitsfluss erfolgt, erhält Ihr Partner eine Nachricht. Diese können Sie um eigene Informationen ergänzen.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Image Caption"><image src="DrgProposalMessage.png" scale="100.00%" styleclass="Image Caption"></image></para>
-    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Korrektur mit optionaler Nachricht anfordern.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Ihr Partner kann diese Nachricht in der Funktion &quot;</text><link displaytype="text" defaultstyle="true" type="topiclink" href="Cooperation" styleclass="Normal" translate="true">Kooperation</link><text styleclass="Normal" translate="true">&quot; lesen. Außerdem erhält er einen im Menü sowie in der Liste Kooperationsparter Hinweise auf ungelesene Nachrichten. Über die Kooperation können Sie auch unabhängig von solch einem Rückverweis beliebige Nachrichten senden.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> legt der Ersteller (Besitzer) der Daten fest, wer sonst auf die Daten sehen darf. Des Weiteren darf nur der Besitzer Daten löschen. Es ist jedoch möglich, den Besitz der Daten zu übernehmen. Dazu muss der aktuelle Besitzer seinem Kooperationspartner das Recht zur Besitzübernahme (siehe </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Cooperation" styleclass="Normal" translate="true">Kooperation</link><text styleclass="Normal" translate="true">) eingeräumt haben. Hat Ihr Partner Ihnen dieses Recht eingeräumt und Sie öffnen einen Vorschlag dieses Partners, so wird die Schaltfläche </text><text styleclass="Button" translate="true">[ Besitz übernehmen ]</text><text styleclass="Normal" translate="true"> sichtbar. Hiermit können Sie den Besitz an den Daten übernehmen. Dies wird jedoch erst nach dem Speichern der Daten wirksam!</text></para>
+    <para styleclass="Normal">
+      <text styleclass="Normal" translate="true">Sofern Sie die Funktion Kooperation nutzen und Ihrem
+        Kooperationspartner entsprechende Rechte eingeräumt oder von diesem erhalten haben, so können entsprechend der
+        eingeräumten Recht Daten gemeinsam sehen oder bearbeiten. Weitere Hinweise entnehmen Sie bitte dem Kapitel
+      </text>
+      <link displaytype="text" defaultstyle="true" type="topiclink" href="Gemeinsame-Bearbeitung" styleclass="Normal"
+            translate="true">Gemeinsame Bearbeitung
+      </link>
+      <text styleclass="Normal" translate="true">.</text>
+    </para>
     <para styleclass="Normal"></para>
   </body>
 </topic>
