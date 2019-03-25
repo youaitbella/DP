@@ -190,10 +190,10 @@ public class DocumentFacade extends AbstractDataAccess {
                 + "from account \n"
                 + "where acMail like '%@inek-drg.de'\n"
                 + "  and acId in (\n"
-                + "    select adAgentAccountId \n"
-                + "    from AccountDocument \n"
-                + "    where adAgentAccountId > 0\n"
-                + "        and DATEDIFF(DAY, adCreated, getDate()) <= " + maxAge + "\n"
+                + "    select docAccountId \n"
+                + "    from Document \n"
+                + "    where docAccountId > 0\n"
+                + "        and DATEDIFF(DAY, docCreated, getDate()) <= " + maxAge + "\n"
                 + "    ) \n"
                 + "order by 2";
         Query query = getEntityManager().createNativeQuery(sql);
