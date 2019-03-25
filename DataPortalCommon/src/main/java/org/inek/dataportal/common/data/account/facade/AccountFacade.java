@@ -494,7 +494,7 @@ public class AccountFacade extends AbstractDataAccess {
         if (emails.isEmpty()) {
             return;
         }
-        int year = 2017;
+        int year = 2018;
         String sql = "select lower(coMail), "
                 + "IIF(coIsDrg = 1, 'DRG ', '') + IIF(coIsPsy = 1, 'PSY ', '') + IIF(coIsInv = 1, 'INV ', '') "
                 + "+ IIF(coIsTpg = 1, 'TPG ', '') + IIF(coIsObd = 1, 'OBD ', '') + IIF(coIsConsultant = 1, 'Berater', '')\n"
