@@ -182,6 +182,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="ccCountMedStaffPre">
     @Column(name = "ccCountMedStaffPre")
+    @Documentation(name = "Anzahl VK ÄD vor Abgrenzung")
     private double _countMedStaffPre;
 
     public double getCountMedStaffPre() {
@@ -195,6 +196,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="ccCountMedStaffAfter">
     @Column(name = "ccCountMedStaffAfter")
+    @Documentation(name = "Anzahl VK ÄD nach Abgrenzung")
     private double _countMedStaffAfter;
 
     public double getCountMedStaffAfter() {
@@ -208,6 +210,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="ccCostVolumeMedStaffPre">
     @Column(name = "ccCostVolumeMedStaffPre")
+    @Documentation(name = "Kostenvolumen ÄD vor Abgrenzung")
     private double _costVolumeMedStaffPre;
 
     public double getCostVolumeMedStaffPre() {
@@ -221,6 +224,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="ccCostVolumeMedStaffAfter">
     @Column(name = "ccCostVolumeMedStaffAfter")
+    @Documentation(name = "Kostenvolumen ÄD nach Abgrenzung")
     private double _costVolumeMedStaffAfter;
 
     public double getCostVolumeMedStaffAfter() {
@@ -234,6 +238,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="ccCountCareServicePre">
     @Column(name = "ccCountCareServicePre")
+    @Documentation(name = "Anzahl VK PD vor Abgrenzung")
     private double _countCareServicePre;
 
     public double getCountCareServicePre() {
@@ -247,6 +252,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="ccCountCareServiceAfter">
     @Column(name = "ccCountCareServiceAfter")
+    @Documentation(name = "Anzahl VK PD nach Abgrenzung")
     private double _countCareServiceAfter;
 
     public double getCountCareServiceAfter() {
@@ -260,6 +266,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="ccCostVolumeCareServicePre">
     @Column(name = "ccCostVolumeCareServicePre")
+    @Documentation(name = "Kostenvolumen PD vor Abgrenzung")
     private double _costVolumeCareServicePre;
 
     public double getCostVolumeCareServicePre() {
@@ -273,6 +280,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="ccCostVolumeCareServiceAfter">
     @Column(name = "ccCostVolumeCareServiceAfter")
+    @Documentation(name = "Kostenvolumen PD nach Abgrenzung")
     private double _costVolumeCareServiceAfter;
 
     public double getCostVolumeCareServiceAfter() {
@@ -286,6 +294,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="ccCountFunctionalServicePre">
     @Column(name = "ccCountFunctionalServicePre")
+    @Documentation(name = "Anzahl VK FD vor Abgrenzung")
     private double _countFunctionalServicePre;
 
     public double getCountFunctionalServicePre() {
@@ -299,6 +308,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="ccCountFunctionalServiceAfter">
     @Column(name = "ccCountFunctionalServiceAfter")
+    @Documentation(name = "Anzahl VK FD nach Abgrenzung")
     private double _countFunctionalServiceAfter;
 
     public double getCountFunctionalServiceAfter() {
@@ -312,6 +322,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="ccCostVolumeFunctionalServicePre">
     @Column(name = "ccCostVolumeFunctionalServicePre")
+    @Documentation(name = "Kostenvolumen FD vor Abgrenzung")
     private double _costVolumeFunctionalServicePre;
 
     public double getCostVolumeFunctionalServicePre() {
@@ -324,6 +335,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="ccCostVolumeFunctionalServiceAfter">
     @Column(name = "ccCostVolumeFunctionalServiceAfter")
+    @Documentation(name = "Kostenvolumen FD nach Abgrenzung")
     private double _costVolumeFunctionalServiceAfter;
 
     public double getCostVolumeFunctionalServiceAfter() {
