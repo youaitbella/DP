@@ -12,6 +12,7 @@ import org.inek.dataportal.calc.entities.psy.KglPkmsAlternative;
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.Documentation;
+import org.inek.dataportal.common.utils.IgnoreOnCompare;
 
 import javax.faces.model.SelectItem;
 import javax.persistence.*;
@@ -59,6 +60,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     // <editor-fold defaultstate="collapsed" desc="Property Version">
     @Column(name = "biVersion")
     @Version
+    @IgnoreOnCompare
     private int _version;
 
     @JsonIgnore
@@ -98,6 +100,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="accountIdLastChange">
     @Column(name = "biLastChangedBy")
+    @IgnoreOnCompare
     private int _accountIdLastChange;
 
     @JsonIgnore
@@ -154,6 +157,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="statusID">
     @Column(name = "biStatusID")
+    @IgnoreOnCompare
     private int _statusId;
 
     public int getStatusId() {
@@ -208,6 +212,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="biRedeemingVolume">
     @Column(name = "biRedeemingVolume")
+    @Documentation(name = "Erlösvolumen")
     private int _redeemingVolume;
 
     @Min(0)
@@ -252,6 +257,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="casePartialStationCnt">
     @Column(name = "biCaseBaCnt")
+    @Documentation(name = "Fälle Belegabteilung")
     private int _caseBaCnt;
 
     @Min(0)
@@ -398,7 +404,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="gynecology">
     @Column(name = "biGynecology")
-
     @Documentation(name = "Leistungen im Bereich der Gynäkologie", headline = "Kostenstellengruppe 6 (Kreißsaal)", rank = 4000)
     private boolean _gynecology;
 
@@ -471,7 +476,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="noDeliveryRoomHabitation">
     @Column(name = "biNoDeliveryRoomHabitation")
-
     @Documentation(name = "Bei vorgeburtlichen Fällen keine Aufenthaltszeiten der Patientin im Kreißsaal", omitOnEmpty = true, rank = 4000)
     private boolean _noDeliveryRoomHabitation;
 
@@ -500,7 +504,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="cardiology">
     @Column(name = "biCardiology")
-
     @Documentation(name = "KH erbringt Leistungen in Kardiologie", rank = 5000, headline = "Kostenstellengruppe 7 (Kardiologie)")
     private boolean _cardiology;
 
@@ -515,7 +518,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="cardiologyRoomCnt">
     @Column(name = "biCardiologyRoomCnt")
-    @Documentation(name = "Kardiologische Eingriffsräume", rank = 5000, omitOnValues = "0")
+    @Documentation(key = "lblCardiologyRoomCount", rank = 5000, omitOnValues = "0")
     private int _cardiologyRoomCnt;
 
     @Min(0)
@@ -530,6 +533,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="biCardiologyLocationCnt">
     @Column(name = "biCardiologyLocationCnt")
+    @Documentation(name = "Anzahl Standorte Kardiologie")
     private int _cardiologyLocationCnt;
 
     @Min(0)
@@ -559,7 +563,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopy">
     @Column(name = "biEndoscopy")
-
     @Documentation(name = "Leistungen im Bereich der Endoskopie", rank = 6000, headline = "Kostenstellengruppe 8 (Endoskopie)")
     private boolean _endoscopy;
 
@@ -604,6 +607,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="biEndoscopyLocationCnt">
     @Column(name = "biEndoscopyLocationCnt")
+    @Documentation(name = "Anzahl Standorte Endoskopie")
     private int _endoscopyLocationCnt;
 
     @Min(0)
@@ -633,6 +637,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="mviFulfilled">
     @Column(name = "biMviFulfilled")
+    @Documentation(key = "lblFulfillmentDemand")
     private int _mviFulfilled;
 
     public int getMviFulfilled() {
@@ -798,7 +803,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="intensiveBed">
     @Column(name = "biIntensiveBed")
-
     @Documentation(name = "Das Krankenhaus hat Intensivbetten", rank = 13010, headline = "Ergänzende Angaben zur Intensivbehandlung")
     private boolean _intensiveBed;
 
