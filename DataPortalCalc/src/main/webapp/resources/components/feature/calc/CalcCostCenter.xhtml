@@ -61,7 +61,7 @@
                                    title="Anzahl Vollkräfte Ärztlicher Dienst vor Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.countMedStaffPre}"
-                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="##,###.00"/>
             </h:column>
 
             <h:column>
@@ -70,7 +70,7 @@
                                    title="Anzahl Vollkräfte Ärztlicher Dienst nach Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.countMedStaffAfter}"
-                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="##,###.00"/>
             </h:column>
 
             <h:column>
@@ -81,7 +81,7 @@
                 <inek:InputNumberWithMessage id="medPre" styleClass="element100" value="#{item.costVolumeMedStaffPre}"
                                              readonly="#{cc.attrs.backingBean.readOnly}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('medPre'))}resultMedPre:text"
-                                             pattern="#0.00"/>
+                                             pattern="##,###.00"/>
             </h:column>
 
             <h:column>
@@ -93,7 +93,7 @@
                                              value="#{item.costVolumeMedStaffAfter}"
                                              readonly="#{cc.attrs.backingBean.readOnly}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('medAfter'))}resultMedAfter:text"
-                                             pattern="#0.00"/>
+                                             pattern="##,###.00"/>
             </h:column>
 
             <h:column>
@@ -102,7 +102,7 @@
                                    title="Anzahl Vollkräfte Pflegedienst vor Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.countCareServicePre}"
-                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="##,###.00"/>
             </h:column>
 
             <h:column>
@@ -111,7 +111,7 @@
                                    title="Anzahl Vollkräfte Pflegedienst nach Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.countCareServiceAfter}"
-                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="##,###.00"/>
             </h:column>
 
             <h:column>
@@ -122,7 +122,7 @@
                 <inek:InputNumberWithMessage id="carePre" styleClass="element100"
                                              value="#{item.costVolumeCareServicePre}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('carePre'))}resultCarePre:text"
-                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                                             readonly="#{cc.attrs.backingBean.readOnly}" />
             </h:column>
 
             <h:column>
@@ -133,7 +133,7 @@
                 <inek:InputNumberWithMessage id="careAfter" styleClass="element100"
                                              value="#{item.costVolumeCareServiceAfter}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('careAfter'))}resultCareAfter:text"
-                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#000.00"/>
             </h:column>
 
             <h:column>
@@ -142,7 +142,7 @@
                                    title="Anzahl Vollkräfte Funktionsdienst vor Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.countFunctionalServicePre}"
-                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="##,###.00"/>
             </h:column>
 
             <h:column>
@@ -151,7 +151,7 @@
                                    title="Anzahl Vollkräfte Funktionsdienst nach Abgrenzung"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{item.countFunctionalServiceAfter}"
-                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="##,###.00"/>
             </h:column>
 
             <h:column>
@@ -162,7 +162,7 @@
                 <inek:InputNumberWithMessage id="funcPre" styleClass="element100"
                                              value="#{item.costVolumeFunctionalServicePre}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('funcPre'))}resultFuncPre:text"
-                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="##,###.00"/>
             </h:column>
 
             <h:column>
@@ -173,7 +173,7 @@
                 <inek:InputNumberWithMessage id="funcAfter" styleClass="element100"
                                              value="#{item.costVolumeFunctionalServiceAfter}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('funcAfter'))}resultFuncAfter:text"
-                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
+                                             readonly="#{cc.attrs.backingBean.readOnly}" pattern="##,###.00"/>
             </h:column>
 
             <h:column>
