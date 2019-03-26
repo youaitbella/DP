@@ -5,6 +5,7 @@ import org.inek.dataportal.calc.ListUtil;
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.Documentation;
+import org.inek.dataportal.common.utils.IgnoreOnCompare;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -45,6 +46,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     // <editor-fold defaultstate="collapsed" desc="Property Version">
     @Column(name = "biVersion")
     @Version
+    @IgnoreOnCompare
     private int _version;
 
     @JsonIgnore
@@ -140,6 +142,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property StatusId / Status">
     @Column(name = "biStatusId")
+    @IgnoreOnCompare
     private int _statusId;
 
     public int getStatusId() {

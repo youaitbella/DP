@@ -372,14 +372,11 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     private Map<String, FieldValues> getDifferencesUser(PeppCalcBasics modifiedCalcBasics, List<Class> excludedTypes) {
         Map<String, FieldValues> differencesUser = ObjectComparer.getDifferences(_baseLine, modifiedCalcBasics, excludedTypes);
-        differencesUser.remove("_statusId");
         return differencesUser;
     }
 
     private Map<String, FieldValues> getDifferencesPartner(List<Class> excludedTypes) {
         Map<String, FieldValues> differencesPartner = ObjectComparer.getDifferences(_baseLine, _calcBasics, excludedTypes);
-        differencesPartner.remove("_statusId");
-        differencesPartner.remove("_version");
         return differencesPartner;
     }
 
