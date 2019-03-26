@@ -54,6 +54,7 @@
                 <f:ajax event="blur" render="@form @this lblDiffendoscopyRoomCnt :logout:remaining"
                         listener="#{editCalcBasicsDrg.adjustAllRoomCapabilities}"/>
                 <f:convertNumber/>
+                <f:validateLongRange maximum="99" minimum="0"/>
             </h:inputText>
             <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.endoscopyRoomCnt}">
                 <f:convertNumber/>
