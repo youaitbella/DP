@@ -41,7 +41,7 @@ public class KGPListServiceProvisionType implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _text">
+    //<editor-fold defaultstate="collapsed" desc="Text">
     @Column(name = "sptText")
     @Documentation(name = "Text", rank = 10)
     private String _text = "";
@@ -56,7 +56,7 @@ public class KGPListServiceProvisionType implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _firstYear">
+    //<editor-fold defaultstate="collapsed" desc="Erstes Jahr">
     @Column(name = "sptFirstYear")
     @Documentation(name = "Erstes Jahr", rank = 20)
     private int _firstYear;
@@ -70,7 +70,7 @@ public class KGPListServiceProvisionType implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _lastYear">
+    //<editor-fold defaultstate="collapsed" desc="Letztes Jahr">
     @Column(name = "sptLastYear")
     @Documentation(name = "Letztes Jahr", rank = 30)
     private int _lastYear;

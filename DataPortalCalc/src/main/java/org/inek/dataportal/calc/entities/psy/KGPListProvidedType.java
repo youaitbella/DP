@@ -5,6 +5,8 @@
  */
 package org.inek.dataportal.calc.entities.psy;
 
+import org.inek.dataportal.common.utils.Documentation;
+
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -56,6 +58,7 @@ public class KGPListProvidedType implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _firstYear">
     @Column(name = "ptFirstYear")
+    @Documentation(name = "Erstes Jahr")
     private int _firstYear;
 
     public int getFirstYear() {
@@ -69,6 +72,7 @@ public class KGPListProvidedType implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _lastYear">
     @Column(name = "ptLastYear")
+    @Documentation(name = "Letztes Jahr")
     private int _lastYear;
 
     public int getLastYear() {

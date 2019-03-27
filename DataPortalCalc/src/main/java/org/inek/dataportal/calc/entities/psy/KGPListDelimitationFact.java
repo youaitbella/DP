@@ -53,7 +53,7 @@ public class KGPListDelimitationFact implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property personalCost">
+    //<editor-fold defaultstate="collapsed" desc="Personalkosten">
     @Column(name = "dfPersonalCost")
     @Documentation(name = "Personalkosten", rank = 20)
     private int _personalCost;
@@ -67,7 +67,7 @@ public class KGPListDelimitationFact implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property materialCost">
+    //<editor-fold defaultstate="collapsed" desc="PSachkosten">
     @Column(name = "dfMaterialcost")
     @Documentation(name = "Sachkosten", rank = 30)
     private int _materialCost;
@@ -81,7 +81,7 @@ public class KGPListDelimitationFact implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property infraCost">
+    //<editor-fold defaultstate="collapsed" desc="Infrastrukturkosten">
     @Column(name = "dfInfraCost")
     @Documentation(name = "Infrastrukturkosten", rank = 40)
     private int _infraCost;

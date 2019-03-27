@@ -180,7 +180,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _caseInStationCnt">
+    // <editor-fold defaultstate="collapsed" desc="Fälle vollstationär">
     @Column(name = "biCaseInStationCnt")
     @Documentation(name = "Fälle vollstationär", rank = 1020)
     private int _caseInStationCnt;
@@ -194,7 +194,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _caseInStationCntPsy">
+    // <editor-fold defaultstate="collapsed" desc="Fälle vollstationär Psychosomatik">
     @Column(name = "biCaseInStationCntPsy")
     @Documentation(name = "Fälle vollstationär Psychosomatik", rank = 1021)
     private int _caseInStationCntPsy;
@@ -208,7 +208,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _careDaysInStationCnt">
+    // <editor-fold defaultstate="collapsed" desc="Pflegetage vollstationär">
     @Column(name = "biCareDaysInStationCnt")
     @Documentation(name = "Pflegetage vollstationär", rank = 1030)
     private int _careDaysInStationCnt;
@@ -222,7 +222,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _careDaysInStationCntPsy">
+    // <editor-fold defaultstate="collapsed" desc="Pflegetage vollstationär Psychosomatik">
     @Column(name = "biCareDaysInStationCntPsy")
     @Documentation(name = "Pflegetage vollstationär Psychosomatik", rank = 1031)
     private int _careDaysInStationCntPsy;
@@ -236,7 +236,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _casePartialStationCnt">
+    // <editor-fold defaultstate="collapsed" desc="Fälle teilstationär">
     @Column(name = "biCasePartialStationCnt")
     @Documentation(name = "Fälle teilstationär", rank = 1040)
     private int _casePartialStationCnt;
@@ -250,7 +250,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _casePartialStationCntPsy">
+    // <editor-fold defaultstate="collapsed" desc="Fälle teilstationär Psychosomatik">
     @Column(name = "biCasePartialStationCntPsy")
     @Documentation(name = "Fälle teilstationär Psychosomatik", rank = 1041)
     private int _casePartialStationCntPsy;
@@ -264,7 +264,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _daysPartialStation">
+    // <editor-fold defaultstate="collapsed" desc="Berechnungstage teilstationär">
     @Column(name = "biDaysPartialStation")
     @Documentation(name = "Berechnungstage teilstationär", rank = 1050)
     private int _daysPartialStation;
@@ -278,7 +278,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _daysPartialStationPsy">
+    // <editor-fold defaultstate="collapsed" desc="Berechnungstage teilstationär Psychosomatik">
     @Column(name = "biDaysPartialStationPsy")
     @Documentation(name = "Berechnungstage teilstationär Psychosomatik", rank = 1051)
     private int _daysPartialStationPsy;
@@ -292,7 +292,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _patientEscort">
+    // <editor-fold defaultstate="collapsed" desc="Begleitpersonen">
     @Column(name = "biPatientEscort")
     @Documentation(name = "Begleitpersonen", rank = 1060)
     private int _patientEscort;
@@ -306,7 +306,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _preStation">
+    // <editor-fold defaultstate="collapsed" desc="Fälle rein vorstationär">
     @Column(name = "biPreStation")
     @Documentation(name = "Fälle rein vorstationär", rank = 1070)
     private int _preStation;
@@ -320,7 +320,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _beds">
+    // <editor-fold defaultstate="collapsed" desc="Anzahl Betten (PSY)">
     @Column(name = "biBeds")
     @Documentation(name = "Anzahl Betten (PSY)", rank = 1080)
     private int _beds;
@@ -334,7 +334,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _partialCnt">
+    // <editor-fold defaultstate="collapsed" desc="Anzahl teilstationäre Plätze (PSY)">
     @Column(name = "biPartialCnt")
     @Documentation(name = "Anzahl teilstationäre Plätze (PSY)")
     private int _partialCnt;
@@ -348,7 +348,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _sumCalcCost">
+    // <editor-fold defaultstate="collapsed" desc="Erklärung zur Kalkulationsgrundlage">
     @Column(name = "biSumCalcCost")
     @Documentation(key = "lblSumCalcCost", rank = 1010, headline = "Erklärung zur Kalkulationsgrundlage")
     private int _sumCalcCost;
@@ -362,7 +362,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _locationCnt">
+    // <editor-fold defaultstate="collapsed" desc="Anzahl Standorte">
     @Column(name = "biLocationCnt")
     @Documentation(name = "Anzahl Standorte", rank = 1090)
     private int _locationCnt;
@@ -376,7 +376,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _difLocationSupply">
+    // <editor-fold defaultstate="collapsed" desc="Differenzierter Versorgungsauftrag">
     @Column(name = "biDifLocationSupply")
     @Documentation(name = "Differenzierter Versorgungsauftrag", rank = 1100)
     private boolean _difLocationSupply;
@@ -390,7 +390,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _medicineCostMapping">
+    // <editor-fold defaultstate="collapsed" desc="Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?">
     @Column(name = "biMedicineCostMapping")
     @Documentation(name = "Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?", rank = 1120)
     private boolean _medicineCostMapping;
@@ -404,7 +404,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _courtPlacement">
+    // <editor-fold defaultstate="collapsed" desc="In der Einrichtung wurden im aktuellen Datenjahr Patienten gerichtlich untergebracht">
     @Column(name = "biCourtPlacement")
     @Documentation(name = "In der Einrichtung wurden im aktuellen Datenjahr Patienten gerichtlich untergebracht", rank = 1130)
     private boolean _courtPlacement;
@@ -433,7 +433,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _bimAll">
+    // <editor-fold defaultstate="collapsed" desc="Ergänzende Angaben zum stationären Bereich">
     @Column(name = "biBimAll")
     @Documentation(name = "Leistungsdokumentation gem. BIM", rank = 9010, headline = "Ergänzende Angaben zum stationären Bereich")
     private boolean _bimAll;
@@ -447,7 +447,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _intensiveExceptionalPermission">
+    // <editor-fold defaultstate="collapsed" desc="Ausnahmegenehmigung für das Datenjahr (Kommentar)">
     @Column(name = "biIntensiveExceptionalPermission")
     @Documentation(name = "Ausnahmegenehmigung für das Datenjahr (Kommentar)", rank = 9020)
     private String _intensiveExceptionalPermission = "";
@@ -461,7 +461,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _intensiveCriteriaBullets">
+    // <editor-fold defaultstate="collapsed" desc="Stichwortartig Kriterien Pflegetage">
     @Column(name = "biIntensiveCriteriaBullets")
     @Documentation(name = "Stichwortartig Kriterien Pflegetage", rank = 9030)
     private String _intensiveCriteriaBullets = "";
@@ -475,7 +475,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _intensiveMethodBullets">
+    // <editor-fold defaultstate="collapsed" desc="Stichwortartig Verfahren zur Verrechnung der Kosten">
     @Column(name = "biIntensiveMethodBullets")
     @Documentation(name = "Stichwortartig Verfahren zur Verrechnung der Kosten", rank = 9040)
     private String _intensiveMethodBullets = "";
@@ -489,7 +489,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
+    //<editor-fold defaultstate="collapsed" desc="Gewähltes Verfahren bei Durchführung der IBLV">
     @Column(name = "biIBLVMethodMedInfra")
     @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", rank = 10010,
             translateValue = "0= ;1=Gleichungsverfahren;2=Stufenleiterverfahren;3=Anbauverfahren;4=Sonstige Vorgehensweise")
@@ -504,7 +504,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _otherMethodMedInfra">
+    // <editor-fold defaultstate="collapsed" desc="Gewähltes Verfahren bei Durchführung der IBLV">
     @Column(name = "biOtherMethodMedInfra")
     @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", rank = 11010,
             translateValue = "0= ;1=Gleichungsverfahren;2=Stufenleiterverfahren;3=Anbauverfahren;4=Sonstige Vorgehensweise")
@@ -519,9 +519,10 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property StationEquivalentCnt">
+    // <editor-fold defaultstate="collapsed" desc="Stationsäquivalent">
     @Column(name = "biStationEquivalentCnt")
-    private String _stationEquivalentCnt = "";
+    @Documentation(name = "")
+    private String _stationEquivalentCnt = "Stationsäquivalent";
 
     public String getStationEquivalentCnt() {
         return _stationEquivalentCnt;
@@ -573,7 +574,9 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Erlösvolumen">
     @Column(name = "biRedeemingVolume")
+    @Documentation(name = "Erlösvolumen")
     private int _redeemingVolume;
 
     @Min(0)
@@ -657,7 +660,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property _personalAccountingDescription">
+    // <editor-fold defaultstate="collapsed" desc="Erläuterung bzgl. Datengrundlage, Vorgehen und Kostenvolumen">
     @Column(name = "biPersonalAccountingDescription")
     @Documentation(name = "Erläuterung bzgl. Datengrundlage, Vorgehen und Kostenvolumen", rank = 12030)
     private String _personalAccountingDescription = "";
@@ -689,7 +692,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property List _serviceProvisions">
+    // <editor-fold defaultstate="collapsed" desc="Leistungen">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "spBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biID")
@@ -929,7 +932,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property List _kgpDocumentsList">
+    // <editor-fold defaultstate="collapsed" desc="Liste Dokumente">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "doBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "doBaseInformationId", referencedColumnName = "biID")
@@ -945,7 +948,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property List locations">
+    //<editor-fold defaultstate="collapsed" desc="Liste Standorte">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "lBaseInformationId", referencedColumnName = "biID")
     private List<KGPListLocation> _locations = new Vector<>();
@@ -959,7 +962,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property List OverviewPersonal">
+    //<editor-fold defaultstate="collapsed" desc="Übersicht Personal">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "opBaseInformationId", referencedColumnName = "biId")
     @Documentation(name = "Übersicht Personal", headline = "Übersicht Personal", rank = 10)

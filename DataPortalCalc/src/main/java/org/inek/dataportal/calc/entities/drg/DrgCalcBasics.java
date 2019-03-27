@@ -12,6 +12,7 @@ import org.inek.dataportal.calc.entities.psy.KglPkmsAlternative;
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.Documentation;
+import org.inek.dataportal.common.utils.IgnoreOnCompare;
 
 import javax.faces.model.SelectItem;
 import javax.persistence.*;
@@ -59,6 +60,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     // <editor-fold defaultstate="collapsed" desc="Property Version">
     @Column(name = "biVersion")
     @Version
+    @IgnoreOnCompare
     private int _version;
 
     @JsonIgnore
@@ -154,6 +156,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="statusID">
     @Column(name = "biStatusID")
+    @IgnoreOnCompare
     private int _statusId;
 
     public int getStatusId() {
@@ -176,7 +179,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="correctionNote">
+    //<editor-fold defaultstate="collapsed" desc="Erklärung zur Kalkulationsgrundlage">
     @Column(name = "biCorrectionNote")
     @Documentation(key = "lblComment")
     private String _correctionNote = "";
@@ -206,8 +209,9 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="biRedeemingVolume">
+    //<editor-fold defaultstate="collapsed" desc="Erlösvolumen">
     @Column(name = "biRedeemingVolume")
+    @Documentation(name = "Erlösvolumen")
     private int _redeemingVolume;
 
     @Min(0)

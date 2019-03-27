@@ -7,6 +7,7 @@ package org.inek.dataportal.calc.entities.psy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
+import org.inek.dataportal.common.utils.Documentation;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -93,8 +94,9 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="opAmountVKPre">
+    // <editor-fold defaultstate="collapsed" desc="Anzahl VK vor Abgrenzung">
     @Column(name = "opAmountVKPre")
+    @Documentation(name = "Anzahl VK vor Abgrenzung")
     private double _amountVKPre;
 
     public double getAmountVKPre() {
@@ -106,8 +108,9 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="opAmountVKPost">
+    // <editor-fold defaultstate="collapsed" desc="Anzahl VK nach Abgrenzung">
     @Column(name = "opAmountVKPost")
+    @Documentation(name = "Anzahl VK nach Abgrenzung")
     private double _amountVKPost;
 
     public double getAmountVKPost() {
@@ -119,8 +122,9 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="opCostAmountPre">
+    // <editor-fold defaultstate="collapsed" desc="Kostenvolumen vor Abgrenzung">
     @Column(name = "opCostAmountPre")
+    @Documentation(name = "Kostenvolumen vor Abgrenzung")
     private double _costAmountPre;
 
     public double getCostAmountPre() {
@@ -132,8 +136,9 @@ public class KGPListOverviewPersonal implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="opCostAmountPost">
+    // <editor-fold defaultstate="collapsed" desc="Kostenvolumen nach Abgrenzung">
     @Column(name = "opCostAmountPost")
+    @Documentation(name = "Kostenvolumen nach Abgrenzung")
     private double _costAmountPost;
 
     public double getCostAmountPost() {

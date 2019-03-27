@@ -41,7 +41,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _costCenterId">
+    //<editor-fold defaultstate="collapsed" desc="Kostenstelle">
     @Column(name = "rlCostCenterID")
     @Documentation(name = "Kostenstelle", rank = 10)
     private int _costCenterId;
@@ -55,7 +55,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
+    //<editor-fold defaultstate="collapsed" desc="Nummer der Kostenstelle">
     @Column(name = "rlCostCenterNumber")
     @Documentation(name = "Nummer der Kostenstelle", rank = 20)
     private String _costCenterNumber = "";
@@ -70,7 +70,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
+    //<editor-fold defaultstate="collapsed" desc="Name Kostenstelle">
     @Column(name = "rlCostCenterText")
     @Documentation(name = "Name Kostenstelle", rank = 30)
     private String _costCenterText = "";
@@ -85,7 +85,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _serviceDocHome">
+    //<editor-fold defaultstate="collapsed" desc="Leistungsdokumentation Hauskatalog">
     @Column(name = "rlServiceDocHome")
     @Documentation(name = "Leistungsdokumentation Hauskatalog", rank = 40)
     private boolean _serviceDocHome;
@@ -99,7 +99,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _serviceDocDKG">
+    //<editor-fold defaultstate="collapsed" desc="Leistungsdokumentation DKG-NT">
     @Column(name = "rlServiceDocDKG")
     @Documentation(name = "Leistungsdokumentation DKG-NT", rank = 50)
     private boolean _serviceDocDKG;
@@ -113,7 +113,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _serviceDocEBM">
+    //<editor-fold defaultstate="collapsed" desc="Leistungsdokumentation EBM">
     @Column(name = "rlServiceDocEBM")
     @Documentation(name = "Leistungsdokumentation EBM", rank = 60)
     private boolean _serviceDocEBM;
@@ -127,7 +127,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _serviceDocGOA">
+    //<editor-fold defaultstate="collapsed" desc="Leistungsdokumentation GOÄ">
     @Column(name = "rlServiceDocGOA")
     @Documentation(name = "Leistungsdokumentation GOÄ", rank = 70)
     private boolean _serviceDocGOA;
@@ -141,7 +141,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _serviceDocDif">
+    //<editor-fold defaultstate="collapsed" desc="Leistungsdokumentation sonstige">
     @Column(name = "rlServiceDocDif")
     @Documentation(name = "Leistungsdokumentation sonstige", rank = 80)
     private boolean _serviceDocDif;
@@ -233,7 +233,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _description">
+    //<editor-fold defaultstate="collapsed" desc="Beschreibung">
     @Column(name = "rlDescription")
     @Documentation(name = "Beschreibung", rank = 90)
     private String _description = "";

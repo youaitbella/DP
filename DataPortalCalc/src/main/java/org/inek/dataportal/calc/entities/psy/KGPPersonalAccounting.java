@@ -49,7 +49,7 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property CostType">
+    // <editor-fold defaultstate="collapsed" desc="Kostenartengruppe">
     @OneToOne(fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn(name = "paCostTypeID")
     private CostType _costType;
@@ -72,7 +72,7 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _staffRecording">
+    //<editor-fold defaultstate="collapsed" desc="Mitarbeiterbezogene Zeiterfassung">
     @Column(name = "paStaffRecording")
     @Documentation(name = "Mitarbeiterbezogene Zeiterfassung", rank = 20)
     private boolean _staffRecording;
@@ -86,7 +86,7 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _staffEvaluation">
+    //<editor-fold defaultstate="collapsed" desc="Stellenplanauswertung">
     @Column(name = "paStaffEvaluation")
     @Documentation(name = "Stellenplanauswertung", rank = 30)
     private boolean _staffEvaluation;
@@ -100,7 +100,7 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _serviceEvaluation">
+    //<editor-fold defaultstate="collapsed" desc="Stellenplanauswertung">
     @Column(name = "paServiceEvaluation")
     @Documentation(name = "Stellenplanauswertung", rank = 40)
     private boolean _serviceEvaluation;
@@ -114,7 +114,7 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _serviceStatistic">
+    //<editor-fold defaultstate="collapsed" desc="Leistungsstatistiken">
     @Column(name = "paServiceStatistic")
     @Documentation(name = "Leistungsstatistiken", rank = 50)
     private boolean _serviceStatistic;
@@ -128,7 +128,7 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _expertRating">
+    //<editor-fold defaultstate="collapsed" desc="Expertenschätzung">
     @Column(name = "paExpertRating")
     @Documentation(name = "Expertenschätzung", rank = 60)
     private boolean _expertRating;
@@ -142,7 +142,7 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _other">
+    //<editor-fold defaultstate="collapsed" desc="Sonstige">
     @Column(name = "paOther")
     @Documentation(name = "Sonstige", rank = 70)
     private boolean _other;
@@ -156,7 +156,7 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _amount">
+    //<editor-fold defaultstate="collapsed" desc="Kostenvolumen">
     @Column(name = "paAmount")
     @Documentation(name = "Kostenvolumen", rank = 80)
     private int _amount;

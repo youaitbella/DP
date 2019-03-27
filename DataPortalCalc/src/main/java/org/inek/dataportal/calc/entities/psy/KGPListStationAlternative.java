@@ -40,7 +40,7 @@ public class KGPListStationAlternative implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _departmentName">
+    //<editor-fold defaultstate="collapsed" desc="FAB Schlüssel 301">
     @Column(name = "saDepartmentName")
     @Documentation(name = "FAB Schlüssel 301", rank = 10)
     private String _departmentName = "";
@@ -55,7 +55,7 @@ public class KGPListStationAlternative implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _alternative">
+    //<editor-fold defaultstate="collapsed" desc="Alternativverfahren">
     @Column(name = "saAlternative")
     @Documentation(name = "Alternativverfahren", rank = 20)
     private String _alternative = "";
@@ -85,7 +85,7 @@ public class KGPListStationAlternative implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property DepartmentKey">
+    //<editor-fold defaultstate="collapsed" desc="Fachabteilung">
 //    @JoinColumn(name = "seBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "saDepartmentKey")

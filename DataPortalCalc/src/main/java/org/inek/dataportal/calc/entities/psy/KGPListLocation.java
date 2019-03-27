@@ -53,7 +53,7 @@ public class KGPListLocation implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _location">
+    //<editor-fold defaultstate="collapsed" desc="Entlassender Standort">
     @Column(name = "lLocation")
     @Documentation(name = "Entlassender Standort", rank = 10)
     private String _location = "";
@@ -68,7 +68,7 @@ public class KGPListLocation implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _locationNo">
+    //<editor-fold defaultstate="collapsed" desc="Nummer">
     @Column(name = "lLocationNo")
     @Documentation(name = "Nummer", rank = 20)
     private short _locationNo;

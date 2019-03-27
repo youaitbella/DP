@@ -43,7 +43,7 @@ public class KGPListServiceProvision implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _partitionExternalAssignment">
+    //<editor-fold defaultstate="collapsed" desc="Fremdvergebene Teilbereiche">
     @Column(name = "spPartitionExternalAssignment")
     @Documentation(name = "Fremdvergebene Teilbereiche", rank = 10)
     private String _partitionExternalAssignment = "";
@@ -58,7 +58,7 @@ public class KGPListServiceProvision implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _note">
+    //<editor-fold defaultstate="collapsed" desc="Anmerkung">
     @Column(name = "spNote")
     @Documentation(name = "Anmerkung", rank = 20)
     private String _note = "";
@@ -72,7 +72,7 @@ public class KGPListServiceProvision implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _amount">
+    //<editor-fold defaultstate="collapsed" desc="Kostenvolumen">
     @Column(name = "spAmount")
     @Documentation(name = "Kostenvolumen", rank = 30)
     private int _amount;

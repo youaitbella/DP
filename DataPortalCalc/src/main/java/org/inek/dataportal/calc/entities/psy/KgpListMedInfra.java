@@ -40,9 +40,9 @@ public class KgpListMedInfra implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _costTypeId">
+    //<editor-fold defaultstate="collapsed" desc="Kostenstellenart">
     @Column(name = "miCostTypeID")
-  //  @Documentation(name = "Kostenstellenart", rank = 10)
+    @Documentation(name = "Kostenstellenart", rank = 10)
     private int _costTypeId;
 
     public int getCostTypeId() {
@@ -54,7 +54,7 @@ public class KgpListMedInfra implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
+    //<editor-fold defaultstate="collapsed" desc="Nummer der Kostenstelle">
     @Column(name = "miCostCenterNumber")
     @Documentation(name = "Nummer der Kostenstelle", rank = 20)
     private String _costCenterNumber = "";
@@ -69,7 +69,7 @@ public class KgpListMedInfra implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
+    //<editor-fold defaultstate="collapsed" desc="Name der Kostenstelle">
     @Column(name = "miCostCenterText")
     @Documentation(name = "Name der Kostenstelle", rank = 30)
     private String _costCenterText = "";
@@ -84,7 +84,7 @@ public class KgpListMedInfra implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
+    //<editor-fold defaultstate="collapsed" desc="Verwendeter Schlüssel">
     @Column(name = "miKeyUsed")
     @Documentation(name = "Verwendeter Schlüssel", rank = 40)
     private String _keyUsed = "";
@@ -99,7 +99,7 @@ public class KgpListMedInfra implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _amount">
+    //<editor-fold defaultstate="collapsed" desc="Kostenvolumen vor Durchführung der IBLV und vor Abgrenzung nicht kalkulationsrelevanter Kosten">
     @Column(name = "miAmount")
     @Documentation(name = "Kostenvolumen vor Durchführung der IBLV und vor Abgrenzung nicht kalkulationsrelevanter Kosten", rank = 50)
     private int _amount;
@@ -136,8 +136,9 @@ public class KgpListMedInfra implements Serializable, BaseIdValue {
         _costTypeId = costTypeId;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="miPartCostVolumeMedStaffAfter">
+    // <editor-fold defaultstate="collapsed" desc="Anteil des Kostenvolumens nach Abgrenzung">
     @Column(name = "miPartCostVolumeMedStaffAfter")
+    @Documentation(name = "Anteil des Kostenvolumens nach Abgrenzung")
     private double _partCostVolumeMedStaffAfter;  // todo: change to int after DB update
 
     public int getPartCostVolumeMedStaffAfter() {

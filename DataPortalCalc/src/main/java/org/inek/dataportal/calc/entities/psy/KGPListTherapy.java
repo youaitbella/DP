@@ -44,7 +44,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _costCenterID">
+    //<editor-fold defaultstate="collapsed" desc="Kostenstellen Gruppe">
     @Column(name = "thCostCenterID")
     @Documentation(name = "Kostenstellen Gruppe", rank = 10)
     private int _costCenterId;
@@ -58,7 +58,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
+    //<editor-fold defaultstate="collapsed" desc="Leistungsinhalt der Kostenstelle">
     @Column(name = "thCostCenterText")
     @Documentation(name = "Leistungsinhalt der Kostenstelle", rank = 20)
     private String _costCenterText = "";
@@ -73,7 +73,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _externalService">
+    //<editor-fold defaultstate="collapsed" desc="externe Leistungserbringung">
     @Column(name = "thExternalService")
     @Documentation(name = "externe Leistungserbringung", rank = 30)
     private int _externalService;
@@ -87,7 +87,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
+    //<editor-fold defaultstate="collapsed" desc="verwendeter Leistungsschlüssel">
     @Column(name = "thKeyUsed")
     @Documentation(name = "verwendeter Leistungsschlüssel", rank = 40)
     private String _keyUsed = "";
@@ -102,7 +102,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt1">
+    //<editor-fold defaultstate="collapsed" desc="Summe Leistungseinheiten KoArtGr 1">
     @Column(name = "thServiceUnitsCt1")
     @Documentation(name = "Summe Leistungseinheiten KoArtGr 1", rank = 50)
     private int _serviceUnitsCt1;
@@ -116,7 +116,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt1">
+    //<editor-fold defaultstate="collapsed" desc="Personalkosten KoArtGr 1">
     @Column(name = "thPersonalCostCt1")
     @Documentation(name = "Personalkosten KoArtGr 1", rank = 60)
     private int _personalCostCt1;
@@ -130,7 +130,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt2">
+    //<editor-fold defaultstate="collapsed" desc="Summe Leistungseinheiten KoArtGr 2">
     @Column(name = "thServiceUnitsCt2")
     @Documentation(name = "Summe Leistungseinheiten KoArtGr 2", rank = 70)
     private int _serviceUnitsCt2;
@@ -144,7 +144,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt2">
+    //<editor-fold defaultstate="collapsed" desc="Personalkosten KoArtGr 2">
     @Column(name = "thPersonalCostCt2")
     @Documentation(name = "Personalkosten KoArtGr 2", rank = 80)
     private int _personalCostCt2;
@@ -158,7 +158,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt3">
+    //<editor-fold defaultstate="collapsed" desc="Summe Leistungseinheiten KoArtGr 3">
     @Column(name = "thServiceUnitsCt3")
     @Documentation(name = "Summe Leistungseinheiten KoArtGr 3", rank = 90)
     private int _serviceUnitsCt3;
@@ -172,7 +172,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt3">
+    //<editor-fold defaultstate="collapsed" desc="Personalkosten KoArtGr 3">
     @Column(name = "thPersonalCostCt3")
     @Documentation(name = "Personalkosten KoArtGr 3", rank = 100)
     private int _personalCostCt3;
@@ -186,7 +186,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt3a">
+    //<editor-fold defaultstate="collapsed" desc="Summe Leistungseinheiten KoArtGr 3a">
     @Column(name = "thServiceUnitsCt3a")
     @Documentation(name = "Summe Leistungseinheiten KoArtGr 3a", rank = 110)
     private int _serviceUnitsCt3a;
@@ -200,7 +200,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt3a">
+    //<editor-fold defaultstate="collapsed" desc="Personalkosten KoArtGr 3a">
     @Column(name = "thPersonalCostCt3a")
     @Documentation(name = "Personalkosten KoArtGr 3a", rank = 120)
     private int _personalCostCt3a;
@@ -214,7 +214,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt3b">
+    //<editor-fold defaultstate="collapsed" desc="Summe Leistungseinheiten KoArtGr 3b">
     @Column(name = "thServiceUnitsCt3b")
     @Documentation(name = "Summe Leistungseinheiten KoArtGr 3b", rank = 130)
     private int _serviceUnitsCt3b;
@@ -228,7 +228,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt3b">
+    //<editor-fold defaultstate="collapsed" desc="Personalkosten KoArtGr 3b">
     @Column(name = "thPersonalCostCt3b")
     @Documentation(name = "Personalkosten KoArtGr 3b", rank = 140)
     private int _personalCostCt3b;
@@ -256,7 +256,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt3c">
+    //<editor-fold defaultstate="collapsed" desc="Personalkosten KoArtGr 3c">
     @Column(name = "thPersonalCostCt3c")
     @Documentation(name = "Personalkosten KoArtGr 3c", rank = 140)
     private int _personalCostCt3c;
