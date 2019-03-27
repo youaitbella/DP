@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "KGPListContentText", schema = "calc")
-public class PeepContentText implements Serializable {
+public class PeppContentText implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -161,10 +161,10 @@ public class PeepContentText implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof PeepContentText)) {
+        if (!(obj instanceof PeppContentText)) {
             return false;
         }
-        final PeepContentText other = (PeepContentText) obj;
+        final PeppContentText other = (PeppContentText) obj;
         if (this._id != -1 && this._id == other._id) {
             return true;
         }
