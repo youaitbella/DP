@@ -144,9 +144,9 @@ class DataImportCheck<T, I> implements Serializable {
     static <T> void tryImportFractionOrPercentAsInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         try {
             Double val = StringUtil.parseLocalizedDouble(data);
-            if (val < 0 || val > 100) {
+            if (val < 0 || val > 200) {
                 assign.accept(item, 0);
-                counter.addColumnErrorMsg(errorMsg + "Wert muss zwischen 0 und 100 liegen. " + Utils.getMessage("msgNotANumber") + ": " + data);
+                counter.addColumnErrorMsg(errorMsg + "Wert muss zwischen 0 und 200 liegen. " + Utils.getMessage("msgNotANumber") + ": " + data);
             } else if (val > 0 && val < 1) {
                 assign.accept(item, (int) Math.round(val * 100));
             } else {
