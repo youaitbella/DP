@@ -524,8 +524,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             Utils.navigate(Pages.CalculationHospitalSummary.URL());
             return Utils.getMessage("msgDatasetSealed");
         }
-        Map<String, FieldValues> differencesPartner = getDifferencesPartner(getExcludedTypes());
-        Map<String, FieldValues> differencesUser = getDifferencesUser(modifiedCalcBasics, getExcludedTypes());
+        Map<String, FieldValues> differencesPartner = ObjectComparer.getDifferences(_baseLine, _calcBasics, getExcludedTypes());
+        Map<String, FieldValues> differencesUser = ObjectComparer.getDifferences(_baseLine, modifiedCalcBasics, getExcludedTypes());
 
         List<String> collisions = updateFields(differencesUser, differencesPartner, modifiedCalcBasics);
 
@@ -563,7 +563,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Map<String, FieldValues> differencesPartner = ObjectComparer.getDifferences(_baseLine, _calcBasics, excludedTypes);
         return differencesPartner;
     }
-
+    
     private List<String> updateFields(
             Map<String, FieldValues> differencesUser,
             Map<String, FieldValues> differencesPartner,
