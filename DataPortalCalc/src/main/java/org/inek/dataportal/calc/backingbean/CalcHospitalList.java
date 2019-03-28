@@ -44,7 +44,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- *
  * @author muellermi
  */
 @Named
@@ -54,14 +53,22 @@ public class CalcHospitalList {
     // <editor-fold defaultstate="collapsed" desc="fields">
     private static final Logger LOGGER = Logger.getLogger(CalcHospitalList.class.getName());
 
-    @Inject private SessionController _sessionController;
-    @Inject private CalcFacade _calcFacade;
-    @Inject private CalcAutopsyFacade _calcAutopsyFacade;
-    @Inject private CalcDrgFacade _calcDrgFacade;
-    @Inject private CalcPsyFacade _calcPsyFacade;
-    @Inject private CalcSopFacade _calcSopPsyFacade;
-    @Inject private DistributionModelFacade _distModelFacade;
-    @Inject private ApplicationTools _appTools;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private CalcFacade _calcFacade;
+    @Inject
+    private CalcAutopsyFacade _calcAutopsyFacade;
+    @Inject
+    private CalcDrgFacade _calcDrgFacade;
+    @Inject
+    private CalcPsyFacade _calcPsyFacade;
+    @Inject
+    private CalcSopFacade _calcSopPsyFacade;
+    @Inject
+    private DistributionModelFacade _distModelFacade;
+    @Inject
+    private ApplicationTools _appTools;
     private final Map<CalcHospitalFunction, Boolean> _allowedButtons = new HashMap<>();
     // </editor-fold>
 
@@ -175,14 +182,12 @@ public class CalcHospitalList {
             case SOP:
                 return printData(_calcSopPsyFacade::findStatementOfParticipance, hospitalInfo);
             case CBD:
-                //return printData(_calcDrgFacade::findCalcBasicsDrg, hospitalInfo);
                 DrgCalcBasics drgCalcBasics = _calcDrgFacade.findCalcBasicsDrg(hospitalInfo.getId());
-                exportDrgCalcBasisc(drgCalcBasics);
+                exportCalcBasics(drgCalcBasics.getDataYear(), drgCalcBasics.getIk(), drgCalcBasics.getId(), "KGL");
                 return "";
             case CBP:
-                //return printData(_calcPsyFacade::findCalcBasicsPepp, hospitalInfo);
                 PeppCalcBasics peppCalcBasics = _calcPsyFacade.findCalcBasicsPepp(hospitalInfo.getId());
-                exportPeppCalcBasics(peppCalcBasics);
+                exportCalcBasics(peppCalcBasics.getDataYear(), peppCalcBasics.getIk(), peppCalcBasics.getId(), "KGP");
                 return "";
             case CBA:
                 return printData(_calcAutopsyFacade::findCalcBasicsAutopsy, hospitalInfo);
@@ -202,53 +207,25 @@ public class CalcHospitalList {
         return Pages.PrintView.URL();
     }
 
-    @Inject private ReportController _reportController;
+    @Inject
+    private ReportController _reportController;
 
-    private void exportDrgCalcBasisc(DrgCalcBasics calcBasics) {
-        List<ReportTemplate> reports = _reportController.getReportTemplates(1);
+    private void exportCalcBasics(int dataYear, int ik, int id, String type) {
+        List<ReportTemplate> reports = retrieveReportTemplates(type, dataYear);
+        String hostName = _appTools.readConfig(ConfigKey.ReportHostName);
 
-        File zipFile = new File("Export_" + calcBasics.getIk() + ".zip");
-
-        try (FileOutputStream fileOut = new FileOutputStream(zipFile);
-                CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
-                ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
-            for (ReportTemplate rt : reports) {
-                String path = rt.getAddress().replace("{0}", calcBasics.getId() + "");
-                path = path.replace("{1}", URLEncoder.
-                        encode(_appTools.retrieveHospitalInfo(calcBasics.getIk()), "UTF-8"));
-                path = path.replace("{2}", calcBasics.getDataYear() + "");
-                if (!rt.getName().contains("Übersicht Personal")) {
-                    compressedOut.putNextEntry(new ZipEntry(rt.getName()));
-                    ByteArrayInputStream ips = new ByteArrayInputStream(_reportController.getSingleDocument(path));
-                    StreamHelper.copyStream(ips, compressedOut);
-                    compressedOut.closeEntry();
-                    compressedOut.flush();
-                }
-            }
-        } catch (IOException ex) {
-            //throw new IllegalStateException(ex);
-        }
-        try {
-            InputStream is = new FileInputStream(zipFile);
-            Utils.downLoadDocument(is, "Export_" + calcBasics.getIk() + ".zip", 0);
-        } catch (IOException ex) {
-            //throw new IllegalStateException(ex);
-        }
-    }
-
-    private void exportPeppCalcBasics(PeppCalcBasics calcBasics) {
-        List<ReportTemplate> reports = _reportController.getReportTemplates(2);
-
-        File zipFile = new File("Export_" + calcBasics.getIk() + ".zip");
+        File zipFile = new File("Export_" + ik + ".zip");
 
         try (FileOutputStream fileOut = new FileOutputStream(zipFile);
-                CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
-                ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
+             CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
+             ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
             for (ReportTemplate rt : reports) {
-                String path = rt.getAddress().replace("{0}", calcBasics.getId() + "");
-                path = path.replace("{1}", URLEncoder.
-                        encode(_appTools.retrieveHospitalInfo(calcBasics.getIk()), "UTF-8"));
-                path = path.replace("{2}", calcBasics.getDataYear() + "");
+                String path = rt.getAddress()
+                        .replace("{hostName}", hostName)
+                        .replace("{0}", id + "")
+                        .replace("{1}", URLEncoder.
+                                encode(_appTools.retrieveHospitalInfo(ik), "UTF-8"))
+                        .replace("{2}", dataYear + "");
                 compressedOut.putNextEntry(new ZipEntry(rt.getName()));
                 ByteArrayInputStream ips = new ByteArrayInputStream(_reportController.getSingleDocument(path));
                 StreamHelper.copyStream(ips, compressedOut);
@@ -256,14 +233,20 @@ public class CalcHospitalList {
                 compressedOut.flush();
             }
         } catch (IOException ex) {
-            //throw new IllegalStateException(ex);
         }
         try {
             InputStream is = new FileInputStream(zipFile);
-            Utils.downLoadDocument(is, "Export_" + calcBasics.getIk() + ".zip", 0);
+            Utils.downLoadDocument(is, "Export_" + ik + ".zip", 0);
         } catch (IOException ex) {
-            //throw new IllegalStateException(ex);
         }
+    }
+
+    private List<ReportTemplate> retrieveReportTemplates(String name, int dataYear) {
+        List<ReportTemplate> reports = _reportController.getReportTemplates(name + dataYear);
+        if (reports.isEmpty()) {
+            reports = _reportController.getReportTemplates(name);
+        }
+        return reports;
     }
 
     public String deleteHospitalInfo(CalcHospitalInfo hospitalInfo) {

@@ -1,19 +1,21 @@
 package org.inek.dataportal.common.controller;
 
+import org.inek.dataportal.common.data.adm.ReportTemplate;
+import org.inek.dataportal.common.data.adm.facade.AdminFacade;
+import org.inek.dataportal.common.helper.StreamHelper;
+import org.inek.dataportal.common.helper.Utils;
+
+import javax.inject.Inject;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
-import static java.net.HttpURLConnection.HTTP_OK;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
-import org.inek.dataportal.common.data.adm.ReportTemplate;
-import org.inek.dataportal.common.data.adm.facade.AdminFacade;
-import org.inek.dataportal.common.helper.StreamHelper;
-import org.inek.dataportal.common.helper.Utils;
+
+import static java.net.HttpURLConnection.HTTP_OK;
 
 /**
  *
@@ -108,9 +110,9 @@ public class ReportController implements Serializable {
         }
         return new byte[0];
     }
-    
-    public List<ReportTemplate> getReportTemplates(int typeId) {
-        return _adminFacade.getReportTemplatesById(typeId);
+
+    public List<ReportTemplate> getReportTemplates(String group) {
+        return _adminFacade.getReportTemplatesByGroup(group);
     }
-    
+
 }

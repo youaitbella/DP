@@ -5,15 +5,10 @@
  */
 package org.inek.dataportal.common.data.adm;
 
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -39,7 +34,21 @@ public class ReportTemplate implements Serializable {
         this._id = id;
     }
     //</editor-fold>
-    
+
+    // <editor-fold defaultstate="collapsed" desc="Property Group">
+    @Column(name = "rtGroup")
+    private String _group = "";
+
+    @Size(max = 50)
+    public String getGroup() {
+        return _group;
+    }
+
+    public void setGroup(String group) {
+        _group = group;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property Name">
     @Column(name = "rtName")
     private String _name = "";
@@ -68,19 +77,6 @@ public class ReportTemplate implements Serializable {
     }
     // </editor-fold>
         
-    // <editor-fold defaultstate="collapsed" desc="Property Address">
-    @Column(name = "rtReportTyp")
-    private int _reportTyp = 0;
-    
-    public int getReportTyp() {
-        return _reportTyp;
-    }
-
-    public void setReportTyp(int reportTyp) {
-        _reportTyp = reportTyp;
-    }
-    // </editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="hashCode, equals, toString">
     @Override
     public int hashCode() {
@@ -103,6 +99,9 @@ public class ReportTemplate implements Serializable {
         }
         final ReportTemplate other = (ReportTemplate) obj;
         if (this._id != other._id) {
+            return false;
+        }
+        if (!Objects.equals(this._name, other._name)) {
             return false;
         }
         if (!Objects.equals(this._address, other._address)) {

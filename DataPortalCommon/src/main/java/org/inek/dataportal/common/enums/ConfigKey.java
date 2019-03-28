@@ -59,7 +59,8 @@ public enum ConfigKey {
     DocumentSetRead(false),
     CertCompareOnUpload(true),
     IkAdminEnable(true),
-    isKhComparisionInsuranceEnabled(false);
+    isKhComparisionInsuranceEnabled(false),
+    ReportHostName("vreportserver01");
     //
     private final Object _defaultValue;
 

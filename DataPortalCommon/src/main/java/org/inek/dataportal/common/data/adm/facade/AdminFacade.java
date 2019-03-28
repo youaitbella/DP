@@ -5,14 +5,15 @@
  */
 package org.inek.dataportal.common.data.adm.facade;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
+import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.adm.ReportTemplate;
+
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.adm.ReportTemplate;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
 
 /**
  * Hides the database accesses fro the admin tasks behind a facade
@@ -28,8 +29,13 @@ public class AdminFacade extends AbstractDataAccess {
     }
 
     public Optional<ReportTemplate> findReportTemplateByName(String name) {
-        String jpql = "select rt from ReportTemplate rt where rt._name = :name and rt._address != ''";
+        return findReportTemplateByName("", name);
+    }
+
+    public Optional<ReportTemplate> findReportTemplateByName(String group, String name) {
+        String jpql = "select rt from ReportTemplate rt where rt._group = :group and rt._name = :name and rt._address <> ''";
         TypedQuery<ReportTemplate> query = getEntityManager().createQuery(jpql, ReportTemplate.class);
+        query.setParameter("group", group);
         query.setParameter("name", name);
         try {
             return Optional.of(query.getSingleResult());
@@ -38,10 +44,11 @@ public class AdminFacade extends AbstractDataAccess {
             return Optional.empty();
         }
     }
-    
-    public List<ReportTemplate> getReportTemplatesById(int reportType) {
-        String jpql = "select rt from ReportTemplate rt where rt._reportTyp = :id";
+
+    public List<ReportTemplate> getReportTemplatesByGroup(String group) {
+        String jpql = "select rt from ReportTemplate rt where rt._group = :group";
         TypedQuery<ReportTemplate> query = getEntityManager().createQuery(jpql, ReportTemplate.class);
-        return query.setParameter("id", reportType).getResultList();
-    }   
+        query.setParameter("group", group);
+        return query.getResultList();
+    }
 }
