@@ -25,6 +25,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author muellermi
@@ -103,7 +105,9 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
             try {
                 return trySaveCalcBasicsPepp(calcBasics);
             } catch (Exception ex) {
-                if (retry++ > 2 || !ex.getMessage().contains("Rerun the transaction")) {
+                String msg = "" + ex.getMessage();
+                Logger.getLogger("saveCalcBasicsPepp").log(Level.WARNING, "Error during saveCalcBasicsPepp:" + msg);
+                if (retry++ > 2 || !msg.contains("Rerun the transaction")) {
                     throw ex;
                 }
             }

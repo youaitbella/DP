@@ -86,5 +86,6 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Üblicherweise wird eine erste Version der Kalkulationsgrundlagen bereits unvollständig ans InEK gesendet. Nach und nach werden die Daten komplettiert und immer wieder an das InEK übermittelt. Zur Unterstützung eines solch iterativen Verfahrens finden Sie in der letzten gesendeten Kalkulationsgrundlage die Schaltfläche </text><text styleclass="Button" translate="true">[ Datensatz ändern ]</text><text styleclass="Normal" translate="true">. Damit wird die Kalkulationsgrundlage kopiert und in den Bearbeitungsmodus versetzt. Sie erscheint wieder im Bearbeitungsbereich. Zur Unterscheidung einer Erstlieferung lautet der Status jedoch nicht &quot;neu&quot;, sondern &quot;Korrektur&quot; und das Symbol unterscheidet sich farblich (roter statt weißer Stift auf Blatt Papier). Die bereits an das InEK gesendete Version bleibt erhalten, wird als &quot;zurückgezogen&quot; markiert und kann jederzeit als Historie eingesehen werden (ab 11.04.2017, davor wurden bei Änderung keine Kopien angelegt). &#160;</text></para>
     <para styleclass="Normal"></para>
+      <para styleclass="Normal"></para>
   </body>
 </topic>

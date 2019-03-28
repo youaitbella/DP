@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<map xmlns:xsi="http://www.w3.org/2001/XInclude">
+<map>
   <topicref type="topic" id="408937680032260" build="ALL" modified="2011-12-20T14:11:13.466Z" icon="0" href="Introduction">
     <caption translate="true">Einführung</caption>
     <topicref type="topic" id="415335638181027" build="ALL" modified="2013-09-16T09:19:47.954Z" icon="0" href="OverviewFeatures">
@@ -327,6 +327,10 @@
       </topicref>
       <topicref type="topic" id="427595211098679" build="ALL" modified="2017-01-24T11:34:22.667Z" icon="0" href="CalculationBasicsDrg">
         <caption translate="true">Kalkulationsgrundlage DRG</caption>
+          <topicref type="topic" id="43554566026434" build="ALL" modified="2019-03-28T15:55:15.448Z" icon="0"
+                    href="IBLV">
+              <caption translate="true">Ergänzende Angaben IBLV</caption>
+          </topicref>
       </topicref>
       <topicref type="topic" id="427595416159886" build="ALL" modified="2017-02-22T17:15:52.234Z" icon="0" href="CalculationBasiscsPsy">
         <caption translate="true">Kalkulationsgrundlage PSY</caption>

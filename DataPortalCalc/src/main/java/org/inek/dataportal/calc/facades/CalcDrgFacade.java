@@ -23,6 +23,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author muellermi
@@ -52,7 +54,9 @@ public class CalcDrgFacade extends AbstractDataAccessWithActionLog {
             try {
                 return trySaveCalcBasicsDrg(calcBasics);
             } catch (Exception ex) {
-                if (retry++ > 2 || !ex.getMessage().contains("Rerun the transaction")) {
+                String msg = "" + ex.getMessage();
+                Logger.getLogger("saveCalcBasicsDrg").log(Level.WARNING, "Error during saveCalcBasicsDrg:" + msg);
+                if (retry++ > 2 || !msg.contains("Rerun the transaction")) {
                     throw ex;
                 }
             }
