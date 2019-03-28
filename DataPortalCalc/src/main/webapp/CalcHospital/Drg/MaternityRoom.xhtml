@@ -208,7 +208,7 @@
                      styleClass="borderedTable borderCollapse"
                      headerClass="paddingElement smallFont"
                      width="100%"
-                     columnClasses="colIcon, col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                     columnClasses="col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
                      rowClasses="row1, row2">
 
             <h:column>
@@ -261,21 +261,21 @@
                 <f:facet name="header">Kostenvolumen ÄD</f:facet>
                 <inek:InputNumberWithMessage value="#{prevObstretic.costVolumeMedStaff}"
                                              styleClass="col05em number"
-                                             readonly="#{editCalcBasicsDrg.readOnly}"/>
+                                             disabled="true"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Kostenvolumen Pflegedienst</f:facet>
                 <inek:InputNumberWithMessage value="#{prevObstretic.costVolumeCareStaff}"
                                              styleClass="col05em number"
-                                             readonly="#{editCalcBasicsDrg.readOnly}"/>
+                                             disabled="true"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Kostenvolumen Funktionsdienst (o. Hebammen)</f:facet>
                 <inek:InputNumberWithMessage value="#{prevObstretic.costVolumeFunctionalService}"
                                              styleClass="col05em number"
-                                             readonly="#{editCalcBasicsDrg.readOnly}"/>
+                                             disabled="true"/>
             </h:column>
 
         </h:dataTable>

@@ -56,7 +56,7 @@
                                               value="#{editCalcBasicsDrg.calcBasics.redeemingVolume}"
                                               required="true"
                                               readonly="#{editCalcBasicsDrg.readOnly}"
-                                              title="Bitte geben Sie das Erlösvolumen ohne Erlösausgleiche an."
+                                              title="Bitte geben Sie das Erlösvolumen ohne Erlösausgleiche für alle Abteilungsarten an."
                                               id="redeemingVolume"
                                               renderElement="@this pDiffredeemingVolume :logout:remaining"
                 />
@@ -394,7 +394,7 @@
     <h2>Besondere Einrichtungen (BE)</h2>
 
     <div class="inputPart">
-        <inek:BooleanRadioButton label="Besteht für das Krankenhaus (bzw. eine Fachabteilung) eine Vereinbarung einer/mehrerer Besonderen(r) Einrichtung(en) nach den Regelungen der VBE 2017:"
+        <inek:BooleanRadioButton label="Besteht für das Krankenhaus (bzw. eine Fachabteilung) eine Vereinbarung einer/mehrerer Besonderen(r) Einrichtung(en) nach den Regelungen der VBE #{editCalcBasicsDrg.calcBasics.dataYear}:"
                                  renderElement="@form :script" value="#{editCalcBasicsDrg.calcBasics.specialUnit}"
                                  readonly="#{editCalcBasicsDrg.readOnly}"
                                  labelStyle="label"
