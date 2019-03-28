@@ -5,28 +5,28 @@
  */
 package org.inek.dataportal.calc.facades;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.calc.entities.psy.KGPListContentText;
+import org.inek.dataportal.calc.entities.psy.KGPListOverviewPersonalType;
+import org.inek.dataportal.calc.entities.psy.KGPListServiceProvisionType;
+import org.inek.dataportal.calc.entities.psy.PeppCalcBasics;
+import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
+import org.inek.dataportal.common.data.iface.BaseIdValue;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-
-import org.inek.dataportal.calc.entities.psy.KGPListOverviewPersonalType;
-import org.inek.dataportal.calc.entities.psy.PeppCalcBasics;
-import org.inek.dataportal.calc.entities.psy.KGPListContentText;
-import org.inek.dataportal.calc.entities.psy.KGPListServiceProvisionType;
-import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.data.iface.BaseIdValue;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
- *
  * @author muellermi
  */
 @RequestScoped
@@ -40,11 +40,11 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
                 + "join CallCenterDb.dbo.ccCustomer on sopIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n" // (2)
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
-                + "join dbo.Account on (cdDetails = acMail" 
+                + "join dbo.Account on (cdDetails = acMail"
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n"
-                + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)" 
+                + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)"
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") \n"
-                + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 " 
+                + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 "
                 + (testMode ? " and acMail not like '%@inek-drg.de'" : "") + " \n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
                 + "where cciInfoTypeId in (1, 2) and cciValidTo > " + year + " and cciCalcTypeId in (1, 3, 4, 6)"
@@ -52,7 +52,7 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
                 + "             select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "     ) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" 
+                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n"
                 + "     and sopIsPsy = 1\n"
                 + "     and sopObligatoryCalcType != 1\n"
                 + "     and sopDataYear = " + year + "\n"
@@ -68,7 +68,7 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
         @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());
         return result;
     }
-    
+
     public PeppCalcBasics retrievePriorCalcBasics(PeppCalcBasics calcBasics) {
         String jpql = "select c from PeppCalcBasics c where c._ik = :ik and (c._statusId = 10 or c._statusId = 3) and c._dataYear = :year";
         TypedQuery<PeppCalcBasics> query = getEntityManager().createQuery(jpql, PeppCalcBasics.class);
@@ -98,6 +98,23 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
     }
 
     public PeppCalcBasics saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
+        int retry = 0;
+        while (true) {
+            try {
+                return trySaveCalcBasicsPepp(calcBasics);
+            } catch (Exception ex) {
+                if (retry++ > 2 || !ex.getMessage().contains("Rerun the transaction")) {
+                    throw ex;
+                }
+            }
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException ex) {
+            }
+        }
+    }
+
+    public PeppCalcBasics trySaveCalcBasicsPepp(PeppCalcBasics calcBasics) {
         if (calcBasics.getId() == -1) {
             persist(calcBasics);
             return calcBasics;
@@ -137,7 +154,7 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
         if (mandatoryOnly) {
             jpql += " and pt._firstYear > 1900";
         }
-        
+
         jpql += " order by pt._sequence";
         TypedQuery<KGPListServiceProvisionType> query = getEntityManager().createQuery(jpql, KGPListServiceProvisionType.class);
         query.setParameter("year", year);
@@ -159,7 +176,7 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
         return query.getResultList();
     }
 
-    public List<KGPListOverviewPersonalType> retrieveOverviewPersonalTypes(int year){
+    public List<KGPListOverviewPersonalType> retrieveOverviewPersonalTypes(int year) {
         String jpql = "select op from KGPListOverviewPersonalType op "
                 + "where op._firstYear <= :year and op._lastYear >= :year order by op._sequence";
         TypedQuery<KGPListOverviewPersonalType> query = getEntityManager().createQuery(jpql, KGPListOverviewPersonalType.class);

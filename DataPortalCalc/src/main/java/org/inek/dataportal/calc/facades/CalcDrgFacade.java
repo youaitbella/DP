@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
- *
  * @author muellermi
  */
 @RequestScoped
@@ -47,6 +47,23 @@ public class CalcDrgFacade extends AbstractDataAccessWithActionLog {
     }
 
     public DrgCalcBasics saveCalcBasicsDrg(DrgCalcBasics calcBasics) {
+        int retry = 0;
+        while (true) {
+            try {
+                return trySaveCalcBasicsDrg(calcBasics);
+            } catch (Exception ex) {
+                if (retry++ > 2 || !ex.getMessage().contains("Rerun the transaction")) {
+                    throw ex;
+                }
+            }
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException ex) {
+            }
+        }
+    }
+
+    private DrgCalcBasics trySaveCalcBasicsDrg(DrgCalcBasics calcBasics) {
         prepareServiceProvisionTypes(calcBasics.getServiceProvisions());
 
         if (calcBasics.getId() == -1) {
@@ -117,11 +134,11 @@ public class CalcDrgFacade extends AbstractDataAccessWithActionLog {
                 + "join CallCenterDb.dbo.ccCustomer on sopIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n" // (2)
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
-                + "join dbo.Account on (cdDetails = acMail" 
-                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" 
-                + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)" 
+                + "join dbo.Account on (cdDetails = acMail"
+                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n"
+                + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)"
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") \n"
-                + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 " 
+                + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 "
                 + (testMode ? " and acMail not like '%@inek-drg.de'" : "") + " \n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
                 + "where cciInfoTypeId in (1,2) and cciValidTo > " + year + " and cciCalcTypeId in (1, 3, 4, 6)"
@@ -129,7 +146,7 @@ public class CalcDrgFacade extends AbstractDataAccessWithActionLog {
                 + "             select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "     ) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" 
+                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n"
                 + "     and sopIsDrg = 1\n"
                 + "     and sopObligatoryCalcType != 1\n"
                 + "     and sopDataYear = " + year + "\n"
@@ -151,7 +168,7 @@ public class CalcDrgFacade extends AbstractDataAccessWithActionLog {
         query.setParameter("ik", calcBasics.getIk());
         query.setParameter("year", calcBasics.getDataYear() - 1);
         try {
-            
+
             List<DrgCalcBasics> priorCalcBasics = query.getResultList();
             getEntityManager().detach(priorCalcBasics.get(0));
             return priorCalcBasics.get(0);
@@ -230,7 +247,7 @@ public class CalcDrgFacade extends AbstractDataAccessWithActionLog {
         query.setParameter("year", year);
         return query.getResultList();
     }
-    
+
     public DrgHeaderText saveCalcHeaderText(DrgHeaderText headerText) {
         if (headerText.getId() > 0) {
             return merge(headerText);
@@ -271,5 +288,5 @@ public class CalcDrgFacade extends AbstractDataAccessWithActionLog {
     }
     // </editor-fold>
 
-    
+
 }
