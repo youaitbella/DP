@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Ergänzende Angaben IBLV</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Erfassungsdialog stehen Ihnen Seiten für Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung zur Verfügung, eine für medizinische und eine für nicht-medizinische Infrastruktur.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CalcVBasicsIBLV01.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Ergänzende Angaben zur Innerbetrieblichen Leistungsverrechnung</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Neben dem gewählten Verfahren können Sie hier insbesondere Verrechnungsschlüssel und Kostenvolumen angeben. Der Anteil des </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Kostenvolumens nach Abgrenzung</text><text styleclass="Normal" translate="true"> wird in vollen Prozentzahlen erwartet. Während Sie im Dialog interaktiv nur ganze Zahlen erfassen können, werden beim Upload auch Kommazahlen sowie die Darstellung als relativer Anteil akzeptiert. Dabei werden Zahlen ab Eins als Prozent, Zahlen kleiner 1 als Anteil interpretiert. Es erfolgt automatisch eine Rundung auf volle Prozent.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiele:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="4" colcount="2" style="width:518px; border-width:2px; border-spacing:0px; border-collapse:collapse; cell-border-width:1px; border-color:#000000; border-style:solid; head-row-background-color:#c0c0c0; alt-row-background-color:#c0c0c0;">
+      <thead style="vertical-align:top">
+        <td style="width:130px;">
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Wert in Datei</text></para>
+        </td>
+        <td style="width:211px;">
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Wert hochgeladen</text></para>
+        </td>
+      </thead>
+      <tr style="vertical-align:top">
+        <td style="width:130px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">50</text></para>
+        </td>
+        <td style="width:211px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">50</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:130px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">50,1</text></para>
+        </td>
+        <td style="width:211px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">50 (gerundet)</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:130px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">0,5</text></para>
+        </td>
+        <td style="width:211px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">50 (in Prozent umgerechnet</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei Bedarf können Sie sich die </text><text styleclass="Button" translate="true">[ IBLV-Verrechnungsschlüssel ... ]</text><text styleclass="Normal" translate="true"> gemäß Kalkulationshandbuch ausgeben lassen,</text></para>
+    <para styleclass="" style="text-align:left; text-indent:0px; margin-top:0px; margin-right:0px; margin-bottom:0px; margin-left:0px; line-height:1.00; background-color:#ffffff; white-space:normal; page-break-inside:auto; page-break-after:auto; border:none; tabstops:none;"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
