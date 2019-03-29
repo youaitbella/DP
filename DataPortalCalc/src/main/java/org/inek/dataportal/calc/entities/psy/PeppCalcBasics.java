@@ -522,13 +522,13 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     // <editor-fold defaultstate="collapsed" desc="Stationsäquivalent">
     @Column(name = "biStationEquivalentCnt")
     @Documentation(name = "")
-    private String _stationEquivalentCnt = "Stationsäquivalent";
+    private int _stationEquivalentCnt;
 
-    public String getStationEquivalentCnt() {
+    public int getStationEquivalentCnt() {
         return _stationEquivalentCnt;
     }
 
-    public void setStationEquivalentCnt(String stationEquivalentCnt) {
+    public void setStationEquivalentCnt(int stationEquivalentCnt) {
         this._stationEquivalentCnt = stationEquivalentCnt;
     }
     // </editor-fold>
