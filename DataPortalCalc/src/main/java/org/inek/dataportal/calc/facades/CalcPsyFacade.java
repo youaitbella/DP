@@ -17,6 +17,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Utils;
 
 import javax.enterprise.context.RequestScoped;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -104,8 +105,14 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
         while (true) {
             try {
                 return trySaveCalcBasicsPepp(calcBasics);
+            } catch (OptimisticLockException ex) {
+                // let the caller handle multiuser access
+                throw ex;
             } catch (Exception ex) {
-                String msg = "" + ex.getMessage();
+                String msg = ex.getMessage() == null ? "" : ex.getMessage();
+                if (msg.length() == 0 && ex.getCause() != null) {
+                    msg = "" + ex.getCause().getMessage();
+                }
                 Logger.getLogger("saveCalcBasicsPepp").log(Level.WARNING, "Error during saveCalcBasicsPepp:" + msg);
                 if (retry++ > 2 || !msg.contains("Rerun the transaction")) {
                     throw ex;
