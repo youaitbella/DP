@@ -30,7 +30,7 @@ public class DocumentLoaderTest {
         File targetFile = new File(targetDir, file.getName());
 
 
-        boolean result = DocumentLoader.moveFile(targetRelativePath, file);
+        boolean result = DocumentLoader.moveFile(targetRelativePath, file, null);
         assertTrue(result);
         assertTrue(targetFile.exists(), "File moved");
         
@@ -57,7 +57,7 @@ public class DocumentLoaderTest {
         targetFile.createNewFile();
         assertTrue(targetFile.exists(), "targetFile created");
 
-        boolean result = DocumentLoader.moveFile(targetRelativePath, file);
+        boolean result = DocumentLoader.moveFile(targetRelativePath, file, null);
         if (isWindows()){
         assertFalse(result);
         }else{

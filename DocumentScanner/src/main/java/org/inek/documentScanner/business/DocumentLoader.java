@@ -21,9 +21,11 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.file.StandardOpenOption;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,7 +52,7 @@ public class DocumentLoader {
 
     private volatile int _waitCounter = 0;
 
-    public static boolean moveFile(String targetFolder, File file) {
+    public static boolean moveFile(String targetFolder, File file, Mailer mailer) {
         File targetDir = new File(file.getParent(), targetFolder);
         try {
             if (!targetDir.exists()) {
@@ -69,7 +71,10 @@ public class DocumentLoader {
             } else {
                 msg = "Could not rename {0}. Reason: " + ex.getMessage();
             }
-            LOGGER.log(Level.INFO, msg, file.getName());
+            LOGGER.log(Level.SEVERE, msg, file.getName());
+            if (mailer != null) {
+                mailer.sendMail("PortalAdmin@inek-drg.de", MessageFormat.format(msg, file.getName()), ex.getMessage());
+            }
             file.delete();
             return false;
         }
@@ -129,7 +134,7 @@ public class DocumentLoader {
             return;
         }
         for (File file : dir.listFiles(f -> f.isFile() && f.getName().toLowerCase().endsWith(".zip"))) {
-            moveFile(IMPORT_DIR, file);
+            moveFile(IMPORT_DIR, file, _mailer);
         }
         File importDir = new File(dir, IMPORT_DIR);
         for (File file : importDir.listFiles(f -> f.isFile() && f.getName().toLowerCase().endsWith(".zip"))) {
@@ -141,7 +146,7 @@ public class DocumentLoader {
         DocumentImportInfo importInfo = new DocumentImportInfo(file, _accountFacade);
         if (!importInfo.isValid()) {
             LOGGER.log(Level.WARNING, "Could not import {0}", importInfo.getError());
-            moveFile(FAILED_DIR, file);
+            moveFile(FAILED_DIR, file, _mailer);
             return;
         }
         if (importInfo.getFiles().isEmpty()) {
@@ -154,7 +159,7 @@ public class DocumentLoader {
         } else {
             createDocuments(importInfo);
         }
-        moveFile(ARCHIV_DIR, file);
+        moveFile(ARCHIV_DIR, file, _mailer);
     }
 
     private void createDocuments(DocumentImportInfo importInfo) {
