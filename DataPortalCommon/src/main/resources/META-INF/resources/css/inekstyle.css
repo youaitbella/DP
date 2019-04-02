@@ -333,9 +333,14 @@
 
 /* Panel  */
 
-.inekPanel {
+.inekPanel,
+.inekPanelNoPadding {
     background-color: transparent;
     border: none !important;
+}
+
+.inekPanelNoPadding div:first-child {
+    padding: 0 0 0 0 !important;
 }
 
 /* Col Definitions */

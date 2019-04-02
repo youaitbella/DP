@@ -23,6 +23,7 @@ import org.inek.dataportal.psy.khcomparison.helper.StructureinformationHelper;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.time.LocalDate;
@@ -53,6 +54,7 @@ public class EditStructureInformation {
     private Date _filterValidFrom = new Date();
     private Date _filterValidTo = new Date();
     private Boolean _filterActive = false;
+    private Boolean _ikIsModellIntention = false;
 
     public Boolean getFilterActive() {
         return _filterActive;
@@ -78,6 +80,14 @@ public class EditStructureInformation {
         this._filterValidTo = filterValidTo;
     }
 
+    public Boolean getIkIsModellIntention() {
+        return _ikIsModellIntention;
+    }
+
+    public void setIkIsModellIntention(Boolean ikIsModellIntention) {
+        this._ikIsModellIntention = ikIsModellIntention;
+    }
+
     @PostConstruct
     public void init() {
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
@@ -87,6 +97,7 @@ public class EditStructureInformation {
         } else {
             _structureBaseInformation = _aebFacade.findStructureBaseInformation(Integer.parseInt(id));
             setReadOnly();
+            setIkIsModellIntention(_aebFacade.ikHasModelIntention(_structureBaseInformation.getIk()));
         }
     }
 
@@ -127,12 +138,6 @@ public class EditStructureInformation {
 
     private StructureBaseInformation createNewStructureBsseInformation() {
         StructureBaseInformation info = new StructureBaseInformation();
-        info.addNewStructureInformation(StructureInformationCategorie.BedCount);
-        info.addNewStructureInformation(StructureInformationCategorie.TherapyPartCount);
-        for (StructureInformation sInfo : info.getStructureInformations()) {
-            sInfo.setValidFrom(new Date());
-            sInfo.setContent("0");
-        }
         info.setCreatedBy(_sessionController.getAccountId());
         return info;
     }
@@ -158,6 +163,7 @@ public class EditStructureInformation {
                 _structureBaseInformation.setLastChanged(new Date());
                 _structureBaseInformation = _aebFacade.save(_structureBaseInformation);
                 saveChangeLogs(_changes);
+                setIkIsModellIntention(_aebFacade.ikHasModelIntention(_structureBaseInformation.getIk()));
                 DialogController.showSaveDialog();
             } else {
                 DialogController.showInfoDialog("Doppelte Gültigkeiten",
@@ -320,4 +326,11 @@ public class EditStructureInformation {
                 getStructureInformationsByStructureCategorie(info.getStructureCategorie().name()), createCurrentDate());
     }
 
+    public List<SelectItem> validModelIntentionItems() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(0, "Keins"));
+        items.add(new SelectItem(1, "Teilweise"));
+        items.add(new SelectItem(2, "Vollständig"));
+        return items;
+    }
 }

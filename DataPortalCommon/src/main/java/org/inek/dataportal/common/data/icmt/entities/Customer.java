@@ -4,6 +4,8 @@
  */
 package org.inek.dataportal.common.data.icmt.entities;
 
+import org.inek.dataportal.common.data.icmt.enums.State;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -38,14 +40,6 @@ public class Customer implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cuId")
     private Integer _customerId;
-
-    public Integer getCustomerId() {
-        return _customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this._customerId = customerId;
-    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property IK">
@@ -126,18 +120,24 @@ public class Customer implements Serializable {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property ObligateCalculationYear">
-    @Column(name = "cuObligateCalculationYear")
-    private int _obligateCalculationYear;
+    // <editor-fold defaultstate="collapsed" desc="Property State">
+    @Column(name = "cuStateId")
+    private Integer _state = State.Unknown.getId();
 
-    public int getObligateCalculationYear() {
-        return _obligateCalculationYear;
+    public State getState() {
+        return State.fromValue(_state);
     }
+    // </editor-fold>
 
-    public void setObligateCalculationYear(int obligateCalculationYear) {
-        this._obligateCalculationYear = obligateCalculationYear;
+    // <editor-fold defaultstate="collapsed" desc="Property PsyState">
+    @Column(name = "cuPsyStateId")
+    private Integer _psyState = State.Unknown.getId();
+
+    public State getPsyState() {
+        return State.fromValue(_psyState);
     }
-    //</editor-fold>
+    // </editor-fold>
+
 
     @PrePersist
     @PreUpdate

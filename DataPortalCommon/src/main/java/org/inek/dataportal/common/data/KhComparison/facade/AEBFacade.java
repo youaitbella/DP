@@ -100,6 +100,17 @@ public class AEBFacade extends AbstractDataAccess {
         return !query.getResultList().isEmpty();
     }
 
+    public boolean ikHasModelIntention(int ik) {
+        String sql = "select ehComment\n" +
+                "--select *\n" +
+                "from psy.ExpectedHospital\n" +
+                "where ehIk = " + ik + "\n" +
+                "and (ehComment like '%MV%'\n" +
+                "or ehComment like '%Modellvorhaben%')";
+        Query query = getEntityManager().createNativeQuery(sql);
+        return query.getResultList().size() > 0;
+    }
+
     public StructureBaseInformation getStructureBaseInformationByIk(int ik) {
         String sql = "SELECT si FROM StructureBaseInformation si WHERE si._ik = :ik";
         TypedQuery<StructureBaseInformation> query = getEntityManager().createQuery(sql, StructureBaseInformation.class);

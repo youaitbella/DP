@@ -4,7 +4,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:pf="http://primefaces.org/ui">
+                xmlns:pf="http://primefaces.org/ui" xmlns:jsf="http://java.sun.com/jsf/core">
 
     <!-- Start generell -->
     <pf:fieldset id="generellId"
@@ -12,6 +12,7 @@
                  toggleable="true"
                  collapsed="false"
                  class="inekFieldset">
+        <!-- Start BedCount -->
         <b>#{editStructureInformation.getStructureCategorie('BedCount').description}</b>
         <br />
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('BedCount')}"
@@ -77,9 +78,12 @@
                           actionListener="#{editStructureInformation.saveNewValidFrom('BedCount')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
                           update="generellId" />
-        <br />
 
-        <b>#{editStructureInformation.getStructureCategorie('TherapyPartCount').description}</b>
+        <!-- End BedCount -->
+        <br />
+        <!-- Start TherapyPartCount -->
+        <div style="padding-top: 10px;">
+            <b>#{editStructureInformation.getStructureCategorie('TherapyPartCount').description}</b></div>
         <br />
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('TherapyPartCount')}"
                    var="structureInformation">
@@ -140,6 +144,62 @@
                           actionListener="#{editStructureInformation.saveNewValidFrom('TherapyPartCount')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
                           update="generellId" />
+        <!-- End TherapyPartCount -->
+
+        <!-- Start ModelIntention -->
+        <pf:panel rendered="#{editStructureInformation.ikIsModellIntention}"
+                  styleClass="inekPanelNoPadding">
+            <div style="padding-top: 10px;">
+                <b>#{editStructureInformation.getStructureCategorie('ModelIntention').description}</b></div>
+            <br />
+            <pf:repeat
+                    value="#{editStructureInformation.getStructureInformationsByStructureCategorie('ModelIntention')}"
+                    var="structureInformation">
+                <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
+                    <div class="ui-g-2" style="margin-right: -50px;">
+                        <pf:commandLink
+                                action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                                update="@form"
+                                process="@this"
+                                rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                            <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                        </pf:commandLink>
+                        Gültig ab:
+                    </div>
+                    <div class="ui-g-2">
+                        <pf:calendar id="validFromNew"
+                                     value="#{structureInformation.validFrom}"
+                                     disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}"
+                                     valueChangeListener="#{editStructureInformation.handleDateChange}"
+                                     required="true"
+                                     requiredMessage="Bitte ein Datum angeben"
+                                     locale="de"
+                                     navigator="true"
+                                     pattern="dd.MM.yyyy"
+                                     mask="true"
+                                     inputStyle="text-align: right;">
+                            <f:attribute name="categorie" value="ModelIntention" />
+                            <pf:ajax event="change" update="validFromNewMessage" />
+                            <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                        </pf:calendar>
+                        <pf:message id="validFromNewMessage" for="validFromNew" />
+                    </div>
+                    <div class="ui-g-4">
+                        <pf:selectOneMenu value="#{structureInformation.content}"
+                                          disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                            <f:selectItems value="#{editStructureInformation.validModelIntentionItems()}" />
+                        </pf:selectOneMenu>
+                    </div>
+                </div>
+            </pf:repeat>
+            <pf:commandButton styleClass="btnPsy"
+                              style="margin-top: 20px"
+                              value="Neuer Eintrag"
+                              actionListener="#{editStructureInformation.saveNewValidFrom('ModelIntention')}"
+                              rendered="#{!editStructureInformation.isReadOnly()}"
+                              update="generellId" />
+        </pf:panel>
+        <!-- End ModelIntention -->
     </pf:fieldset>
     <!-- End generell -->
 

@@ -1,5 +1,25 @@
 package org.inek.dataportal.common.overall;
 
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.PortalType;
+import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.access.InfoDataFacade;
+import org.inek.dataportal.common.data.common.ListFeature;
+import org.inek.dataportal.common.data.common.ListWorkflowStatus;
+import org.inek.dataportal.common.data.icmt.entities.Customer;
+import org.inek.dataportal.common.data.icmt.enums.State;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Stage;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -8,35 +28,20 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import org.inek.dataportal.common.data.common.ListFeature;
-import org.inek.dataportal.common.data.common.ListWorkflowStatus;
-import org.inek.dataportal.common.data.icmt.entities.Customer;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
-import org.inek.dataportal.common.data.access.InfoDataFacade;
-import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.api.enums.PortalType;
-import org.inek.dataportal.common.enums.Stage;
-import org.inek.dataportal.common.helper.EnvironmentInfo;
 
 @Named
 @ApplicationScoped
 public class ApplicationTools {
 
-    private Properties _properties;
-
     private static final Logger LOGGER = Logger.getLogger("ApplicationTools");
-    @Inject private ConfigFacade _config;
-    @Inject private InfoDataFacade _info;
-    @Inject private CustomerFacade _customerFacade;
     private final Map<Integer, CustomerInfo> _customerInfo = new ConcurrentHashMap<>();
+    private Properties _properties;
+    @Inject
+    private ConfigFacade _config;
+    @Inject
+    private InfoDataFacade _info;
+    @Inject
+    private CustomerFacade _customerFacade;
 
     @PostConstruct
     private void init() {
@@ -57,7 +62,7 @@ public class ApplicationTools {
                 listFeatures.stream()
                         .filter(f -> f.getId() == feature.getId())
                         .filter(f -> !f.getName().equals(feature.name())
-                        || !f.getDescription().equals(feature.getDescription()))
+                                || !f.getDescription().equals(feature.getDescription()))
                         .forEach(listFeature -> {
                             listFeature.setName(feature.name());
                             listFeature.setDescription(feature.getDescription());
@@ -80,15 +85,15 @@ public class ApplicationTools {
         }
     }
 
-    public String getServerUrl(){
+    public String getServerUrl() {
         return EnvironmentInfo.getServerUrl();
     }
 
-    public String getServerWithContextUrl(){
+    public String getServerWithContextUrl() {
         return EnvironmentInfo.getServerUrlWithContextpath();
     }
+
     /**
-     *
      * @return the application version as created at compile time
      */
     public String getVersion() {
@@ -112,6 +117,10 @@ public class ApplicationTools {
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, "Unexpected IOException whilst reading properties. Will use defaults.", e);
         }
+    }
+
+    public void showInfoDialog(String titel, String message) {
+        DialogController.showInfoDialog(titel, message);
     }
 
     public boolean isEnabled(ConfigKey key) {
@@ -148,6 +157,13 @@ public class ApplicationTools {
         return _customerInfo.get(ik).getName() + ", " + _customerInfo.get(ik).getTown();
     }
 
+    public String retrieveHospitalInfoWithPsyState(int ik) {
+        ensureCustomerInfo(ik);
+        CustomerInfo cusinfo = _customerInfo.get(ik);
+        return cusinfo.getName() + ", " + cusinfo.getTown() + ", " +
+                (cusinfo.getPsyState() == State.Unknown ? cusinfo.getState().getDescription() : cusinfo.getPsyState().getDescription());
+    }
+
     public String retrieveHospitalName(int ik) {
         ensureCustomerInfo(ik);
         return _customerInfo.get(ik).getName();
@@ -169,9 +185,9 @@ public class ApplicationTools {
         }
         Customer c = _customerFacade.getCustomerByIK(ik);
         if (c == null || c.getName() == null) {
-            _customerInfo.put(ik, new CustomerInfo("???", "???"));
+            _customerInfo.put(ik, new CustomerInfo("???", "???", State.Unknown, State.Unknown));
         } else {
-            _customerInfo.put(ik, new CustomerInfo(c.getName(), c.getTown()));
+            _customerInfo.put(ik, new CustomerInfo(c.getName(), c.getTown(), c.getState(), c.getPsyState()));
         }
     }
 

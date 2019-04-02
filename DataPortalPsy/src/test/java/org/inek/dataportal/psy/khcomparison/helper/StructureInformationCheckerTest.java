@@ -43,6 +43,17 @@ class StructureInformationCheckerTest {
         Assertions.assertThat(StructureInformationChecker.checkStructureBaseInformation(baseInformation, createDate(1, 1, 2019))).isEqualTo("");
     }
 
+    @Test
+    public void checkStructureBaseInformationWithDifferentMinutes() {
+        StructureBaseInformation baseInformation = new StructureBaseInformation();
+
+        baseInformation.addStructureInformation(createNewStructureInformation(StructureInformationCategorie.BedCount,
+                createDate(1, 1, 2019),
+                "1",
+                ""));
+        Assertions.assertThat(StructureInformationChecker.checkStructureBaseInformation(baseInformation, createDate(1, 1, 2019))).isEqualTo("");
+    }
+
     private StructureInformation createNewStructureInformation(StructureInformationCategorie cat, Date validFrom, String value, String comment) {
         StructureInformation info = new StructureInformation();
         info.setStructureCategorie(cat);

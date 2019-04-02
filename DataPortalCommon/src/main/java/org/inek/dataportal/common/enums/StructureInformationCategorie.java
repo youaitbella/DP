@@ -11,6 +11,7 @@ package org.inek.dataportal.common.enums;
 public enum StructureInformationCategorie {
     BedCount("Allgemeine Angaben", "Anzahl Planbetten (vollstationär)"),
     TherapyPartCount("Allgemeine Angaben", "Anzahl Therapieplätze (teilstationär)"),
+    ModelIntention("Allgemeine Angaben", "Modellvorhaben zur Versorgung psychisch kranker Menschen gem. § 64b SGB V"),
     RegionalCare("Regionale Versorgungsverpflichtung",
             "Stichpunktartige Beschreibung der strukturellen und personellen Besonderheiten duch die regionalen Versorgungsverpflichtung"),
     AccommodationText("Besonderheiten bei der gesetzlichen Unterbringung",
