@@ -55,6 +55,11 @@ public class ProofExceptionFact implements Serializable {
     public void setProof(Proof proof) {
         this._proof = proof;
     }
+
+    // Using for JSON Export
+    public int getProofId() {
+        return _proof.getId();
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property pefExceptionFactId">
