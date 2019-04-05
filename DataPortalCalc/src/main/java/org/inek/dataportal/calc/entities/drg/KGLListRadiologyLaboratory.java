@@ -184,7 +184,6 @@ public class KGLListRadiologyLaboratory implements Serializable, BaseIdValue {
     @Column(name = "rlServiceArea")
     private int _serviceArea;
 
-    @JsonIgnore
     public int getServiceArea() {
         return _serviceArea;
     }
