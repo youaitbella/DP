@@ -29,6 +29,8 @@ public class CI_AccessManagerTest {
     private final int unmanagedIk3 = 333333333;
     private final int allowedManagedIk = 444444444;
     private final int deniedManagedIk = 555555555;
+    private final int responsibleForIk1 = 611111111;
+    private final int responsibleForIk2 = 622222222;
 
     private final int userAccountId = 4711;
     private final int noneAccountId = 0;
@@ -76,15 +78,15 @@ public class CI_AccessManagerTest {
 
         Set<Integer> accountIks = new HashSet<>();
         accountIks.add(allowedManagedIk);
-        Set<Integer> responibleForIks = new HashSet<>();
-        responibleForIks.add(unmanagedIk1);
-        responibleForIks.add(unmanagedIk2);
+        Set<Integer> responsibleForIks = new HashSet<>();
+        responsibleForIks.add(responsibleForIk1);
+        responsibleForIks.add(responsibleForIk2);
 
         Account userAccount = mock(Account.class);
         when(userAccount.getId()).thenReturn(userAccountId);
         when(userAccount.getAccessRights()).thenReturn(accessRights);
         when(userAccount.getFullIkSet()).thenReturn(fullIkSet);
-        when(userAccount.obtainResponsibleForIks(Feature.HC_INSURANCE, accountIks)).thenReturn(responibleForIks);
+        when(userAccount.obtainResponsibleForIks(Feature.HC_INSURANCE, accountIks)).thenReturn(responsibleForIks);
 
         SessionController sessionController = mock(SessionController.class);
         when(sessionController.isInekUser(testStandardFeature)).thenReturn(isInekUser);
@@ -108,9 +110,10 @@ public class CI_AccessManagerTest {
         when(ikCache.isManaged(unmanagedIk3, testStandardFeature)).thenReturn(false);
 
         Set<Integer> correlatedIks = new HashSet<>();
-        correlatedIks.add(unmanagedIk1);
+        correlatedIks.add(responsibleForIk1);
 
-        when(ikCache.retrieveCorrelatedIks(Feature.HC_INSURANCE, accountIks, responibleForIks)).thenReturn(correlatedIks);
+        when(ikCache.retrieveCorrelatedIks(Feature.HC_INSURANCE, accountIks, responsibleForIks)).thenReturn(correlatedIks);
+        when(ikCache.retrieveUserIkFromCorrelation(Feature.HC_INSURANCE, responsibleForIk1)).thenReturn(allowedManagedIk);
         AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController, ikCache);
         return accessManager;
     }
@@ -244,10 +247,49 @@ public class CI_AccessManagerTest {
     }
 
     @Test
-    public void isWriteableReturnsTrue() {
-
+    public void isWriteableReturnsTrueForWriteAccessIfNotProvided() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Write));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isWritable(testStandardFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
+        assertThat(result).isTrue();
     }
 
+    @Test
+    public void isWriteableReturnsFalseForWriteAccessIfIsProvided() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Write));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isWritable(testStandardFeature, WorkflowStatus.Accepted, userAccountId, allowedManagedIk);
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void isWriteableReturnsFalseForOwnIkEvenIfWriteAccessAndNotProvided() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testResponsibleForFeature, Right.Write));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isWritable(testResponsibleForFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void isWriteableReturnsTrueForResponsibleIkIfWriteAccessAndNotProvided() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testResponsibleForFeature, Right.Write));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isWritable(testResponsibleForFeature, WorkflowStatus.New, userAccountId, responsibleForIk1);
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    public void isWriteableReturnsFalseForResponsibleIkIfWriteAccessAndIsProvided() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testResponsibleForFeature, Right.Write));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isWritable(testResponsibleForFeature, WorkflowStatus.Provided, userAccountId, responsibleForIk1);
+        assertThat(result).isFalse();
+    }
 
     @Test
     public void isApprovalRequestEnabledWithWorkflowstatusHigherThanCorrectionRequestedReturnsFalse() {
