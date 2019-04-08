@@ -1,11 +1,5 @@
 package org.inek.dataportal.common.overall;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -15,9 +9,17 @@ import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.junit.jupiter.api.Test;
 
 public class CI_AccessManagerTest {
 
@@ -32,7 +34,8 @@ public class CI_AccessManagerTest {
     private final int noneAccountId = 0;
     private final int readWriteSealAccountId = 1;
     private final int readSealedAccountId = 2;
-    private final Feature testFeature = Feature.ADDITIONAL_COST;
+    private final Feature testStandardFeature = Feature.ADDITIONAL_COST;
+    private final Feature testResponsibleForFeature = Feature.HC_INSURANCE;
 
     public CI_AccessManagerTest() {
     }
@@ -52,11 +55,11 @@ public class CI_AccessManagerTest {
     private AccessManager obtainAccessManager(List<AccessRight> accessRights, boolean isInekUser, Set<Integer> fullIkSet) {
         List<CooperationRight> cooperationRights = new ArrayList<>();
         cooperationRights.add(
-                new CooperationRight(noneAccountId, userAccountId, unmanagedIk1, testFeature, CooperativeRight.None));
+                new CooperationRight(noneAccountId, userAccountId, unmanagedIk1, testStandardFeature, CooperativeRight.None));
         cooperationRights.add(
-                new CooperationRight(readWriteSealAccountId, userAccountId, unmanagedIk1, testFeature, CooperativeRight.ReadWriteSeal));
+                new CooperationRight(readWriteSealAccountId, userAccountId, unmanagedIk1, testStandardFeature, CooperativeRight.ReadWriteSeal));
         cooperationRights.add(
-                new CooperationRight(readSealedAccountId, userAccountId, unmanagedIk2, testFeature, CooperativeRight.ReadOnly));
+                new CooperationRight(readSealedAccountId, userAccountId, unmanagedIk2, testStandardFeature, CooperativeRight.ReadOnly));
         cooperationRights.add(
                 new CooperationRight(readSealedAccountId, userAccountId, -1, Feature.DRG_PROPOSAL, CooperativeRight.ReadOnly));
 
@@ -84,25 +87,25 @@ public class CI_AccessManagerTest {
         when(userAccount.obtainResponsibleForIks(Feature.HC_INSURANCE, accountIks)).thenReturn(responibleForIks);
 
         SessionController sessionController = mock(SessionController.class);
-        when(sessionController.isInekUser(testFeature)).thenReturn(isInekUser);
+        when(sessionController.isInekUser(testStandardFeature)).thenReturn(isInekUser);
         when(sessionController.getAccount()).thenReturn(userAccount);
         when(sessionController.getAccountId()).thenReturn(userAccountId);
 
         CooperationRightFacade cooperationRightFacade = mock(CooperationRightFacade.class);
-        when(cooperationRightFacade.getCooperationRights(testFeature, userAccount))
-                .thenReturn(cooperationRights.stream().filter(r -> r.getFeature() == testFeature).collect(Collectors.
+        when(cooperationRightFacade.getCooperationRights(testStandardFeature, userAccount))
+                .thenReturn(cooperationRights.stream().filter(r -> r.getFeature() == testStandardFeature).collect(Collectors.
                         toList()));
         when(cooperationRightFacade.getCooperationRights(Feature.DRG_PROPOSAL, userAccount))
                 .thenReturn(cooperationRights.stream().filter(r -> r.getFeature() == Feature.DRG_PROPOSAL).
                         collect(Collectors.toList()));
 
         ManagedIkCache ikCache = mock(ManagedIkCache.class);
-        when(ikCache.isManaged(allowedManagedIk, testFeature)).thenReturn(true);
+        when(ikCache.isManaged(allowedManagedIk, testStandardFeature)).thenReturn(true);
         when(ikCache.isManaged(allowedManagedIk, Feature.HC_INSURANCE)).thenReturn(true);
-        when(ikCache.isManaged(deniedManagedIk, testFeature)).thenReturn(true);
-        when(ikCache.isManaged(unmanagedIk1, testFeature)).thenReturn(false);
-        when(ikCache.isManaged(unmanagedIk2, testFeature)).thenReturn(false);
-        when(ikCache.isManaged(unmanagedIk3, testFeature)).thenReturn(false);
+        when(ikCache.isManaged(deniedManagedIk, testStandardFeature)).thenReturn(true);
+        when(ikCache.isManaged(unmanagedIk1, testStandardFeature)).thenReturn(false);
+        when(ikCache.isManaged(unmanagedIk2, testStandardFeature)).thenReturn(false);
+        when(ikCache.isManaged(unmanagedIk3, testStandardFeature)).thenReturn(false);
 
         Set<Integer> correlatedIks = new HashSet<>();
         correlatedIks.add(unmanagedIk1);
@@ -126,29 +129,29 @@ public class CI_AccessManagerTest {
     @Test
     public void retrieveAllowedManagedIksReturnsTheOnlyOneAllowedIk() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Read));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Read));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveAllowedManagedIks(testFeature);
+        Set<Integer> result = accessManager.retrieveAllowedManagedIks(testStandardFeature);
         assertThat(result).isNotNull().isNotEmpty().containsOnly(allowedManagedIk);
     }
 
     @Test
     public void retrieveAllowedManagedIksReturnsOnlyOneAllowedIkOutOfMultipleIk() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Read));
-        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testFeature, Right.Deny));
-        accessRights.add(new AccessRight(userAccountId, unmanagedIk1, testFeature, Right.All));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Read));
+        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testStandardFeature, Right.Deny));
+        accessRights.add(new AccessRight(userAccountId, unmanagedIk1, testStandardFeature, Right.All));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveAllowedManagedIks(testFeature);
+        Set<Integer> result = accessManager.retrieveAllowedManagedIks(testStandardFeature);
         assertThat(result).isNotNull().isNotEmpty().containsOnly(allowedManagedIk);
     }
 
     @Test
     public void retrieveAllowedManagedIksReturnsNoIkForListOfDeniedIk() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testFeature, Right.Deny));
+        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testStandardFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveAllowedManagedIks(testFeature);
+        Set<Integer> result = accessManager.retrieveAllowedManagedIks(testStandardFeature);
         assertThat(result).isNotNull().isEmpty();
     }
 
@@ -156,15 +159,15 @@ public class CI_AccessManagerTest {
     public void retrieveAllowedManagedIksReturnsNoIkForEmptyAccessRights() {
         List<AccessRight> accessRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveAllowedManagedIks(testFeature);
+        Set<Integer> result = accessManager.retrieveAllowedManagedIks(testStandardFeature);
         assertThat(result).isNotNull().isEmpty();
     }
 
     @Test
     public void retrieveAllowedManagedIksReturnsNoIkForWrongFeature() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Read));
-        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testFeature, Right.Deny));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Read));
+        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testStandardFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
         Set<Integer> result = accessManager.retrieveAllowedManagedIks(Feature.CERT);
         assertThat(result).isNotNull().isEmpty();
@@ -178,10 +181,10 @@ public class CI_AccessManagerTest {
     @Test
     public void retrieveAllManagedIksReturnsAllIkForFeature() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Read));
-        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testFeature, Right.Deny));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Read));
+        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testStandardFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveAllManagedIks(testFeature);
+        Set<Integer> result = accessManager.retrieveAllManagedIks(testStandardFeature);
         assertThat(result).isNotNull().isNotEmpty().containsOnly(allowedManagedIk, deniedManagedIk);
     }
 
@@ -190,7 +193,7 @@ public class CI_AccessManagerTest {
 
         List<AccessRight> accessRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights, true);
-        boolean result = accessManager.isAccessAllowed(testFeature, WorkflowStatus.Accepted, -1, -1);
+        boolean result = accessManager.isAccessAllowed(testStandardFeature, WorkflowStatus.Accepted, -1, -1);
         assertThat(result).isTrue();
 
     }
@@ -200,7 +203,7 @@ public class CI_AccessManagerTest {
 
         List<AccessRight> accessRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights);
-        boolean result = accessManager.isAccessAllowed(testFeature, WorkflowStatus.Accepted, userAccountId, -1);
+        boolean result = accessManager.isAccessAllowed(testStandardFeature, WorkflowStatus.Accepted, userAccountId, -1);
         assertThat(result).isTrue();
     }
 
@@ -218,77 +221,79 @@ public class CI_AccessManagerTest {
     public void isAccessAllowedForNoneAccountIdWithoutIkReturnsFalse() {
         List<AccessRight> accessRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights);
-        boolean result = accessManager.isAccessAllowed(testFeature, WorkflowStatus.Accepted, noneAccountId, -1);
+        boolean result = accessManager.isAccessAllowed(testStandardFeature, WorkflowStatus.Accepted, noneAccountId, -1);
         assertThat(result).isFalse();
     }
 
     @Test
     public void isAccessAllowedForOwnAccountIdWithDeniedIkReturnsFalse() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testFeature, Right.Deny));
+        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testStandardFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        boolean result = accessManager.isAccessAllowed(testFeature, WorkflowStatus.Accepted, userAccountId, deniedManagedIk);
+        boolean result = accessManager.isAccessAllowed(testStandardFeature, WorkflowStatus.Accepted, userAccountId, deniedManagedIk);
         assertThat(result).isFalse();
     }
 
     @Test
     public void isAccessAllowedForOwnAccountIdWithAllowedIkReturnsTrue() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Write));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Write));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        boolean result = accessManager.isAccessAllowed(testFeature, WorkflowStatus.Accepted, userAccountId, allowedManagedIk);
+        boolean result = accessManager.isAccessAllowed(testStandardFeature, WorkflowStatus.Accepted, userAccountId, allowedManagedIk);
         assertThat(result).isTrue();
     }
 
     @Test
-    public void testIsReadOnly() {
+    public void isWriteableReturnsTrue() {
+
     }
+
 
     @Test
     public void isApprovalRequestEnabledWithWorkflowstatusHigherThanCorrectionRequestedReturnsFalse() {
         AccessManager accessManager = obtainAccessManager();
         boolean result = accessManager.isApprovalRequestEnabled(
-                testFeature, WorkflowStatus.ApprovalRequested, userAccountId, allowedManagedIk);
+                testStandardFeature, WorkflowStatus.ApprovalRequested, userAccountId, allowedManagedIk);
         assertThat(result).isFalse();
     }
 
     @Test
     public void isApprovalRequestEnabledForReadOnlyReturnsFalse() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Read));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Read));
         AccessManager accessManager = obtainAccessManager(accessRights);
         boolean result = accessManager.isApprovalRequestEnabled(
-                testFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
+                testStandardFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
         assertThat(result).isFalse();
     }
 
     @Test
     public void isApprovalRequestEnabledForWriteOnlyReturnsTrue() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Write));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Write));
         AccessManager accessManager = obtainAccessManager(accessRights);
         boolean result = accessManager.isApprovalRequestEnabled(
-                testFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
+                testStandardFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
         assertThat(result).isTrue();
     }
 
     @Test
     public void isApprovalRequestEnabledForUnmanagedIkReturnsFalse() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, unmanagedIk1, testFeature, Right.Write));
+        accessRights.add(new AccessRight(userAccountId, unmanagedIk1, testStandardFeature, Right.Write));
         AccessManager accessManager = obtainAccessManager(accessRights);
         boolean result = accessManager.isApprovalRequestEnabled(
-                testFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
+                testStandardFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
         assertThat(result).isFalse();
     }
 
     @Test
     public void isApprovalRequestEnabledForSealReturnsFalse() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Seal));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Seal));
         AccessManager accessManager = obtainAccessManager(accessRights);
         boolean result = accessManager.isApprovalRequestEnabled(
-                testFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
+                testStandardFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
         assertThat(result).isFalse();
     }
 
@@ -296,17 +301,17 @@ public class CI_AccessManagerTest {
     public void isSealedEnabledForWorkflowStatusEqualsOrHigherThanProvidedReturnFalse() {
         AccessManager accessManager = obtainAccessManager();
         boolean result = accessManager.isSealedEnabled(
-                testFeature, WorkflowStatus.Provided, userAccountId, allowedManagedIk);
+                testStandardFeature, WorkflowStatus.Provided, userAccountId, allowedManagedIk);
         assertThat(result).isFalse();
     }
 
     @Test
     public void isSealedEnabledForExistingIkAndUserHasAccessRightReturnTrue() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Seal));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Seal));
         AccessManager accessManager = obtainAccessManager(accessRights);
         boolean result = accessManager.isSealedEnabled(
-                testFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
+                testStandardFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
         assertThat(result).isTrue();
     }
 
@@ -315,24 +320,24 @@ public class CI_AccessManagerTest {
         List<AccessRight> accessRights = new ArrayList<>();
         List<CooperationRight> cooperationRights = new ArrayList<>();
         cooperationRights.add(new CooperationRight(
-                readSealedAccountId, userAccountId, allowedManagedIk, testFeature, CooperativeRight.ReadWriteTakeSeal));
+                readSealedAccountId, userAccountId, allowedManagedIk, testStandardFeature, CooperativeRight.ReadWriteTakeSeal));
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
         boolean result = accessManager.isSealedEnabled(
-                testFeature, WorkflowStatus.New, readSealedAccountId, allowedManagedIk);
+                testStandardFeature, WorkflowStatus.New, readSealedAccountId, allowedManagedIk);
         assertThat(result).isTrue();
     }
 
     @Test
     public void testIsDeleteEnabledWithoutIkReturnsTrueIfManagerIsOptional() {
         AccessManager accessManager = obtainAccessManager();
-        boolean result = accessManager.isDeleteEnabled(testFeature, userAccountId, 0);
+        boolean result = accessManager.isDeleteEnabled(testStandardFeature, userAccountId, 0);
         assertThat(result).isTrue();
     }
 
     @Test
     public void testIsDeleteEnabledWithoutIkReturnsFalseIfForeignData() {
         AccessManager accessManager = obtainAccessManager();
-        boolean result = accessManager.isDeleteEnabled(testFeature, noneAccountId, 0);
+        boolean result = accessManager.isDeleteEnabled(testStandardFeature, noneAccountId, 0);
         assertThat(result).isFalse();
     }
 
@@ -346,47 +351,47 @@ public class CI_AccessManagerTest {
     @Test
     public void testIsDeleteEnabledWithCanWrite() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Create));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Create));
         List<CooperationRight> cooperationRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-        boolean result = accessManager.isDeleteEnabled(testFeature, userAccountId, allowedManagedIk);
+        boolean result = accessManager.isDeleteEnabled(testStandardFeature, userAccountId, allowedManagedIk);
         assertThat(result).isTrue();
     }
 
     @Test
     public void isDeleteEnabledWithCanSealOnlyReturnsFalse() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Seal));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Seal));
         List<CooperationRight> cooperationRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-        boolean result = accessManager.isDeleteEnabled(testFeature, userAccountId, allowedManagedIk);
+        boolean result = accessManager.isDeleteEnabled(testStandardFeature, userAccountId, allowedManagedIk);
         assertThat(result).isFalse();
     }
 
     @Test
     public void IsDeleteEnabledWithoutCanSealNorWrite() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Deny));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Deny));
         List<CooperationRight> cooperationRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-        boolean result = accessManager.isDeleteEnabled(testFeature, userAccountId, allowedManagedIk);
+        boolean result = accessManager.isDeleteEnabled(testStandardFeature, userAccountId, allowedManagedIk);
         assertThat(result).isFalse();
     }
 
     @Test
     public void isUpdateEnabledWithoutWorkflowStatusCorrectionRequestedReturnsFalse() {
         AccessManager accessManager = obtainAccessManager();
-        boolean result = accessManager.isUpdateEnabled(testFeature, WorkflowStatus.Accepted, userAccountId, allowedManagedIk);
+        boolean result = accessManager.isUpdateEnabled(testStandardFeature, WorkflowStatus.Accepted, userAccountId, allowedManagedIk);
         assertThat(result).isFalse();
     }
 
     @Test
     public void isUpdateEnabledCanNotSealNorWriteCompletedReturnsFalse() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testFeature, Right.Read));
+        accessRights.add(new AccessRight(userAccountId, deniedManagedIk, testStandardFeature, Right.Read));
         List<CooperationRight> cooperationRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-        boolean result = accessManager.isUpdateEnabled(testFeature, WorkflowStatus.CorrectionRequested, userAccountId, deniedManagedIk);
+        boolean result = accessManager.isUpdateEnabled(testStandardFeature, WorkflowStatus.CorrectionRequested, userAccountId, deniedManagedIk);
         assertThat(result).isFalse();
     }
 
@@ -394,10 +399,10 @@ public class CI_AccessManagerTest {
     public void isUpdateEnabledCanSealReturnsTrue() {
 
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Seal));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Seal));
         List<CooperationRight> cooperationRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-        boolean result = accessManager.isUpdateEnabled(testFeature, WorkflowStatus.CorrectionRequested, userAccountId, allowedManagedIk);
+        boolean result = accessManager.isUpdateEnabled(testStandardFeature, WorkflowStatus.CorrectionRequested, userAccountId, allowedManagedIk);
         assertThat(result).isTrue();
     }
 
@@ -405,16 +410,16 @@ public class CI_AccessManagerTest {
     public void isUpdateEnabledCanWriteReturnsTrue() {
         List<AccessRight> accessRights = new ArrayList<>();
         List<CooperationRight> cooperationRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testFeature, Right.Write));
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testStandardFeature, Right.Write));
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-        boolean result = accessManager.isUpdateEnabled(testFeature, WorkflowStatus.CorrectionRequested, userAccountId, allowedManagedIk);
+        boolean result = accessManager.isUpdateEnabled(testStandardFeature, WorkflowStatus.CorrectionRequested, userAccountId, allowedManagedIk);
         assertThat(result).isTrue();
     }
 
     @Test
     public void isUpdateEnabledWithNoIkAndUserIsOwnerReturnsTrue() {
         AccessManager accessManager = obtainAccessManager();
-        boolean result = accessManager.isUpdateEnabled(testFeature, WorkflowStatus.CorrectionRequested, userAccountId, allowedManagedIk);
+        boolean result = accessManager.isUpdateEnabled(testStandardFeature, WorkflowStatus.CorrectionRequested, userAccountId, allowedManagedIk);
         assertThat(result).isTrue();
     }
 
@@ -423,9 +428,9 @@ public class CI_AccessManagerTest {
         List<AccessRight> accessRights = new ArrayList<>();
         List<CooperationRight> cooperationRights = new ArrayList<>();
         cooperationRights.add(
-                new CooperationRight(readSealedAccountId, userAccountId, allowedManagedIk, testFeature, CooperativeRight.None));
+                new CooperationRight(readSealedAccountId, userAccountId, allowedManagedIk, testStandardFeature, CooperativeRight.None));
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-        boolean result = accessManager.isUpdateEnabled(testFeature, WorkflowStatus.CorrectionRequested, readSealedAccountId, allowedManagedIk);
+        boolean result = accessManager.isUpdateEnabled(testStandardFeature, WorkflowStatus.CorrectionRequested, readSealedAccountId, allowedManagedIk);
         assertThat(result).isFalse();
     }
 
@@ -434,28 +439,17 @@ public class CI_AccessManagerTest {
         List<AccessRight> accessRights = new ArrayList<>();
         List<CooperationRight> cooperationRights = new ArrayList<>();
         cooperationRights.add(
-                new CooperationRight(readSealedAccountId, userAccountId, allowedManagedIk, testFeature, CooperativeRight.ReadWriteSeal));
+                new CooperationRight(readSealedAccountId, userAccountId, allowedManagedIk, testStandardFeature, CooperativeRight.ReadWriteSeal));
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-        boolean result = accessManager.isUpdateEnabled(testFeature, WorkflowStatus.CorrectionRequested, readSealedAccountId, allowedManagedIk);
+        boolean result = accessManager.isUpdateEnabled(testStandardFeature, WorkflowStatus.CorrectionRequested, readSealedAccountId, allowedManagedIk);
         assertThat(result).isTrue();
     }
-
-//    @Test   todo: check (remove or replace)
-//    public void isUpdateEnabledWithNoIkAndUserIsNotOwnerAndWriteCompletedReturnsTrue() {
-//        List<AccessRight> accessRights = new ArrayList<>();
-//        List<CooperationRight> cooperationRights = new ArrayList<>();
-//        cooperationRights.add(
-//                new CooperationRight(readSealedAccountId, userAccountId, allowedManagedIk, testFeature, CooperativeRight.ReadWrite));
-//        AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
-//        boolean result = accessManager.isUpdateEnabled(testFeature, WorkflowStatus.CorrectionRequested, readSealedAccountId, allowedManagedIk);
-//        assertThat(result).isTrue();
-//    }
 
     @Test
     public void isTakeEnabledWithOwnerEqualsUserReturnsFalse() {
 
         AccessManager accessManager = obtainAccessManager();
-        boolean result = accessManager.isTakeEnabled(testFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
+        boolean result = accessManager.isTakeEnabled(testStandardFeature, WorkflowStatus.New, userAccountId, allowedManagedIk);
         assertThat(result).isFalse();
 
     }
@@ -465,9 +459,9 @@ public class CI_AccessManagerTest {
 
         List<CooperationRight> cooperationRights = new ArrayList<>();
         cooperationRights.add(
-                new CooperationRight(readSealedAccountId, userAccountId, allowedManagedIk, testFeature, CooperativeRight.ReadWriteTakeSeal));
+                new CooperationRight(readSealedAccountId, userAccountId, allowedManagedIk, testStandardFeature, CooperativeRight.ReadWriteTakeSeal));
         AccessManager accessManager = obtainAccessManager(null, cooperationRights, false);
-        boolean result = accessManager.isTakeEnabled(testFeature, WorkflowStatus.New, readSealedAccountId, allowedManagedIk);
+        boolean result = accessManager.isTakeEnabled(testStandardFeature, WorkflowStatus.New, readSealedAccountId, allowedManagedIk);
         assertThat(result).isTrue();
 
     }
@@ -476,7 +470,7 @@ public class CI_AccessManagerTest {
     public void isTakeEnabledForUserHasNoCooperativeRightsReturnsFalse() {
 
         AccessManager accessManager = obtainAccessManager();
-        boolean result = accessManager.isTakeEnabled(testFeature, WorkflowStatus.New, readSealedAccountId, allowedManagedIk);
+        boolean result = accessManager.isTakeEnabled(testStandardFeature, WorkflowStatus.New, readSealedAccountId, allowedManagedIk);
         assertThat(result).isFalse();
 
     }
@@ -491,14 +485,14 @@ public class CI_AccessManagerTest {
         SessionController sessionController = mock(SessionController.class);
         when(sessionController.getAccount()).thenReturn(null);
         AccessManager accessManager = new AccessManager(null, sessionController, null);
-        Set<Integer> result = accessManager.determineAccountIds(testFeature);
+        Set<Integer> result = accessManager.determineAccountIds(testStandardFeature);
         assertThat(result).isNotNull().isEmpty();
     }
 
 // todo: remove or adopt to new rights    
 //    @Test
 //    public void determineAccountIdsForAccountNotNullReturnsSetOfPartnerIdsWithAtLeastReadSealed() {
-//        Feature feature = testFeature;
+//        Feature feature = testStandardFeature;
 //        AccessManager accessManager = obtainAccessManager();
 //
 //        Set<Integer> result = accessManager.determineAccountIds(feature, canRead());
@@ -509,7 +503,7 @@ public class CI_AccessManagerTest {
 
     @Test
     public void determineAccountIdsForAccountWitoutPartnersReturnsOnlyOwnAccount() {
-        Feature feature = testFeature;
+        Feature feature = testStandardFeature;
         AccessManager accessManager = obtainAccessManager(new ArrayList<>(), new ArrayList<>(), false);
 
         Set<Integer> result = accessManager.determineAccountIds(feature);
@@ -593,10 +587,10 @@ public class CI_AccessManagerTest {
     @Test
     public void retrieveAllowedForCreationIksReturnsOnlyOneDeniedForCreationIkOutOfMultipleIk() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Create));
-        accessRights.add(new AccessRight(userAccountId, deniedIk, testFeature, Right.Deny));
+        accessRights.add(new AccessRight(userAccountId, allowedIk, testStandardFeature, Right.Create));
+        accessRights.add(new AccessRight(userAccountId, deniedIk, testStandardFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveAllowedForCreationIks(testFeature);
+        Set<Integer> result = accessManager.retrieveAllowedForCreationIks(testStandardFeature);
         assertThat(result).isNotNull().isNotEmpty().containsOnly(allowedIk);
     }
 
