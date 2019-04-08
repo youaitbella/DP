@@ -292,6 +292,15 @@ public class CI_AccessManagerTest {
     }
 
     @Test
+    public void isWriteableReturnsFalsForResponsibleIkIfWriteAccessAndNotProvidedAndNotCorrelated() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testResponsibleForFeature, Right.Write));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isWritable(testResponsibleForFeature, WorkflowStatus.New, userAccountId, responsibleForIk2);
+        assertThat(result).isFalse();
+    }
+
+    @Test
     public void isApprovalRequestEnabledWithWorkflowstatusHigherThanCorrectionRequestedReturnsFalse() {
         AccessManager accessManager = obtainAccessManager();
         boolean result = accessManager.isApprovalRequestEnabled(
