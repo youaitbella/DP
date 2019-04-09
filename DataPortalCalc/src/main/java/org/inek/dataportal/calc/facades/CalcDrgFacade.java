@@ -299,5 +299,15 @@ public class CalcDrgFacade extends AbstractDataAccessWithActionLog {
     }
     // </editor-fold>
 
+    public List<KGLLlistRadioLaboService> retrieveKglLlistRadioLaboServices(){
+        String jpql = "select rs from KGLLlistRadioLaboService rs ";
+        TypedQuery<KGLLlistRadioLaboService> query = getEntityManager().createQuery(jpql, KGLLlistRadioLaboService.class);
+        return query.getResultList();
+    }
+    public List<KGLListServiceArea> retrieveKglLlistServiceAreas(){
+            String jpql = "select rs from KGLListServiceArea rs ";
+            TypedQuery<KGLListServiceArea> query = getEntityManager().createQuery(jpql, KGLListServiceArea.class);
+            return query.getResultList();
+        }
 
 }

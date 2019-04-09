@@ -91,7 +91,8 @@
                 </f:facet>
                 <h:selectOneMenu id="service" value="#{item.service}"
                                  disabled="#{editCalcBasicsDrg.readOnly}">
-                    <f:selectItems value="#{calcBasicsStaticData.radLabServices}"/>
+                    <!--<f:selectItems value="#{calcBasicsStaticData.radLabServices}"/>-->
+                    <f:selectItems value="#{editCalcBasicsDrg.radiologyLaboratoryItems}"/>
                     <f:ajax event="change"
                             render="descriptionDiv :logout:remaining"/>
                 </h:selectOneMenu>

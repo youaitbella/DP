@@ -83,7 +83,8 @@
 
             <h:selectOneMenu value="#{item.serviceArea}" disabled="#{editCalcBasicsDrg.readOnly}"
                              styleClass="fullWidth">
-                <f:selectItems value="#{calcBasicsStaticData.labServicesAreas}" />
+                <!--<f:selectItems value="#{calcBasicsStaticData.labServicesAreas}" />-->
+                <f:selectItems value="#{editCalcBasicsDrg.serviceAreaItems}" />
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectOneMenu>
         </h:column>
@@ -94,7 +95,8 @@
             </f:facet>
 
             <h:selectOneMenu value="#{item.service}" disabled="#{editCalcBasicsDrg.readOnly}" styleClass="fullWidth">
-                <f:selectItems value="#{calcBasicsStaticData.radLabServices}" />
+                <!--<f:selectItems value="#{calcBasicsStaticData.radLabServices}" />-->
+                <f:selectItems value="#{editCalcBasicsDrg.radiologyLaboratoryItems}" />
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectOneMenu>
         </h:column>

@@ -1069,4 +1069,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void deleteCostCenterOpAn(KGLListCostCenterOpAn value) {
         _calcBasics.removeCostCenterOpAn(value);
     }
+
+    public List<SelectItem> getRadiologyLaboratoryItems(){
+        return _calcDrgFacade.retrieveKglLlistRadioLaboServices()
+                .stream()
+                .map(i -> new SelectItem(i.getId(), i.getName()))
+                .collect(Collectors.toList());
+    }
+
+    public List<SelectItem> getServiceAreaItems(){
+        return _calcDrgFacade.retrieveKglLlistServiceAreas()
+                .stream()
+                .map(i -> new SelectItem(i.getId(), i.getName()))
+                .collect(Collectors.toList());
+    }
 }
