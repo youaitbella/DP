@@ -83,7 +83,7 @@ public class ProofImporter {
                 fillRowToProof(sheet.getRow(i), proofFromRow.get());
             } else {
                 LOGGER.log(Level.WARNING, "Row " + i + " no matching proof found");
-                addMessage("Keinen passenden Eintrag gefunden. Zeile: " + i + 1);
+                addMessage("Keinen passenden Eintrag gefunden. Zeile: " + (i + 1));
             }
         }
         LOGGER.log(Level.INFO, "End Proof import: " + info.getIk() + " " + info.getYear());
@@ -157,7 +157,7 @@ public class ProofImporter {
         }
     }
 
-    private Optional<Proof> getProofFromRow(ProofRegulationBaseInformation info, Row row) {
+    private Optional<Proof>  getProofFromRow(ProofRegulationBaseInformation info, Row row) {
         if (row.getCell(CELL_SENSITIVEAREA) == null) {
             return Optional.empty();
         }
@@ -175,6 +175,9 @@ public class ProofImporter {
     }
 
     private String getLocationFromCell(Cell cell) {
+        if (cell == null) {
+            return "";
+        }
         try {
             int valueInt = (int) cell.getNumericCellValue();
             if (valueInt == 0) {
@@ -187,6 +190,9 @@ public class ProofImporter {
     }
 
     private String getFabNumberFromCell(Cell cell) {
+        if (cell == null) {
+            return "";
+        }
         try {
             int valueInt = (int) cell.getNumericCellValue();
             if (valueInt == 0) {
