@@ -1526,6 +1526,16 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     @JoinColumn(name = "rcBaseInformationId", referencedColumnName = "biID")
     private List<KglRoomCapability> _kglRoomCapability = new Vector<>();
 
+    //Using for JSON
+    public List<KglRoomCapability> getKglRoomCapability() {
+        return _kglRoomCapability;
+    }
+
+    //Using for JSON
+    public void setKglRoomCapability(List<KglRoomCapability> kglRoomCapability) {
+        this._kglRoomCapability = kglRoomCapability;
+    }
+
     public List<KglRoomCapability> getRoomCapabilities(int costCenterId) {
         return _kglRoomCapability.stream().filter(c -> c.getCostCenterId() == costCenterId).collect(Collectors.toList());
     }

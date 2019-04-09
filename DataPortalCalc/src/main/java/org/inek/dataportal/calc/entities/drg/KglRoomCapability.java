@@ -1,5 +1,7 @@
 package org.inek.dataportal.calc.entities.drg;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -33,14 +35,25 @@ public class KglRoomCapability {
     //<editor-fold desc="Property BaseInformation">
     @ManyToOne
     @JoinColumn(name = "rcBaseInformationId")
+    @JsonIgnore
     private DrgCalcBasics baseInformation;
 
+    @JsonIgnore
     public DrgCalcBasics getBaseInformation() {
         return baseInformation;
     }
 
+    @JsonIgnore
     public void setBaseInformation(DrgCalcBasics baseInformation) {
         this.baseInformation = baseInformation;
+    }
+
+    public int getBaseInformationId() {
+        return this.baseInformation.getId();
+    }
+
+    public void setBaseInformationId(int baseInformationId) {
+        this.baseInformation.setId(baseInformationId);
     }
     //</editor-fold>
 
@@ -190,6 +203,7 @@ public class KglRoomCapability {
         return 79273424;
     }
 
+    @JsonIgnore
     public boolean isEmpty() {
         return mainServiceId == 0
                 & roomName.length() == 0
