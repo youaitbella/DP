@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "listRadioLaboService", schema = "dbo")
+@Table(name = "listRadioLaboService", schema = "calc")
 public class KGLLlistRadioLaboService implements Serializable {
     private static final long serialVersionUID = 1L;
 

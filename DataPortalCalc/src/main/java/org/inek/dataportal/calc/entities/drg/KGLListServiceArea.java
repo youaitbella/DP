@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "listServiceArea", schema = "dbo")
+@Table(name = "listServiceArea", schema = "calc")
 public class KGLListServiceArea implements Serializable {
     private static final long serialVersionUID = 1L;
 
