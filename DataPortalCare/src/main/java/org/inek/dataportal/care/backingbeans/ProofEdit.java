@@ -356,6 +356,12 @@ public class ProofEdit implements Serializable {
             }
             return;
         }
+
+        for (Proof proof : _proofRegulationBaseInformation.getProofs()) {
+            calculateCountHelpeNurseChargeable(proof);
+            calculatePatientPerNurse(proof);
+        }
+
         _proofRegulationBaseInformation.setSend(new Date());
         _proofRegulationBaseInformation.setStatus(WorkflowStatus.Provided);
         _proofRegulationBaseInformation.setSignature(CareSignatureCreater.createPvSignature(_proofRegulationBaseInformation));
@@ -473,7 +479,7 @@ public class ProofEdit implements Serializable {
 
     public List<Proof> getProofsForExceptionFact() {
         return _proofRegulationBaseInformation.getProofs().stream()
-                .filter(c -> c.getPatientPerNurse() > c.getPpug())
+                .filter(c -> c.getPatientPerNurse() > c.getPpug() || c.getCountShiftNotRespected() > 0)
                 .filter(c -> c.getExceptionFact().size() < _listExceptionsFacts.size())
                 .collect(Collectors.toList());
     }
