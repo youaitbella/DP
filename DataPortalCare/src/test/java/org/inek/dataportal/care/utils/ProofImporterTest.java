@@ -33,14 +33,7 @@ class ProofImporterTest {
 
         Assertions.assertThat(info.getProofs()).hasSize(6);
 
-        File file = new File(FILE_BASE_FOLDER + "ProofExampleWrongValues.xlsx");
-
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(file);
-        } catch (Exception ex) {
-
-        }
+        InputStream inputStream = getInputStreamFromExcel("ProofExampleWrongValues.xlsx");
 
         ProofImporter importer = new ProofImporter(false);
 
@@ -62,14 +55,7 @@ class ProofImporterTest {
 
         Assertions.assertThat(info.getProofs()).hasSize(6);
 
-        File file = new File(FILE_BASE_FOLDER + "ProofExampleWrongValues.xlsx");
-
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(file);
-        } catch (Exception ex) {
-
-        }
+        InputStream inputStream = getInputStreamFromExcel("ProofExampleWrongValues.xlsx");
 
         ProofImporter importer = new ProofImporter(false);
 
@@ -78,6 +64,49 @@ class ProofImporterTest {
         Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getHelpNurse() > 0)).isFalse();
         Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getPatientOccupancy() > 0)).isFalse();
         Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getCountShiftNotRespected() > 0)).isFalse();
+    }
+
+    @Test
+    void handleProofUploadNumerAsTextTest() {
+        ProofRegulationBaseInformation info = new ProofRegulationBaseInformation();
+
+        List<ProofRegulationStation> stations = new ArrayList<>();
+
+        stations.add(createNewStation(SensitiveArea.UNFALLCHIRUGIE, "1600", "Unfallchirurgie", "ST2A Station 2A - Unfallchirurgie", ""));
+
+        createProofs(info, stations, 2019, 1);
+
+        Assertions.assertThat(info.getProofs()).hasSize(6);
+
+
+        InputStream inputStream = getInputStreamFromExcel("ProofExampleNumberAsText.xlsx");
+
+        ProofImporter importer = new ProofImporter(false);
+
+        Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isTrue();
+        Assertions.assertThat(importer.getMessage()).isEqualTo("Zeilen erfolgreich eingelesen: 2\n");
+        Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getNurse() == 2.14)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getHelpNurse() == 0.33)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getPatientOccupancy() == 39.71)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getCountShiftNotRespected() == 31)).isTrue();
+
+        Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getNurse() == 1.19)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getHelpNurse() == 0)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getPatientOccupancy() == 39.97)).isTrue();
+        Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getCountShiftNotRespected() == 30)).isTrue();
+
+    }
+
+    private InputStream getInputStreamFromExcel(String excelFile) {
+        File file = new File(FILE_BASE_FOLDER + excelFile);
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (Exception ex) {
+
+        }
+        return inputStream;
     }
 
     @Test
@@ -92,14 +121,7 @@ class ProofImporterTest {
 
         Assertions.assertThat(info.getProofs()).hasSize(6);
 
-        File file = new File(FILE_BASE_FOLDER + "ProofExampleEmptyFabNumber.xlsx");
-
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(file);
-        } catch (Exception ex) {
-
-        }
+        InputStream inputStream = getInputStreamFromExcel("ProofExampleEmptyFabNumber.xlsx");
 
         ProofImporter importer = new ProofImporter(false);
 
@@ -108,6 +130,26 @@ class ProofImporterTest {
         Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getHelpNurse() > 0)).isTrue();
         Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getPatientOccupancy() > 0)).isTrue();
         Assertions.assertThat(info.getProofs().stream().anyMatch(c -> c.getCountShiftNotRespected() > 0)).isTrue();
+    }
+
+    @Test
+    void handleProofUploadWrongCellLengthTest() {
+        ProofRegulationBaseInformation info = new ProofRegulationBaseInformation();
+
+        List<ProofRegulationStation> stations = new ArrayList<>();
+
+        stations.add(createNewStation(SensitiveArea.GERIATRIE, "0200", "Geriatrie", "G1", "1"));
+
+        createProofs(info, stations, 2019, 1);
+
+        Assertions.assertThat(info.getProofs()).hasSize(6);
+
+        InputStream inputStream = getInputStreamFromExcel("ProofExampleWrongCellLength.xlsx");
+
+        ProofImporter importer = new ProofImporter(false);
+
+        Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isFalse();
+        Assertions.assertThat(importer.getMessage()).contains("Nicht genug Spalten in Zeile 1", "Nicht genug Spalten in Zeile 2");
     }
 
     @Test
@@ -125,14 +167,7 @@ class ProofImporterTest {
 
         Assertions.assertThat(info.getProofs()).hasSize(24);
 
-        File file = new File(FILE_BASE_FOLDER + "ProofExampleFull.xlsx");
-
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(file);
-        } catch (Exception ex) {
-
-        }
+        InputStream inputStream = getInputStreamFromExcel("ProofExampleFull.xlsx");
 
         ProofImporter importer = new ProofImporter(false);
 
@@ -156,14 +191,7 @@ class ProofImporterTest {
 
         Assertions.assertThat(info.getProofs()).hasSize(24);
 
-        File file = new File(FILE_BASE_FOLDER + "ProofExampleFullWithComment.xlsx");
-
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(file);
-        } catch (Exception ex) {
-
-        }
+        InputStream inputStream = getInputStreamFromExcel("ProofExampleFullWithComment.xlsx");
 
         ProofImporter importer = new ProofImporter(true);
 
@@ -188,14 +216,7 @@ class ProofImporterTest {
 
         Assertions.assertThat(info.getProofs()).hasSize(24);
 
-        File file = new File(FILE_BASE_FOLDER + "ProofExampleFullWithComment.xlsx");
-
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(file);
-        } catch (Exception ex) {
-
-        }
+        InputStream inputStream = getInputStreamFromExcel("ProofExampleFullWithComment.xlsx");
 
         ProofImporter importer = new ProofImporter(false);
 
@@ -215,14 +236,7 @@ class ProofImporterTest {
         createProofs(info, stations, 2019, 1);
         Assertions.assertThat(info.getProofs()).hasSize(6);
 
-        File file = new File(FILE_BASE_FOLDER + "ProofExampleToManyDecimals.xlsx");
-
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(file);
-        } catch (Exception ex) {
-
-        }
+        InputStream inputStream = getInputStreamFromExcel("ProofExampleToManyDecimals.xlsx");
 
         ProofImporter importer = new ProofImporter(false);
 

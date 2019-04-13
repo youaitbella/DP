@@ -225,8 +225,18 @@ public class ProofImporter {
         LOGGER.log(Level.INFO, "Check excel format");
         if (workbook.getNumberOfSheets() > 1) {
             addMessage("Die Exceldatei hat mehr als 1 Blatt");
+            return false;
         }
-        return workbook.getNumberOfSheets() == 1;
+
+        int maxRow = workbook.getSheetAt(0).getLastRowNum();
+
+        for (int i = 0 ; i < maxRow ; i++) {
+            if (workbook.getSheetAt(0).getRow(i).getLastCellNum() < 12) {
+                addMessage("Nicht genug Spalten in Zeile " + (i +1));
+            }
+        }
+
+        return _message.isEmpty();
     }
 
     private int getEndRow(Sheet sheet) {
@@ -253,8 +263,18 @@ public class ProofImporter {
             double value = cell.getNumericCellValue();
             return (int) value;
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error getting Int from : " + cell.getAddress());
-            throw new InvalidValueException("Wert in Zelle " + cell.getAddress() + " konnte nicht als gültige Ganzzahl erkannt werden");
+            try {
+                String cellValue = cell.getStringCellValue();
+                cellValue = cellValue.replace(',', '.');
+
+                double numberValue = Double.parseDouble(cellValue);
+
+                return (int)numberValue;
+            }
+            catch (Exception ex2){
+                LOGGER.log(Level.WARNING, "Error getting Int from : " + cell.getAddress());
+                throw new InvalidValueException("Wert in Zelle " + cell.getAddress() + " konnte nicht als gültige Ganzzahl erkannt werden");
+            }
         }
     }
 
@@ -266,8 +286,20 @@ public class ProofImporter {
             }
             return cell.getNumericCellValue();
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Error getting Double from : " + cell.getAddress());
-            throw new InvalidValueException("Wert in Zelle " + cell.getAddress() + " konnte nicht als gültige Dezimalzahl erkannt werden");
+            try {
+                String cellValue = cell.getStringCellValue();
+                cellValue = cellValue.replace(',', '.');
+
+                double numberValue = Double.parseDouble(cellValue);
+                if (round) {
+                    return Math.round(numberValue * 100d) / 100d;
+                }
+                return numberValue;
+            }
+            catch (Exception ex2){
+                LOGGER.log(Level.WARNING, "Error getting Double from : " + cell.getAddress());
+                throw new InvalidValueException("Wert in Zelle " + cell.getAddress() + " konnte nicht als gültige Dezimalzahl erkannt werden");
+            }
         }
     }
 
