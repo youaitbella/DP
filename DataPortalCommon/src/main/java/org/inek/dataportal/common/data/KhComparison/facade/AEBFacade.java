@@ -5,29 +5,26 @@
  */
 package org.inek.dataportal.common.data.KhComparison.facade;
 
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import javafx.util.Pair;
+import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
+import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
+import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
+import org.inek.dataportal.common.data.KhComparison.enums.PsyGroup;
+import org.inek.dataportal.common.enums.CustomerTyp;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
-import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
-import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
-import org.inek.dataportal.common.enums.CustomerTyp;
+import java.time.Year;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
- *
  * @author lautenti
  */
 @Stateless
@@ -141,8 +138,8 @@ public class AEBFacade extends AbstractDataAccess {
         Set<Integer> possibleIks = allowedIks
                 .stream()
                 .filter(ik -> possibleYears
-                .stream()
-                .anyMatch(year -> !existingIkYearPairs.contains(new Pair<>(ik, year))))
+                        .stream()
+                        .anyMatch(year -> !existingIkYearPairs.contains(new Pair<>(ik, year))))
                 .collect(Collectors.toSet());
         return possibleIks;
     }
@@ -190,4 +187,12 @@ public class AEBFacade extends AbstractDataAccess {
         return findAll(OccupationalCategory.class);
     }
 
+    public void insertOrUpdatePsyGroup(int ik, int year, PsyGroup psyGroup) {
+        String sql = "update psy.ExpectedHospital \n" +
+                "set ehpsygroup = " + psyGroup.getId() + " \n" +
+                "where ehIk = " + ik + " \n" +
+                "and ehYear = " + year + "";
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.executeUpdate();
+    }
 }

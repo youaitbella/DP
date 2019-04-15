@@ -11,11 +11,13 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.KhComparison.checker.AebChecker;
 import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
 import org.inek.dataportal.common.data.KhComparison.entities.*;
+import org.inek.dataportal.common.data.KhComparison.enums.PsyGroup;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
 import org.inek.dataportal.common.data.KhComparison.helper.AebCheckerHelper;
 import org.inek.dataportal.common.data.KhComparison.helper.AebCleanerHelper;
 import org.inek.dataportal.common.data.KhComparison.helper.AebUploadHelper;
+import org.inek.dataportal.common.data.KhComparison.helper.PsyGroupCalculator;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
@@ -206,6 +208,8 @@ public class Edit {
         _aebBaseInformation.setStatus(WorkflowStatus.Provided);
         _aebBaseInformation.setSend(new Date());
         if (save(true)) {
+            PsyGroup psyGroup = PsyGroupCalculator.findPsyGroup(_aebBaseInformation);
+            _aebFacade.insertOrUpdatePsyGroup(_aebBaseInformation.getIk(), _aebBaseInformation.getYear(), psyGroup);
             if (aebContainsDifferences()) {
                 DialogController.showWarningDialog("Unterschiede in der AEB festgestellt",
                         "Es wurden Unterschiede in bereits abgegeben Information für das IK "

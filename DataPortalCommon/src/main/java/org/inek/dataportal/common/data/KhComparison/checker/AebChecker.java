@@ -69,7 +69,7 @@ public class AebChecker {
         }
 
         if (info.getAebPageB1().getSumValuationRadioRenumeration() / info.getAebPageB1().getSumEffectivValuationRadio()
-                != info.getAebPageB1().getBasisRenumerationValueCompensation()) {
+                != info.getAebPageB1().getBasisRenumerationValueCompensation() && (info.getAebPageB1().getSumEffectivValuationRadio() > 0)) {
             addMessage("Blatt B1: Nr. 18 ist ungleich Nr. 16 / Nr. 17");
         }
     }
