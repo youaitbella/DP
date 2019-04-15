@@ -14,25 +14,27 @@
         <pf:outputLabel
                 value="In keinem Bereich werden die Grenzen verletzt oder es wurden bereits alle Ausnahmetatbestände angegeben"
                 rendered="#{proofEdit.proofsForExceptionFact.size() eq 0}" />
-        <pf:repeat value="#{proofEdit.proofsForExceptionFact}" var="proof">
-            <div class="ui-g">
-                <div class="ui-g-10">
-                    <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name} - " />
-                    <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber} - " />
-                    <pf:outputLabel value="#{proof.proofRegulationStation.fabName} - " />
-                    <pf:outputLabel value="#{proof.proofRegulationStation.stationName} - " />
-                    <pf:outputLabel value="#{proof.proofRegulationStation.locationCode} - " />
-                    <pf:outputLabel value="#{proof.month.name} - " />
-                    <pf:outputLabel value="#{proof.shift.name}" />
+        <pf:scrollPanel mode="native" style="width:100%; height:450px ">
+            <pf:repeat value="#{proofEdit.proofsForExceptionFact}" var="proof">
+                <div class="ui-g">
+                    <div class="ui-g-10">
+                        <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name} - " />
+                        <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber} - " />
+                        <pf:outputLabel value="#{proof.proofRegulationStation.fabName} - " />
+                        <pf:outputLabel value="#{proof.proofRegulationStation.stationName} - " />
+                        <pf:outputLabel value="#{proof.proofRegulationStation.locationCode} - " />
+                        <pf:outputLabel value="#{proof.month.name} - " />
+                        <pf:outputLabel value="#{proof.shift.name}" />
+                    </div>
+                    <div class="ui-g-2">
+                        <pf:commandButton value="Auswählen"
+                                          action="#{proofEdit.addNewException(proof)}"
+                                          oncomplete="PF('dlgStationSelection').hide();"
+                                          update="form:exceptionsFactsTable" />
+                    </div>
                 </div>
-                <div class="ui-g-2">
-                    <pf:commandButton value="Auswählen"
-                                      action="#{proofEdit.addNewException(proof)}"
-                                      oncomplete="PF('dlgStationSelection').hide();"
-                                      update="form:exceptionsFactsTable" />
-                </div>
-            </div>
-        </pf:repeat>
+            </pf:repeat>
+        </pf:scrollPanel>
     </pf:dialog>
 
     <div>
@@ -201,8 +203,8 @@
             </pf:column>
             <pf:column headerText="Kommentar" rendered="#{proofEdit.isBwHospital}">
                 <pf:inputTextarea value="#{proof.comment}"
-                                       Style="width: 96%;"
-                                       readonly="#{proofEdit.isReadOnly}" />
+                                  Style="width: 96%;"
+                                  readonly="#{proofEdit.isReadOnly}" />
             </pf:column>
 
         </pf:dataTable>
