@@ -29,6 +29,7 @@ import org.primefaces.model.SortOrder;
 import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
@@ -323,11 +324,11 @@ public class ProofEdit implements Serializable {
                 sendMail("Care Proof Speicher Bestätigung");
                 DialogController.showSaveDialog();
             }
-        } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Fehler beim speichern PPUGV: " + ex.getMessage(), ex);
-            _mailer.sendError("Fehler beim speichern PPUGV: " + ex.getMessage(), ex);
+        } catch (EJBException ex) {
+            LOGGER.log(Level.INFO, "Fehler beim speichern PPUGV (" + _proofRegulationBaseInformation.getIk() + "): " +
+                    "Eintrag wurde von jemanden anderen geändert");
             DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
-                    + "Bitte versuchen Sie es erneut. Fehlercode: " + ex.getMessage());
+                    + "Bitte laden Sie die Meldung neu. Die Daten wurden bereits von einem anderen Benutzer geändert.");
         }
     }
 
