@@ -309,7 +309,8 @@ public class ProofEdit implements Serializable {
 
         try {
             if (_oldProofRegulationBaseInformation != null &&
-                    _proofRegulationBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested) {
+                    (_proofRegulationBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested ||
+                    _proofRegulationBaseInformation.getStatus() == WorkflowStatus.Provided)) {
                 _proofFacade.save(_oldProofRegulationBaseInformation);
             }
 
