@@ -404,7 +404,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="gynecology">
     @Column(name = "biGynecology")
-    @Documentation(name = "Leistungen im Bereich der Gynäkologie", headline = "Kostenstellengruppe 6 (Kreißsaal)", rank = 4000)
+    @Documentation(name = "Leistungen im Bereich der Gynäkologie", headline = "Kostenstellengruppe 6 (Geburtshilfe und Gynäkologie)", rank = 4000)
     private boolean _gynecology;
 
     public boolean isGynecology() {
