@@ -119,7 +119,7 @@ public class Mailer implements Serializable {
             return true;
         } catch (Exception ex) { // catch all, not only MessagingException
             LOGGER.log(Level.SEVERE, "Mailer failed");
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
         return false;
     }
