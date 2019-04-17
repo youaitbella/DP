@@ -2,8 +2,10 @@ package org.inek.dataportal.common.controller;
 
 import org.inek.dataportal.common.data.adm.ReportTemplate;
 import org.inek.dataportal.common.data.adm.facade.AdminFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.overall.ApplicationTools;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -27,6 +29,8 @@ public class ReportController implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private AdminFacade _adminFacade;
+    @Inject
+    private ApplicationTools _appTools;
 
     public boolean reportTemplateExists(String name) {
         return _adminFacade.findReportTemplateByName(name).isPresent();
@@ -43,7 +47,8 @@ public class ReportController implements Serializable {
     }
 
     public byte[] getSingleDocument(ReportTemplate template, String id, String fileName) {
-        String address = template.getAddress().replace("{0}", id);
+        String hostName = _appTools.readConfig(ConfigKey.ReportHostName);
+        String address = template.getAddress().replace("{hostName}", hostName).replace("{0}", id);
         try {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -73,7 +78,8 @@ public class ReportController implements Serializable {
     }
 
     public void createSingleDocument(ReportTemplate template, String id, String fileName) {
-        String address = template.getAddress().replace("{0}", id);
+        String hostName = _appTools.readConfig(ConfigKey.ReportHostName);
+        String address = template.getAddress().replace("{hostName}", hostName).replace("{0}", id);
         try {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
