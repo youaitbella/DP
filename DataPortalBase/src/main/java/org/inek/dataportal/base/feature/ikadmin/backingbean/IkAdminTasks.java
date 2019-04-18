@@ -79,7 +79,7 @@ public class IkAdminTasks implements Serializable {
     }
 
     public List<Right> getRights() {
-        return Arrays.asList(Right.values());
+        return Arrays.stream(Right.values()).filter(r -> !r.name().equals("Take")).collect(Collectors.toList());
     }
 
     public List<AccessRight> getAccessRights() {

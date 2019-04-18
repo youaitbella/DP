@@ -2,39 +2,42 @@ package org.inek.dataportal.common.enums;
 
 import org.inek.dataportal.common.helper.Utils;
 
+/**
+ * CooperativeRight is the old enum to manage cooperative rights.
+ * Since April 2019 it simply delegates to Right
+ * todo:
+ * 1. Update Database (store Right in favor of CooperativeRight)
+ * 2. Remove this compatibility enum (CooperativeRight)
+ */
 public enum CooperativeRight {
 
-    None("0000"), // no access granted
-    ReadOnly("1000"), // partner may read
-    ReadWrite("1100"), // partner may read, write
-    ReadWriteSeal("1101"), // partner may read, write, seal
-    ReadWriteTakeSeal("1111"); // partner may read, write, take ownership, seal
-    
-    /**
-     * rights are defined as a four character string 
-     * read, write, take, seal: 0 = no; 1 = yes;
-     */
-    private final String _rights;
+    None(Right.Deny), // no access granted
+    ReadOnly(Right.Read), // partner may read
+    ReadWrite(Right.Write), // partner may read, write
+    ReadWriteSeal(Right.All), // partner may read, write, seal
+    ReadWriteTakeSeal(Right.Take); // partner may read, write, take ownership, seal
+
+    private final Right _right;
 
 
-    CooperativeRight(String rights) {
-        _rights = rights;
+    CooperativeRight(Right right) {
+        _right = right;
     }
 
     public boolean canRead() {
-        return _rights.matches("1...");
+        return _right.canRead();
     }
 
     public boolean canWrite() {
-        return _rights.matches(".1..");
+        return _right.canWrite();
     }
 
     public boolean canTake() {
-        return _rights.matches("..1.");
+        return _right == Right.Take;
     }
 
     public boolean canSeal() {
-        return _rights.matches("...1");
+        return _right.canSeal();
     }
 
     public String Description() {

@@ -15,7 +15,8 @@ public enum Right {
     Write("Daten anzeigen und ändern", true, true, false, false),
     Create("Daten anlegen, anzeigen, ändern", true, true, true, false),
     Seal("Daten anzeigen und senden", true, false, false, true),
-    All("Daten anlegen, anzeigen, ändern, senden", true, true, true, true);
+    All("Daten anlegen, anzeigen, ändern, senden", true, true, true, true),
+    Take("Daten anlegen, anzeigen, ändern, senden", true, true, true, true);
 
     private final String _description;
     
