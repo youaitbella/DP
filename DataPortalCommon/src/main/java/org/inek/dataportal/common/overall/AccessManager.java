@@ -206,7 +206,38 @@ public class AccessManager implements Serializable {
         return isAccessible(feature, state, ownerAccountId, ik, AccessRight::canWrite, CooperativeRight::canWrite);
     }
 
-    public boolean isAccessible(Feature feature, WorkflowStatus state, int ownerAccountId, int ik,
+    /**
+     * Method for convenience only. Preferably use use isWriteable.
+     */
+    public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId) {
+        return isReadOnly(feature, state, ownerId, -1);
+    }
+
+    /**
+     * Method for convenience only. Preferably use use isWriteable.
+     */
+    public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+        return !isWritable(feature, state, ownerId, ik);
+    }
+
+    /**
+     * sealing|providing is enabled when it is the own data and the providing right is not granted to any other or the
+     * user owns the sealing right and approval is requested or the user owned both edit and sealing right.
+     *
+     * @param feature
+     * @param state
+     * @param ownerAccountId
+     * @return
+     */
+    public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerAccountId) {
+        return isSealedEnabled(feature, state, ownerAccountId, -1);
+    }
+
+    public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerAccountId, int ik) {
+        return isAccessible(feature, state, ownerAccountId, ik, AccessRight::canSeal, CooperativeRight::canSeal);
+    }
+
+    private boolean isAccessible(Feature feature, WorkflowStatus state, int ownerAccountId, int ik,
                                 Predicate<AccessRight> checkAccessRight, Predicate<CooperativeRight> checkCooperativeRight) {
 
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
@@ -278,20 +309,6 @@ public class AccessManager implements Serializable {
     }
 
     /**
-     * Method for convenience only. Preferably use use isWriteable.
-     */
-    public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId) {
-        return isReadOnly(feature, state, ownerId, -1);
-    }
-
-    /**
-     * Method for convenience only. Preferably use use isWriteable.
-     */
-    public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        return !isWritable(feature, state, ownerId, ik);
-    }
-
-    /**
      * the approval request will be enabled if the user is enabled to write, but has no right to send the data
      *
      * @param feature
@@ -312,40 +329,6 @@ public class AccessManager implements Serializable {
         return isWritable(feature, state, ownerId, ik) && !isSealedEnabled(feature, state, ownerId, ik);
     }
 
-    /**
-     * sealing|providing is enabled when it is the own data and the providing right is not granted to any other or the
-     * user owns the sealing right and approval is requested or the user owned both edit and sealing right.
-     *
-     * @param feature
-     * @param state
-     * @param ownerId
-     *
-     * @return
-     */
-    public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId) {
-        return isSealedEnabled(feature, state, ownerId, -1);
-    }
-
-    public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        if (state.getId() >= WorkflowStatus.Provided.getId()) {
-            return false;
-        }
-        if (ik > 0) {
-            Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
-            if (right.isPresent()) {
-                return right.get().canSeal();
-            }
-        } else if (feature.getIkReference() != IkReference.None) {
-            return false;
-        }
-
-        Account account = _sessionController.getAccount();
-        if (ownerId != account.getId()) {
-            return getAchievedRight(feature, ownerId, ik).canSeal();
-        }
-
-        return true;
-    }
 
     public boolean isDeleteEnabled(Feature feature, int ownerAccountId, int ik) {
 

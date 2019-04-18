@@ -371,12 +371,40 @@ public class CI_AccessManagerTest {
         List<AccessRight> accessRights = new ArrayList<>();
         List<CooperationRight> cooperationRights = new ArrayList<>();
         cooperationRights.add(new CooperationRight(
-                readSealedAccountId, userAccountId, allowedManagedIk, testStandardFeature, CooperativeRight.ReadWriteTakeSeal));
+                readSealedAccountId, userAccountId, unmanagedIk1, testStandardFeature, CooperativeRight.ReadWriteTakeSeal));
         AccessManager accessManager = obtainAccessManager(accessRights, cooperationRights, false);
         boolean result = accessManager.isSealedEnabled(
-                testStandardFeature, WorkflowStatus.New, readSealedAccountId, allowedManagedIk);
+                testStandardFeature, WorkflowStatus.New, readSealedAccountId, unmanagedIk1);
         assertThat(result).isTrue();
     }
+
+    @Test
+    public void isSealedEnabledReturnsTrueForResponsibleIkIfWriteAccessAndNotProvided() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testResponsibleForFeature, Right.All));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isSealedEnabled(testResponsibleForFeature, WorkflowStatus.New, userAccountId, responsibleForIk1);
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    public void isSealedEnabledReturnsFalseForResponsibleIkIfWriteAccessAndIsProvided() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testResponsibleForFeature, Right.All));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isSealedEnabled(testResponsibleForFeature, WorkflowStatus.Provided, userAccountId, responsibleForIk1);
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void isSealedEnabledReturnsFalsForResponsibleIkIfWriteAccessAndNotProvidedAndNotCorrelated() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedManagedIk, testResponsibleForFeature, Right.All));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isSealedEnabled(testResponsibleForFeature, WorkflowStatus.New, userAccountId, responsibleForIk2);
+        assertThat(result).isFalse();
+    }
+
 
     @Test
     public void testIsDeleteEnabledWithoutIkReturnsTrueIfManagerIsOptional() {
