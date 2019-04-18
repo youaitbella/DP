@@ -170,14 +170,13 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        // todo: check
         if (_sessionController.isInekUser(feature)) {
             return true;
         }
 
         if (ik > 0) {
             if (feature.getIkUsage() == IkUsage.ByResposibility || feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
-                return isResponsibleAccessAllowed(feature, ik);
+                return isResponsibleAccessible(feature, ik, AccessRight::canRead);
             }
             if (feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature)) {
                 return false;
@@ -199,18 +198,12 @@ public class AccessManager implements Serializable {
         return right != CooperativeRight.None;
     }
 
-    private boolean isResponsibleAccessAllowed(Feature feature, int dataIk) {
-        Set<Integer> userIks = _sessionController.getAccount().obtainUserIks(feature, dataIk);
-        return _sessionController.getAccount().getAccessRights()
-                .stream()
-                .anyMatch(r -> userIks.contains(r.getIk()) && r.getFeature() == feature && r.canRead());
-    }
-
     public boolean isWritable(Feature feature, WorkflowStatus state, int ownerAccountId) {
         return isWritable(feature, state, ownerAccountId, -1);
     }
 
     public boolean isWritable(Feature feature, WorkflowStatus state, int ownerAccountId, int ik) {
+
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return false;
         }
@@ -262,7 +255,7 @@ public class AccessManager implements Serializable {
             return true;
         }
         CooperativeRight right = getAchievedRight(feature, ownerAccountId, ik);
-        return right.canWrite();
+        return check.test(right);
     }
 
     public Boolean userHasReadAccess(Feature feature, int ik) {
