@@ -203,6 +203,11 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isWritable(Feature feature, WorkflowStatus state, int ownerAccountId, int ik) {
+        return isAccessible(feature, state, ownerAccountId, ik, AccessRight::canWrite, CooperativeRight::canWrite);
+    }
+
+    public boolean isAccessible(Feature feature, WorkflowStatus state, int ownerAccountId, int ik,
+                                Predicate<AccessRight> checkAccessRight, Predicate<CooperativeRight> checkCooperativeRight) {
 
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return false;
@@ -212,7 +217,7 @@ public class AccessManager implements Serializable {
         }
 
         if (feature.getManagedBy() == ManagedBy.None || feature.getIkReference() == IkReference.None) {
-            return isUnmanagedAccessible(ownerAccountId, feature, ik, CooperativeRight::canWrite);
+            return isUnmanagedAccessible(ownerAccountId, feature, ik, checkCooperativeRight);
         }
 
         if (ik <= 0) {
@@ -220,18 +225,18 @@ public class AccessManager implements Serializable {
         }
 
         if (feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
-            return isCorrelationAccessible(feature, ik, AccessRight::canWrite);
+            return isCorrelationAccessible(feature, ik, checkAccessRight);
         }
 
         if (feature.getIkUsage() == IkUsage.ByResposibility) {
-            return isResponsibleAccessible(feature, ik, AccessRight::canWrite);
+            return isResponsibleAccessible(feature, ik, checkAccessRight);
         }
 
         if (feature.getManagedBy() == ManagedBy.InekOrIkAdmin && !_ikCache.isManaged(ik, feature)) {
-            return isUnmanagedAccessible(ownerAccountId, feature, ik, CooperativeRight::canWrite);
+            return isUnmanagedAccessible(ownerAccountId, feature, ik, checkCooperativeRight);
         }
 
-        return userHasAccess(feature, ik, AccessRight::canWrite);
+        return userHasAccess(feature, ik, checkAccessRight);
     }
 
     private boolean isResponsibleAccessible(Feature feature, int dataIk, Predicate<AccessRight> check) {
