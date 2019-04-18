@@ -1,32 +1,28 @@
 package org.inek.dataportal.common.overall;
 
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.IkReference;
+import org.inek.dataportal.api.enums.IkUsage;
+import org.inek.dataportal.api.enums.ManagedBy;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
+import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
+import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.enums.CooperativeRight;
+import org.inek.dataportal.common.enums.Right;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
-import org.inek.dataportal.common.enums.CooperativeRight;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.api.enums.IkReference;
-import org.inek.dataportal.api.enums.IkUsage;
-import org.inek.dataportal.api.enums.ManagedBy;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.enums.Right;
 
 /**
  * This class provides answers to questions like
@@ -223,7 +219,7 @@ public class AccessManager implements Serializable {
         }
 
         if (feature.getManagedBy() == ManagedBy.None || feature.getIkReference() == IkReference.None) {
-            return isUnmanagedWritable(ownerAccountId, feature, ik);
+            return isUnmanagedAccessible(ownerAccountId, feature, ik, CooperativeRight::canWrite);
         }
 
         if (ik <= 0) {
@@ -231,37 +227,37 @@ public class AccessManager implements Serializable {
         }
 
         if (feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
-            return isCorrelationWriteable(feature, ik);
+            return isCorrelationAccessible(feature, ik, AccessRight::canWrite);
         }
 
         if (feature.getIkUsage() == IkUsage.ByResposibility) {
-            return isResponsibleWriteable(feature, ik);
+            return isResponsibleAccessible(feature, ik, AccessRight::canWrite);
         }
 
         if (feature.getManagedBy() == ManagedBy.InekOrIkAdmin && !_ikCache.isManaged(ik, feature)) {
-            return isUnmanagedWritable(ownerAccountId, feature, ik);
+            return isUnmanagedAccessible(ownerAccountId, feature, ik, CooperativeRight::canWrite);
         }
 
-        return userHasWriteAccess(feature, ik);
+        return userHasAccess(feature, ik, AccessRight::canWrite);
     }
 
-    private boolean isResponsibleWriteable(Feature feature, int dataIk) {
+    private boolean isResponsibleAccessible(Feature feature, int dataIk, Predicate<AccessRight> check) {
         Set<Integer> userIks = _sessionController.getAccount().obtainUserIks(feature, dataIk);
         return _sessionController.getAccount().getAccessRights()
                 .stream()
-                .anyMatch(r -> userIks.contains(r.getIk()) && r.getFeature() == feature && r.canWrite());
+                .anyMatch(r -> userIks.contains(r.getIk()) && r.getFeature() == feature && check.test(r));
     }
 
-    private boolean isCorrelationWriteable(Feature feature, int ik) {
+    private boolean isCorrelationAccessible(Feature feature, int ik, Predicate<AccessRight> check) {
         int userIk = _ikCache.retrieveUserIkFromCorrelation(feature, ik);
         if (_sessionController.getAccount().getFullIkSet().contains(userIk)) {
-            return userHasWriteAccess(feature, userIk);
+            return userHasAccess(feature, userIk, check);
         } else {
             return false;
         }
     }
 
-    private boolean isUnmanagedWritable(int ownerAccountId, Feature feature, int ik) {
+    private boolean isUnmanagedAccessible(int ownerAccountId, Feature feature, int ik, Predicate<CooperativeRight> check) {
         if (ownerAccountId == _sessionController.getAccountId()) {
             return true;
         }
@@ -270,15 +266,17 @@ public class AccessManager implements Serializable {
     }
 
     public Boolean userHasReadAccess(Feature feature, int ik) {
-        return _sessionController.getAccount().getAccessRights()
-                .stream()
-                .anyMatch(r -> r.getIk() == ik && r.getFeature() == feature && r.canRead());
+        return userHasAccess(feature, ik, AccessRight::canRead);
     }
 
     public Boolean userHasWriteAccess(Feature feature, int ik) {
+        return userHasAccess(feature, ik, AccessRight::canWrite);
+    }
+
+    private Boolean userHasAccess(Feature feature, int ik, Predicate<AccessRight> check) {
         return _sessionController.getAccount().getAccessRights()
                 .stream()
-                .anyMatch(r -> r.getIk() == ik && r.getFeature() == feature && r.canWrite());
+                .anyMatch(r -> r.getIk() == ik && r.getFeature() == feature && check.test(r));
     }
 
     /**
