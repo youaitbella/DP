@@ -158,7 +158,7 @@ public class ProofImporter {
     }
 
     private Optional<Proof>  getProofFromRow(ProofRegulationBaseInformation info, Row row) {
-        if (row.getCell(CELL_SENSITIVEAREA) == null) {
+        if (row == null || row.getCell(CELL_SENSITIVEAREA) == null) {
             return Optional.empty();
         }
         Optional<Proof> first = info.getProofs().stream()
@@ -231,6 +231,9 @@ public class ProofImporter {
         int maxRow = workbook.getSheetAt(0).getLastRowNum();
 
         for (int i = 0 ; i < maxRow ; i++) {
+            if (workbook.getSheetAt(0).getRow(i) == null) {
+                continue;
+            }
             if (workbook.getSheetAt(0).getRow(i).getLastCellNum() < 12) {
                 addMessage("Nicht genug Spalten in Zeile " + (i +1));
             }
