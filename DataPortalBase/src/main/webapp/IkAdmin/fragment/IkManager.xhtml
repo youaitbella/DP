@@ -4,11 +4,8 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:pf='http://primefaces.org/ui'
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input">
+>
 
     <div>
         <pf:dataTable id="iks"
@@ -29,14 +26,14 @@
             </pf:column>
 
             <pf:column headerText="IK">
-                <h:inputText id="ikInput"
-                                validator="#{customerFacade.isIKValid}"
-                                required="True"
-                                value="#{responsibleForIk.dataIk}"
-                                styleClass="element06em">
+                <pf:inputText id="ikInput"
+                              validator="#{customerFacade.isIKValid}"
+                              required="True"
+                              value="#{responsibleForIk.dataIk}"
+                              styleClass="element06em">
 
                     <f:ajax event="blur" render="customerName msgIkInput" />
-                </h:inputText>
+                </pf:inputText>
                 <pf:message id="msgIkInput" for="ikInput" />
             </pf:column>
 
