@@ -142,7 +142,7 @@ public class Edit {
     }
 
     public Boolean isSendAllowed() {
-        return _aebBaseInformation.getStatus().getId() <= WorkflowStatus.Provided.getId() &&
+        return _aebBaseInformation.getStatus().getId() < WorkflowStatus.Provided.getId() &&
                 _accessManager.userHasWriteAccess(Feature.HC_HOSPITAL, _aebBaseInformation.getIk());
     }
 
