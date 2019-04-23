@@ -8,6 +8,7 @@ import org.inek.dataportal.common.data.access.InfoDataFacade;
 import org.inek.dataportal.common.data.common.ListFeature;
 import org.inek.dataportal.common.data.common.ListWorkflowStatus;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
+import org.inek.dataportal.common.data.icmt.enums.PsyHospitalType;
 import org.inek.dataportal.common.data.icmt.enums.State;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
@@ -160,7 +161,7 @@ public class ApplicationTools {
     public String retrieveHospitalInfoWithPsyState(int ik) {
         ensureCustomerInfo(ik);
         CustomerInfo cusinfo = _customerInfo.get(ik);
-        return cusinfo.getName() + ", " + cusinfo.getTown() + ", " +
+        return cusinfo.getName() + " (" + cusinfo.getHospitalType().getDescription() + "), " + cusinfo.getTown() + ", " +
                 (cusinfo.getPsyState() == State.Unknown ? cusinfo.getState().getDescription() : cusinfo.getPsyState().getDescription());
     }
 
@@ -185,9 +186,9 @@ public class ApplicationTools {
         }
         Customer c = _customerFacade.getCustomerByIK(ik);
         if (c == null || c.getName() == null) {
-            _customerInfo.put(ik, new CustomerInfo("???", "???", State.Unknown, State.Unknown));
+            _customerInfo.put(ik, new CustomerInfo("???", "???", State.Unknown, State.Unknown, PsyHospitalType.Unknown));
         } else {
-            _customerInfo.put(ik, new CustomerInfo(c.getName(), c.getTown(), c.getState(), c.getPsyState()));
+            _customerInfo.put(ik, new CustomerInfo(c.getName(), c.getTown(), c.getState(), c.getPsyState(), c.getPsyHospitalType()));
         }
     }
 

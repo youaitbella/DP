@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.common.data.icmt.entities;
 
+import org.inek.dataportal.common.data.icmt.enums.PsyHospitalType;
 import org.inek.dataportal.common.data.icmt.enums.State;
 
 import java.io.Serializable;
@@ -135,6 +136,15 @@ public class Customer implements Serializable {
 
     public State getPsyState() {
         return State.fromValue(_psyState);
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property PsyState">
+    @Column(name = "cuPsyHospitalTypeId")
+    private Integer _psyHospitalTypeId = PsyHospitalType.Unknown.getId();
+
+    public PsyHospitalType getPsyHospitalType() {
+        return PsyHospitalType.fromValue(_psyHospitalTypeId);
     }
     // </editor-fold>
 

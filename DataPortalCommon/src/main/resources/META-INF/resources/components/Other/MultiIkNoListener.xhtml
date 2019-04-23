@@ -24,37 +24,42 @@
 
 <!-- IMPLEMENTATION -->
 <cc:implementation>
-    <h:outputLabel
-            styleClass="label10 #{cc.attrs.required and not cc.attrs.readonly and not cc.attrs.isFixed ? ' required ' : ''}"
-            for="ikMulti" value="#{cc.attrs.label}:" />
+    <pf:panelGrid columns="2" styleClass="inekPanelGridSmall">
+        <pf:column>
+            <h:outputLabel
+                    style="margin-right: 10px;"
+                    styleClass="label #{cc.attrs.required and not cc.attrs.readonly and not cc.attrs.isFixed ? ' required ' : ''}"
+                    for="ikMulti" value="#{cc.attrs.label}:" />
+            <pf:selectOneMenu styleClass="#{cc.attrs.required ? ' required ' : ''}"
+                              rendered="#{!cc.attrs.readonly and not cc.attrs.isFixed}"
+                              id="ikMulti"
+                              title="#{msg.titleIK}"
+                              required="#{cc.attrs.required}"
+                              requiredMessage="#{msg.msgValueNeeded}"
+                              value="#{cc.attrs.value}">
+                <f:selectItem rendered="#{cc.attrs.value eq 0}" itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                              noSelectionOption="true" />
+                <f:selectItems value="#{cc.attrs.ikList}" />
+                <pf:ajax event="change" update="#{cc.attrs.updateElement} @this hospitalName msgMultiIk" />
+            </pf:selectOneMenu>
+            <pf:inputText readonly="true" value="#{cc.attrs.value}"
+                          rendered="#{cc.attrs.readonly or cc.attrs.isFixed}" />
+        </pf:column>
+        <pf:column>
+            <h:outputLabel id="hospitalNameState" rendered="#{cc.attrs.showState}" styleClass="label"
+                           value="#{applicationTools.retrieveHospitalInfoWithPsyState(cc.attrs.value)}" />
 
-    <pf:selectOneMenu styleClass="#{cc.attrs.required ? ' required ' : ''}"
-                      rendered="#{!cc.attrs.readonly and not cc.attrs.isFixed}"
-                      id="ikMulti"
-                      title="#{msg.titleIK}"
-                      required="#{cc.attrs.required}"
-                      requiredMessage="#{msg.msgValueNeeded}"
-                      value="#{cc.attrs.value}">
-        <f:selectItem rendered="#{cc.attrs.value eq 0}" itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
-                      noSelectionOption="true" />
-        <f:selectItems value="#{cc.attrs.ikList}" />
-        <pf:ajax event="change" update="#{cc.attrs.updateElement} @this hospitalName msgMultiIk" />
-    </pf:selectOneMenu>
-
-    <pf:inputText readonly="true" value="#{cc.attrs.value}" rendered="#{cc.attrs.readonly or cc.attrs.isFixed}" />
-
-    <h:outputLabel id="hospitalNameState" rendered="#{cc.attrs.showState}" styleClass="label marginLeft"
-                   value="#{applicationTools.retrieveHospitalInfoWithPsyState(cc.attrs.value)}" />
-
-    <h:outputLabel id="hospitalName" rendered="#{not cc.attrs.showState}" styleClass="label marginLeft"
-                   value="#{applicationTools.retrieveHospitalInfo(cc.attrs.value)}" />
-
-    <pf:commandLink rendered="#{cc.attrs.helpText.length() > 0}"
-                    style="padding-left: 30px"
-                    ajax="true"
-                    action="#{applicationTools.showInfoDialog(cc.attrs.helpTextHeader, cc.attrs.helpText)}"
-                    value="#{cc.attrs.helpTextHeader}" />
-
+            <h:outputLabel id="hospitalName" rendered="#{not cc.attrs.showState}" styleClass="label"
+                           value="#{applicationTools.retrieveHospitalInfo(cc.attrs.value)}" />
+        </pf:column>
+        <pf:column></pf:column>
+        <pf:column>
+            <pf:commandLink rendered="#{cc.attrs.helpText.length() > 0}"
+                            ajax="true"
+                            action="#{applicationTools.showInfoDialog(cc.attrs.helpTextHeader, cc.attrs.helpText)}"
+                            value="#{cc.attrs.helpTextHeader}" />
+        </pf:column>
+    </pf:panelGrid>
 
     <pf:message for="ikMulti" id="msgMultiIk" />
 </cc:implementation>
