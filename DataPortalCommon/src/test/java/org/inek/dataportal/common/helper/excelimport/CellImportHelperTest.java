@@ -248,17 +248,33 @@ class CellImportHelperTest {
 
     @Test
     void getDoubleFromCellWithStringValuesTest() {
-        List<Tuple<Cell, Integer>> values = new ArrayList<Tuple<Cell, Integer>>();
+        List<Tuple<Cell, Double>> values = new ArrayList<Tuple<Cell, Double>>();
 
-        values.add(new Tuple<Cell, Integer>(createNewCell("1.10"), 104455145));
-        values.add(new Tuple<Cell, Integer>(createNewCell("Testen"), 2345));
+        values.add(new Tuple<Cell, Double>(createNewCell("1.10"), 104455145.0));
+        values.add(new Tuple<Cell, Double>(createNewCell("Testen"), 2345.0));
 
-        for (Tuple<Cell, Integer> pair : values) {
+        for (Tuple<Cell, Double> pair : values) {
             try {
                 Assertions.assertThat(CellImportHelper.getDoubleFromCell(pair.cell)).isEqualTo(pair.expected);
             } catch (Exception ex) {
                 Assertions.assertThat(ex).isExactlyInstanceOf(StringInNumericCellException.class);
                 Assertions.assertThat(((StringInNumericCellException)ex).getCell()).isEqualTo(pair.cell);
+            }
+        }
+    }
+
+    @Test
+    void getDoubleFromCellWithEmptyStringValuesTest() {
+        List<Tuple<Cell, Double>> values = new ArrayList<Tuple<Cell, Double>>();
+
+        values.add(new Tuple<Cell, Double>(createNewCell(""), 0.0));
+        values.add(new Tuple<Cell, Double>(null, 0.0));
+
+        for (Tuple<Cell, Double> pair : values) {
+            try {
+                Assertions.assertThat(CellImportHelper.getDoubleFromCell(pair.cell, true)).isEqualTo(pair.expected);
+            } catch (Exception ex) {
+                Assertions.assertThat(true).isFalse();
             }
         }
     }

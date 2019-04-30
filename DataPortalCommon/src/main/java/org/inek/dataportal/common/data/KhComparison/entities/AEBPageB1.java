@@ -65,7 +65,7 @@ public class AEBPageB1 implements Serializable {
     }
 
     public void setTotalAgreementPeriod(double totalAgreementPeriod) {
-        _totalAgreementPeriod = totalAgreementPeriod;
+        _totalAgreementPeriod = round(totalAgreementPeriod);
     }
     //</editor-fold>
 
@@ -78,7 +78,7 @@ public class AEBPageB1 implements Serializable {
     }
 
     public void setChangedTotal(double changedTotal) {
-        _changedTotal = changedTotal;
+        _changedTotal = round(changedTotal);
     }
     //</editor-fold>
 
@@ -91,7 +91,7 @@ public class AEBPageB1 implements Serializable {
     }
 
     public void setChangedProceedsBudget(double changedProceedsBudget) {
-        _changedProceedsBudget = changedProceedsBudget;
+        _changedProceedsBudget = round(changedProceedsBudget);
     }
     //</editor-fold>
 
@@ -104,7 +104,7 @@ public class AEBPageB1 implements Serializable {
     }
 
     public void setSumValuationRadioRenumeration(double sumValuationRadioRenumeration) {
-        _sumValuationRadioRenumeration = sumValuationRadioRenumeration;
+        _sumValuationRadioRenumeration = round(sumValuationRadioRenumeration);
     }
     //</editor-fold>
 
@@ -117,7 +117,7 @@ public class AEBPageB1 implements Serializable {
     }
 
     public void setSumEffectivValuationRadio(double sumEffectivValuationRadio) {
-        _sumEffectivValuationRadio = sumEffectivValuationRadio;
+        _sumEffectivValuationRadio = round4(sumEffectivValuationRadio);
     }
     //</editor-fold>
 
@@ -130,7 +130,7 @@ public class AEBPageB1 implements Serializable {
     }
 
     public void setBasisRenumerationValueCompensation(double basisRenumerationValueCompensation) {
-        _basisRenumerationValueCompensation = basisRenumerationValueCompensation;
+        _basisRenumerationValueCompensation = round(basisRenumerationValueCompensation);
     }
     //</editor-fold>
 
@@ -143,9 +143,17 @@ public class AEBPageB1 implements Serializable {
     }
 
     public void setBasisRenumerationValueNoCompensation(double basisRenumerationValueNoCompensation) {
-        _basisRenumerationValueNoCompensation = basisRenumerationValueNoCompensation;
+        _basisRenumerationValueNoCompensation = round(basisRenumerationValueNoCompensation);
     }
     //</editor-fold>
+
+    private double round(double value) {
+            return Math.round(value * 100d) / 100d;
+    }
+
+    private double round4(double value) {
+        return Math.round(value * 100000d) / 100000d;
+    }
 
     @Override
     public int hashCode() {

@@ -51,11 +51,21 @@ public class CellImportHelper {
     }
 
     public static double getDoubleFromCell(Cell cell, Boolean allowNullValue) throws Exception {
+        return getDoubleFromCell(cell, allowNullValue, false);
+    }
+
+    public static double getDoubleFromCell(Cell cell, Boolean allowNullValue, Boolean allowFormula) throws Exception {
         if (cell == null && allowNullValue) return 0;
-        isFormulaInCellCheck(cell);
-        if (cell.getCellTypeEnum().equals(CellType.NUMERIC)) {
+        if (!allowFormula) {
+            isFormulaInCellCheck(cell);
+        }
+
+        if (cell.getCellTypeEnum().equals(CellType.NUMERIC) || (cell.getCellTypeEnum().equals(CellType.FORMULA) && allowFormula)) {
             return cell.getNumericCellValue();
-        } else {
+        } else if ("".equals(cell.getStringCellValue()) && allowNullValue) {
+            return 0;
+        }
+        else {
             throw new StringInNumericCellException(cell);
         }
     }
