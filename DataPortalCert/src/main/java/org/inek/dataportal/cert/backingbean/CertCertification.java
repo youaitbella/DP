@@ -1,42 +1,37 @@
 package org.inek.dataportal.cert.backingbean;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Serializable;
+import org.apache.poi.util.IOUtils;
+import org.inek.dataportal.cert.Helper.CertFileHelper;
+import org.inek.dataportal.cert.comparer.CertComparer;
+import org.inek.dataportal.cert.entities.Grouper;
+import org.inek.dataportal.cert.entities.GrouperAction;
+import org.inek.dataportal.cert.entities.RemunerationSystem;
+import org.inek.dataportal.cert.enums.CertStatus;
+import org.inek.dataportal.cert.facade.GrouperFacade;
+import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.RemunSystem;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.utils.Helper;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
+
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ValueChangeEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
-import org.apache.poi.util.IOUtils;
-import org.inek.dataportal.cert.enums.CertStatus;
-import org.inek.dataportal.cert.comparer.CertComparer;
-import org.inek.dataportal.cert.Helper.CertFileHelper;
-import org.inek.dataportal.cert.entities.Grouper;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.utils.Helper;
-import org.inek.dataportal.cert.entities.GrouperAction;
-import org.inek.dataportal.cert.entities.RemunerationSystem;
-import org.inek.dataportal.cert.facade.GrouperActionFacade;
-import org.inek.dataportal.cert.facade.GrouperFacade;
-import org.inek.dataportal.common.controller.DialogController;
-import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.RemunSystem;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -190,15 +185,13 @@ public class CertCertification implements Serializable {
         return "";
     }
 
-    @Inject
-    private GrouperActionFacade _actionFacade;
 
     public void logAction(String message) {
         GrouperAction action = new GrouperAction();
         action.setAccountId(_grouper.getAccountId());
         action.setSystemId(_grouper.getSystem().getId());
         action.setAction(message);
-        _actionFacade.merge(action);
+        _grouperFacade.saveAction(action);
     }
 
     private void createMarkerFile(File uploadFolder) {

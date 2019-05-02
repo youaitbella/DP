@@ -7,9 +7,16 @@ import org.inek.dataportal.common.exceptions.FormulaInCellException;
 import org.inek.dataportal.common.exceptions.IntegerInDoubleCellException;
 import org.inek.dataportal.common.exceptions.StringInNumericCellException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.fail;
+
+
 
 class CellImportHelperTest {
 
@@ -60,6 +67,17 @@ class CellImportHelperTest {
         }
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"Test", " Test", "T e s t", "1234", "0123", "01", "äöü,.;'", "Testsatz: \"dasd\".", "", "123.00"})
+    void getStringFromCellWithValidStringsTest(String cellValue) {
+        Cell cell = createNewCell(cellValue);
+        try {
+            Assertions.assertThat(CellImportHelper.getStringFromCell(cell)).isEqualTo(cellValue);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
     @Test
     void getStringFromCellWithIntegerNumberTest() {
         List<Tuple<Cell, String>> values = new ArrayList<Tuple<Cell, String>>();
@@ -91,6 +109,24 @@ class CellImportHelperTest {
             } catch (Exception ex) {
                 Assertions.assertThat(true).isFalse();
             }
+        }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "2, 2",
+            "12, 12",
+            "1224568.00, 1224568",
+            "2.20, 2.2",
+            "12.235, 12.235",
+            "1224568.001, 1224568.001"
+    })
+    void getStringFromCellWithValidNumbersTest(double cellValue, String expected) {
+        Cell cell = createNewCell(cellValue);
+        try {
+            Assertions.assertThat(CellImportHelper.getStringFromCell(cell)).isEqualTo(expected);
+        } catch (Exception e) {
+            fail(e.getMessage());
         }
     }
 
@@ -258,7 +294,7 @@ class CellImportHelperTest {
                 Assertions.assertThat(CellImportHelper.getDoubleFromCell(pair.cell)).isEqualTo(pair.expected);
             } catch (Exception ex) {
                 Assertions.assertThat(ex).isExactlyInstanceOf(StringInNumericCellException.class);
-                Assertions.assertThat(((StringInNumericCellException)ex).getCell()).isEqualTo(pair.cell);
+                Assertions.assertThat(((StringInNumericCellException) ex).getCell()).isEqualTo(pair.cell);
             }
         }
     }

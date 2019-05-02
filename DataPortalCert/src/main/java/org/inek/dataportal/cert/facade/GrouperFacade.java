@@ -1,15 +1,17 @@
 package org.inek.dataportal.cert.facade;
 
+import org.inek.dataportal.cert.entities.AdditionalEmail;
+import org.inek.dataportal.cert.entities.Grouper;
+import org.inek.dataportal.cert.entities.GrouperAction;
+import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.account.entities.Account;
+
+import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
-import javax.ejb.Stateless;
-import javax.persistence.TypedQuery;
-import org.inek.dataportal.cert.entities.AdditionalEmail;
-import org.inek.dataportal.cert.entities.Grouper;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.AbstractDataAccess;
 
 /**
  *
@@ -100,5 +102,9 @@ public class GrouperFacade extends AbstractDataAccess {
         String query = "SELECT g FROM Grouper g JOIN RemunerationSystem s on g._system._id = s._id WHERE "
                 + "g._certStatus = 90 AND g._websiteRelease IS NULL AND s._active = 1";
         return getEntityManager().createQuery(query, Grouper.class).getResultList();
+    }
+
+    public void saveAction(GrouperAction action) {
+        super.merge(action);
     }
 }
