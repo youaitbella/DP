@@ -14,7 +14,7 @@ public class CellImportHelper {
 
     public static String getStringFromCell(Cell cell, Boolean allowNullValue) throws Exception {
         if (cell == null && allowNullValue) return "";
-        isFormulaInCellCheck(cell);
+        assertNoFormula(cell);
         if (cell.getCellTypeEnum().equals(CellType.NUMERIC)) {
             try {
                 int numericCellValue = (int) cell.getNumericCellValue();
@@ -32,7 +32,7 @@ public class CellImportHelper {
 
     public static Integer getIntegerFromCell(Cell cell, Boolean acceptDouble, Boolean allowNullValue) throws Exception {
         if (cell == null && allowNullValue) return 0;
-        isFormulaInCellCheck(cell);
+        assertNoFormula(cell);
         if (cell.getCellTypeEnum().equals(CellType.NUMERIC)) {
             int numericCellValue = (int) cell.getNumericCellValue();
             if (numericCellValue == cell.getNumericCellValue() || acceptDouble) {
@@ -57,7 +57,7 @@ public class CellImportHelper {
     public static double getDoubleFromCell(Cell cell, Boolean allowNullValue, Boolean allowFormula) throws Exception {
         if (cell == null && allowNullValue) return 0;
         if (!allowFormula) {
-            isFormulaInCellCheck(cell);
+            assertNoFormula(cell);
         }
 
         if (cell.getCellTypeEnum().equals(CellType.NUMERIC) || (cell.getCellTypeEnum().equals(CellType.FORMULA) && allowFormula)) {
@@ -70,7 +70,7 @@ public class CellImportHelper {
         }
     }
 
-    private static void isFormulaInCellCheck(Cell cell) throws Exception {
+    private static void assertNoFormula(Cell cell) throws Exception {
         if (cell == null) return;
         if (cell.getCellTypeEnum().equals(CellType.FORMULA)) {
             throw new FormulaInCellException(cell);
