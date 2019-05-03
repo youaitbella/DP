@@ -13,6 +13,7 @@ import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.Right;
+import org.inek.dataportal.common.helper.AccessRightHelper;
 import org.inek.dataportal.common.helper.Utils;
 
 import javax.annotation.PostConstruct;
@@ -32,19 +33,19 @@ public class IkAdminTasks implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("IkAdminTasks");
-
+    private final Map<String, List<AccountResponsibility>> _responsibleForIks = new HashMap<>();
     @Inject
     private SessionController _sessionController;
     @Inject
     private IkAdminFacade _ikAdminFacade;
     @Inject
     private AccountFacade _accountFacade;
-
     private List<AccessRight> _accessRights;
     private int _ik;
     private int _accountId;
     private Account _account;
     private List<Account> _accounts = new ArrayList<>();
+    private int _featureId;
 
     public int getAccountId() {
         return _accountId;
@@ -139,8 +140,6 @@ public class IkAdminTasks implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    private final Map<String, List<AccountResponsibility>> _responsibleForIks = new HashMap<>();
-
     private String buildKey(int accountId, Feature feature, int ik) {
         return accountId + "|" + feature.name() + "|" + ik;
     }
@@ -160,42 +159,44 @@ public class IkAdminTasks implements Serializable {
         _responsibleForIks.get(key).remove(responsibility);
     }
 
-    public Boolean isIkDeletionAllowed(int ik) {
-        return true;
-    }
-
     public void addIk(int accountId, Feature feature) {
         String key = buildKey(accountId, feature, _ik);
         _responsibleForIks.get(key).add(new AccountResponsibility(accountId, feature, _ik, 0));
     }
 
     public String saveResponsibilities() {
-        _ikAdminFacade.saveResponsibilities(_responsibleForIks);
-        DialogController.showSaveDialog();
-        return "";
+
+        StringBuilder errorMessages = new StringBuilder();
+
+        if (AccessRightHelper.responsibilitiesHasNotToMuchUsers(_responsibleForIks, errorMessages)) {
+            _ikAdminFacade.saveResponsibilities(_responsibleForIks);
+            DialogController.showSaveDialog();
+            return "";
+        }
+        else {
+            DialogController.showWarningDialog("Fehler beim speichern", errorMessages.toString());
+            return "";
+        }
     }
 
     public String saveAccessRights() {
         try {
-            if (saveAccessRightsAllowed(_accessRights)) {
+            StringBuilder errorMessages = new StringBuilder();
+            if (!AccessRightHelper.accessWriteHasNotToMuchUsers(_accessRights, errorMessages)
+                    || !AccessRightHelper.accessWriteHasMinOneWithAccesRigth(_accessRights, errorMessages)) {
+                DialogController.showWarningDialog("Fehler beim speichern", errorMessages.toString());
+            } else {
                 for (AccessRight accessRight : _accessRights) {
                     _ikAdminFacade.saveAccessRight(accessRight);
                 }
                 DialogController.showSaveDialog();
-                return null;
-            } else {
-                DialogController.showWarningDialog("Fehler beim speichern", "Für eine oder mehrere Funktionen "
-                        + "besteht kein Zugriff durch einen Benutzer. Bitte passen Sie die Berechtigungen so an, "
-                        + "dass mindesten ein Benutzer die Daten einsehen kann.");
-                return null;
             }
+            return null;
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, ex.getMessage());
             return Pages.Error.URL();
         }
     }
-
-    private int _featureId;
 
     public int getFeatureId() {
         return _featureId;
@@ -226,7 +227,15 @@ public class IkAdminTasks implements Serializable {
 
         Feature feature = Feature.getFeatureFromId(_featureId);
         User user = new User(_account);
-        AccessRight accessRight = new AccessRight(user, _ik, feature, Right.Deny);
+
+        AccessRight accessRight;
+
+        if (AccessRightHelper.userCanGetAllRight(_accessRights, feature, _ik)) {
+            accessRight = new AccessRight(user, _ik, feature, Right.All);
+        } else {
+            accessRight = new AccessRight(user, _ik, feature, Right.Deny);
+        }
+
         accessRight = _ikAdminFacade.saveAccessRight(accessRight);
         _accessRights.add(accessRight);
         if (!_account.getFullIkSet().contains(_ik)) {
@@ -241,18 +250,6 @@ public class IkAdminTasks implements Serializable {
         DialogController.showSaveDialog();
     }
     // </editor-fold>
-
-    public boolean saveAccessRightsAllowed(List<AccessRight> accessRights) {
-        for (AccessRight ar : accessRights) {
-            if (!accessRights.stream()
-                    .anyMatch(c -> c.getIk() == ar.getIk()
-                            && c.getFeature() == ar.getFeature()
-                            && c.getRight() != Right.Deny)) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     private void buildAccountList() {
         _accounts.clear();

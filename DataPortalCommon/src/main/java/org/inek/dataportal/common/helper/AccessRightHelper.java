@@ -1,18 +1,75 @@
 package org.inek.dataportal.common.helper;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.IkUsage;
 import org.inek.dataportal.api.enums.ManagedBy;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
+import org.inek.dataportal.common.data.common.User;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
 import org.inek.dataportal.common.enums.Right;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AccessRightHelper {
+
+    public static boolean userCanGetAllRight(List<AccessRight> accessRights, Feature feature, int ik) {
+        List<AccessRight> tmpAccessRights = accessRights.stream().filter(c -> c.getFeature().equals(feature) && c.getIk() == ik)
+                .collect(Collectors.toList());
+        StringBuilder tmpStringBuilder = new StringBuilder();
+        if (!accessWriteHasNotToMuchUsers(accessRights, tmpStringBuilder)) {
+            return false;
+        } else {
+            AccessRight accessRight = new AccessRight(new User(), ik, feature, Right.All);
+            tmpAccessRights.add(accessRight);
+            return accessWriteHasNotToMuchUsers(tmpAccessRights, tmpStringBuilder);
+        }
+    }
+
+    public static boolean accessWriteHasNotToMuchUsers(List<AccessRight> accessRights, StringBuilder stringBuilder) {
+        for (AccessRight ar : accessRights.stream()
+                .filter(c -> !c.getFeature().getIkUsage().equals(IkUsage.ByResponsibilityAndCorrelation)).collect(Collectors.toList())) {
+            int maxUsersWithAccess = ar.getFeature().getMaxUsersWithAccess();
+
+            long usersWithRight = accessRights.stream().filter(c -> c.getIk() == ar.getIk()
+                    && c.getFeature() == ar.getFeature()
+                    && c.getRight() != Right.Deny)
+                    .count();
+            if (usersWithRight > maxUsersWithAccess) {
+                stringBuilder.append("Für die Funktion [");
+                stringBuilder.append(ar.getFeature().getDescription());
+                stringBuilder.append("] wurden zuvielen Benutzern Rechte zugewiesen. Maximal erlaubt: ");
+                stringBuilder.append(maxUsersWithAccess);
+                stringBuilder.append(", Benutzer Rechte vergeben: ");
+                stringBuilder.append(usersWithRight);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean accessWriteHasMinOneWithAccesRigth(List<AccessRight> accessRights, StringBuilder stringBuilder) {
+        for (AccessRight ar : accessRights) {
+            if (accessRights.stream()
+                    .noneMatch(c -> c.getIk() == ar.getIk()
+                            && c.getFeature() == ar.getFeature()
+                            && c.getRight() != Right.Deny)) {
+                stringBuilder.append("Für die Funktion [");
+                stringBuilder.append(ar.getFeature().getDescription());
+                stringBuilder.append("] besteht kein Zugriff durch einen Benutzer. Bitte passen Sie die Berechtigungen so an, ");
+                stringBuilder.append("dass mindesten ein Benutzer die Daten einsehen kann.");
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void ensureRightsForAccountFeature(Account account, List<IkAdmin> ikAdminsForIk,
                                                      Set<Integer> ikAdminsForMailing,
@@ -29,8 +86,8 @@ public class AccessRightHelper {
     }
 
     public static void ensureFeatureAndRightsForIkAdminOnly(Account account, List<IkAdmin> ikAdminsForIk,
-                                                     Set<Integer> ikAdminsForMailing,
-                                                     int ik) {
+                                                            Set<Integer> ikAdminsForMailing,
+                                                            int ik) {
         for (Feature feature : Feature.values()) {
             if (feature.getManagedBy() == ManagedBy.IkAdminOnly && account.getFeatures().stream().noneMatch(c -> c.getFeature() == feature)) {
                 if (hasIkAdmin(ikAdminsForIk, feature)) {
@@ -62,4 +119,35 @@ public class AccessRightHelper {
                         && ar.getFeature() == feature);
     }
 
+    public static boolean responsibilitiesHasNotToMuchUsers(Map<String, List<AccountResponsibility>> responsibleForIks, StringBuilder errorMessages) {
+        List<AccountResponsibility> accountResponsibilities = new ArrayList<>();
+
+        for (String key : responsibleForIks.keySet()) {
+            accountResponsibilities.addAll(responsibleForIks.get(key));
+        }
+
+        List<Feature> distinctFeatures = accountResponsibilities.stream().map(AccountResponsibility::getFeature)
+                .distinct()
+                .collect(Collectors.toList());
+        for (Feature fe : distinctFeatures) {
+            int maxUsersWithAccess = fe.getMaxUsersWithAccess();
+            for (AccountResponsibility accountResponsibility : accountResponsibilities.stream()
+                    .filter(c -> c.getFeature().equals(fe)).collect(Collectors.toList())) {
+                float usersWithAccess = accountResponsibilities.stream()
+                        .filter(c -> c.getDataIk() == accountResponsibility.getDataIk())
+                        .count();
+                if (usersWithAccess > maxUsersWithAccess) {
+                    errorMessages.append("Für das IK [");
+                    errorMessages.append(accountResponsibility.getDataIk());
+                    errorMessages.append("] wurden zuvielen Benutzern Rechte zugewiesen. Maximal erlaubt: ");
+                    errorMessages.append(maxUsersWithAccess);
+                    errorMessages.append(", Benutzer Rechte vergeben: ");
+                    errorMessages.append(usersWithAccess);
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }

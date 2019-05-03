@@ -4,16 +4,302 @@ import org.assertj.core.api.Assertions;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
 import org.inek.dataportal.common.enums.Right;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 class AccessRightHelperTest {
+
+    @Test
+    public void userCanGetAllRightWithMaxUsers() {
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.HC_HOSPITAL, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.HC_HOSPITAL, Right.All));
+        rights.add(new AccessRight(13, 222222222, Feature.HC_HOSPITAL, Right.All));
+        rights.add(new AccessRight(14, 222222222, Feature.HC_HOSPITAL, Right.Write));
+
+        Assertions.assertThat(AccessRightHelper.userCanGetAllRight(rights, Feature.HC_HOSPITAL, 222222222)).isFalse();
+        Assertions.assertThat(rights).hasSize(4);
+    }
+
+    @Test
+    public void userCanGetAllRightWithExactUsers() {
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.HC_HOSPITAL, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.HC_HOSPITAL, Right.All));
+        rights.add(new AccessRight(13, 222222222, Feature.HC_HOSPITAL, Right.All));
+
+        Assertions.assertThat(AccessRightHelper.userCanGetAllRight(rights, Feature.HC_HOSPITAL, 222222222)).isFalse();
+        Assertions.assertThat(rights).hasSize(3);
+    }
+
+    @Test
+    public void userCanGetAllRightWithFreePlaceUsers() {
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.HC_HOSPITAL, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.HC_HOSPITAL, Right.All));
+        rights.add(new AccessRight(13, 222222222, Feature.HC_HOSPITAL, Right.Deny));
+
+        Assertions.assertThat(AccessRightHelper.userCanGetAllRight(rights, Feature.HC_HOSPITAL, 222222222)).isTrue();
+        Assertions.assertThat(rights).hasSize(3);
+    }
+
+    @Test
+    public void accessWriteHasNotToMuchUsersWithToMuchUsersTest() {
+        StringBuilder errorMessage = new StringBuilder();
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.HC_HOSPITAL, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.HC_HOSPITAL, Right.All));
+        rights.add(new AccessRight(13, 222222222, Feature.HC_HOSPITAL, Right.All));
+        rights.add(new AccessRight(14, 222222222, Feature.HC_HOSPITAL, Right.Write));
+
+        Assertions.assertThat(AccessRightHelper.accessWriteHasNotToMuchUsers(rights, errorMessage)).isFalse();
+        Assertions.assertThat(errorMessage).isNotEmpty();
+    }
+
+    @Test
+    public void accessWriteHasNotToMuchUsersWithNotToMuchUsers_2Test() {
+        StringBuilder errorMessage = new StringBuilder();
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.CARE, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.CARE, Right.All));
+        rights.add(new AccessRight(13, 222222222, Feature.CARE, Right.All));
+        rights.add(new AccessRight(14, 222222222, Feature.CARE, Right.Write));
+
+        Assertions.assertThat(AccessRightHelper.accessWriteHasNotToMuchUsers(rights, errorMessage)).isTrue();
+        Assertions.assertThat(errorMessage).isEmpty();
+    }
+
+    @Test
+    public void accessWriteHasNotToMuchUsersWithNotToMuchUsersMultipleIkTest() {
+        StringBuilder errorMessage = new StringBuilder();
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.HC_HOSPITAL, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.HC_HOSPITAL, Right.All));
+        rights.add(new AccessRight(13, 222222222, Feature.HC_HOSPITAL, Right.All));
+        rights.add(new AccessRight(11, 222222223, Feature.HC_HOSPITAL, Right.Write));
+
+        Assertions.assertThat(AccessRightHelper.accessWriteHasNotToMuchUsers(rights, errorMessage)).isTrue();
+        Assertions.assertThat(errorMessage).isEmpty();
+    }
+
+    @Test
+    public void accessWriteHasNotToMuchUsersWithNotToMuchUsersTest() {
+        StringBuilder errorMessage = new StringBuilder();
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.HC_HOSPITAL, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.HC_HOSPITAL, Right.All));
+        rights.add(new AccessRight(13, 222222222, Feature.HC_HOSPITAL, Right.All));
+        rights.add(new AccessRight(14, 222222222, Feature.HC_HOSPITAL, Right.Deny));
+
+        Assertions.assertThat(AccessRightHelper.accessWriteHasNotToMuchUsers(rights, errorMessage)).isTrue();
+        Assertions.assertThat(errorMessage).isEmpty();
+    }
+
+    @Test
+    public void accessWriteHasNotToMuchUsersWithNotToMuchUsersAndResponsibleForIkTest() {
+        StringBuilder errorMessage = new StringBuilder();
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.HC_INSURANCE, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.HC_INSURANCE, Right.All));
+        rights.add(new AccessRight(13, 222222222, Feature.HC_INSURANCE, Right.All));
+        rights.add(new AccessRight(14, 222222222, Feature.HC_INSURANCE, Right.Deny));
+
+        Assertions.assertThat(AccessRightHelper.accessWriteHasNotToMuchUsers(rights, errorMessage)).isTrue();
+        Assertions.assertThat(errorMessage).isEmpty();
+    }
+
+    @Test
+    public void accessWriteHasNotToMuchUsersWithToMuchUsersAndResponsibleForIkTest() {
+        StringBuilder errorMessage = new StringBuilder();
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.HC_INSURANCE, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.HC_INSURANCE, Right.All));
+        rights.add(new AccessRight(13, 222222222, Feature.HC_INSURANCE, Right.All));
+        rights.add(new AccessRight(14, 222222222, Feature.HC_INSURANCE, Right.All));
+
+        Assertions.assertThat(AccessRightHelper.accessWriteHasNotToMuchUsers(rights, errorMessage)).isTrue();
+        Assertions.assertThat(errorMessage).isEmpty();
+    }
+
+    @Test
+    public void accessWriteHasMinOneWithAccesRigthWithOneFeatureOnlyDenyTest() {
+        StringBuilder errorMessage = new StringBuilder();
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.CERT, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.DRG_PROPOSAL, Right.Deny));
+
+        Assertions.assertThat(AccessRightHelper.accessWriteHasMinOneWithAccesRigth(rights, errorMessage)).isFalse();
+        Assertions.assertThat(errorMessage.toString()).isNotEmpty();
+    }
+
+    @Test
+    public void accessWriteHasMinOneWithAccesRigthWithNoFeatureOnlyDenyTest() {
+        StringBuilder errorMessage = new StringBuilder();
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.CERT, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.DRG_PROPOSAL, Right.Deny));
+        rights.add(new AccessRight(13, 222222222, Feature.DRG_PROPOSAL, Right.Write));
+
+        Assertions.assertThat(AccessRightHelper.accessWriteHasMinOneWithAccesRigth(rights, errorMessage)).isTrue();
+        Assertions.assertThat(errorMessage).isEmpty();
+    }
+
+    @Test
+    public void accessWriteHasMinOneWithAccesRigthWithOneFeatureOnlyDenyMultiIkTest() {
+        StringBuilder errorMessage = new StringBuilder();
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.CERT, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.DRG_PROPOSAL, Right.Deny));
+        rights.add(new AccessRight(13, 222222222, Feature.DRG_PROPOSAL, Right.Write));
+        rights.add(new AccessRight(11, 222222223, Feature.CALCULATION_HOSPITAL, Right.Deny));
+        rights.add(new AccessRight(12, 222222223, Feature.CALCULATION_HOSPITAL, Right.Deny));
+        rights.add(new AccessRight(13, 222222223, Feature.CALCULATION_HOSPITAL, Right.Deny));
+
+        Assertions.assertThat(AccessRightHelper.accessWriteHasMinOneWithAccesRigth(rights, errorMessage)).isFalse();
+        Assertions.assertThat(errorMessage).isNotEmpty();
+    }
+
+    @Test
+    public void accessWriteHasMinOneWithAccesRigthWithOneFeatureOnlyDenyMultiIk_2Test() {
+        StringBuilder errorMessage = new StringBuilder();
+        List<AccessRight> rights = new ArrayList<>();
+
+        rights.add(new AccessRight(10, 222222222, Feature.CERT, Right.Read));
+        rights.add(new AccessRight(11, 222222222, Feature.DRG_PROPOSAL, Right.Deny));
+        rights.add(new AccessRight(13, 222222222, Feature.DRG_PROPOSAL, Right.Write));
+        rights.add(new AccessRight(11, 222222223, Feature.CALCULATION_HOSPITAL, Right.Deny));
+        rights.add(new AccessRight(12, 222222223, Feature.CALCULATION_HOSPITAL, Right.Deny));
+        rights.add(new AccessRight(13, 222222223, Feature.CALCULATION_HOSPITAL, Right.Deny));
+        rights.add(new AccessRight(14, 222222224, Feature.CALCULATION_HOSPITAL, Right.All));
+
+        Assertions.assertThat(AccessRightHelper.accessWriteHasMinOneWithAccesRigth(rights, errorMessage)).isFalse();
+        Assertions.assertThat(errorMessage).isNotEmpty();
+    }
+
+    @Test
+    public void responsibilitiesHasNotToMuchUsersWithNotToMuchUsersTest() {
+        StringBuilder errorMessage = new StringBuilder();
+
+        Map<String, List<AccountResponsibility>> responsibleForIks = new HashMap<>();
+
+        List<AccountResponsibility> accountResponsibilities1 = new ArrayList<>();
+        accountResponsibilities1.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        responsibleForIks.put("1", accountResponsibilities1);
+
+        List<AccountResponsibility> accountResponsibilities2 = new ArrayList<>();
+        accountResponsibilities2.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        responsibleForIks.put("2", accountResponsibilities2);
+
+        Assertions.assertThat(AccessRightHelper.responsibilitiesHasNotToMuchUsers(responsibleForIks, errorMessage)).isTrue();
+        Assertions.assertThat(errorMessage).isEmpty();
+
+        List<AccountResponsibility> accountResponsibilities3 = new ArrayList<>();
+        accountResponsibilities3.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        responsibleForIks.put("3", accountResponsibilities3);
+
+        Assertions.assertThat(AccessRightHelper.responsibilitiesHasNotToMuchUsers(responsibleForIks, errorMessage)).isTrue();
+        Assertions.assertThat(errorMessage).isEmpty();
+    }
+
+    @Test
+    public void responsibilitiesHasNotToMuchUsersWithToMuchUsersTest() {
+        StringBuilder errorMessage = new StringBuilder();
+
+        Map<String, List<AccountResponsibility>> responsibleForIks = new HashMap<>();
+
+        List<AccountResponsibility> accountResponsibilities1 = new ArrayList<>();
+        accountResponsibilities1.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        responsibleForIks.put("1", accountResponsibilities1);
+
+        List<AccountResponsibility> accountResponsibilities2 = new ArrayList<>();
+        accountResponsibilities2.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        responsibleForIks.put("2", accountResponsibilities2);
+
+        List<AccountResponsibility> accountResponsibilities3 = new ArrayList<>();
+        accountResponsibilities3.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        responsibleForIks.put("3", accountResponsibilities3);
+
+        List<AccountResponsibility> accountResponsibilities4 = new ArrayList<>();
+        accountResponsibilities4.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        responsibleForIks.put("4", accountResponsibilities4);
+
+        Assertions.assertThat(AccessRightHelper.responsibilitiesHasNotToMuchUsers(responsibleForIks, errorMessage)).isFalse();
+        Assertions.assertThat(errorMessage).isNotEmpty();
+    }
+
+    @Test
+    public void responsibilitiesHasNotToMuchUsersWithNotToMuchUsersMultipleIkTest() {
+        StringBuilder errorMessage = new StringBuilder();
+
+        Map<String, List<AccountResponsibility>> responsibleForIks = new HashMap<>();
+
+        List<AccountResponsibility> accountResponsibilities1 = new ArrayList<>();
+        accountResponsibilities1.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        responsibleForIks.put("1", accountResponsibilities1);
+
+        List<AccountResponsibility> accountResponsibilities2 = new ArrayList<>();
+        accountResponsibilities2.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        responsibleForIks.put("2", accountResponsibilities2);
+
+        List<AccountResponsibility> accountResponsibilities3 = new ArrayList<>();
+        accountResponsibilities3.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        accountResponsibilities3.add(createNewAccountResponsibility(22222223, Feature.HC_INSURANCE));
+        responsibleForIks.put("3", accountResponsibilities3);
+
+        Assertions.assertThat(AccessRightHelper.responsibilitiesHasNotToMuchUsers(responsibleForIks, errorMessage)).isTrue();
+        Assertions.assertThat(errorMessage).isEmpty();
+    }
+
+    @Test
+    public void responsibilitiesHasNotToMuchUsersWithToMuchUsersMultipleIkTest() {
+        StringBuilder errorMessage = new StringBuilder();
+
+        Map<String, List<AccountResponsibility>> responsibleForIks = new HashMap<>();
+
+        List<AccountResponsibility> accountResponsibilities1 = new ArrayList<>();
+        accountResponsibilities1.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        responsibleForIks.put("1", accountResponsibilities1);
+
+        List<AccountResponsibility> accountResponsibilities2 = new ArrayList<>();
+        accountResponsibilities2.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        responsibleForIks.put("2", accountResponsibilities2);
+
+        List<AccountResponsibility> accountResponsibilities3 = new ArrayList<>();
+        accountResponsibilities3.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        accountResponsibilities3.add(createNewAccountResponsibility(22222223, Feature.HC_INSURANCE));
+        responsibleForIks.put("3", accountResponsibilities3);
+
+        List<AccountResponsibility> accountResponsibilities4 = new ArrayList<>();
+        accountResponsibilities4.add(createNewAccountResponsibility(22222222, Feature.HC_INSURANCE));
+        responsibleForIks.put("4", accountResponsibilities4);
+
+        Assertions.assertThat(AccessRightHelper.responsibilitiesHasNotToMuchUsers(responsibleForIks, errorMessage)).isFalse();
+        Assertions.assertThat(errorMessage).isNotEmpty();
+    }
+
+    private AccountResponsibility createNewAccountResponsibility(int dataIk, Feature feature) {
+        AccountResponsibility responsibility = new AccountResponsibility();
+        responsibility.setDataIk(dataIk);
+        responsibility.setFeature(feature);
+        return responsibility;
+    }
+
 
     @Test
     public void ensureRightsForAccountFeatureWithNonExistsRightsTest() {
@@ -40,7 +326,7 @@ class AccessRightHelperTest {
                 .get().getRight()).isEqualTo(Right.Deny);
         Assertions.assertThat(acc.getAccessRights().stream().filter(c -> c.getFeature() == Feature.CALCULATION_HOSPITAL).findFirst()
                 .get().getRight()).isEqualTo(Right.Deny);
-        Assertions.assertThat(ikAdminsForEmailing).containsSequence(1,3);
+        Assertions.assertThat(ikAdminsForEmailing).containsSequence(1, 3);
     }
 
     @Test
@@ -83,7 +369,6 @@ class AccessRightHelperTest {
         Assertions.assertThat(acc.getAccessRights()).hasSize(0);
         Assertions.assertThat(ikAdminsForEmailing).isEmpty();
     }
-
 
 
     @Test

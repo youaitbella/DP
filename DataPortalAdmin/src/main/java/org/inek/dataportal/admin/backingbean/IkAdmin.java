@@ -18,6 +18,7 @@ import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.enums.Right;
+import org.inek.dataportal.common.helper.AccessRightHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.scope.FeatureScoped;
@@ -179,12 +180,22 @@ public class IkAdmin implements Serializable {
             _account.addIk(_ik);
         }
 
+        List<AccessRight> existsAccessRights = _ikAdminFacade.findAccessRights(_ik);
+
         for (Feature fe : _selectedFeatures.stream()
                 .filter(c -> c.getManagedBy() == ManagedBy.IkAdminOnly)
                 .collect(Collectors.toList())) {
             if (_account.getFeatures().stream().noneMatch(f -> f.getFeature() == fe)) {
                 _account.addFeature(fe, true);
-                AccessRight accessRight = new AccessRight(_account.getId(), _ik, fe, Right.All);
+
+                AccessRight accessRight;
+
+                if(AccessRightHelper.userCanGetAllRight(existsAccessRights, fe, _ik)) {
+                    accessRight = new AccessRight(_account.getId(), _ik, fe, Right.All);
+                }
+                else {
+                    accessRight = new AccessRight(_account.getId(), _ik, fe, Right.Deny);
+                }
                 _ikAdminFacade.saveAccessRight(accessRight);
             }
         }
@@ -230,7 +241,15 @@ public class IkAdmin implements Serializable {
                         .anyMatch(ar -> ar.getAccountId() == account.getId() && ar.getFeature() == feature.getFeature())) {
                     continue;
                 }
-                AccessRight accessRight = new AccessRight(account.getId(), ik, feature.getFeature(), Right.All);
+                AccessRight accessRight;
+
+                if(AccessRightHelper.userCanGetAllRight(accessRights, feature.getFeature(), _ik)) {
+                    accessRight = new AccessRight(_account.getId(), _ik, feature.getFeature(), Right.All);
+                }
+                else {
+                    accessRight = new AccessRight(_account.getId(), _ik, feature.getFeature(), Right.Deny);
+                }
+
                 _ikAdminFacade.saveAccessRight(accessRight);
             }
         }
