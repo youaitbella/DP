@@ -5,6 +5,7 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.ikadmin.entity.*;
+import org.inek.dataportal.common.enums.Right;
 
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
@@ -43,6 +44,9 @@ public class IkAdminFacade extends AbstractDataAccess {
     public AccessRight saveAccessRight(AccessRight accessRight) {
         try {
             if (accessRight.getId() > 0) {
+                if (accessRight.getRight().equals(Right.Deny)) {
+                    deleteAccountResponsibilities(accessRight.getAccountId(), accessRight.getFeature(), accessRight.getIk());
+                }
                 return merge(accessRight);
             } else {
                 persist(accessRight);
