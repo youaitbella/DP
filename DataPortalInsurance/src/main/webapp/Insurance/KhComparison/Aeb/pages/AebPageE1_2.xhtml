@@ -69,6 +69,7 @@
                           icon="fa fa-plus"
                           process="@this"
                           action="#{edit.addNewPageE1_2()}"
+                          oncomplete="PF('pagesE12').paginator.setPage(PF('pagesE12').paginator.cfg.pageCount - 1);"
                           rendered="#{!edit.isReadOnly()}"
                           update="listpagee12"/>
     </div>
