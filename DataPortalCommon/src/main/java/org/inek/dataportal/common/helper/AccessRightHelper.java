@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class AccessRightHelper {
 
@@ -45,9 +44,9 @@ public class AccessRightHelper {
             if (usersWithRight > maxUsersWithAccess) {
                 stringBuilder.append("Für die Funktion [");
                 stringBuilder.append(ar.getFeature().getDescription());
-                stringBuilder.append("] wurden zuvielen Benutzern Rechte zugewiesen. Maximal erlaubt: ");
+                stringBuilder.append("] wurden zu vielen Benutzern Rechte zugewiesen. \\r\\nMaximal erlaubt: ");
                 stringBuilder.append(maxUsersWithAccess);
-                stringBuilder.append(", Benutzer Rechte vergeben: ");
+                stringBuilder.append("\\r\\nBenutzer Rechte vergeben: ");
                 stringBuilder.append(usersWithRight);
                 return false;
             }
@@ -133,15 +132,15 @@ public class AccessRightHelper {
             int maxUsersWithAccess = fe.getMaxUsersWithAccess();
             for (AccountResponsibility accountResponsibility : accountResponsibilities.stream()
                     .filter(c -> c.getFeature().equals(fe)).collect(Collectors.toList())) {
-                float usersWithAccess = accountResponsibilities.stream()
+                long usersWithAccess = accountResponsibilities.stream()
                         .filter(c -> c.getDataIk() == accountResponsibility.getDataIk())
                         .count();
                 if (usersWithAccess > maxUsersWithAccess) {
                     errorMessages.append("Für das IK [");
                     errorMessages.append(accountResponsibility.getDataIk());
-                    errorMessages.append("] wurden zuvielen Benutzern Rechte zugewiesen. Maximal erlaubt: ");
+                    errorMessages.append("] wurden zu vielen Benutzern Rechte zugewiesen. \\r\\nMaximal erlaubt: ");
                     errorMessages.append(maxUsersWithAccess);
-                    errorMessages.append(", Benutzer Rechte vergeben: ");
+                    errorMessages.append(", \\r\\nBenutzer Rechte vergeben: ");
                     errorMessages.append(usersWithAccess);
                     return false;
                 }
