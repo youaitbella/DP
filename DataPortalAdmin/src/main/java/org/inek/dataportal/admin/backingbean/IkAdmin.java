@@ -244,10 +244,10 @@ public class IkAdmin implements Serializable {
                 AccessRight accessRight;
 
                 if(AccessRightHelper.userCanGetAllRight(accessRights, feature.getFeature(), _ik)) {
-                    accessRight = new AccessRight(_account.getId(), _ik, feature.getFeature(), Right.All);
+                    accessRight = new AccessRight(account.getId(), _ik, feature.getFeature(), Right.All);
                 }
                 else {
-                    accessRight = new AccessRight(_account.getId(), _ik, feature.getFeature(), Right.Deny);
+                    accessRight = new AccessRight(account.getId(), _ik, feature.getFeature(), Right.Deny);
                 }
 
                 _ikAdminFacade.saveAccessRight(accessRight);
