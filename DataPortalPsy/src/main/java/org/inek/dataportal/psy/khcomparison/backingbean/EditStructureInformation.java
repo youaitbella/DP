@@ -323,7 +323,7 @@ public class EditStructureInformation {
 
     public Boolean structureInformationReadonly(StructureInformation info) {
         return StructureinformationHelper.structureInformationIsReadonly(info,
-                getStructureInformationsByStructureCategorie(info.getStructureCategorie().name()), createCurrentDate());
+                getStructureInformationsByStructureCategorie(info.getStructureCategorie().name()), createCurrentDate()) && !isReadOnly();
     }
 
     public List<SelectItem> validModelIntentionItems() {

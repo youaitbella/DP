@@ -68,6 +68,12 @@ public class AEBFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    public List<StructureBaseInformation> getAllStructureBaseInformations() {
+        String sql = "SELECT bi FROM StructureBaseInformation bi ";
+        TypedQuery<StructureBaseInformation> query = getEntityManager().createQuery(sql, StructureBaseInformation.class);
+        return query.getResultList();
+    }
+
     public List<AEBBaseInformation> getAllByStatusAndIk(WorkflowStatus status, int ik, CustomerTyp typ) {
         String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._status = :status "
                 + "and bi._ik = :ik "

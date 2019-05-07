@@ -15,14 +15,27 @@ public enum CustomerTyp {
     Insurance(1, "Krankenkasse");
 
     private final int _id;
-    private final String _textId;
+    private final String _name;
 
     CustomerTyp(int id, String textId) {
         _id = id;
-        _textId = textId;
+        _name = textId;
     }
 
     public int id() {
         return _id;
+    }
+
+    public String getName() {
+        return _name;
+    }
+
+    public static CustomerTyp valueById(int id) {
+        for (CustomerTyp value : CustomerTyp.values()) {
+            if (value.id() == id) {
+                return value;
+            }
+        }
+        return CustomerTyp.Hospital;
     }
 }

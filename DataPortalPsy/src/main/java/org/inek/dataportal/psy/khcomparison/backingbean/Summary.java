@@ -97,7 +97,11 @@ public class Summary {
         _listInek.clear();
 
         for(AEBBaseInformation info : _aebfacade.getAllByStatus(WorkflowStatus.Provided)) {
-            _listInek.add(new AebListEntry(info));
+            _listInek.add(new AebListEntry(info, info.getHospitalType().getName(), Pages.KhComparisonEdit));
+        }
+
+        for (StructureBaseInformation structureInfo : _aebfacade.getAllStructureBaseInformations()) {
+            _listInek.add(new AebListEntry(structureInfo, "Strukturinformation", Pages.StructureBaseInformationEdit));
         }
     }
 
@@ -136,6 +140,10 @@ public class Summary {
 
     public String khComparisonOpen() {
         return Pages.KhComparisonEdit.URL();
+    }
+
+    public String khComparisonOpen(Pages page) {
+        return page.URL();
     }
 
     public String structureBaseInformationOpen() {
@@ -184,13 +192,24 @@ public class Summary {
         private int _year;
         private String _type;
         private Date _sendAt;
+        private Pages _page;
 
-        public AebListEntry(AEBBaseInformation baseInfo) {
+        public AebListEntry(AEBBaseInformation baseInfo, String type, Pages page) {
             setId(baseInfo.getId());
             setIk(baseInfo.getIk());
             setYear(baseInfo.getYear());
-            setType(baseInfo.getTyp() == CustomerTyp.Hospital.id() ? "Krankenhaus" : "Krankenkassen");
+            setType(type);
             setSendAt(baseInfo.getSend());
+            setPage(page);
+        }
+
+        public AebListEntry(StructureBaseInformation baseInfo, String type, Pages page) {
+            setId(baseInfo.getId());
+            setIk(baseInfo.getIk());
+            setYear(0);
+            setType(type);
+            setSendAt(baseInfo.getLastChanged());
+            setPage(page);
         }
 
         public int getId() {
@@ -229,6 +248,12 @@ public class Summary {
 
         public void setSendAt(Date sendAt) {
             this._sendAt = sendAt;
+        }
+
+        public Pages getPage() { return _page; }
+
+        public void setPage(Pages page) {
+            this._page = page;
         }
     }
 }

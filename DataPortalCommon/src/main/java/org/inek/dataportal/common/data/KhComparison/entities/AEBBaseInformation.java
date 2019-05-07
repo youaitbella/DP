@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import org.inek.dataportal.common.data.converter.WorkflowStatusConverter;
+import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
@@ -222,6 +223,10 @@ public class AEBBaseInformation implements Serializable {
 
     public int getTyp() {
         return _typ;
+    }
+
+    public CustomerTyp getHospitalType() {
+        return CustomerTyp.valueById(_typ);
     }
 
     public void setTyp(int typ) {

@@ -24,13 +24,13 @@
                                   tableStyleClass="inekTablePsy">
                         <pf:column headerText="IK" filterable="true" filterBy="#{listEntry.ik}" sortable="true"
                                    sortBy="#{listEntry.ik}">
-                            <h:link outcome="#{summary.khComparisonOpen()}"
+                            <h:link outcome="#{summary.khComparisonOpen(listEntry.page)}"
                                     value="#{listEntry.ik}">
                                 <f:param name="id" value="#{listEntry.id}" />
                             </h:link>
                         </pf:column>
                         <pf:column headerText="Vereinbarungsjahr">
-                            <h:link outcome="#{summary.khComparisonOpen()}"
+                            <h:link outcome="#{summary.khComparisonOpen(listEntry.page)}"
                                     value="#{listEntry.year}">
                                 <f:param name="id" value="#{listEntry.id}" />
                             </h:link>
@@ -41,7 +41,7 @@
                             </h:outputText>
                         </pf:column>
                         <pf:column headerText="Herkunft">
-                            <h:link outcome="#{summary.khComparisonOpen()}"
+                            <h:link outcome="#{summary.khComparisonOpen(listEntry.page)}"
                                     value="#{listEntry.type}">
                                 <f:param name="id" value="#{listEntry.id}" />
                             </h:link>
