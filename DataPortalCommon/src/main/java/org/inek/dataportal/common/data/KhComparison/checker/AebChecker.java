@@ -50,7 +50,7 @@ public class AebChecker {
         return getMessage().isEmpty();
     }
 
-    private void checkPageB1(AEBBaseInformation info) {
+    public void checkPageB1(AEBBaseInformation info) {
         int allowedDiffernz = 5;
 
         double sumE1_1 = 0;
@@ -68,10 +68,14 @@ public class AebChecker {
             addMessage("Blatt B1: Nr. 17 ist ungleich Summe Bewertungsrelationen E1.1 + E1.2");
         }
 
-        if (info.getAebPageB1().getSumValuationRadioRenumeration() / info.getAebPageB1().getSumEffectivValuationRadio()
-                != info.getAebPageB1().getBasisRenumerationValueCompensation() && (info.getAebPageB1().getSumEffectivValuationRadio() > 0)) {
+        if (round(info.getAebPageB1().getSumValuationRadioRenumeration() / info.getAebPageB1().getSumEffectivValuationRadio())
+                != round(info.getAebPageB1().getBasisRenumerationValueCompensation()) && (info.getAebPageB1().getSumEffectivValuationRadio() > 0)) {
             addMessage("Blatt B1: Nr. 18 ist ungleich Nr. 16 / Nr. 17");
         }
+    }
+
+    private double round(double value) {
+        return (double)Math.round(value * 100d) / 100d;
     }
 
     private void checkPageE3_1(AEBBaseInformation info) {
@@ -149,11 +153,11 @@ public class AebChecker {
                 page.setValuationRadioDay(value);
                 continue;
             }
-            if (_sendCheck && page.getCompensationClass() * page.getCaseCount() != page.getCalculationDays()) {
+            if (_sendCheck && page.getCompensationClass() * page.getCaseCount() > page.getCalculationDays()) {
                 peppsForRemove.add(page);
                 addMessage(page.getImportetFrom() + ": Eintrag [" + page.getPepp() + "] Vergütungsklasse [" + page.getCompensationClass() + "]: " +
-                        "Berechnungstage [" + page.getCalculationDays() + "] stimmen nicht mit ermittelten Berechnungstagen " +
-                        "[" + (page.getCompensationClass() * page.getCaseCount()) + "] überein.");
+                        "Berechnungstage [" + page.getCalculationDays() + "] sind weniger als berechnete Berechnungstage " +
+                        "[" + (page.getCompensationClass() * page.getCaseCount()) + "] (Vergütungsklasse * Fallzahl).");
                 continue;
             }
         }
