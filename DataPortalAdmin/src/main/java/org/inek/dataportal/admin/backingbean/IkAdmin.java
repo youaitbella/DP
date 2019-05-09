@@ -130,6 +130,9 @@ public class IkAdmin implements Serializable {
     }
 
     public void checkAccountId(FacesContext context, UIComponent component, Object value) {
+        if(value == null) {
+            return;
+        }
         Account account = _accountFacade.findAccount((int) value);
         if (account == null) {
             String msg = Utils.getMessage("errUnknownAccount");
