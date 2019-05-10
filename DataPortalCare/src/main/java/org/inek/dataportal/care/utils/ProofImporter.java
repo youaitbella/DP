@@ -33,10 +33,10 @@ public class ProofImporter {
     private static final Logger LOGGER = Logger.getLogger(ProofImporter.class.getName());
     private String _message = "";
     private int _rowCounter = 0;
-    private Boolean _isBwHospital = false;
+    private Boolean _isCommentAllowed = false;
 
-    public ProofImporter(boolean isBwHospital) {
-        _isBwHospital = isBwHospital;
+    public ProofImporter(boolean isCommentAllowed) {
+        _isCommentAllowed = isCommentAllowed;
     }
 
     public String getMessage() {
@@ -210,7 +210,7 @@ public class ProofImporter {
         }
         else {
             String stringFromCell = getStringFromCell(cell);
-            if (!"".equals(stringFromCell) && !_isBwHospital) {
+            if (!"".equals(stringFromCell) && !_isCommentAllowed) {
                 LOGGER.log(Level.INFO, "Using comment is not allowed for ik. Adress:" + cell.getAddress());
                 addMessage("Kommentarspalte ist nur für Bundeswehkrankenhäuser. Wert an Position " + cell.getAddress() + " wird ignoriert");
                 return "";

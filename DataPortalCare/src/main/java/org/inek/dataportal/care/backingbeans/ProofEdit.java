@@ -86,15 +86,6 @@ public class ProofEdit implements Serializable {
     private BaseDataManager _baseDatamanager;
     private List<SelectItem> _listExceptionsFacts;
     private List<SortMeta> _preSortOrder = new ArrayList<>();
-    private Boolean _isBwHospital = false;
-
-    public Boolean getIsBwHospital() {
-        return _isBwHospital;
-    }
-
-    public void setIsBwHospital(Boolean isBwHospital) {
-        this._isBwHospital = isBwHospital;
-    }
 
     public List<SelectItem> getListExceptionsFacts() {
         return _listExceptionsFacts;
@@ -197,7 +188,6 @@ public class ProofEdit implements Serializable {
             loadExceptionsFactsList();
             fillExceptionsFactsList(_proofRegulationBaseInformation);
             _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
-            setIsBwHospital(_sessionController.getApplicationTools().isBwHospital(_proofRegulationBaseInformation.getIk()));
         }
         setReadOnly();
         buildSortOrder();
@@ -290,7 +280,6 @@ public class ProofEdit implements Serializable {
         save();
         _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
         setReadOnly();
-        setIsBwHospital(_sessionController.getApplicationTools().isBwHospital(_proofRegulationBaseInformation.getIk()));
     }
 
     private void loadBaseDataManager() {
@@ -488,7 +477,7 @@ public class ProofEdit implements Serializable {
 
     public void handleFileUpload(FileUploadEvent event) {
         try {
-            ProofImporter importer = new ProofImporter(_isBwHospital);
+            ProofImporter importer = new ProofImporter(true);
             importer.handleProofUpload(_proofRegulationBaseInformation, event.getFile().getInputstream());
             setUploadMessage(importer.getMessage());
         } catch (Exception ex) {
