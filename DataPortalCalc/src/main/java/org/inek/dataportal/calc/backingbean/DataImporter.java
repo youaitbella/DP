@@ -1731,7 +1731,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
 
     private T readLine(String line, int cntColumns, S calcBasics) {
 
-        T item = null;
+        T item;// = null;
         String[] data = splitLineInColumns(line, cntColumns);
         errorCounter.incRowCounter();
         if (data == null) {
@@ -1739,7 +1739,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             return null;
         }
         try {
-            item = createNewItem(item, calcBasics);
+            item = createNewItem(calcBasics);
             applyImport(item, data);
             String msg = BeanValidator.validateData(item);
             if (msg != null && !msg.isEmpty()) {
@@ -1753,8 +1753,8 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
         return item;
     }
 
-    private T createNewItem(T item, S calcBasics) throws IllegalAccessException, InstantiationException {
-        item = clazz.newInstance();
+    private T createNewItem(S calcBasics) throws IllegalAccessException, InstantiationException {
+        T item = clazz.newInstance();
         item.setBaseInformationId(calcBasics.getId());
         return item;
     }

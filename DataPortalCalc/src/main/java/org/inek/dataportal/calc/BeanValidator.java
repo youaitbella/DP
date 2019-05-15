@@ -28,7 +28,9 @@ public class BeanValidator {
             if (lineNum > 0) {
                 alertText += "Zeile " + lineNum + ": ";
             }
-            alertText += violation.getMessage() + "\\n";
+            //alertText += violation.getPropertyPath().toString();
+
+            alertText += violation.getMessage() + ": fehlerhafter Wert [" + violation.getInvalidValue() + "]\n";
         }
         return alertText;
     }

@@ -60,7 +60,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     @Documentation(name = "Nummer der Kostenstelle", rank = 20)
     private String _costCenterNumber = "";
 
-    @Size(max = 20)
+    @Size(max = 20, message = "[Nummer der Kostenstelle] muss zwischen 0 und 20 Zeichen lang sein")
     public String getCostCenterNumber() {
         return _costCenterNumber;
     }
@@ -75,7 +75,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     @Documentation(name = "Name Kostenstelle", rank = 30)
     private String _costCenterText = "";
 
-    @Size(max = 100)
+    @Size(max = 100, message = "[Name der Kostenstelle] muss zwischen 0 und 100 Zeichen lang sein")
     public String getCostCenterText() {
         return _costCenterText;
     }

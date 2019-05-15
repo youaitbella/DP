@@ -29,7 +29,8 @@ class DataImportCheck<T, I> implements Serializable {
     private final String errorMsg;
 
     DataImportCheck(
-            QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check, BiConsumer<T, I> assign,
+            QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check,
+            BiConsumer<T, I> assign,
             String errorMsg) {
         this.check = check;
         this.assign = assign;

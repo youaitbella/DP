@@ -62,7 +62,7 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
     @Documentation(name = "Nummer der Kostenstelle")
     private String _costCenterNumber = "";
 
-    @Size(max = 20)
+    @Size(max = 20, message = "[Kostenstellennummer] muss zwischen 0 und 20 Zeichen lang sein")
     public String getCostCenterNumber() {
         return _costCenterNumber;
     }
@@ -77,7 +77,7 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
     @Documentation(name = "Name der Kostenstelle", rank = 20)
     private String _costCenterText = "";
 
-    @Size(max = 50)
+    @Size(max = 50, message = "[Name der Kostenstelle] muss zwischen 0 und 50 Zeichen lang sein")
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -120,7 +120,7 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
     @Documentation(name = "Leistungsschlüssel", rank = 50)
     private String _serviceKey = "";
 
-    @Size(max = 50)
+    @Size(max = 50, message = "[Service] muss zwischen 0 und 50 Zeichen lang sein")
     public String getServiceKey() {
         return _serviceKey;
     }
