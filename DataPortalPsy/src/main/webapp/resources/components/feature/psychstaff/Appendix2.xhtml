@@ -71,7 +71,7 @@
                     <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" var="item" id="repeat" varStatus="status">
                         <tr>
                             <td class="row1">
-                                <h:outputText value="#{item.occupationalCategory.id}" styleClass="element02em"/>
+                                <h:outputText value="#{item.occupationalCategory.number}" styleClass="element02em"/>
                             </td>
 
                             <td class="row1"> 

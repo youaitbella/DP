@@ -15,13 +15,13 @@
                   value="#{edit.aebBaseInformation.personalAgreed}"
                   emptyMessage="Keine Einträge vorhanden"
                   tableStyle="table-layout: auto"
-                  sortBy="#{personal.occupationalCategoryId}"
+                  sortBy="#{personal.occupationalCategory.order}"
                   tableStyleClass="inekTablePsy">
         <pf:column headerText="Personalgruppe">
             <pf:outputLabel value="#{personal.occupationalCategory.personnelGroup.name}" />
         </pf:column>
         <pf:column headerText="Nr.">
-            <pf:outputLabel value="#{personal.occupationalCategory.id}" />
+            <pf:outputLabel value="#{personal.occupationalCategory.number}" />
         </pf:column>
         <pf:column headerText="Berufsgruppen">
             <pf:outputLabel value="#{personal.occupationalCategory.name}" />

@@ -147,7 +147,9 @@ public class PsychStaffFacade extends AbstractDataAccessWithActionLog {
     }
 
     public List<OccupationalCategory> getOccupationalCategories() {
-        return findAll(OccupationalCategory.class);
+        String sql = "SELECT oc FROM  OccupationalCategory oc WHERE oc._isPsyStaff = true";
+        TypedQuery<OccupationalCategory> query = getEntityManager().createQuery(sql, OccupationalCategory.class);
+        return query.getResultList();
     }
 
     public StaffProof saveStaffProof(StaffProof staffProof) {

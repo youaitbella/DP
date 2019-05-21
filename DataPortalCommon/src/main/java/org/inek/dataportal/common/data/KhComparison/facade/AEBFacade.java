@@ -190,7 +190,9 @@ public class AEBFacade extends AbstractDataAccess {
     }
 
     public List<OccupationalCategory> getOccupationalCategories() {
-        return findAll(OccupationalCategory.class);
+        String sql = "SELECT oc FROM  OccupationalCategory oc WHERE oc._isAeb = true";
+        TypedQuery<OccupationalCategory> query = getEntityManager().createQuery(sql, OccupationalCategory.class);
+        return query.getResultList();
     }
 
     public void insertOrUpdatePsyGroup(int ik, int year, PsyGroup psyGroup) {

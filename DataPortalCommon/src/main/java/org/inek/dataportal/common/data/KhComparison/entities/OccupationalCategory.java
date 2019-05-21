@@ -62,44 +62,64 @@ public class OccupationalCategory implements Serializable {
     @Documentation(key = "lblName")
     private String _name = "";
 
-    @Size(max = 50)
     public String getName() {
         return _name;
     }
+    // </editor-fold>
 
-    public void setName(String name) {
-        _name = name;
+    // <editor-fold defaultstate="collapsed" desc="Property Number">
+    @Column(name = "ocNumber")
+    private String _number = "";
+
+    public String getNumber() {
+        return _number;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Order">
+    @Column(name = "ocOrder")
+    private int _order = 0;
+
+    public int getOrder() {
+        return _order;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property IsPsyStaff">
+    @Column(name = "ocIsPsyStaff")
+    private Boolean _isPsyStaff = false;
+
+    public Boolean getIsPsyStaff() {
+        return _isPsyStaff;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property IsAeb">
+    @Column(name = "ocIsAeb")
+    private Boolean _isAeb = false;
+
+    public Boolean getIsAeb() {
+        return _isAeb;
     }
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="hashCode, equals, toString">
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + _personnelGroup.hashCode();
-        hash = 97 * hash + Objects.hashCode(_name);
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OccupationalCategory that = (OccupationalCategory) o;
+        return _order == that._order &&
+                Objects.equals(_personnelGroup, that._personnelGroup) &&
+                Objects.equals(_name, that._name) &&
+                Objects.equals(_number, that._number) &&
+                Objects.equals(_isPsyStaff, that._isPsyStaff) &&
+                Objects.equals(_isAeb, that._isAeb);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final OccupationalCategory other = (OccupationalCategory) obj;
-        if (this._personnelGroup != other._personnelGroup) {
-            return false;
-        }
-        if (!Objects.equals(this._name, other._name)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(_personnelGroup, _name, _number, _order, _isPsyStaff, _isAeb);
     }
 
     @Override
