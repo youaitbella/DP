@@ -94,7 +94,7 @@ public class Mailer implements Serializable {
             Session session = Session.getDefaultInstance(properties);
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
-            message.setSender(new InternetAddress("InEK-Datenportal <DSAnfragen@inek-drg.de>"));
+            message.setSender(new InternetAddress(from));
             if (_config.readConfigBool(ConfigKey.TestMode) && !_config.getDatabaseName().equals("DataPortal")) {
                 addReceipients(message, "dataportaldev@inek-drg.de", Message.RecipientType.TO);
                 body = createTestBody(recipient, cc, bcc) + body;
