@@ -185,7 +185,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     @Documentation(key = "lblComment")
     private String _correctionNote = "";
 
-    @Size(max = 500)
+    @Size(max = 500, message = "Es sind max. 500 Zeichen zulässig")
     public String getCorrectionNote() {
         return _correctionNote;
     }
