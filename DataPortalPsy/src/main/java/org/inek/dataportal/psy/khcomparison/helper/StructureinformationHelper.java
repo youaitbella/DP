@@ -9,6 +9,9 @@ import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInform
 import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
 import org.inek.dataportal.common.enums.StructureInformationCategorie;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -93,17 +96,29 @@ public class StructureinformationHelper {
 
     public static List<StructureInformation> getStructureInformationsByStructureCategorieFiltered(StructureBaseInformation baseInfo, String catName,
                                                                                                   Date filterFrom, Date filterUntil) {
+        if (filterFrom == null) {
+            LocalDate date = LocalDate.of(1900, Month.of(1), 1);
+            filterFrom = java.util.Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        }
+        if (filterUntil == null) {
+            LocalDate date = LocalDate.of(2100, Month.of(1), 1);
+            filterUntil = java.util.Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        }
+
+        Date finalFilterUntil = filterUntil;
+        Date finalFilterFrom = filterFrom;
+
         List<StructureInformation> structureInformations = baseInfo.getStructureInformations().stream()
                 .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.valueOf(catName))
                 .collect(Collectors.toList());
 
-        structureInformations.removeIf(c -> c.getValidFrom().after(filterUntil));
+        structureInformations.removeIf(c -> c.getValidFrom().after(finalFilterUntil));
 
-        if (structureInformations.stream().anyMatch(c -> c.getValidFrom().equals(filterFrom))) {
-            structureInformations.removeIf(c -> c.getValidFrom().before(filterFrom));
+        if (structureInformations.stream().anyMatch(c -> c.getValidFrom().equals(finalFilterFrom))) {
+            structureInformations.removeIf(c -> c.getValidFrom().before(finalFilterFrom));
         } else {
             Optional<StructureInformation> first = structureInformations.stream()
-                    .filter(c -> c.getValidFrom().before(filterFrom))
+                    .filter(c -> c.getValidFrom().before(finalFilterFrom))
                     .max(Comparator.comparing(StructureInformation::getValidFrom));
 
             first.ifPresent(structureInformation -> structureInformations.removeIf(c -> c.getValidFrom()

@@ -213,6 +213,66 @@ public class StructureinformationHelperTest {
     }
 
     @Test
+    public void getStructureInformationsByStructureCategorieFilteredWithNullValidFromTest() {
+        StructureBaseInformation baseInfo = new StructureBaseInformation();
+        List<StructureInformation> structureInformations = new ArrayList<>();
+
+        StructureInformation info1 = createNewInfo(createDate(4, 1, 2018), "", StructureInformationCategorie.RegionalCare);
+        StructureInformation info2 = createNewInfo(createDate(4, 2, 2018), "", StructureInformationCategorie.RegionalCare);
+        StructureInformation info3 = createNewInfo(createDate(15, 2, 2018), "", StructureInformationCategorie.RegionalCare);
+
+        structureInformations.add(info1);
+        structureInformations.add(info2);
+        structureInformations.add(info3);
+
+        baseInfo.setStructureInformations(structureInformations);
+
+        Date validFrom = null;
+        Date validUntil = createDate(2, 3, 2018);
+
+        Assertions.assertThat(StructureinformationHelper.getStructureInformationsByStructureCategorieFiltered(baseInfo,
+                StructureInformationCategorie.RegionalCare.name(), validFrom, validUntil)).isNotEmpty()
+                .as(info1.getValidFrom().toString()).contains(info1)
+                .as(info2.getValidFrom().toString()).contains(info2)
+                .as(info3.getValidFrom().toString()).contains(info3)
+                .size().isEqualTo(3);
+
+        Assertions.assertThat(info1.getValidFrom()).isEqualTo(createDate(4, 1, 2018));
+        Assertions.assertThat(info2.getValidFrom()).isEqualTo(createDate(4, 2, 2018));
+        Assertions.assertThat(info3.getValidFrom()).isEqualTo(createDate(15, 2, 2018));
+    }
+
+    @Test
+    public void getStructureInformationsByStructureCategorieFilteredWithNullValidUntilTest() {
+        StructureBaseInformation baseInfo = new StructureBaseInformation();
+        List<StructureInformation> structureInformations = new ArrayList<>();
+
+        StructureInformation info1 = createNewInfo(createDate(4, 1, 2018), "", StructureInformationCategorie.RegionalCare);
+        StructureInformation info2 = createNewInfo(createDate(4, 2, 2018), "", StructureInformationCategorie.RegionalCare);
+        StructureInformation info3 = createNewInfo(createDate(15, 2, 2018), "", StructureInformationCategorie.RegionalCare);
+
+        structureInformations.add(info1);
+        structureInformations.add(info2);
+        structureInformations.add(info3);
+
+        baseInfo.setStructureInformations(structureInformations);
+
+        Date validFrom = createDate(1, 2, 2018);
+        Date validUntil = null;
+
+        Assertions.assertThat(StructureinformationHelper.getStructureInformationsByStructureCategorieFiltered(baseInfo,
+                StructureInformationCategorie.RegionalCare.name(), validFrom, validUntil)).isNotEmpty()
+                .as(info1.getValidFrom().toString()).contains(info1)
+                .as(info2.getValidFrom().toString()).contains(info2)
+                .as(info3.getValidFrom().toString()).contains(info3)
+                .size().isEqualTo(3);
+
+        Assertions.assertThat(info1.getValidFrom()).isEqualTo(createDate(4, 1, 2018));
+        Assertions.assertThat(info2.getValidFrom()).isEqualTo(createDate(4, 2, 2018));
+        Assertions.assertThat(info3.getValidFrom()).isEqualTo(createDate(15, 2, 2018));
+    }
+
+    @Test
     public void getStructureInformationsByStructureCategorieFilteredWithDateBeforeValidFromTest() {
         StructureBaseInformation baseInfo = new StructureBaseInformation();
         List<StructureInformation> structureInformations = new ArrayList<>();
