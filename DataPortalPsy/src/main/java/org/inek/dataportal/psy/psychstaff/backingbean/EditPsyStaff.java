@@ -198,6 +198,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public void ikChanged() {
+        _staffProof.setYear(0);
         setYearToFirstAvailable(_staffProof);
     }
 
