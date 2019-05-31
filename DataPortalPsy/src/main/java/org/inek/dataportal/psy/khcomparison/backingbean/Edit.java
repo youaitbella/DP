@@ -34,6 +34,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
+import javax.el.MethodExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -69,6 +70,7 @@ public class Edit {
     private Set<Integer> _validDatayears = new HashSet<>();
     private Boolean _readOnly;
     private String _errorMessage = "";
+    private String _hintMessage = "";
 
     @PostConstruct
     public void init() {
@@ -86,9 +88,11 @@ public class Edit {
         setReadOnly();
     }
 
-    public String getErrorMessage() {
-        return _errorMessage;
-    }
+    public String getHintMessage() { return _hintMessage; }
+
+    public void setHintMessage(String hintMessage) { this._hintMessage = hintMessage; }
+
+    public String getErrorMessage() { return _errorMessage; }
 
     public void setErrorMessage(String errorMessage) {
         this._errorMessage = errorMessage;
@@ -203,6 +207,11 @@ public class Edit {
                     "Es wurden noch keine Strukturinformationen für das IK " + _aebBaseInformation.getIk() + " erfasst");
             return "";
         }
+        if (hintsExists(_aebBaseInformation, true)) {
+            DialogController.openDialogByName("errorMessageDialog");
+            return "";
+        }
+
         WorkflowStatus oldState = _aebBaseInformation.getStatus();
         Date oldSend = _aebBaseInformation.getSend();
         _aebBaseInformation.setStatus(WorkflowStatus.Provided);
@@ -221,6 +230,15 @@ public class Edit {
             _aebBaseInformation.setSend(oldSend);
             return "";
         }
+    }
+
+    public boolean hintsExists(AEBBaseInformation info, Boolean sendCheck) {
+        AebChecker checker = new AebChecker(_aebListItemFacade, false, sendCheck);
+        if (!checker.checkAebHints(info)) {
+            _hintMessage = checker.getMessage();
+            return false;
+        }
+        return true;
     }
 
     private boolean ikHasStructureInformations() {
@@ -428,5 +446,9 @@ public class Edit {
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation2}", _mailer.getSalutation(ac2));
 
         _mailer.sendMailTemplate(template, ac1.getEmail() + ";" + ac2.getEmail());
+    }
+
+    public void getSaveWithHintMessages() {
+        //Todo machen
     }
 }
