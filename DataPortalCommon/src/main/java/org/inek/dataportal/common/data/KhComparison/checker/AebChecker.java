@@ -50,6 +50,11 @@ public class AebChecker {
         return getMessage().isEmpty();
     }
 
+    public Boolean checkAebHints(AEBBaseInformation info) {
+        checkPageE1_1Hints(info);
+        return getMessage().isEmpty();
+    }
+
     public void checkPageB1(AEBBaseInformation info) {
         int allowedDiffernz = 5;
 
@@ -123,6 +128,16 @@ public class AebChecker {
         }
     }
 
+    private void checkPageE1_1Hints(AEBBaseInformation info) {
+        for (AEBPageE1_1 page : info.getAebPageE1_1()) {
+            if (page.getCompensationClass() * page.getCaseCount() > page.getCalculationDays()) {
+                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getPepp() + "] Vergütungsklasse [" + page.getCompensationClass() + "]: " +
+                        "Berechnungstage [" + page.getCalculationDays() + "] sind weniger als berechnete Berechnungstage " +
+                        "[" + (page.getCompensationClass() * page.getCaseCount()) + "] (Vergütungsklasse * Fallzahl).");
+            }
+        }
+    }
+
     private void checkPageE1_1(AEBBaseInformation info) {
 
         List<AEBPageE1_1> peppsForRemove = new ArrayList<>();
@@ -151,14 +166,6 @@ public class AebChecker {
                         + value
                 );
                 page.setValuationRadioDay(value);
-                continue;
-            }
-            if (_sendCheck && page.getCompensationClass() * page.getCaseCount() > page.getCalculationDays()) {
-                peppsForRemove.add(page);
-                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getPepp() + "] Vergütungsklasse [" + page.getCompensationClass() + "]: " +
-                        "Berechnungstage [" + page.getCalculationDays() + "] sind weniger als berechnete Berechnungstage " +
-                        "[" + (page.getCompensationClass() * page.getCaseCount()) + "] (Vergütungsklasse * Fallzahl).");
-                continue;
             }
         }
         if (_removeWrongEntries) {

@@ -35,15 +35,19 @@ public class DialogController{
     }
 
     public static void showSaveDialog() {
-        PrimeFaces.current().executeScript("swal('Speichern erfolgreich', 'Ihre Daten wurden erfolgreich gespeichert', 'success');");
+        showSuccessDialog("Speichern erfolgreich", "Ihre Daten wurden erfolgreich gespeichert");
     }
 
     public static void showSendDialog() {
-        PrimeFaces.current().executeScript("swal('Daten Gesendet', 'Ihre Daten wurden erfolgreich an das InEK gesendet', 'success');");
+        showSuccessDialog("Daten Gesendet", "Ihre Daten wurden erfolgreich an das InEK gesendet");
     }
 
     public static void showOldAlertMessage(String message) {
         String script = "alert ('" + message.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
         PrimeFaces.current().executeScript(script);
+    }
+
+    public static void openDialogByName(String dialogWidgetVarName) {
+        PrimeFaces.current().executeScript("PF('" + dialogWidgetVarName + "').show();");
     }
 }
