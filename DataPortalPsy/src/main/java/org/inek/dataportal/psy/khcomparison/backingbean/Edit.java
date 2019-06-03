@@ -201,15 +201,15 @@ public class Edit {
         }
     }
 
-    public String send() {
+    public String send(boolean ignoreHints) {
         if (!ikHasStructureInformations()) {
             DialogController.showWarningDialog("Senden nicht möglich",
                     "Es wurden noch keine Strukturinformationen für das IK " + _aebBaseInformation.getIk() + " erfasst");
-            return "";
+            return null;
         }
-        if (hintsExists(_aebBaseInformation, true)) {
+        if (!ignoreHints && hintsExists(_aebBaseInformation, true)) {
             DialogController.openDialogByName("errorMessageDialog");
-            return "";
+            return null;
         }
 
         WorkflowStatus oldState = _aebBaseInformation.getStatus();
@@ -228,7 +228,7 @@ public class Edit {
         } else {
             _aebBaseInformation.setStatus(oldState);
             _aebBaseInformation.setSend(oldSend);
-            return "";
+            return null;
         }
     }
 
@@ -236,9 +236,9 @@ public class Edit {
         AebChecker checker = new AebChecker(_aebListItemFacade, false, sendCheck);
         if (!checker.checkAebHints(info)) {
             _hintMessage = checker.getMessage();
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private boolean ikHasStructureInformations() {
@@ -446,9 +446,5 @@ public class Edit {
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation2}", _mailer.getSalutation(ac2));
 
         _mailer.sendMailTemplate(template, ac1.getEmail() + ";" + ac2.getEmail());
-    }
-
-    public void getSaveWithHintMessages() {
-        //Todo machen
     }
 }

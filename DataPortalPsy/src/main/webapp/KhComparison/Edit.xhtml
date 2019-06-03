@@ -11,7 +11,7 @@
             <h1>
                 <h:commandLink value="Datenerfassung für den Krankenhausvergleich"
                                action="#{sessionController.navigate(sessionTools.pages.KhComparisonSummary)}"
-                               immediate="true" onclick="PF('navigationDialog').show();"/>
+                               immediate="true" onclick="PF('navigationDialog').show();" />
             </h1>
         </h:form>
         <h:form>
@@ -22,28 +22,31 @@
             <pf:dialog widgetVar="errorMessageDialog"
                        header="Unplausible Daten"
                        modal="true"
+                       width="40%"
                        closable="true"
                        resizable="true">
 
                 <div>
-                    Folgende Fehler wurden gefunden. Bitte überprüfen Sie, ob die eingegeben Daten richtig sind.
+                    Folgende Fehler wurden gefunden. Bitte überprüfen Sie, ob die eingegeben Daten richtig sind, und bestätigen Sie die Eingabe.
                 </div>
 
-                <div>
-                    <pf:inputTextarea value="#{edit.hintMessage}"
-                                      style="width: 100%; max-height: 500px" />
+                <br />
 
+                <pf:inputTextarea value="#{edit.hintMessage}"
+                                  style="width: 100%; height: 70%" />
+                <div style="position: relative; height: 100%; width: 100%">
+                    <pf:button styleClass="btnPsy"
+                               value="Abbrechen"
+                               style="position: relative; right: 10; left: 10"
+                               onclick="PF('errorMessageDialog').hide();" />
+
+                    <pf:commandButton styleClass="btnSend arrow-right"
+                                      value="Eingabe bestätigen"
+                                      action="#{edit.send(true)}"
+                                      style="position: relative; right: 10; left: 10"
+                                      oncomplete="PF('errorMessageDialog').hide();"
+                                      update="@form" />
                 </div>
-
-                <pf:commandButton styleClass="btnPsy"
-                                  value="Abbrechen"
-                                  action="PF('errorMessageDialog').hide();"/>
-
-                <pf:commandButton styleClass="btnSend arrow-right"
-                                  value="Absenden mit Fehlermeldungen"
-                                  action="#{edit.saveWithHintMessages()}"
-                                  update="@form"/>
-
 
             </pf:dialog>
 
@@ -89,21 +92,21 @@
                                   value="Datensatz ändern"
                                   action="#{edit.change()}"
                                   update="@form"
-                                  rendered="#{edit.isChangeAllowed()}"/>
+                                  rendered="#{edit.isChangeAllowed()}" />
                 <pf:commandButton styleClass="btnPsy"
                                   value="Speichern"
                                   onstart="PF('dialogProcess').show()"
                                   oncomplete="PF('dialogProcess').hide()"
                                   action="#{edit.saveAeb()}"
                                   update="@(.ui-message) @form"
-                                  rendered="#{edit.isSendAllowed()}"/>
+                                  rendered="#{edit.isSendAllowed()}" />
                 <pf:commandButton value="Ans InEK senden"
                                   update="@(.ui-message) @form"
                                   onstart="PF('dialogProcess').show()"
                                   oncomplete="PF('dialogProcess').hide()"
-                                  action="#{edit.send()}"
+                                  action="#{edit.send(false)}"
                                   styleClass="btnSend arrow-right"
-                                  rendered="#{edit.isSendAllowed()}"/>
+                                  rendered="#{edit.isSendAllowed()}" />
             </div>
 
         </h:form>
