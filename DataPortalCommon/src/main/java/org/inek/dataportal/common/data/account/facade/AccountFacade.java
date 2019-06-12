@@ -6,6 +6,7 @@ import org.inek.dataportal.api.enums.IkReference;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.entities.*;
+import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.common.User;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
@@ -13,6 +14,7 @@ import org.inek.dataportal.common.enums.EnvironmentType;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.MailTemplateFacade;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.requestmanager.FeatureRequestHandler;
 import org.inek.dataportal.common.utils.Crypt;
@@ -48,6 +50,8 @@ public class AccountFacade extends AbstractDataAccess {
     private PasswordRequestFacade _pwdRequestFacade;
     @Inject
     private ConfigFacade _configFacade;
+    @Inject
+    private MailTemplateFacade _mailTemplateFacde;
 
     public AccountFacade() {
     }
@@ -407,6 +411,8 @@ public class AccountFacade extends AbstractDataAccess {
         Account account = findByMailOrUser(mail);
         if (account == null) {
             LOGGER.log(Level.INFO, "Password request for unknown account {0}", mail);
+            MailTemplate mailTemplate = _mailTemplateFacde.findByName("PasswordActivationMailError");
+            _mailer.sendMailTemplate(mailTemplate, mail);
             return false;
         }
         if (account.isDeactivated()) {
