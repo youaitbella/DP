@@ -101,7 +101,8 @@
             font-weight: bold;
         }
     </style>
-    
+
+    <div class="container">
     <table id="table1">
         <tr>
             <td></td>
@@ -119,10 +120,10 @@
             <td class="centered col-border-right col-border-bottom" title="Falls eine Unterjährige Änderung der Bettenanzahl vorgenommen wird, geben Sie hier bitte den gewichteten Mittelwert kaufmännisch gerundet ganzzahlig an.">Anzahl Betten</td>
             <td class="centered col-border-right col-border-bottom" >Belegung</td>
             <td class="centered col-border-right col-border-bottom">Summe Pflegetage</td>
-            <td class="centered col-border-right col-border-bottom" 
+            <td class="centered col-border-right col-border-bottom"
                 title="Angabe von Minuten für Krankenhäuser, in denen die Methode LEP angewendet wird">Summe Gewichtungspunkte**</td>
             <td class="centered col-border-right col-border-bottom">Summe Pflegetage</td>
-            <td class="centered col-border-right col-border-bottom" 
+            <td class="centered col-border-right col-border-bottom"
                 title="Angabe von Minuten für Krankenhäuser, in denen die Methode LEP angewendet wird">Summe Gewichtungspunkte**</td>
             <td></td>
         </tr>
@@ -148,7 +149,7 @@
             </td>
             <td>
             <inek:InputTextWithMessage value="#{item1.psyPvMapping}" id="psyPvMapping" readonly="#{editCalcBasicsPepp.readOnly}" >
-                <f:validateRegex pattern="([aAsSgGpP]|[kK][jJ][pP])( *, *([aAsSgGpP]|[kK][jJ][pP]))*" for="psyPvMapping"/> 
+                <f:validateRegex pattern="([aAsSgGpP]|[kK][jJ][pP])( *, *([aAsSgGpP]|[kK][jJ][pP]))*" for="psyPvMapping"/>
             </inek:InputTextWithMessage>
 
             </td>
@@ -161,7 +162,7 @@
             <h:selectOneMenu value="#{item1.occupancy}">
                 <f:selectItems value="#{editCalcBasicsPepp.occupancyItems}" />
                 <f:ajax event="change" render="@form :logout:remaining" />
-            </h:selectOneMenu>     
+            </h:selectOneMenu>
             </td>
             <td>
             <inek:InputIntegerWithMessage value="#{item1.regularCareDays}"
@@ -186,7 +187,7 @@
             <h:outputLabel id="utilization" value="#{item1.getUtilization()}" />
             </td>
             </tr>
-                        
+
         </ui:repeat>
         <tr>
             <td colspan="10">
@@ -198,9 +199,11 @@
         </td>
         </tr>
     </table>
+    </div>
 
     <hr/>
 
+    <div class="container">
     <table id="table2">
         <tr>
             <td></td>
@@ -280,9 +283,11 @@
         </td>
         </tr>
     </table>
+    </div>
 
     <hr/>
 
+    <div class="container">
     <table id="table3">
         <tr>
             <td></td>
@@ -365,6 +370,7 @@
             </tr>
         </ui:repeat>
     </table>
+    </div>
 
     <inek:UploadButtons importer="#{editCalcBasicsPepp.getImporter('peppstationservicecost')}"
                          calcbase="#{editCalcBasicsPepp.calcBasics}" 
