@@ -571,5 +571,32 @@ class AccessRightHelperTest {
 
     }
 
+    @Test
+    public void ensureAccountsWithMissingAccesRigthTest(){
+        Account acc1 = createNewAccount(2);
+        acc1.addFeature(Feature.CARE,true);
+
+        Account acc2 = createNewAccount(3);
+        acc2.addFeature(Feature.CARE,true);
+
+        List<Account> accounts1 =new ArrayList<>();
+        accounts1.add(acc1);
+        accounts1.add(acc2);
+
+        int ik = 222222222;
+
+        AccessRight ar1 = new AccessRight(acc1.getId(), ik, Feature.CARE, Right.Read);
+        acc1.addAccessRigth(ar1);
+
+        List<Feature> features1 = new ArrayList<>();
+        features1.add(Feature.CARE);
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, new ArrayList<>(), ik);
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc1.getAccessRights().get(0).getRight()).isEqualTo(Right.Deny);
+        Assertions.assertThat(acc2.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc2.getAccessRights().get(0).getRight()).isEqualTo(Right.Deny);
+    }
+
 
 }
