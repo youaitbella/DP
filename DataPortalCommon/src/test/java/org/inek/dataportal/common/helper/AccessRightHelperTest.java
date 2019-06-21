@@ -505,7 +505,7 @@ class AccessRightHelperTest {
     }
 
     @Test
-    public void ensureAccountAccesRightsWithIkAdminForAnotherFeature(){
+    public void ensureAccountAccesRightsWithIkAdminForAnotherFeatureTest(){
         Account acc1 = createNewAccount(1);
         acc1.addFeature(Feature.CARE,true);
 

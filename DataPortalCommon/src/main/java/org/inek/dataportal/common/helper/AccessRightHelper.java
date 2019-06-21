@@ -155,16 +155,21 @@ public class AccessRightHelper {
     public static void ensureRightsForAccounts(List<Account> accountsForIk, List<IkAdmin> ikAdminsForIk, int Ik){
         for (Account acc : accountsForIk) {
             for (AccountFeature accf : acc.getFeatures()) {
-                for (AccessRight ar : acc.getAccessRights()) {
-                    if(ikAdminsForIk.isEmpty()){
-                        ar.setRight(Right.Deny);
-                    }else{
-                        for (IkAdmin ika : ikAdminsForIk){
-                            for(IkAdminFeature ikaf : ika.getIkAdminFeatures()){
-                                if(ikaf.getFeature().equals(accf.getFeature())){
-                                    return;
-                                }else if (accf.getFeature().getManagedBy().equals(ManagedBy.IkAdminOnly)){
-                                    ar.setRight(Right.Deny);
+                if(acc.getAccessRights().isEmpty()){
+                    AccessRight ar1 = new AccessRight(acc.getId(), Ik, accf.getFeature(), Right.Deny);
+                    acc.addAccessRigth(ar1);
+                }else {
+                    for (AccessRight ar : acc.getAccessRights()) {
+                        if (ikAdminsForIk.isEmpty()) {
+                            ar.setRight(Right.Deny);
+                        } else {
+                            for (IkAdmin ika : ikAdminsForIk) {
+                                for (IkAdminFeature ikaf : ika.getIkAdminFeatures()) {
+                                    if (ikaf.getFeature().equals(accf.getFeature())) {
+                                        return;
+                                    } else if (accf.getFeature().getManagedBy().equals(ManagedBy.IkAdminOnly)) {
+                                        ar.setRight(Right.Deny);
+                                    }
                                 }
                             }
                         }
