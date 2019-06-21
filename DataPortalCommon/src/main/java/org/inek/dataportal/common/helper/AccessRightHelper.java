@@ -10,6 +10,7 @@ import org.inek.dataportal.common.data.common.User;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
+import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
 import org.inek.dataportal.common.enums.Right;
 
 import java.util.ArrayList;
@@ -157,12 +158,20 @@ public class AccessRightHelper {
                 for (AccessRight ar : acc.getAccessRights()) {
                     if(ikAdminsForIk.isEmpty()){
                         ar.setRight(Right.Deny);
+                    }else{
+                        for (IkAdmin ika : ikAdminsForIk){
+                            for(IkAdminFeature ikaf : ika.getIkAdminFeatures()){
+                                if(ikaf.getFeature().equals(accf.getFeature())){
+                                    return;
+                                }else {
+                                    ar.setRight(Right.Deny);
+                                }
+                            }
+                        }
                     }
                 }
-
             }
         }
-
         // Check if still ikAdmin for feature
         //  yes -> do nothing
         //  no  -> deny feature for every Account
