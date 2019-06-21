@@ -163,7 +163,7 @@ public class AccessRightHelper {
                             for(IkAdminFeature ikaf : ika.getIkAdminFeatures()){
                                 if(ikaf.getFeature().equals(accf.getFeature())){
                                     return;
-                                }else {
+                                }else if (accf.getFeature().getManagedBy().equals(ManagedBy.IkAdminOnly)){
                                     ar.setRight(Right.Deny);
                                 }
                             }
