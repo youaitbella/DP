@@ -495,6 +495,8 @@ class AccessRightHelperTest {
         AccessRight ar2 = new AccessRight(acc2.getId(), ik, Feature.CARE, Right.Read);
         acc2.addAccessRigth(ar2);
 
+        AccessRightHelper.ensureRightsForAccounts(accounts1, new ArrayList<>(), ik);
+
         Assertions.assertThat(acc1.getAccessRights()).hasSize(1);
         Assertions.assertThat(acc1.getAccessRights().get(0).getRight()).isEqualTo(Right.Deny);
         Assertions.assertThat(acc2.getAccessRights()).hasSize(1);

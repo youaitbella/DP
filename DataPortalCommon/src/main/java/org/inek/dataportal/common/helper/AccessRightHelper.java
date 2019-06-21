@@ -1,6 +1,7 @@
 package org.inek.dataportal.common.helper;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.api.enums.IkUsage;
 import org.inek.dataportal.api.enums.ManagedBy;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -151,6 +152,17 @@ public class AccessRightHelper {
     }
 
     public static void ensureRightsForAccounts(List<Account> accountsForIk, List<IkAdmin> ikAdminsForIk, int Ik){
+        for (Account acc : accountsForIk) {
+            for (AccountFeature accf : acc.getFeatures()) {
+                for (AccessRight ar : acc.getAccessRights()) {
+                    if(ikAdminsForIk.isEmpty()){
+                        ar.setRight(Right.Deny);
+                    }
+                }
+
+            }
+        }
+
         // Check if still ikAdmin for feature
         //  yes -> do nothing
         //  no  -> deny feature for every Account
