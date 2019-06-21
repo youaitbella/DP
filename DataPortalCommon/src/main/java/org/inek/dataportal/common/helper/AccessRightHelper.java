@@ -149,4 +149,10 @@ public class AccessRightHelper {
 
         return true;
     }
+
+    public static void ensureRightsForAccounts(List<Account> accountsForIk, List<IkAdmin> ikAdminsForIk, int Ik){
+        // Check if still ikAdmin for feature
+        //  yes -> do nothing
+        //  no  -> deny feature for every Account
+    }
 }

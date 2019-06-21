@@ -106,6 +106,7 @@ public class IkAdmin implements Serializable {
         _sessionController.logMessage("Delete IK Admin: account=" + account.getId() + ", ik=" + ik);
         account.removeIkAdmin(ik);
         _accountFacade.merge(account);
+        // check if another IK Admin for this feature
         createAdminAccountList();
         return "";
     }
