@@ -1,7 +1,6 @@
 package org.inek.dataportal.common.helper;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.api.enums.IkUsage;
 import org.inek.dataportal.api.enums.ManagedBy;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -152,33 +151,48 @@ public class AccessRightHelper {
         return true;
     }
 
-    public static void ensureRightsForAccounts(List<Account> accountsForIk, List<IkAdmin> ikAdminsForIk, int Ik){
+    // Check if still ikAdmin for feature
+    //  yes -> do nothing
+    //  no  -> deny feature for every Account
+
+
+    public static void ensureRightsForAccounts(List<Account> accountsForIk, List<IkAdmin> ikAdminsForIk, int Ik) {
         for (Account acc : accountsForIk) {
             for (AccountFeature accf : acc.getFeatures()) {
-                if(acc.getAccessRights().isEmpty()){
+                if (acc.getAccessRights().isEmpty()) {
                     AccessRight ar1 = new AccessRight(acc.getId(), Ik, accf.getFeature(), Right.Deny);
                     acc.addAccessRigth(ar1);
-                }else {
-                    for (AccessRight ar : acc.getAccessRights()) {
-                        if (ikAdminsForIk.isEmpty()) {
-                            ar.setRight(Right.Deny);
-                        } else {
-                            for (IkAdmin ika : ikAdminsForIk) {
-                                for (IkAdminFeature ikaf : ika.getIkAdminFeatures()) {
-                                    if (ikaf.getFeature().equals(accf.getFeature())) {
-                                        return;
-                                    } else if (accf.getFeature().getManagedBy().equals(ManagedBy.IkAdminOnly)) {
-                                        ar.setRight(Right.Deny);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                } else {
+                    setRightDenyIfIkAdminsForIkIsEmpty(ikAdminsForIk, acc, accf);
                 }
             }
         }
-        // Check if still ikAdmin for feature
-        //  yes -> do nothing
-        //  no  -> deny feature for every Account
+    }
+
+    private static void setRightDenyIfIkAdminsForIkIsEmpty(List<IkAdmin> ikAdminsForIk, Account acc, AccountFeature accf) {
+        for (AccessRight ar : acc.getAccessRights()) {
+            if (ikAdminsForIk.isEmpty()) {
+                ar.setRight(Right.Deny);
+            } else {
+                checkIfThereIsIkAdminFeatureToAccountFeature(ikAdminsForIk, accf, ar);
+            }
+        }
+    }
+
+    private static void checkIfThereIsIkAdminFeatureToAccountFeature(List<IkAdmin> ikAdminsForIk, AccountFeature accf, AccessRight ar) {
+        for (IkAdmin ika : ikAdminsForIk) {
+            for (IkAdminFeature ikaf : ika.getIkAdminFeatures()) {
+                if (ikaf.getFeature().equals(accf.getFeature())) {
+                } else {
+                    featureSetRightDenyIfManagedByIkAdminOnly(accf, ar);
+                }
+            }
+        }
+    }
+
+    private static void featureSetRightDenyIfManagedByIkAdminOnly(AccountFeature accf, AccessRight ar) {
+        if (accf.getFeature().getManagedBy().equals(ManagedBy.IkAdminOnly)) {
+            ar.setRight(Right.Deny);
+        }
     }
 }
