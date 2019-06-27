@@ -162,10 +162,35 @@ public class AccessRightHelper {
                 if (acc.getAccessRights().isEmpty()) {
                     AccessRight ar1 = new AccessRight(acc.getId(), Ik, accf.getFeature(), Right.Deny);
                     acc.addAccessRigth(ar1);
-                } else {
+                } else if (check(acc.getAccessRights(), acc.getFeatures())) {
+                    setRightDenyIfIkAdminsForIkIsEmpty(ikAdminsForIk, acc, accf);
+                } else if (!checkRights(acc.getAccessRights(), acc.getFeatures())) {
+                    addAccessRightFromAccountFeature(Ik, acc);
+                    if(!checkFeatures(acc.getAccessRights(), acc.getFeatures())){
+                        addFeatureFromAccesRights(acc);
+                    }
+                    setRightDenyIfIkAdminsForIkIsEmpty(ikAdminsForIk, acc, accf);
+                } else if (!checkFeatures(acc.getAccessRights(), acc.getFeatures())) {
+                    addFeatureFromAccesRights(acc);
+                    if(!checkRights(acc.getAccessRights(),acc.getFeatures())){
+                        addAccessRightFromAccountFeature(Ik,acc);
+                    }
                     setRightDenyIfIkAdminsForIkIsEmpty(ikAdminsForIk, acc, accf);
                 }
             }
+        }
+    }
+
+    private static void addFeatureFromAccesRights(Account acc) {
+        for(AccessRight ar : acc.getAccessRights()){
+            acc.addFeature(ar.getFeature(), true);
+        }
+    }
+
+    private static void addAccessRightFromAccountFeature(int Ik, Account acc) {
+        for (AccountFeature af : acc.getFeatures()) {
+            AccessRight ar1 = new AccessRight(acc.getId(), Ik, af.getFeature(), Right.Deny);
+            acc.addAccessRigth(ar1);
         }
     }
 
@@ -195,4 +220,35 @@ public class AccessRightHelper {
             ar.setRight(Right.Deny);
         }
     }
+
+    private static boolean check(List<AccessRight> ar, List<AccountFeature> accf) {
+        if (checkFeatures(ar, accf) && checkRights(ar, accf)) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean checkRights(List<AccessRight> ar, List<AccountFeature> accf) {
+        for (AccountFeature af : accf) {
+            for (AccessRight AR : ar) {
+                if (AR.getFeature().equals(af.getFeature())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean checkFeatures(List<AccessRight> ar, List<AccountFeature> accf) {
+        for (AccessRight AR : ar) {
+            for (AccountFeature af : accf) {
+                if (af.getFeature().equals(AR.getFeature())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
+
