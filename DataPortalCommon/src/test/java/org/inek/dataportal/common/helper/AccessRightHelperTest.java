@@ -600,6 +600,50 @@ class AccessRightHelperTest {
     }
 
     @Test
+    public void ensureAccountsWithIgnoreFeaturesTest() {
+        Account acc1 = createNewAccount(2);
+        acc1.addFeature(Feature.DROPBOX, true);
+
+        Account acc2 = createNewAccount(3);
+        acc2.addFeature(Feature.NUB, true);
+
+        List<Account> accounts1 = new ArrayList<>();
+        accounts1.add(acc1);
+        accounts1.add(acc2);
+
+        int ik = 222222222;
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, new ArrayList<>(), ik);
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(0);
+        Assertions.assertThat(acc2.getAccessRights()).hasSize(0);
+    }
+
+    @Test
+    public void ensureAccountsWithDifferentManagedBy() {
+        Account acc1 = createNewAccount(2);
+        acc1.addFeature(Feature.DROPBOX, true);
+
+        acc1.addFeature(Feature.CARE, true);
+
+        List<Account> accounts1 = new ArrayList<>();
+        accounts1.add(acc1);
+
+        int ik = 222222222;
+
+        AccessRight ar1 = new AccessRight(acc1.getId(), ik, Feature.CARE, Right.All);
+        acc1.addAccessRigth(ar1);
+        AccessRight ar2 = new AccessRight(acc1.getId(), ik, Feature.DROPBOX, Right.All);
+        acc1.addAccessRigth(ar2);
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, new ArrayList<>(), ik);
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(2);
+
+        Assertions.assertThat(acc1.getAccessRights().stream().anyMatch(ar -> ar.getRight().equals(Right.Deny) && ar.getFeature().equals(Feature.CARE))).isTrue();
+        Assertions.assertThat(acc1.getAccessRights().stream().anyMatch(ar -> ar.getRight().equals(Right.All) && ar.getFeature().equals(Feature.DROPBOX))).isTrue();
+
+    }
+
+    @Test
     public void ensureAccountsWithMissingAccesRigth1Test() {
         Account acc1 = createNewAccount(2);
         acc1.addFeature(Feature.CARE, true);
@@ -705,6 +749,8 @@ class AccessRightHelperTest {
         Assertions.assertThat(acc2.getAccessRights().stream().anyMatch(ar -> ar.getFeature().equals(Feature.CARE) && ar.getRight().equals(Right.Deny) && ar.getIk() == ik1)).isTrue();
         Assertions.assertThat(acc2.getAccessRights().stream().anyMatch(ar -> ar.getFeature().equals(Feature.HC_HOSPITAL) && ar.getRight().equals(Right.Deny) && ar.getIk() == ik1)).isTrue();
     }
+
+
 
 }
 
