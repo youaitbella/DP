@@ -9,13 +9,9 @@ import org.inek.dataportal.common.data.common.User;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
-import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
 import org.inek.dataportal.common.enums.Right;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AccessRightHelper {
@@ -151,104 +147,51 @@ public class AccessRightHelper {
         return true;
     }
 
-    // Check if still ikAdmin for feature
-    //  yes -> do nothing
-    //  no  -> deny feature for every Account
-
-
     public static void ensureRightsForAccounts(List<Account> accountsForIk, List<IkAdmin> ikAdminsForIk, int Ik) {
         for (Account acc : accountsForIk) {
+            List<AccessRight> accesRightsForIk = acc.getAccessRights().stream().filter(ar -> ar.getIk() == Ik).collect(Collectors.toList());
+
             for (AccountFeature accf : acc.getFeatures()) {
-                if (acc.getAccessRights().isEmpty()) {
+                if (accesRightsForIk.stream().noneMatch(ar -> ar.getFeature().equals(accf.getFeature()))) {
                     AccessRight ar1 = new AccessRight(acc.getId(), Ik, accf.getFeature(), Right.Deny);
                     acc.addAccessRigth(ar1);
-                } else if (check(acc.getAccessRights(), acc.getFeatures())) {
-                    setRightDenyIfIkAdminsForIkIsEmpty(ikAdminsForIk, acc, accf);
-                } else if (!checkRights(acc.getAccessRights(), acc.getFeatures())) {
-                    addAccessRightFromAccountFeature(Ik, acc);
-                    if(!checkFeatures(acc.getAccessRights(), acc.getFeatures())){
-                        addFeatureFromAccesRights(acc);
-                    }
-                    setRightDenyIfIkAdminsForIkIsEmpty(ikAdminsForIk, acc, accf);
-                } else if (!checkFeatures(acc.getAccessRights(), acc.getFeatures())) {
-                    addFeatureFromAccesRights(acc);
-                    if(!checkRights(acc.getAccessRights(),acc.getFeatures())){
-                        addAccessRightFromAccountFeature(Ik,acc);
-                    }
-                    setRightDenyIfIkAdminsForIkIsEmpty(ikAdminsForIk, acc, accf);
-                }
-            }
-        }
-    }
-
-    private static void addFeatureFromAccesRights(Account acc) {
-        for(AccessRight ar : acc.getAccessRights()){
-            acc.addFeature(ar.getFeature(), true);
-        }
-    }
-
-    private static void addAccessRightFromAccountFeature(int Ik, Account acc) {
-        for (AccountFeature af : acc.getFeatures()) {
-            AccessRight ar1 = new AccessRight(acc.getId(), Ik, af.getFeature(), Right.Deny);
-            acc.addAccessRigth(ar1);
-        }
-    }
-
-    private static void setRightDenyIfIkAdminsForIkIsEmpty(List<IkAdmin> ikAdminsForIk, Account acc, AccountFeature accf) {
-        for (AccessRight ar : acc.getAccessRights()) {
-            if (ikAdminsForIk.isEmpty()) {
-                ar.setRight(Right.Deny);
-            } else {
-                checkIfThereIsIkAdminFeatureToAccountFeature(ikAdminsForIk, accf, ar);
-            }
-        }
-    }
-
-    private static void checkIfThereIsIkAdminFeatureToAccountFeature(List<IkAdmin> ikAdminsForIk, AccountFeature accf, AccessRight ar) {
-        for (IkAdmin ika : ikAdminsForIk) {
-            for (IkAdminFeature ikaf : ika.getIkAdminFeatures()) {
-                if (ikaf.getFeature().equals(accf.getFeature())) {
                 } else {
-                    featureSetRightDenyIfManagedByIkAdminOnly(accf, ar);
+                    if (featureHasNoIkAdmin(ikAdminsForIk, accf.getFeature())) {
+                        setAccesRightsForFeatureToRight(accesRightsForIk, accf.getFeature(), Right.Deny);
+                    }
+                }
+            }
+
+            List<Feature> featurelist = getFeaturesFromAccesRights(accesRightsForIk);
+            for (Feature feature : featurelist) {
+                if (acc.getFeatures().stream().noneMatch(af -> af.getFeature().equals(feature)) && feature.getManagedBy().equals(ManagedBy.IkAdminOnly)) {
+                    setAccesRightsForFeatureToRight(accesRightsForIk, feature, Right.Deny);
                 }
             }
         }
     }
 
-    private static void featureSetRightDenyIfManagedByIkAdminOnly(AccountFeature accf, AccessRight ar) {
-        if (accf.getFeature().getManagedBy().equals(ManagedBy.IkAdminOnly)) {
-            ar.setRight(Right.Deny);
+    private static void setAccesRightsForFeatureToRight(List<AccessRight> accessRightsList, Feature feature, Right right) {
+        Optional<AccessRight> first = accessRightsList.stream().filter(ar -> ar.getFeature().equals(feature)).findFirst();
+        if (first.isPresent()) {
+            AccessRight ar = first.get();
+            ar.setRight(right);
         }
     }
 
-    private static boolean check(List<AccessRight> ar, List<AccountFeature> accf) {
-        if (checkFeatures(ar, accf) && checkRights(ar, accf)) {
-            return true;
-        }
-        return false;
-    }
+    private static List<Feature> getFeaturesFromAccesRights(List<AccessRight> AccesRights) {
+        List<Feature> FeatureList = new ArrayList<>();
 
-    private static boolean checkRights(List<AccessRight> ar, List<AccountFeature> accf) {
-        for (AccountFeature af : accf) {
-            for (AccessRight AR : ar) {
-                if (AR.getFeature().equals(af.getFeature())) {
-                    return true;
-                }
+        for (AccessRight ar : AccesRights) {
+            if (!FeatureList.contains(ar.getFeature())) {
+                FeatureList.add(ar.getFeature());
             }
         }
-        return false;
+        return FeatureList;
     }
 
-    private static boolean checkFeatures(List<AccessRight> ar, List<AccountFeature> accf) {
-        for (AccessRight AR : ar) {
-            for (AccountFeature af : accf) {
-                if (af.getFeature().equals(AR.getFeature())) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+    private static boolean featureHasNoIkAdmin(List<IkAdmin> ikAdminsForIk, Feature feature) {
+        return ikAdminsForIk.stream().noneMatch(ikA -> ikA.getIkAdminFeatures().stream().anyMatch(af -> af.getFeature().equals(feature)));
     }
 }
 
