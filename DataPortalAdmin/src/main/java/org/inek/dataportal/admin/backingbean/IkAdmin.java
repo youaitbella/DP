@@ -106,9 +106,18 @@ public class IkAdmin implements Serializable {
         _sessionController.logMessage("Delete IK Admin: account=" + account.getId() + ", ik=" + ik);
         account.removeIkAdmin(ik);
         _accountFacade.merge(account);
-        // check if another IK Admin for this feature
+        ensureRightsForAccounts(ik);
         createAdminAccountList();
         return "";
+    }
+
+    private void ensureRightsForAccounts(int ik){
+        List<Account> accountsForIk = _accountFacade.getAccounts4Ik(ik);
+        List<org.inek.dataportal.common.data.ikadmin.entity.IkAdmin> ikAdminsForIk = _ikAdminFacade.findIkAdminsForIk(ik);
+        AccessRightHelper.ensureRightsForAccounts(accountsForIk, ikAdminsForIk, ik);
+        for(Account acc : accountsForIk){
+            _accountFacade.merge(acc);
+        }
     }
 
     public void setInput(IkAccount ikAccount) {
