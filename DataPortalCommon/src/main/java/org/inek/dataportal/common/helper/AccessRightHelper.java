@@ -11,10 +11,7 @@ import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
 import org.inek.dataportal.common.enums.Right;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class AccessRightHelper {
@@ -149,4 +146,52 @@ public class AccessRightHelper {
 
         return true;
     }
+
+    public static void ensureRightsForAccounts(List<Account> accountsForIk, List<IkAdmin> ikAdminsForIk, int Ik) {
+        for (Account acc : accountsForIk) {
+            List<AccessRight> accesRightsForIk = acc.getAccessRights().stream().filter(ar -> ar.getIk() == Ik).collect(Collectors.toList());
+
+            for (AccountFeature accf : acc.getFeatures()) {
+                if (accesRightsForIk.stream().noneMatch(ar -> ar.getFeature().equals(accf.getFeature())) && accf.getFeature().getManagedBy().equals(ManagedBy.IkAdminOnly)) {
+                    AccessRight ar1 = new AccessRight(acc.getId(), Ik, accf.getFeature(), Right.Deny);
+                    acc.addAccessRigth(ar1);
+                } else {
+                    if (featureHasNoIkAdmin(ikAdminsForIk, accf.getFeature()) && accf.getFeature().getManagedBy().equals(ManagedBy.IkAdminOnly)) {
+                        setAccesRightsForFeatureToRight(accesRightsForIk, accf.getFeature(), Right.Deny);
+                    }
+                }
+            }
+
+            List<Feature> featurelist = getFeaturesFromAccesRights(accesRightsForIk);
+            for (Feature feature : featurelist) {
+                if (acc.getFeatures().stream().noneMatch(af -> af.getFeature().equals(feature)) && feature.getManagedBy().equals(ManagedBy.IkAdminOnly)) {
+                    setAccesRightsForFeatureToRight(accesRightsForIk, feature, Right.Deny);
+                }
+            }
+        }
+    }
+
+    private static void setAccesRightsForFeatureToRight(List<AccessRight> accessRightsList, Feature feature, Right right) {
+        Optional<AccessRight> first = accessRightsList.stream().filter(ar -> ar.getFeature().equals(feature)).findFirst();
+        if (first.isPresent()) {
+            AccessRight ar = first.get();
+            ar.setRight(right);
+        }
+    }
+
+    private static List<Feature> getFeaturesFromAccesRights(List<AccessRight> AccesRights) {
+        List<Feature> FeatureList = new ArrayList<>();
+
+        for (AccessRight ar : AccesRights) {
+            if (!FeatureList.contains(ar.getFeature())) {
+                FeatureList.add(ar.getFeature());
+            }
+        }
+        return FeatureList;
+    }
+
+    private static boolean featureHasNoIkAdmin(List<IkAdmin> ikAdminsForIk, Feature feature) {
+        return ikAdminsForIk.stream().noneMatch(ikA -> ikA.getIkAdminFeatures().stream().anyMatch(af -> af.getFeature().equals(feature)));
+    }
 }
+

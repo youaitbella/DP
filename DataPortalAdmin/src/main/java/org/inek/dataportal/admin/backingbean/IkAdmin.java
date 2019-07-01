@@ -106,8 +106,19 @@ public class IkAdmin implements Serializable {
         _sessionController.logMessage("Delete IK Admin: account=" + account.getId() + ", ik=" + ik);
         account.removeIkAdmin(ik);
         _accountFacade.merge(account);
+        ensureRightsForAccounts(ik);
+        DialogController.showSaveDialog();
         createAdminAccountList();
         return "";
+    }
+
+    private void ensureRightsForAccounts(int ik) {
+        List<Account> accountsForIk = _accountFacade.getAccounts4Ik(ik);
+        List<org.inek.dataportal.common.data.ikadmin.entity.IkAdmin> ikAdminsForIk = _ikAdminFacade.findIkAdminsForIk(ik);
+        AccessRightHelper.ensureRightsForAccounts(accountsForIk, ikAdminsForIk, ik);
+        for (Account acc : accountsForIk) {
+            _accountFacade.merge(acc);
+        }
     }
 
     public void setInput(IkAccount ikAccount) {
@@ -130,7 +141,7 @@ public class IkAdmin implements Serializable {
     }
 
     public void checkAccountId(FacesContext context, UIComponent component, Object value) {
-        if(value == null) {
+        if (value == null) {
             return;
         }
         Account account = _accountFacade.findAccount((int) value);
@@ -140,11 +151,6 @@ public class IkAdmin implements Serializable {
         }
     }
 
-    public void setAccountId(int accountId) {
-        _account = _accountFacade.findAccount(accountId);
-        updateData();
-    }
-
     private void updateData() {
         _adminAccounts.stream()
                 .filter(a -> a.getIk() == _ik && a.getAccount().equals(_account))
@@ -152,16 +158,21 @@ public class IkAdmin implements Serializable {
                 .ifPresent(a -> setInput(a));
     }
 
-    public void setAccount(Account account) {
-        _account = account;
-    }
-
     public Account getAccount() {
         return _account;
     }
 
+    public void setAccount(Account account) {
+        _account = account;
+    }
+
     public int getAccountId() {
         return _account == null ? 0 : _account.getId();
+    }
+
+    public void setAccountId(int accountId) {
+        _account = _accountFacade.findAccount(accountId);
+        updateData();
     }
 
     public String getMailDomain() {
@@ -191,12 +202,18 @@ public class IkAdmin implements Serializable {
             if (_account.getFeatures().stream().noneMatch(f -> f.getFeature() == fe)) {
                 _account.addFeature(fe, true);
 
+                if (fe.getIkReference() == IkReference.None
+                        || _account.getAccessRights()
+                        .stream()
+                        .anyMatch(ar -> ar.getFeature() == fe)) {
+                    continue;
+                }
+
                 AccessRight accessRight;
 
-                if(AccessRightHelper.userCanGetAllRight(existsAccessRights, fe, _ik)) {
+                if (AccessRightHelper.userCanGetAllRight(existsAccessRights, fe, _ik)) {
                     accessRight = new AccessRight(_account.getId(), _ik, fe, Right.All);
-                }
-                else {
+                } else {
                     accessRight = new AccessRight(_account.getId(), _ik, fe, Right.Deny);
                 }
                 _ikAdminFacade.saveAccessRight(accessRight);
@@ -204,6 +221,7 @@ public class IkAdmin implements Serializable {
         }
 
         _accountFacade.merge(_account);
+        ensureRightsForAccounts(_ik);
         DialogController.showSaveDialog();
         createAdminAccountList();
 
@@ -246,10 +264,9 @@ public class IkAdmin implements Serializable {
                 }
                 AccessRight accessRight;
 
-                if(AccessRightHelper.userCanGetAllRight(accessRights, feature.getFeature(), _ik)) {
+                if (AccessRightHelper.userCanGetAllRight(accessRights, feature.getFeature(), _ik)) {
                     accessRight = new AccessRight(account.getId(), _ik, feature.getFeature(), Right.All);
-                }
-                else {
+                } else {
                     accessRight = new AccessRight(account.getId(), _ik, feature.getFeature(), Right.Deny);
                 }
 
@@ -267,16 +284,16 @@ public class IkAdmin implements Serializable {
         }
     }
 
+    public Integer getIk() {
+        return _ik > 0 ? _ik : null;
+    }
+
     public void setIk(Integer ik) {
         if (ik == null) {
             ik = 0;
         }
         _ik = ik;
         updateData();
-    }
-
-    public Integer getIk() {
-        return _ik > 0 ? _ik : null;
     }
 
     private void createAdminAccountList() {

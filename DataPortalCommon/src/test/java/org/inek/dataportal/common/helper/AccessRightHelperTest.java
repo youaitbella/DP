@@ -444,4 +444,314 @@ class AccessRightHelperTest {
     }
 
 
+    @Test
+    public void ensureAccountsWithExistingIkAdminTest() {
+        Account acc1 = createNewAccount(2);
+        acc1.addFeature(Feature.CARE, true);
+
+        Account acc2 = createNewAccount(3);
+        acc2.addFeature(Feature.CARE, true);
+
+        List<Account> accounts1 = new ArrayList<>();
+        accounts1.add(acc1);
+        accounts1.add(acc2);
+
+        int ik = 222222222;
+
+        AccessRight ar1 = new AccessRight(acc1.getId(), ik, Feature.CARE, Right.Read);
+        acc1.addAccessRigth(ar1);
+        AccessRight ar2 = new AccessRight(acc2.getId(), ik, Feature.CARE, Right.Read);
+        acc2.addAccessRigth(ar2);
+
+        List<Feature> features1 = new ArrayList<>();
+        features1.add(Feature.CARE);
+
+        List<IkAdmin> ikAdminsForIk = new ArrayList<>();
+        ikAdminsForIk.add(createNewIkAdmin(createNewAccount(1), ik, features1));
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, ikAdminsForIk, ik);
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc1.getAccessRights().get(0).getRight()).isEqualTo(Right.Read);
+        Assertions.assertThat(acc2.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc2.getAccessRights().get(0).getRight()).isEqualTo(Right.Read);
+
+    }
+
+    @Test
+    public void ensureAccountsWithoutExistingIkAdminTest() {
+        Account acc1 = createNewAccount(2);
+        acc1.addFeature(Feature.CARE, true);
+
+        Account acc2 = createNewAccount(3);
+        acc2.addFeature(Feature.CARE, true);
+
+        List<Account> accounts1 = new ArrayList<>();
+        accounts1.add(acc1);
+        accounts1.add(acc2);
+
+        int ik = 222222222;
+
+        AccessRight ar1 = new AccessRight(acc1.getId(), ik, Feature.CARE, Right.Read);
+        acc1.addAccessRigth(ar1);
+        AccessRight ar2 = new AccessRight(acc2.getId(), ik, Feature.CARE, Right.Read);
+        acc2.addAccessRigth(ar2);
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, new ArrayList<>(), ik);
+
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc1.getAccessRights().get(0).getRight()).isEqualTo(Right.Deny);
+        Assertions.assertThat(acc2.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc2.getAccessRights().get(0).getRight()).isEqualTo(Right.Deny);
+
+    }
+
+    @Test
+    public void ensureAccountAccesRightsWithIkAdminForAnotherFeatureTest() {
+        Account acc1 = createNewAccount(1);
+        acc1.addFeature(Feature.CARE, true);
+
+        Account acc2 = createNewAccount(2);
+        acc2.addFeature(Feature.CARE, true);
+
+        List<Account> accounts1 = new ArrayList<>();
+        accounts1.add(acc1);
+        accounts1.add(acc2);
+
+        int ik = 222222222;
+
+        AccessRight ar1 = new AccessRight(acc1.getId(), ik, Feature.CARE, Right.Read);
+        acc1.addAccessRigth(ar1);
+        AccessRight ar2 = new AccessRight(acc2.getId(), ik, Feature.CARE, Right.Read);
+        acc2.addAccessRigth(ar2);
+
+        List<Feature> features1 = new ArrayList<>();
+        features1.add(Feature.CALCULATION_HOSPITAL);
+
+        List<IkAdmin> ikAdminsForIk = new ArrayList<>();
+        ikAdminsForIk.add(createNewIkAdmin(createNewAccount(3), ik, features1));
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, ikAdminsForIk, ik);
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc1.getAccessRights().get(0).getRight()).isEqualTo(Right.Deny);
+        Assertions.assertThat(acc2.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc2.getAccessRights().get(0).getRight()).isEqualTo(Right.Deny);
+    }
+
+
+    @Test
+    public void ensureAccountsWithExistingIkAdminsTest() {
+        Account acc1 = createNewAccount(2);
+        acc1.addFeature(Feature.CARE, true);
+
+        Account acc2 = createNewAccount(3);
+        acc2.addFeature(Feature.CARE, true);
+
+        List<Account> accounts1 = new ArrayList<>();
+        accounts1.add(acc1);
+        accounts1.add(acc2);
+
+        int ik = 222222222;
+
+        AccessRight ar1 = new AccessRight(acc1.getId(), ik, Feature.CARE, Right.Read);
+        acc1.addAccessRigth(ar1);
+        AccessRight ar2 = new AccessRight(acc2.getId(), ik, Feature.CARE, Right.Read);
+        acc2.addAccessRigth(ar2);
+
+        List<Feature> features1 = new ArrayList<>();
+        features1.add(Feature.CARE);
+
+        List<IkAdmin> ikAdminsForIk = new ArrayList<>();
+        ikAdminsForIk.add(createNewIkAdmin(createNewAccount(1), ik, features1));
+        ikAdminsForIk.add(createNewIkAdmin(createNewAccount(4), ik, features1));
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, ikAdminsForIk, ik);
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc1.getAccessRights().get(0).getRight()).isEqualTo(Right.Read);
+        Assertions.assertThat(acc2.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc2.getAccessRights().get(0).getRight()).isEqualTo(Right.Read);
+
+    }
+
+    @Test
+    public void ensureAccountsWithMissingAccesRigthTest() {
+        Account acc1 = createNewAccount(2);
+        acc1.addFeature(Feature.CARE, true);
+
+        Account acc2 = createNewAccount(3);
+        acc2.addFeature(Feature.CARE, true);
+
+        List<Account> accounts1 = new ArrayList<>();
+        accounts1.add(acc1);
+        accounts1.add(acc2);
+
+        int ik = 222222222;
+
+        AccessRight ar1 = new AccessRight(acc1.getId(), ik, Feature.CARE, Right.Read);
+        acc1.addAccessRigth(ar1);
+
+        List<Feature> features1 = new ArrayList<>();
+        features1.add(Feature.CARE);
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, new ArrayList<>(), ik);
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc1.getAccessRights().get(0).getRight()).isEqualTo(Right.Deny);
+        Assertions.assertThat(acc2.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc2.getAccessRights().get(0).getRight()).isEqualTo(Right.Deny);
+    }
+
+    @Test
+    public void ensureAccountsWithIgnoreFeaturesTest() {
+        Account acc1 = createNewAccount(2);
+        acc1.addFeature(Feature.DROPBOX, true);
+
+        Account acc2 = createNewAccount(3);
+        acc2.addFeature(Feature.NUB, true);
+
+        List<Account> accounts1 = new ArrayList<>();
+        accounts1.add(acc1);
+        accounts1.add(acc2);
+
+        int ik = 222222222;
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, new ArrayList<>(), ik);
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(0);
+        Assertions.assertThat(acc2.getAccessRights()).hasSize(0);
+    }
+
+    @Test
+    public void ensureAccountsWithDifferentManagedBy() {
+        Account acc1 = createNewAccount(2);
+        acc1.addFeature(Feature.DROPBOX, true);
+
+        acc1.addFeature(Feature.CARE, true);
+
+        List<Account> accounts1 = new ArrayList<>();
+        accounts1.add(acc1);
+
+        int ik = 222222222;
+
+        AccessRight ar1 = new AccessRight(acc1.getId(), ik, Feature.CARE, Right.All);
+        acc1.addAccessRigth(ar1);
+        AccessRight ar2 = new AccessRight(acc1.getId(), ik, Feature.DROPBOX, Right.All);
+        acc1.addAccessRigth(ar2);
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, new ArrayList<>(), ik);
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(2);
+
+        Assertions.assertThat(acc1.getAccessRights().stream().anyMatch(ar -> ar.getRight().equals(Right.Deny) && ar.getFeature().equals(Feature.CARE))).isTrue();
+        Assertions.assertThat(acc1.getAccessRights().stream().anyMatch(ar -> ar.getRight().equals(Right.All) && ar.getFeature().equals(Feature.DROPBOX))).isTrue();
+
+    }
+
+    @Test
+    public void ensureAccountsWithMissingAccesRigth1Test() {
+        Account acc1 = createNewAccount(2);
+        acc1.addFeature(Feature.CARE, true);
+
+        Account acc2 = createNewAccount(3);
+        acc2.addFeature(Feature.CARE, true);
+
+        List<Account> accounts1 = new ArrayList<>();
+        accounts1.add(acc1);
+        accounts1.add(acc2);
+
+        int ik = 222222222;
+
+        AccessRight ar1 = new AccessRight(acc1.getId(), ik, Feature.CARE, Right.Read);
+        acc1.addAccessRigth(ar1);
+        AccessRight ar2 = new AccessRight(acc1.getId(), ik, Feature.HC_HOSPITAL, Right.Read);
+        acc2.addAccessRigth(ar2);
+
+        List<Feature> features1 = new ArrayList<>();
+        features1.add(Feature.CARE);
+
+        List<IkAdmin> ikAdminsForIk = new ArrayList<>();
+        ikAdminsForIk.add(createNewIkAdmin(createNewAccount(1), ik, features1));
+
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, ikAdminsForIk, ik);
+
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc1.getAccessRights().get(0).getRight()).isEqualTo(Right.Read);
+        Assertions.assertThat(acc2.getAccessRights()).hasSize(2);
+        Assertions.assertThat(acc2.getAccessRights().stream().allMatch(c -> c.getRight().equals(Right.Deny))).isTrue();
+    }
+
+    @Test
+    public void ensureAccountsWithDifferentIks() {
+        Account acc1 = createNewAccount(2);
+        acc1.addFeature(Feature.CARE, true);
+
+        Account acc2 = createNewAccount(3);
+        acc2.addFeature(Feature.CARE, true);
+
+        List<Account> accounts1 = new ArrayList<>();
+        accounts1.add(acc1);
+        accounts1.add(acc2);
+
+        int ik1 = 222222222;
+        int ik2 = 222222223;
+
+        AccessRight ar1 = new AccessRight(acc1.getId(), ik1, Feature.CARE, Right.Read);
+        acc1.addAccessRigth(ar1);
+
+        AccessRight ar2 = new AccessRight(acc1.getId(), ik2, Feature.HC_HOSPITAL, Right.Read);
+        acc2.addAccessRigth(ar2);
+
+        List<Feature> features1 = new ArrayList<>();
+        features1.add(Feature.CARE);
+
+        List<IkAdmin> ikAdminsForIk = new ArrayList<>();
+        ikAdminsForIk.add(createNewIkAdmin(createNewAccount(1), ik1, features1));
+
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, ikAdminsForIk, ik1);
+
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc1.getAccessRights().get(0).getRight()).isEqualTo(Right.Read);
+        Assertions.assertThat(acc2.getAccessRights()).hasSize(2);
+        Assertions.assertThat(acc2.getAccessRights().stream().anyMatch(ar -> ar.getFeature().equals(Feature.HC_HOSPITAL) && ar.getRight().equals(Right.Read) && ar.getIk() == ik2)).isTrue();
+
+        Assertions.assertThat(acc2.getAccessRights().stream().anyMatch(ar -> ar.getFeature().equals(Feature.CARE) && ar.getRight().equals(Right.Deny) && ar.getIk() == ik1)).isTrue();
+    }
+
+    @Test
+    public void ensureAccountsWithDifferentIksAndWihtoutIkAdmin() {
+        Account acc1 = createNewAccount(2);
+        acc1.addFeature(Feature.CARE, true);
+
+        Account acc2 = createNewAccount(3);
+        acc2.addFeature(Feature.CARE, true);
+        acc2.addFeature(Feature.HC_HOSPITAL, true);
+
+        List<Account> accounts1 = new ArrayList<>();
+        accounts1.add(acc1);
+        accounts1.add(acc2);
+
+        int ik1 = 222222222;
+        int ik2 = 222222223;
+
+        AccessRight ar1 = new AccessRight(acc1.getId(), ik1, Feature.CARE, Right.Read);
+        acc1.addAccessRigth(ar1);
+
+        AccessRight ar2 = new AccessRight(acc1.getId(), ik2, Feature.CARE, Right.Read);
+        acc2.addAccessRigth(ar2);
+
+        List<IkAdmin> ikAdminsForIk = new ArrayList<>();
+
+
+        AccessRightHelper.ensureRightsForAccounts(accounts1, ikAdminsForIk, ik1);
+
+        Assertions.assertThat(acc1.getAccessRights()).hasSize(1);
+        Assertions.assertThat(acc1.getAccessRights().get(0).getRight()).isEqualTo(Right.Deny);
+        Assertions.assertThat(acc2.getAccessRights()).hasSize(3);
+        Assertions.assertThat(acc2.getAccessRights().stream().anyMatch(ar -> ar.getFeature().equals(Feature.CARE) && ar.getRight().equals(Right.Read) && ar.getIk() == ik2)).isTrue();
+        Assertions.assertThat(acc2.getAccessRights().stream().anyMatch(ar -> ar.getFeature().equals(Feature.CARE) && ar.getRight().equals(Right.Deny) && ar.getIk() == ik1)).isTrue();
+        Assertions.assertThat(acc2.getAccessRights().stream().anyMatch(ar -> ar.getFeature().equals(Feature.HC_HOSPITAL) && ar.getRight().equals(Right.Deny) && ar.getIk() == ik1)).isTrue();
+    }
+
+
+
 }
+
+
