@@ -220,6 +220,7 @@ public class IkAdmin implements Serializable {
         }
 
         _accountFacade.merge(_account);
+        ensureRightsForAccounts(_ik);
         DialogController.showSaveDialog();
         createAdminAccountList();
 
