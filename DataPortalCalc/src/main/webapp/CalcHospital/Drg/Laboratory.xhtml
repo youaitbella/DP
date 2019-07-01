@@ -37,6 +37,7 @@
         }
     </style>
 
+    <div class="container">
     <h:dataTable id="lab"
                  value="#{editCalcBasicsDrg.laboratories}"
                  var="item"
@@ -153,6 +154,7 @@
         </h:column>
 
     </h:dataTable>
+    </div>
     
     <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('drglaboratory')}"
                          calcbase="#{editCalcBasicsDrg.calcBasics}" 
