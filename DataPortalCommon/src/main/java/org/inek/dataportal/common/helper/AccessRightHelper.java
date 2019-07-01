@@ -152,7 +152,8 @@ public class AccessRightHelper {
             List<AccessRight> accesRightsForIk = acc.getAccessRights().stream().filter(ar -> ar.getIk() == Ik).collect(Collectors.toList());
 
             for (AccountFeature accf : acc.getFeatures()) {
-                if (accesRightsForIk.stream().noneMatch(ar -> ar.getFeature().equals(accf.getFeature())) && accf.getFeature().getManagedBy().equals(ManagedBy.IkAdminOnly)) {
+                if (accesRightsForIk.stream().noneMatch(ar -> ar.getFeature().equals(accf.getFeature()))
+                        && accf.getFeature().getManagedBy().equals(ManagedBy.IkAdminOnly)) {
                     AccessRight ar1 = new AccessRight(acc.getId(), Ik, accf.getFeature(), Right.Deny);
                     acc.addAccessRigth(ar1);
                 } else {
@@ -164,7 +165,8 @@ public class AccessRightHelper {
 
             List<Feature> featurelist = getFeaturesFromAccesRights(accesRightsForIk);
             for (Feature feature : featurelist) {
-                if (acc.getFeatures().stream().noneMatch(af -> af.getFeature().equals(feature)) && feature.getManagedBy().equals(ManagedBy.IkAdminOnly)) {
+                if (acc.getFeatures().stream().noneMatch(af -> af.getFeature().equals(feature))
+                        && feature.getManagedBy().equals(ManagedBy.IkAdminOnly)) {
                     setAccesRightsForFeatureToRight(accesRightsForIk, feature, Right.Deny);
                 }
             }
