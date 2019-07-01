@@ -107,6 +107,7 @@ public class IkAdmin implements Serializable {
         account.removeIkAdmin(ik);
         _accountFacade.merge(account);
         ensureRightsForAccounts(ik);
+        DialogController.showSaveDialog();
         createAdminAccountList();
         return "";
     }
