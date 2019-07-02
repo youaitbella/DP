@@ -152,6 +152,7 @@ public class IkAdmin implements Serializable {
     }
 
     private void updateData() {
+        _selectedFeatures.clear();
         _adminAccounts.stream()
                 .filter(a -> a.getIk() == _ik && a.getAccount().equals(_account))
                 .findFirst()
