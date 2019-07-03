@@ -133,6 +133,7 @@ public class EditUserMaintenance extends AbstractEditController {
         addTopic(UserMaintenaceTabs.tabUMMaster.name(), Pages.UserMaintenanceMasterData.URL());
         addTopic(UserMaintenaceTabs.tabUMFeatures.name(), Pages.UserMaintenanceFeatures.URL());
         addTopic(UserMaintenaceTabs.tabUMOther.name(), Pages.UserMaintenanceOther.URL());
+        addTopic(UserMaintenaceTabs.tabUMResponsibility.name(), Pages.UserMaintenanceCompetence.URL());
     }
 
     /**
@@ -406,5 +407,6 @@ public class EditUserMaintenance extends AbstractEditController {
         tabUMMaster,
         tabUMFeatures,
         tabUMOther,
+        tabUMResponsibility,
     }
 }
