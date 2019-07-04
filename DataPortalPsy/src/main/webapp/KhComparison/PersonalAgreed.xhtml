@@ -9,7 +9,6 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:pf="http://primefaces.org/ui">
 
-
     <pf:dataTable id="listPersonalAgreed"
                   var="personal"
                   value="#{edit.aebBaseInformation.personalAgreed}"
@@ -26,7 +25,11 @@
         <pf:column headerText="Berufsgruppen">
             <pf:outputLabel value="#{personal.occupationalCategory.name}" />
         </pf:column>
-        <pf:column headerText="Stellenbesetzung in VK" style="text-align: right">
+        <pf:column id= "staffVkId" style="text-align: right" >
+            <f:facet name="header">
+                <h:outputText value="Stellenbesetzung in VK" />
+                <pf:tooltip value="Quelle: LKA, Blatt L2" for="staffVkId" />
+            </f:facet>
             <pf:inputNumber value="#{personal.complete}"
                             readonly="#{edit.isReadOnly()}"
                             decimalPlaces="2"
@@ -34,7 +37,11 @@
                 <pf:ajax />
             </pf:inputNumber>
         </pf:column>
-        <pf:column headerText="Durchschnittskosten je VK in Euro" style="text-align: right">
+        <pf:column id="staffCostVkId" style="text-align: right">
+            <f:facet name="header">
+                <h:outputText value="Durchschnittskosten je VK in Euro" />
+                <pf:tooltip value="Quelle: LKA, Blatt K3" for="staffCostVkId" />
+            </f:facet>
             <pf:inputNumber value="#{personal.averageCost}"
                             readonly="#{edit.isReadOnly()}"
                             symbol=" €"
