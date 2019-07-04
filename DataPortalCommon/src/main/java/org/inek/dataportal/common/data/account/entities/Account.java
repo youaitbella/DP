@@ -341,7 +341,7 @@ public class Account implements Serializable, Person {
     @JoinColumn(name = "arAccountId", referencedColumnName = "acId", insertable = false, updatable = false)
     private List<AccountResponsibility> _responsibleForIks;
 
-    public List<AccountResponsibility> get_responsibleForIks() {
+    public List<AccountResponsibility> getResponsibleForIks() {
         return _responsibleForIks;
     }
 

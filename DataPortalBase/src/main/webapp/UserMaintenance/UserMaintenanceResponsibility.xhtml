@@ -8,18 +8,18 @@
                 xmlns:pf="http://primefaces.org/ui"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input">
     <ui:define name="maintenanceContent">
-        <pf:dataTable var="function"
-                      value="#{editUserMaintenance.account.get_responsibleForIks()}">
+        <pf:dataTable var="AccountResponsibility"
+                      value="#{editUserMaintenance.account.responsibleForIks}">
             <pf:column headerText="Funktion">
-                <h:outputText value="#{editUserMaintenance.account._responsibleForIks.get(0).feature}" />
+                <h:outputText value="#{AccountResponsibility.feature}" />
             </pf:column>
 
             <pf:column headerText="Anwender IK">
-                <h:outputText value="#{editUserMaintenance.account._responsibleForIks.get(0).userIk}" />
+                <h:outputText value="#{AccountResponsibility.userIk}" />
             </pf:column>
 
             <pf:column headerText="Zuständig für">
-                <h:outputText value="#{editUserMaintenance.account._responsibleForIks.get(0).dataIk}" />
+                <h:outputText value="#{AccountResponsibility.dataIk}" />
             </pf:column>
 
         </pf:dataTable>
