@@ -11,15 +11,17 @@
         <pf:dataTable var="AccountResponsibility"
                       value="#{editUserMaintenance.account.responsibleForIks}">
             <pf:column headerText="Funktion">
-                <h:outputText value="#{AccountResponsibility.feature}" />
+                <h:outputText value="#{AccountResponsibility.feature.description}" />
             </pf:column>
 
             <pf:column headerText="Anwender IK">
-                <h:outputText value="#{AccountResponsibility.userIk}" />
+                <h:outputText var = "userIk" value="#{AccountResponsibility.userIk}" />
+                <h:outputText value=" (#{editUserMaintenance.getCustomerName(userIk)})" />
             </pf:column>
 
             <pf:column headerText="Zuständig für">
-                <h:outputText value="#{AccountResponsibility.dataIk}" />
+                <h:outputText var = "dataIk" value="#{AccountResponsibility.dataIk}" />
+                <h:outputText value=" (#{editUserMaintenance.getCustomerName(dataIk)})" />
             </pf:column>
 
         </pf:dataTable>
