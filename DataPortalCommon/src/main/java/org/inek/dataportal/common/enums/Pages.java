@@ -19,6 +19,7 @@ public enum Pages {
     UserMaintenanceMasterData("/UserMaintenance/UserMaintenanceMasterData"),
     UserMaintenanceFeatures("/UserMaintenance/UserMaintenanceFeatures"),
     UserMaintenanceOther("/UserMaintenance/UserMaintenanceOther"),
+    UserMaintenanceResponsibility("/UserMaintenance/UserMaintenanceResponsibility"),
     //
     PartNub("/NUB/PartNUB"),
     NubSummary("/NUB/NubSummary"),

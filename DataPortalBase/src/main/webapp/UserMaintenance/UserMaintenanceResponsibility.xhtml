@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="UserMaintenanceTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input">
+    <ui:define name="maintenanceContent">
+        <pf:dataTable var="AccountResponsibility"
+                      value="#{editUserMaintenance.account.responsibleForIks}">
+            <pf:column headerText="Funktion">
+                <h:outputText value="#{AccountResponsibility.feature.description}" />
+            </pf:column>
+
+            <pf:column headerText="Anwender IK">
+                <h:outputText value="#{AccountResponsibility.userIk}" />
+                <h:outputText value=" (#{editUserMaintenance.getCustomerName(AccountResponsibility.userIk)})" />
+            </pf:column>
+
+            <pf:column headerText="Zuständig für KH">
+                <h:outputText value="#{AccountResponsibility.dataIk}" />
+                <h:outputText value=" (#{editUserMaintenance.getCustomerName(AccountResponsibility.dataIk)})" />
+            </pf:column>
+
+        </pf:dataTable>
+    </ui:define>
+</ui:composition>

@@ -335,10 +335,16 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
+
     // <editor-fold defaultstate="collapsed" desc="Property Responsibilities">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, orphanRemoval = true)
     @JoinColumn(name = "arAccountId", referencedColumnName = "acId", insertable = false, updatable = false)
     private List<AccountResponsibility> _responsibleForIks;
+
+    public List<AccountResponsibility> getResponsibleForIks() {
+        return _responsibleForIks;
+    }
+
 
     public Set<Integer> obtainResponsibleForIks(Feature feature, Collection<Integer> userIks) {
         return _responsibleForIks
