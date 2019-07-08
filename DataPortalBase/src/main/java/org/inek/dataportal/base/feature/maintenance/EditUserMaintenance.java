@@ -12,6 +12,7 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
+import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.enums.Pages;
@@ -126,6 +127,7 @@ public class EditUserMaintenance extends AbstractEditController {
         _newPassword = "";
         _repeatPassword = "";
         setUsedIks();
+        addTopicResponsibility();
     }
 
     @Override
@@ -133,7 +135,6 @@ public class EditUserMaintenance extends AbstractEditController {
         addTopic(UserMaintenaceTabs.tabUMMaster.name(), Pages.UserMaintenanceMasterData.URL());
         addTopic(UserMaintenaceTabs.tabUMFeatures.name(), Pages.UserMaintenanceFeatures.URL());
         addTopic(UserMaintenaceTabs.tabUMOther.name(), Pages.UserMaintenanceOther.URL());
-        addTopic(UserMaintenaceTabs.tabUMResponsibility.name(), Pages.UserMaintenanceResponsibility.URL(),checkResponsibility());
     }
 
     /**
@@ -149,10 +150,12 @@ public class EditUserMaintenance extends AbstractEditController {
         setActiveTopic(newTopic);
     }
 
-    private boolean checkResponsibility(){
-        return (_account.getResponsibleForIks().size() > 0 )? true : false;
+    private void addTopicResponsibility(){
+        if(_account.getResponsibleForIks().size() > 0){
+            addTopic(UserMaintenaceTabs.tabUMResponsibility.name(), Pages.UserMaintenanceResponsibility.URL());
+        }
     }
-
+    
     private void setUsedIks() {
         for (int ik : _account.getFullIkSet()) {
             if (!_accountFacade.deleteIkAllowed(ik, _account)) {
