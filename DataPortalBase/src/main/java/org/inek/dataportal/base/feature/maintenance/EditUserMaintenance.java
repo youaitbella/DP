@@ -133,7 +133,7 @@ public class EditUserMaintenance extends AbstractEditController {
         addTopic(UserMaintenaceTabs.tabUMMaster.name(), Pages.UserMaintenanceMasterData.URL());
         addTopic(UserMaintenaceTabs.tabUMFeatures.name(), Pages.UserMaintenanceFeatures.URL());
         addTopic(UserMaintenaceTabs.tabUMOther.name(), Pages.UserMaintenanceOther.URL());
-        addTopic(UserMaintenaceTabs.tabUMResponsibility.name(), Pages.UserMaintenanceResponsibility.URL());
+        addTopic(UserMaintenaceTabs.tabUMResponsibility.name(), Pages.UserMaintenanceResponsibility.URL(),checkResponsibility());
     }
 
     /**
@@ -147,6 +147,10 @@ public class EditUserMaintenance extends AbstractEditController {
             return;
         }
         setActiveTopic(newTopic);
+    }
+
+    private boolean checkResponsibility(){
+        return (_account.getResponsibleForIks().size() > 0 )? true : false;
     }
 
     private void setUsedIks() {

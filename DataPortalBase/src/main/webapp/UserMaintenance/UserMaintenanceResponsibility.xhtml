@@ -15,13 +15,13 @@
             </pf:column>
 
             <pf:column headerText="Anwender IK">
-                <h:outputText var = "userIk" value="#{AccountResponsibility.userIk}" />
-                <h:outputText value=" (#{editUserMaintenance.getCustomerName(userIk)})" />
+                <h:outputText value="#{AccountResponsibility.userIk}" />
+                <h:outputText value=" (#{editUserMaintenance.getCustomerName(AccountResponsibility.userIk)})" />
             </pf:column>
 
-            <pf:column headerText="Zuständig für">
-                <h:outputText var = "dataIk" value="#{AccountResponsibility.dataIk}" />
-                <h:outputText value=" (#{editUserMaintenance.getCustomerName(dataIk)})" />
+            <pf:column headerText="Zuständig für KH">
+                <h:outputText value="#{AccountResponsibility.dataIk}" />
+                <h:outputText value=" (#{editUserMaintenance.getCustomerName(AccountResponsibility.dataIk)})" />
             </pf:column>
 
         </pf:dataTable>
