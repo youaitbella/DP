@@ -28,6 +28,7 @@ import org.inek.dataportal.psy.psychstaff.entity.*;
 import org.inek.dataportal.psy.psychstaff.enums.PsychType;
 import org.inek.dataportal.psy.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.psy.psychstaff.pdf.PdfBuilder;
+import org.inek.dataportal.psy.psychstaff.plausi.PsyStaffPlausiChecker;
 import org.primefaces.event.FileUploadEvent;
 
 import javax.annotation.PostConstruct;
@@ -60,9 +61,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     private static final String TOPIC_KIDS1 = "topicAppendix1Kids";
     private static final String TOPIC_ADULTS2 = "topicAppendix2Adults";
     private static final String TOPIC_KIDS2 = "topicAppendix2Kids";
-    private static final String PDF_DOCUMENT_APX1 = "PsychPersonalNachweis_Anlage1.pdf";
-    private static final String PDF_DOCUMENT_APX2 = "PsychPersonalNachweis_Anlage2.pdf";
     private static final String EXCEL_DOCUMENT = "PsychPersonalNachweis.xlsx";
+
+    private static final String ERROR_MESSAGE_1 = "Bitte vergessen Sie nicht, die Anlage noch abzuschließen. Sonst werden Ihre Daten nicht ans InEK übermittelt. (PID 1,3)";
 
     private AccessManager _accessManager;
     private SessionController _sessionController;
@@ -72,6 +73,16 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     private Mailer _mailer;
     private StaffProof _staffProof;
     private List<ExclusionFact> _exclusionFacts;
+
+    private String _plausiMessages = "";
+
+    public String getPlausiMessages() {
+        return _plausiMessages;
+    }
+
+    public void setPlausiMessages(String _plausiMessages) {
+        this._plausiMessages = _plausiMessages;
+    }
 
     public EditPsyStaff() {
     }
@@ -352,7 +363,13 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
             if (_staffProof.getId() >= 0) {
                 if (showMessage) {
-                    DialogController.showSaveDialog();
+                    if (checkForSaveMessages(_staffProof)) {
+                        DialogController.showInfoDialog("Speichern erfolgreich", ERROR_MESSAGE_1);
+                        return null;
+                    }
+                    else {
+                        DialogController.showSaveDialog();
+                    }
                 }
                 return null;
             } else {
@@ -364,6 +381,37 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
 
         return Pages.Error.URL();
+    }
+
+    private boolean checkForSaveMessages(StaffProof staffProof) {
+        int statusId = 0;
+        switch (getActiveTopicKey()) {
+            case TOPIC_BASE:
+                return false;
+            case TOPIC_ADULTS1:
+            case TOPIC_KIDS1:
+                statusId =  staffProof.getStatusApx1();
+                break;
+            case TOPIC_ADULTS2:
+            case TOPIC_KIDS2:
+                statusId =  staffProof.getStatusApx2();
+                break;
+            default:
+                return false;
+        }
+
+        return (exclusionFactIdIsSendEnableWithMessage(staffProof.getExclusionFact1().getId())
+                || exclusionFactIdIsSendEnableWithMessage(staffProof.getExclusionFact2().getId()))
+                && statusId != 10;
+    }
+
+    private boolean exclusionFactIdIsSendEnableWithMessage(int id) {
+        List<Integer> idsWithNeedMessage = new ArrayList<>();
+        idsWithNeedMessage.add(1);
+        idsWithNeedMessage.add(2);
+        idsWithNeedMessage.add(8);
+
+        return idsWithNeedMessage.contains(id);
     }
 
     private boolean IsReasonMissing() {
@@ -496,6 +544,20 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return "";
         }
 
+    }
+
+    public String tryToclose() {
+        PsyStaffPlausiChecker checker = new PsyStaffPlausiChecker();
+        checker.checkPsyStaff(_staffProof);
+
+        if (checker.isErrorsFound()) {
+            _plausiMessages = checker.getErrorMessages();
+            DialogController.openDialogByName("errorMessageDialog");
+        }
+        else {
+            close();
+        }
+        return null;
     }
 
     public String close() {
