@@ -8,13 +8,11 @@
                 xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="userInfo">
-        <style>
-            .ui-widget-overlay {
-                opacity: 0 !important;
-            }
-        </style>
-        <pf:dialog widgetVar="navigationDialog" modal="true" height="50" width="250" position="right bottom"
-                   style="opacity: 0.2 !important;">
+        <pf:dialog widgetVar="navigationDialog"
+                   height="50"
+                   width="250"
+                   style="opacity: 0.2 !important;"
+                   position="right bottom">
             <h:outputText value="Einen Augenblick bitte - die gewünschte Funktion wird geladen." />
         </pf:dialog>
 
@@ -60,7 +58,7 @@
             </li>
         </ui:repeat>
 
-        <hr class="leftSpace marginRight03"/>
+        <hr class="leftSpace marginRight03" />
 
         <ui:repeat value="#{sessionController.topicsForOtherPortals}" var="topic">
             <li class="#{topic.active ? 'activemenu' : 'menu'}">
