@@ -81,7 +81,7 @@ class Plausi_12Test {
         staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Kids, 1, 1, 0, 0));
         staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Kids, 2, 0, 0, 1));
 
-        Assertions.assertThat(plausi.isPlausiCheckOk(staffProof)).isFalse();
+        Assertions.assertThat(plausi.isPlausiCheckOk(staffProof)).isTrue();
     }
 
     @ParameterizedTest
