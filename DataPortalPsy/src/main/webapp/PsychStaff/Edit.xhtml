@@ -12,36 +12,40 @@
         <h:outputScript name="script/fileuploader.js" />
         <h:form id="psychStaff" enctype="multipart/form-data">
 
+
             <pf:dialog widgetVar="errorMessageDialog"
                        header="Auffällige Daten"
+                       appendTo="@(body)"
                        modal="true"
-                       width="40%"
+                       width="60%"
+                       height="600px"
                        closable="true"
                        resizable="true">
+                <div id="container" style="width: 100%; height:530px">
+                    <div>
+                        Folgende Auffälligkeiten wurden gefunden. Bitte überprüfen Sie, ob die eingegeben Daten richtig sind, und bestätigen Sie die Eingabe.
+                    </div>
 
-                <div>
-                    Folgende Auffälligkeiten wurden gefunden. Bitte überprüfen Sie, ob die eingegeben Daten richtig sind, und bestätigen Sie die Eingabe.
+                    <br />
+
+                    <pf:inputTextarea value="#{editPsyStaff.plausiMessages}"
+                                      readonly="true"
+                                      style="width: 100%; height: 400%" />
+
+                    <div id="buttons" style="position: absolute !important; bottom: 10px !important; vertical-align: bottom !important;">
+                        <pf:button styleClass="btnPsy"
+                                   value="Abbrechen"
+                                   style="position: relative;"
+                                   onclick="PF('errorMessageDialog').hide();" />
+
+                        <pf:commandButton styleClass="btnSend arrow-right"
+                                          value="Eingabe bestätigen"
+                                          action="#{editPsyStaff.close}"
+                                          style="position: relative;"
+                                          oncomplete="PF('errorMessageDialog').hide();"
+                                          update="@form" />
+                    </div>
                 </div>
-
-                <br />
-
-                <pf:inputTextarea value="#{editPsyStaff.plausiMessages}"
-                                  style="width: 100%; height: 70%" />
-
-                <div style="position: relative; height: 100%; width: 100%">
-                    <pf:button styleClass="btnPsy"
-                               value="Abbrechen"
-                               style="position: relative; right: 10; left: 10"
-                               onclick="PF('errorMessageDialog').hide();" />
-
-                    <pf:commandButton styleClass="btnSend arrow-right"
-                                      value="Eingabe bestätigen"
-                                      action="#{editPsyStaff.close}"
-                                      style="position: relative; right: 10; left: 10"
-                                      oncomplete="PF('errorMessageDialog').hide();"
-                                      update="@form" />
-                </div>
-
             </pf:dialog>
 
             <h1><h:commandLink value="#{featureMsg.namePSYCH_STAFF}"

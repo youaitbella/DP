@@ -7,7 +7,7 @@ import java.util.List;
 
 public class PsyStaffPlausiChecker {
 
-    private List<String> _errorMessages = new ArrayList<>();
+    private List<PsyStaffPlausi> _errorPlausis = new ArrayList<>();
 
     private List<PsyStaffPlausi> _plausis = new ArrayList<>();
 
@@ -18,21 +18,38 @@ public class PsyStaffPlausiChecker {
     private void collectPlausis() {
         _plausis.add(new Plausi_9());
         _plausis.add(new Plausi_10());
+        _plausis.add(new Plausi_11());
+        _plausis.add(new Plausi_12());
     }
 
     public String getErrorMessages() {
-        return _errorMessages.toString();
+        return buildErrorMessageString();
     }
 
     public boolean isErrorsFound() {
-        return !_errorMessages.isEmpty();
+        return !_errorPlausis.isEmpty();
     }
 
     public void checkPsyStaff(StaffProof staffProof) {
         for (PsyStaffPlausi plausi : _plausis) {
             if (!plausi.isPlausiCheckOk(staffProof)) {
-                _errorMessages.add(plausi.getErrorMessage());
+                _errorPlausis.add(plausi);
             }
         }
+    }
+
+    private String buildErrorMessageString() {
+        StringBuilder errorString = new StringBuilder();
+
+        for (PsyStaffPlausi plausi : _errorPlausis) {
+            errorString.append(buildStringForPlausi(plausi));
+            errorString.append("\n");
+        }
+
+        return errorString.toString();
+    }
+
+    private String buildStringForPlausi(PsyStaffPlausi plausi) {
+        return String.format("PrüfungsNr. %s: %s", plausi.getPId(), plausi.getErrorMessage());
     }
 }
