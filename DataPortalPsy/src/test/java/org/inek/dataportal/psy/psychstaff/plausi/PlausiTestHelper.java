@@ -24,9 +24,26 @@ public class PlausiTestHelper {
         return staffProofAgreed;
     }
 
+    public static StaffProofAgreed createStaffProofAgreed(PsychType psychType, int occupancyId, double complete, double budget, double cost, String name) {
+        StaffProofAgreed staffProofAgreed = new StaffProofAgreed();
+        staffProofAgreed.setPsychType(psychType);
+        staffProofAgreed.setOccupationalCategory(createOccupationalCategory(occupancyId, name));
+        staffProofAgreed.setStaffingComplete(complete);
+        staffProofAgreed.setStaffingBudget(budget);
+        staffProofAgreed.setAvgCost(cost);
+        return staffProofAgreed;
+    }
+
     public static OccupationalCategory createOccupationalCategory(int id) {
         OccupationalCategory category = new OccupationalCategory();
         category.setId(id);
+        return category;
+    }
+
+    public static OccupationalCategory createOccupationalCategory(int id, String name) {
+        OccupationalCategory category = new OccupationalCategory();
+        category.setId(id);
+        category.setName(name);
         return category;
     }
 
