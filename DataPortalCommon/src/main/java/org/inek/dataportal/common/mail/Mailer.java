@@ -58,7 +58,7 @@ public class Mailer implements Serializable {
     }
 
     public boolean sendMail(String recipient, String bcc, String subject, String body) {
-        return sendMailFrom("DSAnfragen@inek-drg.de", recipient, bcc, subject, body);
+        return sendMailFrom("Anfragen@datenstelle.de", recipient, bcc, subject, body);
     }
 
     public boolean sendMailFrom(String from, String recipient, String bcc, String subject, String body) {

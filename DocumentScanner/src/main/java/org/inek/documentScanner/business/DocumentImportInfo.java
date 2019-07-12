@@ -31,7 +31,7 @@ public class DocumentImportInfo {
     private final Set<Account> _accounts = new HashSet<>();
     private final Map<String, String> _fileDomains = new HashMap<>();
     private final Map<String, byte[]> _files = new HashMap<>();
-    private String _sender = "DSAnfragen@inek-drg.de";
+    private String _sender = "Anfragen@datenstelle.de";
     private String _bcc = "fehlerverfahren@inek-drg.de";
     private String _subject = "";
     private String _body = "";
