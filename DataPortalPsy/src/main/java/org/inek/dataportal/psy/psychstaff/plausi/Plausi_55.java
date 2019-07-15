@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class Plausi_55 implements PsyStaffPlausi {
 
-    private String _errorMessageTemplate = "Für Anlage 1 (KJP) wurden keine Angaben zur Berufsgruppe {bg} gemacht.";
+    private String _errorMessageTemplate = "Für Anlage 1 (KJP) wurden keine Angaben zur Berufsgruppe(n) {bg} gemacht.";
 
     @Override
     public String getPId() {
