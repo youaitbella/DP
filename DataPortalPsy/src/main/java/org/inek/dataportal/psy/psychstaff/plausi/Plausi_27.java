@@ -16,7 +16,7 @@ public class Plausi_27 implements PsyStaffPlausi {
     public String getErrorMessage() {
         return "Das Verhältnis der übermittelten Ist-PsychPV-Personalkosten in Anlage 2 (Erw) zu der Summe der " +
                 "vereinbarten Durchschnittskosten * VK aus Anlage 1 (Erw) erscheint unplausibel hoch (Die Ist-Personalkosten liegen um " +
-                "mehr als 50% über den vereinbarten Personalkosten). Bitte prüfen Sie Ihre Angaben und nehmen Sie bitte ggf. Korrekturen vor.";
+                "mehr als 50% über den vereinbarten Personalkosten).";
     }
 
     @Override

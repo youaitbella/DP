@@ -14,8 +14,7 @@ public class Plausi_13 implements PsyStaffPlausi {
     @Override
     public String getErrorMessage() {
         return "Für Anlage 1 (Erw) wurden VK-Angaben in der Spalte in der Spalte \"Stellenbesetzung für eine vollständige Umsetzung der Psych-PV\" " +
-                "übermittelt, jedoch fehlen die Angaben in der Spalte \"Stellenbesetzung als Budgetgrundlage in VK\". " +
-                "Bitte prüfen Sie Ihre Angaben und nehmen Sie bitte ggf. Korrekturen vor.";
+                "übermittelt, jedoch fehlen die Angaben in der Spalte \"Stellenbesetzung als Budgetgrundlage in VK\".";
     }
 
     @Override

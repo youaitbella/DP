@@ -13,8 +13,7 @@ public class Plausi_22 implements PsyStaffPlausi {
 
     @Override
     public String getErrorMessage() {
-        return "Für Anlage 2 (KJP) wurde kein Ausnahmetatbestand ausgewählt und keine VK-Angaben übermittelt. " +
-                "Bitte prüfen Sie Ihre Angaben und nehmen Sie bitte ggf. Korrekturen vor.";
+        return "Für Anlage 2 (KJP) wurde kein Ausnahmetatbestand ausgewählt und keine VK-Angaben übermittelt.";
     }
 
     @Override

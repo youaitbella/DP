@@ -13,8 +13,7 @@ public class Plausi_11 implements PsyStaffPlausi {
 
     @Override
     public String getErrorMessage() {
-        return "Für Anlage 1 (Erw) wurden VK-Angaben übermittelt, jedoch fehlen die Angaben zu den Durchschnittskosten je Berufsgruppe. " +
-                "Bitte prüfen Sie Ihre Angaben und nehmen Sie bitte ggf. Korrekturen vor.";
+        return "Für Anlage 1 (Erw) wurden VK-Angaben übermittelt, jedoch fehlen die Angaben zu den Durchschnittskosten je Berufsgruppe.";
     }
 
     @Override

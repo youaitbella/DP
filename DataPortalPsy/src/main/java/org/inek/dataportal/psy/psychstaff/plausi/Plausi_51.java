@@ -10,7 +10,7 @@ import java.util.List;
 public class Plausi_51 implements PsyStaffPlausi {
 
     private String _errorMessageTemplate = "Für Anlage 1 (KJP) wurde für die Berufsgruppe(n) {bg} Durchschnittskosten angegeben, " +
-            "aber keine VK-Anzahl übermittelt. Bitte prüfen Sie Ihre Angaben und nehmen Sie bitte ggf. Korrekturen vor.";
+            "aber keine VK-Anzahl übermittelt.";
 
     @Override
     public String getPId() {

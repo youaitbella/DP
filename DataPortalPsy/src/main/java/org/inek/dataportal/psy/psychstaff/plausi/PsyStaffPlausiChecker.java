@@ -42,6 +42,8 @@ public class PsyStaffPlausiChecker {
         _plausis.add(new Plausi_59());
         _plausis.add(new Plausi_60());
         _plausis.add(new Plausi_61());
+        _plausis.add(new Plausi_62());
+        _plausis.add(new Plausi_63());
     }
 
     public String getErrorMessages() {
