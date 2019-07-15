@@ -31,8 +31,7 @@ public class Plausi_52 implements PsyStaffPlausi {
             for (StaffProofAgreed staffProofAgreed : staffProof.getStaffProofsAgreed(PsychType.Adults)) {
                 if (staffProofAgreed.getStaffingComplete() == 0
                         && staffProofAgreed.getStaffingBudget() == 0
-                        && staffProofAgreed.getAvgCost() > 0
-                        && staffProofAgreed.getOccupationalCategory().getId() < 7) {
+                        && staffProofAgreed.getAvgCost() > 0) {
                     cats.add(staffProofAgreed.getOccupationalCategory().getName());
                 }
             }

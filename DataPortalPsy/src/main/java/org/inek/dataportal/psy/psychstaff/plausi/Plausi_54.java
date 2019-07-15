@@ -6,15 +6,15 @@ import org.inek.dataportal.psy.psychstaff.enums.PsychType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class Plausi_51 implements PsyStaffPlausi {
+public class Plausi_54 implements PsyStaffPlausi {
 
-    private String _errorMessageTemplate = "Für Anlage 1 (KJP) wurde für die Berufsgruppe(n) {bg} Durchschnittskosten angegeben, " +
-            "aber keine VK-Anzahl übermittelt. Bitte prüfen Sie Ihre Angaben und nehmen Sie bitte ggf. Korrekturen vor.";
+    private String _errorMessageTemplate = "Für Anlage 1 (Erw) wurden keine Angaben zur Berufsgruppe {bg} gemacht.";
 
     @Override
     public String getPId() {
-        return "51";
+        return "54";
     }
 
     @Override
@@ -25,13 +25,16 @@ public class Plausi_51 implements PsyStaffPlausi {
     @Override
     public boolean isPlausiCheckOk(StaffProof staffProof) {
         if (staffProof.getExclusionFactId1() == 0
-                && staffProof.isForKids()) {
+                && staffProof.isForAdults()) {
             List<String> cats = new ArrayList<>();
 
-            for (StaffProofAgreed staffProofAgreed : staffProof.getStaffProofsAgreed(PsychType.Kids)) {
+            for (StaffProofAgreed staffProofAgreed : staffProof.getStaffProofsAgreed(PsychType.Adults)
+                    .stream()
+                    .filter(c -> c.getOccupationalCategory().getId() == 1 || c.getOccupationalCategory().getId() == 2)
+                    .collect(Collectors.toList())) {
                 if (staffProofAgreed.getStaffingComplete() == 0
                         && staffProofAgreed.getStaffingBudget() == 0
-                        && staffProofAgreed.getAvgCost() > 0) {
+                        && staffProofAgreed.getAvgCost() == 0) {
                     cats.add(staffProofAgreed.getOccupationalCategory().getName());
                 }
             }

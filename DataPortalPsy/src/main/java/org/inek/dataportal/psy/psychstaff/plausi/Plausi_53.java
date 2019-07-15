@@ -7,14 +7,14 @@ import org.inek.dataportal.psy.psychstaff.enums.PsychType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Plausi_51 implements PsyStaffPlausi {
+public class Plausi_53 implements PsyStaffPlausi {
 
-    private String _errorMessageTemplate = "Für Anlage 1 (KJP) wurde für die Berufsgruppe(n) {bg} Durchschnittskosten angegeben, " +
-            "aber keine VK-Anzahl übermittelt. Bitte prüfen Sie Ihre Angaben und nehmen Sie bitte ggf. Korrekturen vor.";
+    private String _errorMessageTemplate = "Für Anlage 1 (KJP) wurde für die Berufsgruppe(n) {bg} eine VK-Anzahl übermittelt, " +
+            "aber keine Durchschnittskosten angegeben.";
 
     @Override
     public String getPId() {
-        return "51";
+        return "53";
     }
 
     @Override
@@ -29,9 +29,9 @@ public class Plausi_51 implements PsyStaffPlausi {
             List<String> cats = new ArrayList<>();
 
             for (StaffProofAgreed staffProofAgreed : staffProof.getStaffProofsAgreed(PsychType.Kids)) {
-                if (staffProofAgreed.getStaffingComplete() == 0
-                        && staffProofAgreed.getStaffingBudget() == 0
-                        && staffProofAgreed.getAvgCost() > 0) {
+                if ((staffProofAgreed.getStaffingComplete() > 0
+                        || staffProofAgreed.getStaffingBudget() > 0)
+                        && staffProofAgreed.getAvgCost() == 0) {
                     cats.add(staffProofAgreed.getOccupationalCategory().getName());
                 }
             }
