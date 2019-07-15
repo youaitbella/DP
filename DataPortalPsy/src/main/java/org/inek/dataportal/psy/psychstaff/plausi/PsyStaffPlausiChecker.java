@@ -1,5 +1,6 @@
 package org.inek.dataportal.psy.psychstaff.plausi;
 
+import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.psy.psychstaff.entity.StaffProof;
 
 import java.util.ArrayList;
@@ -11,11 +12,25 @@ public class PsyStaffPlausiChecker {
 
     private List<PsyStaffPlausi> _plausis = new ArrayList<>();
 
-    public PsyStaffPlausiChecker() {
-        collectPlausis();
+    public PsyStaffPlausiChecker(int apendix) {
+        switch (apendix) {
+            case 1:
+                collectAllPlausisForAppendix1();
+                collectAllPlausisForBothAppendix();
+                break;
+            case 2:
+                collectAllPlausisForAppendix2();
+                collectAllPlausisForBothAppendix();
+                break;
+            default:
+                collectAllPlausisForAppendix1();
+                collectAllPlausisForAppendix2();
+                collectAllPlausisForBothAppendix();
+                break;
+        }
     }
 
-    private void collectPlausis() {
+    private void collectAllPlausisForAppendix1() {
         _plausis.add(new Plausi_9());
         _plausis.add(new Plausi_10());
         _plausis.add(new Plausi_11());
@@ -24,12 +39,6 @@ public class PsyStaffPlausiChecker {
         _plausis.add(new Plausi_14());
         _plausis.add(new Plausi_15());
         _plausis.add(new Plausi_16());
-        _plausis.add(new Plausi_21());
-        _plausis.add(new Plausi_22());
-        _plausis.add(new Plausi_25());
-        _plausis.add(new Plausi_26());
-        _plausis.add(new Plausi_27());
-        _plausis.add(new Plausi_28());
         _plausis.add(new Plausi_50());
         _plausis.add(new Plausi_51());
         _plausis.add(new Plausi_52());
@@ -42,6 +51,18 @@ public class PsyStaffPlausiChecker {
         _plausis.add(new Plausi_59());
         _plausis.add(new Plausi_60());
         _plausis.add(new Plausi_61());
+    }
+
+    private void collectAllPlausisForAppendix2() {
+        _plausis.add(new Plausi_21());
+        _plausis.add(new Plausi_22());
+    }
+
+    private void collectAllPlausisForBothAppendix() {
+        _plausis.add(new Plausi_25());
+        _plausis.add(new Plausi_26());
+        _plausis.add(new Plausi_27());
+        _plausis.add(new Plausi_28());
         _plausis.add(new Plausi_62());
         _plausis.add(new Plausi_63());
     }

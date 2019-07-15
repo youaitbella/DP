@@ -547,7 +547,22 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public String tryToclose() {
-        PsyStaffPlausiChecker checker = new PsyStaffPlausiChecker();
+        int apendix = 0;
+        switch (getActiveTopicKey()) {
+            case TOPIC_BASE:
+            case TOPIC_ADULTS1:
+            case TOPIC_KIDS1:
+                apendix = 1;
+                break;
+            case TOPIC_ADULTS2:
+            case TOPIC_KIDS2:
+                apendix = 2;
+                break;
+            default:
+                break;
+        }
+
+        PsyStaffPlausiChecker checker = new PsyStaffPlausiChecker(apendix);
         checker.checkPsyStaff(_staffProof);
 
         if (checker.isErrorsFound()) {
