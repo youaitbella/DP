@@ -600,16 +600,16 @@ public class AebImporter {
     }
 
     private void addErrorMessage(String value) {
-        _errorMessages += value + "\n \n";
+        _errorMessages += value + "\n";
     }
 
     private void handleImporterException(Exception ex) {
-        if (ex.getClass().isInstance(FormulaInCellException.class)) {
-            addErrorMessage("Blatt [" + ((FormulaInCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: "
-                    + ((FormulaInCellException) ex).getCell().getAddress() + "Formeln sind nicht erlaubt.");
-        } else if (ex.getClass().isInstance(StringInNumericCellException.class)) {
-            addErrorMessage("Blatt [" + ((StringInNumericCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: "
-                    + ((StringInNumericCellException) ex).getCell().getAddress() + "Text in Zahlenspalte gefunden.");
+        if (ex instanceof FormulaInCellException) {
+            addErrorMessage("Blatt [" + ((FormulaInCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: ["
+                    + ((FormulaInCellException) ex).getCell().getAddress() + "] Formeln sind nicht erlaubt.");
+        } else if (ex instanceof StringInNumericCellException) {
+            addErrorMessage("Blatt [" + ((StringInNumericCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: ["
+                    + ((StringInNumericCellException) ex).getCell().getAddress() + "] Text in Zahlenspalte gefunden.");
         }
     }
 }
