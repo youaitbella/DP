@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 
 public class Plausi_56 implements PsyStaffPlausi {
 
-    private String _errorMessageTemplate = "Für die Berufsgruppe(n) {bg} in Anlage 1 (Erw) wurden auffällig niedrige Durchschnittskosten ausgewiesen.";
+    private String _errorMessageTemplate = "Für die Berufsgruppe(n) {bg} in Anlage 1 (Erw) " +
+            "wurden auffällig niedrige Durchschnittskosten ausgewiesen.";
 
     @Override
     public String getPId() {

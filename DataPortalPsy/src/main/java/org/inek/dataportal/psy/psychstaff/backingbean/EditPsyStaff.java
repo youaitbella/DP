@@ -63,7 +63,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     private static final String TOPIC_KIDS2 = "topicAppendix2Kids";
     private static final String EXCEL_DOCUMENT = "PsychPersonalNachweis.xlsx";
 
-    private static final String ERROR_MESSAGE_1 = "Bitte vergessen Sie nicht, die Anlage noch abzuschließen. Sonst werden Ihre Daten nicht ans InEK übermittelt. (PID 1,3)";
+    private static final String ERROR_MESSAGE_1 = "Bitte vergessen Sie nicht, die Anlage noch abzuschließen. " +
+            "Sonst werden Ihre Daten nicht ans InEK übermittelt. (PID 1,3)";
 
     private AccessManager _accessManager;
     private SessionController _sessionController;
@@ -80,8 +81,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return _plausiMessages;
     }
 
-    public void setPlausiMessages(String _plausiMessages) {
-        this._plausiMessages = _plausiMessages;
+    public void setPlausiMessages(String plausiMessages) {
+        this._plausiMessages = plausiMessages;
     }
 
     public EditPsyStaff() {

@@ -9,7 +9,8 @@ import java.util.List;
 
 public class Plausi_57 implements PsyStaffPlausi {
 
-    private String _errorMessageTemplate = "Für die Berufsgruppe(n) {bg} in Anlage 1 (KJP) wurden auffällig niedrige Durchschnittskosten ausgewiesen.";
+    private String _errorMessageTemplate = "Für die Berufsgruppe(n) {bg} in Anlage 1 (KJP) " +
+            "wurden auffällig niedrige Durchschnittskosten ausgewiesen.";
 
     @Override
     public String getPId() {
