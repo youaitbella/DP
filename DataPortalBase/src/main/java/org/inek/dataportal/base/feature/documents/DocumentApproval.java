@@ -277,7 +277,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         Charset charset = Charset.forName("UTF-8");
         JsonReader reader = Json.createReader(new ByteArrayInputStream(jsonMail.getBytes(charset)));
         JsonObject mailInfo = reader.readObject();
-        String from = mailInfo.getString("from", "DSAnfragen@inek-drg.de");
+        String from = mailInfo.getString("from", "Anfragen@datenstelle.de");
         String bcc = mailInfo.getString("bcc");
         String subject = mailInfo.getString("subject");
         for (Account account : accounts) {
