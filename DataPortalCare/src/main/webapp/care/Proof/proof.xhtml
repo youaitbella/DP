@@ -3,7 +3,6 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:inekInput="http://xmlns.jcp.org/jsf/composite/components/Input"
                 xmlns:pf="http://primefaces.org/ui">
 
     <pf:dialog id="dlgStationSelectionid"
@@ -174,13 +173,17 @@
                 <pf:message for="proofPatientOccupancy" />
             </pf:column>
             <pf:column headerText="Anzahl Schichten, in denen die PPUG im Monat nicht eingehalten wurde">
-                <inekInput:InputNumber value="#{proof.countShiftNotRespected}"
-                                       Style="width: 96%;"
-                                       minValue="0"
-                                       maxValue="31"
-                                       require="true"
-                                       requiredMessage="Bitte geben Sie einen Wert ein"
-                                       readonly="#{proofEdit.isReadOnly}" />
+                <pf:inputNumber value="#{proof.countShiftNotRespected}"
+                                Style="width: 96%;"
+                                minValue="0"
+                                maxValue="31"
+                                require="true"
+                                requiredMessage="Bitte geben Sie einen Wert ein"
+                                readonly="#{proofEdit.isReadOnly}">
+                    <pf:ajax event="change"
+                             immediate="true" />
+                    <pf:focus />
+                </pf:inputNumber>
             </pf:column>
             <pf:column headerText="rechnerische Anzahl Patienten je Pflegekraft" style="text-align: right;">
                 <h:outputLabel id="patientPerNurseId"
