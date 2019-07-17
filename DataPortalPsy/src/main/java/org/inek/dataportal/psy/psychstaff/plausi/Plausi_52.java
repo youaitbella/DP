@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Plausi_52 implements PsyStaffPlausi {
 
-    private String _errorMessageTemplate = "Für Anlage 1 (ErwP) wurde für die Berufsgruppe(n) {bg} Durchschnittskosten angegeben, " +
+    private String _errorMessageTemplate = "Für Anlage 1 (Erw) wurde für die Berufsgruppe(n) {bg} Durchschnittskosten angegeben, " +
             "aber keine VK-Anzahl übermittelt.";
 
     @Override
@@ -29,9 +29,9 @@ public class Plausi_52 implements PsyStaffPlausi {
             List<String> cats = new ArrayList<>();
 
             for (StaffProofAgreed staffProofAgreed : staffProof.getStaffProofsAgreed(PsychType.Adults)) {
-                if (staffProofAgreed.getStaffingComplete() == 0
-                        && staffProofAgreed.getStaffingBudget() == 0
-                        && staffProofAgreed.getAvgCost() > 0) {
+                if ((staffProofAgreed.getStaffingComplete() > 0
+                        || staffProofAgreed.getStaffingBudget() > 0)
+                        && staffProofAgreed.getAvgCost() == 0) {
                     cats.add(staffProofAgreed.getOccupationalCategory().getName());
                 }
             }

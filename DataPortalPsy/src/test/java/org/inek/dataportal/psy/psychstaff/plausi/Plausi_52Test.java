@@ -81,11 +81,7 @@ class Plausi_52Test {
         staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Adults, 1, 0, 0, 4,"Gruppe 1"));
         staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Adults, 2, 3, 0, 2,"Gruppe 2"));
 
-        Assertions.assertThat(plausi.isPlausiCheckOk(staffProof)).isFalse();
-
-        String errorMessage = plausi.getErrorMessage();
-        Assertions.assertThat(errorMessage).contains("Gruppe 1");
-        Assertions.assertThat(errorMessage).doesNotContain("Gruppe 2");
+        Assertions.assertThat(plausi.isPlausiCheckOk(staffProof)).isTrue();
     }
 
     @ParameterizedTest
@@ -100,11 +96,7 @@ class Plausi_52Test {
         staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Adults, 1, 0, 0, 3,"Gruppe 1"));
         staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Adults, 2, 0, 0, 2,"Gruppe 2"));
 
-        Assertions.assertThat(plausi.isPlausiCheckOk(staffProof)).isFalse();
-
-        String errorMessage = plausi.getErrorMessage();
-        Assertions.assertThat(errorMessage).contains("Gruppe 1");
-        Assertions.assertThat(errorMessage).contains("Gruppe 2");
+        Assertions.assertThat(plausi.isPlausiCheckOk(staffProof)).isTrue();
     }
 
     @ParameterizedTest
@@ -116,10 +108,13 @@ class Plausi_52Test {
         staffProof.setForAdults(true);
         staffProof.setExclusionFact1(PlausiTestHelper.getExclusionFact(correctId));
 
-        staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Adults, 1, 1, 0, 0));
-        staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Adults, 2, 0, 1, 0));
+        staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Adults, 1, 1, 0, 0,"Gruppe 1"));
+        staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Adults, 2, 0, 1, 0,"Gruppe 2"));
 
-        Assertions.assertThat(plausi.isPlausiCheckOk(staffProof)).isTrue();
+        Assertions.assertThat(plausi.isPlausiCheckOk(staffProof)).isFalse();
+        String errorMessage = plausi.getErrorMessage();
+        Assertions.assertThat(errorMessage).contains("Gruppe 1");
+        Assertions.assertThat(errorMessage).contains("Gruppe 2");
     }
 
     @ParameterizedTest
@@ -146,9 +141,12 @@ class Plausi_52Test {
         staffProof.setForAdults(true);
         staffProof.setExclusionFact1(PlausiTestHelper.getExclusionFact(correctId));
 
-        staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Adults, 1, 0, 1, 0));
-        staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Adults, 2, 0, 1, 0));
+        staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Adults, 1, 0, 0, 0,"Gruppe 1"));
+        staffProof.addStaffProofAgreed(PlausiTestHelper.createStaffProofAgreed(PsychType.Adults, 2, 0, 1, 0,"Gruppe 2"));
 
-        Assertions.assertThat(plausi.isPlausiCheckOk(staffProof)).isTrue();
+        Assertions.assertThat(plausi.isPlausiCheckOk(staffProof)).isFalse();
+        String errorMessage = plausi.getErrorMessage();
+        Assertions.assertThat(errorMessage).doesNotContain("Gruppe 1");
+        Assertions.assertThat(errorMessage).contains("Gruppe 2");
     }
 }

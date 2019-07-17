@@ -347,7 +347,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return null;
         }
         if (_staffProof.getYear() < 2016) {
-            DialogController.showInfoDialog("Speichern nicht möglich",
+            DialogController.showErrorDialog("Speichern nicht möglich",
                     "Ohne Angabe eines Datenjahrs können Sie nicht speichern. Je IK kann jedes Datenjahr nur einmal gewählt werden.");
             return null;
         }
@@ -365,7 +365,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             if (_staffProof.getId() >= 0) {
                 if (showMessage) {
                     if (checkForSaveMessages(_staffProof)) {
-                        DialogController.showInfoDialog("Speichern erfolgreich", ERROR_MESSAGE_1);
+                        DialogController.showWarningDialog("Speichern erfolgreich", ERROR_MESSAGE_1);
                         return null;
                     }
                     else {
