@@ -86,6 +86,9 @@ public class AEBFacade extends AbstractDataAccess {
     }
 
     public List<AEBBaseInformation> getAllByStatusAndIk(List<WorkflowStatus> status, Set<Integer> iks, CustomerTyp typ) {
+        if (iks.size() == 0 || status.size() == 0) {
+            return new ArrayList<>();
+        }
         String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._status in :status "
                 + "and bi._ik in :iks "
                 + "and bi._typ = :typ";
