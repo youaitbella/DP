@@ -8,6 +8,7 @@ package org.inek.dataportal.common.data.KhComparison.facade;
 import javafx.util.Pair;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
+import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonInfo;
 import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyGroup;
@@ -170,6 +171,16 @@ public class AEBFacade extends AbstractDataAccess {
         return result;
     }
 
+    public List<Integer> getUsedDataYears(int ik) {
+        String sql = "select distinct biDataYear from psy.AEBBaseInformation\n"
+                + "where biIk = " + ik + "\n"
+                + "and biStatusId in (10, 3, 200)";
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> result = query.getResultList();
+        return result;
+    }
+
     @Transactional
     public AEBBaseInformation save(AEBBaseInformation aebBaseInformation) {
         if (aebBaseInformation.getId() == -1) {
@@ -181,6 +192,15 @@ public class AEBFacade extends AbstractDataAccess {
 
     @Transactional
     public StructureBaseInformation save(StructureBaseInformation info) {
+        if (info.getId() == 0) {
+            persist(info);
+            return info;
+        }
+        return merge(info);
+    }
+
+    @Transactional
+    public HosptalComparisonInfo save(HosptalComparisonInfo info) {
         if (info.getId() == 0) {
             persist(info);
             return info;
@@ -206,4 +226,15 @@ public class AEBFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql);
         query.executeUpdate();
     }
+
+    public List<HosptalComparisonInfo> getHosptalComparisonInfoByIks(Set<Integer> iks) {
+        if (iks.isEmpty()) {
+            return new ArrayList<>();
+        }
+        String jpql = "select hc from HosptalComparisonInfo hc where hc._hospitalIk in :ik";
+        TypedQuery<HosptalComparisonInfo> query = getEntityManager().createQuery(jpql, HosptalComparisonInfo.class);
+        query.setParameter("ik", iks);
+        return query.getResultList();
+    }
+
 }

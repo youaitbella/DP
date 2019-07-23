@@ -187,6 +187,7 @@ public enum Pages {
     PsychStaffListButtons("/PsychStaff/fragment/ListButtons"),
     //
     KhComparisonSummary("/KhComparison/Summary"),
+    KhComparisonEvaluation("/KhComparison/Evaluation"),
     KhComparisonEdit("/KhComparison/Edit"),
     StructureBaseInformationEdit("/KhComparison/StructureInformation/StructureInformationEdit"),
     PartKhComparison("/KhComparison/PartKhComparison"),
