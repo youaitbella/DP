@@ -16,10 +16,10 @@ import java.util.List;
  */
 public class AebChecker {
 
-    private static final String MESSAGE_NOT_IN_CATALOG_PEPP = "%s: Pepp [%s] Vergütungsklasse [%s] ist nicht im Katalog %s oder " +
-            "im Katalog %s vorhanden";
+    private static final String MESSAGE_NOT_IN_CATALOG_PEPP = "%s: Pepp [%s] Vergütungsklasse [%s] Bewertungsrelation [%s] ist nicht im " +
+            "Katalog %s oder im Katalog %s vorhanden";
 
-    private static final String MESSAGE_NOT_IN_CATALOG_ET_ZE = "%s: Eintrag [%s] ist nicht im Katalog %s oder " +
+    private static final String MESSAGE_NOT_IN_CATALOG_ET_ZE = "%s: Eintrag [%s] Bewertungsrelation [%s] ist nicht im Katalog %s oder " +
             "im Katalog %s vorhanden";
 
     private static final String MESSAGE_NO_VALID_PEPP = "%s: Eintrag [%s] ist keine gültige Pepp";
@@ -227,15 +227,17 @@ public class AebChecker {
 
     private String createNotInCatalogPeppMessage(AEBBaseInformation info, AEBPageE1_1 page) {
         return String.format(MESSAGE_NOT_IN_CATALOG_PEPP, page.getImportetFrom(), page.getPepp(), page.getCompensationClass(),
-                info.getYear(), info.getYear() - 1);
+                page.getValuationRadioDay(), info.getYear(), info.getYear() - 1);
     }
 
     private String createNotInCatalogEtMessage(AEBBaseInformation info, AEBPageE1_2 page) {
-        return String.format(MESSAGE_NOT_IN_CATALOG_ET_ZE, page.getImportetFrom(), page.getEt(), info.getYear(), info.getYear() - 1);
+        return String.format(MESSAGE_NOT_IN_CATALOG_ET_ZE, page.getImportetFrom(), page.getEt(), page.getValuationRadioDay(),
+                info.getYear(), info.getYear() - 1);
     }
 
     private String createNotInCatalogZeMessage(AEBBaseInformation info, AEBPageE2 page) {
-        return String.format(MESSAGE_NOT_IN_CATALOG_ET_ZE, page.getImportetFrom(), page.getZe(), info.getYear(), info.getYear() - 1);
+        return String.format(MESSAGE_NOT_IN_CATALOG_ET_ZE, page.getImportetFrom(), page.getZe(),
+                page.getValuationRadioDay(), info.getYear(), info.getYear() - 1);
     }
 
     private String createNoValidPeppMessage(AEBPageE1_1 page) {
