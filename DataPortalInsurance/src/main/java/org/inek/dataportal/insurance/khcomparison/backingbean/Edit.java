@@ -151,7 +151,13 @@ public class Edit {
 
     private Boolean save(Boolean sendCheck) {
         _errorMessage = "";
-        if (baseInfoisComplete(_aebBaseInformation) && baseInfoIsCorrect(_aebBaseInformation, sendCheck)) {
+        if (!baseInfoisComplete(_aebBaseInformation)) {
+            DialogController.showWarningDialog("Fehler beim Speichern",
+                    "Bitte geben Sie eine gültige IK und Datenjahr");
+            return false;
+        }
+
+        if (baseInfoIsCorrect(_aebBaseInformation, sendCheck)) {
             removeEmptyEntries(_aebBaseInformation);
             AebCheckerHelper.ensureValuationRadios(_aebBaseInformation, _aebListItemFacade);
             _aebBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
@@ -172,7 +178,7 @@ public class Edit {
             return true;
         } else {
             DialogController.showWarningDialog("Fehler beim Speichern",
-                    "Bitte geben Sie eine gültige IK und Datenjahr an und überprüfen Sie das Fehlerprotokoll");
+                    "Bitte überprüfen Sie das Fehlerprotokoll");
             return false;
         }
     }

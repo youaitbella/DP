@@ -16,6 +16,22 @@ import java.util.List;
  */
 public class AebChecker {
 
+    private static final String MESSAGE_NOT_IN_CATALOG_PEPP = "%s: Pepp [%s] Vergütungsklasse [%s] ist nicht im Katalog %s oder " +
+            "im Katalog %s vorhanden";
+
+    private static final String MESSAGE_NOT_IN_CATALOG_ET_ZE = "%s: Eintrag [%s] ist nicht im Katalog %s oder " +
+            "im Katalog %s vorhanden";
+
+    private static final String MESSAGE_NO_VALID_PEPP = "%s: Eintrag [%s] ist keine gültige Pepp";
+    private static final String MESSAGE_NO_VALID_ET = "%s: Eintrag [%s] ist kein gültiges ET";
+    private static final String MESSAGE_NO_VALID_ZE = "%s: Eintrag [%s] ist kein gültiges ZE";
+
+    private static final String MESSAGE_DIFFERENT_VALUES_PEPP = "%s: Pepp [%s] Vergütunsgklasse [%s]: Unterschiedliche Werte! " +
+            "Eingetragen: [%s] Katalog: [%s}. Die Werte wurden durch die Katalogwerte überschrieben.";
+
+    private static final String MESSAGE_DIFFERENT_VALUES_ET_ZE = "%s: [%s] Unterschiedliche Werte! " +
+            "Eingetragen: [%s] Katalog: [%s}. Die Werte wurden durch die Katalogwerte überschrieben.";
+
     private AEBListItemFacade _aebListItemFacade;
 
     private String _message = "";
@@ -80,7 +96,7 @@ public class AebChecker {
     }
 
     private double round(double value) {
-        return (double)Math.round(value * 100d) / 100d;
+        return (double) Math.round(value * 100d) / 100d;
     }
 
     private void checkPageE3_1(AEBBaseInformation info) {
@@ -89,8 +105,7 @@ public class AebChecker {
         for (AEBPageE3_1 page : info.getAebPageE3_1()) {
             if (!RenumerationChecker.isFormalValidPepp(page.getRenumeration())) {
                 peppsForRemove.add(page);
-                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getRenumeration() + "] ist keine gültige Pepp");
-                continue;
+                addMessage(createNoValidPeppMessage(page));
             }
         }
         if (_removeWrongEntries) {
@@ -104,8 +119,7 @@ public class AebChecker {
         for (AEBPageE3_2 page : info.getAebPageE3_2()) {
             if (!RenumerationChecker.isFormalValidZe(page.getZe())) {
                 zeForRemove.add(page);
-                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getZe() + "] ist keine gültiges ZE");
-                continue;
+                addMessage(createNoValidZeMessage(page));
             }
         }
         if (_removeWrongEntries) {
@@ -119,8 +133,7 @@ public class AebChecker {
         for (AEBPageE3_3 page : info.getAebPageE3_3()) {
             if (!RenumerationChecker.isFormalValidPepp(page.getRenumeration())) {
                 zeForRemove.add(page);
-                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getRenumeration() + "] ist keine gültige Pepp");
-                continue;
+                addMessage(createNoValidPeppMessage(page));
             }
         }
         if (_removeWrongEntries) {
@@ -139,33 +152,22 @@ public class AebChecker {
     }
 
     private void checkPageE1_1(AEBBaseInformation info) {
-
         List<AEBPageE1_1> peppsForRemove = new ArrayList<>();
 
         for (AEBPageE1_1 page : info.getAebPageE1_1()) {
             if (!RenumerationChecker.isFormalValidPepp(page.getPepp())) {
                 peppsForRemove.add(page);
-                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getPepp() + "] ist keine gültige Pepp");
+                addMessage(createNoValidPeppMessage(page));
                 continue;
             }
-            double value = _aebListItemFacade.getValuationRadioDaysByPepp(page.getPepp(),
-                    page.getCompensationClass(),
-                    info.getYear());
-            if (value == 0) {
-                peppsForRemove.add(page);
-                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getPepp() + "] Vergütungsklasse " +
-                        "[" + page.getCompensationClass() + "] ist nicht im Katalog " + info.getYear() + " vorhanden");
-                continue;
-            }
-            if (page.getValuationRadioDay() != value) {
-                addMessage(page.getImportetFrom() + ": Pepp: " + page.getPepp() + " - "
-                        + page.getCompensationClass()
-                        + ": Unterschiedliche Werte. Eingetragen: "
-                        + page.getValuationRadioDay()
-                        + " Katalog: "
-                        + value
-                );
-                page.setValuationRadioDay(value);
+            if (!_aebListItemFacade.existPageCombinationInYear(page, info.getYear())) {
+                if (!_aebListItemFacade.existPageCombinationInYear(page, info.getYear() - 1)) {
+                    peppsForRemove.add(page);
+                    addMessage(createNotInCatalogPeppMessage(info, page));
+                }
+                else {
+                    page.setIsOverlyer(true);
+                }
             }
         }
         if (_removeWrongEntries) {
@@ -180,24 +182,17 @@ public class AebChecker {
         for (AEBPageE1_2 page : info.getAebPageE1_2()) {
             if (!RenumerationChecker.isFormalValidEt(page.getEt())) {
                 etForRemove.add(page);
-                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getEt() + "] ist kein gültiges ET");
+                addMessage(createNoValidEtMessage(page));
                 continue;
             }
-            double value = _aebListItemFacade.getValuationRadioDaysByEt(page.getEt(),
-                    info.getYear());
-            if (value == 0) {
-                etForRemove.add(page);
-                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getEt() + "] ist nicht im Katalog " + info.getYear() + " vorhanden");
-                continue;
-            }
-            if (page.getValuationRadioDay() != value) {
-                addMessage(page.getImportetFrom() + ": ET: " + page.getEt()
-                        + ": Unterschiedliche Werte. Eingetragen: "
-                        + page.getValuationRadioDay()
-                        + " Katalog: "
-                        + value
-                );
-                page.setValuationRadioDay(value);
+            if (!_aebListItemFacade.existPageCombinationInYear(page, info.getYear())) {
+                if (!_aebListItemFacade.existPageCombinationInYear(page, info.getYear() - 1)) {
+                    etForRemove.add(page);
+                    addMessage(createNotInCatalogEtMessage(info, page));
+                }
+                else {
+                    page.setIsOverlyer(true);
+                }
             }
         }
         if (_removeWrongEntries) {
@@ -212,30 +207,61 @@ public class AebChecker {
         for (AEBPageE2 page : info.getAebPageE2()) {
             if (!RenumerationChecker.isFormalValidZe(page.getZe())) {
                 zeForRemove.add(page);
-                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getZe() + "] ist kein gültiges ZE");
+                addMessage(createNoValidZeMessage(page));
                 continue;
             }
-            double value = _aebListItemFacade.getValuationRadioDaysByZe(page.getZe(),
-                    info.getYear());
-            if (value == 0) {
-                zeForRemove.add(page);
-                addMessage(page.getImportetFrom() + ": Eintrag [" + page.getZe() + "] ist nicht im Katalog " + info.getYear() + " vorhanden");
-                continue;
-            }
-            if (page.getValuationRadioDay() != value) {
-                addMessage(page.getImportetFrom() + ": Ze: " + page.getZe()
-                        + ": Unterschiedliche Werte. Eingetragen: "
-                        + page.getValuationRadioDay()
-                        + " Katalog: "
-                        + value
-                );
-                page.setValuationRadioDay(value);
+            if (!_aebListItemFacade.existPageCombinationInYear(page, info.getYear())) {
+                if (!_aebListItemFacade.existPageCombinationInYear(page, info.getYear() - 1)) {
+                    zeForRemove.add(page);
+                    addMessage(createNotInCatalogZeMessage(info, page));
+                }
+                else {
+                    page.setIsOverlyer(true);
+                }
             }
         }
         if (_removeWrongEntries) {
             info.getAebPageE2().removeAll(zeForRemove);
         }
     }
+
+    private String createNotInCatalogPeppMessage(AEBBaseInformation info, AEBPageE1_1 page) {
+        return String.format(MESSAGE_NOT_IN_CATALOG_PEPP, page.getImportetFrom(), page.getPepp(), page.getCompensationClass(),
+                info.getYear(), info.getYear() - 1);
+    }
+
+    private String createNotInCatalogEtMessage(AEBBaseInformation info, AEBPageE1_2 page) {
+        return String.format(MESSAGE_NOT_IN_CATALOG_ET_ZE, page.getImportetFrom(), page.getEt(), info.getYear(), info.getYear() - 1);
+    }
+
+    private String createNotInCatalogZeMessage(AEBBaseInformation info, AEBPageE2 page) {
+        return String.format(MESSAGE_NOT_IN_CATALOG_ET_ZE, page.getImportetFrom(), page.getZe(), info.getYear(), info.getYear() - 1);
+    }
+
+    private String createNoValidPeppMessage(AEBPageE1_1 page) {
+        return String.format(MESSAGE_NO_VALID_PEPP, page.getImportetFrom(), page.getPepp());
+    }
+
+    private String createNoValidPeppMessage(AEBPageE3_1 page) {
+        return String.format(MESSAGE_NO_VALID_PEPP, page.getImportetFrom(), page.getRenumeration());
+    }
+
+    private String createNoValidPeppMessage(AEBPageE3_3 page) {
+        return String.format(MESSAGE_NO_VALID_PEPP, page.getImportetFrom(), page.getRenumeration());
+    }
+
+    private String createNoValidEtMessage(AEBPageE1_2 page) {
+        return String.format(MESSAGE_NO_VALID_ET, page.getImportetFrom(), page.getEt());
+    }
+
+    private String createNoValidZeMessage(AEBPageE2 page) {
+        return String.format(MESSAGE_NO_VALID_ZE, page.getImportetFrom(), page.getZe());
+    }
+
+    private String createNoValidZeMessage(AEBPageE3_2 page) {
+        return String.format(MESSAGE_NO_VALID_ZE, page.getImportetFrom(), page.getZe());
+    }
+
 
     private void addMessage(String message) {
         setMessage(getMessage() + message + "\n");
