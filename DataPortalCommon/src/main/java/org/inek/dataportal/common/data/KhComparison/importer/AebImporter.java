@@ -52,13 +52,14 @@ public class AebImporter {
     private static final int MAX_SCAN_ROWS_B1 = 60;
 
     private static final String ERROR_TEXT = "Import fehlgeschlagen: ";
+    private static final String NO_ERROR_MESSAGES = "Keine Fehlermeldungen vorhanden";
 
     private int _counter = 0;
 
     private String _errorMessages = "";
 
     public String getErrorMessages() {
-        return _errorMessages;
+        return _errorMessages.isEmpty() ? NO_ERROR_MESSAGES : _errorMessages;
     }
 
     public int getCounter() {

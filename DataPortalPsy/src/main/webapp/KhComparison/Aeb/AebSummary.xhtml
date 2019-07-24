@@ -32,6 +32,7 @@
                    uploadLabel="Datei Hochladen"
                    label="Exceldatei auswählen"
                    update="@form" />
+    <h2 jsf:rendered="#{edit.errorMessage.length() gt 0}">Fehler- / Importprotokoll</h2>
     <pf:inputTextarea value="#{edit.errorMessage}"
                       rendered="#{edit.errorMessage.length() gt 0}"
                       style="width: 100%; max-height: 500px" />
