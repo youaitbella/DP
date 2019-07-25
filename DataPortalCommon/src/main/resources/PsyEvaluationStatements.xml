@@ -1,0 +1,57 @@
+<statements>
+
+    <statement id="KH_2_3_5_6_8_9">
+        select biid
+        from (
+        select ROW_NUMBER() over (partition by bi.biIk order by bi.biIk, bi.biTyp ,bi.bistatusid, bi.biSend desc) as
+        'rowNum', bi.biId
+        from psy.AEBBaseInformation bi
+        where bi.biIk = {ik}
+        and bi.biDataYear = {year}
+        and bi.biStatusId in (10,200)
+        ) a
+        where a.rowNum = 1;
+    </statement>
+
+    <statement id="Gruppe_2_3_8_9">
+        declare @year int;
+        declare @psyGroupid int;
+
+        set @year = {year};
+        set @psyGroupid = {psyGroupId};
+
+        -- Ermittlung der Krankenhäuser für die Bundesländer
+        select a.ik
+        into #[customerStates]
+        from (
+        select cu.cuik as 'ik', case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end as 'stateId'
+        from CallCenterDB.dbo.ccCustomer cu
+        where cuIsTest = 0
+        and cuIsActive = 1
+        and cast(cuIK as varchar) like '2%'
+        ) a
+        where a.stateId in ({stateIds});
+
+        select eh.ehIk
+        into #[IksWithSamePsyGroupAndState]
+        from psy.ExpectedHospital eh
+        join #[customerStates] cs on cs.ik = eh.ehIk
+        where eh.ehYear = @year
+        and eh.ehPsyGroup = @psyGroupid;
+
+        select biid
+        from (
+        select ROW_NUMBER() over (partition by bi.biIk order by bi.biIk, bi.biTyp ,bi.bistatusid, bi.biSend desc) as
+        'rowNum', bi.biId
+        from psy.AEBBaseInformation bi
+        where bi.biIk in (select * from #[IksWithSamePsyGroupAndState])
+        and bi.biDataYear = @year
+        and bi.biStatusId in (10,200)
+        ) a
+        where a.rowNum = 1;
+
+        drop table #[customerStates];
+        drop table #[IksWithSamePsyGroupAndState];
+    </statement>
+
+</statements>

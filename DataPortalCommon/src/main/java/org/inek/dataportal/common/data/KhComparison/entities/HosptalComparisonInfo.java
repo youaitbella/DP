@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
+import org.inek.dataportal.common.data.KhComparison.enums.PsyGroup;
 import org.inek.dataportal.common.data.converter.StructureInformationCategorieConverter;
 import org.inek.dataportal.common.enums.StructureInformationCategorie;
 
@@ -115,17 +116,18 @@ public class HosptalComparisonInfo implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property HospitalTypeId">
-    @Column(name = "hciHospitalTypeId")
-    private int _hospitalTypeId;
+    //<editor-fold defaultstate="collapsed" desc="Property hciHospitalPsyGroupId">
+    @Column(name = "hciHospitalPsyGroupId")
+    private int _hospitalPsyGroupId;
 
-    public int getHospitalTypeId() {
-        return _hospitalTypeId;
+    public PsyGroup getHospitalPsyGroup() {
+        return PsyGroup.getById(_hospitalPsyGroupId);
     }
 
-    public void setHospitalTypeId(int hospitalTypeId) {
-        this._hospitalTypeId = hospitalTypeId;
+    public void setHospitalPsyGroup(PsyGroup psyGroup) {
+        this._hospitalPsyGroupId = psyGroup.getId();
     }
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property HospitalStateId">
@@ -178,7 +180,7 @@ public class HosptalComparisonInfo implements Serializable {
         HosptalComparisonInfo that = (HosptalComparisonInfo) o;
         return _agreementYear == that._agreementYear &&
                 _accountId == that._accountId &&
-                _hospitalTypeId == that._hospitalTypeId &&
+                _hospitalPsyGroupId == that._hospitalPsyGroupId &&
                 _hospitalStateId == that._hospitalStateId &&
                 _hospitalIk == that._hospitalIk &&
                 Objects.equals(_hospitalComparisonId, that._hospitalComparisonId) &&
@@ -190,6 +192,6 @@ public class HosptalComparisonInfo implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(_hospitalComparisonId, _agreementYear, _createdAt, _accountId, _accountFirstName, _accountLastName,
-                _hospitalTypeId, _hospitalStateId, _hospitalIk);
+                _hospitalPsyGroupId, _hospitalStateId, _hospitalIk);
     }
 }

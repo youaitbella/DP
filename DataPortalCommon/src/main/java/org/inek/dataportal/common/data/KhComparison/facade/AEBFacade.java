@@ -14,6 +14,7 @@ import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInform
 import org.inek.dataportal.common.data.KhComparison.enums.PsyGroup;
 import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.XmlReaderPsyEvaluation;
 
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
@@ -237,4 +238,50 @@ public class AEBFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    public PsyGroup getPsyGroupByIkAndYear(int ik, int year) {
+        String sql = "select ehPsyGroup\n" +
+                "from psy.ExpectedHospital\n" +
+                "where ehIk = " + ik + "\n" +
+                "and ehYear = " + year + "";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> result = query.getResultList();
+        if (result.size() == 1) {
+            return PsyGroup.getById(result.get(0));
+        } else {
+            throw new IllegalArgumentException("PsyGroup not found for IK: " + ik + " and Year: " + year);
+        }
+    }
+
+
+    public List<Integer> getAebIdsForEvaluationGroup2_3_8_9(String stateIds, int year, PsyGroup psyGroup){
+        String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_2_3_8_9");
+        sql = sql.replace("{year}", String.valueOf(year));
+        sql = sql.replace("{psyGroupId}", String.valueOf(psyGroup.getId()));
+        sql = sql.replace("{stateIds}", stateIds);
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> results = query.getResultList();
+
+        return results;
+    }
+
+    public int getAebIdForEvaluationHospital2_3_5_6_8_9(int ik, int year){
+        String sql = XmlReaderPsyEvaluation.getStatementById("KH_2_3_5_6_8_9");
+        sql = sql.replace("{year}", String.valueOf(year));
+        sql = sql.replace("{ik}", String.valueOf(ik));
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        getEntityManager().getEntityManagerFactory()
+        @SuppressWarnings("unchecked")
+        List<Integer> result = query.getResultList();
+
+        if (result.size() == 1) {
+            return result.get(0);
+        } else {
+            return 0;
+        }
+    }
 }

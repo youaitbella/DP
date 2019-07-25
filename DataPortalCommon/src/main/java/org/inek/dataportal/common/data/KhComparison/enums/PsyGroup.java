@@ -22,4 +22,13 @@ public enum PsyGroup {
     public String getText() {
         return _text;
     }
+
+    public static PsyGroup getById(int id) {
+        for (PsyGroup group : PsyGroup.values()) {
+            if (group.getId() == id) {
+                return group;
+            }
+        }
+        return PsyGroup.Other;
+    }
 }

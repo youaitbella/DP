@@ -10,23 +10,21 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonEvaluations;
+import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonHospitals;
 import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonInfo;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyEvaluationType;
+import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonHospitalsType;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.common.data.icmt.enums.State;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.omg.DynamicAny.DynArray;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author lautenti
@@ -34,6 +32,8 @@ import java.util.Set;
 @Named
 @FeatureScoped
 public class Evaluation {
+
+    private static final String ALL_STATE_IDS = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16";
 
     @Inject
     private AEBFacade _aebFacade;
@@ -141,21 +141,100 @@ public class Evaluation {
         newInfo.setHospitalIk(_selectedIk);
         newInfo.setCreatedAt(new Date());
         newInfo.setHospitalComparisonId(createNewHcId());
-        newInfo.setHospitalStateId(cus.getPsyState().equals(State.Unknown) ? cus.getState().getId() : cus.getState().getId() );
-        newInfo.setHospitalTypeId(cus.getPsyHospitalType().getId());
+        newInfo.setHospitalStateId(cus.getPsyState().equals(State.Unknown) ? cus.getState().getId() : cus.getState().getId());
+        newInfo.setHospitalPsyGroup(_aebFacade.getPsyGroupByIkAndYear(_selectedIk, _selectedAgreementYear - 1));
         ensureHosptalComparisonEvaluations(newInfo);
         _aebFacade.save(newInfo);
     }
 
     private void ensureHosptalComparisonEvaluations(HosptalComparisonInfo info) {
         for (PsyEvaluationType psyEvaluationType : PsyEvaluationType.values()) {
-            HosptalComparisonEvaluations evaluation = new HosptalComparisonEvaluations();
-            evaluation.setEvaluationTypeId(psyEvaluationType.getId());
-            info.addHosptalComparisonEvaluations(evaluation);
+            Optional<HosptalComparisonEvaluations> evaluation = getHosptalComparisonEvaluations(psyEvaluationType, info);
+            evaluation.ifPresent(info::addHosptalComparisonEvaluations);
         }
+    }
+
+    private Optional<HosptalComparisonEvaluations> getHosptalComparisonEvaluations(PsyEvaluationType psyEvaluationType, HosptalComparisonInfo info) {
+        HosptalComparisonEvaluations evaluation = new HosptalComparisonEvaluations();
+        evaluation.setEvaluationTypeId(psyEvaluationType.getId());
+        int aebId = 0;
+        List<Integer> aebIdsForGroup = new ArrayList<>();
+
+        switch (psyEvaluationType) {
+            case Type_1:
+                break;
+            case Type_2:
+                aebId = _aebFacade.getAebIdForEvaluationHospital2_3_5_6_8_9(info.getHospitalIk(),
+                        info.getAgreementYear() - 1);
+
+                aebIdsForGroup = _aebFacade.getAebIdsForEvaluationGroup2_3_8_9(String.valueOf(info.getHospitalStateId()),
+                        info.getAgreementYear() - 1, info.getHospitalPsyGroup());
+                break;
+            case Type_3:
+                aebId = _aebFacade.getAebIdForEvaluationHospital2_3_5_6_8_9(info.getHospitalIk(),
+                        info.getAgreementYear() - 2);
+
+                aebIdsForGroup = _aebFacade.getAebIdsForEvaluationGroup2_3_8_9(String.valueOf(info.getHospitalStateId()),
+                        info.getAgreementYear() - 2, info.getHospitalPsyGroup());
+                break;
+            case Type_4:
+                break;
+            case Type_5:
+                aebId = _aebFacade.getAebIdForEvaluationHospital2_3_5_6_8_9(info.getHospitalIk(),
+                        info.getAgreementYear() - 1);
+                break;
+            case Type_6:
+                aebId = _aebFacade.getAebIdForEvaluationHospital2_3_5_6_8_9(info.getHospitalIk(),
+                        info.getAgreementYear() - 2);
+                break;
+            case Type_7:
+                break;
+            case Type_8:
+                aebId = _aebFacade.getAebIdForEvaluationHospital2_3_5_6_8_9(info.getHospitalIk(),
+                        info.getAgreementYear() - 1);
+
+                aebIdsForGroup = _aebFacade.getAebIdsForEvaluationGroup2_3_8_9(ALL_STATE_IDS,
+                        info.getAgreementYear() - 1, info.getHospitalPsyGroup());
+                break;
+            case Type_9:
+                aebId = _aebFacade.getAebIdForEvaluationHospital2_3_5_6_8_9(info.getHospitalIk(),
+                        info.getAgreementYear() - 2);
+
+                aebIdsForGroup = _aebFacade.getAebIdsForEvaluationGroup2_3_8_9(ALL_STATE_IDS,
+                        info.getAgreementYear() - 2, info.getHospitalPsyGroup());
+                break;
+            default:
+                throw new IllegalArgumentException("invalid psyEvaluationType: " + psyEvaluationType.toString());
+        }
+
+        if (aebId == 0 || aebIdsForGroup.size() < 4) {
+            return Optional.empty();
+        }
+
+        // Add aebids to evaluationType
+        evaluation.addHosptalComparisonHospitals(createHosptalComparisonHospitalsForIdsAndType(new ArrayList<>(aebId),
+                PsyHosptalComparisonHospitalsType.Hospital));
+
+        evaluation.addHosptalComparisonHospitals(createHosptalComparisonHospitalsForIdsAndType(aebIdsForGroup,
+                PsyHosptalComparisonHospitalsType.Group));
+
+        return Optional.of(evaluation);
     }
 
     private String createNewHcId() {
         return RandomStringUtils.randomAlphanumeric(15);
+    }
+
+    private List<HosptalComparisonHospitals> createHosptalComparisonHospitalsForIdsAndType(List<Integer> ids,
+                                                                                           PsyHosptalComparisonHospitalsType type) {
+        List<HosptalComparisonHospitals> hosptalComparisonHospitals = new ArrayList<>();
+
+        for (Integer id : ids) {
+            HosptalComparisonHospitals ho = new HosptalComparisonHospitals();
+            ho.setAebBaseInformationId(id);
+            ho.setType(type);
+        }
+
+        return hosptalComparisonHospitals;
     }
 }

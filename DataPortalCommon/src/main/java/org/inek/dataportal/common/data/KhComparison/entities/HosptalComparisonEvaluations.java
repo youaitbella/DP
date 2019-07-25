@@ -76,6 +76,13 @@ public class HosptalComparisonEvaluations implements Serializable {
         _hosptalComparisonHospitals.add(hospital);
     }
 
+    public void addHosptalComparisonHospitals(List<HosptalComparisonHospitals> hospitals) {
+        for (HosptalComparisonHospitals hospital : hospitals) {
+            hospital.setHosptalComparisonEvaluations(this);
+            _hosptalComparisonHospitals.add(hospital);
+        }
+    }
+
 
     @Override
     public boolean equals(Object o) {
