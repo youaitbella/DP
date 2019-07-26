@@ -9,8 +9,10 @@ class XmlReaderPsyEvaluationTest {
     void getStatementByIdTest() {
         String value1 = XmlReaderPsyEvaluation.getStatementById("Gruppe_2_3_8_9");
         String value2 = XmlReaderPsyEvaluation.getStatementById("KH_2_3_5_6_8_9");
+        String value3 = XmlReaderPsyEvaluation.getStatementById("KH_1_4_7");
 
         Assertions.assertThat(value1).isNotEmpty();
         Assertions.assertThat(value2).isNotEmpty();
+        Assertions.assertThat(value3).isNotEmpty();
     }
 }

@@ -255,7 +255,7 @@ public class AEBFacade extends AbstractDataAccess {
     }
 
 
-    public List<Integer> getAebIdsForEvaluationGroup2_3_8_9(String stateIds, int year, PsyGroup psyGroup){
+    public List<Integer> getAebIdsForEvaluationGroup2_3_8_9(String stateIds, int year, PsyGroup psyGroup) {
         String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_2_3_8_9");
         sql = sql.replace("{year}", String.valueOf(year));
         sql = sql.replace("{psyGroupId}", String.valueOf(psyGroup.getId()));
@@ -268,13 +268,57 @@ public class AEBFacade extends AbstractDataAccess {
         return results;
     }
 
-    public int getAebIdForEvaluationHospital2_3_5_6_8_9(int ik, int year){
-        String sql = XmlReaderPsyEvaluation.getStatementById("KH_2_3_5_6_8_9");
+    public List<Integer> getAebIdsForEvaluationGroup1_7(String stateIds, int year, PsyGroup psyGroup) {
+        String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_1_7");
+        sql = sql.replace("{year}", String.valueOf(year));
+        sql = sql.replace("{psyGroupId}", String.valueOf(psyGroup.getId()));
+        sql = sql.replace("{stateIds}", stateIds);
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> results = query.getResultList();
+
+        return results;
+    }
+
+    public List<Integer> getAebIdsForEvaluationGroup5_6(String stateIds, int year) {
+        String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_5_6");
+        sql = sql.replace("{year}", String.valueOf(year));
+        sql = sql.replace("{stateIds}", stateIds);
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> results = query.getResultList();
+
+        return results;
+    }
+
+    public List<Integer> getAebIdsForEvaluationGroup4(String stateIds, int year) {
+        String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_4");
+        sql = sql.replace("{year}", String.valueOf(year));
+        sql = sql.replace("{stateIds}", stateIds);
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> results = query.getResultList();
+
+        return results;
+    }
+
+    public int getAebIdForEvaluationHospital2_3_5_6_8_9(int ik, int year) {
+        return getAebIdForEvaluationHospital(ik, year, "KH_2_3_5_6_8_9");
+    }
+
+    public int getAebIdForEvaluationHospital1_4_7(int ik, int year) {
+        return getAebIdForEvaluationHospital(ik, year, "KH_1_4_7");
+    }
+
+    private int getAebIdForEvaluationHospital(int ik, int year, String statementName) {
+        String sql = XmlReaderPsyEvaluation.getStatementById(statementName);
         sql = sql.replace("{year}", String.valueOf(year));
         sql = sql.replace("{ik}", String.valueOf(ik));
 
         Query query = getEntityManager().createNativeQuery(sql);
-        getEntityManager().getEntityManagerFactory()
         @SuppressWarnings("unchecked")
         List<Integer> result = query.getResultList();
 

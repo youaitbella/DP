@@ -162,6 +162,11 @@ public class Evaluation {
 
         switch (psyEvaluationType) {
             case Type_1:
+                aebId = _aebFacade.getAebIdForEvaluationHospital1_4_7(info.getHospitalIk(),
+                        info.getAgreementYear() - 1);
+
+                aebIdsForGroup = _aebFacade.getAebIdsForEvaluationGroup1_7(String.valueOf(info.getHospitalStateId()),
+                        info.getAgreementYear() - 1, info.getHospitalPsyGroup());
                 break;
             case Type_2:
                 aebId = _aebFacade.getAebIdForEvaluationHospital2_3_5_6_8_9(info.getHospitalIk(),
@@ -178,16 +183,32 @@ public class Evaluation {
                         info.getAgreementYear() - 2, info.getHospitalPsyGroup());
                 break;
             case Type_4:
+                aebId = _aebFacade.getAebIdForEvaluationHospital1_4_7(info.getHospitalIk(),
+                        info.getAgreementYear() - 1);
+
+                aebIdsForGroup = _aebFacade.getAebIdsForEvaluationGroup4(String.valueOf(info.getHospitalStateId()),
+                        info.getAgreementYear() - 1);
                 break;
             case Type_5:
                 aebId = _aebFacade.getAebIdForEvaluationHospital2_3_5_6_8_9(info.getHospitalIk(),
                         info.getAgreementYear() - 1);
+
+                aebIdsForGroup = _aebFacade.getAebIdsForEvaluationGroup5_6(String.valueOf(info.getHospitalStateId()),
+                        info.getAgreementYear() - 1);
+
                 break;
             case Type_6:
                 aebId = _aebFacade.getAebIdForEvaluationHospital2_3_5_6_8_9(info.getHospitalIk(),
                         info.getAgreementYear() - 2);
+
+                aebIdsForGroup = _aebFacade.getAebIdsForEvaluationGroup5_6(String.valueOf(info.getHospitalStateId()),
+                        info.getAgreementYear() - 2);
                 break;
             case Type_7:
+                aebId = _aebFacade.getAebIdForEvaluationHospital1_4_7(info.getHospitalIk(),
+                        info.getAgreementYear() - 1);
+                aebIdsForGroup = _aebFacade.getAebIdsForEvaluationGroup1_7(ALL_STATE_IDS,
+                        info.getAgreementYear() - 1, info.getHospitalPsyGroup());
                 break;
             case Type_8:
                 aebId = _aebFacade.getAebIdForEvaluationHospital2_3_5_6_8_9(info.getHospitalIk(),
