@@ -3,9 +3,6 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:pf="http://primefaces.org/ui">
 
     <h4>
@@ -25,7 +22,7 @@
             <pf:commandLink action="#{edit.removePageE1_2(page)}"
                             update="listpagee12"
                             process="@this">
-                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
             </pf:commandLink>
         </pf:column>
         <pf:column headerText="ET-Nr." sortBy="#{page.et}" sortable="true">
@@ -46,19 +43,23 @@
             <pf:message for="calcdaysIde12" />
         </pf:column>
         <pf:column headerText="Bewertungsrelation / Tag" style="text-align: right">
-            <pf:outputLabel value="#{page.valuationRadioDay}" >
+            <pf:outputLabel value="#{page.valuationRadioDay}">
                 <f:convertNumber groupingUsed="true" minFractionDigits="4" />
             </pf:outputLabel>
         </pf:column>
         <pf:column headerText="Summe der Bewertungsrelation" style="text-align: right">
-            <pf:outputLabel value="#{page.sumValuationRadio}" >
+            <pf:outputLabel value="#{page.sumValuationRadio}">
                 <f:convertNumber groupingUsed="true" minFractionDigits="4" />
             </pf:outputLabel>
             <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE1_2.stream().map(c -> c.getSumValuationRadio()).sum()}" >
+                <pf:outputLabel
+                        value="#{edit.aebBaseInformation.aebPageE1_2.stream().map(c -> c.getSumValuationRadio()).sum()}">
                     <f:convertNumber groupingUsed="true" minFractionDigits="4" />
                 </pf:outputLabel>
             </f:facet>
+        </pf:column>
+        <pf:column headerText="Überlieger" style="text-align: right; width: 60px;">
+            <pf:outputLabel value="Ja" rendered="#{page.isOverlyer}" />
         </pf:column>
 
     </pf:dataTable>
@@ -71,7 +72,7 @@
                           action="#{edit.addNewPageE1_2()}"
                           oncomplete="PF('pagesE12').paginator.setPage(PF('pagesE12').paginator.cfg.pageCount - 1);"
                           rendered="#{!edit.isReadOnly()}"
-                          update="listpagee12"/>
+                          update="listpagee12" />
     </div>
 
 </ui:composition>
