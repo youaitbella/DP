@@ -1,26 +1,27 @@
 package org.inek.dataportal.drg.nub.tree;
 
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.enums.DataSet;
+import org.inek.dataportal.common.helper.structures.ProposalInfo;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.tree.ProposalInfoTreeNode;
+import org.inek.dataportal.common.tree.TreeNode;
+import org.inek.dataportal.common.tree.TreeNodeObserver;
+import org.inek.dataportal.common.tree.YearTreeNode;
+import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
+import org.inek.dataportal.drg.nub.NubSessionTools;
+import org.inek.dataportal.drg.nub.entities.NubRequest;
+import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
+
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.inject.Inject;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.drg.nub.entities.NubRequest;
-import org.inek.dataportal.common.enums.DataSet;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
-import org.inek.dataportal.drg.nub.NubSessionTools;
-import org.inek.dataportal.common.helper.structures.ProposalInfo;
-import org.inek.dataportal.common.tree.ProposalInfoTreeNode;
-import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
-import org.inek.dataportal.common.tree.TreeNode;
-import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.tree.YearTreeNode;
 
 public class AccountTreeNodeObserver implements TreeNodeObserver {
 
@@ -98,9 +99,8 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
             if (!itsMe && !_accessManager.canRead(Feature.NUB, account.getId(), ik)) {
                 continue;
             }
-            DataSet dataSet = DataSet.AllOpen;
             List<ProposalInfo> infosForIk = _nubRequestFacade.
-                    getNubRequestInfos(account.getId(), ik, -1, dataSet, getFilter());
+                    getNubRequestInfos(account.getId(), ik, -1, DataSet.AllOpen, getFilter());
             infos.addAll(infosForIk);
         }
         return infos;
