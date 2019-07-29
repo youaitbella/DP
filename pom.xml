@@ -36,6 +36,9 @@
 
         <!-- Scanner für Doc Uploads-->
         <module>DocumentScanner</module>
+
+        <!-- Service für erstellen der Krankenhasuvergleichsdateien-->
+        <module>PsyEvaluationService</module>
     </modules>
 
 
