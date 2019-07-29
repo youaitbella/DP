@@ -168,12 +168,14 @@ public class NubRequestFacade extends AbstractDataAccessWithActionLog {
 
     public List<ProposalInfo> getNubRequestInfos(int ik, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh,
             String filter) {
-        String jql = "SELECT p FROM NubRequest p "
+        String jql = "SELECT new org.inek.dataportal.common.helper.structures.ProposalInfo("
+                + "p._id, p._name, p._displayName, p._targetYear, p._status, p._ik ) "
+                + "FROM NubRequest p "
                 + "WHERE p._ik = :ik and p._status >= :statusLow and p._status <= :statusHigh "
                 + (filter.isEmpty() ? "" : "and (p._displayName like :filter1 or p._name like :filter2) ")
                 + (year > 0 ? " and p._targetYear = :year " : "")
                 + "ORDER BY p._id DESC";
-        TypedQuery<NubRequest> query = getEntityManager().createQuery(jql, NubRequest.class);
+        TypedQuery<ProposalInfo> query = getEntityManager().createQuery(jql, ProposalInfo.class);
         query.setParameter(IK, ik);
         query.setParameter(STATUS_LOW, statusLow.getId());
         query.setParameter(STATUS_HIGH, statusHigh.getId());
@@ -184,16 +186,7 @@ public class NubRequestFacade extends AbstractDataAccessWithActionLog {
         if (year > 0) {
             query.setParameter(YEAR, year);
         }
-        List<NubRequest> requests = query.getResultList();
-        List<ProposalInfo> proposalInfos = new ArrayList<>();
-        for (NubRequest request : requests) {
-            String displayName = request.getDisplayName().trim().length() == 0
-                    ? request.getName()
-                    : request.getDisplayName();
-            proposalInfos.add(new ProposalInfo(request.getId(), displayName, request.getTargetYear(), request.
-                    getStatus(), request.getIk()));
-        }
-        return proposalInfos;
+        return query.getResultList();
     }
 
     public List<Integer> getNubYears(Set<Integer> accountIds, Set<Integer> managedIks) {
