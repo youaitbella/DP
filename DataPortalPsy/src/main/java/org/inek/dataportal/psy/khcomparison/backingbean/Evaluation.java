@@ -89,8 +89,10 @@ public class Evaluation {
     }
 
     private void setEvaluationsList() {
-        Set<Integer> iks = _accessManager.retrieveAllowedManagedIks(Feature.HC_HOSPITAL);
-        _listEvaluations = _aebFacade.getHosptalComparisonInfoByIks(iks);
+        //TODO Klären ob man alle Auswertungen für IK Anzeigen darf
+        //Set<Integer> iks = _accessManager.retrieveAllowedManagedIks(Feature.HC_HOSPITAL);
+        //_listEvaluations = _aebFacade.getHosptalComparisonInfoByIks(iks);
+        _listEvaluations = _aebFacade.getHosptalComparisonInfoByAccount(_sessionController.getAccount());
     }
 
     public Set<Integer> getAllowedIks() {

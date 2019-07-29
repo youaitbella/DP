@@ -77,7 +77,7 @@
             where bi.biIk in (
             select eh.ehIk
             from psy.ExpectedHospital eh
-            where eh.ehYear = <@year
+            where eh.ehYear <= @year
             and eh.ehPsyGroup = @psyGroupid
             and ehIk in (
             select b.ik
@@ -101,7 +101,6 @@
         declare @psyGroupid int
 
         set @year = {year};
-        set @psyGroupid = {psyGroupId};
 
         select biid
         from (
@@ -126,10 +125,8 @@
     <statement id="Gruppe_4">
         <![CDATA[
             declare @year int;
-            declare @psyGroupid int
 
             set @year = {year};
-            set @psyGroupid = {psyGroupId};
 
             select biid
             from (

@@ -12,6 +12,7 @@ import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonIn
 import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyGroup;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.XmlReaderPsyEvaluation;
@@ -235,6 +236,13 @@ public class AEBFacade extends AbstractDataAccess {
         String jpql = "select hc from HosptalComparisonInfo hc where hc._hospitalIk in :ik";
         TypedQuery<HosptalComparisonInfo> query = getEntityManager().createQuery(jpql, HosptalComparisonInfo.class);
         query.setParameter("ik", iks);
+        return query.getResultList();
+    }
+
+    public List<HosptalComparisonInfo> getHosptalComparisonInfoByAccount(Account acc) {
+        String jpql = "select hc from HosptalComparisonInfo hc where hc._accountId = :id";
+        TypedQuery<HosptalComparisonInfo> query = getEntityManager().createQuery(jpql, HosptalComparisonInfo.class);
+        query.setParameter("id", acc.getId());
         return query.getResultList();
     }
 
