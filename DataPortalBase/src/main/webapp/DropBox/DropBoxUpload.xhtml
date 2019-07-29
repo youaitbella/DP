@@ -15,7 +15,7 @@
         <h:form>
             <h1><h:commandLink value="#{msg.lblDropBoxSystem}"
                                action="#{sessionController.navigate(sessionTools.pages.DropBoxSummary)}"
-                               immediate="true"/></h1>
+                               immediate="true" onclick="PF('navigationDialog').show();"/></h1>
         </h:form>
 
         <h:form id="form">

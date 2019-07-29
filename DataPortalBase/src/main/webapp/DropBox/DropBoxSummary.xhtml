@@ -13,7 +13,7 @@
                 <ui:include src="#{sessionTools.pages.ListDropBox}" />
                 <p>
                     <h:link styleClass="bigButton" outcome="#{sessionTools.pages.DropBoxCreate}"
-                            value="#{msg.btnNewDropBox}" />
+                            value="#{msg.btnNewDropBox}" onclick="PF('navigationDialog').show();"/>
                 </p>
 
                 <pf:dataTable value="#{dropBoxSummary.dropBoxesSend}"
