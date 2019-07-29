@@ -10,6 +10,8 @@
 <h:form>
     <h1>Kommt noch</h1>
 
+    <h:commandButton actionListener="#{evaluationServiceBean.switchScannerEnable()}"
+                     value="#{evaluationServiceBean.scanEnable ? 'Service stoppen' : 'Service starten'}" />
 </h:form>
 </body>
 </html>
