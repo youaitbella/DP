@@ -3,7 +3,6 @@ package org.inek.dataportal.common.data.KhComparison.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,8 +11,8 @@ import java.util.Objects;
  * @author lautenti
  */
 @Entity
-@Table(name = "HospitalComparisonEvaluations", schema = "psy")
-public class HosptalComparisonEvaluations implements Serializable {
+@Table(name = "HospitalComparisonEvaluation", schema = "psy")
+public class HosptalComparisonEvaluation implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -88,7 +87,7 @@ public class HosptalComparisonEvaluations implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HosptalComparisonEvaluations that = (HosptalComparisonEvaluations) o;
+        HosptalComparisonEvaluation that = (HosptalComparisonEvaluation) o;
         return _id == that._id &&
                 _evaluationTypeId == that._evaluationTypeId &&
                 Objects.equals(_hosptalComparisonInfo, that._hosptalComparisonInfo);

@@ -1,10 +1,7 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
 import org.inek.dataportal.common.data.KhComparison.enums.PsyGroup;
-import org.inek.dataportal.common.data.converter.StructureInformationCategorieConverter;
-import org.inek.dataportal.common.enums.StructureInformationCategorie;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -158,19 +155,32 @@ public class HosptalComparisonInfo implements Serializable {
 
     @OneToMany(mappedBy = "_hosptalComparisonInfo", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "hceHosptalComparisonInfoId")
-    private List<HosptalComparisonEvaluations> _hosptalComparisonEvaluations  = new ArrayList<>();
+    private List<HosptalComparisonEvaluation> _hosptalComparisonEvaluation  = new ArrayList<>();
 
-    public List<HosptalComparisonEvaluations> getHosptalComparisonEvaluations() {
-        return _hosptalComparisonEvaluations;
+    public List<HosptalComparisonEvaluation> getHosptalComparisonEvaluation() {
+        return _hosptalComparisonEvaluation;
     }
 
-    public void setHosptalComparisonEvaluations(List<HosptalComparisonEvaluations> hosptalComparisonEvaluations) {
-        this._hosptalComparisonEvaluations = hosptalComparisonEvaluations;
+    public void setHosptalComparisonEvaluation(List<HosptalComparisonEvaluation> hosptalComparisonEvaluation) {
+        this._hosptalComparisonEvaluation = hosptalComparisonEvaluation;
     }
 
-    public void addHosptalComparisonEvaluations(HosptalComparisonEvaluations evaluations) {
-        evaluations.setHosptalComparisonInfo(this);
-        _hosptalComparisonEvaluations.add(evaluations);
+    public void addHosptalComparisonEvaluation(HosptalComparisonEvaluation evaluation) {
+        evaluation.setHosptalComparisonInfo(this);
+        _hosptalComparisonEvaluation.add(evaluation);
+    }
+
+
+    @OneToOne(mappedBy = "_hosptalComparisonInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private HosptalComparisonJob _hosptalComparisonJob;
+
+    public HosptalComparisonJob getHosptalComparisonJob() {
+        return _hosptalComparisonJob;
+    }
+
+    public void setHosptalComparisonJob(HosptalComparisonJob hosptalComparisonJob) {
+        hosptalComparisonJob.setHosptalComparisonInfo(this);
+        this._hosptalComparisonJob = hosptalComparisonJob;
     }
 
     @Override

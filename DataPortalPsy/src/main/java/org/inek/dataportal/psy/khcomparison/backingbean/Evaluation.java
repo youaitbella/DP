@@ -9,11 +9,13 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonEvaluations;
+import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonEvaluation;
 import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonHospitals;
 import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonInfo;
+import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonJob;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyEvaluationType;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonHospitalsType;
+import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonStatus;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.common.data.icmt.enums.State;
@@ -146,18 +148,25 @@ public class Evaluation {
         newInfo.setHospitalStateId(cus.getPsyState().equals(State.Unknown) ? cus.getState().getId() : cus.getState().getId());
         newInfo.setHospitalPsyGroup(_aebFacade.getPsyGroupByIkAndYear(_selectedIk, _selectedAgreementYear - 1));
         ensureHosptalComparisonEvaluations(newInfo);
+        ensureHosptalComparisonJob(newInfo);
         _aebFacade.save(newInfo);
+    }
+
+    private void ensureHosptalComparisonJob(HosptalComparisonInfo newInfo) {
+        HosptalComparisonJob newJob = new HosptalComparisonJob();
+        newJob.setStatus(PsyHosptalComparisonStatus.NEW);
+        newInfo.setHosptalComparisonJob(newJob);
     }
 
     private void ensureHosptalComparisonEvaluations(HosptalComparisonInfo info) {
         for (PsyEvaluationType psyEvaluationType : PsyEvaluationType.values()) {
-            Optional<HosptalComparisonEvaluations> evaluation = getHosptalComparisonEvaluations(psyEvaluationType, info);
-            evaluation.ifPresent(info::addHosptalComparisonEvaluations);
+            Optional<HosptalComparisonEvaluation> evaluation = getHosptalComparisonEvaluations(psyEvaluationType, info);
+            evaluation.ifPresent(info::addHosptalComparisonEvaluation);
         }
     }
 
-    private Optional<HosptalComparisonEvaluations> getHosptalComparisonEvaluations(PsyEvaluationType psyEvaluationType, HosptalComparisonInfo info) {
-        HosptalComparisonEvaluations evaluation = new HosptalComparisonEvaluations();
+    private Optional<HosptalComparisonEvaluation> getHosptalComparisonEvaluations(PsyEvaluationType psyEvaluationType, HosptalComparisonInfo info) {
+        HosptalComparisonEvaluation evaluation = new HosptalComparisonEvaluation();
         evaluation.setEvaluationTypeId(psyEvaluationType.getId());
         int aebId = 0;
         List<Integer> aebIdsForGroup = new ArrayList<>();

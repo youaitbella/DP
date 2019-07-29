@@ -47,13 +47,13 @@ public class HosptalComparisonHospitals implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property hchHospitalComparisonEvaluationsId">
     @ManyToOne
     @JoinColumn(name = "hchHospitalComparisonEvaluationsId")
-    private HosptalComparisonEvaluations _hosptalComparisonEvaluations;
+    private HosptalComparisonEvaluation _hosptalComparisonEvaluations;
 
-    public HosptalComparisonEvaluations getHosptalComparisonEvaluations() {
+    public HosptalComparisonEvaluation getHosptalComparisonEvaluations() {
         return _hosptalComparisonEvaluations;
     }
 
-    public void setHosptalComparisonEvaluations(HosptalComparisonEvaluations hosptalComparisonEvaluations) {
+    public void setHosptalComparisonEvaluations(HosptalComparisonEvaluation hosptalComparisonEvaluations) {
         this._hosptalComparisonEvaluations = hosptalComparisonEvaluations;
     }
     //</editor-fold>
