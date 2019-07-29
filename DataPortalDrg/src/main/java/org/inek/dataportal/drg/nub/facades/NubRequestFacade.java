@@ -43,54 +43,6 @@ public class NubRequestFacade extends AbstractDataAccessWithActionLog {
         return super.findFresh(NubRequest.class, id);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<NubRequest> findForAccount(
-            int accountId,
-            int year,
-            DataSet dataSet,
-            Set<Integer> managedIks,
-            String filter) {
-        String sql = "SELECT nub.* \n"
-                + " FROM NubProposal nub \n";
-        sql += " WHERE nubAccountId = " + accountId + "\n";
-        if (!managedIks.isEmpty()) {
-            String denyedIks = managedIks
-                    .stream()
-                    .map(r -> "" + r)
-                    .collect(Collectors.joining(", "));
-            sql += " and nubIk not in " + denyedIks + " \n";
-        }
-        if (!filter.isEmpty()) {
-            sql += "and (nubName like '%" + filter + "%' or nubDisplayName like '%" + filter + "%')\r\n";
-        }
-        if (year > 0) {
-            sql += "and nubTargetYear = " + year + "\r\n";
-        }
-        switch (dataSet) {
-            case All:
-                sql += "and nubStatus >= " + WorkflowStatus.New.getId() + "\r\n";
-                sql += " order by nubId";
-                break;
-            case AllOpen:
-                sql += " and nubStatus < " + WorkflowStatus.Provided.getId() + "\r\n";
-                sql += " order by nubId";
-                break;
-            case ApprovalRequested:
-                sql += " and (nubStatus = " + WorkflowStatus.ApprovalRequested.getId() + "\r\n";
-                sql += " or nubStatus = " + WorkflowStatus.CorrectionRequested.getId() + ")\r\n";
-                sql += "order by nubId";
-                break;
-            default:
-                // provided (sealed)
-                sql += " and nubStatus >= " + WorkflowStatus.Provided.getId() + "\r\n";
-                sql += " order by nubId desc";
-                break;
-        }
-
-        Query query = getEntityManager().createNativeQuery(sql, NubRequest.class);
-        return query.getResultList();
-
-    }
 
     public NubRequest saveNubRequest(NubRequest nubRequest) {
         if (nubRequest.getStatus() == WorkflowStatus.Unknown) {
@@ -181,14 +133,6 @@ public class NubRequestFacade extends AbstractDataAccessWithActionLog {
             query.setParameter("managedIks", managedIks);
         }
         return query.getResultList();
-    }
-
-    public Set<Integer> checkAccountsForNubOfYear(
-            Set<Integer> accountIds,
-            int year,
-            WorkflowStatus statusLow,
-            WorkflowStatus statusHigh) {
-        return new HashSet<>();
     }
 
     public List<Account> checkAccountsForNubOfYear(
@@ -314,13 +258,6 @@ public class NubRequestFacade extends AbstractDataAccessWithActionLog {
         nubRequest.setLastChangedBy(nubRequestHistory.getLastChangedBy());
         nubRequest.setLastModified(nubRequestHistory.getLastModified());
         nubRequest.setStatus(WorkflowStatus.Taken);
-    }
-
-    public String getOldNubIdName(String id) {
-        String jpql = "SELECT p FROM NubFormerRequest p WHERE p._externalId = :exId";
-        TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
-        query.setParameter("exId", id);
-        return query.getResultList().get(0).getName();
     }
 
     private TypedQuery<NubFormerRequest> getQueryForOldNubIds(int ik, String filter) {
