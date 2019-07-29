@@ -141,8 +141,8 @@ public class NubRequestFacade extends AbstractDataAccessWithActionLog {
                 + "p._id, p._name, p._displayName, p._targetYear, p._status, p._ik ) "
                 + "FROM NubRequest p "
                 + "WHERE p._status >= :statusLow and p._status <= :statusHigh "
-                + (accountId > 0 ? "and p._accountId = :accountId " : "")
-                + (ik > 0 ? "and p._ik = :ik " : "")
+                + (accountId >= 0 ? "and p._accountId = :accountId " : "")
+                + (ik >= 0 ? "and p._ik = :ik " : "")
                 + (filter.isEmpty() ? "" : "and (p._displayName like :filter1 or p._name like :filter2) ")
                 + (year > 0 ? " and p._targetYear = :year " : "")
                 + "ORDER BY p._id " + order.name();
@@ -156,10 +156,10 @@ public class NubRequestFacade extends AbstractDataAccessWithActionLog {
         if (year > 0) {
             query.setParameter(YEAR, year);
         }
-        if (accountId > 0) {
+        if (accountId >= 0) {
             query.setParameter("accountId", accountId);
         }
-        if (ik > 0) {
+        if (ik >= 0) {
             query.setParameter(IK, ik);
         }
         return query.getResultList();
