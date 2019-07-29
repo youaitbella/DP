@@ -155,6 +155,9 @@ public class AebChecker {
         List<AEBPageE1_1> peppsForRemove = new ArrayList<>();
 
         for (AEBPageE1_1 page : info.getAebPageE1_1()) {
+            if (page.getPepp().equals("PUEL")) {
+                continue;
+            }
             if (!RenumerationChecker.isFormalValidPepp(page.getPepp())) {
                 peppsForRemove.add(page);
                 addMessage(createNoValidPeppMessage(page));

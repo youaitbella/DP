@@ -125,6 +125,8 @@ class RenumerationCheckerTest {
         validPepps.add("PK03Z");
         validPepps.add("QA80Z");
         validPepps.add("QK80Z");
+        // PseudoPepp
+        validPepps.add("PUEL");
 
         List<String> notValidPepps = new ArrayList<>();
         notValidPepps.add("P003C ");
