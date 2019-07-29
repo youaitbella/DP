@@ -297,6 +297,12 @@ public class Edit {
         if (page.getPepp().length() == 5) {
             page.setValuationRadioDay(_aebListItemFacade.getValuationRadioDaysByPepp(page.getPepp(),
                     page.getCompensationClass(), _aebBaseInformation.getYear()));
+            page.setIsOverlyer(false);
+        } else if (page.getPepp().equals("PUEL")) {
+            page.setCompensationClass(1);
+            page.setCaseCount(1);
+            page.setCalculationDays(1);
+            page.setIsOverlyer(true);
         } else {
             page.setValuationRadioDay(0.0);
         }

@@ -34,7 +34,6 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -88,11 +87,17 @@ public class Edit {
         setReadOnly();
     }
 
-    public String getHintMessage() { return _hintMessage; }
+    public String getHintMessage() {
+        return _hintMessage;
+    }
 
-    public void setHintMessage(String hintMessage) { this._hintMessage = hintMessage; }
+    public void setHintMessage(String hintMessage) {
+        this._hintMessage = hintMessage;
+    }
 
-    public String getErrorMessage() { return _errorMessage; }
+    public String getErrorMessage() {
+        return _errorMessage;
+    }
 
     public void setErrorMessage(String errorMessage) {
         this._errorMessage = errorMessage;
@@ -347,6 +352,12 @@ public class Edit {
         if (page.getPepp().length() == 5) {
             page.setValuationRadioDay(_aebListItemFacade.getValuationRadioDaysByPepp(page.getPepp(),
                     page.getCompensationClass(), _aebBaseInformation.getYear()));
+            page.setIsOverlyer(false);
+        } else if (page.getPepp().equals("PUEL")) {
+            page.setCompensationClass(1);
+            page.setCaseCount(1);
+            page.setCalculationDays(1);
+            page.setIsOverlyer(true);
         } else {
             page.setValuationRadioDay(0.0);
         }

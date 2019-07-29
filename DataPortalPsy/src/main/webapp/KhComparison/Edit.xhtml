@@ -20,34 +20,38 @@
             </pf:messages>
 
             <pf:dialog widgetVar="errorMessageDialog"
-                       header="Auffällige Daten"
+                       header="Es wurden folgende Auffälligkeiten gefunden:"
                        modal="true"
-                       width="40%"
+                       width="60%"
+                       height="600px"
                        closable="true"
                        resizable="true">
+                <div id="container" style="width: 100%; height:530px">
+                    <div>
+                        Bitte prüfen Sie Ihre Angaben und nehmen Sie bitte ggf. Korrekturen vor.
+                    </div>
 
-                <div>
-                    Folgende Auffälligkeiten wurden gefunden. Bitte überprüfen Sie, ob die eingegeben Daten richtig sind, und bestätigen Sie die Eingabe.
+                    <br />
+
+                    <pf:inputTextarea value="#{edit.hintMessage}"
+                                      readonly="true"
+                                      style="width: 100%; height: 400px" />
+
+                    <div id="buttons" style="position: absolute !important; bottom: 10px !important; vertical-align: bottom !important;">
+                        <pf:button styleClass="btnPsy"
+                                   value="Korrekturen vornehmen"
+                                   tabindex="0"
+                                   style="position: relative;"
+                                   onclick="PF('errorMessageDialog').hide();" />
+
+                        <pf:commandButton styleClass="btnSend arrow-right"
+                                          value="Eingabe bestätigen"
+                                          action="#{edit.send(true)}"
+                                          style="position: relative;"
+                                          oncomplete="PF('errorMessageDialog').hide();"
+                                          update="@form" />
+                    </div>
                 </div>
-
-                <br />
-
-                <pf:inputTextarea value="#{edit.hintMessage}"
-                                  style="width: 100%; height: 70%" />
-                <div style="position: relative; height: 100%; width: 100%">
-                    <pf:button styleClass="btnPsy"
-                               value="Abbrechen"
-                               style="position: relative; right: 10; left: 10"
-                               onclick="PF('errorMessageDialog').hide();" />
-
-                    <pf:commandButton styleClass="btnSend arrow-right"
-                                      value="Eingabe bestätigen"
-                                      action="#{edit.send(true)}"
-                                      style="position: relative; right: 10; left: 10"
-                                      oncomplete="PF('errorMessageDialog').hide();"
-                                      update="@form" />
-                </div>
-
             </pf:dialog>
 
             <pf:dialog widgetVar="dialogProcess"

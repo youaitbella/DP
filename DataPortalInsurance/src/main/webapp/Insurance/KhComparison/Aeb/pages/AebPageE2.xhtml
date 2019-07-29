@@ -53,6 +53,9 @@
                 <inekOutput:OutputCurrency value="#{edit.aebBaseInformation.aebPageE2.stream().map(c -> c.getSumValuationRadio()).sum()}" />
             </f:facet>
         </pf:column>
+        <pf:column headerText="Überlieger" style="text-align: right; width: 60px;">
+            <pf:outputLabel value="Ja" rendered="#{page.isOverlyer}" />
+        </pf:column>
 
     </pf:dataTable>
 
