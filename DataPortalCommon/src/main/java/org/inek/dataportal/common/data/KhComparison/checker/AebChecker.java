@@ -153,9 +153,10 @@ public class AebChecker {
 
     private void checkPageE1_1(AEBBaseInformation info) {
         List<AEBPageE1_1> peppsForRemove = new ArrayList<>();
-
+        int puelCount = 0;
         for (AEBPageE1_1 page : info.getAebPageE1_1()) {
-            if (page.getPepp().equals("PUEL")) {
+            if ("PUEL".equals(page.getPepp())) {
+                puelCount++;
                 continue;
             }
             if (!RenumerationChecker.isFormalValidPepp(page.getPepp())) {
@@ -167,14 +168,16 @@ public class AebChecker {
                 if (!_aebListItemFacade.existPageCombinationInYear(page, info.getYear() - 1)) {
                     peppsForRemove.add(page);
                     addMessage(createNotInCatalogPeppMessage(info, page));
-                }
-                else {
+                } else {
                     page.setIsOverlyer(true);
                 }
             }
         }
         if (_removeWrongEntries) {
             info.getAebPageE1_1().removeAll(peppsForRemove);
+        }
+        if (puelCount > 1) {
+            addMessage("Die Pseudo-PEPP PUELL (Summe Überlieger) wurde mehrfach angegeben.");
         }
     }
 
@@ -192,8 +195,7 @@ public class AebChecker {
                 if (!_aebListItemFacade.existPageCombinationInYear(page, info.getYear() - 1)) {
                     etForRemove.add(page);
                     addMessage(createNotInCatalogEtMessage(info, page));
-                }
-                else {
+                } else {
                     page.setIsOverlyer(true);
                 }
             }
@@ -217,8 +219,7 @@ public class AebChecker {
                 if (!_aebListItemFacade.existPageCombinationInYear(page, info.getYear() - 1)) {
                     zeForRemove.add(page);
                     addMessage(createNotInCatalogZeMessage(info, page));
-                }
-                else {
+                } else {
                     page.setIsOverlyer(true);
                 }
             }
