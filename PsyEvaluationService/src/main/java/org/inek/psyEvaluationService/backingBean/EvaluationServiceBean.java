@@ -3,6 +3,8 @@ package org.inek.psyEvaluationService.backingBean;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.Asynchronous;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
@@ -27,17 +29,24 @@ public class EvaluationServiceBean implements Serializable {
         return _scanEnable;
     }
 
+    @PostConstruct
+    public void init() {
+
+    }
+
     public void switchScannerEnable() {
         _scanEnable = !_scanEnable;
     }
 
+    public void start() {
+        startWorking();
+    }
+
+    @Asynchronous
     private void startWorking() {
         while (true) {
-            LOGGER.log(Level.INFO, "TestLog");
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (_scanEnable) {
+                LOGGER.log(Level.INFO, "TestLog");
             }
         }
     }

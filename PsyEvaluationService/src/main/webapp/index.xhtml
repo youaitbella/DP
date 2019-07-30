@@ -12,6 +12,9 @@
 
     <h:commandButton actionListener="#{evaluationServiceBean.switchScannerEnable()}"
                      value="#{evaluationServiceBean.scanEnable ? 'Service stoppen' : 'Service starten'}" />
+
+    <h:commandButton actionListener="#{evaluationServiceBean.start()}"
+                     value="Programm starten" />
 </h:form>
 </body>
 </html>
