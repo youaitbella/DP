@@ -118,16 +118,13 @@ public abstract class TreeNode implements Serializable {
     }
 
     public void expand() {
-        expandNode();
+        // do not use (cause it might prevent a refresh): if (_isExpanded) {return;}
+        invokeObtainChildren();
         _isExpanded = true;
     }
 
-    protected void expandNode() {
-        invokeObtainChildren();
-    }
-
     private void invokeObtainChildren() {
-        if (_observer != null) {
+        if (_observer != null && _children.size() == 0) {
             _children = _observer.obtainChildren(this);
         }
     }
@@ -148,6 +145,7 @@ public abstract class TreeNode implements Serializable {
         if (!_isExpanded) {
             return;
         }
+        _children.clear();
         invokeObtainChildren();
         for (TreeNode child : getChildren()) {
             child.refresh();

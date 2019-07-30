@@ -40,9 +40,9 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         List<ProposalInfo> infos;
         if (accountTreeNode.getParent() instanceof YearTreeNode) {
             int year = accountTreeNode.getParent().getId();
-            infos = obtainNubInfosForRead(partner, year);
+            infos = obtainNubInfos(partner, year, DataSet.AllSealed);
         } else {
-            infos = obtainNubInfosForEdit(partner);
+            infos = obtainNubInfos(partner, -1, DataSet.AllOpen);
         }
         List<Integer> checked = new ArrayList<>();
         for (TreeNode child : accountTreeNode.getChildren()) {
@@ -61,16 +61,12 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         return children;
     }
 
-    private List<ProposalInfo> obtainNubInfosForRead(Account account, int year) {
+    private List<ProposalInfo> obtainNubInfos(Account account, int year, DataSet dataSet) {
+        boolean itsMe = account == _sessionController.getAccount();
         List<ProposalInfo> infos = new ArrayList<>();
         Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.NUB);
-        // todo: for own account read all nubs which are not for a managed ik, independently from the account's ik set
-//        if (account.getId() == _sessionController.getAccountId()){
-//        }else {
-//        }
         Set<Integer> ikSet = account.getFullIkSet();
         ikSet.removeAll(managedIks);
-        boolean itsMe = account == _sessionController.getAccount();
         if (itsMe) {
             ikSet.add(0);
         }
@@ -80,27 +76,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
                 continue;
             }
             List<ProposalInfo> infosForIk = _nubRequestFacade.
-                    getNubRequestInfos(account.getId(), ik, year, DataSet.AllSealed, getFilter());
-            infos.addAll(infosForIk);
-        }
-        return infos;
-    }
-
-    private List<ProposalInfo> obtainNubInfosForEdit(Account account) {
-        List<ProposalInfo> infos = new ArrayList<>();
-        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.NUB);
-        Set<Integer> ikSet = account.getFullIkSet();
-        ikSet.removeAll(managedIks);
-        boolean itsMe = account == _sessionController.getAccount();
-        if (itsMe) {
-            ikSet.add(0);
-        }
-        for (int ik : ikSet) {
-            if (!itsMe && !_accessManager.canRead(Feature.NUB, account.getId(), ik)) {
-                continue;
-            }
-            List<ProposalInfo> infosForIk = _nubRequestFacade.
-                    getNubRequestInfos(account.getId(), ik, -1, DataSet.AllOpen, getFilter());
+                    getNubRequestInfos(account.getId(), ik, year, dataSet, getFilter());
             infos.addAll(infosForIk);
         }
         return infos;
