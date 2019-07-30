@@ -9,10 +9,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonEvaluation;
-import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonHospitals;
-import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonInfo;
-import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonJob;
+import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
+import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyEvaluationType;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonHospitalsType;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonStatus;
@@ -149,7 +147,26 @@ public class Evaluation {
         newInfo.setHospitalPsyGroup(_aebFacade.getPsyGroupByIkAndYear(_selectedIk, _selectedAgreementYear - 1));
         ensureHosptalComparisonEvaluations(newInfo);
         ensureHosptalComparisonJob(newInfo);
+        ensureAebConflicts(newInfo);
         _aebFacade.save(newInfo);
+    }
+
+    private void ensureAebConflicts(HosptalComparisonInfo newInfo) {
+        // TODO überprüfen ob es unterschiede gibt, und dann in die Tabelle schreiben
+        for (HosptalComparisonEvaluation evaluation : newInfo.getHosptalComparisonEvaluation()) {
+            for (HosptalComparisonHospitals hospital : evaluation.getHosptalComparisonHospitalsGroup()) {
+                Optional<AEBBaseInformation> baseInfo = _aebFacade.getBaseInformationForComparing(hospital.getAebBaseInformationId());
+                if (baseInfo.isPresent()) {
+                    AEBBaseInformation aebBaseInformation1 = baseInfo.get();
+                    AEBBaseInformation aebBaseInformation2 = _aebFacade.findAEBBaseInformation(hospital.getId());
+                    AebComparer comparer = new AebComparer();
+                    if(!comparer.compare(aebBaseInformation1, aebBaseInformation2)) {
+                        _aebFacade.insertNewCompatingConflict(aebBaseInformation1, hospital);
+                    }
+                }
+            }
+        }
+
     }
 
     private void ensureHosptalComparisonJob(HosptalComparisonInfo newInfo) {

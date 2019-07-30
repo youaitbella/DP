@@ -1,10 +1,13 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
+import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonHospitalsType;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -64,6 +67,12 @@ public class HosptalComparisonEvaluation implements Serializable {
 
     public List<HosptalComparisonHospitals> getHosptalComparisonHospitals() {
         return _hosptalComparisonHospitals;
+    }
+
+    public List<HosptalComparisonHospitals> getHosptalComparisonHospitalsGroup() {
+        return _hosptalComparisonHospitals.stream()
+                .filter(c -> c.getType().equals(PsyHosptalComparisonHospitalsType.Group))
+                .collect(Collectors.toList());
     }
 
     public void setHosptalComparisonHospitals(List<HosptalComparisonHospitals> hosptalComparisonHospitals) {

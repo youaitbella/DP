@@ -7,10 +7,7 @@ package org.inek.dataportal.common.data.KhComparison.facade;
 
 import javafx.util.Pair;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
-import org.inek.dataportal.common.data.KhComparison.entities.HosptalComparisonInfo;
-import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
-import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
+import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyGroup;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.CustomerTyp;
@@ -107,6 +104,33 @@ public class AEBFacade extends AbstractDataAccess {
         TypedQuery<StructureBaseInformation> query = getEntityManager().createQuery(sql, StructureBaseInformation.class);
         query.setParameter("ik", ik);
         return !query.getResultList().isEmpty();
+    }
+
+    public Optional<AEBBaseInformation> getBaseInformationForComparing(int id) {
+        String sql = "select top 1 *\n" +
+                "from psy.AEBBaseInformation a\n" +
+                "where a.biDataYear = (\n" +
+                "\tselect biDataYear\n" +
+                "\tfrom psy.AEBBaseInformation\n" +
+                "\twhere biid = " + id + "\n" +
+                ")\n" +
+                "and a.biIk = (\n" +
+                "\tselect biIk\n" +
+                "\tfrom psy.AEBBaseInformation\n" +
+                "\twhere biid = " + id + "\n" +
+                ")\n" +
+                "and a.biTyp != (\n" +
+                "\tselect biTyp\n" +
+                "\tfrom psy.AEBBaseInformation\n" +
+                "\twhere biid = " + id + "\n" +
+                ") \n" +
+                "and a.biStatusId in (10, 200)\n" +
+                "order by a.biStatusId, a.biSend desc";
+        Query query = getEntityManager().createNativeQuery(sql, AEBBaseInformation.class);
+
+        AEBBaseInformation result = (AEBBaseInformation)query.getSingleResult();
+
+        return result == null ? Optional.empty() : new Optional<>(result);
     }
 
     public boolean ikHasModelIntention(int ik) {
@@ -335,5 +359,9 @@ public class AEBFacade extends AbstractDataAccess {
         } else {
             return 0;
         }
+    }
+
+    public void insertNewCompatingConflict(AEBBaseInformation aebBaseInformation1, HosptalComparisonHospitals hospital) {
+
     }
 }
