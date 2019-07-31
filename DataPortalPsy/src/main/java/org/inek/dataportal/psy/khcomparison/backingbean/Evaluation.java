@@ -152,7 +152,6 @@ public class Evaluation {
     }
 
     private void ensureAebConflicts(HosptalComparisonInfo newInfo) {
-        // TODO überprüfen ob es unterschiede gibt, und dann in die Tabelle schreiben
         for (HosptalComparisonEvaluation evaluation : newInfo.getHosptalComparisonEvaluation()) {
             for (HosptalComparisonHospitals hospital : evaluation.getHosptalComparisonHospitalsGroup()) {
                 Optional<AEBBaseInformation> baseInfo = _aebFacade.getBaseInformationForComparing(hospital.getAebBaseInformationId());
