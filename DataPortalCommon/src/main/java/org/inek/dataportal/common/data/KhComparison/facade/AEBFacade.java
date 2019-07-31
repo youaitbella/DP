@@ -128,9 +128,8 @@ public class AEBFacade extends AbstractDataAccess {
                 "order by a.biStatusId, a.biSend desc";
         Query query = getEntityManager().createNativeQuery(sql, AEBBaseInformation.class);
 
-        AEBBaseInformation result = (AEBBaseInformation)query.getSingleResult();
-
-        return result == null ? Optional.empty() : new Optional<>(result);
+        AEBBaseInformation result = (AEBBaseInformation) query.getSingleResult();
+        return Optional.ofNullable(result);
     }
 
     public boolean ikHasModelIntention(int ik) {
@@ -362,6 +361,11 @@ public class AEBFacade extends AbstractDataAccess {
     }
 
     public void insertNewCompatingConflict(AEBBaseInformation aebBaseInformation1, HosptalComparisonHospitals hospital) {
+        String sqlTemplate = "insert into psy.HospitalComparisonConflicts" +
+                "(hccHospitalComparisonEvaluationId, hccAebBaseInformationId1, hccAebBaseInformationId2) values(%s, %s, %s)";
 
+        String sql = String.format(sqlTemplate, hospital.getId(), hospital.getAebBaseInformationId(), aebBaseInformation1);
+
+        getEntityManager().createNativeQuery(sql).executeUpdate();
     }
 }
