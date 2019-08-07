@@ -5,11 +5,13 @@
  */
 package org.inek.dataportal.insurance.khcomparison.backingbean;
 
+import org.eclipse.persistence.exceptions.OptimisticLockException;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.KhComparison.checker.AebChecker;
 import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
+import org.inek.dataportal.common.data.KhComparison.checker.RenumerationChecker;
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
@@ -170,6 +172,10 @@ public class Edit {
                 } else {
                     DialogController.showSaveDialog();
                 }
+            } catch (OptimisticLockException ex) {
+                DialogController.showErrorDialog("Daten können nicht gespeichert werden.", "Die Daten wurden bereits von einem " +
+                        "anderen Benutzer geändert. Bitte laden Sie die Seite neu.");
+                return false;
             } catch (Exception ex) {
                 DialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
                 _mailer.sendError("AEB Fehler beim speichern", ex);
@@ -298,11 +304,11 @@ public class Edit {
             page.setValuationRadioDay(_aebListItemFacade.getValuationRadioDaysByPepp(page.getPepp(),
                     page.getCompensationClass(), _aebBaseInformation.getYear()));
             page.setIsOverlyer(false);
-        } else if (page.getPepp().equals("PUEL")) {
+        } else if (isPseudoPepp(page.getPepp())) {
             page.setCompensationClass(1);
             page.setCaseCount(1);
             page.setCalculationDays(1);
-            page.setIsOverlyer(true);
+            page.setIsOverlyer(page.getPepp().equals("PUEL"));
         } else {
             page.setValuationRadioDay(0.0);
         }
@@ -407,5 +413,9 @@ public class Edit {
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation2}", _mailer.getSalutation(ac2));
 
         _mailer.sendMailTemplate(template, ac1.getEmail() + ";" + ac2.getEmail());
+    }
+
+    public boolean isPseudoPepp(String pepp) {
+        return RenumerationChecker.isPseudoPepp(pepp);
     }
 }
