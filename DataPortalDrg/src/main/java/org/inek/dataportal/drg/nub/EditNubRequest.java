@@ -310,6 +310,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     // </editor-fold>
+
     /**
      * Changes the owner of the request Becomes effective only after storing
      *
@@ -335,6 +336,13 @@ public class EditNubRequest extends AbstractEditController {
     public String reloadMaster() {
         getNubController().populateMasterData(_nubRequest, _sessionController.getAccount());
         return "";
+    }
+
+    public void setTopic(String viewId) {
+        if (getActiveTopic() != null && viewId.equalsIgnoreCase(getActiveTopic().getOutcome())) {
+            return;
+        }
+        setActiveTopic(viewId);
     }
 
     @Override
@@ -439,7 +447,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     private List<String> updateFields(Map<String, FieldValues> differencesUser,
-            Map<String, FieldValues> differencesPartner, NubRequest modifiedNubRequest) {
+                                      Map<String, FieldValues> differencesPartner, NubRequest modifiedNubRequest) {
         List<String> collisions = new ArrayList<>();
         for (String fieldName : differencesUser.keySet()) {
             if (differencesPartner.containsKey(fieldName) || _nubRequest.isSealed()) {
@@ -468,11 +476,11 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
-        if (_nubRequest.getIk() <= 0 && _nubRequest.getStatus() == WorkflowStatus.New){
+        if (_nubRequest.getIk() <= 0 && _nubRequest.getStatus() == WorkflowStatus.New) {
             return false;
         }
         return _accessManager.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.
-                getIk()) ;
+                getIk());
     }
 
     public boolean isRejectedNub() {

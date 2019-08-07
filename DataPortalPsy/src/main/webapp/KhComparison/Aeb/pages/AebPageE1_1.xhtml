@@ -36,7 +36,7 @@
         <pf:column headerText="Vergütungsklasse">
             <pf:inputNumber id="vclasse11"
                             value="#{page.compensationClass}"
-                            readonly="#{edit.isReadOnly() or page.pepp eq 'PUEL'}"
+                            readonly="#{edit.isReadOnly() or edit.isPseudoPepp(page.pepp)}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" />
@@ -46,7 +46,7 @@
         <pf:column headerText="Fallzahl" style="text-align: right">
             <pf:inputNumber id="casecountid"
                             value="#{page.caseCount}"
-                            readonly="#{edit.isReadOnly() or page.pepp eq 'PUEL'}"
+                            readonly="#{edit.isReadOnly() or edit.isPseudoPepp(page.pepp)}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" />
@@ -62,7 +62,7 @@
         <pf:column headerText="Berechnungstage" style="text-align: right">
             <pf:inputNumber id="calcdaysIde11"
                             value="#{page.calculationDays}"
-                            readonly="#{edit.isReadOnly() or page.pepp eq 'PUEL'}"
+                            readonly="#{edit.isReadOnly() or edit.isPseudoPepp(page.pepp)}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" />
@@ -76,11 +76,11 @@
             </f:facet>
         </pf:column>
         <pf:column headerText="Bewertungsrelation / Tag" style="text-align: right">
-            <pf:outputLabel value="#{page.valuationRadioDay}" rendered="#{page.pepp ne 'PUEL'}">
+            <pf:outputLabel value="#{page.valuationRadioDay}" rendered="#{not edit.isPseudoPepp(page.pepp)}">
                 <f:convertNumber groupingUsed="true" minFractionDigits="4" />
             </pf:outputLabel>
             <pf:inputNumber value="#{page.valuationRadioDay}"
-                            rendered="#{page.pepp eq 'PUEL'}"
+                            rendered="#{edit.isPseudoPepp(page.pepp)}"
                             decimalPlaces="4"
                             readonly="#{edit.isReadOnly()}"
                             inputStyle="width: 100%; text-align: right" >

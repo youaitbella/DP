@@ -15,7 +15,8 @@
             <div class="inputPart">
                 <h:outputLabel value="Filter: " styleClass="label marginRight" for="filter"/>
                 <h:inputText id="filter" styleClass="input marginRight" value="#{documentList.filter}"/>
-                <h:commandButton value="Filtern" styleClass="smallButton" action="#{documentList.reload}" immediate="false"/>
+                <h:commandButton value="Filtern" styleClass="smallButton" action="#{documentList.reload}"
+                                 immediate="false" onclick="PF('navigationDialog').show();"/>
             </div>
 
             <h:dataTable rendered="#{documentList.renderDocList()}"  headerClass="list-header" id="tblDocList"

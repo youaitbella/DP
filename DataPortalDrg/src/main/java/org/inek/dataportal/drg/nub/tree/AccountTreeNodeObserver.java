@@ -1,26 +1,27 @@
 package org.inek.dataportal.drg.nub.tree;
 
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.enums.DataSet;
+import org.inek.dataportal.common.helper.structures.ProposalInfo;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.tree.ProposalInfoTreeNode;
+import org.inek.dataportal.common.tree.TreeNode;
+import org.inek.dataportal.common.tree.TreeNodeObserver;
+import org.inek.dataportal.common.tree.YearTreeNode;
+import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
+import org.inek.dataportal.drg.nub.NubSessionTools;
+import org.inek.dataportal.drg.nub.entities.NubRequest;
+import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
+
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.inject.Inject;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.drg.nub.entities.NubRequest;
-import org.inek.dataportal.common.enums.DataSet;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
-import org.inek.dataportal.drg.nub.NubSessionTools;
-import org.inek.dataportal.common.helper.structures.ProposalInfo;
-import org.inek.dataportal.common.tree.ProposalInfoTreeNode;
-import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
-import org.inek.dataportal.common.tree.TreeNode;
-import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.tree.YearTreeNode;
 
 public class AccountTreeNodeObserver implements TreeNodeObserver {
 
@@ -39,9 +40,9 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         List<ProposalInfo> infos;
         if (accountTreeNode.getParent() instanceof YearTreeNode) {
             int year = accountTreeNode.getParent().getId();
-            infos = obtainNubInfosForRead(partner, year);
+            infos = obtainNubInfos(partner, year, DataSet.AllSealed);
         } else {
-            infos = obtainNubInfosForEdit(partner);
+            infos = obtainNubInfos(partner, -1, DataSet.AllOpen);
         }
         List<Integer> checked = new ArrayList<>();
         for (TreeNode child : accountTreeNode.getChildren()) {
@@ -60,16 +61,12 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         return children;
     }
 
-    private List<ProposalInfo> obtainNubInfosForRead(Account account, int year) {
+    private List<ProposalInfo> obtainNubInfos(Account account, int year, DataSet dataSet) {
+        boolean itsMe = account == _sessionController.getAccount();
         List<ProposalInfo> infos = new ArrayList<>();
         Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.NUB);
-        // todo: for own account read all nubs which are not for a managed ik, independently from the account's ik set
-//        if (account.getId() == _sessionController.getAccountId()){
-//        }else {
-//        }
         Set<Integer> ikSet = account.getFullIkSet();
         ikSet.removeAll(managedIks);
-        boolean itsMe = account == _sessionController.getAccount();
         if (itsMe) {
             ikSet.add(0);
         }
@@ -79,28 +76,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
                 continue;
             }
             List<ProposalInfo> infosForIk = _nubRequestFacade.
-                    getNubRequestInfos(account.getId(), ik, year, DataSet.AllSealed, getFilter());
-            infos.addAll(infosForIk);
-        }
-        return infos;
-    }
-
-    private List<ProposalInfo> obtainNubInfosForEdit(Account account) {
-        List<ProposalInfo> infos = new ArrayList<>();
-        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.NUB);
-        Set<Integer> ikSet = account.getFullIkSet();
-        ikSet.removeAll(managedIks);
-        boolean itsMe = account == _sessionController.getAccount();
-        if (itsMe) {
-            ikSet.add(0);
-        }
-        for (int ik : ikSet) {
-            if (!itsMe && !_accessManager.canRead(Feature.NUB, account.getId(), ik)) {
-                continue;
-            }
-            DataSet dataSet = DataSet.AllOpen;
-            List<ProposalInfo> infosForIk = _nubRequestFacade.
-                    getNubRequestInfos(account.getId(), ik, -1, dataSet, getFilter());
+                    getNubRequestInfos(account.getId(), ik, year, dataSet, getFilter());
             infos.addAll(infosForIk);
         }
         return infos;

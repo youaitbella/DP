@@ -12,6 +12,7 @@
             <h1>
                 <h:commandLink action="#{sessionController.navigate(sessionTools.pages.IkAdminSummary)}"
                                value="#{featureMsg.nameIK_ADMIN} - #{ikAdminTasks.ik} #{applicationTools.retrieveHospitalInfo(ikAdminTasks.ik)}"
+                               onclick="PF('navigationDialog').show();"
                                immediate="true" />
             </h1>
         </h:form>

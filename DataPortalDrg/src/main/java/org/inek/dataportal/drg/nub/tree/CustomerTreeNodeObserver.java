@@ -1,26 +1,29 @@
 package org.inek.dataportal.drg.nub.tree;
 
+import org.inek.dataportal.common.enums.DataSet;
+import org.inek.dataportal.common.helper.structures.ProposalInfo;
+import org.inek.dataportal.common.tree.ProposalInfoTreeNode;
+import org.inek.dataportal.common.tree.TreeNode;
+import org.inek.dataportal.common.tree.TreeNodeObserver;
+import org.inek.dataportal.common.tree.YearTreeNode;
+import org.inek.dataportal.common.tree.entityTree.CustomerTreeNode;
+import org.inek.dataportal.drg.nub.NubSessionTools;
+import org.inek.dataportal.drg.nub.entities.NubRequest;
+import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
+
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.inject.Inject;
-import org.inek.dataportal.drg.nub.entities.NubRequest;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
-import org.inek.dataportal.drg.nub.NubSessionTools;
-import org.inek.dataportal.common.helper.structures.ProposalInfo;
-import org.inek.dataportal.common.tree.ProposalInfoTreeNode;
-import org.inek.dataportal.common.tree.entityTree.CustomerTreeNode;
-import org.inek.dataportal.common.tree.TreeNode;
-import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.tree.YearTreeNode;
 
 public class CustomerTreeNodeObserver implements TreeNodeObserver {
 
-    @Inject private NubRequestFacade _nubRequestFacade;
-    @Inject private NubSessionTools _nubSessionTools;
+    @Inject
+    private NubRequestFacade _nubRequestFacade;
+    @Inject
+    private NubSessionTools _nubSessionTools;
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
@@ -46,27 +49,12 @@ public class CustomerTreeNodeObserver implements TreeNodeObserver {
     }
 
     private List<ProposalInfo> obtainRequestsForRead(int ik, int year) {
-        WorkflowStatus statusLow = WorkflowStatus.Provided;
-        WorkflowStatus statusHigh = WorkflowStatus.Retired;
-        return _nubRequestFacade.getNubRequestInfos(
-                ik,
-                year,
-                statusLow,
-                statusHigh,
-                getFilter());
+        return _nubRequestFacade.getNubRequestInfos(-1, ik, year, DataSet.AllSealed, getFilter());
     }
 
-    private List<ProposalInfo> obtainRequestsForEdit(int ik ) {
-        WorkflowStatus statusLow = WorkflowStatus.New;
-        WorkflowStatus statusHigh = WorkflowStatus.ApprovalRequested;
-        return _nubRequestFacade.getNubRequestInfos(
-                ik,
-                0,
-                statusLow,
-                statusHigh,
-                getFilter());
+    private List<ProposalInfo> obtainRequestsForEdit(int ik) {
+        return _nubRequestFacade.getNubRequestInfos(-1, ik, 0, DataSet.AllOpen, getFilter());
     }
-
 
     private String getFilter() {
         String filter = _nubSessionTools.getNubFilter();

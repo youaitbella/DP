@@ -1,27 +1,27 @@
 package org.inek.dataportal.drg.nub.timed;
 
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.DataSet;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.structures.ProposalInfo;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
+
 import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import org.inek.dataportal.drg.nub.entities.NubRequest;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.DataSet;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.mail.Mailer;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- *
  * @author muellermi
  */
 @Singleton
@@ -29,12 +29,16 @@ import org.inek.dataportal.common.mail.Mailer;
 public class NubReminder {
 
     private static final Logger LOGGER = Logger.getLogger("NubReminder");
-    @Inject private AccountFacade _accountFacade;
-    @Inject private NubRequestFacade _nubFacade;
-    @Inject private Mailer _mailer;
-    @Inject private ConfigFacade _config;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private NubRequestFacade _nubFacade;
+    @Inject
+    private Mailer _mailer;
+    @Inject
+    private ConfigFacade _config;
 
-//    @Schedule(hour = "*", minute = "*/1", info = "every minute") // use this for testing purpose
+    //    @Schedule(hour = "*", minute = "*/1", info = "every minute") // use this for testing purpose
 //    public void remindSealTest() {
 //        remindSeal();
 //    }
@@ -83,14 +87,11 @@ public class NubReminder {
 
     private String getOpenNubs(Account account) {
         StringBuilder sb = new StringBuilder();
-        List<NubRequest> requests = _nubFacade.findAll(account.getId(), DataSet.AllOpen, "");
+        List<ProposalInfo> requests = _nubFacade.getNubRequestInfos(account.getId(), -1, -1, DataSet.AllOpen, "");
         boolean needsApproval = false;
-        for (NubRequest request : requests) {
-            String displayName = request.getDisplayName().trim();
-            if (displayName.isEmpty()) {
-                int pos = request.getName().indexOf(" ", 100);
-                displayName = pos > 0 ? request.getName().substring(0, pos) + "..." : request.getName();
-            }
+        for (ProposalInfo request : requests) {
+            int pos = request.getName().indexOf(" ", 100);
+            String displayName = pos > 0 ? request.getName().substring(0, pos) + "..." : request.getName();
             if (displayName.isEmpty()) {
                 displayName = "<kein Name angegeben>";
             }

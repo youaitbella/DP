@@ -86,7 +86,7 @@ public class AEBPageE2 extends AEBPage implements Serializable {
     }
 
     public void setValuationRadioDay(double valuationRadioDay) {
-        _valuationRadioDay = valuationRadioDay;
+        _valuationRadioDay = (double) Math.round(valuationRadioDay * 10000d) / 10000d;
     }
     //</editor-fold>
 

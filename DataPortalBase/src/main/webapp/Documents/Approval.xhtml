@@ -25,7 +25,8 @@
             <div class="inputPart">
                 <h:outputLabel value="Filter: " styleClass="label marginRight" for="filter"/>
                 <h:inputText id="filter" styleClass="input marginRight" value="#{documentApproval.filter}"/>
-                <h:commandButton value="Filtern" styleClass="smallButton" action="#{documentApproval.reload}" immediate="false"/>
+                <h:commandButton value="Filtern" styleClass="smallButton" action="#{documentApproval.reload}"
+                                 immediate="false" onclick="PF('navigationDialog').show();"/>
             </div>
 
             <ui:repeat value="#{documentApproval.rootNode.children}" var="accountNode" >

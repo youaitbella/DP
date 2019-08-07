@@ -8,9 +8,16 @@
                 xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="userInfo">
+        <style>
+            #navigationDialog_modal.ui-widget-overlay {
+                opacity: 0 !important;
+            }
+        </style>
         <pf:dialog widgetVar="navigationDialog"
+                   id="navigationDialog"
                    height="50"
                    width="250"
+                   modal="true"
                    style="opacity: 0.2 !important;"
                    position="right bottom">
             <h:outputText value="Einen Augenblick bitte - die gewünschte Funktion wird geladen." />
@@ -31,18 +38,20 @@
 
         <c:if test="#{sessionController.loggedIn}">
             <li>
-                <h:commandLink value="#{msg.btnLogout}" action="#{sessionController.logout}" />
+                <h:commandLink value="#{msg.btnLogout}" action="#{sessionController.logout}"
+                               onclick="PF('navigationDialog').show();"/>
             </li>
         </c:if>
 
         <li>
-            <h:commandLink value="#{sessionController.portalType.area}" action="#" />
+            <h:outputLabel value="#{sessionController.portalType.area}" styleClass="naviLabel"/>
         </li>
 
         <c:if test="#{sessionController.loggedIn}">
             <li class="#{empty(sessionController.currentTopic) ? 'activemenu' : ''} submenu">
                 <h:commandLink value="#{msg.lblSummary}"
-                               action="#{sessionController.navigate(sessionTools.pages.MainApp)}" />
+                               action="#{sessionController.navigate(sessionTools.pages.MainApp)}"
+                               onclick="PF('navigationDialog').show();"/>
             </li>
         </c:if>
 

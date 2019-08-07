@@ -517,7 +517,7 @@ public class AebImporter {
                 }
 
                 page.setOps(opsFromCell);
-                page.setCount(CellImportHelper.getIntegerFromCell(row.getCell(colStart + 3)));
+                page.setCount(CellImportHelper.getIntegerFromCell(row.getCell(colStart + 3), false, true));
                 page.setRenumerationValue(CellImportHelper.getDoubleFromCell(row.getCell(colStart + 4)));
                 page.setImportetFrom(getImportetFromString(sheet, i));
                 info.addAebPageE3_2(page);

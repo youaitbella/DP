@@ -9,18 +9,16 @@
 
     <ui:define name="content">
         <h:form id="form">
+            #{editNubRequest.setTopic(facesContext.viewRoot.viewId)}
             <h1>
-                <h:commandLink value="#{featureMsg.nameNUB}"
-                               action="#{sessionController.navigate(sessionTools.pages.NubSummary)}" immediate="true"
-                               onclick="PF('navigationDialog').show();"/>
+                <h:link value="#{featureMsg.nameNUB}" outcome="#{sessionTools.pages.NubSummary}" immediate="true"/>
             </h1>
+
             <div class="tab">
                 <ul class="tab">
                     <ui:repeat value="#{editNubRequest.visibleTopics}" var="topic">
-                        <li class="#{topic.active ? 'activetab' : 'tab'}">
-                            <h:commandLink value="#{topic.title}" action="#{editNubRequest.changeTabPage(topic.key)}"
-                                           immediate="true">
-                            </h:commandLink>
+                        <li class="#{facesContext.viewRoot.viewId eq topic.outcome ? 'activetab' : 'tab'}">
+                            <h:link value="#{topic.title}" outcome="#{topic.outcome}" immediate="true"/>
                         </li>
                     </ui:repeat>
                 </ul>

@@ -26,12 +26,6 @@ public class AebChecker {
     private static final String MESSAGE_NO_VALID_ET = "%s: Eintrag [%s] ist kein gültiges ET";
     private static final String MESSAGE_NO_VALID_ZE = "%s: Eintrag [%s] ist kein gültiges ZE";
 
-    private static final String MESSAGE_DIFFERENT_VALUES_PEPP = "%s: Pepp [%s] Vergütunsgklasse [%s]: Unterschiedliche Werte! " +
-            "Eingetragen: [%s] Katalog: [%s}. Die Werte wurden durch die Katalogwerte überschrieben.";
-
-    private static final String MESSAGE_DIFFERENT_VALUES_ET_ZE = "%s: [%s] Unterschiedliche Werte! " +
-            "Eingetragen: [%s] Katalog: [%s}. Die Werte wurden durch die Katalogwerte überschrieben.";
-
     private AEBListItemFacade _aebListItemFacade;
 
     private String _message = "";
@@ -153,11 +147,26 @@ public class AebChecker {
 
     private void checkPageE1_1(AEBBaseInformation info) {
         List<AEBPageE1_1> peppsForRemove = new ArrayList<>();
-
+        int puelCount = 0;
+        int pkorCount = 0;
         for (AEBPageE1_1 page : info.getAebPageE1_1()) {
-            if (page.getPepp().equals("PUEL")) {
+            if ("PUEL".equals(page.getPepp())) {
+                page.setIsOverlyer(true);
+                page.setCompensationClass(1);
+                page.setCaseCount(1);
+                page.setCalculationDays(1);
+                puelCount++;
                 continue;
             }
+
+            if ("PKOR".equals(page.getPepp())) {
+                page.setCompensationClass(1);
+                page.setCaseCount(1);
+                page.setCalculationDays(1);
+                pkorCount++;
+                continue;
+            }
+
             if (!RenumerationChecker.isFormalValidPepp(page.getPepp())) {
                 peppsForRemove.add(page);
                 addMessage(createNoValidPeppMessage(page));
@@ -167,14 +176,20 @@ public class AebChecker {
                 if (!_aebListItemFacade.existPageCombinationInYear(page, info.getYear() - 1)) {
                     peppsForRemove.add(page);
                     addMessage(createNotInCatalogPeppMessage(info, page));
-                }
-                else {
+                } else {
                     page.setIsOverlyer(true);
                 }
             }
         }
         if (_removeWrongEntries) {
             info.getAebPageE1_1().removeAll(peppsForRemove);
+        }
+        if (puelCount > 1) {
+            addMessage("Die Pseudo-PEPP PUEL (Summe Überlieger) wurde mehrfach angegeben.");
+        }
+
+        if (pkorCount > 1) {
+            addMessage("Die Pseudo-PEPP PKOR wurde mehrfach angegeben.");
         }
     }
 
@@ -192,8 +207,7 @@ public class AebChecker {
                 if (!_aebListItemFacade.existPageCombinationInYear(page, info.getYear() - 1)) {
                     etForRemove.add(page);
                     addMessage(createNotInCatalogEtMessage(info, page));
-                }
-                else {
+                } else {
                     page.setIsOverlyer(true);
                 }
             }
@@ -217,8 +231,7 @@ public class AebChecker {
                 if (!_aebListItemFacade.existPageCombinationInYear(page, info.getYear() - 1)) {
                     zeForRemove.add(page);
                     addMessage(createNotInCatalogZeMessage(info, page));
-                }
-                else {
+                } else {
                     page.setIsOverlyer(true);
                 }
             }
