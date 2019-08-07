@@ -15,8 +15,8 @@ import java.util.Objects;
  * @author lautenti
  */
 @Entity
-@Table(name = "HosptalComparisonJob", schema = "psy")
-public class HosptalComparisonJob implements Serializable {
+@Table(name = "HospitalComparisonJob", schema = "psy")
+public class HospitalComparisonJob implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,15 +43,15 @@ public class HosptalComparisonJob implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property hceEvaluationTypeId">
     @OneToOne
-    @JoinColumn(name = "hcsHosptalComparisonInfoId")
-    private HosptalComparisonInfo _hosptalComparisonInfo;
+    @JoinColumn(name = "hcsHospitalComparisonInfoId")
+    private HospitalComparisonInfo _hospitalComparisonInfo;
 
-    public HosptalComparisonInfo getHosptalComparisonInfo() {
-        return _hosptalComparisonInfo;
+    public HospitalComparisonInfo getHosptalComparisonInfo() {
+        return _hospitalComparisonInfo;
     }
 
-    public void setHosptalComparisonInfo(HosptalComparisonInfo hosptalComparisonInfo) {
-        this._hosptalComparisonInfo = hosptalComparisonInfo;
+    public void setHosptalComparisonInfo(HospitalComparisonInfo hospitalComparisonInfo) {
+        this._hospitalComparisonInfo = hospitalComparisonInfo;
     }
     //</editor-fold>
 
@@ -101,10 +101,10 @@ public class HosptalComparisonJob implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HosptalComparisonJob that = (HosptalComparisonJob) o;
+        HospitalComparisonJob that = (HospitalComparisonJob) o;
         return _id == that._id &&
                 _version == that._version &&
-                Objects.equals(_hosptalComparisonInfo, that._hosptalComparisonInfo) &&
+                Objects.equals(_hospitalComparisonInfo, that._hospitalComparisonInfo) &&
                 Objects.equals(_status, that._status) &&
                 Objects.equals(_startWorking, that._startWorking) &&
                 Objects.equals(_endWorking, that._endWorking);
@@ -112,6 +112,6 @@ public class HosptalComparisonJob implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _version, _hosptalComparisonInfo, _status, _startWorking, _endWorking);
+        return Objects.hash(_id, _version, _hospitalComparisonInfo, _status, _startWorking, _endWorking);
     }
 }

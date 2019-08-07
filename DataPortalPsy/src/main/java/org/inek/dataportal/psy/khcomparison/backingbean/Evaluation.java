@@ -47,7 +47,7 @@ public class Evaluation {
     private int _selectedIk = 0;
     private int _selectedAgreementYear = 0;
 
-    private List<HosptalComparisonInfo> _listEvaluations = new ArrayList<>();
+    private List<HospitalComparisonInfo> _listEvaluations = new ArrayList<>();
     private List<Integer> _validYears = new ArrayList<>();
 
 
@@ -67,11 +67,11 @@ public class Evaluation {
         this._selectedAgreementYear = selectedAgreementYear;
     }
 
-    public List<HosptalComparisonInfo> getListEvaluations() {
+    public List<HospitalComparisonInfo> getListEvaluations() {
         return _listEvaluations;
     }
 
-    public void setListEvaluations(List<HosptalComparisonInfo> listEvaluations) {
+    public void setListEvaluations(List<HospitalComparisonInfo> listEvaluations) {
         this._listEvaluations = listEvaluations;
     }
 
@@ -135,7 +135,7 @@ public class Evaluation {
     }
 
     private void createHosptalComparisonInfo(Customer cus) {
-        HosptalComparisonInfo newInfo = new HosptalComparisonInfo();
+        HospitalComparisonInfo newInfo = new HospitalComparisonInfo();
         newInfo.setAccountId(_sessionController.getAccountId());
         newInfo.setAccountFirstName(_sessionController.getAccount().getFirstName());
         newInfo.setAccountLastName(_sessionController.getAccount().getLastName());
@@ -151,9 +151,9 @@ public class Evaluation {
         _aebFacade.save(newInfo);
     }
 
-    private void ensureAebConflicts(HosptalComparisonInfo newInfo) {
-        for (HosptalComparisonEvaluation evaluation : newInfo.getHosptalComparisonEvaluation()) {
-            for (HosptalComparisonHospitals hospital : evaluation.getHosptalComparisonHospitalsGroup()) {
+    private void ensureAebConflicts(HospitalComparisonInfo newInfo) {
+        for (HospitalComparisonEvaluation evaluation : newInfo.getHospitalComparisonEvaluation()) {
+            for (HospitalComparisonHospitals hospital : evaluation.getHospitalComparisonHospitalsGroup()) {
                 Optional<AEBBaseInformation> baseInfo = _aebFacade.getBaseInformationForComparing(hospital.getAebBaseInformationId());
                 if (baseInfo.isPresent()) {
                     AEBBaseInformation aebBaseInformation1 = baseInfo.get();
@@ -168,21 +168,21 @@ public class Evaluation {
 
     }
 
-    private void ensureHosptalComparisonJob(HosptalComparisonInfo newInfo) {
-        HosptalComparisonJob newJob = new HosptalComparisonJob();
+    private void ensureHosptalComparisonJob(HospitalComparisonInfo newInfo) {
+        HospitalComparisonJob newJob = new HospitalComparisonJob();
         newJob.setStatus(PsyHosptalComparisonStatus.NEW);
-        newInfo.setHosptalComparisonJob(newJob);
+        newInfo.setHospitalComparisonJob(newJob);
     }
 
-    private void ensureHosptalComparisonEvaluations(HosptalComparisonInfo info) {
+    private void ensureHosptalComparisonEvaluations(HospitalComparisonInfo info) {
         for (PsyEvaluationType psyEvaluationType : PsyEvaluationType.values()) {
-            Optional<HosptalComparisonEvaluation> evaluation = getHosptalComparisonEvaluations(psyEvaluationType, info);
-            evaluation.ifPresent(info::addHosptalComparisonEvaluation);
+            Optional<HospitalComparisonEvaluation> evaluation = getHosptalComparisonEvaluations(psyEvaluationType, info);
+            evaluation.ifPresent(info::addHospitalComparisonEvaluation);
         }
     }
 
-    private Optional<HosptalComparisonEvaluation> getHosptalComparisonEvaluations(PsyEvaluationType psyEvaluationType, HosptalComparisonInfo info) {
-        HosptalComparisonEvaluation evaluation = new HosptalComparisonEvaluation();
+    private Optional<HospitalComparisonEvaluation> getHosptalComparisonEvaluations(PsyEvaluationType psyEvaluationType, HospitalComparisonInfo info) {
+        HospitalComparisonEvaluation evaluation = new HospitalComparisonEvaluation();
         evaluation.setEvaluationTypeId(psyEvaluationType.getId());
         int aebId = 0;
         List<Integer> aebIdsForGroup = new ArrayList<>();
@@ -260,10 +260,10 @@ public class Evaluation {
         }
 
         // Add aebids to evaluationType
-        evaluation.addHosptalComparisonHospitals(createHosptalComparisonHospitalsForIdsAndType(new ArrayList<>(aebId),
+        evaluation.addHospitalComparisonHospitals(createHosptalComparisonHospitalsForIdsAndType(new ArrayList<>(aebId),
                 PsyHosptalComparisonHospitalsType.Hospital));
 
-        evaluation.addHosptalComparisonHospitals(createHosptalComparisonHospitalsForIdsAndType(aebIdsForGroup,
+        evaluation.addHospitalComparisonHospitals(createHosptalComparisonHospitalsForIdsAndType(aebIdsForGroup,
                 PsyHosptalComparisonHospitalsType.Group));
 
         return Optional.of(evaluation);
@@ -273,16 +273,16 @@ public class Evaluation {
         return RandomStringUtils.randomAlphanumeric(15);
     }
 
-    private List<HosptalComparisonHospitals> createHosptalComparisonHospitalsForIdsAndType(List<Integer> ids,
-                                                                                           PsyHosptalComparisonHospitalsType type) {
-        List<HosptalComparisonHospitals> hosptalComparisonHospitals = new ArrayList<>();
+    private List<HospitalComparisonHospitals> createHosptalComparisonHospitalsForIdsAndType(List<Integer> ids,
+                                                                                            PsyHosptalComparisonHospitalsType type) {
+        List<HospitalComparisonHospitals> hospitalComparisonHospitals = new ArrayList<>();
 
         for (Integer id : ids) {
-            HosptalComparisonHospitals ho = new HosptalComparisonHospitals();
+            HospitalComparisonHospitals ho = new HospitalComparisonHospitals();
             ho.setAebBaseInformationId(id);
             ho.setType(type);
         }
 
-        return hosptalComparisonHospitals;
+        return hospitalComparisonHospitals;
     }
 }

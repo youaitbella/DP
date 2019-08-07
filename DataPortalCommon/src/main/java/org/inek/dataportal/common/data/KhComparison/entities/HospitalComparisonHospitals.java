@@ -11,8 +11,8 @@ import java.util.Objects;
  * @author lautenti
  */
 @Entity
-@Table(name = "HosptalComparisonHospitals", schema = "psy")
-public class HosptalComparisonHospitals implements Serializable {
+@Table(name = "HospitalComparisonHospitals", schema = "psy")
+public class HospitalComparisonHospitals implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,14 +47,14 @@ public class HosptalComparisonHospitals implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property hchHospitalComparisonEvaluationsId">
     @ManyToOne
     @JoinColumn(name = "hchHospitalComparisonEvaluationsId")
-    private HosptalComparisonEvaluation _hosptalComparisonEvaluations;
+    private HospitalComparisonEvaluation _hospitalComparisonEvaluations;
 
-    public HosptalComparisonEvaluation getHosptalComparisonEvaluations() {
-        return _hosptalComparisonEvaluations;
+    public HospitalComparisonEvaluation getHospitalComparisonEvaluations() {
+        return _hospitalComparisonEvaluations;
     }
 
-    public void setHosptalComparisonEvaluations(HosptalComparisonEvaluation hosptalComparisonEvaluations) {
-        this._hosptalComparisonEvaluations = hosptalComparisonEvaluations;
+    public void setHospitalComparisonEvaluations(HospitalComparisonEvaluation hospitalComparisonEvaluations) {
+        this._hospitalComparisonEvaluations = hospitalComparisonEvaluations;
     }
     //</editor-fold>
 
@@ -77,15 +77,15 @@ public class HosptalComparisonHospitals implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HosptalComparisonHospitals that = (HosptalComparisonHospitals) o;
+        HospitalComparisonHospitals that = (HospitalComparisonHospitals) o;
         return _id == that._id &&
                 _aebBaseInformationId == that._aebBaseInformationId &&
-                Objects.equals(_hosptalComparisonEvaluations, that._hosptalComparisonEvaluations) &&
+                Objects.equals(_hospitalComparisonEvaluations, that._hospitalComparisonEvaluations) &&
                 Objects.equals(_type, that._type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _aebBaseInformationId, _hosptalComparisonEvaluations, _type);
+        return Objects.hash(_id, _aebBaseInformationId, _hospitalComparisonEvaluations, _type);
     }
 }

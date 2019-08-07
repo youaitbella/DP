@@ -14,8 +14,8 @@ import java.util.Objects;
  * @author lautenti
  */
 @Entity
-@Table(name = "HosptalComparisonInfo", schema = "psy")
-public class HosptalComparisonInfo implements Serializable {
+@Table(name = "HospitalComparisonInfo", schema = "psy")
+public class HospitalComparisonInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -153,41 +153,41 @@ public class HosptalComparisonInfo implements Serializable {
     }
     //</editor-fold>
 
-    @OneToMany(mappedBy = "_hosptalComparisonInfo", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "hceHosptalComparisonInfoId")
-    private List<HosptalComparisonEvaluation> _hosptalComparisonEvaluation  = new ArrayList<>();
+    @OneToMany(mappedBy = "_hospitalComparisonInfo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "hceHospitalComparisonInfoId")
+    private List<HospitalComparisonEvaluation> _hospitalComparisonEvaluation = new ArrayList<>();
 
-    public List<HosptalComparisonEvaluation> getHosptalComparisonEvaluation() {
-        return _hosptalComparisonEvaluation;
+    public List<HospitalComparisonEvaluation> getHospitalComparisonEvaluation() {
+        return _hospitalComparisonEvaluation;
     }
 
-    public void setHosptalComparisonEvaluation(List<HosptalComparisonEvaluation> hosptalComparisonEvaluation) {
-        this._hosptalComparisonEvaluation = hosptalComparisonEvaluation;
+    public void setHospitalComparisonEvaluation(List<HospitalComparisonEvaluation> hospitalComparisonEvaluation) {
+        this._hospitalComparisonEvaluation = hospitalComparisonEvaluation;
     }
 
-    public void addHosptalComparisonEvaluation(HosptalComparisonEvaluation evaluation) {
-        evaluation.setHosptalComparisonInfo(this);
-        _hosptalComparisonEvaluation.add(evaluation);
+    public void addHospitalComparisonEvaluation(HospitalComparisonEvaluation evaluation) {
+        evaluation.setHospitalComparisonInfo(this);
+        _hospitalComparisonEvaluation.add(evaluation);
     }
 
 
-    @OneToOne(mappedBy = "_hosptalComparisonInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private HosptalComparisonJob _hosptalComparisonJob;
+    @OneToOne(mappedBy = "_hospitalComparisonInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private HospitalComparisonJob _hospitalComparisonJob;
 
-    public HosptalComparisonJob getHosptalComparisonJob() {
-        return _hosptalComparisonJob;
+    public HospitalComparisonJob getHospitalComparisonJob() {
+        return _hospitalComparisonJob;
     }
 
-    public void setHosptalComparisonJob(HosptalComparisonJob hosptalComparisonJob) {
-        hosptalComparisonJob.setHosptalComparisonInfo(this);
-        this._hosptalComparisonJob = hosptalComparisonJob;
+    public void setHospitalComparisonJob(HospitalComparisonJob hospitalComparisonJob) {
+        hospitalComparisonJob.setHosptalComparisonInfo(this);
+        this._hospitalComparisonJob = hospitalComparisonJob;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HosptalComparisonInfo that = (HosptalComparisonInfo) o;
+        HospitalComparisonInfo that = (HospitalComparisonInfo) o;
         return _agreementYear == that._agreementYear &&
                 _accountId == that._accountId &&
                 _hospitalPsyGroupId == that._hospitalPsyGroupId &&

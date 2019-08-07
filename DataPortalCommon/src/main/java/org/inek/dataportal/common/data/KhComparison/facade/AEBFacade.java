@@ -225,7 +225,7 @@ public class AEBFacade extends AbstractDataAccess {
     }
 
     @Transactional
-    public HosptalComparisonInfo save(HosptalComparisonInfo info) {
+    public HospitalComparisonInfo save(HospitalComparisonInfo info) {
         if (info.getId() == 0) {
             persist(info);
             return info;
@@ -252,19 +252,19 @@ public class AEBFacade extends AbstractDataAccess {
         query.executeUpdate();
     }
 
-    public List<HosptalComparisonInfo> getHosptalComparisonInfoByIks(Set<Integer> iks) {
+    public List<HospitalComparisonInfo> getHosptalComparisonInfoByIks(Set<Integer> iks) {
         if (iks.isEmpty()) {
             return new ArrayList<>();
         }
-        String jpql = "select hc from HosptalComparisonInfo hc where hc._hospitalIk in :ik";
-        TypedQuery<HosptalComparisonInfo> query = getEntityManager().createQuery(jpql, HosptalComparisonInfo.class);
+        String jpql = "select hc from HospitalComparisonInfo hc where hc._hospitalIk in :ik";
+        TypedQuery<HospitalComparisonInfo> query = getEntityManager().createQuery(jpql, HospitalComparisonInfo.class);
         query.setParameter("ik", iks);
         return query.getResultList();
     }
 
-    public List<HosptalComparisonInfo> getHosptalComparisonInfoByAccount(Account acc) {
-        String jpql = "select hc from HosptalComparisonInfo hc where hc._accountId = :id";
-        TypedQuery<HosptalComparisonInfo> query = getEntityManager().createQuery(jpql, HosptalComparisonInfo.class);
+    public List<HospitalComparisonInfo> getHosptalComparisonInfoByAccount(Account acc) {
+        String jpql = "select hc from HospitalComparisonInfo hc where hc._accountId = :id";
+        TypedQuery<HospitalComparisonInfo> query = getEntityManager().createQuery(jpql, HospitalComparisonInfo.class);
         query.setParameter("id", acc.getId());
         return query.getResultList();
     }
@@ -360,7 +360,7 @@ public class AEBFacade extends AbstractDataAccess {
         }
     }
 
-    public void insertNewCompatingConflict(AEBBaseInformation aebBaseInformation1, HosptalComparisonHospitals hospital) {
+    public void insertNewCompatingConflict(AEBBaseInformation aebBaseInformation1, HospitalComparisonHospitals hospital) {
         String sqlTemplate = "insert into psy.HospitalComparisonConflicts" +
                 "(hccHospitalComparisonEvaluationId, hccAebBaseInformationId1, hccAebBaseInformationId2) values(%s, %s, %s)";
 
