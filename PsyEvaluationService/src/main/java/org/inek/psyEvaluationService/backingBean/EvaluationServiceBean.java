@@ -2,6 +2,7 @@ package org.inek.psyEvaluationService.backingBean;
 
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.psyEvaluationService.timed.ScannerTimer;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Asynchronous;
@@ -22,6 +23,8 @@ public class EvaluationServiceBean implements Serializable {
     private AEBFacade _aebFacade;
     @Inject
     private ConfigFacade _config;
+    @Inject
+    private ScannerTimer _scannerTimer;
 
     private boolean _scanEnable = false;
 
@@ -39,7 +42,13 @@ public class EvaluationServiceBean implements Serializable {
     }
 
     public void start() {
-        startWorking();
+        //startWorking();
+        _scannerTimer.startTimer();
+    }
+
+    public void end() {
+        //startWorking();
+        _scannerTimer.stopTimer();
     }
 
     @Asynchronous
