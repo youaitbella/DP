@@ -252,16 +252,6 @@ public class AEBFacade extends AbstractDataAccess {
         query.executeUpdate();
     }
 
-    public List<HospitalComparisonInfo> getHosptalComparisonInfoByIks(Set<Integer> iks) {
-        if (iks.isEmpty()) {
-            return new ArrayList<>();
-        }
-        String jpql = "select hc from HospitalComparisonInfo hc where hc._hospitalIk in :ik";
-        TypedQuery<HospitalComparisonInfo> query = getEntityManager().createQuery(jpql, HospitalComparisonInfo.class);
-        query.setParameter("ik", iks);
-        return query.getResultList();
-    }
-
     public List<HospitalComparisonInfo> getHosptalComparisonInfoByAccount(Account acc) {
         String jpql = "select hc from HospitalComparisonInfo hc where hc._accountId = :id";
         TypedQuery<HospitalComparisonInfo> query = getEntityManager().createQuery(jpql, HospitalComparisonInfo.class);
@@ -367,5 +357,10 @@ public class AEBFacade extends AbstractDataAccess {
         String sql = String.format(sqlTemplate, hospital.getId(), hospital.getAebBaseInformationId(), aebBaseInformation1);
 
         getEntityManager().createNativeQuery(sql).executeUpdate();
+    }
+
+    public Optional<HospitalComparisonJob> getOldestNewJob() {
+        // TODO: Herraussuchen
+        return Optional.empty();
     }
 }

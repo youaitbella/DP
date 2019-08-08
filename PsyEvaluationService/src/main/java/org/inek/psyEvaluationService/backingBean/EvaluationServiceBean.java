@@ -32,32 +32,15 @@ public class EvaluationServiceBean implements Serializable {
         return _scanEnable;
     }
 
-    @PostConstruct
-    public void init() {
-
-    }
-
     public void switchScannerEnable() {
         _scanEnable = !_scanEnable;
     }
 
     public void start() {
-        //startWorking();
         _scannerTimer.startTimer();
     }
 
     public void end() {
-        //startWorking();
         _scannerTimer.stopTimer();
     }
-
-    @Asynchronous
-    private void startWorking() {
-        while (true) {
-            if (_scanEnable) {
-                LOGGER.log(Level.INFO, "TestLog");
-            }
-        }
-    }
-
 }
