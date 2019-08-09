@@ -1,6 +1,7 @@
 package org.inek.dataportal.care.utils;
 
 import org.inek.dataportal.care.entities.Proof;
+import org.inek.dataportal.common.helper.MathHelper;
 
 public class CallculatorPpug {
 
@@ -21,10 +22,9 @@ public class CallculatorPpug {
         part = 1 - part;
 
         double minValue = Math.min(nurse + helpNurse, nurse / part);
-        double roundedValue = Math.round(minValue * 100.0) / 100.0;
 
-        double result = patientOccupancy / roundedValue;
-        proof.setPatientPerNurse(Math.round(result * 100.0) / 100.0);
+        double result = patientOccupancy / MathHelper.round(minValue, 2);
+        proof.setPatientPerNurse(MathHelper.round(result, 2));
     }
 
     public static void calculateCountHelpeNurseChargeable(Proof proof, double part) {
@@ -38,6 +38,6 @@ public class CallculatorPpug {
         part = 1 - part;
 
         double result = (nurse / part) - nurse;
-        proof.setCountHelpeNurseChargeable(Math.round(result * 100.0) / 100.0);
+        proof.setCountHelpeNurseChargeable(MathHelper.round(result, 2));
     }
 }
