@@ -107,7 +107,7 @@ public class AEBPageB1 implements Serializable {
     }
 
     public void setSumValuationRadioRenumeration(double sumValuationRadioRenumeration) {
-        _sumValuationRadioRenumeration = round(sumValuationRadioRenumeration);
+        _sumValuationRadioRenumeration = round4(sumValuationRadioRenumeration);
     }
     //</editor-fold>
 

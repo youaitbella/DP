@@ -101,6 +101,7 @@ class CallculatorPpugTest {
         entrys.add(new TestEntry(createProof( 2, 0, 34.37), 0.15, 17.19));
         entrys.add(new TestEntry(createProof( 0.94, 0.94, 29.80), 0.4, 18.98));
         entrys.add(new TestEntry(createProof( 2.38, 1.03, 21.20), 0.2, 7.11));
+        entrys.add(new TestEntry(createProof( 3.38, 0.88, 26.40), 0.2, 6.24));
         return entrys;
     }
 
@@ -123,6 +124,7 @@ class CallculatorPpugTest {
         entrys.add(new TestEntry(createProof( 2.5, 0.5, 28.75), 0.2, 0.63));
         entrys.add(new TestEntry(createProof( 3, 0.25, 25), 0.1, 0.33));
         entrys.add(new TestEntry(createProof( 4, 1, 12), 0.08, 0.35));
+        entrys.add(new TestEntry(createProof( 2.78, 0, 7.50), 0.2, 0.70));
         return entrys;
     }
 

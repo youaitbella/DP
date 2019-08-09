@@ -3,6 +3,9 @@ package org.inek.dataportal.care.utils;
 import org.inek.dataportal.care.entities.Proof;
 import org.inek.dataportal.common.helper.MathHelper;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class CallculatorPpug {
 
     public static void calculateAll(Proof proof) {
@@ -11,33 +14,41 @@ public class CallculatorPpug {
     }
 
     public static void calculatePatientPerNurse(Proof proof, double part) {
-        double nurse = proof.getNurse();
-        double helpNurse = proof.getHelpNurse();
-        double patientOccupancy = proof.getPatientOccupancy();
+        part = 1 - part;
 
-        if (nurse + helpNurse == 0 || nurse == 0) {
+        BigDecimal decNurse = new BigDecimal(String.valueOf(proof.getNurse())).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal decHelpNurse = new BigDecimal(String.valueOf(proof.getHelpNurse())).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal decPart = new BigDecimal(String.valueOf(part)).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal decPatientOccupancy = new BigDecimal(String.valueOf(proof.getPatientOccupancy())).setScale(2, RoundingMode.HALF_UP);
+
+        if (decNurse.add(decHelpNurse).doubleValue() == 0 || decNurse.doubleValue() == 0) {
             proof.setPatientPerNurse(0);
             return;
         }
-        part = 1 - part;
 
-        double minValue = Math.min(nurse + helpNurse, nurse / part);
+        BigDecimal v = decNurse.divide(decPart, RoundingMode.HALF_UP);
 
-        double result = patientOccupancy / MathHelper.round(minValue, 2);
+        BigDecimal min = v.min(decHelpNurse.add(decNurse));
+
+        double result = decPatientOccupancy.divide(min, RoundingMode.HALF_UP).doubleValue();
         proof.setPatientPerNurse(MathHelper.round(result, 2));
     }
 
     public static void calculateCountHelpeNurseChargeable(Proof proof, double part) {
-        double nurse = proof.getNurse();
-        double helpNurse = proof.getHelpNurse();
+        part = 1 - part;
 
-        if (nurse + helpNurse == 0) {
+        BigDecimal decNurse = new BigDecimal(String.valueOf(proof.getNurse())).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal decHelpNurse = new BigDecimal(String.valueOf(proof.getHelpNurse())).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal decPart = new BigDecimal(String.valueOf(part)).setScale(2, RoundingMode.HALF_UP);
+
+
+        if (decNurse.add(decHelpNurse).doubleValue() == 0) {
             proof.setCountHelpeNurseChargeable(0);
             return;
         }
-        part = 1 - part;
 
-        double result = (nurse / part) - nurse;
+        double result = decNurse.divide(decPart, RoundingMode.HALF_UP).subtract(decNurse).doubleValue();
+
         proof.setCountHelpeNurseChargeable(MathHelper.round(result, 2));
     }
 }
