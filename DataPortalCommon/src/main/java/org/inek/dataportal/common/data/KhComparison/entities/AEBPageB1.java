@@ -1,5 +1,8 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
+import org.apache.commons.math3.util.MathUtils;
+import org.inek.dataportal.common.helper.MathHelper;
+
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
@@ -104,7 +107,7 @@ public class AEBPageB1 implements Serializable {
     }
 
     public void setSumValuationRadioRenumeration(double sumValuationRadioRenumeration) {
-        _sumValuationRadioRenumeration = round(sumValuationRadioRenumeration);
+        _sumValuationRadioRenumeration = round4(sumValuationRadioRenumeration);
     }
     //</editor-fold>
 
@@ -148,11 +151,11 @@ public class AEBPageB1 implements Serializable {
     //</editor-fold>
 
     private double round(double value) {
-            return Math.round(value * 100d) / 100d;
+        return MathHelper.round(value, 2);
     }
 
     private double round4(double value) {
-        return Math.round(value * 100000d) / 100000d;
+        return MathHelper.round(value, 4);
     }
 
     @Override

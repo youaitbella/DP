@@ -7,6 +7,7 @@ package org.inek.dataportal.common.data.KhComparison.checker;
 
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
+import org.inek.dataportal.common.helper.MathHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,7 @@ public class AebChecker {
     }
 
     private double round(double value) {
-        return (double) Math.round(value * 100d) / 100d;
+        return MathHelper.round(value, 2);
     }
 
     private void checkPageE3_1(AEBBaseInformation info) {

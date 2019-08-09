@@ -1,5 +1,7 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
+import org.inek.dataportal.common.helper.MathHelper;
+
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
@@ -86,7 +88,7 @@ public class AEBPageE2 extends AEBPage implements Serializable {
     }
 
     public void setValuationRadioDay(double valuationRadioDay) {
-        _valuationRadioDay = (double) Math.round(valuationRadioDay * 10000d) / 10000d;
+        _valuationRadioDay = MathHelper.round(valuationRadioDay, 4);
     }
     //</editor-fold>
 
