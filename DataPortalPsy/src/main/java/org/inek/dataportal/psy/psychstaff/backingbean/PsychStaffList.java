@@ -1,30 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.psy.psychstaff.backingbean;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.logging.Logger;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.helper.FeatureMessageHandler;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.DataSet;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.api.helper.FeatureMessageHandler;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.psy.psychstaff.entity.StaffProof;
 import org.inek.dataportal.psy.psychstaff.facade.PsychStaffFacade;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.utils.DocumentationUtil;
+
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  *
@@ -44,16 +40,14 @@ public class PsychStaffList implements Serializable {
 
     @Inject private PsychStaffFacade _psychFacade;
     @Inject private SessionController _sessionController;
-    @Inject private IkAdminFacade _ikAdminFacade;
+    @Inject
+    private AccessManager _accessManager;
 
     private List<StaffProof> _openPersonals;
 
     public List<StaffProof> getOpenPersonals() {
         if (_openPersonals == null) {
-            List<AccessRight> accessRights = _ikAdminFacade.findAccessRightsByAccountAndFeature(_sessionController.
-                    getAccount(), Feature.PSYCH_STAFF);
-            _openPersonals = _psychFacade.
-                    getStaffProofs(_sessionController.getAccountId(), accessRights, DataSet.AllOpen);
+            _openPersonals = obtainStaffProofs(DataSet.AllOpen);
         }
         return _openPersonals;
     }
@@ -62,12 +56,15 @@ public class PsychStaffList implements Serializable {
 
     public List<StaffProof> getProvidedPersonals() {
         if (_providedPersonals == null) {
-            List<AccessRight> accessRights = _ikAdminFacade.findAccessRightsByAccountAndFeature(_sessionController.
-                    getAccount(), Feature.PSYCH_STAFF);
-            _providedPersonals = _psychFacade.
-                    getStaffProofs(_sessionController.getAccountId(), accessRights, DataSet.AllSealed);
+            _providedPersonals = obtainStaffProofs(DataSet.AllSealed);
         }
         return _providedPersonals;
+    }
+
+    private List<StaffProof> obtainStaffProofs(DataSet dataSet) {
+        Set<Integer> allowedIks = _accessManager.retrieveAllowedManagedIks(Feature.PSYCH_STAFF);
+        Set<Integer> deniedIks = _accessManager.retrieveDeniedManagedIks(Feature.PSYCH_STAFF);
+        return _psychFacade.getStaffProofs(_sessionController.getAccountId(), dataSet, allowedIks, deniedIks);
     }
 
     private List<StaffProof> _inekStaffProofs;

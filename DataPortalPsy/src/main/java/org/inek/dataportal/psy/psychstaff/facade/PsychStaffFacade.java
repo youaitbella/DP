@@ -8,33 +8,25 @@ package org.inek.dataportal.psy.psychstaff.facade;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
+import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
+import org.inek.dataportal.common.data.KhComparison.entities.PersonnelGroup;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.DataSet;
+import org.inek.dataportal.psy.psychstaff.entity.*;
+import org.inek.dataportal.psy.psychstaff.enums.PsychType;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityGraph;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.DataSet;
-import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
-import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.enums.Right;
-import org.inek.dataportal.psy.psychstaff.entity.ExclusionFact;
-import org.inek.dataportal.common.data.KhComparison.entities.PersonnelGroup;
-import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
-import org.inek.dataportal.psy.psychstaff.entity.StaffProof;
-import org.inek.dataportal.psy.psychstaff.entity.StaffProofAgreed;
-import org.inek.dataportal.psy.psychstaff.entity.StaffProofEffective;
-import org.inek.dataportal.psy.psychstaff.entity.StaffProofExplanation;
-import org.inek.dataportal.psy.psychstaff.enums.PsychType;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -63,35 +55,17 @@ public class PsychStaffFacade extends AbstractDataAccessWithActionLog {
         //  return find(StaffProof.class, id);
     }
 
-    public List<StaffProof> getStaffProofsOld(int accountId, DataSet dataSet) {
-        String sql = "SELECT n FROM StaffProof n \r\n"
-                + "WHERE n._accountId = :accountId \r\n";
-        if (dataSet == DataSet.AllOpen) {
-        } else {
-        }
-        sql += "ORDER BY n._year, n._id";
-        TypedQuery<StaffProof> query = getEntityManager().createQuery(sql, StaffProof.class);
-        query.setParameter("accountId", accountId);
-        return query.getResultList();
-    }
 
     @SuppressWarnings("unchecked")
-    public List<StaffProof> getStaffProofs(int accountId, List<AccessRight> accessRights, DataSet dataSet) {
-        String allowedIks = accessRights
-                .stream()
-                .filter(r -> r.getRight() != Right.Deny)
-                .map(r -> "" + r.getIk())
-                .collect(Collectors.joining(", "));
-        String denyedIks = accessRights
-                .stream()
-                .filter(r -> r.getRight() == Right.Deny)
-                .map(r -> "" + r.getIk())
-                .collect(Collectors.joining(", "));
+    public List<StaffProof> getStaffProofs(int accountId, DataSet dataSet, Set<Integer> allowedIkSet, Set<Integer> deniedIkSet) {
+        String allowedIks = allowedIkSet.stream().map(i -> "" + i).collect(Collectors.joining(","));
+        String deniedIks = deniedIkSet.stream().map(i -> "" + i).collect(Collectors.joining(","));
+
         String sql = "SELECT m.* \n"
                 + "FROM psy.StaffProofMaster m \n";
         sql += "WHERE (spmAccountId = " + accountId;
-        if (!denyedIks.isEmpty()) {
-            sql += " and spmIk not in (" + denyedIks + ")";
+        if (!deniedIks.isEmpty()) {
+            sql += " and spmIk not in (" + deniedIks + ")";
         }
         if (!allowedIks.isEmpty()) {
             sql += " or spmIk in (" + allowedIks + ")";
