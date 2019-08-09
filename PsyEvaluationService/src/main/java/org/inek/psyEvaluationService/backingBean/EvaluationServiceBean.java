@@ -20,10 +20,6 @@ public class EvaluationServiceBean implements Serializable {
     private static final Logger LOGGER = Logger.getLogger(EvaluationServiceBean.class.toString());
 
     @Inject
-    private AEBFacade _aebFacade;
-    @Inject
-    private ConfigFacade _config;
-    @Inject
     private ScannerTimer _scannerTimer;
 
     private boolean _scanEnable = false;

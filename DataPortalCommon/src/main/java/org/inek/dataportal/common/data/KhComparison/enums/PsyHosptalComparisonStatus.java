@@ -3,5 +3,6 @@ package org.inek.dataportal.common.data.KhComparison.enums;
 public enum PsyHosptalComparisonStatus {
     NEW,
     WORKING,
-    DONE;
+    DONE,
+    NO_EVALUATIONS;
 }

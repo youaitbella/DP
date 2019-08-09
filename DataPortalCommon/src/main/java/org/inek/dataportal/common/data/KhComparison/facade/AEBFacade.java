@@ -9,6 +9,7 @@ import javafx.util.Pair;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyGroup;
+import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonStatus;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -233,6 +234,11 @@ public class AEBFacade extends AbstractDataAccess {
         return merge(info);
     }
 
+
+    public void save(HospitalComparisonJob job) {
+        persist(job);
+    }
+
     public void deleteBaseInformation(AEBBaseInformation info) {
         remove(info);
     }
@@ -360,7 +366,16 @@ public class AEBFacade extends AbstractDataAccess {
     }
 
     public Optional<HospitalComparisonJob> getOldestNewJob() {
-        // TODO: Herraussuchen
-        return Optional.empty();
+        String sql = "SELECT jo FROM HospitalComparisonJob jo WHERE jo._status = :status order by jo._createdDate";
+        TypedQuery<HospitalComparisonJob> query = getEntityManager().createQuery(sql, HospitalComparisonJob.class);
+        query.setParameter("status", PsyHosptalComparisonStatus.NEW.name());
+
+        List<HospitalComparisonJob> resultList = query.getResultList();
+
+        if (resultList.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(resultList.get(0));
+        }
     }
 }
