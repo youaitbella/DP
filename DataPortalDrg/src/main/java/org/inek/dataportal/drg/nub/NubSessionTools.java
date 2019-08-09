@@ -12,7 +12,6 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.ObjectCopier;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.MessageContainer;
-import org.inek.dataportal.common.helper.structures.ProposalInfo;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
@@ -38,7 +37,6 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 // todo: devide into several classes, use a specialized TreeNodeObserver on every level
 // todo: use customer node for iks managed by ikAdmin
@@ -123,16 +121,6 @@ public class NubSessionTools implements Serializable {
 
     public void refreshNodes() {
         _rootNode.refresh();
-    }
-
-    public List<ProposalInfo> getNubRequests(AccountTreeNode accountNode) {
-        return accountNode.getChildren().stream().map(a -> ((ProposalInfoTreeNode) a).getProposalInfo()).
-                collect(Collectors.toList());
-    }
-
-    public String refreshAndGotoNubSummary() {
-        _rootNode.refresh();
-        return Pages.NubSummary.URL();
     }
 
     private String printRequests(List<NubRequest> nubRequests) {
