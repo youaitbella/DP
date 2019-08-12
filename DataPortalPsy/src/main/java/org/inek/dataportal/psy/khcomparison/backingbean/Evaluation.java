@@ -183,7 +183,7 @@ public class Evaluation {
 
     private Optional<HospitalComparisonEvaluation> getHosptalComparisonEvaluations(PsyEvaluationType psyEvaluationType, HospitalComparisonInfo info) {
         HospitalComparisonEvaluation evaluation = new HospitalComparisonEvaluation();
-        evaluation.setEvaluationTypeId(psyEvaluationType.getId());
+        evaluation.setEvaluationType(psyEvaluationType);
         int aebId = 0;
         List<Integer> aebIdsForGroup = new ArrayList<>();
 

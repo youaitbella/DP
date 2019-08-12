@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
+import org.inek.dataportal.common.data.KhComparison.enums.PsyEvaluationType;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonHospitalsType;
 
 import javax.persistence.*;
@@ -38,12 +39,12 @@ public class HospitalComparisonEvaluation implements Serializable {
     @Column(name = "hceEvaluationTypeId")
     private int _evaluationTypeId;
 
-    public int getEvaluationTypeId() {
-        return _evaluationTypeId;
+    public PsyEvaluationType getEvaluationType() {
+        return PsyEvaluationType.findById(_evaluationTypeId);
     }
 
-    public void setEvaluationTypeId(int evaluationTypeId) {
-        this._evaluationTypeId = evaluationTypeId;
+    public void setEvaluationType(PsyEvaluationType evaluationType) {
+        this._evaluationTypeId = evaluationType.getId();
     }
     //</editor-fold>
 
@@ -75,6 +76,12 @@ public class HospitalComparisonEvaluation implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    public HospitalComparisonHospitals getHospitalComparisonHospitalsHospital() {
+        return _hospitalComparisonHospitals.stream()
+                .filter(c -> c.getType().equals(PsyHosptalComparisonHospitalsType.Hospital))
+                .findFirst().get();
+    }
+
     public void setHospitalComparisonHospitals(List<HospitalComparisonHospitals> hospitalComparisonHospitals) {
         this._hospitalComparisonHospitals = hospitalComparisonHospitals;
     }
@@ -89,6 +96,10 @@ public class HospitalComparisonEvaluation implements Serializable {
             hospital.setHospitalComparisonEvaluations(this);
             _hospitalComparisonHospitals.add(hospital);
         }
+    }
+
+    public String getEvalutationHcId() {
+        return _hospitalComparisonInfo.getHospitalComparisonId() + "_" + _evaluationTypeId;
     }
 
 

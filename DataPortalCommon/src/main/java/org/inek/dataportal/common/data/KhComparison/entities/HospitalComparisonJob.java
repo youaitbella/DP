@@ -69,7 +69,8 @@ public class HospitalComparisonJob implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property hcsCreatedAt">
-    @Column(name = "hcsCreatedAt")
+    @Column(name = "hcsCreatedAt", insertable = false)
+    @Temporal(TemporalType.DATE)
     private Date _createdDate;
     //</editor-fold>
 

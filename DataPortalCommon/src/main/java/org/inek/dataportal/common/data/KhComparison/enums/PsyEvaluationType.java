@@ -14,6 +14,11 @@ public enum PsyEvaluationType {
     private int _id;
     private String _description;
 
+    PsyEvaluationType(int id, String description) {
+        _id = id;
+        _description = description;
+    }
+
     public int getId() {
         return _id;
     }
@@ -22,8 +27,12 @@ public enum PsyEvaluationType {
         return _description;
     }
 
-    PsyEvaluationType(int id, String description) {
-        _id = id;
-        _description = description;
+    public static PsyEvaluationType findById(int id) {
+        for (PsyEvaluationType value : PsyEvaluationType.values()) {
+            if (value.getId() == id) {
+                return value;
+            }
+        }
+        throw new IllegalArgumentException("PsyEvaluationType not found for id: " + id);
     }
 }

@@ -16,6 +16,8 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.XmlReaderPsyEvaluation;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -234,9 +236,10 @@ public class AEBFacade extends AbstractDataAccess {
         return merge(info);
     }
 
-
-    public void save(HospitalComparisonJob job) {
-        persist(job);
+    @Transactional
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public HospitalComparisonJob save(HospitalComparisonJob job) {
+        return merge(job);
     }
 
     public void deleteBaseInformation(AEBBaseInformation info) {
@@ -365,6 +368,7 @@ public class AEBFacade extends AbstractDataAccess {
         getEntityManager().createNativeQuery(sql).executeUpdate();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Optional<HospitalComparisonJob> getOldestNewJob() {
         String sql = "SELECT jo FROM HospitalComparisonJob jo WHERE jo._status = :status order by jo._createdDate";
         TypedQuery<HospitalComparisonJob> query = getEntityManager().createQuery(sql, HospitalComparisonJob.class);
