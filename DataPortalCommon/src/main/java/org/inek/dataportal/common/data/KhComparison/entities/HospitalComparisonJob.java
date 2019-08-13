@@ -4,6 +4,7 @@ import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonSt
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
@@ -70,14 +71,14 @@ public class HospitalComparisonJob implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property hcsCreatedAt">
     @Column(name = "hcsCreatedAt", insertable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date _createdDate;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property hcsStartWorking">
     @Column(name = "hcsStartWorking")
-    @Temporal(TemporalType.DATE)
-    private Date _startWorking = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _startWorking;
 
     public Date getStartWorking() {
         return _startWorking;
@@ -90,8 +91,8 @@ public class HospitalComparisonJob implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property hcsEndWorking">
     @Column(name = "hcsEndWorking")
-    @Temporal(TemporalType.DATE)
-    private Date _endWorking = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _endWorking;
 
     public Date getEndWorking() {
         return _endWorking;

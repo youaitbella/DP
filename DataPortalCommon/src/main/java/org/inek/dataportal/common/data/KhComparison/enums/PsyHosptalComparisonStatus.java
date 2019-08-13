@@ -4,5 +4,6 @@ public enum PsyHosptalComparisonStatus {
     NEW,
     WORKING,
     DONE,
+    ERROR,
     NO_EVALUATIONS;
 }
