@@ -21,6 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -147,7 +149,14 @@ public class ScannerTimer {
     }
 
     private void copyAccountDocumentZipToDataPortal(String zipFilePath) {
+        Path destination = Paths.get(_config.readConfig(ConfigKey.KhComparisonUploadPath));
+        Path source = Paths.get(zipFilePath);
 
+        try {
+            Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String createDocumentInfoFile() {
@@ -266,6 +275,7 @@ public class ScannerTimer {
                 job.setStartWorking(new Timestamp(new Date().getTime()));
                 break;
             case DONE:
+            case ERROR:
             case NO_EVALUATIONS:
                 job.setEndWorking(new Timestamp(new Date().getTime()));
                 break;
