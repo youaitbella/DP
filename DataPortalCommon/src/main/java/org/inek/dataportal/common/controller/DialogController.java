@@ -27,7 +27,7 @@ public class DialogController{
     }
 
     public static void showAccessDeniedDialog() {
-        PrimeFaces.current().executeScript("swal('Zugriff Verweigert', 'Sie haben keine Zugrifsrechte auf diese Daten', 'error');");
+        PrimeFaces.current().executeScript("swal('Zugriff Verweigert', 'Sie haben keine Zugriffsrechte auf diese Daten', 'error');");
     }
 
     public static void showInfoMessage(String message) {

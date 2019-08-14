@@ -19,6 +19,7 @@ public class KhComparisonController extends AbstractFeatureController {
     @Override
     protected void addTopics(Topics topics) {
         topics.addTopic("Krankenhausvergleich Datenerfassung", Pages.KhComparisonSummary.URL());
+        //topics.addTopic("Krankenhausvergleich Auswertung", Pages.KhComparisonEvaluation.URL());
     }
 
     @Override

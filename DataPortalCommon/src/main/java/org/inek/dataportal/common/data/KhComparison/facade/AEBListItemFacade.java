@@ -12,7 +12,6 @@ import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE1_1;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE1_2;

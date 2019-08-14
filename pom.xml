@@ -36,6 +36,9 @@
 
         <!-- Scanner für Doc Uploads-->
         <module>DocumentScanner</module>
+
+        <!-- Service für erstellen der Krankenhasuvergleichsdateien-->
+        <module>PsyEvaluationService</module>
     </modules>
 
 
@@ -137,7 +140,7 @@
                         <artifactId>dependency-check-maven</artifactId>
                         <version>5.0.0-M3</version>
                         <configuration>
-                            <cveValidForHours>12</cveValidForHours>
+                            <cveValidForHours>336</cveValidForHours>
                             <failBuildOnCVSS>11</failBuildOnCVSS>
                             <reportPlugins>
                                 <plugin>
