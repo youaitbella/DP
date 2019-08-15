@@ -32,6 +32,8 @@ public enum Pages {
     NubEditPageDocuments("/NUB/NubEditPageDocuments"),
     NubMethodInfo("/NUB/NubMethodInfo"),
     //
+    NubPsySummary("/Nub/Summary"),
+    //
     PartDropBox("/DropBox/PartDropBox"),
     ListDropBox("/DropBox/ListDropBox"),
     DropBoxSummary("/DropBox/DropBoxSummary"),
