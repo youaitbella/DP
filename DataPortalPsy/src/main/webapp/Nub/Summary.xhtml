@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1>Neue Untersuchungs- und Behandlungsmethoden</h1>
+        <pf:panel style="background-color: #eeeeee;">
+
+            <h:form>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12">
+                        <h2>Daten in Erfassung</h2>
+                        <pf:dataTable value="#{nubSummary.listWorking}"
+                                      id="erfassungtable"
+                                      var="proposal"
+                                      selection="#{nubSummary.selectedElements}"
+                                      rowKey="#{proposal.id}"
+                                      styleClass="inekTablePsy"
+                                      emptyMessage="Keine Einträge vorhanden"
+                                      rows="50"
+                                      paginator="true"
+                                      rowsPerPageTemplate="25,50,100,300">
+                            <pf:column selectionMode="multiple"
+                                       style="width:16px;text-align:center"/>
+                            <pf:column class="colIcon">
+                                <pf:commandLink action="#{nubSummary.deletePsyNubProposal(proposal)}"
+                                                update="erfassungtable"
+                                                process="@this">
+                                    <pf:confirm header="Wollen Sie den Eintrag wirklich löschen?"
+                                                message="Gelöschte Einträge können Sie nicht wiederherstellen. Wollen Sie den Eintrag wirklich löschen?" />
+                                    <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen"
+                                                    value="" />
+                                </pf:commandLink>
+                            </pf:column>
+
+                            <pf:column headerText="Jahr"
+                                       filterable="true"
+                                       sortable="true"
+                                       style="width: 70px"
+                                       filterBy="#{proposal.targetYear}"
+                                       sortBy="#{proposal.targetYear}">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.targetYear}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="IK"
+                                       filterable="true"
+                                       sortable="true"
+                                       style="width: 150px"
+                                       filterBy="#{proposal.ik}"
+                                       sortBy="#{proposal.ik}">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.ik}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="Name"
+                                       filterable="true"
+                                       sortable="true"
+                                       filterBy="#{proposal.displayName}"
+                                       sortBy="#{proposal.displayName}">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.displayName}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+                        </pf:dataTable>
+
+                        <pf:commandButton value="Neue NUB anlegen"
+                                          action="#{nubSummary.psyNubEditOpen()}"
+                                          rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                          styleClass="btnPsy"
+                                          immediate="true">
+                            <f:param name="id" value="new" />
+                        </pf:commandButton>
+
+                    </div>
+                    <div class="ui-g-12">
+                        <h2>An das InEK gesendet</h2>
+
+                        <pf:dataTable value="#{nubSummary.listComplete}"
+                                      id="sendtable"
+                                      var="proposal"
+                                      styleClass="inekTablePsy"
+                                      emptyMessage="Keine Einträge vorhanden"
+                                      rows="50"
+                                      paginator="true"
+                                      rowsPerPageTemplate="25,50,100,300">
+
+                            <pf:column headerText="ID"
+                                       filterable="true"
+                                       sortable="true"
+                                       filterBy="#{proposal.nubIdExtern}"
+                                       sortBy="#{proposal.nubIdExtern}">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.nubIdExtern}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="Status"
+                                       filterable="true"
+                                       sortable="true"
+                                       filterBy="#{proposal.externalStatus}"
+                                       sortBy="#{proposal.externalStatus}">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.externalStatus}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="IK"
+                                       filterable="true"
+                                       sortable="true"
+                                       filterBy="#{proposal.ik}"
+                                       sortBy="#{proposal.ik}">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.ik}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="Name"
+                                       filterable="true"
+                                       sortable="true"
+                                       filterBy="#{proposal.displayName}"
+                                       sortBy="#{proposal.displayName}">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.displayName}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
+                </div>
+
+            </h:form>
+
+        </pf:panel>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.overall;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.IkReference;
 import org.inek.dataportal.api.enums.IkUsage;
@@ -479,6 +480,10 @@ public class AccessManager implements Serializable {
 
     private Set<Integer> retrieveDeniedForCreationIks(Feature feature) {
         return retrieveIkSet(feature, r -> !r.getRight().canCreate());
+    }
+
+    public Boolean ikIsManaged(int ik, Feature feature) {
+        return  _ikCache.isManaged(ik, feature);
     }
 
 }

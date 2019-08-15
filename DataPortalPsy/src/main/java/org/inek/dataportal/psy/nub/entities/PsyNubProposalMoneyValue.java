@@ -24,7 +24,7 @@ public class PsyNubProposalMoneyValue implements Serializable {
     private double _money;
 
     @Column(name = "mvComment")
-    private String _comment;
+    private String _comment = "";
 
     @Column(name = "nvField")
     @Convert(converter = PsyNubMoneyFieldsConverter.class)

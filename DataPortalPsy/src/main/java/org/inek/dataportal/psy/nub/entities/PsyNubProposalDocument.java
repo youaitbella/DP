@@ -19,7 +19,7 @@ public class PsyNubProposalDocument implements Serializable {
     private PsyNubProposal _psyNubProposal;
 
     @Column(name = "npdName")
-    private String _name;
+    private String _name = "";
 
     @Lob
     @Column(name = "npdContent")
@@ -56,6 +56,11 @@ public class PsyNubProposalDocument implements Serializable {
 
     public void setContent(byte[] content) {
         this._content = content;
+    }
+
+    public String getContentTyp() {
+        String[] content = _name.split("\\.");
+        return content[content.length - 1];
     }
 
     @Override

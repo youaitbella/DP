@@ -26,7 +26,7 @@ public class PsyNubProposalNumberValue implements Serializable {
     private int _number;
 
     @Column(name = "nvComment")
-    private String _comment;
+    private String _comment = "";
 
     @Column(name = "nvField")
     @Convert(converter = PsyNubNumberFieldsConverter.class)

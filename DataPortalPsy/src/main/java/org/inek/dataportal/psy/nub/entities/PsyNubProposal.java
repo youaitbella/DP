@@ -5,6 +5,9 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,10 +27,10 @@ public class PsyNubProposal implements Serializable {
     private int _version;
 
     @Column(name = "nubExternalStatus")
-    private String _externalStatus;
+    private String _externalStatus = "";
 
     @Column(name = "nubErrorText")
-    private String _errorText;
+    private String _errorText = "";
 
     @Column(name = "nubTargetYear")
     private int _targetYear;
@@ -46,75 +49,75 @@ public class PsyNubProposal implements Serializable {
     private WorkflowStatus _status;
 
     @Column(name = "nubCreatedAt")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date _createdAt;
 
     @Column(name = "nubSealedAt")
-    @Temporal(TemporalType.DATE)
-    private Date _sealedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _sealedAt = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
     @Column(name = "nubLastModifiedAt")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date _lastModifiedAt;
 
     @Column(name = "nubDateOfReview")
-    @Temporal(TemporalType.DATE)
-    private Date _dateOfReview;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _dateOfReview = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
     @Column(name = "nubDateCorrectionRequested")
-    @Temporal(TemporalType.DATE)
-    private Date _dateCorrectionRequested;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _dateCorrectionRequested = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
     @Column(name = "nubDisplayName")
-    private String _displayName;
+    private String _displayName = "";
 
     @Column(name = "nubName")
-    private String _name;
+    private String _name = "";
 
     @Column(name = "nubAltName")
-    private String _altName;
+    private String _altName = "";
 
     @Column(name = "nubIk")
     private int _ik;
 
     @Column(name = "nubIkName")
-    private String _ikName;
+    private String _ikName = "";
 
     @Column(name = "nubGender")
     private int _gender;
 
     @Column(name = "nubTitle")
-    private String _title;
+    private String _title = "";
 
     @Column(name = "nubFirstName")
-    private String _firstName;
+    private String _firstName = "";
 
     @Column(name = "nubLastName")
-    private String _lastName;
+    private String _lastName = "";
 
     @Column(name = "nubDivision")
-    private String _division;
+    private String _division = "";
 
     @Column(name = "nubRoleId")
     private int _roleId;
 
     @Column(name = "nubStreet")
-    private String _street;
+    private String _street = "";
 
     @Column(name = "nubPostalCode")
-    private String _postalCode;
+    private String _postalCode = "";
 
     @Column(name = "nubTown")
-    private String _town;
+    private String _town = "";
 
     @Column(name = "nubPhone")
-    private String _phone;
+    private String _phone = "";
 
     @Column(name = "nubFax")
-    private String _fax;
+    private String _fax = "";
 
     @Column(name = "nubEmail")
-    private String _email;
+    private String _email = "";
 
     @OneToOne(mappedBy = "_psyNubProposal", cascade = CascadeType.ALL)
     private PsyNubProposalData _proposalData;
@@ -146,6 +149,10 @@ public class PsyNubProposal implements Serializable {
             orphanRemoval = true)
     @JoinColumn(name = "npdNubProposalId")
     private List<PsyNubProposalDocument> _proposalDocuments = new ArrayList<>();
+
+    public String getNubIdExtern() {
+        return "N" + _id;
+    }
 
     public int getId() {
         return _id;
@@ -385,6 +392,24 @@ public class PsyNubProposal implements Serializable {
 
     public void setEmail(String email) {
         this._email = email;
+    }
+
+    public PsyNubProposalData getProposalData() {
+        return _proposalData;
+    }
+
+    public void setProposalData(PsyNubProposalData proposalData) {
+        proposalData.setPsyNubProposal(this);
+        this._proposalData = proposalData;
+    }
+
+    public void addDocument(PsyNubProposalDocument doc) {
+        doc.setPsyNubProposal(this);
+        _proposalDocuments.add(doc);
+    }
+
+    public void removeDocument(PsyNubProposalDocument doc) {
+        _proposalDocuments.remove(doc);
     }
 
     @SuppressWarnings("checkstyle:CyclomaticComplexity")

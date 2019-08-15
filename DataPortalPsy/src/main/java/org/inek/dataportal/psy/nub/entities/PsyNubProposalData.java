@@ -19,49 +19,49 @@ public class PsyNubProposalData implements Serializable {
     private PsyNubProposal _psyNubProposal;
 
     @Column(name = "npdProxyIKs")
-    private String _proxyIks;
+    private String _proxyIks = "";
 
     @Column(name = "npdFormFillHelper")
-    private String _formFillHelper;
+    private String _formFillHelper = "";
 
     @Column(name = "npdUserComment")
-    private String _userComment;
+    private String _userComment = "";
 
     @Column(name = "npdDescription")
-    private String _description;
+    private String _description = "";
 
     @Column(name = "npdProcs")
-    private String _procs;
+    private String _procs = "";
 
     @Column(name = "npdHasNoProcs")
-    private Boolean _hasNoProcs;
+    private Boolean _hasNoProcs = false;
 
     @Column(name = "npdOps")
-    private String _ops;
+    private String _ops = "";
 
     @Column(name = "npdIndication")
-    private String _indication;
+    private String _indication = "";
 
     @Column(name = "npdReplacement")
-    private String _replacement;
+    private String _replacement = "";
 
     @Column(name = "npdWhatsNew")
-    private String _whatsNew;
+    private String _whatsNew = "";
 
     @Column(name = "npdLos")
-    private String _los;
+    private String _los = "";
 
     @Column(name = "npdPepps")
-    private String _pepps;
+    private String _pepps = "";
 
     @Column(name = "npdWhyNotRepresented")
-    private String _whyNotRepresented;
+    private String _whyNotRepresented = "";
 
     @Column(name = "npdFormerRequest")
-    private Boolean _formerRequest;
+    private Boolean _formerRequest = false;
 
     @Column(name = "npdFormerExternalId")
-    private String _formerExternalId;
+    private String _formerExternalId = "";
 
     public int getId() {
         return _id;

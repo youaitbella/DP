@@ -351,6 +351,7 @@ public class Utils {
             case SPECIFIC_FUNCTION:
                 return LocalDateTime.now().getYear();
             case NUB:
+            case NUB_PSY:
             default:
                 return LocalDateTime.now().getYear() + (LocalDateTime.now().getMonthValue() >= 9 ? 1 : 0);
         }

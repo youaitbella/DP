@@ -26,7 +26,7 @@ public class PsyNubProposalDateValue implements Serializable {
     private Date _date;
 
     @Column(name = "dvComment")
-    private String _comment;
+    private String _comment = "";
 
     @Column(name = "dvField")
     @Convert(converter = PsyNubDateFieldsConverter.class)

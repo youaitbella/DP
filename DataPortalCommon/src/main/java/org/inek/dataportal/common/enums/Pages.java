@@ -33,6 +33,7 @@ public enum Pages {
     NubMethodInfo("/NUB/NubMethodInfo"),
     //
     NubPsySummary("/Nub/Summary"),
+    NubPsyEdit("/Nub/Edit"),
     //
     PartDropBox("/DropBox/PartDropBox"),
     ListDropBox("/DropBox/ListDropBox"),

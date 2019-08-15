@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:pf="http://primefaces.org/ui">
+
+
+    <ui:define name="content">
+        <h:form>
+            <h1>
+                <h:commandLink value="PSY-NUB Anfrage"
+                               action="#{sessionController.navigate(sessionTools.pages.NubPsySummary)}"
+                               immediate="true" onclick="PF('navigationDialog').show();" />
+            </h1>
+        </h:form>
+        <h:form>
+            <pf:messages>
+                <pf:autoUpdate />
+            </pf:messages>
+
+            <pf:tabView styleClass="featureTabs" dynamic="true">
+                <pf:tab title="Stammformblatt">
+                    <ui:include src="NubPages/Stammformblatt.xhtml" />
+                </pf:tab>
+                <pf:tab title="Beschreibung">
+
+                </pf:tab>
+                <pf:tab title="Methodendetails">
+
+                </pf:tab>
+                <pf:tab title="Kenmzahlen">
+
+                </pf:tab>
+                <pf:tab title="Kosten">
+
+                </pf:tab>
+
+                <pf:tab title="Dokumente">
+
+                </pf:tab>
+            </pf:tabView>
+
+            <div class="footerInformation">
+                <ui:remove>
+                    <pf:commandButton styleClass="btnPsy"
+                                      value="Datensatz ändern"
+                                      action="#{edit.change()}"
+                                      update="@form"
+                                      rendered="#{edit.isChangeAllowed()}" />
+                </ui:remove>
+                <pf:commandButton styleClass="btnPsy"
+                                  value="Speichern"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  action="#{nubEdit.save()}"
+                                  update="@(.ui-message) @form"
+                                  rendered="#{nubEdit.isSendAllowed()}" />
+                <pf:commandButton value="Ans InEK senden"
+                                  update="@(.ui-message) @form"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  action="#{nubEdit.send()}"
+                                  styleClass="btnSend arrow-right"
+                                  rendered="#{nubEdit.isSendAllowed()}" />
+            </div>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>
