@@ -23,7 +23,7 @@ public class PsyNubProposalDateValue implements Serializable {
 
     @Column(name = "dvDate")
     @Temporal(TemporalType.DATE)
-    private Date _date;
+    private Date _date = new Date();
 
     @Column(name = "dvComment")
     private String _comment = "";

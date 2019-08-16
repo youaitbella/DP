@@ -2,16 +2,16 @@ package org.inek.dataportal.psy.nub.entities;
 
 import org.inek.dataportal.common.data.converter.WorkflowStatusConverter;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.psy.nub.enums.PsyNubDateFields;
+import org.inek.dataportal.psy.nub.enums.PsyNubMoneyFields;
+import org.inek.dataportal.psy.nub.enums.PsyNubNumberFields;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "PsyNubProposal", schema = "psy")
@@ -401,6 +401,51 @@ public class PsyNubProposal implements Serializable {
     public void setProposalData(PsyNubProposalData proposalData) {
         proposalData.setPsyNubProposal(this);
         this._proposalData = proposalData;
+    }
+
+    public PsyNubProposalDateValue getDateValue(PsyNubDateFields field) {
+        Optional<PsyNubProposalDateValue> first = _proposalDateValues.stream().filter(c -> c.getField().equals(field))
+                .findFirst();
+        if (first.isPresent()) {
+            return first.get();
+        } else {
+            throw new IllegalArgumentException("Unknown PsyNubDateFields type: " + field.name());
+        }
+    }
+
+    public PsyNubProposalNumberValue getNumberValue(PsyNubNumberFields field) {
+        Optional<PsyNubProposalNumberValue> first = _proposalNumberValues.stream().filter(c -> c.getField().equals(field))
+                .findFirst();
+        if (first.isPresent()) {
+            return first.get();
+        } else {
+            throw new IllegalArgumentException("Unknown PsyNubNumberFields type: " + field.name());
+        }
+    }
+
+    public PsyNubProposalMoneyValue getMoneyValue(PsyNubMoneyFields field) {
+        Optional<PsyNubProposalMoneyValue> first = _proposalMoneyValues.stream().filter(c -> c.getField().equals(field))
+                .findFirst();
+        if (first.isPresent()) {
+            return first.get();
+        } else {
+            throw new IllegalArgumentException("Unknown PsyNubMoneyFields type: " + field.name());
+        }
+    }
+
+    public void addNewPsyNubProposalDateValue(PsyNubProposalDateValue value) {
+        value.setPsyNubProposal(this);
+        _proposalDateValues.add(value);
+    }
+
+    public void addNewPsyNubProposalMoneyValue(PsyNubProposalMoneyValue value) {
+        value.setPsyNubProposal(this);
+        _proposalMoneyValues.add(value);
+    }
+
+    public void addNewPsyNubProposalNumberValue(PsyNubProposalNumberValue value) {
+        value.setPsyNubProposal(this);
+        _proposalNumberValues.add(value);
     }
 
     public void addDocument(PsyNubProposalDocument doc) {
