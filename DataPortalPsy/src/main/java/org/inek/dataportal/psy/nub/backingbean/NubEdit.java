@@ -129,7 +129,7 @@ public class NubEdit {
 
     public Boolean save() {
         preparePsyNubProposalForSave();
-        _psyNubFacade.save(_psyNubProposal);
+        _psyNubProposal = _psyNubFacade.save(_psyNubProposal);
         DialogController.showSaveDialog();
         //todo save nub
         return true;

@@ -27,7 +27,7 @@
                     <ui:include src="NubPages/Beschreibung.xhtml" />
                 </pf:tab>
                 <pf:tab title="Methodendetails">
-
+                    <ui:include src="NubPages/Details.xhtml" />
                 </pf:tab>
                 <pf:tab title="Kenmzahlen">
 
@@ -55,6 +55,7 @@
                                   oncomplete="PF('dialogProcess').hide()"
                                   action="#{nubEdit.save()}"
                                   update="@(.ui-message) @form"
+                                  immediate="true"
                                   rendered="#{nubEdit.isSendAllowed()}" />
                 <pf:commandButton value="Ans InEK senden"
                                   update="@(.ui-message) @form"
