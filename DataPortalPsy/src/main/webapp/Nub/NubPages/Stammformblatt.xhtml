@@ -1,8 +1,246 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common">
 
-    Hier kommt bald der Inhalt hin
+    <h2>#{msg.headNubCompany}</h2>
+
+    <h:panelGrid columns="2" styleClass="inputwide" columnClasses="col90, colValue">
+        <h:panelGroup class="inputPart">
+            <h:outputLabel styleClass="label" for="displayName" value="#{msg.lblDisplayName}:" />
+            <br />
+            <h:inputText styleClass="inputwide" maxlength="200" id="displayName"
+                         value="#{nubEdit.psyNubProposal.displayName}"
+                         title="#{msg.titleAppellation}"
+                         readonly="#{nubEdit.readOnly}">
+                <f:ajax event="blur" render="@this :logout:remaining" />
+            </h:inputText>
+        </h:panelGroup>
+        <h:panelGroup class="inputPart" rendered="#{nubEdit.psyNubProposal.externalStatus ne ''}">
+            <h:outputLabel styleClass="label" for="nubExState" value="#{msg.lblNubStatus}:" />
+            <br />
+            <h:inputText styleClass="inputshort" id="nubExState"
+                         value="#{nubEdit.psyNubProposal.externalStatus}"
+                         readonly="true" />
+        </h:panelGroup>
+    </h:panelGrid>
+
+    <div class="inputPart">
+        <inek:MultiIk label="#{msg.lblIkShort}"
+                      required="false"
+                      value="#{nubEdit.psyNubProposal.ik}"
+                      readonly="#{nubEdit.readOnly}"
+                      listener="#{nubEdit.ikChanged}"
+                      ikList="#{nubEdit.allowedIks}" />
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel id="nubKhName" for="khName" styleClass="label" value="#{msg.lblHospitalName}:" />
+        <h:message for="khName" id="msgNubKhName" styleClass="errorMessage" />
+        <br />
+        <h:inputText styleClass="inputlong" readonly="#{nubEdit.readOnly}" maxlength="100" id="khName"
+                     value="#{nubEdit.psyNubProposal.ikName}" required="true"
+                     requiredMessage="Bitte geben Sie einen Krankenhausnamen an">
+            <f:ajax event="blur" render="@this :logout:remaining msgNubKhName" />
+        </h:inputText>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" value="#{msg.lblContact}" />
+        <br />
+        <h:panelGrid columns="2" styleClass="inputlong" columnClasses="col30, colValue">
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}" />
+                <h:message id="msgGender" for="cbxGender" styleClass="errorMessage" />
+                <br />
+                <h:selectOneMenu styleClass="inputmedium" id="cbxGender" value="#{nubEdit.psyNubProposal.gender}"
+                                 required="true"
+                                 readonly="#{nubEdit.readOnly}"
+                                 requiredMessage="Bitte wählen Sie ein Geschlecht">
+                    <f:selectItems value="#{sessionTools.genderItems}" />
+                    <f:ajax event="blur" render="@this :logout:remaining msgGender" />
+                </h:selectOneMenu>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:outputLabel styleClass="label" for="title" value="#{msg.lblTitle}" />
+                <br />
+                <h:inputText styleClass="inputmedium" id="title" value="#{nubEdit.psyNubProposal.title}"
+                             required="false" maxlength="50" readonly="#{nubEdit.readOnly}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputText>
+            </h:panelGroup>
+        </h:panelGrid>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="firstname" value="#{msg.lblFirstName}:" />
+        <h:message for="firstname" id="msgFirstname" styleClass="errorMessage" />
+        <br />
+        <h:inputText styleClass="inputlong" id="firstname" value="#{nubEdit.psyNubProposal.firstName}"
+                     required="true"
+                     readonly="#{nubEdit.readOnly}"
+                     requiredMessage="Bitte geben Sie einen Vornamen an"
+                     maxlength="50">
+            <f:ajax event="blur" render="@this :logout:remaining msgFirstname" />
+        </h:inputText>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="lastname" value="#{msg.lblLastName}:" />
+        <h:message id="msgLastname" for="lastname" styleClass="errorMessage" />
+        <br />
+        <h:inputText styleClass="inputlong" id="lastname" value="#{nubEdit.psyNubProposal.lastName}"
+                     required="true"
+                     readonly="#{nubEdit.readOnly}"
+                     requiredMessage="Bitte geben Sie einen Nachnamen an"
+                     maxlength="50">
+            <f:ajax event="blur" render="@this :logout:remaining msgLastname" />
+        </h:inputText>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="division" value="#{msg.lblDivision}:" />
+        <h:message id="msgDivision" for="division" styleClass="errorMessage" />
+        <br />
+        <h:inputText styleClass="inputlong" id="division" value="#{nubEdit.psyNubProposal.division}"
+                     required="false"
+                     readonly="#{nubEdit.readOnly}"
+                     maxlength="50">
+            <f:ajax event="blur" render="@this :logout:remaining msgDivision" />
+        </h:inputText>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="contactRole" value="#{msg.lblContactRole}:" />
+        <h:message id="msgContactRole" for="contactRole" styleClass="errorMessage" />
+        <br />
+        <h:selectOneMenu styleClass="inputlong" id="contactRole" value="#{nubEdit.psyNubProposal.roleId}"
+                         required="true"
+                         readonly="#{nubEdit.readOnly}"
+                         requiredMessage="Bitte geben Sie eine Funktion an">
+            <f:selectItems value="#{sessionTools.contactRoleItems}" />
+            <f:ajax event="change" render="@this :logout:remaining msgContactRole" />
+        </h:selectOneMenu>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="street" value="#{msg.lblStreet}:" />
+        <h:message id="msgStreet" for="street" styleClass="errorMessage" />
+        <br />
+        <h:inputText styleClass="inputlong" id="street" value="#{nubEdit.psyNubProposal.street}"
+                     required="true"
+                     readonly="#{nubEdit.readOnly}"
+                     requiredMessage="Bitte geben Sie eine Straße an"
+                     maxlength="50">
+            <f:validator validatorId="RequiredValidator" />
+            <f:ajax event="blur" render="@this :logout:remaining msgStreet" />
+        </h:inputText>
+    </div>
+
+    <h:panelGrid columns="2" styleClass="inputlong" columnClasses="col30, colValue">
+        <h:panelGroup>
+            <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:" />
+            <h:message id="msgZip" for="zip" styleClass="errorMessage" />
+            <br />
+            <h:inputText styleClass="inputshort" id="zip" value="#{nubEdit.psyNubProposal.postalCode}"
+                         required="true"
+                         readonly="#{nubEdit.readOnly}"
+                         requiredMessage="Bitte geben Sie eine PLZ an"
+                         validator="#{nubEdit.checkPostalCode}"
+                         maxlength="5">
+                <f:validator validatorId="RequiredValidator" />
+                <f:ajax event="blur" render="@this :logout:remaining msgZip" />
+            </h:inputText>
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:" />
+            <h:message id="msgTown" for="town" styleClass="errorMessage" />
+            <br />
+            <h:inputText styleClass="inputwide" id="town" value="#{nubEdit.psyNubProposal.town}"
+                         required="true"
+                         readonly="#{nubEdit.readOnly}"
+                         requiredMessage="Bitte geben Sie eine Stadt an"
+                         maxlength="50">
+                <f:validator validatorId="RequiredValidator" />
+                <f:ajax event="blur" render="@this :logout:remaining msgTown" />
+            </h:inputText>
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:outputLabel styleClass="label" for="phone" value="#{msg.lblPhone}:" />
+            <h:message id="msgPhone" for="phone" styleClass="errorMessage" />
+            <br />
+            <h:inputText styleClass="inputlong" id="phone" value="#{nubEdit.psyNubProposal.phone}"
+                         required="true"
+                         readonly="#{nubEdit.readOnly}"
+                         requiredMessage="Bitte geben Sie eine Telefonnummer an"
+                         maxlength="50">
+                <f:validator validatorId="RequiredValidator" />
+                <f:ajax event="blur" render="@this :logout:remaining msgPhone" />
+            </h:inputText>
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:outputLabel styleClass="label" for="fax" value="#{msg.lblFax}:" />
+            <h:message id="msgFax" for="fax" styleClass="errorMessage" />
+            <br />
+            <h:inputText styleClass="inputmedium" id="fax" value="#{nubEdit.psyNubProposal.fax}"
+                         required="false"
+                         readonly="#{nubEdit.readOnly}"
+                         maxlength="50">
+                <f:ajax event="blur" render="@this :logout:remaining msgFax" />
+            </h:inputText>
+        </h:panelGroup>
+
+    </h:panelGrid>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="email" value="#{msg.lblMail}:" />
+        <h:message for="email" id="msgEmail" styleClass="errorMessage" />
+        <br />
+        <h:inputText styleClass="inputlong" id="email" value="#{nubEdit.psyNubProposal.email}"
+                     required="true"
+                     readonly="#{nubEdit.readOnly}"
+                     requiredMessage="Bitte geben Sie eine E-Mail an"
+                     maxlength="100">
+            <f:ajax event="blur" render="@this :logout:remaining msgEmail" />
+            <f:validator validatorId="EmailValidator" />
+        </h:inputText>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="nubProxyIks"
+                       value="Wird diese Anfrage durch Sie stellvertretend für mehrere Krankenhäuser Ihres Krankenhausverbundes gestellt? Wenn ja, geben Sie bitte die IK-Nummern (mit Komma getrennt) an:" />
+        <br />
+        <h:message for="nubProxyIks" id="msgNubProxyIks" styleClass="errorMessage" />
+        <h:inputTextarea styleClass="areaNarrowLow fullWidth floatContainer" id="nubProxyIks"
+                         readonly="#{nubEdit.readOnly}"
+                         value="#{nubEdit.psyNubProposal.proposalData.proxyIks}"
+                         validator="#{nubEdit.checkProxyIKs}">
+            <f:ajax event="blur" render="@this :logout:remaining msgNubProxyIks" />
+        </h:inputTextarea>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="extText" value="#{msg.lblExternalHelp}" />
+        <br />
+        <h:inputTextarea id="extText" styleClass="areaWideLow"
+                         readonly="#{nubEdit.readOnly}"
+                         value="#{nubEdit.psyNubProposal.proposalData.formFillHelper}">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputTextarea>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="userComment" value="#{msg.lblUserComment}:" />
+        <br />
+        <h:inputTextarea id="userComment" styleClass="areaWideLow"
+                         readonly="#{nubEdit.readOnly}"
+                         value="#{nubEdit.psyNubProposal.proposalData.userComment}">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputTextarea>
+    </div>
 
 </ui:composition>

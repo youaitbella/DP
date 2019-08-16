@@ -17,16 +17,22 @@ import org.inek.dataportal.psy.nub.entities.PsyNubProposal;
 import org.inek.dataportal.psy.nub.entities.PsyNubProposalDocument;
 import org.inek.dataportal.psy.nub.facade.PsyNubFacade;
 import org.inek.dataportal.psy.nub.helper.NewPsyNubProposalHelper;
+import org.inek.dataportal.psy.nub.helper.PsyNubProposalHelper;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author lautenti
@@ -36,22 +42,28 @@ import java.util.Date;
 public class NubEdit {
 
     @Inject
-    private PsyNubProposal _psyNubProposal;
-    @Inject
     private PsyNubFacade _psyNubFacade;
     @Inject
     private SessionController _sessionController;
     @Inject
+    private PsyNubProposalHelper _psyNubProposalHelper;
+    @Inject
     private AccessManager _accessManager;
 
+    private PsyNubProposal _psyNubProposal;
+    private List<Integer> _allowedIks;
     private Boolean _readOnly;
+
+    public List<Integer> getAllowedIks() {
+        return _allowedIks;
+    }
 
     public Boolean getReadOnly() {
         return _readOnly;
     }
 
-    public void setReadOnly(Boolean readOnly) {
-        this._readOnly = readOnly;
+    public PsyNubProposal getPsyNubProposal() {
+        return _psyNubProposal;
     }
 
     @PostConstruct
@@ -70,7 +82,21 @@ public class NubEdit {
                 Utils.navigate(Pages.NubPsySummary.RedirectURL());
             }
         }
+        setAllowedIksList();
         setReadOnly();
+    }
+
+    private void setAllowedIksList() {
+        _allowedIks = new ArrayList<>();
+        for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
+            if (_accessManager.ikIsManaged(ik, Feature.NUB_PSY)) {
+                if (_accessManager.userHasReadAccess(Feature.NUB_PSY, ik)) {
+                    _allowedIks.add(ik);
+                }
+            } else {
+                _allowedIks.add(ik);
+            }
+        }
     }
 
     private boolean userHasAccess(int nubId) {
@@ -80,7 +106,7 @@ public class NubEdit {
 
     public void setReadOnly() {
         // todo: accessmanager und configkey
-        setReadOnly(false);
+        _readOnly = false;
     }
 
     public Boolean isChangeAllowed() {
@@ -97,9 +123,14 @@ public class NubEdit {
         return NewPsyNubProposalHelper.createNewPsyNubProposal(_sessionController.getAccount());
     }
 
+    public void ikChanged() {
+        _psyNubProposal.setIkName(_sessionController.getApplicationTools().retrieveHospitalName(_psyNubProposal.getIk()));
+    }
+
     public Boolean save() {
         preparePsyNubProposalForSave();
         _psyNubFacade.save(_psyNubProposal);
+        DialogController.showSaveDialog();
         //todo save nub
         return true;
     }
@@ -112,6 +143,10 @@ public class NubEdit {
     private void preparePsyNubProposalForSave() {
         _psyNubProposal.setLastModifiedAt(new Date());
         _psyNubProposal.setLastChangedByAccountId(_sessionController.getAccountId());
+    }
+
+    private void formatProxyIks() {
+        // TODO IKs formatieren
     }
 
     public void handleDocumentUpload(FileUploadEvent file) {
@@ -128,5 +163,21 @@ public class NubEdit {
     public StreamedContent downloadDocument(PsyDocument doc) {
         ByteArrayInputStream stream = new ByteArrayInputStream(doc.getContent());
         return new DefaultStreamedContent(stream, "applikation/" + doc.getContentTyp(), doc.getName());
+    }
+
+    public void checkProxyIKs(FacesContext context, UIComponent component, Object value) {
+        String msg = _psyNubProposalHelper.checkProxyIKs(value.toString());
+        if (!msg.isEmpty()) {
+            FacesMessage fmsg = new FacesMessage(msg);
+            throw new ValidatorException(fmsg);
+
+        }
+    }
+
+    public void checkPostalCode(FacesContext context, UIComponent component, Object value) {
+        if (!_psyNubProposalHelper.isValidePostalCode(value.toString())) {
+            String msg = Utils.getMessage("errPostalCode");
+            throw new ValidatorException(new FacesMessage(msg));
+        }
     }
 }
