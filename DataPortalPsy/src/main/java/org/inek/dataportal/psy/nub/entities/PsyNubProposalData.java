@@ -36,8 +36,8 @@ public class PsyNubProposalData implements Serializable {
     @Column(name = "npdHasNoProcs")
     private Boolean _hasNoProcs = false;
 
-    @Column(name = "npdOps")
-    private String _ops = "";
+    @Column(name = "npdProcsComment")
+    private String _procsComment = "";
 
     @Column(name = "npdIndication")
     private String _indication = "";
@@ -127,12 +127,12 @@ public class PsyNubProposalData implements Serializable {
         this._hasNoProcs = hasNoProcs;
     }
 
-    public String getOps() {
-        return _ops;
+    public String getProcsComment() {
+        return _procsComment;
     }
 
-    public void setOps(String ops) {
-        this._ops = ops;
+    public void setProcsComment(String procsComment) {
+        this._procsComment = procsComment;
     }
 
     public String getIndication() {
@@ -213,7 +213,7 @@ public class PsyNubProposalData implements Serializable {
                 Objects.equals(_description, that._description) &&
                 Objects.equals(_procs, that._procs) &&
                 Objects.equals(_hasNoProcs, that._hasNoProcs) &&
-                Objects.equals(_ops, that._ops) &&
+                Objects.equals(_procsComment, that._procsComment) &&
                 Objects.equals(_indication, that._indication) &&
                 Objects.equals(_replacement, that._replacement) &&
                 Objects.equals(_whatsNew, that._whatsNew) &&
@@ -227,7 +227,7 @@ public class PsyNubProposalData implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(_id, _psyNubProposal, _proxyIks, _formFillHelper, _userComment, _description,
-                _procs, _hasNoProcs, _ops, _indication, _replacement, _whatsNew, _los, _pepps,
+                _procs, _hasNoProcs, _procsComment, _indication, _replacement, _whatsNew, _los, _pepps,
                 _whyNotRepresented, _formerRequest, _formerExternalId);
     }
 }
