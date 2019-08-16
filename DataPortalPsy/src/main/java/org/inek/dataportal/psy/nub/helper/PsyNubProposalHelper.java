@@ -1,11 +1,9 @@
 package org.inek.dataportal.psy.nub.helper;
 
+import org.inek.dataportal.common.data.access.ProcedureFacade;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
-import org.inek.dataportal.common.helper.Utils;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -16,6 +14,13 @@ public class PsyNubProposalHelper implements Serializable {
 
     @Inject
     private CustomerFacade _customerFacade;
+
+    @Inject
+    private ProcedureFacade _procedureFacade;
+
+    public String checkProcedureCodes(String value, int targetYear) {
+        return _procedureFacade.checkProcedures(value, targetYear - 1, targetYear);
+    }
 
     public String checkProxyIKs(String value) {
         String[] iks = value.split("\\s|,|\r|\n");

@@ -2,8 +2,82 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common">
+>
 
+    <h2>#{msg.tabNubPage1}</h2>
 
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="nubName" value="#{msg.lblNubName}" />
+        <h:message for="nubName" id="msgNubName" styleClass="errorMessage" />
+        <br />
+        <h:inputTextarea styleClass="areaWideLow fullWidth" id="nubName" value="#{nubEdit.psyNubProposal.name}"
+                         required="true" requiredMessage="Bitte geben Sie den Namen der NUB an"
+                         readonly="#{nubEdit.readOnly}">
+            <f:validator validatorId="PredominantPrintableAsciiValidator" />
+            <f:validateLength maximum="200" />
+            <f:ajax event="blur" render="@this :logout:remaining msgNubName" />
+        </h:inputTextarea>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="nubAltName" value="#{msg.lblNubAltName}" />
+        <h:message for="nubAltName" id="msgNubAltName" styleClass="errorMessage" />
+        <br />
+        <h:inputTextarea styleClass="areaWideLow fullWidth" id="nubAltName" value="#{nubEdit.psyNubProposal.altName}"
+                         required="false" readonly="#{nubEdit.readOnly}">
+            <f:validateLength maximum="1000" />
+            <f:ajax event="blur" render="@this :logout:remaining msgNubAltName" />
+        </h:inputTextarea>
+    </div>
+
+    <!-- ab 2020 Abfrage für vorherige NUB -->
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="nubDescription" value="#{msg.lblNubDescription}" />
+        <h:message for="nubDescription" id="msgNubDescription" styleClass="errorMessage" />
+        <br />
+        <h:inputTextarea styleClass="areaWideHigh fullWidth" id="nubDescription"
+                         value="#{nubEdit.psyNubProposal.proposalData.description}"
+                         required="true" requiredMessage="#{msg.msgValueNeeded}" readonly="#{nubEdit.readOnly}">
+            <f:validator validatorId="PredominantPrintableAsciiValidator" />
+            <f:ajax event="blur" render="@this :logout:remaining msgNubDescription" />
+        </h:inputTextarea>
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="nubProcedures" value="#{msg.lblNubProcRelated}" />
+        <h:message for="nubProcedures" id="msgCheckProcs" styleClass="errorMessage" />
+        <h:inputTextarea styleClass="areaNarrowLow fullWidth " id="nubProcedures"
+                         readonly="#{nubEdit.readOnly}"
+                         value="#{nubEdit.psyNubProposal.proposalData.procs}"
+                         required="#{!nubEdit.psyNubProposal.proposalData.hasNoProcs}"
+                         validator="#{nubEdit.checkProcedureCodes}">
+            <f:validateLength maximum="500" />
+            <f:ajax event="change" render="@this msgCheckProcs" />
+        </h:inputTextarea>
+        <h:selectBooleanCheckbox id="noProc" value="#{nubEdit.psyNubProposal.proposalData.hasNoProcs}"
+                                 readonly="#{nubEdit.readOnly}" styleClass="marginRight marginTop">
+            <f:ajax event="click" render="@this :logout:remaining nubProcedures nubProceduresText" />
+        </h:selectBooleanCheckbox>
+        <h:outputLabel id="noProcLabel" value="#{msg.lblNoProcs}" />
+
+        <ui:remove>
+            <!-- Pruefen ob funktion gebraucht wird, ansonsten Dialog über Primefaces-->
+            <h:commandButton styleClass="button rightAllign" action="#{editNubRequest.searchProc}"
+                             immediate="true" value="#{msg.btnCallSearch}" />
+        </ui:remove>
+    </div>
+
+    <div class="defloat"></div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="nubProceduresText" value="#{msg.lblNubProceduresText}" />
+        <br />
+        <h:inputTextarea styleClass="areaWideHigh" id="nubProceduresText"
+                         value="#{nubEdit.psyNubProposal.proposalData.procsComment}"
+                         readonly="#{nubEdit.readOnly}">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputTextarea>
+    </div>
 
 </ui:composition>

@@ -180,4 +180,12 @@ public class NubEdit {
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
+
+    public void checkProcedureCodes(FacesContext context, UIComponent component, Object value) {
+        String invalidCodes = _psyNubProposalHelper.checkProcedureCodes(value.toString(), _psyNubProposal.getTargetYear());
+        if (invalidCodes.length() > 0) {
+            FacesMessage msg = new FacesMessage(invalidCodes);
+            throw new ValidatorException(msg);
+        }
+    }
 }
