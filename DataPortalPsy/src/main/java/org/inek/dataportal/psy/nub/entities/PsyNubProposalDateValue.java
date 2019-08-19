@@ -5,7 +5,6 @@ import org.inek.dataportal.psy.nub.enums.PsyNubDateFields;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -22,8 +21,7 @@ public class PsyNubProposalDateValue implements Serializable {
     private PsyNubProposal _psyNubProposal;
 
     @Column(name = "dvDate")
-    @Temporal(TemporalType.DATE)
-    private Date _date = new Date();
+    private String _date = "";
 
     @Column(name = "dvComment")
     private String _comment = "";
@@ -48,11 +46,11 @@ public class PsyNubProposalDateValue implements Serializable {
         this._psyNubProposal = psyNubProposal;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return _date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this._date = date;
     }
 

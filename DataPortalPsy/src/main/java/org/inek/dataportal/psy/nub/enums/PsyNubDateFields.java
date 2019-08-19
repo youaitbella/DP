@@ -1,9 +1,9 @@
 package org.inek.dataportal.psy.nub.enums;
 
 public enum PsyNubDateFields {
-    IN_GERMANY("In wie vielen kliniken wird diese methode zurzeit eingesetzt"),
-    MEDICAL_APPROVAL("Patienten in Targetyear - 2"),
-    INTRODUCED_HOSPITAL("Patienten in Targetyear - 1");
+    IN_GERMANY("Wann wurde die Methode in Deutschland eingeführt"),
+    MEDICAL_APPROVAL("Bei Medikamenten: Wann zugelassen"),
+    INTRODUCED_HOSPITAL("Wann im Krankenhaus eingeführt");
 
     private String _description;
 

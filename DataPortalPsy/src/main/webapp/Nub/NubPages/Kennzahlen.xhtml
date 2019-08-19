@@ -8,49 +8,255 @@
                    var="PsyNubDateFields"
                    allSuffix="ALL_ENUM_VALUES" />
 
+    <pf:importEnum type="org.inek.dataportal.psy.nub.enums.PsyNubNumberFields"
+                   var="PsyNubNumberFields"
+                   allSuffix="ALL_ENUM_VALUES" />
+
     <h2>#{msg.tabNubPage3}</h2>
 
-    <ui:remove>
+    <div class="groupBox marginTop">
         <div class="inputPart">
-            <h:outputLabel styleClass="label" for="nubInGermany" value="#{msg.lblNubInGermany}" />
-            <br />
-            <h:inputTextarea styleClass="areaWideLow" id="nubInGermany" readonly="#{editNubRequest.readOnly}"
-                             value="#{editNubRequest.nubRequest.inGermanySince}" required="false">
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:inputTextarea>
+            <h:outputLabel styleClass="label" value="#{msg.lblNubInGermany}" />
+            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubInGermanyDate" value="Datum (Format: MM/YY):" />
+                    <h:message id="msgnubInGermanyDate" for="nubInGermanyDate" styleClass="errorMessage" />
+                    <br />
+                    <h:inputText id="nubInGermanyDate"
+                                 value="#{nubEdit.psyNubProposal.getDateValue(PsyNubDateFields.IN_GERMANY).date}"
+                                 required="#{nubEdit.psyNubProposal.getDateValue(PsyNubDateFields.IN_GERMANY).comment ne ''}"
+                                 readonly="#{nubEdit.readOnly}"
+                                 requiredMessage="Bitte geben Sie eine Datum an"
+                                 validator="#{nubEdit.checkStringForValidDate}"
+                                 maxlength="5">
+                        <f:ajax event="blur" render="@this :logout:remaining msgnubInGermanyDate nubInGermanyComment" />
+                    </h:inputText>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubInGermanyComment" value="Kommentar:" />
+                    <h:message id="msgnubInGermanyComment" for="nubInGermanyComment" styleClass="errorMessage" />
+                    <br />
+                    <h:inputTextarea styleClass="areaWideHigh"
+                                     id="nubInGermanyComment"
+                                     value="#{nubEdit.psyNubProposal.getDateValue(PsyNubDateFields.IN_GERMANY).comment}"
+                                     required="#{nubEdit.psyNubProposal.getDateValue(PsyNubDateFields.IN_GERMANY).date ne ''}"
+                                     readonly="#{nubEdit.readOnly}"
+                                     requiredMessage="Bitte geben Sie einen Kommentar an">
+                        <f:ajax event="blur" render="@this :logout:remaining msgnubInGermanyComment nubInGermanyDate" />
+                    </h:inputTextarea>
+                </h:panelGroup>
+            </h:panelGrid>
         </div>
-    </ui:remove>
 
-    <h:panelGrid columns="2" styleClass="inputlong" columnClasses="col30, colValue">
-        <h:outputLabel styleClass="label" for="nubInGermany" value="#{msg.lblNubInGermany}" />
-        <h:panelGroup>
-            <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:" />
-            <h:message id="msgZip" for="zip" styleClass="errorMessage" />
-            <br />
-            <h:inputText styleClass="inputshort" id="zip" value="#{nubEdit.psyNubProposal.postalCode}"
-                         required="true"
-                         readonly="#{nubEdit.readOnly}"
-                         requiredMessage="Bitte geben Sie eine PLZ an"
-                         validator="#{nubEdit.checkPostalCode}"
-                         maxlength="5">
-                <f:validator validatorId="RequiredValidator" />
-                <f:ajax event="blur" render="@this :logout:remaining msgZip" />
-            </h:inputText>
-        </h:panelGroup>
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" value="#{msg.lblNubMedApproved}" />
+            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubMedApprovedDate" value="Datum (Format: MM/YY):" />
+                    <h:message id="msgnubMedApprovedDate" for="nubMedApprovedDate" styleClass="errorMessage" />
+                    <br />
+                    <h:inputText id="nubMedApprovedDate"
+                                 value="#{nubEdit.psyNubProposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).date}"
+                                 required="#{nubEdit.psyNubProposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).comment ne ''}"
+                                 readonly="#{nubEdit.readOnly}"
+                                 requiredMessage="Bitte geben Sie eine Datum an"
+                                 validator="#{nubEdit.checkStringForValidDate}"
+                                 maxlength="5">
+                        <f:ajax event="blur"
+                                render="@this :logout:remaining msgnubMedApprovedDate nubnubMedApprovedComment" />
+                    </h:inputText>
+                </h:panelGroup>
 
-        <h:panelGroup>
-            <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:" />
-            <h:message id="msgTown" for="town" styleClass="errorMessage" />
-            <br />
-            <h:inputText styleClass="inputwide" id="town" value="#{nubEdit.psyNubProposal.town}"
-                         required="true"
-                         readonly="#{nubEdit.readOnly}"
-                         requiredMessage="Bitte geben Sie eine Stadt an"
-                         maxlength="50">
-                <f:validator validatorId="RequiredValidator" />
-                <f:ajax event="blur" render="@this :logout:remaining msgTown" />
-            </h:inputText>
-        </h:panelGroup>
-    </h:panelGrid>
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubMedApprovedComment" value="Kommentar:" />
+                    <h:message id="msgnubMedApprovedComment" for="nubMedApprovedComment" styleClass="errorMessage" />
+                    <br />
+                    <h:inputTextarea styleClass="areaWideHigh"
+                                     id="nubMedApprovedComment"
+                                     value="#{nubEdit.psyNubProposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).comment}"
+                                     required="#{nubEdit.psyNubProposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).date ne ''}"
+                                     readonly="#{nubEdit.readOnly}"
+                                     requiredMessage="Bitte geben Sie einen Kommentar an">
+                        <f:ajax event="blur"
+                                render="@this :logout:remaining nubMedApprovedComment nubMedApprovedDate" />
+                    </h:inputTextarea>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" value="#{msg.lblNubInHouse}" />
+            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubInHouseDate" value="Datum (Format: MM/YY):" />
+                    <h:message id="msgnubInHouseDate" for="nubInHouseDate" styleClass="errorMessage" />
+                    <br />
+                    <h:inputText id="nubInHouseDate"
+                                 value="#{nubEdit.psyNubProposal.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).date}"
+                                 required="#{nubEdit.psyNubProposal.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).comment ne ''}"
+                                 readonly="#{nubEdit.readOnly}"
+                                 requiredMessage="Bitte geben Sie eine Datum an"
+                                 validator="#{nubEdit.checkStringForValidDate}"
+                                 maxlength="5">
+                        <f:ajax event="blur"
+                                render="@this :logout:remaining msgnubInHouseDate nubInHouseComment" />
+                    </h:inputText>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubInHouseComment" value="Kommentar:" />
+                    <h:message id="msgnubInHouseComment" for="nubInHouseComment" styleClass="errorMessage" />
+                    <br />
+                    <h:inputTextarea styleClass="areaWideHigh"
+                                     id="nubInHouseComment"
+                                     value="#{nubEdit.psyNubProposal.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).comment}"
+                                     required="#{nubEdit.psyNubProposal.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).date ne ''}"
+                                     readonly="#{nubEdit.readOnly}"
+                                     requiredMessage="Bitte geben Sie einen Kommentar an">
+                        <f:ajax event="blur" render="@this :logout:remaining nubInHouseComment nubInHouseDate" />
+                    </h:inputTextarea>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
+    </div>
+
+    <div class="groupBox marginTop">
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" value="#{msg.lblNubHospitalCount}" />
+            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubHospitalCountNumber" value="Anzahl ca.:" />
+                    <br />
+                    <pf:message id="msgnubHospitalCountNumber" for="nubHospitalCountNumber" />
+                    <pf:inputNumber id="nubHospitalCountNumber"
+                                    value="#{nubEdit.psyNubProposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).number}"
+                                    required="#{nubEdit.psyNubProposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).comment ne ''}"
+                                    readonly="#{nubEdit.readOnly}"
+                                    minValue="0"
+                                    decimalPlaces="0">
+                        <pf:ajax event="blur" />
+                    </pf:inputNumber>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubHospitalCountComment" value="Kommentar:" />
+                    <h:message id="msgnubHospitalCountComment" for="nubHospitalCountComment"
+                               styleClass="errorMessage" />
+                    <br />
+                    <h:inputTextarea styleClass="areaWideHigh"
+                                     id="nubHospitalCountComment"
+                                     value="#{nubEdit.psyNubProposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).comment}"
+                                     readonly="#{nubEdit.readOnly}">
+                        <f:ajax event="blur"
+                                render="@this :logout:remaining msgnubHospitalCountComment nubHospitalCountNumber" />
+                    </h:inputTextarea>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
+    </div>
+
+    <div class="groupBox marginTop">
+        <div class="inputPart">
+            <h:outputLabel styleClass="label"
+                           value="Wie viele Patienten wurden in Ihrem krankenhaus mit dieser Methode behandelt?" />
+            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubpatientsPrePreYearNumber"
+                                   value="Anzahl in #{nubEdit.psyNubProposal.targetYear - 2} ca.:" />
+                    <br />
+                    <pf:message id="msgnubpatientsPrePreYearNumber" for="nubpatientsPrePreYearNumber" />
+                    <pf:inputNumber id="nubpatientsPrePreYearNumber"
+                                    value="#{nubEdit.psyNubProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_PRE_TARGETYEAR).number}"
+                                    required="#{nubEdit.psyNubProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_PRE_TARGETYEAR).comment ne ''}"
+                                    readonly="#{nubEdit.readOnly}"
+                                    minValue="0"
+                                    decimalPlaces="0">
+                        <pf:ajax event="blur" />
+                    </pf:inputNumber>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubpatientsPrePreYearComment" value="Kommentar:" />
+                    <h:message id="msgnubpatientsPrePreYearComment" for="nubpatientsPrePreYearComment"
+                               styleClass="errorMessage" />
+                    <br />
+                    <h:inputTextarea styleClass="areaWideHigh"
+                                     id="nubpatientsPrePreYearComment"
+                                     value="#{nubEdit.psyNubProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_PRE_TARGETYEAR).comment}"
+                                     readonly="#{nubEdit.readOnly}">
+                        <f:ajax event="blur"
+                                render="@this :logout:remaining msgnubpatientsPrePreYearComment nubpatientsPrePreYearNumber" />
+                    </h:inputTextarea>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubpatientsPreYearNumber"
+                                   value="Anzahl in #{nubEdit.psyNubProposal.targetYear - 1} ca.:" />
+                    <br />
+                    <pf:message id="msgnubpatientsPreYearNumber" for="nubpatientsPreYearNumber" />
+                    <pf:inputNumber id="nubpatientsPreYearNumber"
+                                    value="#{nubEdit.psyNubProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_TARGETYEAR).number}"
+                                    required="#{nubEdit.psyNubProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_TARGETYEAR).comment ne ''}"
+                                    readonly="#{nubEdit.readOnly}"
+                                    minValue="0"
+                                    decimalPlaces="0">
+                        <pf:ajax event="blur" />
+                    </pf:inputNumber>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubpatientsPreYearComment" value="Kommentar:" />
+                    <h:message id="msgnubpatientsPreYearComment" for="nubpatientsPreYearComment"
+                               styleClass="errorMessage" />
+                    <br />
+                    <h:inputTextarea styleClass="areaWideHigh"
+                                     id="nubpatientsPreYearComment"
+                                     value="#{nubEdit.psyNubProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_TARGETYEAR).comment}"
+                                     readonly="#{nubEdit.readOnly}">
+                        <f:ajax event="blur"
+                                render="@this :logout:remaining msgnubpatientsPreYearComment nubpatientsPreYearNumber" />
+                    </h:inputTextarea>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
+    </div>
+
+    <div class="groupBox marginTop">
+        <div class="inputPart">
+            <h:outputLabel styleClass="label"
+                           value="Wie viele Patienten planen Sie im Jahr #{nubEdit.psyNubProposal.targetYear} zu behandeln?" />
+            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubpatientsYearNumber" value="Anzahl ca.:" />
+                    <br />
+                    <pf:message id="msgnubpatientsYearNumber" for="nubpatientsYearNumber" />
+                    <pf:inputNumber id="nubpatientsYearNumber"
+                                    value="#{nubEdit.psyNubProposal.getNumberValue(PsyNubNumberFields.PATIENTS_TARGETYEAR).number}"
+                                    required="#{nubEdit.psyNubProposal.getNumberValue(PsyNubNumberFields.PATIENTS_TARGETYEAR).comment ne ''}"
+                                    readonly="#{nubEdit.readOnly}"
+                                    minValue="0"
+                                    decimalPlaces="0">
+                        <pf:ajax event="blur" />
+                    </pf:inputNumber>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="nubnubpatientsYearComment" value="Kommentar:" />
+                    <h:message id="msgnubnubpatientsYearComment" for="nubnubpatientsYearComment"
+                               styleClass="errorMessage" />
+                    <br />
+                    <h:inputTextarea styleClass="areaWideHigh"
+                                     id="nubnubpatientsYearComment"
+                                     value="#{nubEdit.psyNubProposal.getNumberValue(PsyNubNumberFields.PATIENTS_TARGETYEAR).comment}"
+                                     readonly="#{nubEdit.readOnly}">
+                        <f:ajax event="blur"
+                                render="@this :logout:remaining msgnubnubpatientsYearComment nubpatientsYearNumber" />
+                    </h:inputTextarea>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
+    </div>
+
 
 </ui:composition>

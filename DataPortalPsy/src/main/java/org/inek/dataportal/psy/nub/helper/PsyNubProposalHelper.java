@@ -45,16 +45,4 @@ public class PsyNubProposalHelper implements Serializable {
         }
         return invalidIKs.toString();
     }
-
-    public boolean isValidePostalCode(String value) {
-        try {
-            Integer tmp = Integer.parseInt(value);
-            if (tmp > 99999 || tmp < 0) {
-                return false;
-            }
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
-    }
 }

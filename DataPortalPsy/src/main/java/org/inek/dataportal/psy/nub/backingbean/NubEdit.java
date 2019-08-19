@@ -18,6 +18,7 @@ import org.inek.dataportal.psy.nub.entities.PsyNubProposalDocument;
 import org.inek.dataportal.psy.nub.facade.PsyNubFacade;
 import org.inek.dataportal.psy.nub.helper.NewPsyNubProposalHelper;
 import org.inek.dataportal.psy.nub.helper.PsyNubProposalHelper;
+import org.inek.dataportal.psy.nub.helper.PsyNubProposalValueChecker;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -175,7 +176,7 @@ public class NubEdit {
     }
 
     public void checkPostalCode(FacesContext context, UIComponent component, Object value) {
-        if (!_psyNubProposalHelper.isValidePostalCode(value.toString())) {
+        if (!PsyNubProposalValueChecker.isValidPostalCode(value.toString())) {
             String msg = Utils.getMessage("errPostalCode");
             throw new ValidatorException(new FacesMessage(msg));
         }
@@ -186,6 +187,13 @@ public class NubEdit {
         if (invalidCodes.length() > 0) {
             FacesMessage msg = new FacesMessage(invalidCodes);
             throw new ValidatorException(msg);
+        }
+    }
+
+    public void checkStringForValidDate(FacesContext facesContext, UIComponent uiComponent, Object o) {
+        if (!PsyNubProposalValueChecker.isValidStringForDateValue(o.toString())) {
+            String msg = "Das Datum hat ein ungültiges Format (MM/YY)";
+            throw new ValidatorException(new FacesMessage(msg));
         }
     }
 }

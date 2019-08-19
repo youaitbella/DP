@@ -976,6 +976,11 @@ col08 {
 .col30 {
   width: 30%;
 }
+
+.col30TopAlign {
+  width: 30%;
+  vertical-align: top;
+}
 .col45 {
   width: 45%;
 }
