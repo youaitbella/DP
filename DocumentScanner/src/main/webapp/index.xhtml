@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pf="http://primefaces.org/ui">
 <head>
     <title>DocumentScanner</title>
 </head>
@@ -14,6 +15,14 @@
 
     <h:commandButton actionListener="#{documentScannerBean.switchDocumentScanner()}"
                      value="Status ändern" />
+
+    <h:dataTable var ="directory" value="#{documentScannerBean.loadDir()}">
+        <h:column>
+            <h:outputText value="#{directory.toString()}"/>
+        </h:column>
+    </h:dataTable>
+
+    <h1>#{documentScannerBean.documentScanStatus}</h1>
 
     <h1 style="background-color: #{documentScannerBean.removingOldDocumentsStatus ? 'green' : 'red'}">Aktueller Status vom löschen alter Dokumente: #{documentScannerBean.removingOldDocumentsStatus}</h1>
 

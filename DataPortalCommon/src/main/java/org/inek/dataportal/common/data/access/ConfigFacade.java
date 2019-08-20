@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.File;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -56,7 +57,7 @@ public class ConfigFacade extends AbstractDataAccess {
     public void saveConfig(ConfigKey key, int value) {
         saveConfig(key, "" + value);
     }
-    
+
     public String readConfig(String key, String defaultValue) {
         if (_configCache.containsKey(key)) {
             return _configCache.get(key);
@@ -122,4 +123,9 @@ public class ConfigFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    public List<String> getAllDirs(){
+        String jpql = "Select c._key from Config c where c._key like 'DocumentScanDir%'";
+        TypedQuery<String> query = getEntityManager().createQuery(jpql, String.class);
+        return query.getResultList();
+    }
 }
