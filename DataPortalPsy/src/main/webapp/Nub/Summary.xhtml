@@ -76,6 +76,29 @@
                             <f:param name="id" value="new" />
                         </pf:commandButton>
 
+                        <pf:fieldset id="newNubFromTemplateFieldSet"
+                                     legend="Neue NUB aus Vorlage"
+                                     toggleable="true"
+                                     collapsed="true"
+                                     class="inekFieldset">
+
+                            <pf:fileUpload styleClass="inekUploader"
+                                           rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                           fileUploadListener="#{nubSummary.handleTemplateUpload}"
+                                           mode="advanced"
+                                           multiple="true"
+                                           auto="true"
+                                           cancelLabel="Abbrechen"
+                                           uploadLabel="Templates Hochladen"
+                                           label="Templates auswählen"
+                                           update="listDocs" />
+
+                            <pf:dataTable>
+
+                            </pf:dataTable>
+
+                        </pf:fieldset>
+
                     </div>
                     <div class="ui-g-12">
                         <h2>An das InEK gesendet</h2>
@@ -102,8 +125,9 @@
                             </pf:column>
 
                             <pf:column class="colIcon">
-                                    <h:graphicImage alt="löschen" name="Icon/small/#{proposal.status.icon}" title="#{proposal.status.description}"
-                                                    value="" />
+                                <h:graphicImage alt="löschen" name="Icon/small/#{proposal.status.icon}"
+                                                title="#{proposal.status.description}"
+                                                value="" />
                             </pf:column>
 
                             <pf:column headerText="ID"

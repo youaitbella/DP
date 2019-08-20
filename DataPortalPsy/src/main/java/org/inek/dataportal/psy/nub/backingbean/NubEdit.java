@@ -16,10 +16,7 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.nub.entities.PsyNubProposal;
 import org.inek.dataportal.psy.nub.entities.PsyNubProposalDocument;
 import org.inek.dataportal.psy.nub.facade.PsyNubFacade;
-import org.inek.dataportal.psy.nub.helper.NewPsyNubProposalHelper;
-import org.inek.dataportal.psy.nub.helper.PsyNubProposalChecker;
-import org.inek.dataportal.psy.nub.helper.PsyNubProposalHelper;
-import org.inek.dataportal.psy.nub.helper.PsyNubProposalValueChecker;
+import org.inek.dataportal.psy.nub.helper.*;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -113,6 +110,11 @@ public class NubEdit {
 
     public Boolean isSaveAllowed() {
         // todo: accessmanager und configkey
+        return true;
+    }
+
+    public Boolean isCreateTemplateAllowed() {
+        // todo: accessmanager / status prüfen
         return true;
     }
 
@@ -220,6 +222,17 @@ public class NubEdit {
         if (invalidPepps.length() > 0) {
             FacesMessage msg = new FacesMessage(invalidPepps);
             throw new ValidatorException(msg);
+        }
+    }
+
+    public void createTemplateFromNubAndDownload() {
+        if (!_psyNubProposal.getName().isEmpty()) {
+            String content = PsyNubProposalTemplateHelper.createTemplateContentFromPsyNubProposal(_psyNubProposal, _sessionController.getAccount());
+            String name = PsyNubProposalTemplateHelper.createFileName(_psyNubProposal);
+            Utils.downloadText(content, name, "UTF-8");
+        } else {
+            DialogController.showInfoDialog("Vorlage erstellen nicht möglich", "Bitte geben Sie der NUB einen Namen, " +
+                    "damit Sie eine Vorlage erstellen können.");
         }
     }
 }

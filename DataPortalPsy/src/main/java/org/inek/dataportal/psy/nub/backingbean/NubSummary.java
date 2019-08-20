@@ -16,8 +16,10 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.nub.entities.PsyNubProposal;
 import org.inek.dataportal.psy.nub.facade.PsyNubFacade;
+import org.primefaces.event.FileUploadEvent;
 
 import javax.annotation.PostConstruct;
+import javax.el.MethodExpression;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -44,15 +46,8 @@ public class NubSummary implements Serializable {
     private List<PsyNubProposal> _listComplete = new ArrayList<>();
     private List<PsyNubProposal> _listWorking = new ArrayList<>();
 
-    private List<PsyNubProposal> _selectedElements = new ArrayList<>();
+    private List<PsyNubProposal> _proposalsFromTemplateUploads = new ArrayList<>();
 
-    public List<PsyNubProposal> getSelectedElements() {
-        return _selectedElements;
-    }
-
-    public void setSelectedElements(List<PsyNubProposal> selectedElements) {
-        this._selectedElements = selectedElements;
-    }
 
     public List<PsyNubProposal> getListComplete() {
         return _listComplete;
@@ -143,5 +138,9 @@ public class NubSummary implements Serializable {
     private Boolean deleteAllowed(PsyNubProposal proposal) {
         // TODO prüfen ob Benutzer nub löschen darf
         return true;
+    }
+
+    public void handleTemplateUpload(FileUploadEvent file) {
+
     }
 }
