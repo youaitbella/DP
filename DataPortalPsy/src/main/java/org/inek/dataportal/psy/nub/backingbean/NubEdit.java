@@ -161,7 +161,7 @@ public class NubEdit {
         _psyNubProposal.removeDocument(doc);
     }
 
-    public StreamedContent downloadDocument(PsyDocument doc) {
+    public StreamedContent downloadDocument(PsyNubProposalDocument doc) {
         ByteArrayInputStream stream = new ByteArrayInputStream(doc.getContent());
         return new DefaultStreamedContent(stream, "applikation/" + doc.getContentTyp(), doc.getName());
     }
@@ -194,6 +194,14 @@ public class NubEdit {
         if (!PsyNubProposalValueChecker.isValidStringForDateValue(o.toString())) {
             String msg = "Das Datum hat ein ungültiges Format (MM/YY)";
             throw new ValidatorException(new FacesMessage(msg));
+        }
+    }
+
+    public void checkPepps(FacesContext facesContext, UIComponent uiComponent, Object o) {
+        String invalidPepps = PsyNubProposalValueChecker.checkPeppString(o.toString());
+        if (invalidPepps.length() > 0) {
+            FacesMessage msg = new FacesMessage(invalidPepps);
+            throw new ValidatorException(msg);
         }
     }
 }

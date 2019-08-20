@@ -16,15 +16,11 @@
                         <pf:dataTable value="#{nubSummary.listWorking}"
                                       id="erfassungtable"
                                       var="proposal"
-                                      selection="#{nubSummary.selectedElements}"
-                                      rowKey="#{proposal.id}"
                                       styleClass="inekTablePsy"
                                       emptyMessage="Keine Einträge vorhanden"
                                       rows="50"
                                       paginator="true"
                                       rowsPerPageTemplate="25,50,100,300">
-                            <pf:column selectionMode="multiple"
-                                       style="width:16px;text-align:center"/>
                             <pf:column class="colIcon">
                                 <pf:commandLink action="#{nubSummary.deletePsyNubProposal(proposal)}"
                                                 update="erfassungtable"

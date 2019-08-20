@@ -457,6 +457,10 @@ public class PsyNubProposal implements Serializable {
         _proposalDocuments.remove(doc);
     }
 
+    public List<PsyNubProposalDocument> getProposalDocuments() {
+        return _proposalDocuments;
+    }
+
     @SuppressWarnings("checkstyle:CyclomaticComplexity")
     @Override
     public boolean equals(Object o) {

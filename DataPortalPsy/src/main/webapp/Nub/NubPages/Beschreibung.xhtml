@@ -38,7 +38,8 @@
         <br />
         <h:inputTextarea styleClass="areaWideHigh fullWidth" id="nubDescription"
                          value="#{nubEdit.psyNubProposal.proposalData.description}"
-                         required="true" requiredMessage="Bitte geben Sie die Beschreibung der NUB an" readonly="#{nubEdit.readOnly}">
+                         required="true" requiredMessage="Bitte geben Sie die Beschreibung der NUB an"
+                         readonly="#{nubEdit.readOnly}">
             <f:validator validatorId="PredominantPrintableAsciiValidator" />
             <f:ajax event="blur" render="@this :logout:remaining msgNubDescription" />
         </h:inputTextarea>
