@@ -16,16 +16,17 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.nub.entities.PsyNubProposal;
 import org.inek.dataportal.psy.nub.facade.PsyNubFacade;
+import org.inek.dataportal.psy.nub.helper.PsyNubProposalTemplateHelper;
 import org.primefaces.event.FileUploadEvent;
 
 import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author lautenti
@@ -48,6 +49,10 @@ public class NubSummary implements Serializable {
 
     private List<PsyNubProposal> _proposalsFromTemplateUploads = new ArrayList<>();
 
+
+    public List<PsyNubProposal> getProposalsFromTemplateUploads() {
+        return _proposalsFromTemplateUploads;
+    }
 
     public List<PsyNubProposal> getListComplete() {
         return _listComplete;
@@ -141,6 +146,20 @@ public class NubSummary implements Serializable {
     }
 
     public void handleTemplateUpload(FileUploadEvent file) {
+        try {
+            String content = new String(file.getFile().getContents());
+            Optional<PsyNubProposal> newProposal = PsyNubProposalTemplateHelper.createNewProposalFromTemplate(content,
+                    _sessionController.getAccount());
+            _proposalsFromTemplateUploads.add(newProposal.get());
+        } catch (Exception ex) {
+            //TODO Fehlerhaftes einlesen abfangen
+        }
+    }
 
+    public void createNubsFromTemplates() {
+        for (PsyNubProposal proposal : _proposalsFromTemplateUploads) {
+            //TODO neues Proposal erzeugen
+        }
+        _proposalsFromTemplateUploads.clear();
     }
 }

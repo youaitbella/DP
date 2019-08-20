@@ -9,6 +9,7 @@ import org.inek.dataportal.psy.nub.enums.PsyNubNumberFields;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Optional;
 
 public class PsyNubProposalTemplateHelper implements Serializable {
 
@@ -47,6 +48,94 @@ public class PsyNubProposalTemplateHelper implements Serializable {
         return content.toString();
     }
 
+    @SuppressWarnings("checkstyle:JavaNCSS")
+    public static Optional<PsyNubProposal> createNewProposalFromTemplate(String template, Account account) {
+        //TODO Check Checksum
+        PsyNubProposal newPsyNubProposal = new PsyNubProposal();
+        String[] lines = template.split("[\\r\\n]+");
+        for (String line : lines) {
+            int pos = line.indexOf("=");
+            String var = line.substring(0, pos);
+            PsyNubFieldKey key = PsyNubFieldKey.valueOf(var);
+            String content = line.substring(pos + 1);
+            switch (key) {
+                case Version:
+                    // might check version here
+                    break;
+                case ID:
+                    newPsyNubProposal.setHelperId(decodeHelpId(content));
+                    break;
+                case Helper:
+                    newPsyNubProposal.getProposalData().setFormFillHelper(restoreBreaks(content));
+                    break;
+                case Name:
+                    newPsyNubProposal.setName(restoreBreaks(content));
+                    break;
+                case DisplayName:
+                    newPsyNubProposal.setDisplayName(restoreBreaks(content));
+                    break;
+                case AltName:
+                    newPsyNubProposal.setAltName(restoreBreaks(content));
+                    break;
+                case Description:
+                    newPsyNubProposal.getProposalData().setDescription(restoreBreaks(content));
+                    break;
+                case HasNoProcs:
+                    newPsyNubProposal.getProposalData().setHasNoProcs(content.toLowerCase().equals("true"));
+                    break;
+                case ProcCodes:
+                    newPsyNubProposal.getProposalData().setProcs(restoreBreaks(content));
+                    break;
+                case Procedures:
+                    newPsyNubProposal.getProposalData().setProcs(restoreBreaks(content));
+                    break;
+                case Indication:
+                    newPsyNubProposal.getProposalData().setIndication(restoreBreaks(content));
+                    break;
+                case Replacement:
+                    newPsyNubProposal.getProposalData().setReplacement(restoreBreaks(content));
+                    break;
+                case WhatsNew:
+                    newPsyNubProposal.getProposalData().setWhatsNew(restoreBreaks(content));
+                    break;
+                case Los:
+                    newPsyNubProposal.getProposalData().setLos(restoreBreaks(content));
+                    break;
+                case InGermanySinceDate:
+                    newPsyNubProposal.getDateValue(PsyNubDateFields.IN_GERMANY).setDate(restoreBreaks(content));
+                    break;
+                case InGermanySinceComment:
+                    newPsyNubProposal.getDateValue(PsyNubDateFields.IN_GERMANY).setComment(restoreBreaks(content));
+                    break;
+                case MedApprovedDate:
+                    newPsyNubProposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).setDate(restoreBreaks(content));
+                    break;
+                case MedApprovedComment:
+                    newPsyNubProposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).setComment(restoreBreaks(content));
+                    break;
+                case HospitalCountNumber:
+                    newPsyNubProposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).setNumber(Integer.parseInt(restoreBreaks(content)));
+                    break;
+                case HospitalCountComment:
+                    newPsyNubProposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).setComment(restoreBreaks(content));
+                    break;
+                case PEPPs:
+                    newPsyNubProposal.getProposalData().setPepps(restoreBreaks(content));
+                    break;
+                case WhyNotRepresented:
+                    newPsyNubProposal.getProposalData().setWhyNotRepresented(restoreBreaks(content));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown Key [NUB]: + " + key);
+            }
+        }
+        return Optional.of(newPsyNubProposal);
+    }
+
+    private static String restoreBreaks(String text) {
+        return text.replace("#{r}", "\r").replace("#{n}", "\n");
+    }
+
     private static void appendLine(StringBuilder sb, PsyNubFieldKey key, String text) {
         sb.append(key.toString())
                 .append("=")
@@ -74,3 +163,4 @@ public class PsyNubProposalTemplateHelper implements Serializable {
         return psyNubProposal.getName().replace("\r\n", " ").replace("\r", " ").replace("\n", " ") + ".nub";
     }
 }
+

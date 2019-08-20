@@ -7,6 +7,27 @@
 
     <ui:define name="content">
         <h1>Neue Untersuchungs- und Behandlungsmethoden</h1>
+
+        <pf:dialog widgetVar="dialogProcess"
+                   header="Daten werden verarbeitet"
+                   modal="true"
+                   closable="false"
+                   resizable="false"
+                   height="80px">
+            <div style="text-align: center; width: 100%;">
+                <div class="inekLoader" style="text-align: center;">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </pf:dialog>
+
         <pf:panel style="background-color: #eeeeee;">
 
             <h:form>
@@ -91,11 +112,24 @@
                                            cancelLabel="Abbrechen"
                                            uploadLabel="Templates Hochladen"
                                            label="Templates auswählen"
-                                           update="listDocs" />
+                                           update="listTemplates" />
 
-                            <pf:dataTable>
-
+                            <pf:dataTable id="listTemplates"
+                                          styleClass="inekTablePsy"
+                                          value="#{nubSummary.proposalsFromTemplateUploads}"
+                                          emptyMessage="Noch keine Templates hochgeladen"
+                                          var="proposal">
+                                <pf:column headerText="NUB">
+                                    #{proposal.name}
+                                </pf:column>
                             </pf:dataTable>
+
+                            <pf:commandButton value="NUB's aus hochgeladenen Dateien erzeugen"
+                                              action="#{nubSummary.createNubsFromTemplates()}"
+                                              rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                              styleClass="btnPsy"
+                                              update="listTemplates erfassungtable"
+                                              immediate="true" />
 
                         </pf:fieldset>
 
