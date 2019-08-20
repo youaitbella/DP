@@ -89,6 +89,23 @@
                                       paginator="true"
                                       rowsPerPageTemplate="25,50,100,300">
 
+                            <pf:column class="colIcon">
+                                <pf:commandLink action="#{nubSummary.retirePsyNubProposal(proposal)}"
+                                                rendered="#{proposal.status.id ne 200}"
+                                                update="sendtable"
+                                                process="@this">
+                                    <pf:confirm header="Wollen Sie den Eintrag wirklich zurückziehen??"
+                                                message="Gelöschte Einträge können Sie nicht wiederherstellen. Wollen Sie den Eintrag wirklich zurückziehen?" />
+                                    <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen"
+                                                    value="" />
+                                </pf:commandLink>
+                            </pf:column>
+
+                            <pf:column class="colIcon">
+                                    <h:graphicImage alt="löschen" name="Icon/small/#{proposal.status.icon}" title="#{proposal.status.description}"
+                                                    value="" />
+                            </pf:column>
+
                             <pf:column headerText="ID"
                                        filterable="true"
                                        sortable="true"

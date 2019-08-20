@@ -6,8 +6,10 @@
 package org.inek.dataportal.psy.nub.backingbean;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -20,6 +22,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,7 +78,7 @@ public class NubSummary implements Serializable {
 
     private void setWorkingList() {
         _listWorking.clear();
-        _listWorking.addAll(_psyNubFacade.findAllByAccountIdAndNoIk(_sessionController.getAccountId()));
+        _listWorking.addAll(_psyNubFacade.findAllByAccountIdAndNoIk(_sessionController.getAccountId(), WorkflowStatus.New));
         for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
             if (_accessManager.ikIsManaged(ik, Feature.NUB_PSY)) {
                 if (_accessManager.userHasReadAccess(Feature.NUB_PSY, ik)) {
@@ -88,7 +91,24 @@ public class NubSummary implements Serializable {
     }
 
     private void setCompleteList() {
+        List<WorkflowStatus> statusForCompleteList = new ArrayList<>();
+        statusForCompleteList.add(WorkflowStatus.Accepted);
+        statusForCompleteList.add(WorkflowStatus.Updated);
+        statusForCompleteList.add(WorkflowStatus.Retired);
+        statusForCompleteList.add(WorkflowStatus.Taken);
+        statusForCompleteList.add(WorkflowStatus.TakenUpdated);
         _listComplete.clear();
+
+        _listComplete.addAll(_psyNubFacade.findAllByAccountIdAndNoIk(_sessionController.getAccountId(), statusForCompleteList));
+        for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
+            if (_accessManager.ikIsManaged(ik, Feature.NUB_PSY)) {
+                if (_accessManager.userHasReadAccess(Feature.NUB_PSY, ik)) {
+                    _listComplete.addAll(_psyNubFacade.findAllByIkAndStatus(ik, statusForCompleteList));
+                }
+            } else {
+                _listComplete.addAll(_psyNubFacade.findAllByAccountIdAndIkAndStatus(_sessionController.getAccountId(), ik, statusForCompleteList));
+            }
+        }
     }
 
     public String psyNubEditOpen() {
@@ -96,15 +116,27 @@ public class NubSummary implements Serializable {
     }
 
     public boolean isCreateEntryAllowed() {
-        // TODO auch ohne angabe von IK möglich? für Vorlagen?
-        return !_accessManager.obtainIksForCreation(Feature.NUB_PSY).isEmpty();
+        return _configFacade.readConfigBool(ConfigKey.IsPsyNubCreateEnabled);
     }
 
     public void deletePsyNubProposal(PsyNubProposal proposal) {
         if (deleteAllowed(proposal)) {
+            _psyNubFacade.delete(proposal);
             setWorkingList();
         } else {
-            // TODO Ausgabe dass Eintrag nciht gelöscht werden darf
+            DialogController.showAccessDeniedDialog();
+        }
+    }
+
+    public void retirePsyNubProposal(PsyNubProposal proposal) {
+        if (deleteAllowed(proposal)) {
+            proposal.setStatus(WorkflowStatus.Retired);
+            proposal.setLastModifiedAt(new Date());
+            proposal.setLastChangedByAccountId(_sessionController.getAccountId());
+            _psyNubFacade.save(proposal);
+            setCompleteList();
+        } else {
+            DialogController.showAccessDeniedDialog();
         }
     }
 

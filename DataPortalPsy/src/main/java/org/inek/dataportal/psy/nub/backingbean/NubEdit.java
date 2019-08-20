@@ -8,8 +8,8 @@ package org.inek.dataportal.psy.nub.backingbean;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.KhComparison.entities.PsyDocument;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
@@ -17,6 +17,7 @@ import org.inek.dataportal.psy.nub.entities.PsyNubProposal;
 import org.inek.dataportal.psy.nub.entities.PsyNubProposalDocument;
 import org.inek.dataportal.psy.nub.facade.PsyNubFacade;
 import org.inek.dataportal.psy.nub.helper.NewPsyNubProposalHelper;
+import org.inek.dataportal.psy.nub.helper.PsyNubProposalChecker;
 import org.inek.dataportal.psy.nub.helper.PsyNubProposalHelper;
 import org.inek.dataportal.psy.nub.helper.PsyNubProposalValueChecker;
 import org.primefaces.event.FileUploadEvent;
@@ -110,7 +111,7 @@ public class NubEdit {
         _readOnly = false;
     }
 
-    public Boolean isChangeAllowed() {
+    public Boolean isSaveAllowed() {
         // todo: accessmanager und configkey
         return true;
     }
@@ -131,14 +132,31 @@ public class NubEdit {
     public Boolean save() {
         preparePsyNubProposalForSave();
         _psyNubProposal = _psyNubFacade.save(_psyNubProposal);
-        DialogController.showSaveDialog();
-        //todo save nub
+        if (_psyNubProposal.getStatus().equals(WorkflowStatus.New)) {
+            DialogController.showSaveDialog();
+        }
         return true;
     }
 
-    public String send() {
-        //todo save nub
-        return "";
+    public void send() {
+        if (isReadyForSend()) {
+            preparePsyNubProposalForSend();
+            if (save()) {
+                DialogController.showSendDialog();
+            }
+        } else {
+            //TODO Ausgabe der Fehlermeldungen, warum nicht gesendet werden kann
+        }
+    }
+
+    private boolean isReadyForSend() {
+        List<String> errorMessages = PsyNubProposalChecker.checkPsyProposalForSend(_psyNubProposal);
+        return errorMessages.isEmpty();
+    }
+
+    private void preparePsyNubProposalForSend() {
+        _psyNubProposal.setStatus(WorkflowStatus.Accepted);
+        _psyNubProposal.setSealedAt(new Date());
     }
 
     private void preparePsyNubProposalForSave() {

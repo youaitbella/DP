@@ -8,6 +8,8 @@ public enum ConfigKey {
     TestMode(false),
     IsNubCreateEnabled(false),
     IsNubSendEnabled(false),
+    IsPsyNubCreateEnabled(false),
+    IsPsyNubSendEnabled(false),
     RemindNubSeal(false),
     IsCareCreateEnabled(false),
     IsCareSendEnabled(false),
