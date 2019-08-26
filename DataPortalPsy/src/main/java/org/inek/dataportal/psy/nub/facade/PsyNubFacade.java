@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Stateless

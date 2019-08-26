@@ -128,6 +128,8 @@
                                               action="#{nubSummary.createNubsFromTemplates()}"
                                               rendered="#{nubSummary.isCreateEntryAllowed()}"
                                               styleClass="btnPsy"
+                                              onstart="PF('dialogProcess').show()"
+                                              oncomplete="PF('dialogProcess').hide()"
                                               update="listTemplates erfassungtable"
                                               immediate="true" />
 

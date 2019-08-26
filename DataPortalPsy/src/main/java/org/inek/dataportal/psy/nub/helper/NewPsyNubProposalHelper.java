@@ -25,6 +25,8 @@ public class NewPsyNubProposalHelper {
     private static void fillGeneralInformation(PsyNubProposal proposal, Account account) {
         proposal.setCreatedAt(new Date());
         proposal.setCreatedByAccountId(account.getId());
+        proposal.setLastModifiedAt(new Date());
+        proposal.setLastChangedByAccountId(account.getId());
         proposal.setStatus(WorkflowStatus.New);
         proposal.setTargetYear(Utils.getTargetYear(Feature.NUB_PSY));
     }

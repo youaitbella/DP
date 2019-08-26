@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author lautenti
@@ -35,6 +37,7 @@ import java.util.Optional;
 @FeatureScoped
 public class NubSummary implements Serializable {
 
+    private static final Logger LOGGER = Logger.getLogger("PsyNubSummary");
     @Inject
     private PsyNubFacade _psyNubFacade;
     @Inject
@@ -43,12 +46,9 @@ public class NubSummary implements Serializable {
     private SessionController _sessionController;
     @Inject
     private ConfigFacade _configFacade;
-
     private List<PsyNubProposal> _listComplete = new ArrayList<>();
     private List<PsyNubProposal> _listWorking = new ArrayList<>();
-
     private List<PsyNubProposal> _proposalsFromTemplateUploads = new ArrayList<>();
-
 
     public List<PsyNubProposal> getProposalsFromTemplateUploads() {
         return _proposalsFromTemplateUploads;
@@ -147,19 +147,26 @@ public class NubSummary implements Serializable {
 
     public void handleTemplateUpload(FileUploadEvent file) {
         try {
-            String content = new String(file.getFile().getContents());
+            String content = new String(file.getFile().getContents(), "UTF-8");
             Optional<PsyNubProposal> newProposal = PsyNubProposalTemplateHelper.createNewProposalFromTemplate(content,
                     _sessionController.getAccount());
             _proposalsFromTemplateUploads.add(newProposal.get());
         } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Error during template import: " + ex.getMessage());
             //TODO Fehlerhaftes einlesen abfangen
         }
     }
 
     public void createNubsFromTemplates() {
-        for (PsyNubProposal proposal : _proposalsFromTemplateUploads) {
-            //TODO neues Proposal erzeugen
+        if (!_proposalsFromTemplateUploads.isEmpty()) {
+            for (PsyNubProposal proposal : _proposalsFromTemplateUploads) {
+                _psyNubFacade.save(proposal);
+            }
+            _proposalsFromTemplateUploads.clear();
+            setWorkingList();
+        } else {
+            DialogController.showInfoDialog("Keine Vorlagen ausgewählt", "Bitte ladnen Sie mindesten eine Vorlage hoch, " +
+                    "um daraus eine neue NUB zu erzeugen. Ein hochladen von mehreren Vorlagen gleichzeitig ist auch möglich.");
         }
-        _proposalsFromTemplateUploads.clear();
     }
 }
