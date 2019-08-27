@@ -8,52 +8,52 @@
     <ui:define name="content">
         <h1>Neue Untersuchungs- und Behandlungsmethoden</h1>
 
-        <pf:dialog widgetVar="dialogProcess"
-                   header="Daten werden verarbeitet"
-                   modal="true"
-                   closable="false"
-                   resizable="false"
-                   height="80px">
-            <div style="text-align: center; width: 100%;">
-                <div class="inekLoader" style="text-align: center;">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            </div>
-        </pf:dialog>
-
-        <pf:dialog widgetVar="errorMessageDialog"
-                   header="Meldungsübersicht:"
-                   modal="true"
-                   width="60%"
-                   height="600px"
-                   closable="true"
-                   resizable="true">
-            <div id="container" style="width: 100%; height:530px">
-                <pf:inputTextarea value="#{nubSummary.errorMessages}"
-                                  readonly="true"
-                                  style="width: 100%; height: 400px" />
-
-                <div id="buttons"
-                     style="position: absolute !important; bottom: 10px !important; vertical-align: bottom !important;">
-                    <pf:button styleClass="btnPsy"
-                               value="Ok"
-                               tabindex="0"
-                               style="position: relative;"
-                               onclick="PF('errorMessageDialog').hide();" />
-                </div>
-            </div>
-        </pf:dialog>
 
         <pf:panel style="background-color: #eeeeee;">
 
             <h:form>
+                <pf:dialog widgetVar="dialogProcess"
+                           header="Daten werden verarbeitet"
+                           modal="true"
+                           closable="false"
+                           resizable="false"
+                           height="80px">
+                    <div style="text-align: center; width: 100%;">
+                        <div class="inekLoader" style="text-align: center;">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                </pf:dialog>
+
+                <pf:dialog widgetVar="errorMessageDialog"
+                           header="Meldungsübersicht:"
+                           modal="true"
+                           width="60%"
+                           height="600px"
+                           closable="true"
+                           resizable="true">
+                    <div id="container" style="width: 100%; height:530px">
+                        <pf:inputTextarea value="#{nubSummary.errorMessages}"
+                                          readonly="true"
+                                          style="width: 100%; height: 400px" />
+
+                        <div id="buttons"
+                             style="position: absolute !important; bottom: 10px !important; vertical-align: bottom !important;">
+                            <pf:button styleClass="btnPsy"
+                                       value="Ok"
+                                       tabindex="0"
+                                       style="position: relative;"
+                                       onclick="PF('errorMessageDialog').hide();" />
+                        </div>
+                    </div>
+                </pf:dialog>
                 <div class="ui-g ui-fluid">
                     <div class="ui-g-12">
                         <h2>Daten in Erfassung</h2>
@@ -119,6 +119,8 @@
                     </div>
                 </div>
 
+                <pf:outputLabel value="Auswahl: " />
+
                 <pf:selectOneMenu value="#{nubSummary.selectedWorkingListCommand}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="" noSelectionOption="true" />
                     <f:selectItem itemLabel="Drucken" itemValue="print" noSelectionOption="true" />
@@ -127,10 +129,11 @@
                     <pf:ajax />
                 </pf:selectOneMenu>
 
-                <pf:commandButton value="Ausführen"
+                <pf:commandButton value="Aktion ausführen"
                                   action="#{nubSummary.executeBatchWorkingList()}"
                                   rendered="#{nubSummary.isCreateEntryAllowed()}"
                                   styleClass="btnPsy"
+                                  style="margin-left: 10px;"
                                   onstart="PF('dialogProcess').show()"
                                   oncomplete="PF('dialogProcess').hide()"
                                   update="@form"
@@ -152,6 +155,7 @@
                              legend="Neue NUB aus Vorlage"
                              toggleable="true"
                              collapsed="true"
+                             rendered="#{nubSummary.isCreateEntryAllowed()}"
                              class="inekFieldset">
 
                     <pf:fileUpload styleClass="inekUploader"
@@ -269,6 +273,8 @@
                     </div>
                 </div>
 
+                <pf:outputLabel value="Auswahl: " />
+
                 <pf:selectOneMenu value="#{nubSummary.selectedCompleteListCommand}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="" noSelectionOption="true" />
                     <f:selectItem itemLabel="Drucken" itemValue="print" noSelectionOption="true" />
@@ -277,7 +283,7 @@
                     <pf:ajax />
                 </pf:selectOneMenu>
 
-                <pf:commandButton value="Ausführen"
+                <pf:commandButton value="Aktion ausführen"
                                   action="#{nubSummary.executeBatchSendList()}"
                                   rendered="#{nubSummary.isCreateEntryAllowed()}"
                                   styleClass="btnPsy"

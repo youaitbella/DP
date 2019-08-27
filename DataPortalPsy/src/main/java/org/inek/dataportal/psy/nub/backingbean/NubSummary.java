@@ -217,6 +217,8 @@ public class NubSummary implements Serializable {
             default:
                 throw new IllegalArgumentException("Unknown batch command:" + _selectedWorkingListCommand);
         }
+        setWorkingList();
+        setCompleteList();
     }
 
     public void executeBatchSendList() {
@@ -238,6 +240,8 @@ public class NubSummary implements Serializable {
             default:
                 throw new IllegalArgumentException("Unknown batch command:" + _selectedCompleteListCommand);
         }
+        setWorkingList();
+        setCompleteList();
     }
 
     private void createNewPsyProposalsFromSelectedProposals(List<PsyNubProposal> listComplete) {
@@ -247,8 +251,7 @@ public class NubSummary implements Serializable {
             _psyNubFacade.save(newProposal);
             counter++;
         }
-        setWorkingList();
-        DialogController.showInfoDialog("Verarbeitung beendet", "Es wurden erfolgreich " + counter + " übernommen");
+        DialogController.showInfoDialog("Verarbeitung beendet", "Es wurden erfolgreich " + counter + " NUB's übernommen");
     }
 
     private void printAllSelectedProposals(List<PsyNubProposal> listWorking) {
