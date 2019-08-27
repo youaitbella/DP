@@ -30,7 +30,7 @@ public class PsyNubProposalTemplateHelper implements Serializable {
         appendLine(content, PsyNubFieldKey.Description, proposal.getProposalData().getDescription());
         appendLine(content, PsyNubFieldKey.HasNoProcs, "" + proposal.getProposalData().getHasNoProcs());
         appendLine(content, PsyNubFieldKey.ProcCodes, proposal.getProposalData().getProcs());
-        appendLine(content, PsyNubFieldKey.Procedures, proposal.getProposalData().getProcs());
+        appendLine(content, PsyNubFieldKey.ProcComment, proposal.getProposalData().getProcsComment());
         appendLine(content, PsyNubFieldKey.Indication, proposal.getProposalData().getIndication());
         appendLine(content, PsyNubFieldKey.Replacement, proposal.getProposalData().getReplacement());
         appendLine(content, PsyNubFieldKey.WhatsNew, proposal.getProposalData().getWhatsNew());
@@ -86,8 +86,8 @@ public class PsyNubProposalTemplateHelper implements Serializable {
                     case ProcCodes:
                         newPsyNubProposal.getProposalData().setProcs(restoreBreaks(content));
                         break;
-                    case Procedures:
-                        newPsyNubProposal.getProposalData().setProcs(restoreBreaks(content));
+                    case ProcComment:
+                        newPsyNubProposal.getProposalData().setProcsComment(restoreBreaks(content));
                         break;
                     case Indication:
                         newPsyNubProposal.getProposalData().setIndication(restoreBreaks(content));

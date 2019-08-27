@@ -18,7 +18,7 @@ public enum PsyNubFieldKey {
     Description,
     HasNoProcs,
     ProcCodes,
-    Procedures,
+    ProcComment,
     Indication,
     Replacement,
     WhatsNew,

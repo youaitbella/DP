@@ -16,6 +16,8 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.nub.entities.PsyNubProposal;
 import org.inek.dataportal.psy.nub.facade.PsyNubFacade;
+import org.inek.dataportal.psy.nub.helper.NewPsyNubProposalHelper;
+import org.inek.dataportal.psy.nub.helper.PsyNubProposalChecker;
 import org.inek.dataportal.psy.nub.helper.PsyNubProposalTemplateHelper;
 import org.primefaces.event.FileUploadEvent;
 
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * @author lautenti
@@ -49,6 +52,31 @@ public class NubSummary implements Serializable {
     private List<PsyNubProposal> _listComplete = new ArrayList<>();
     private List<PsyNubProposal> _listWorking = new ArrayList<>();
     private List<PsyNubProposal> _proposalsFromTemplateUploads = new ArrayList<>();
+
+    private String _selectedWorkingListCommand = "";
+    private String _selectedCompleteListCommand = "";
+
+    private String _errorMessages = "";
+
+    public String getErrorMessages() {
+        return _errorMessages;
+    }
+
+    public String getSelectedWorkingListCommand() {
+        return _selectedWorkingListCommand;
+    }
+
+    public void setSelectedWorkingListCommand(String selectedWorkingListCommand) {
+        this._selectedWorkingListCommand = selectedWorkingListCommand;
+    }
+
+    public String getSelectedCompleteListCommand() {
+        return _selectedCompleteListCommand;
+    }
+
+    public void setSelectedCompleteListCommand(String selectedCompleteListCommand) {
+        this._selectedCompleteListCommand = selectedCompleteListCommand;
+    }
 
     public List<PsyNubProposal> getProposalsFromTemplateUploads() {
         return _proposalsFromTemplateUploads;
@@ -168,5 +196,95 @@ public class NubSummary implements Serializable {
             DialogController.showInfoDialog("Keine Vorlagen ausgewählt", "Bitte ladnen Sie mindesten eine Vorlage hoch, " +
                     "um daraus eine neue NUB zu erzeugen. Ein hochladen von mehreren Vorlagen gleichzeitig ist auch möglich.");
         }
+    }
+
+    public void executeBatchWorkingList() {
+        if (_listWorking.stream().noneMatch(PsyNubProposal::getSelected)) {
+            DialogController.showInfoDialog("Bitte eine NUB auswählen", "Bitte wählen Sie mindestens eine NUB aus");
+            return;
+        }
+
+        switch (_selectedWorkingListCommand) {
+            case "send":
+                sendAllSelectedProposals(_listWorking);
+                break;
+            case "print":
+                printAllSelectedProposals(_listWorking);
+                break;
+            case "":
+                DialogController.showInfoDialog("Bitte eine Aktion auswählen", "Bitte wählen Sie eine Aktion aus");
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown batch command:" + _selectedWorkingListCommand);
+        }
+    }
+
+    public void executeBatchSendList() {
+        if (_listComplete.stream().noneMatch(PsyNubProposal::getSelected)) {
+            DialogController.showInfoDialog("Bitte eine NUB auswählen", "Bitte wählen Sie mindestens eine NUB aus");
+            return;
+        }
+
+        switch (_selectedCompleteListCommand) {
+            case "createNew":
+                createNewPsyProposalsFromSelectedProposals(_listComplete);
+                break;
+            case "print":
+                printAllSelectedProposals(_listComplete);
+                break;
+            case "":
+                DialogController.showInfoDialog("Bitte eine Aktion auswählen", "Bitte wählen Sie eine Aktion aus");
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown batch command:" + _selectedCompleteListCommand);
+        }
+    }
+
+    private void createNewPsyProposalsFromSelectedProposals(List<PsyNubProposal> listComplete) {
+        int counter = 0;
+        for (PsyNubProposal proposal : listComplete.stream().filter(PsyNubProposal::getSelected).collect(Collectors.toList())) {
+            PsyNubProposal newProposal = NewPsyNubProposalHelper.createNewPsyNubProposalFromPsyNubProposal(proposal, _sessionController.getAccount());
+            _psyNubFacade.save(newProposal);
+            counter++;
+        }
+        setWorkingList();
+        DialogController.showInfoDialog("Verarbeitung beendet", "Es wurden erfolgreich " + counter + " übernommen");
+    }
+
+    private void printAllSelectedProposals(List<PsyNubProposal> listWorking) {
+        // TODO Print selected proposals
+    }
+
+    private void sendAllSelectedProposals(List<PsyNubProposal> listProposals) {
+        int counter = 0;
+        _errorMessages = "";
+        for (PsyNubProposal proposal : listProposals.stream().filter(PsyNubProposal::getSelected).collect(Collectors.toList())) {
+            if (proposalIsReadyForSend(proposal)) {
+                proposal.setStatus(WorkflowStatus.Accepted);
+                proposal.setLastModifiedAt(new Date());
+                proposal.setLastChangedByAccountId(_sessionController.getAccountId());
+                proposal.setSealedAt(new Date());
+                _psyNubFacade.save(proposal);
+                counter++;
+            }
+        }
+
+        _errorMessages += "\n\nEs wurden " + counter + " NUB's übernommen";
+
+        DialogController.openDialogByName("errorMessageDialog");
+    }
+
+    private boolean proposalIsReadyForSend(PsyNubProposal proposal) {
+        List<String> errors = PsyNubProposalChecker.checkPsyProposalForSend(proposal);
+        if (errors.isEmpty()) {
+            return true;
+        } else {
+            createErrorMessageString(errors);
+            return false;
+        }
+    }
+
+    private void createErrorMessageString(List<String> errors) {
+        _errorMessages += String.join("\n", errors);
     }
 }

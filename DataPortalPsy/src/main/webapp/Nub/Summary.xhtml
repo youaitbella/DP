@@ -28,6 +28,29 @@
             </div>
         </pf:dialog>
 
+        <pf:dialog widgetVar="errorMessageDialog"
+                   header="Meldungsübersicht:"
+                   modal="true"
+                   width="60%"
+                   height="600px"
+                   closable="true"
+                   resizable="true">
+            <div id="container" style="width: 100%; height:530px">
+                <pf:inputTextarea value="#{nubSummary.errorMessages}"
+                                  readonly="true"
+                                  style="width: 100%; height: 400px" />
+
+                <div id="buttons"
+                     style="position: absolute !important; bottom: 10px !important; vertical-align: bottom !important;">
+                    <pf:button styleClass="btnPsy"
+                               value="Ok"
+                               tabindex="0"
+                               style="position: relative;"
+                               onclick="PF('errorMessageDialog').hide();" />
+                </div>
+            </div>
+        </pf:dialog>
+
         <pf:panel style="background-color: #eeeeee;">
 
             <h:form>
@@ -42,6 +65,11 @@
                                       rows="50"
                                       paginator="true"
                                       rowsPerPageTemplate="25,50,100,300">
+                            <pf:column class="colIcon">
+                                <pf:selectBooleanCheckbox value="#{proposal.selected}">
+                                    <pf:ajax />
+                                </pf:selectBooleanCheckbox>
+                            </pf:column>
                             <pf:column class="colIcon">
                                 <pf:commandLink action="#{nubSummary.deletePsyNubProposal(proposal)}"
                                                 update="erfassungtable"
@@ -88,54 +116,76 @@
                                 </h:link>
                             </pf:column>
                         </pf:dataTable>
-
-                        <pf:commandButton value="Neue NUB anlegen"
-                                          action="#{nubSummary.psyNubEditOpen()}"
-                                          rendered="#{nubSummary.isCreateEntryAllowed()}"
-                                          styleClass="btnPsy"
-                                          immediate="true">
-                            <f:param name="id" value="new" />
-                        </pf:commandButton>
-
-                        <pf:fieldset id="newNubFromTemplateFieldSet"
-                                     legend="Neue NUB aus Vorlage"
-                                     toggleable="true"
-                                     collapsed="true"
-                                     class="inekFieldset">
-
-                            <pf:fileUpload styleClass="inekUploader"
-                                           rendered="#{nubSummary.isCreateEntryAllowed()}"
-                                           fileUploadListener="#{nubSummary.handleTemplateUpload}"
-                                           mode="advanced"
-                                           multiple="true"
-                                           auto="true"
-                                           cancelLabel="Abbrechen"
-                                           uploadLabel="Templates Hochladen"
-                                           label="Templates auswählen"
-                                           update="listTemplates" />
-
-                            <pf:dataTable id="listTemplates"
-                                          styleClass="inekTablePsy"
-                                          value="#{nubSummary.proposalsFromTemplateUploads}"
-                                          emptyMessage="Noch keine Templates hochgeladen"
-                                          var="proposal">
-                                <pf:column headerText="NUB">
-                                    #{proposal.name}
-                                </pf:column>
-                            </pf:dataTable>
-
-                            <pf:commandButton value="NUB's aus hochgeladenen Dateien erzeugen"
-                                              action="#{nubSummary.createNubsFromTemplates()}"
-                                              rendered="#{nubSummary.isCreateEntryAllowed()}"
-                                              styleClass="btnPsy"
-                                              onstart="PF('dialogProcess').show()"
-                                              oncomplete="PF('dialogProcess').hide()"
-                                              update="listTemplates erfassungtable"
-                                              immediate="true" />
-
-                        </pf:fieldset>
-
                     </div>
+                </div>
+
+                <pf:selectOneMenu value="#{nubSummary.selectedWorkingListCommand}">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="" noSelectionOption="true" />
+                    <f:selectItem itemLabel="Drucken" itemValue="print" noSelectionOption="true" />
+                    <f:selectItem itemLabel="Senden" itemValue="send"
+                                  itemDisabled="#{not nubSummary.isCreateEntryAllowed()}" />
+                    <pf:ajax />
+                </pf:selectOneMenu>
+
+                <pf:commandButton value="Ausführen"
+                                  action="#{nubSummary.executeBatchWorkingList()}"
+                                  rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                  styleClass="btnPsy"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  update="@form"
+                                  immediate="true" />
+
+                <br />
+                <br />
+
+                <pf:commandButton value="Neue NUB anlegen"
+                                  action="#{nubSummary.psyNubEditOpen()}"
+                                  rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                  styleClass="btnPsy"
+                                  style="margin-left: 10px;"
+                                  immediate="true">
+                    <f:param name="id" value="new" />
+                </pf:commandButton>
+
+                <pf:fieldset id="newNubFromTemplateFieldSet"
+                             legend="Neue NUB aus Vorlage"
+                             toggleable="true"
+                             collapsed="true"
+                             class="inekFieldset">
+
+                    <pf:fileUpload styleClass="inekUploader"
+                                   rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                   fileUploadListener="#{nubSummary.handleTemplateUpload}"
+                                   mode="advanced"
+                                   multiple="true"
+                                   auto="true"
+                                   cancelLabel="Abbrechen"
+                                   uploadLabel="Templates Hochladen"
+                                   label="Templates auswählen"
+                                   update="listTemplates" />
+
+                    <pf:dataTable id="listTemplates"
+                                  styleClass="inekTablePsy"
+                                  value="#{nubSummary.proposalsFromTemplateUploads}"
+                                  emptyMessage="Noch keine Templates hochgeladen"
+                                  var="proposal">
+                        <pf:column headerText="NUB">
+                            #{proposal.name}
+                        </pf:column>
+                    </pf:dataTable>
+
+                    <pf:commandButton value="NUB's aus hochgeladenen Dateien erzeugen"
+                                      action="#{nubSummary.createNubsFromTemplates()}"
+                                      rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                      styleClass="btnPsy"
+                                      onstart="PF('dialogProcess').show()"
+                                      oncomplete="PF('dialogProcess').hide()"
+                                      update="listTemplates erfassungtable"
+                                      immediate="true" />
+
+                </pf:fieldset>
+                <div class="ui-g ui-fluid">
                     <div class="ui-g-12">
                         <h2>An das InEK gesendet</h2>
 
@@ -147,6 +197,12 @@
                                       rows="50"
                                       paginator="true"
                                       rowsPerPageTemplate="25,50,100,300">
+
+                            <pf:column class="colIcon">
+                                <pf:selectBooleanCheckbox value="#{proposal.selected}">
+                                    <pf:ajax />
+                                </pf:selectBooleanCheckbox>
+                            </pf:column>
 
                             <pf:column class="colIcon">
                                 <pf:commandLink action="#{nubSummary.retirePsyNubProposal(proposal)}"
@@ -212,6 +268,25 @@
                         </pf:dataTable>
                     </div>
                 </div>
+
+                <pf:selectOneMenu value="#{nubSummary.selectedCompleteListCommand}">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="" noSelectionOption="true" />
+                    <f:selectItem itemLabel="Drucken" itemValue="print" noSelectionOption="true" />
+                    <f:selectItem itemLabel="In neue NUB übernehmen" itemValue="createNew"
+                                  itemDisabled="#{not nubSummary.isCreateEntryAllowed()}" />
+                    <pf:ajax />
+                </pf:selectOneMenu>
+
+                <pf:commandButton value="Ausführen"
+                                  action="#{nubSummary.executeBatchSendList()}"
+                                  rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                  styleClass="btnPsy"
+                                  style="margin-left: 10px;"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  update="@form"
+                                  immediate="true" />
+
 
             </h:form>
 

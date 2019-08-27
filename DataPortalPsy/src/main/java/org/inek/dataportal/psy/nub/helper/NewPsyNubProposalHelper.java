@@ -22,6 +22,75 @@ public class NewPsyNubProposalHelper {
         return proposal;
     }
 
+    public static PsyNubProposal createNewPsyNubProposalFromPsyNubProposal(PsyNubProposal proposal, Account account) {
+        PsyNubProposal newProposal = createNewPsyNubProposal(account);
+        copy(newProposal, proposal);
+        return newProposal;
+    }
+
+    public static void copy(PsyNubProposal targetProposal, PsyNubProposal sourceProposal) {
+        targetProposal.setDisplayName(sourceProposal.getDisplayName());
+        targetProposal.setName(sourceProposal.getName());
+        targetProposal.setAltName(sourceProposal.getAltName());
+
+        targetProposal.getProposalData().setDescription(sourceProposal.getProposalData().getDescription());
+        targetProposal.getProposalData().setHasNoProcs(sourceProposal.getProposalData().getHasNoProcs());
+        targetProposal.getProposalData().setProcs(sourceProposal.getProposalData().getProcs());
+
+        targetProposal.getProposalData().setProcsComment(sourceProposal.getProposalData().getProcsComment());
+
+        targetProposal.getProposalData().setIndication(sourceProposal.getProposalData().getIndication());
+        targetProposal.getProposalData().setReplacement(sourceProposal.getProposalData().getReplacement());
+
+        targetProposal.getProposalData().setWhatsNew(sourceProposal.getProposalData().getWhatsNew());
+        targetProposal.getProposalData().setLos(sourceProposal.getProposalData().getLos());
+
+        targetProposal.getProposalData().setPepps(sourceProposal.getProposalData().getPepps());
+        targetProposal.getProposalData().setWhyNotRepresented(sourceProposal.getProposalData().getWhyNotRepresented());
+
+        targetProposal.getDateValue(PsyNubDateFields.IN_GERMANY).setDate(
+                sourceProposal.getDateValue(PsyNubDateFields.IN_GERMANY).getDate());
+        targetProposal.getDateValue(PsyNubDateFields.IN_GERMANY).setComment(
+                sourceProposal.getDateValue(PsyNubDateFields.IN_GERMANY).getComment());
+
+        targetProposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).setDate(
+                sourceProposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).getDate());
+        targetProposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).setComment(
+                sourceProposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).getComment());
+
+        targetProposal.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).setDate(
+                sourceProposal.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).getDate());
+        targetProposal.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).setComment(
+                sourceProposal.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).getComment());
+
+        targetProposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).setNumber(
+                sourceProposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).getNumber());
+        targetProposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).setComment(
+                sourceProposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).getComment());
+
+        if (sourceProposal.getTargetYear() == targetProposal.getTargetYear() - 1) {
+            // copy Only from Prev year
+            targetProposal.getNumberValue(PsyNubNumberFields.PATIENTS_TARGETYEAR).setNumber(
+                    sourceProposal.getNumberValue(PsyNubNumberFields.PATIENTS_TARGETYEAR).getNumber());
+            targetProposal.getNumberValue(PsyNubNumberFields.PATIENTS_TARGETYEAR).setComment(
+                    sourceProposal.getNumberValue(PsyNubNumberFields.PATIENTS_TARGETYEAR).getComment());
+
+            targetProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_TARGETYEAR).setNumber(
+                    sourceProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_TARGETYEAR).getNumber());
+            targetProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_TARGETYEAR).setComment(
+                    sourceProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_TARGETYEAR).getComment());
+
+            targetProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_PRE_TARGETYEAR).setNumber(
+                    sourceProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_PRE_TARGETYEAR).getNumber());
+            targetProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_PRE_TARGETYEAR).setComment(
+                    sourceProposal.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_PRE_TARGETYEAR).getComment());
+        }
+
+        if (targetProposal.getCreatedByAccountId() != sourceProposal.getCreatedByAccountId()) {
+            targetProposal.setHelperId(sourceProposal.getCreatedByAccountId());
+        }
+    }
+
     private static void fillGeneralInformation(PsyNubProposal proposal, Account account) {
         proposal.setCreatedAt(new Date());
         proposal.setCreatedByAccountId(account.getId());

@@ -150,6 +150,17 @@ public class PsyNubProposal implements Serializable {
     @JoinColumn(name = "npdNubProposalId")
     private List<PsyNubProposalDocument> _proposalDocuments = new ArrayList<>();
 
+    @Transient
+    private Boolean _selected = false;
+
+    public Boolean getSelected() {
+        return _selected;
+    }
+
+    public void setSelected(Boolean selected) {
+        this._selected = selected;
+    }
+
     public String getNubIdExtern() {
         return "N" + _id;
     }
