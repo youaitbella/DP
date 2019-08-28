@@ -34,6 +34,29 @@
                 </div>
             </pf:dialog>
 
+            <pf:dialog widgetVar="errorMessageDialog"
+                       header="Meldungsübersicht:"
+                       modal="true"
+                       width="60%"
+                       height="600px"
+                       closable="true"
+                       resizable="true">
+                <div id="container" style="width: 100%; height:530px">
+                    <pf:inputTextarea value="#{nubEdit.errorMessages}"
+                                      readonly="true"
+                                      style="width: 100%; height: 400px" />
+
+                    <div id="buttons"
+                         style="position: absolute !important; bottom: 10px !important; vertical-align: bottom !important;">
+                        <pf:button styleClass="btnPsy"
+                                   value="Ok"
+                                   tabindex="0"
+                                   style="position: relative;"
+                                   onclick="PF('errorMessageDialog').hide();" />
+                    </div>
+                </div>
+            </pf:dialog>
+
             <pf:messages>
                 <pf:autoUpdate />
             </pf:messages>

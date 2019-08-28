@@ -45,4 +45,16 @@ public class PsyNubRequestHelper implements Serializable {
         }
         return invalidIKs.toString();
     }
+
+    public String formatProxyIks(String value) {
+        String[] iks = value.split("\\s|,|\r|\n");
+        String formatted = "";
+        for (String ik : iks) {
+            if (formatted.length() > 0) {
+                formatted += ", ";
+            }
+            formatted += ik;
+        }
+        return formatted;
+    }
 }

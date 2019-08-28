@@ -8,6 +8,8 @@ package org.inek.dataportal.psy.nub.backingbean;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Utils;
@@ -48,10 +50,18 @@ public class NubEdit {
     private PsyNubRequestHelper _psyNubRequestHelper;
     @Inject
     private AccessManager _accessManager;
+    @Inject
+    private ConfigFacade _config;
 
     private PsyNubRequest _psyNubRequest;
     private List<Integer> _allowedIks;
     private Boolean _readOnly;
+
+    private String _errorMessages = "";
+
+    public String getErrorMessages() {
+        return _errorMessages;
+    }
 
     public List<Integer> getAllowedIks() {
         return _allowedIks;
@@ -74,9 +84,8 @@ public class NubEdit {
         } else if ("new".equals(id)) {
             _psyNubRequest = createNewNubRequest();
         } else {
-            if (userHasAccess(Integer.parseInt(id))) {
-                _psyNubRequest = _psyNubFacade.findNubById(Integer.parseInt(id));
-            } else {
+            _psyNubRequest = _psyNubFacade.findNubById(Integer.parseInt(id));
+            if (!userHasAccess(_psyNubRequest)) {
                 DialogController.showAccessDeniedDialog();
                 Utils.navigate(Pages.NubPsySummary.RedirectURL());
             }
@@ -98,9 +107,16 @@ public class NubEdit {
         }
     }
 
-    private boolean userHasAccess(int nubId) {
-        // todo: accessmanager
-        return true;
+    private boolean userHasAccess(PsyNubRequest request) {
+        if (request.getIk() > 0 && _accessManager.ikIsManaged(request.getIk(), Feature.NUB_PSY)) {
+            if (_accessManager.userHasReadAccess(Feature.NUB_PSY, request.getIk())) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return request.getCreatedByAccountId() == _sessionController.getAccountId();
+        }
     }
 
     public void setReadOnly() {
@@ -109,8 +125,7 @@ public class NubEdit {
     }
 
     public Boolean isSaveAllowed() {
-        // todo: accessmanager und configkey
-        return true;
+        return _config.readConfigBool(ConfigKey.IsPsyNubCreateEnabled) && !_readOnly;
     }
 
     public Boolean isCreateTemplateAllowed() {
@@ -119,8 +134,7 @@ public class NubEdit {
     }
 
     public Boolean isSendAllowed() {
-        // todo: accessmanager und configkey
-        return true;
+        return _config.readConfigBool(ConfigKey.IsPsyNubSendEnabled) && !_readOnly;
     }
 
     private PsyNubRequest createNewNubRequest() {
@@ -147,12 +161,13 @@ public class NubEdit {
                 DialogController.showSendDialog();
             }
         } else {
-            //TODO Ausgabe der Fehlermeldungen, warum nicht gesendet werden kann
+            DialogController.openDialogByName("errorMessageDialog");
         }
     }
 
     private boolean isReadyForSend() {
         List<String> errorMessages = PsyNubRequestChecker.checkPsyRequestForSend(_psyNubRequest);
+        _errorMessages += String.join("\n", errorMessages);
         return errorMessages.isEmpty();
     }
 
@@ -164,10 +179,11 @@ public class NubEdit {
     private void preparePsyNubRequestForSave() {
         _psyNubRequest.setLastModifiedAt(new Date());
         _psyNubRequest.setLastChangedByAccountId(_sessionController.getAccountId());
+        formatProxyIks();
     }
 
     private void formatProxyIks() {
-        // TODO IKs formatieren
+        _psyNubRequest.getProposalData().setProxyIks(_psyNubRequestHelper.formatProxyIks(_psyNubRequest.getProposalData().getProxyIks()));
     }
 
     public void handleDocumentUpload(FileUploadEvent file) {
