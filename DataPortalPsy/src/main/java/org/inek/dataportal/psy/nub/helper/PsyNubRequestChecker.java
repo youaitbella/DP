@@ -93,7 +93,7 @@ public class PsyNubRequestChecker implements Serializable {
 
     private static void checkDateValues(PsyNubRequest request, List<String> errorMessages) {
         checkIsEmpty(request.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).getDate(), FIELD_NUB_IN_HOSPITAL, errorMessages);
-        if (PsyNubRequestValueChecker.isValidStringForDateValue(request.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).getDate())) {
+        if (!PsyNubRequestValueChecker.isValidStringForDateValue(request.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).getDate())) {
             checkIsEmpty("", FIELD_NUB_IN_HOSPITAL, errorMessages);
         }
     }
@@ -159,6 +159,6 @@ public class PsyNubRequestChecker implements Serializable {
     }
 
     private static void addMessage(String message, List<String> errorMessages) {
-        errorMessages.add(message + "\n");
+        errorMessages.add(message);
     }
 }
