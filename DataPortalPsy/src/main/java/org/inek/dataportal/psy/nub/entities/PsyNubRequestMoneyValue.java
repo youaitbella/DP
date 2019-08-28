@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PsyNubProposalMoneyValue", schema = "psy")
-public class PsyNubProposalMoneyValue implements Serializable {
+@Table(name = "NubRequestMoneyValue", schema = "psy")
+public class PsyNubRequestMoneyValue implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +17,8 @@ public class PsyNubProposalMoneyValue implements Serializable {
     private int _id;
 
     @ManyToOne
-    @JoinColumn(name = "mvPsyNubProposalId")
-    private PsyNubProposal _psyNubProposal;
+    @JoinColumn(name = "mvNubRequestId")
+    private PsyNubRequest _psyNubRequest;
 
     @Column(name = "mvMoney")
     private double _money;
@@ -38,12 +38,12 @@ public class PsyNubProposalMoneyValue implements Serializable {
         this._id = id;
     }
 
-    public PsyNubProposal getPsyNubProposal() {
-        return _psyNubProposal;
+    public PsyNubRequest getPsyNubRequest() {
+        return _psyNubRequest;
     }
 
-    public void setPsyNubProposal(PsyNubProposal psyNubProposal) {
-        this._psyNubProposal = psyNubProposal;
+    public void setPsyNubRequest(PsyNubRequest psyNubRequest) {
+        this._psyNubRequest = psyNubRequest;
     }
 
     public double getMoney() {
@@ -74,16 +74,16 @@ public class PsyNubProposalMoneyValue implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PsyNubProposalMoneyValue that = (PsyNubProposalMoneyValue) o;
+        PsyNubRequestMoneyValue that = (PsyNubRequestMoneyValue) o;
         return _id == that._id &&
                 Double.compare(that._money, _money) == 0 &&
-                Objects.equals(_psyNubProposal, that._psyNubProposal) &&
+                Objects.equals(_psyNubRequest, that._psyNubRequest) &&
                 Objects.equals(_comment, that._comment) &&
                 _field == that._field;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _psyNubProposal, _money, _comment, _field);
+        return Objects.hash(_id, _psyNubRequest, _money, _comment, _field);
     }
 }

@@ -14,11 +14,11 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.psy.nub.entities.PsyNubProposal;
+import org.inek.dataportal.psy.nub.entities.PsyNubRequest;
 import org.inek.dataportal.psy.nub.facade.PsyNubFacade;
-import org.inek.dataportal.psy.nub.helper.NewPsyNubProposalHelper;
-import org.inek.dataportal.psy.nub.helper.PsyNubProposalChecker;
-import org.inek.dataportal.psy.nub.helper.PsyNubProposalTemplateHelper;
+import org.inek.dataportal.psy.nub.helper.NewPsyNubRequestHelper;
+import org.inek.dataportal.psy.nub.helper.PsyNubRequestChecker;
+import org.inek.dataportal.psy.nub.helper.PsyNubRequestTemplateHelper;
 import org.primefaces.event.FileUploadEvent;
 
 import javax.annotation.PostConstruct;
@@ -49,9 +49,9 @@ public class NubSummary implements Serializable {
     private SessionController _sessionController;
     @Inject
     private ConfigFacade _configFacade;
-    private List<PsyNubProposal> _listComplete = new ArrayList<>();
-    private List<PsyNubProposal> _listWorking = new ArrayList<>();
-    private List<PsyNubProposal> _proposalsFromTemplateUploads = new ArrayList<>();
+    private List<PsyNubRequest> _listComplete = new ArrayList<>();
+    private List<PsyNubRequest> _listWorking = new ArrayList<>();
+    private List<PsyNubRequest> _requestFromTemplateUploads = new ArrayList<>();
 
     private String _selectedWorkingListCommand = "";
     private String _selectedCompleteListCommand = "";
@@ -78,23 +78,23 @@ public class NubSummary implements Serializable {
         this._selectedCompleteListCommand = selectedCompleteListCommand;
     }
 
-    public List<PsyNubProposal> getProposalsFromTemplateUploads() {
-        return _proposalsFromTemplateUploads;
+    public List<PsyNubRequest> getRequestsFromTemplateUploads() {
+        return _requestFromTemplateUploads;
     }
 
-    public List<PsyNubProposal> getListComplete() {
+    public List<PsyNubRequest> getListComplete() {
         return _listComplete;
     }
 
-    public void setListComplete(List<PsyNubProposal> listComplete) {
+    public void setListComplete(List<PsyNubRequest> listComplete) {
         this._listComplete = listComplete;
     }
 
-    public List<PsyNubProposal> getListWorking() {
+    public List<PsyNubRequest> getListWorking() {
         return _listWorking;
     }
 
-    public void setListWorking(List<PsyNubProposal> listWorking) {
+    public void setListWorking(List<PsyNubRequest> listWorking) {
         this._listWorking = listWorking;
     }
 
@@ -147,28 +147,28 @@ public class NubSummary implements Serializable {
         return _configFacade.readConfigBool(ConfigKey.IsPsyNubCreateEnabled);
     }
 
-    public void deletePsyNubProposal(PsyNubProposal proposal) {
-        if (deleteAllowed(proposal)) {
-            _psyNubFacade.delete(proposal);
+    public void deletePsyNubRequest(PsyNubRequest request) {
+        if (deleteAllowed(request)) {
+            _psyNubFacade.delete(request);
             setWorkingList();
         } else {
             DialogController.showAccessDeniedDialog();
         }
     }
 
-    public void retirePsyNubProposal(PsyNubProposal proposal) {
-        if (deleteAllowed(proposal)) {
-            proposal.setStatus(WorkflowStatus.Retired);
-            proposal.setLastModifiedAt(new Date());
-            proposal.setLastChangedByAccountId(_sessionController.getAccountId());
-            _psyNubFacade.save(proposal);
+    public void retirePsyNubRequest(PsyNubRequest request) {
+        if (deleteAllowed(request)) {
+            request.setStatus(WorkflowStatus.Retired);
+            request.setLastModifiedAt(new Date());
+            request.setLastChangedByAccountId(_sessionController.getAccountId());
+            _psyNubFacade.save(request);
             setCompleteList();
         } else {
             DialogController.showAccessDeniedDialog();
         }
     }
 
-    private Boolean deleteAllowed(PsyNubProposal proposal) {
+    private Boolean deleteAllowed(PsyNubRequest request) {
         // TODO prüfen ob Benutzer nub löschen darf
         return true;
     }
@@ -176,9 +176,9 @@ public class NubSummary implements Serializable {
     public void handleTemplateUpload(FileUploadEvent file) {
         try {
             String content = new String(file.getFile().getContents(), "UTF-8");
-            Optional<PsyNubProposal> newProposal = PsyNubProposalTemplateHelper.createNewProposalFromTemplate(content,
+            Optional<PsyNubRequest> request = PsyNubRequestTemplateHelper.createNewRequestFromTemplate(content,
                     _sessionController.getAccount());
-            _proposalsFromTemplateUploads.add(newProposal.get());
+            _requestFromTemplateUploads.add(request.get());
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error during template import: " + ex.getMessage());
             //TODO Fehlerhaftes einlesen abfangen
@@ -186,11 +186,11 @@ public class NubSummary implements Serializable {
     }
 
     public void createNubsFromTemplates() {
-        if (!_proposalsFromTemplateUploads.isEmpty()) {
-            for (PsyNubProposal proposal : _proposalsFromTemplateUploads) {
-                _psyNubFacade.save(proposal);
+        if (!_requestFromTemplateUploads.isEmpty()) {
+            for (PsyNubRequest request : _requestFromTemplateUploads) {
+                _psyNubFacade.save(request);
             }
-            _proposalsFromTemplateUploads.clear();
+            _requestFromTemplateUploads.clear();
             setWorkingList();
         } else {
             DialogController.showInfoDialog("Keine Vorlagen ausgewählt", "Bitte ladnen Sie mindesten eine Vorlage hoch, " +
@@ -199,17 +199,17 @@ public class NubSummary implements Serializable {
     }
 
     public void executeBatchWorkingList() {
-        if (_listWorking.stream().noneMatch(PsyNubProposal::getSelected)) {
+        if (_listWorking.stream().noneMatch(PsyNubRequest::getSelected)) {
             DialogController.showInfoDialog("Bitte eine NUB auswählen", "Bitte wählen Sie mindestens eine NUB aus");
             return;
         }
 
         switch (_selectedWorkingListCommand) {
             case "send":
-                sendAllSelectedProposals(_listWorking);
+                sendAllSelectedRequests(_listWorking);
                 break;
             case "print":
-                printAllSelectedProposals(_listWorking);
+                printAllSelectedRequests(_listWorking);
                 break;
             case "":
                 DialogController.showInfoDialog("Bitte eine Aktion auswählen", "Bitte wählen Sie eine Aktion aus");
@@ -222,17 +222,17 @@ public class NubSummary implements Serializable {
     }
 
     public void executeBatchSendList() {
-        if (_listComplete.stream().noneMatch(PsyNubProposal::getSelected)) {
+        if (_listComplete.stream().noneMatch(PsyNubRequest::getSelected)) {
             DialogController.showInfoDialog("Bitte eine NUB auswählen", "Bitte wählen Sie mindestens eine NUB aus");
             return;
         }
 
         switch (_selectedCompleteListCommand) {
             case "createNew":
-                createNewPsyProposalsFromSelectedProposals(_listComplete);
+                createNewPsyRequestFromSelectedRequests(_listComplete);
                 break;
             case "print":
-                printAllSelectedProposals(_listComplete);
+                printAllSelectedRequests(_listComplete);
                 break;
             case "":
                 DialogController.showInfoDialog("Bitte eine Aktion auswählen", "Bitte wählen Sie eine Aktion aus");
@@ -244,30 +244,30 @@ public class NubSummary implements Serializable {
         setCompleteList();
     }
 
-    private void createNewPsyProposalsFromSelectedProposals(List<PsyNubProposal> listComplete) {
+    private void createNewPsyRequestFromSelectedRequests(List<PsyNubRequest> requestList) {
         int counter = 0;
-        for (PsyNubProposal proposal : listComplete.stream().filter(PsyNubProposal::getSelected).collect(Collectors.toList())) {
-            PsyNubProposal newProposal = NewPsyNubProposalHelper.createNewPsyNubProposalFromPsyNubProposal(proposal, _sessionController.getAccount());
-            _psyNubFacade.save(newProposal);
+        for (PsyNubRequest request : requestList.stream().filter(PsyNubRequest::getSelected).collect(Collectors.toList())) {
+            PsyNubRequest newRequest = NewPsyNubRequestHelper.createNewPsyNubRequestFromPsyNubRequest(request, _sessionController.getAccount());
+            _psyNubFacade.save(newRequest);
             counter++;
         }
         DialogController.showInfoDialog("Verarbeitung beendet", "Es wurden erfolgreich " + counter + " NUB's übernommen");
     }
 
-    private void printAllSelectedProposals(List<PsyNubProposal> listWorking) {
+    private void printAllSelectedRequests(List<PsyNubRequest> requestList) {
         // TODO Print selected proposals
     }
 
-    private void sendAllSelectedProposals(List<PsyNubProposal> listProposals) {
+    private void sendAllSelectedRequests(List<PsyNubRequest> requestList) {
         int counter = 0;
         _errorMessages = "";
-        for (PsyNubProposal proposal : listProposals.stream().filter(PsyNubProposal::getSelected).collect(Collectors.toList())) {
-            if (proposalIsReadyForSend(proposal)) {
-                proposal.setStatus(WorkflowStatus.Accepted);
-                proposal.setLastModifiedAt(new Date());
-                proposal.setLastChangedByAccountId(_sessionController.getAccountId());
-                proposal.setSealedAt(new Date());
-                _psyNubFacade.save(proposal);
+        for (PsyNubRequest request : requestList.stream().filter(PsyNubRequest::getSelected).collect(Collectors.toList())) {
+            if (requestIsReadyForSend(request)) {
+                request.setStatus(WorkflowStatus.Accepted);
+                request.setLastModifiedAt(new Date());
+                request.setLastChangedByAccountId(_sessionController.getAccountId());
+                request.setSealedAt(new Date());
+                _psyNubFacade.save(request);
                 counter++;
             }
         }
@@ -277,8 +277,8 @@ public class NubSummary implements Serializable {
         DialogController.openDialogByName("errorMessageDialog");
     }
 
-    private boolean proposalIsReadyForSend(PsyNubProposal proposal) {
-        List<String> errors = PsyNubProposalChecker.checkPsyProposalForSend(proposal);
+    private boolean requestIsReadyForSend(PsyNubRequest proposal) {
+        List<String> errors = PsyNubRequestChecker.checkPsyRequestForSend(proposal);
         if (errors.isEmpty()) {
             return true;
         } else {

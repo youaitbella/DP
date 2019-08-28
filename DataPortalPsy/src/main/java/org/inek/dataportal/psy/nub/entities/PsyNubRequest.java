@@ -14,8 +14,8 @@ import java.time.ZoneOffset;
 import java.util.*;
 
 @Entity
-@Table(name = "PsyNubProposal", schema = "psy")
-public class PsyNubProposal implements Serializable {
+@Table(name = "NubRequest", schema = "psy")
+public class PsyNubRequest implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -119,36 +119,36 @@ public class PsyNubProposal implements Serializable {
     @Column(name = "nubEmail")
     private String _email = "";
 
-    @OneToOne(mappedBy = "_psyNubProposal", cascade = CascadeType.ALL)
-    private PsyNubProposalData _proposalData;
+    @OneToOne(mappedBy = "_psyNubRequest", cascade = CascadeType.ALL)
+    private PsyNubRequestData _requestData;
 
-    @OneToMany(mappedBy = "_psyNubProposal",
+    @OneToMany(mappedBy = "_psyNubRequest",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JoinColumn(name = "dvPsyNubProposalId")
-    private List<PsyNubProposalDateValue> _proposalDateValues = new ArrayList<>();
+    @JoinColumn(name = "dvNubRequestId")
+    private List<PsyNubRequestDateValue> _requestDateValues = new ArrayList<>();
 
-    @OneToMany(mappedBy = "_psyNubProposal",
+    @OneToMany(mappedBy = "_psyNubRequest",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JoinColumn(name = "nvPsyNubProposalId")
-    private List<PsyNubProposalNumberValue> _proposalNumberValues = new ArrayList<>();
+    @JoinColumn(name = "nvNubRequestId")
+    private List<PsyNubRequestNumberValue> _requestNumberValues = new ArrayList<>();
 
-    @OneToMany(mappedBy = "_psyNubProposal",
+    @OneToMany(mappedBy = "_psyNubRequest",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JoinColumn(name = "mvPsyNubProposalId")
-    private List<PsyNubProposalMoneyValue> _proposalMoneyValues = new ArrayList<>();
+    @JoinColumn(name = "mvNubRequestId")
+    private List<PsyNubRequestMoneyValue> _requestMoneyValues = new ArrayList<>();
 
-    @OneToMany(mappedBy = "_psyNubProposal",
+    @OneToMany(mappedBy = "_psyNubRequest",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    @JoinColumn(name = "npdNubProposalId")
-    private List<PsyNubProposalDocument> _proposalDocuments = new ArrayList<>();
+    @JoinColumn(name = "npdNubRequestId")
+    private List<PsyNubRequestDocument> _requestDocuments = new ArrayList<>();
 
     @Transient
     private Boolean _selected = false;
@@ -405,17 +405,17 @@ public class PsyNubProposal implements Serializable {
         this._email = email;
     }
 
-    public PsyNubProposalData getProposalData() {
-        return _proposalData;
+    public PsyNubRequestData getProposalData() {
+        return _requestData;
     }
 
-    public void setProposalData(PsyNubProposalData proposalData) {
-        proposalData.setPsyNubProposal(this);
-        this._proposalData = proposalData;
+    public void setRequestData(PsyNubRequestData requestData) {
+        requestData.setPsyNubRequest(this);
+        this._requestData = requestData;
     }
 
-    public PsyNubProposalDateValue getDateValue(PsyNubDateFields field) {
-        Optional<PsyNubProposalDateValue> first = _proposalDateValues.stream().filter(c -> c.getField().equals(field))
+    public PsyNubRequestDateValue getDateValue(PsyNubDateFields field) {
+        Optional<PsyNubRequestDateValue> first = _requestDateValues.stream().filter(c -> c.getField().equals(field))
                 .findFirst();
         if (first.isPresent()) {
             return first.get();
@@ -424,8 +424,8 @@ public class PsyNubProposal implements Serializable {
         }
     }
 
-    public PsyNubProposalNumberValue getNumberValue(PsyNubNumberFields field) {
-        Optional<PsyNubProposalNumberValue> first = _proposalNumberValues.stream().filter(c -> c.getField().equals(field))
+    public PsyNubRequestNumberValue getNumberValue(PsyNubNumberFields field) {
+        Optional<PsyNubRequestNumberValue> first = _requestNumberValues.stream().filter(c -> c.getField().equals(field))
                 .findFirst();
         if (first.isPresent()) {
             return first.get();
@@ -434,8 +434,8 @@ public class PsyNubProposal implements Serializable {
         }
     }
 
-    public PsyNubProposalMoneyValue getMoneyValue(PsyNubMoneyFields field) {
-        Optional<PsyNubProposalMoneyValue> first = _proposalMoneyValues.stream().filter(c -> c.getField().equals(field))
+    public PsyNubRequestMoneyValue getMoneyValue(PsyNubMoneyFields field) {
+        Optional<PsyNubRequestMoneyValue> first = _requestMoneyValues.stream().filter(c -> c.getField().equals(field))
                 .findFirst();
         if (first.isPresent()) {
             return first.get();
@@ -444,32 +444,32 @@ public class PsyNubProposal implements Serializable {
         }
     }
 
-    public void addNewPsyNubProposalDateValue(PsyNubProposalDateValue value) {
-        value.setPsyNubProposal(this);
-        _proposalDateValues.add(value);
+    public void addNewPsyNubProposalDateValue(PsyNubRequestDateValue value) {
+        value.setPsyNubRequest(this);
+        _requestDateValues.add(value);
     }
 
-    public void addNewPsyNubProposalMoneyValue(PsyNubProposalMoneyValue value) {
-        value.setPsyNubProposal(this);
-        _proposalMoneyValues.add(value);
+    public void addNewPsyNubProposalMoneyValue(PsyNubRequestMoneyValue value) {
+        value.setPsyNubRequest(this);
+        _requestMoneyValues.add(value);
     }
 
-    public void addNewPsyNubProposalNumberValue(PsyNubProposalNumberValue value) {
-        value.setPsyNubProposal(this);
-        _proposalNumberValues.add(value);
+    public void addNewPsyNubProposalNumberValue(PsyNubRequestNumberValue value) {
+        value.setPsyNubRequest(this);
+        _requestNumberValues.add(value);
     }
 
-    public void addDocument(PsyNubProposalDocument doc) {
-        doc.setPsyNubProposal(this);
-        _proposalDocuments.add(doc);
+    public void addDocument(PsyNubRequestDocument doc) {
+        doc.setPsyNubRequest(this);
+        _requestDocuments.add(doc);
     }
 
-    public void removeDocument(PsyNubProposalDocument doc) {
-        _proposalDocuments.remove(doc);
+    public void removeDocument(PsyNubRequestDocument doc) {
+        _requestDocuments.remove(doc);
     }
 
-    public List<PsyNubProposalDocument> getProposalDocuments() {
-        return _proposalDocuments;
+    public List<PsyNubRequestDocument> getProposalDocuments() {
+        return _requestDocuments;
     }
 
     @SuppressWarnings("checkstyle:CyclomaticComplexity")
@@ -477,7 +477,7 @@ public class PsyNubProposal implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PsyNubProposal that = (PsyNubProposal) o;
+        PsyNubRequest that = (PsyNubRequest) o;
         return _id == that._id &&
                 _version == that._version &&
                 _targetYear == that._targetYear &&

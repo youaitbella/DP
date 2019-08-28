@@ -2,7 +2,7 @@ package org.inek.dataportal.psy.nub.helper;
 
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.psy.nub.entities.PsyNubProposal;
+import org.inek.dataportal.psy.nub.entities.PsyNubRequest;
 import org.inek.dataportal.psy.nub.enums.PsyNubDateFields;
 import org.inek.dataportal.psy.nub.enums.PsyNubFieldKey;
 import org.inek.dataportal.psy.nub.enums.PsyNubNumberFields;
@@ -11,46 +11,46 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Optional;
 
-public class PsyNubProposalTemplateHelper implements Serializable {
+public class PsyNubRequestTemplateHelper implements Serializable {
 
-    public static String createTemplateContentFromPsyNubProposal(PsyNubProposal proposal, Account account) {
+    public static String createTemplateContentFromPsyNubRequest(PsyNubRequest request, Account account) {
         StringBuilder content = new StringBuilder();
 
-        appendLine(content, PsyNubFieldKey.Version, "" + proposal.getTargetYear());
+        appendLine(content, PsyNubFieldKey.Version, "" + request.getTargetYear());
         String helperId = encodeHelpId(account.getId());
         appendLine(content, PsyNubFieldKey.ID, helperId);
         String helperName = account.getTitle() + " " + account.getFirstName() + " " + account.getLastName();
         String helper = account.getCompany()
                 + "\r\n" + helperName.trim()
-                + "\r\n" + proposal.getProposalData().getFormFillHelper();
+                + "\r\n" + request.getProposalData().getFormFillHelper();
         appendLine(content, PsyNubFieldKey.Helper, helper);
-        appendLine(content, PsyNubFieldKey.DisplayName, proposal.getDisplayName());
-        appendLine(content, PsyNubFieldKey.Name, proposal.getName());
-        appendLine(content, PsyNubFieldKey.AltName, proposal.getAltName());
-        appendLine(content, PsyNubFieldKey.Description, proposal.getProposalData().getDescription());
-        appendLine(content, PsyNubFieldKey.HasNoProcs, "" + proposal.getProposalData().getHasNoProcs());
-        appendLine(content, PsyNubFieldKey.ProcCodes, proposal.getProposalData().getProcs());
-        appendLine(content, PsyNubFieldKey.ProcComment, proposal.getProposalData().getProcsComment());
-        appendLine(content, PsyNubFieldKey.Indication, proposal.getProposalData().getIndication());
-        appendLine(content, PsyNubFieldKey.Replacement, proposal.getProposalData().getReplacement());
-        appendLine(content, PsyNubFieldKey.WhatsNew, proposal.getProposalData().getWhatsNew());
-        appendLine(content, PsyNubFieldKey.Los, proposal.getProposalData().getLos());
-        appendLine(content, PsyNubFieldKey.InGermanySinceDate, proposal.getDateValue(PsyNubDateFields.IN_GERMANY).getDate());
-        appendLine(content, PsyNubFieldKey.InGermanySinceComment, proposal.getDateValue(PsyNubDateFields.IN_GERMANY).getComment());
-        appendLine(content, PsyNubFieldKey.MedApprovedDate, proposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).getDate());
-        appendLine(content, PsyNubFieldKey.MedApprovedComment, proposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).getComment());
+        appendLine(content, PsyNubFieldKey.DisplayName, request.getDisplayName());
+        appendLine(content, PsyNubFieldKey.Name, request.getName());
+        appendLine(content, PsyNubFieldKey.AltName, request.getAltName());
+        appendLine(content, PsyNubFieldKey.Description, request.getProposalData().getDescription());
+        appendLine(content, PsyNubFieldKey.HasNoProcs, "" + request.getProposalData().getHasNoProcs());
+        appendLine(content, PsyNubFieldKey.ProcCodes, request.getProposalData().getProcs());
+        appendLine(content, PsyNubFieldKey.ProcComment, request.getProposalData().getProcsComment());
+        appendLine(content, PsyNubFieldKey.Indication, request.getProposalData().getIndication());
+        appendLine(content, PsyNubFieldKey.Replacement, request.getProposalData().getReplacement());
+        appendLine(content, PsyNubFieldKey.WhatsNew, request.getProposalData().getWhatsNew());
+        appendLine(content, PsyNubFieldKey.Los, request.getProposalData().getLos());
+        appendLine(content, PsyNubFieldKey.InGermanySinceDate, request.getDateValue(PsyNubDateFields.IN_GERMANY).getDate());
+        appendLine(content, PsyNubFieldKey.InGermanySinceComment, request.getDateValue(PsyNubDateFields.IN_GERMANY).getComment());
+        appendLine(content, PsyNubFieldKey.MedApprovedDate, request.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).getDate());
+        appendLine(content, PsyNubFieldKey.MedApprovedComment, request.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).getComment());
         appendLine(content, PsyNubFieldKey.HospitalCountNumber,
-                String.valueOf(proposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).getNumber()));
-        appendLine(content, PsyNubFieldKey.HospitalCountComment, proposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).getComment());
-        appendLine(content, PsyNubFieldKey.PEPPs, proposal.getProposalData().getPepps());
-        appendLine(content, PsyNubFieldKey.WhyNotRepresented, proposal.getProposalData().getWhyNotRepresented());
+                String.valueOf(request.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).getNumber()));
+        appendLine(content, PsyNubFieldKey.HospitalCountComment, request.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).getComment());
+        appendLine(content, PsyNubFieldKey.PEPPs, request.getProposalData().getPepps());
+        appendLine(content, PsyNubFieldKey.WhyNotRepresented, request.getProposalData().getWhyNotRepresented());
         appendLine(content, PsyNubFieldKey.CheckSum, Utils.getChecksum(content.toString() + "Length=" + content.toString().length()));
         return content.toString();
     }
 
     @SuppressWarnings("checkstyle:JavaNCSS")
-    public static Optional<PsyNubProposal> createNewProposalFromTemplate(String template, Account account) {
-        PsyNubProposal newPsyNubProposal = NewPsyNubProposalHelper.createNewPsyNubProposal(account);
+    public static Optional<PsyNubRequest> createNewRequestFromTemplate(String template, Account account) {
+        PsyNubRequest newPsyNubRequest = NewPsyNubRequestHelper.createNewPsyNubRequest(account);
         if (checksumIsValid(template)) {
             String[] lines = template.split("[\\r\\n]+");
             for (String line : lines) {
@@ -63,67 +63,67 @@ public class PsyNubProposalTemplateHelper implements Serializable {
                         // might check version here
                         break;
                     case ID:
-                        newPsyNubProposal.setHelperId(decodeHelpId(content));
+                        newPsyNubRequest.setHelperId(decodeHelpId(content));
                         break;
                     case Helper:
-                        newPsyNubProposal.getProposalData().setFormFillHelper(restoreBreaks(content));
+                        newPsyNubRequest.getProposalData().setFormFillHelper(restoreBreaks(content));
                         break;
                     case Name:
-                        newPsyNubProposal.setName(restoreBreaks(content));
+                        newPsyNubRequest.setName(restoreBreaks(content));
                         break;
                     case DisplayName:
-                        newPsyNubProposal.setDisplayName(restoreBreaks(content));
+                        newPsyNubRequest.setDisplayName(restoreBreaks(content));
                         break;
                     case AltName:
-                        newPsyNubProposal.setAltName(restoreBreaks(content));
+                        newPsyNubRequest.setAltName(restoreBreaks(content));
                         break;
                     case Description:
-                        newPsyNubProposal.getProposalData().setDescription(restoreBreaks(content));
+                        newPsyNubRequest.getProposalData().setDescription(restoreBreaks(content));
                         break;
                     case HasNoProcs:
-                        newPsyNubProposal.getProposalData().setHasNoProcs(content.toLowerCase().equals("true"));
+                        newPsyNubRequest.getProposalData().setHasNoProcs(content.toLowerCase().equals("true"));
                         break;
                     case ProcCodes:
-                        newPsyNubProposal.getProposalData().setProcs(restoreBreaks(content));
+                        newPsyNubRequest.getProposalData().setProcs(restoreBreaks(content));
                         break;
                     case ProcComment:
-                        newPsyNubProposal.getProposalData().setProcsComment(restoreBreaks(content));
+                        newPsyNubRequest.getProposalData().setProcsComment(restoreBreaks(content));
                         break;
                     case Indication:
-                        newPsyNubProposal.getProposalData().setIndication(restoreBreaks(content));
+                        newPsyNubRequest.getProposalData().setIndication(restoreBreaks(content));
                         break;
                     case Replacement:
-                        newPsyNubProposal.getProposalData().setReplacement(restoreBreaks(content));
+                        newPsyNubRequest.getProposalData().setReplacement(restoreBreaks(content));
                         break;
                     case WhatsNew:
-                        newPsyNubProposal.getProposalData().setWhatsNew(restoreBreaks(content));
+                        newPsyNubRequest.getProposalData().setWhatsNew(restoreBreaks(content));
                         break;
                     case Los:
-                        newPsyNubProposal.getProposalData().setLos(restoreBreaks(content));
+                        newPsyNubRequest.getProposalData().setLos(restoreBreaks(content));
                         break;
                     case InGermanySinceDate:
-                        newPsyNubProposal.getDateValue(PsyNubDateFields.IN_GERMANY).setDate(restoreBreaks(content));
+                        newPsyNubRequest.getDateValue(PsyNubDateFields.IN_GERMANY).setDate(restoreBreaks(content));
                         break;
                     case InGermanySinceComment:
-                        newPsyNubProposal.getDateValue(PsyNubDateFields.IN_GERMANY).setComment(restoreBreaks(content));
+                        newPsyNubRequest.getDateValue(PsyNubDateFields.IN_GERMANY).setComment(restoreBreaks(content));
                         break;
                     case MedApprovedDate:
-                        newPsyNubProposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).setDate(restoreBreaks(content));
+                        newPsyNubRequest.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).setDate(restoreBreaks(content));
                         break;
                     case MedApprovedComment:
-                        newPsyNubProposal.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).setComment(restoreBreaks(content));
+                        newPsyNubRequest.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).setComment(restoreBreaks(content));
                         break;
                     case HospitalCountNumber:
-                        newPsyNubProposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).setNumber(Integer.parseInt(restoreBreaks(content)));
+                        newPsyNubRequest.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).setNumber(Integer.parseInt(restoreBreaks(content)));
                         break;
                     case HospitalCountComment:
-                        newPsyNubProposal.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).setComment(restoreBreaks(content));
+                        newPsyNubRequest.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).setComment(restoreBreaks(content));
                         break;
                     case PEPPs:
-                        newPsyNubProposal.getProposalData().setPepps(restoreBreaks(content));
+                        newPsyNubRequest.getProposalData().setPepps(restoreBreaks(content));
                         break;
                     case WhyNotRepresented:
-                        newPsyNubProposal.getProposalData().setWhyNotRepresented(restoreBreaks(content));
+                        newPsyNubRequest.getProposalData().setWhyNotRepresented(restoreBreaks(content));
                         break;
                     case CheckSum:
                         break;
@@ -134,7 +134,7 @@ public class PsyNubProposalTemplateHelper implements Serializable {
         } else {
             throw new IllegalArgumentException("Invalid checksum [PSY-NUB]");
         }
-        return Optional.of(newPsyNubProposal);
+        return Optional.of(newPsyNubRequest);
     }
 
     private static boolean checksumIsValid(String template) {
@@ -181,8 +181,8 @@ public class PsyNubProposalTemplateHelper implements Serializable {
         return helperId;
     }
 
-    public static String createFileName(PsyNubProposal psyNubProposal) {
-        return psyNubProposal.getName().replace("\r\n", " ").replace("\r", " ").replace("\n", " ") + ".nub";
+    public static String createFileName(PsyNubRequest psyNubRequest) {
+        return psyNubRequest.getName().replace("\r\n", " ").replace("\r", " ").replace("\n", " ") + ".nub";
     }
 }
 

@@ -11,7 +11,7 @@
         <h:message for="nubIndic" id="msgNubIndic" styleClass="errorMessage" />
         <br />
         <h:inputTextarea styleClass="areaWideHigh" id="nubIndic" readonly="#{nubEdit.readOnly}"
-                         value="#{nubEdit.psyNubProposal.proposalData.indication}" required="true"
+                         value="#{nubEdit.psyNubRequest.proposalData.indication}" required="true"
                          requiredMessage="Bitte geben Sie die Indikation an">
             <f:validator validatorId="PredominantPrintableAsciiValidator" />
             <f:ajax event="blur" render="@this :logout:remaining msgNubIndic" />
@@ -23,7 +23,7 @@
         <h:message for="nubReplacement" id="msgNubReplacement" styleClass="errorMessage" />
         <br />
         <h:inputTextarea styleClass="areaWideHigh" readonly="#{nubEdit.readOnly}" id="nubReplacement"
-                         value="#{nubEdit.psyNubProposal.proposalData.replacement}" required="true"
+                         value="#{nubEdit.psyNubRequest.proposalData.replacement}" required="true"
                          requiredMessage="Bitte geben Sie an, welche bestehende Methode ersetzt wird">
             <f:validator validatorId="PredominantPrintableAsciiValidator" />
             <f:ajax event="blur" render="@this :logout:remaining msgNubReplacement" />
@@ -35,7 +35,7 @@
         <h:message for="nubWhatsNew" id="msgNubWhatsNew" styleClass="errorMessage" />
         <br />
         <h:inputTextarea styleClass="areaWideHigh" readonly="#{nubEdit.readOnly}" id="nubWhatsNew"
-                         value="#{nubEdit.psyNubProposal.proposalData.whatsNew}" required="true"
+                         value="#{nubEdit.psyNubRequest.proposalData.whatsNew}" required="true"
                          requiredMessage="Bitte geben Sie an, warum es sich um eine neue Methode handelt">
             <f:validator validatorId="PredominantPrintableAsciiValidator" />
             <f:ajax event="blur" render="@this :logout:remaining msgNubWhatsNew" />
@@ -47,7 +47,7 @@
         <h:message for="nubLos" id="msgNubLos" styleClass="errorMessage" />
         <br />
         <h:inputTextarea styleClass="areaWideHigh" readonly="#{nubEdit.readOnly}" id="nubLos"
-                         value="#{nubEdit.psyNubProposal.proposalData.los}" required="false">
+                         value="#{nubEdit.psyNubRequest.proposalData.los}" required="false">
             <f:ajax event="blur" render="@this :logout:remaining msgNubLos" />
         </h:inputTextarea>
     </div>

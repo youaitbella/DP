@@ -13,8 +13,8 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.psy.nub.entities.PsyNubProposal;
-import org.inek.dataportal.psy.nub.entities.PsyNubProposalDocument;
+import org.inek.dataportal.psy.nub.entities.PsyNubRequest;
+import org.inek.dataportal.psy.nub.entities.PsyNubRequestDocument;
 import org.inek.dataportal.psy.nub.facade.PsyNubFacade;
 import org.inek.dataportal.psy.nub.helper.*;
 import org.primefaces.event.FileUploadEvent;
@@ -45,11 +45,11 @@ public class NubEdit {
     @Inject
     private SessionController _sessionController;
     @Inject
-    private PsyNubProposalHelper _psyNubProposalHelper;
+    private PsyNubRequestHelper _psyNubRequestHelper;
     @Inject
     private AccessManager _accessManager;
 
-    private PsyNubProposal _psyNubProposal;
+    private PsyNubRequest _psyNubRequest;
     private List<Integer> _allowedIks;
     private Boolean _readOnly;
 
@@ -61,8 +61,8 @@ public class NubEdit {
         return _readOnly;
     }
 
-    public PsyNubProposal getPsyNubProposal() {
-        return _psyNubProposal;
+    public PsyNubRequest getPsyNubRequest() {
+        return _psyNubRequest;
     }
 
     @PostConstruct
@@ -72,10 +72,10 @@ public class NubEdit {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
             return;
         } else if ("new".equals(id)) {
-            _psyNubProposal = createNewNubProposal();
+            _psyNubRequest = createNewNubRequest();
         } else {
             if (userHasAccess(Integer.parseInt(id))) {
-                _psyNubProposal = _psyNubFacade.findNubById(Integer.parseInt(id));
+                _psyNubRequest = _psyNubFacade.findNubById(Integer.parseInt(id));
             } else {
                 DialogController.showAccessDeniedDialog();
                 Utils.navigate(Pages.NubPsySummary.RedirectURL());
@@ -123,18 +123,18 @@ public class NubEdit {
         return true;
     }
 
-    private PsyNubProposal createNewNubProposal() {
-        return NewPsyNubProposalHelper.createNewPsyNubProposal(_sessionController.getAccount());
+    private PsyNubRequest createNewNubRequest() {
+        return NewPsyNubRequestHelper.createNewPsyNubRequest(_sessionController.getAccount());
     }
 
     public void ikChanged() {
-        _psyNubProposal.setIkName(_sessionController.getApplicationTools().retrieveHospitalName(_psyNubProposal.getIk()));
+        _psyNubRequest.setIkName(_sessionController.getApplicationTools().retrieveHospitalName(_psyNubRequest.getIk()));
     }
 
     public Boolean save() {
-        preparePsyNubProposalForSave();
-        _psyNubProposal = _psyNubFacade.save(_psyNubProposal);
-        if (_psyNubProposal.getStatus().equals(WorkflowStatus.New)) {
+        preparePsyNubRequestForSave();
+        _psyNubRequest = _psyNubFacade.save(_psyNubRequest);
+        if (_psyNubRequest.getStatus().equals(WorkflowStatus.New)) {
             DialogController.showSaveDialog();
         }
         return true;
@@ -142,7 +142,7 @@ public class NubEdit {
 
     public void send() {
         if (isReadyForSend()) {
-            preparePsyNubProposalForSend();
+            preparePsyNubRequestForSend();
             if (save()) {
                 DialogController.showSendDialog();
             }
@@ -152,18 +152,18 @@ public class NubEdit {
     }
 
     private boolean isReadyForSend() {
-        List<String> errorMessages = PsyNubProposalChecker.checkPsyProposalForSend(_psyNubProposal);
+        List<String> errorMessages = PsyNubRequestChecker.checkPsyRequestForSend(_psyNubRequest);
         return errorMessages.isEmpty();
     }
 
-    private void preparePsyNubProposalForSend() {
-        _psyNubProposal.setStatus(WorkflowStatus.Accepted);
-        _psyNubProposal.setSealedAt(new Date());
+    private void preparePsyNubRequestForSend() {
+        _psyNubRequest.setStatus(WorkflowStatus.Accepted);
+        _psyNubRequest.setSealedAt(new Date());
     }
 
-    private void preparePsyNubProposalForSave() {
-        _psyNubProposal.setLastModifiedAt(new Date());
-        _psyNubProposal.setLastChangedByAccountId(_sessionController.getAccountId());
+    private void preparePsyNubRequestForSave() {
+        _psyNubRequest.setLastModifiedAt(new Date());
+        _psyNubRequest.setLastChangedByAccountId(_sessionController.getAccountId());
     }
 
     private void formatProxyIks() {
@@ -171,23 +171,23 @@ public class NubEdit {
     }
 
     public void handleDocumentUpload(FileUploadEvent file) {
-        PsyNubProposalDocument doc = new PsyNubProposalDocument();
+        PsyNubRequestDocument doc = new PsyNubRequestDocument();
         doc.setName(file.getFile().getFileName());
         doc.setContent(file.getFile().getContents());
-        _psyNubProposal.addDocument(doc);
+        _psyNubRequest.addDocument(doc);
     }
 
-    public void removeDocument(PsyNubProposalDocument doc) {
-        _psyNubProposal.removeDocument(doc);
+    public void removeDocument(PsyNubRequestDocument doc) {
+        _psyNubRequest.removeDocument(doc);
     }
 
-    public StreamedContent downloadDocument(PsyNubProposalDocument doc) {
+    public StreamedContent downloadDocument(PsyNubRequestDocument doc) {
         ByteArrayInputStream stream = new ByteArrayInputStream(doc.getContent());
         return new DefaultStreamedContent(stream, "applikation/" + doc.getContentTyp(), doc.getName());
     }
 
     public void checkProxyIKs(FacesContext context, UIComponent component, Object value) {
-        String msg = _psyNubProposalHelper.checkProxyIKs(value.toString());
+        String msg = _psyNubRequestHelper.checkProxyIKs(value.toString());
         if (!msg.isEmpty()) {
             FacesMessage fmsg = new FacesMessage(msg);
             throw new ValidatorException(fmsg);
@@ -196,14 +196,14 @@ public class NubEdit {
     }
 
     public void checkPostalCode(FacesContext context, UIComponent component, Object value) {
-        if (!PsyNubProposalValueChecker.isValidPostalCode(value.toString())) {
+        if (!PsyNubRequestValueChecker.isValidPostalCode(value.toString())) {
             String msg = Utils.getMessage("errPostalCode");
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
 
     public void checkProcedureCodes(FacesContext context, UIComponent component, Object value) {
-        String invalidCodes = _psyNubProposalHelper.checkProcedureCodes(value.toString(), _psyNubProposal.getTargetYear());
+        String invalidCodes = _psyNubRequestHelper.checkProcedureCodes(value.toString(), _psyNubRequest.getTargetYear());
         if (invalidCodes.length() > 0) {
             FacesMessage msg = new FacesMessage(invalidCodes);
             throw new ValidatorException(msg);
@@ -211,14 +211,14 @@ public class NubEdit {
     }
 
     public void checkStringForValidDate(FacesContext facesContext, UIComponent uiComponent, Object o) {
-        if (!PsyNubProposalValueChecker.isValidStringForDateValue(o.toString())) {
+        if (!PsyNubRequestValueChecker.isValidStringForDateValue(o.toString())) {
             String msg = "Das Datum hat ein ungültiges Format (MM/YY)";
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
 
     public void checkPepps(FacesContext facesContext, UIComponent uiComponent, Object o) {
-        String invalidPepps = PsyNubProposalValueChecker.checkPeppString(o.toString());
+        String invalidPepps = PsyNubRequestValueChecker.checkPeppString(o.toString());
         if (invalidPepps.length() > 0) {
             FacesMessage msg = new FacesMessage(invalidPepps);
             throw new ValidatorException(msg);
@@ -226,9 +226,9 @@ public class NubEdit {
     }
 
     public void createTemplateFromNubAndDownload() {
-        if (!_psyNubProposal.getName().isEmpty()) {
-            String content = PsyNubProposalTemplateHelper.createTemplateContentFromPsyNubProposal(_psyNubProposal, _sessionController.getAccount());
-            String name = PsyNubProposalTemplateHelper.createFileName(_psyNubProposal);
+        if (!_psyNubRequest.getName().isEmpty()) {
+            String content = PsyNubRequestTemplateHelper.createTemplateContentFromPsyNubRequest(_psyNubRequest, _sessionController.getAccount());
+            String name = PsyNubRequestTemplateHelper.createFileName(_psyNubRequest);
             Utils.downloadText(content, name, "UTF-8");
         } else {
             DialogController.showInfoDialog("Vorlage erstellen nicht möglich", "Bitte geben Sie der NUB einen Namen, " +

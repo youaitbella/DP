@@ -2,78 +2,77 @@ package org.inek.dataportal.psy.nub.facade;
 
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.psy.nub.entities.PsyNubProposal;
+import org.inek.dataportal.psy.nub.entities.PsyNubRequest;
 
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Stateless
 public class PsyNubFacade extends AbstractDataAccess {
 
     @Transactional
-    public PsyNubProposal save(PsyNubProposal proposal) {
-        if (proposal.getId() == -1) {
-            persist(proposal);
-            return proposal;
+    public PsyNubRequest save(PsyNubRequest request) {
+        if (request.getId() == -1) {
+            persist(request);
+            return request;
         }
-        return merge(proposal);
+        return merge(request);
     }
 
-    public PsyNubProposal findNubById(int nubId) {
-        String jpql = "select nub from PsyNubProposal nub where nub._id = :id";
-        TypedQuery<PsyNubProposal> query = getEntityManager().createQuery(jpql, PsyNubProposal.class);
+    public PsyNubRequest findNubById(int nubId) {
+        String jpql = "select nub from PsyNubRequest nub where nub._id = :id";
+        TypedQuery<PsyNubRequest> query = getEntityManager().createQuery(jpql, PsyNubRequest.class);
         query.setParameter("id", nubId);
         return query.getSingleResult();
     }
 
-    public List<PsyNubProposal> findAllByAccountIdAndNoIk(int accountId, WorkflowStatus status) {
+    public List<PsyNubRequest> findAllByAccountIdAndNoIk(int accountId, WorkflowStatus status) {
         List<WorkflowStatus> statuse = new ArrayList<>();
         statuse.add(status);
         return findAllByAccountIdAndNoIk(accountId, statuse);
     }
 
-    public List<PsyNubProposal> findAllByAccountIdAndNoIk(int accountId, List<WorkflowStatus> status) {
-        String jpql = "select nub from PsyNubProposal nub where nub._ik = 0 and nub._createdByAccountId = :id and nub._status in :state";
-        TypedQuery<PsyNubProposal> query = getEntityManager().createQuery(jpql, PsyNubProposal.class);
+    public List<PsyNubRequest> findAllByAccountIdAndNoIk(int accountId, List<WorkflowStatus> status) {
+        String jpql = "select nub from PsyNubRequest nub where nub._ik = 0 and nub._createdByAccountId = :id and nub._status in :state";
+        TypedQuery<PsyNubRequest> query = getEntityManager().createQuery(jpql, PsyNubRequest.class);
         query.setParameter("id", accountId);
         query.setParameter("state", status);
         return query.getResultList();
     }
 
-    public List<PsyNubProposal> findAllByIkAndStatus(Integer ik, WorkflowStatus status) {
+    public List<PsyNubRequest> findAllByIkAndStatus(Integer ik, WorkflowStatus status) {
         List<WorkflowStatus> statuse = new ArrayList<>();
         statuse.add(status);
         return findAllByIkAndStatus(ik, statuse);
     }
 
-    public List<PsyNubProposal> findAllByIkAndStatus(Integer ik, List<WorkflowStatus> status) {
-        String jpql = "select nub from PsyNubProposal nub where nub._ik = :ik and nub._status in :status";
-        TypedQuery<PsyNubProposal> query = getEntityManager().createQuery(jpql, PsyNubProposal.class);
+    public List<PsyNubRequest> findAllByIkAndStatus(Integer ik, List<WorkflowStatus> status) {
+        String jpql = "select nub from PsyNubRequest nub where nub._ik = :ik and nub._status in :status";
+        TypedQuery<PsyNubRequest> query = getEntityManager().createQuery(jpql, PsyNubRequest.class);
         query.setParameter("status", status);
         query.setParameter("ik", ik);
         return query.getResultList();
     }
 
-    public List<PsyNubProposal> findAllByAccountIdAndIkAndStatus(int accountId, Integer ik, WorkflowStatus status) {
+    public List<PsyNubRequest> findAllByAccountIdAndIkAndStatus(int accountId, Integer ik, WorkflowStatus status) {
         List<WorkflowStatus> statuse = new ArrayList<>();
         statuse.add(status);
         return findAllByAccountIdAndIkAndStatus(accountId, ik, statuse);
     }
 
-    public List<PsyNubProposal> findAllByAccountIdAndIkAndStatus(int accountId, Integer ik, List<WorkflowStatus> status) {
-        String jpql = "select nub from PsyNubProposal nub where nub._ik = :ik and nub._createdByAccountId = :id and nub._status in :status";
-        TypedQuery<PsyNubProposal> query = getEntityManager().createQuery(jpql, PsyNubProposal.class);
+    public List<PsyNubRequest> findAllByAccountIdAndIkAndStatus(int accountId, Integer ik, List<WorkflowStatus> status) {
+        String jpql = "select nub from PsyNubRequest nub where nub._ik = :ik and nub._createdByAccountId = :id and nub._status in :status";
+        TypedQuery<PsyNubRequest> query = getEntityManager().createQuery(jpql, PsyNubRequest.class);
         query.setParameter("status", status);
         query.setParameter("ik", ik);
         query.setParameter("id", accountId);
         return query.getResultList();
     }
 
-    public void delete(PsyNubProposal proposal) {
-        remove(proposal);
+    public void delete(PsyNubRequest request) {
+        remove(request);
     }
 }

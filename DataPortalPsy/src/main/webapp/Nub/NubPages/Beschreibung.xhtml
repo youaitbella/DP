@@ -10,7 +10,7 @@
         <h:outputLabel styleClass="label" for="nubName" value="#{msg.lblNubName}" />
         <h:message for="nubName" id="msgNubName" styleClass="errorMessage" />
         <br />
-        <h:inputTextarea styleClass="areaWideLow fullWidth" id="nubName" value="#{nubEdit.psyNubProposal.name}"
+        <h:inputTextarea styleClass="areaWideLow fullWidth" id="nubName" value="#{nubEdit.psyNubRequest.name}"
                          required="true" requiredMessage="Bitte geben Sie den Namen der NUB an"
                          readonly="#{nubEdit.readOnly}">
             <f:validator validatorId="PredominantPrintableAsciiValidator" />
@@ -23,7 +23,7 @@
         <h:outputLabel styleClass="label" for="nubAltName" value="#{msg.lblNubAltName}" />
         <h:message for="nubAltName" id="msgNubAltName" styleClass="errorMessage" />
         <br />
-        <h:inputTextarea styleClass="areaWideLow fullWidth" id="nubAltName" value="#{nubEdit.psyNubProposal.altName}"
+        <h:inputTextarea styleClass="areaWideLow fullWidth" id="nubAltName" value="#{nubEdit.psyNubRequest.altName}"
                          required="false" readonly="#{nubEdit.readOnly}">
             <f:validateLength maximum="1000" />
             <f:ajax event="blur" render="@this :logout:remaining msgNubAltName" />
@@ -37,7 +37,7 @@
         <h:message for="nubDescription" id="msgNubDescription" styleClass="errorMessage" />
         <br />
         <h:inputTextarea styleClass="areaWideHigh fullWidth" id="nubDescription"
-                         value="#{nubEdit.psyNubProposal.proposalData.description}"
+                         value="#{nubEdit.psyNubRequest.proposalData.description}"
                          required="true" requiredMessage="Bitte geben Sie die Beschreibung der NUB an"
                          readonly="#{nubEdit.readOnly}">
             <f:validator validatorId="PredominantPrintableAsciiValidator" />
@@ -50,13 +50,13 @@
         <h:message for="nubProcedures" id="msgCheckProcs" styleClass="errorMessage" />
         <h:inputTextarea styleClass="areaNarrowLow fullWidth " id="nubProcedures"
                          readonly="#{nubEdit.readOnly}"
-                         value="#{nubEdit.psyNubProposal.proposalData.procs}"
-                         required="#{!nubEdit.psyNubProposal.proposalData.hasNoProcs}"
+                         value="#{nubEdit.psyNubRequest.proposalData.procs}"
+                         required="#{!nubEdit.psyNubRequest.proposalData.hasNoProcs}"
                          validator="#{nubEdit.checkProcedureCodes}">
             <f:validateLength maximum="500" />
             <f:ajax event="change" render="@this msgCheckProcs" />
         </h:inputTextarea>
-        <h:selectBooleanCheckbox id="noProc" value="#{nubEdit.psyNubProposal.proposalData.hasNoProcs}"
+        <h:selectBooleanCheckbox id="noProc" value="#{nubEdit.psyNubRequest.proposalData.hasNoProcs}"
                                  readonly="#{nubEdit.readOnly}" styleClass="marginRight marginTop">
             <f:ajax event="click" render="@this :logout:remaining nubProcedures nubProceduresText" />
         </h:selectBooleanCheckbox>
@@ -75,7 +75,7 @@
         <h:outputLabel styleClass="label" for="nubProceduresText" value="#{msg.lblNubProceduresText}" />
         <br />
         <h:inputTextarea styleClass="areaWideHigh" id="nubProceduresText"
-                         value="#{nubEdit.psyNubProposal.proposalData.procsComment}"
+                         value="#{nubEdit.psyNubRequest.proposalData.procsComment}"
                          readonly="#{nubEdit.readOnly}">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>

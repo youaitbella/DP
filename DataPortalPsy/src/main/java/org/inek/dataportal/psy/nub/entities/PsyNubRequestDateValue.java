@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PsyNubProposalDateValue", schema = "psy")
-public class PsyNubProposalDateValue implements Serializable {
+@Table(name = "NubRequestDateValue", schema = "psy")
+public class PsyNubRequestDateValue implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +17,8 @@ public class PsyNubProposalDateValue implements Serializable {
     private int _id;
 
     @ManyToOne
-    @JoinColumn(name = "dvPsyNubProposalId")
-    private PsyNubProposal _psyNubProposal;
+    @JoinColumn(name = "dvNubRequestId")
+    private PsyNubRequest _psyNubRequest;
 
     @Column(name = "dvDate")
     private String _date = "";
@@ -38,12 +38,12 @@ public class PsyNubProposalDateValue implements Serializable {
         this._id = id;
     }
 
-    public PsyNubProposal getPsyNubProposal() {
-        return _psyNubProposal;
+    public PsyNubRequest getPsyNubRequest() {
+        return _psyNubRequest;
     }
 
-    public void setPsyNubProposal(PsyNubProposal psyNubProposal) {
-        this._psyNubProposal = psyNubProposal;
+    public void setPsyNubRequest(PsyNubRequest psyNubRequest) {
+        this._psyNubRequest = psyNubRequest;
     }
 
     public String getDate() {
@@ -74,9 +74,9 @@ public class PsyNubProposalDateValue implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PsyNubProposalDateValue that = (PsyNubProposalDateValue) o;
+        PsyNubRequestDateValue that = (PsyNubRequestDateValue) o;
         return _id == that._id &&
-                Objects.equals(_psyNubProposal, that._psyNubProposal) &&
+                Objects.equals(_psyNubRequest, that._psyNubRequest) &&
                 Objects.equals(_date, that._date) &&
                 Objects.equals(_comment, that._comment) &&
                 _field == that._field;
@@ -84,6 +84,6 @@ public class PsyNubProposalDateValue implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _psyNubProposal, _date, _comment, _field);
+        return Objects.hash(_id, _psyNubRequest, _date, _comment, _field);
     }
 }

@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PsyNubProposalDocument", schema = "psy")
-public class PsyNubProposalDocument implements Serializable {
+@Table(name = "NubRequestDocument", schema = "psy")
+public class PsyNubRequestDocument implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,8 +15,8 @@ public class PsyNubProposalDocument implements Serializable {
     private int _id;
 
     @ManyToOne
-    @JoinColumn(name = "npdPsyNubProposalId")
-    private PsyNubProposal _psyNubProposal;
+    @JoinColumn(name = "npdNubRequestId")
+    private PsyNubRequest _psyNubRequest;
 
     @Column(name = "npdName")
     private String _name = "";
@@ -34,12 +34,12 @@ public class PsyNubProposalDocument implements Serializable {
         this._id = id;
     }
 
-    public PsyNubProposal getPsyNubProposal() {
-        return _psyNubProposal;
+    public PsyNubRequest getPsyNubRequest() {
+        return _psyNubRequest;
     }
 
-    public void setPsyNubProposal(PsyNubProposal psyNubProposal) {
-        this._psyNubProposal = psyNubProposal;
+    public void setPsyNubRequest(PsyNubRequest psyNubRequest) {
+        this._psyNubRequest = psyNubRequest;
     }
 
     public String getName() {
@@ -67,16 +67,16 @@ public class PsyNubProposalDocument implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PsyNubProposalDocument that = (PsyNubProposalDocument) o;
+        PsyNubRequestDocument that = (PsyNubRequestDocument) o;
         return _id == that._id &&
-                Objects.equals(_psyNubProposal, that._psyNubProposal) &&
+                Objects.equals(_psyNubRequest, that._psyNubRequest) &&
                 Objects.equals(_name, that._name) &&
                 Arrays.equals(_content, that._content);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(_id, _psyNubProposal, _name);
+        int result = Objects.hash(_id, _psyNubRequest, _name);
         result = 31 * result + Arrays.hashCode(_content);
         return result;
     }

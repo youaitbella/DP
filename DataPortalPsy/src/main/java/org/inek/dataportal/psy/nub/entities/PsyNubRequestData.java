@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PsyNubProposalData", schema = "psy")
-public class PsyNubProposalData implements Serializable {
+@Table(name = "NubRequestData", schema = "psy")
+public class PsyNubRequestData implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,8 +15,8 @@ public class PsyNubProposalData implements Serializable {
     private int _id;
 
     @OneToOne
-    @JoinColumn(name = "npdPsyNubProposalId")
-    private PsyNubProposal _psyNubProposal;
+    @JoinColumn(name = "npdNubRequestId")
+    private PsyNubRequest _psyNubRequest;
 
     @Column(name = "npdProxyIKs")
     private String _proxyIks = "";
@@ -71,12 +71,12 @@ public class PsyNubProposalData implements Serializable {
         this._id = id;
     }
 
-    public PsyNubProposal getPsyNubProposal() {
-        return _psyNubProposal;
+    public PsyNubRequest getPsyNubRequest() {
+        return _psyNubRequest;
     }
 
-    public void setPsyNubProposal(PsyNubProposal psyNubProposal) {
-        this._psyNubProposal = psyNubProposal;
+    public void setPsyNubRequest(PsyNubRequest psyNubRequest) {
+        this._psyNubRequest = psyNubRequest;
     }
 
     public String getProxyIks() {
@@ -204,9 +204,9 @@ public class PsyNubProposalData implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PsyNubProposalData that = (PsyNubProposalData) o;
+        PsyNubRequestData that = (PsyNubRequestData) o;
         return _id == that._id &&
-                Objects.equals(_psyNubProposal, that._psyNubProposal) &&
+                Objects.equals(_psyNubRequest, that._psyNubRequest) &&
                 Objects.equals(_proxyIks, that._proxyIks) &&
                 Objects.equals(_formFillHelper, that._formFillHelper) &&
                 Objects.equals(_userComment, that._userComment) &&
@@ -226,7 +226,7 @@ public class PsyNubProposalData implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _psyNubProposal, _proxyIks, _formFillHelper, _userComment, _description,
+        return Objects.hash(_id, _psyNubRequest, _proxyIks, _formFillHelper, _userComment, _description,
                 _procs, _hasNoProcs, _procsComment, _indication, _replacement, _whatsNew, _los, _pepps,
                 _whyNotRepresented, _formerRequest, _formerExternalId);
     }

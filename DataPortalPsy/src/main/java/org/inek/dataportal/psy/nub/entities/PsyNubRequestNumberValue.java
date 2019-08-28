@@ -1,8 +1,6 @@
 package org.inek.dataportal.psy.nub.entities;
 
-import org.inek.dataportal.psy.nub.converter.PsyNubMoneyFieldsConverter;
 import org.inek.dataportal.psy.nub.converter.PsyNubNumberFieldsConverter;
-import org.inek.dataportal.psy.nub.enums.PsyNubMoneyFields;
 import org.inek.dataportal.psy.nub.enums.PsyNubNumberFields;
 
 import javax.persistence.*;
@@ -10,8 +8,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "PsyNubProposalNumberValue", schema = "psy")
-public class PsyNubProposalNumberValue implements Serializable {
+@Table(name = "NubRequestNumberValue", schema = "psy")
+public class PsyNubRequestNumberValue implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +17,8 @@ public class PsyNubProposalNumberValue implements Serializable {
     private int _id;
 
     @ManyToOne
-    @JoinColumn(name = "nvPsyNubProposalId")
-    private PsyNubProposal _psyNubProposal;
+    @JoinColumn(name = "nvNubRequestId")
+    private PsyNubRequest _psyNubRequest;
 
     @Column(name = "nvNumber")
     private int _number;
@@ -40,12 +38,12 @@ public class PsyNubProposalNumberValue implements Serializable {
         this._id = id;
     }
 
-    public PsyNubProposal getPsyNubProposal() {
-        return _psyNubProposal;
+    public PsyNubRequest getPsyNubRequest() {
+        return _psyNubRequest;
     }
 
-    public void setPsyNubProposal(PsyNubProposal psyNubProposal) {
-        this._psyNubProposal = psyNubProposal;
+    public void setPsyNubRequest(PsyNubRequest psyNubRequest) {
+        this._psyNubRequest = psyNubRequest;
     }
 
     public int getNumber() {
@@ -76,16 +74,16 @@ public class PsyNubProposalNumberValue implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PsyNubProposalNumberValue that = (PsyNubProposalNumberValue) o;
+        PsyNubRequestNumberValue that = (PsyNubRequestNumberValue) o;
         return _id == that._id &&
                 Double.compare(that._number, _number) == 0 &&
-                Objects.equals(_psyNubProposal, that._psyNubProposal) &&
+                Objects.equals(_psyNubRequest, that._psyNubRequest) &&
                 Objects.equals(_comment, that._comment) &&
                 _field == that._field;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _psyNubProposal, _number, _comment, _field);
+        return Objects.hash(_id, _psyNubRequest, _number, _comment, _field);
     }
 }

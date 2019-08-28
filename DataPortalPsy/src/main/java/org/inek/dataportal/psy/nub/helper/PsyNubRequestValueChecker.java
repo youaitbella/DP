@@ -4,7 +4,7 @@ import org.inek.dataportal.common.data.KhComparison.checker.RenumerationChecker;
 
 import java.io.Serializable;
 
-public class PsyNubProposalValueChecker implements Serializable {
+public class PsyNubRequestValueChecker implements Serializable {
 
     public static boolean isValidPostalCode(String value) {
         try {

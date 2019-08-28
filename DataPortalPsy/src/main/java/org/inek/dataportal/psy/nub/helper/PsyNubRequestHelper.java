@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Named
 @SessionScoped
-public class PsyNubProposalHelper implements Serializable {
+public class PsyNubRequestHelper implements Serializable {
 
     @Inject
     private CustomerFacade _customerFacade;

@@ -71,7 +71,7 @@
                                 </pf:selectBooleanCheckbox>
                             </pf:column>
                             <pf:column class="colIcon">
-                                <pf:commandLink action="#{nubSummary.deletePsyNubProposal(proposal)}"
+                                <pf:commandLink action="#{nubSummary.deletePsyNubRequest(proposal)}"
                                                 update="erfassungtable"
                                                 process="@this">
                                     <pf:confirm header="Wollen Sie den Eintrag wirklich löschen?"
@@ -171,7 +171,7 @@
 
                     <pf:dataTable id="listTemplates"
                                   styleClass="inekTablePsy"
-                                  value="#{nubSummary.proposalsFromTemplateUploads}"
+                                  value="#{nubSummary.requestsFromTemplateUploads}"
                                   emptyMessage="Noch keine Templates hochgeladen"
                                   var="proposal">
                         <pf:column headerText="NUB">
@@ -209,7 +209,7 @@
                             </pf:column>
 
                             <pf:column class="colIcon">
-                                <pf:commandLink action="#{nubSummary.retirePsyNubProposal(proposal)}"
+                                <pf:commandLink action="#{nubSummary.retirePsyNubRequest(proposal)}"
                                                 rendered="#{proposal.status.id ne 200}"
                                                 update="sendtable"
                                                 process="@this">

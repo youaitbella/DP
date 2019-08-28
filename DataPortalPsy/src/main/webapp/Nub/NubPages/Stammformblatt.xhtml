@@ -11,17 +11,17 @@
             <h:outputLabel styleClass="label" for="displayName" value="#{msg.lblDisplayName}:" />
             <br />
             <h:inputText styleClass="inputwide" maxlength="200" id="displayName"
-                         value="#{nubEdit.psyNubProposal.displayName}"
+                         value="#{nubEdit.psyNubRequest.displayName}"
                          title="#{msg.titleAppellation}"
                          readonly="#{nubEdit.readOnly}">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:panelGroup>
-        <h:panelGroup class="inputPart" rendered="#{nubEdit.psyNubProposal.externalStatus ne ''}">
+        <h:panelGroup class="inputPart" rendered="#{nubEdit.psyNubRequest.externalStatus ne ''}">
             <h:outputLabel styleClass="label" for="nubExState" value="#{msg.lblNubStatus}:" />
             <br />
             <h:inputText styleClass="inputshort" id="nubExState"
-                         value="#{nubEdit.psyNubProposal.externalStatus}"
+                         value="#{nubEdit.psyNubRequest.externalStatus}"
                          readonly="true" />
         </h:panelGroup>
     </h:panelGrid>
@@ -29,7 +29,7 @@
     <div class="inputPart">
         <inek:MultiIk label="#{msg.lblIkShort}"
                       required="false"
-                      value="#{nubEdit.psyNubProposal.ik}"
+                      value="#{nubEdit.psyNubRequest.ik}"
                       readonly="#{nubEdit.readOnly}"
                       listener="#{nubEdit.ikChanged}"
                       ikList="#{nubEdit.allowedIks}" />
@@ -40,7 +40,7 @@
         <h:message for="khName" id="msgNubKhName" styleClass="errorMessage" />
         <br />
         <h:inputText styleClass="inputlong" readonly="#{nubEdit.readOnly}" maxlength="100" id="khName"
-                     value="#{nubEdit.psyNubProposal.ikName}" required="true"
+                     value="#{nubEdit.psyNubRequest.ikName}" required="true"
                      requiredMessage="Bitte geben Sie einen Krankenhausnamen an">
             <f:ajax event="blur" render="@this :logout:remaining msgNubKhName" />
         </h:inputText>
@@ -54,7 +54,7 @@
                 <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}" />
                 <h:message id="msgGender" for="cbxGender" styleClass="errorMessage" />
                 <br />
-                <h:selectOneMenu styleClass="inputmedium" id="cbxGender" value="#{nubEdit.psyNubProposal.gender}"
+                <h:selectOneMenu styleClass="inputmedium" id="cbxGender" value="#{nubEdit.psyNubRequest.gender}"
                                  required="true"
                                  readonly="#{nubEdit.readOnly}"
                                  requiredMessage="Bitte wählen Sie ein Geschlecht">
@@ -65,7 +65,7 @@
             <h:panelGroup>
                 <h:outputLabel styleClass="label" for="title" value="#{msg.lblTitle}" />
                 <br />
-                <h:inputText styleClass="inputmedium" id="title" value="#{nubEdit.psyNubProposal.title}"
+                <h:inputText styleClass="inputmedium" id="title" value="#{nubEdit.psyNubRequest.title}"
                              required="false" maxlength="50" readonly="#{nubEdit.readOnly}">
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>
@@ -77,7 +77,7 @@
         <h:outputLabel styleClass="label" for="firstname" value="#{msg.lblFirstName}:" />
         <h:message for="firstname" id="msgFirstname" styleClass="errorMessage" />
         <br />
-        <h:inputText styleClass="inputlong" id="firstname" value="#{nubEdit.psyNubProposal.firstName}"
+        <h:inputText styleClass="inputlong" id="firstname" value="#{nubEdit.psyNubRequest.firstName}"
                      required="true"
                      readonly="#{nubEdit.readOnly}"
                      requiredMessage="Bitte geben Sie einen Vornamen an"
@@ -90,7 +90,7 @@
         <h:outputLabel styleClass="label" for="lastname" value="#{msg.lblLastName}:" />
         <h:message id="msgLastname" for="lastname" styleClass="errorMessage" />
         <br />
-        <h:inputText styleClass="inputlong" id="lastname" value="#{nubEdit.psyNubProposal.lastName}"
+        <h:inputText styleClass="inputlong" id="lastname" value="#{nubEdit.psyNubRequest.lastName}"
                      required="true"
                      readonly="#{nubEdit.readOnly}"
                      requiredMessage="Bitte geben Sie einen Nachnamen an"
@@ -103,7 +103,7 @@
         <h:outputLabel styleClass="label" for="division" value="#{msg.lblDivision}:" />
         <h:message id="msgDivision" for="division" styleClass="errorMessage" />
         <br />
-        <h:inputText styleClass="inputlong" id="division" value="#{nubEdit.psyNubProposal.division}"
+        <h:inputText styleClass="inputlong" id="division" value="#{nubEdit.psyNubRequest.division}"
                      required="false"
                      readonly="#{nubEdit.readOnly}"
                      maxlength="50">
@@ -115,7 +115,7 @@
         <h:outputLabel styleClass="label" for="contactRole" value="#{msg.lblContactRole}:" />
         <h:message id="msgContactRole" for="contactRole" styleClass="errorMessage" />
         <br />
-        <h:selectOneMenu styleClass="inputlong" id="contactRole" value="#{nubEdit.psyNubProposal.roleId}"
+        <h:selectOneMenu styleClass="inputlong" id="contactRole" value="#{nubEdit.psyNubRequest.roleId}"
                          required="true"
                          readonly="#{nubEdit.readOnly}"
                          requiredMessage="Bitte geben Sie eine Funktion an">
@@ -128,7 +128,7 @@
         <h:outputLabel styleClass="label" for="street" value="#{msg.lblStreet}:" />
         <h:message id="msgStreet" for="street" styleClass="errorMessage" />
         <br />
-        <h:inputText styleClass="inputlong" id="street" value="#{nubEdit.psyNubProposal.street}"
+        <h:inputText styleClass="inputlong" id="street" value="#{nubEdit.psyNubRequest.street}"
                      required="true"
                      readonly="#{nubEdit.readOnly}"
                      requiredMessage="Bitte geben Sie eine Straße an"
@@ -143,7 +143,7 @@
             <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:" />
             <h:message id="msgZip" for="zip" styleClass="errorMessage" />
             <br />
-            <h:inputText styleClass="inputshort" id="zip" value="#{nubEdit.psyNubProposal.postalCode}"
+            <h:inputText styleClass="inputshort" id="zip" value="#{nubEdit.psyNubRequest.postalCode}"
                          required="true"
                          readonly="#{nubEdit.readOnly}"
                          requiredMessage="Bitte geben Sie eine PLZ an"
@@ -158,7 +158,7 @@
             <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:" />
             <h:message id="msgTown" for="town" styleClass="errorMessage" />
             <br />
-            <h:inputText styleClass="inputwide" id="town" value="#{nubEdit.psyNubProposal.town}"
+            <h:inputText styleClass="inputwide" id="town" value="#{nubEdit.psyNubRequest.town}"
                          required="true"
                          readonly="#{nubEdit.readOnly}"
                          requiredMessage="Bitte geben Sie eine Stadt an"
@@ -172,7 +172,7 @@
             <h:outputLabel styleClass="label" for="phone" value="#{msg.lblPhone}:" />
             <h:message id="msgPhone" for="phone" styleClass="errorMessage" />
             <br />
-            <h:inputText styleClass="inputlong" id="phone" value="#{nubEdit.psyNubProposal.phone}"
+            <h:inputText styleClass="inputlong" id="phone" value="#{nubEdit.psyNubRequest.phone}"
                          required="true"
                          readonly="#{nubEdit.readOnly}"
                          requiredMessage="Bitte geben Sie eine Telefonnummer an"
@@ -186,7 +186,7 @@
             <h:outputLabel styleClass="label" for="fax" value="#{msg.lblFax}:" />
             <h:message id="msgFax" for="fax" styleClass="errorMessage" />
             <br />
-            <h:inputText styleClass="inputmedium" id="fax" value="#{nubEdit.psyNubProposal.fax}"
+            <h:inputText styleClass="inputmedium" id="fax" value="#{nubEdit.psyNubRequest.fax}"
                          required="false"
                          readonly="#{nubEdit.readOnly}"
                          maxlength="50">
@@ -200,7 +200,7 @@
         <h:outputLabel styleClass="label" for="email" value="#{msg.lblMail}:" />
         <h:message for="email" id="msgEmail" styleClass="errorMessage" />
         <br />
-        <h:inputText styleClass="inputlong" id="email" value="#{nubEdit.psyNubProposal.email}"
+        <h:inputText styleClass="inputlong" id="email" value="#{nubEdit.psyNubRequest.email}"
                      required="true"
                      readonly="#{nubEdit.readOnly}"
                      requiredMessage="Bitte geben Sie eine E-Mail an"
@@ -217,7 +217,7 @@
         <h:message for="nubProxyIks" id="msgNubProxyIks" styleClass="errorMessage" />
         <h:inputTextarea styleClass="areaNarrowLow fullWidth floatContainer" id="nubProxyIks"
                          readonly="#{nubEdit.readOnly}"
-                         value="#{nubEdit.psyNubProposal.proposalData.proxyIks}"
+                         value="#{nubEdit.psyNubRequest.proposalData.proxyIks}"
                          validator="#{nubEdit.checkProxyIKs}">
             <f:ajax event="blur" render="@this :logout:remaining msgNubProxyIks" />
         </h:inputTextarea>
@@ -228,7 +228,7 @@
         <br />
         <h:inputTextarea id="extText" styleClass="areaWideLow"
                          readonly="#{nubEdit.readOnly}"
-                         value="#{nubEdit.psyNubProposal.proposalData.formFillHelper}">
+                         value="#{nubEdit.psyNubRequest.proposalData.formFillHelper}">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
     </div>
@@ -238,7 +238,7 @@
         <br />
         <h:inputTextarea id="userComment" styleClass="areaWideLow"
                          readonly="#{nubEdit.readOnly}"
-                         value="#{nubEdit.psyNubProposal.proposalData.userComment}">
+                         value="#{nubEdit.psyNubRequest.proposalData.userComment}">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
     </div>

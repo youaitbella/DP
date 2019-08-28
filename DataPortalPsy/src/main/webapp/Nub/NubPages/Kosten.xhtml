@@ -20,8 +20,8 @@
                     <br />
                     <pf:message id="msgnubAddCostPersonalMoney" for="nubAddCostPersonalMoney" />
                     <pf:inputNumber id="nubAddCostPersonalMoney"
-                                    value="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).money}"
-                                    required="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).comment ne ''}"
+                                    value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).money}"
+                                    required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).comment ne ''}"
                                     readonly="#{nubEdit.readOnly}"
                                     minValue="0"
                                     symbol=" €"
@@ -38,7 +38,7 @@
                     <br />
                     <h:inputTextarea styleClass="areaWideHigh"
                                      id="nubAddCostPersonalComment"
-                                     value="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).comment}"
+                                     value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
                                 render="@this :logout:remaining msgnubAddCostPersonalComment nubAddCostPersonalMoney" />
@@ -52,8 +52,8 @@
                     <br />
                     <pf:message id="msgnubAddCostMaterialMoney" for="nubAddCostMaterialMoney" />
                     <pf:inputNumber id="nubAddCostMaterialMoney"
-                                    value="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).money}"
-                                    required="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).comment ne ''}"
+                                    value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).money}"
+                                    required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).comment ne ''}"
                                     readonly="#{nubEdit.readOnly}"
                                     minValue="0"
                                     symbol=" €"
@@ -70,7 +70,7 @@
                     <br />
                     <h:inputTextarea styleClass="areaWideHigh"
                                      id="nubAddCostMaterialComment"
-                                     value="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).comment}"
+                                     value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
                                 render="@this :logout:remaining msgnubAddCostMaterialComment nubAddCostMaterialMoney" />
@@ -84,8 +84,8 @@
                     <br />
                     <pf:message id="msgnubAddCostOtherMoney" for="nubAddCostOtherMoney" />
                     <pf:inputNumber id="nubAddCostOtherMoney"
-                                    value="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).money}"
-                                    required="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).comment ne ''}"
+                                    value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).money}"
+                                    required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).comment ne ''}"
                                     readonly="#{nubEdit.readOnly}"
                                     minValue="0"
                                     symbol=" €"
@@ -102,7 +102,7 @@
                     <br />
                     <h:inputTextarea styleClass="areaWideHigh"
                                      id="nubAddCostOtherComment"
-                                     value="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).comment}"
+                                     value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
                                 render="@this :logout:remaining msgnubAddCostOtherComment nubAddCostOtherMoney" />
@@ -122,8 +122,8 @@
                     <br />
                     <pf:message id="msgnubLessCostPersonalMoney" for="nubLessCostPersonalMoney" />
                     <pf:inputNumber id="nubLessCostPersonalMoney"
-                                    value="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).money}"
-                                    required="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).comment ne ''}"
+                                    value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).money}"
+                                    required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).comment ne ''}"
                                     readonly="#{nubEdit.readOnly}"
                                     minValue="0"
                                     symbol=" €"
@@ -140,7 +140,7 @@
                     <br />
                     <h:inputTextarea styleClass="areaWideHigh"
                                      id="nubLessCostPersonalComment"
-                                     value="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).comment}"
+                                     value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
                                 render="@this :logout:remaining msgnubLessCostPersonalComment nubLessCostPersonalMoney" />
@@ -154,8 +154,8 @@
                     <br />
                     <pf:message id="msgnubLessCostMaterialMoney" for="nubLessCostMaterialMoney" />
                     <pf:inputNumber id="nubLessCostMaterialMoney"
-                                    value="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).money}"
-                                    required="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).comment ne ''}"
+                                    value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).money}"
+                                    required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).comment ne ''}"
                                     readonly="#{nubEdit.readOnly}"
                                     minValue="0"
                                     symbol=" €"
@@ -172,7 +172,7 @@
                     <br />
                     <h:inputTextarea styleClass="areaWideHigh"
                                      id="nubLessCostMaterialComment"
-                                     value="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).comment}"
+                                     value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
                                 render="@this :logout:remaining msgnubLessCostMaterialComment nubLessCostMaterialMoney" />
@@ -186,8 +186,8 @@
                     <br />
                     <pf:message id="msgnubLessCostOtherMoney" for="nubLessCostOtherMoney" />
                     <pf:inputNumber id="nubLessCostOtherMoney"
-                                    value="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).money}"
-                                    required="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).comment ne ''}"
+                                    value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).money}"
+                                    required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).comment ne ''}"
                                     readonly="#{nubEdit.readOnly}"
                                     minValue="0"
                                     symbol=" €"
@@ -204,7 +204,7 @@
                     <br />
                     <h:inputTextarea styleClass="areaWideHigh"
                                      id="nubLessCostOtherComment"
-                                     value="#{nubEdit.psyNubProposal.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).comment}"
+                                     value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
                                 render="@this :logout:remaining msgnubLessCostOtherComment nubLessCostOtherMoney" />
@@ -222,7 +222,7 @@
         <h:inputTextarea styleClass="areaWideHigh"
                          id="nubPepps"
                          readonly="#{nubEdit.readOnly}"
-                         value="#{nubEdit.psyNubProposal.proposalData.pepps}"
+                         value="#{nubEdit.psyNubRequest.proposalData.pepps}"
                          validator="#{nubEdit.checkPepps}"
                          required="false">
             <f:ajax event="blur" render="@this :logout:remaining nubPepps msgnubPepps" />
@@ -237,7 +237,7 @@
         <h:inputTextarea styleClass="areaWideHigh"
                          id="nubWhyNotRepresented"
                          readonly="#{nubEdit.readOnly}"
-                         value="#{nubEdit.psyNubProposal.proposalData.whyNotRepresented}"
+                         value="#{nubEdit.psyNubRequest.proposalData.whyNotRepresented}"
                          required="true"
                          requiredMessage="Bitte geben Sie ein Begründung an, warum diese Methode Ihrer Meinung nach nicht im System abgebildet ist" >
             <f:ajax event="blur" render="@this :logout:remaining nubWhyNotRepresented msgnubWhyNotRepresented" />
