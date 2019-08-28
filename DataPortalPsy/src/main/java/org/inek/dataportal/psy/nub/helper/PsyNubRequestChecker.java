@@ -7,7 +7,9 @@ import org.inek.dataportal.psy.nub.enums.PsyNubNumberFields;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PsyNubRequestChecker implements Serializable {
 
@@ -97,7 +99,9 @@ public class PsyNubRequestChecker implements Serializable {
     }
 
     private static void checkMasterData(PsyNubRequest request, List<String> errorMessages) {
-        //TODO Check IK
+        if (request.getIk() == 0) {
+            addMessage(FIELD_IK, errorMessages);
+        }
         checkIsEmpty(request.getFirstName(), FIELD_FIRSTNAME, errorMessages);
         checkIsEmpty(request.getLastName(), FIELD_LASTNAME, errorMessages);
         checkIsValidValue(request.getGender(), VALID_GENDERS, FIELD_GENDER, errorMessages);
@@ -128,30 +132,33 @@ public class PsyNubRequestChecker implements Serializable {
                 || request.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).getMoney() > 0;
 
         if (!hasAnyEntry) {
-            errorMessages.add(FIELD_NUB_ANY_ADD_COST);
+            addMessage(FIELD_NUB_ANY_ADD_COST, errorMessages);
         }
         return hasAnyEntry;
     }
 
     private static void checkIsEmpty(String value, String errorMessage, List<String> errorMessages) {
-
+        if (value.isEmpty()) {
+            addMessage(errorMessage, errorMessages);
+        }
     }
 
     private static void checkIsValidValue(int value, Integer[] validValues, String errorMessage, List<String> errorMessages) {
-
+        for (Integer validValue : validValues) {
+            if (validValue.equals(value)) {
+                return;
+            }
+        }
+        addMessage(errorMessage, errorMessages);
     }
 
     private static void checkIsBetweenValue(int value, int min, int max, String errorMessage, List<String> errorMessages) {
-
+        if (value <= min || value >= max) {
+            addMessage(errorMessage, errorMessages);
+        }
     }
 
-    /*
-
-        String proxyErr = checkProxyIKs(nubRequest.getProxyIKs());
-        if (!proxyErr.isEmpty()) {
-            message.setMessage(Utils.getMessage("lblErrorProxyIKs"));
-            message.setTopic(EditNubRequest.NubRequestTabs.tabNubAddress.name());
-        }
-        return message;
-     */
+    private static void addMessage(String message, List<String> errorMessages) {
+        errorMessages.add(message + "\n");
+    }
 }

@@ -272,13 +272,16 @@ public class NubSummary implements Serializable {
             }
         }
 
-        _errorMessages += "\n\nEs wurden " + counter + " NUB's übernommen";
-
-        DialogController.openDialogByName("errorMessageDialog");
+        if (!_errorMessages.isEmpty()) {
+            DialogController.showInfoDialog("Verarbeitung beendet", "Es konnten nicht alle Anträge gesendet werden. " +
+                    "Bitte überprüfen Sie ob alle ausgewählten Anträge vollständig sind. Es wurden " + counter + " Anträge übernommen");
+        } else {
+            DialogController.showInfoDialog("Verarbeitung beendet", "Es wurden " + counter + " NUB's übernommen");
+        }
     }
 
-    private boolean requestIsReadyForSend(PsyNubRequest proposal) {
-        List<String> errors = PsyNubRequestChecker.checkPsyRequestForSend(proposal);
+    private boolean requestIsReadyForSend(PsyNubRequest request) {
+        List<String> errors = PsyNubRequestChecker.checkPsyRequestForSend(request);
         if (errors.isEmpty()) {
             return true;
         } else {
