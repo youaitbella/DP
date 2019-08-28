@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean(name = "documentScannerBean")
@@ -56,11 +57,11 @@ public class DocumentScannerBean implements Serializable {
     }
 
     public List<String> loadDir(){
+        List<String> listDir = new ArrayList();
         for (String dir:_config.getAllDirs()) {
             String[] splittedDir = dir.split(":");
-            System.out.println(splittedDir[1]);
-            loadDir().add(splittedDir[1]);
+            listDir.add(splittedDir[1]);
         }
-        return loadDir();
+        return listDir;
     }
 }
