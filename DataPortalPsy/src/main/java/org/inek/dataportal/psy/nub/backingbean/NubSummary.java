@@ -18,6 +18,7 @@ import org.inek.dataportal.psy.nub.entities.PsyNubRequest;
 import org.inek.dataportal.psy.nub.facade.PsyNubFacade;
 import org.inek.dataportal.psy.nub.helper.NewPsyNubRequestHelper;
 import org.inek.dataportal.psy.nub.helper.PsyNubRequestChecker;
+import org.inek.dataportal.psy.nub.helper.PsyNubRequestHelper;
 import org.inek.dataportal.psy.nub.helper.PsyNubRequestTemplateHelper;
 import org.primefaces.event.FileUploadEvent;
 
@@ -49,6 +50,10 @@ public class NubSummary implements Serializable {
     private SessionController _sessionController;
     @Inject
     private ConfigFacade _configFacade;
+
+    @Inject
+    private PsyNubRequestHelper _psyNubRequestHelper;
+
     private List<PsyNubRequest> _listComplete = new ArrayList<>();
     private List<PsyNubRequest> _listWorking = new ArrayList<>();
     private List<PsyNubRequest> _requestFromTemplateUploads = new ArrayList<>();
@@ -162,6 +167,7 @@ public class NubSummary implements Serializable {
             request.setLastModifiedAt(new Date());
             request.setLastChangedByAccountId(_sessionController.getAccountId());
             _psyNubFacade.save(request);
+            _psyNubRequestHelper.sendPsyNubConformationMail(request, _sessionController.getAccount());
             setCompleteList();
         } else {
             DialogController.showAccessDeniedDialog();
@@ -268,6 +274,7 @@ public class NubSummary implements Serializable {
                 request.setLastChangedByAccountId(_sessionController.getAccountId());
                 request.setSealedAt(new Date());
                 _psyNubFacade.save(request);
+                _psyNubRequestHelper.sendPsyNubConformationMail(request, _sessionController.getAccount());
                 counter++;
             }
         }

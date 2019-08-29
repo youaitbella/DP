@@ -30,6 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -120,8 +121,19 @@ public class NubEdit {
     }
 
     public void setReadOnly() {
-        // todo: accessmanager und configkey
-        _readOnly = false;
+        if (_psyNubRequest.getStatus().getId() >= WorkflowStatus.Accepted.getId()) {
+            _readOnly = true;
+            return;
+        }
+        if (_psyNubRequest.getIk() > 0 && _accessManager.ikIsManaged(_psyNubRequest.getIk(), Feature.NUB_PSY)) {
+            if (_accessManager.userHasReadAccess(Feature.NUB_PSY, _psyNubRequest.getIk())) {
+                _readOnly = false;
+            } else {
+                _readOnly = true;
+            }
+        } else {
+            _readOnly = !(_psyNubRequest.getCreatedByAccountId() == _sessionController.getAccountId());
+        }
     }
 
     public Boolean isSaveAllowed() {
@@ -129,8 +141,7 @@ public class NubEdit {
     }
 
     public Boolean isCreateTemplateAllowed() {
-        // todo: accessmanager / status prüfen
-        return true;
+        return !_psyNubRequest.getName().isEmpty();
     }
 
     public Boolean isSendAllowed() {
@@ -147,11 +158,19 @@ public class NubEdit {
 
     public Boolean save() {
         preparePsyNubRequestForSave();
-        _psyNubRequest = _psyNubFacade.save(_psyNubRequest);
-        if (_psyNubRequest.getStatus().equals(WorkflowStatus.New)) {
-            DialogController.showSaveDialog();
+        try {
+            _psyNubRequest = _psyNubFacade.save(_psyNubRequest);
+            if (_psyNubRequest.getStatus().equals(WorkflowStatus.New)) {
+                DialogController.showSaveDialog();
+            }
+            return true;
+        } catch (OptimisticLockException ex) {
+            // TODO Merge Data
+            //msg = mergeAndReportChanges();
+        } catch (Exception ex) {
+            throw ex;
         }
-        return true;
+        return false;
     }
 
     public void send() {
@@ -159,6 +178,7 @@ public class NubEdit {
             preparePsyNubRequestForSend();
             if (save()) {
                 DialogController.showSendDialog();
+                _psyNubRequestHelper.sendPsyNubConformationMail(_psyNubRequest, _sessionController.getAccount());
             }
         } else {
             DialogController.openDialogByName("errorMessageDialog");
