@@ -1,9 +1,9 @@
 package org.inek.documentScanner.backingBean;
 
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.data.adm.Config;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.mail.Mailer;
+import org.inek.documentScanner.business.ScanDirectory;
 import org.inek.documentScanner.config.DocumentScannerConfig;
 
 import javax.faces.bean.ManagedBean;
@@ -56,6 +56,21 @@ public class DocumentScannerBean implements Serializable {
         return _config.readConfig(ConfigKey.FolderRoot) + _config.readConfig(ConfigKey.FolderDocumentScanBase);
     }
 
+
+    public List<ScanDirectory> getLoadDir(){
+        List<ScanDirectory> directories = new ArrayList<>();
+        for (String dir:_config.getAllDirs()) {
+            String[] splittedDir = dir.split(":");
+            ScanDirectory scanDirectory = new ScanDirectory();
+            scanDirectory.setDir(splittedDir[1]);
+            scanDirectory.setScanDir(false);
+            directories.add(scanDirectory);
+        }
+
+        return  directories;
+    }
+
+/*
     public List<String> loadDir(){
         List<String> listDir = new ArrayList();
         for (String dir:_config.getAllDirs()) {
@@ -64,4 +79,6 @@ public class DocumentScannerBean implements Serializable {
         }
         return listDir;
     }
+
+ */
 }

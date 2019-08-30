@@ -8,6 +8,15 @@
     <title>DocumentScanner</title>
 </head>
 <body>
+<style>
+    .red{
+        background-color:red;
+    }
+
+    .green{
+        background-color:green;
+    }
+</style>
 <h:form>
     <h1>Basisverzeichnis: #{documentScannerBean.baseDir}</h1>
 
@@ -16,9 +25,14 @@
     <h:commandButton actionListener="#{documentScannerBean.switchDocumentScanner()}"
                      value="Status ändern" />
 
-    <h:dataTable var ="directory" value="#{documentScannerBean.loadDir()}">
+
+    <h:dataTable var ="dir" value="#{documentScannerBean.loadDir}"
+                        rowStyleClass="#{dir.scanDir eq true ? 'green' : 'red'}">
         <h:column>
-            <h:outputText value="#{directory.toString()}"/>
+            <h:outputText value="#{dir.dir}"/>
+        </h:column>
+        <h:column>
+            <h:outputText value="#{dir.scanDir}"/>
         </h:column>
     </h:dataTable>
 
