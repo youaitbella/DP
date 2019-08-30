@@ -45,6 +45,14 @@
                      requiredMessage="Bitte geben Sie einen Krankenhausnamen an">
             <f:ajax event="blur" render="@this :logout:remaining msgNubKhName" />
         </h:inputText>
+
+        <h:commandLink styleClass="button rightAllign" action="#{nubEdit.reloadAccountInformation()}"
+                       value="Meine Accountdaten einfügen"
+                       immediate="true"
+                       rendered="#{!nubEdit.readOnly}">
+            <f:ajax render="@form"/>
+        </h:commandLink>
+
     </div>
 
     <div class="inputPart">

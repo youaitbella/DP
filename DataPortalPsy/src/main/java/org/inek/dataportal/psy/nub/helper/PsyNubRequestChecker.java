@@ -7,9 +7,7 @@ import org.inek.dataportal.psy.nub.enums.PsyNubNumberFields;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class PsyNubRequestChecker implements Serializable {
 
@@ -77,9 +75,15 @@ public class PsyNubRequestChecker implements Serializable {
             }
         }
 
-        checkIsEmpty(request.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).getComment(), FIELD_NUB_LESS_COST_PERSONAL, errorMessages);
-        checkIsEmpty(request.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).getComment(), FIELD_NUB_LESS_COST_MATERIAL, errorMessages);
-        checkIsEmpty(request.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).getComment(), FIELD_NUB_LESS_COST_OTHER, errorMessages);
+        if (request.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).getMoney() > 0) {
+            checkIsEmpty(request.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).getComment(), FIELD_NUB_LESS_COST_PERSONAL, errorMessages);
+        }
+        if (request.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).getMoney() > 0) {
+            checkIsEmpty(request.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).getComment(), FIELD_NUB_LESS_COST_MATERIAL, errorMessages);
+        }
+        if (request.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).getMoney() > 0) {
+            checkIsEmpty(request.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).getComment(), FIELD_NUB_LESS_COST_OTHER, errorMessages);
+        }
     }
 
     private static void checkNumberValues(PsyNubRequest request, List<String> errorMessages) {

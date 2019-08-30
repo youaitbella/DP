@@ -187,7 +187,7 @@ public class NubEdit {
 
     private boolean isReadyForSend() {
         List<String> errorMessages = PsyNubRequestChecker.checkPsyRequestForSend(_psyNubRequest);
-        _errorMessages += String.join("\n", errorMessages);
+        _errorMessages = String.join("\n", errorMessages);
         return errorMessages.isEmpty();
     }
 
@@ -270,5 +270,9 @@ public class NubEdit {
             DialogController.showInfoDialog("Vorlage erstellen nicht möglich", "Bitte geben Sie der NUB einen Namen, " +
                     "damit Sie eine Vorlage erstellen können.");
         }
+    }
+
+    public void reloadAccountInformation() {
+        NewPsyNubRequestHelper.fillAccountToPsyNub(_psyNubRequest, _sessionController.getAccount());
     }
 }

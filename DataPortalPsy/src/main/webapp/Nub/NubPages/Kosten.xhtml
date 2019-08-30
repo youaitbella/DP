@@ -12,7 +12,7 @@
 
     <div class="groupBox marginTop">
         <div class="inputPart">
-            <h:outputLabel styleClass="label" value="Mehrkosten: Was soll hier hin?" />
+            <h:outputLabel styleClass="label" value="Entstehen durch Anwendung der neuen Methode Mehrkosten gegenüber dem bisher üblichen Verfahren? Wenn ja, wodurch? Bitte geben Sie die Mehrkosten nach Personal- und Sachkosten an." />
 
             <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
                 <h:panelGroup>
@@ -36,7 +36,7 @@
                     <h:message id="msgnubAddCostPersonalComment" for="nubAddCostPersonalComment"
                                styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubAddCostPersonalComment"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).comment}"
                                      readonly="#{nubEdit.readOnly}">
@@ -68,7 +68,7 @@
                     <h:message id="msgnubAddCostMaterialComment" for="nubAddCostMaterialComment"
                                styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubAddCostMaterialComment"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).comment}"
                                      readonly="#{nubEdit.readOnly}">
@@ -100,7 +100,7 @@
                     <h:message id="msgnubAddCostOtherComment" for="nubAddCostOtherComment"
                                styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubAddCostOtherComment"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).comment}"
                                      readonly="#{nubEdit.readOnly}">
@@ -114,7 +114,7 @@
 
     <div class="groupBox marginTop">
         <div class="inputPart">
-            <h:outputLabel styleClass="label" value="Kosteneinsparungen (z.B. durch Verweildauerkürzung)" />
+            <h:outputLabel styleClass="label" value="Werden durch die Anwendung der neuen Methode Kosteneinsparungen veruhrsacht? Wenn ja, wodurch? Bitte geben Sie die Kosteneinsparungen nach Personal- und Sachkosten an." />
 
             <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
                 <h:panelGroup>
@@ -129,7 +129,7 @@
                                     symbol=" €"
                                     symbolPosition="s"
                                     decimalPlaces="2">
-                        <pf:ajax event="blur" />
+                        <pf:ajax event="blur" update="nubLessCostPersonalComment"/>
                     </pf:inputNumber>
                 </h:panelGroup>
 
@@ -138,9 +138,10 @@
                     <h:message id="msgnubLessCostPersonalComment" for="nubLessCostPersonalComment"
                                styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubLessCostPersonalComment"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).comment}"
+                                     required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).money gt 0}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
                                 render="@this :logout:remaining msgnubLessCostPersonalComment nubLessCostPersonalMoney" />
@@ -161,7 +162,7 @@
                                     symbol=" €"
                                     symbolPosition="s"
                                     decimalPlaces="2">
-                        <pf:ajax event="blur" />
+                        <pf:ajax event="blur" update="nubLessCostMaterialComment"/>
                     </pf:inputNumber>
                 </h:panelGroup>
 
@@ -170,9 +171,10 @@
                     <h:message id="msgnubLessCostMaterialComment" for="nubLessCostMaterialComment"
                                styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubLessCostMaterialComment"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).comment}"
+                                     required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).money gt 0}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
                                 render="@this :logout:remaining msgnubLessCostMaterialComment nubLessCostMaterialMoney" />
@@ -202,7 +204,7 @@
                     <h:message id="msgnubLessCostOtherComment" for="nubLessCostOtherComment"
                                styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubLessCostOtherComment"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).comment}"
                                      readonly="#{nubEdit.readOnly}">
@@ -216,7 +218,7 @@
 
     <div class="inputPart">
         <h:outputLabel styleClass="label" for="nubPepps"
-                       value="Welche Pepps ist(sind) am häufigsten von dieser Methode betroffen? (Angabe mit Komma getrennt)" />
+                       value="Welche Pepp ist (sind) am häufigsten von dieser Methode betroffen? (Angabe mit Komma getrennt)" />
         <h:message for="nubPepps" id="msgnubPepps" styleClass="errorMessage" />
         <br />
         <h:inputTextarea styleClass="areaWideHigh"
@@ -231,7 +233,7 @@
 
     <div class="inputPart">
         <h:outputLabel styleClass="label" for="nubPepps"
-                       value="Warum ist diese Methoda aus Ihrer Sicht derzeit im PEPP-System nicht sachgerecht abgebildet?" />
+                       value="Warum ist diese Methode aus Ihrer Sicht derzeit im PEPP-System nicht sachgerecht abgebildet?" />
         <h:message for="nubWhyNotRepresented" id="msgnubWhyNotRepresented" styleClass="errorMessage" />
         <br />
         <h:inputTextarea styleClass="areaWideHigh"

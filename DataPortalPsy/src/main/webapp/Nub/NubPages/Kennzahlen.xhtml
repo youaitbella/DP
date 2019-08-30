@@ -26,7 +26,7 @@
                                  value="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.IN_GERMANY).date}"
                                  required="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.IN_GERMANY).comment ne ''}"
                                  readonly="#{nubEdit.readOnly}"
-                                 requiredMessage="Bitte geben Sie eine Datum an"
+                                 requiredMessage="Bitte geben Sie ein Datum an"
                                  validator="#{nubEdit.checkStringForValidDate}"
                                  maxlength="5">
                         <f:ajax event="blur" render="@this :logout:remaining msgnubInGermanyDate nubInGermanyComment" />
@@ -37,7 +37,7 @@
                     <h:outputLabel for="nubInGermanyComment" value="Kommentar:" />
                     <h:message id="msgnubInGermanyComment" for="nubInGermanyComment" styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubInGermanyComment"
                                      value="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.IN_GERMANY).comment}"
                                      required="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.IN_GERMANY).date ne ''}"
@@ -60,7 +60,7 @@
                                  value="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).date}"
                                  required="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).comment ne ''}"
                                  readonly="#{nubEdit.readOnly}"
-                                 requiredMessage="Bitte geben Sie eine Datum an"
+                                 requiredMessage="Bitte geben Sie ein Datum an"
                                  validator="#{nubEdit.checkStringForValidDate}"
                                  maxlength="5">
                         <f:ajax event="blur"
@@ -72,7 +72,7 @@
                     <h:outputLabel for="nubMedApprovedComment" value="Kommentar:" />
                     <h:message id="msgnubMedApprovedComment" for="nubMedApprovedComment" styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubMedApprovedComment"
                                      value="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).comment}"
                                      required="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).date ne ''}"
@@ -96,7 +96,7 @@
                                  value="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).date}"
                                  required="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).comment ne ''}"
                                  readonly="#{nubEdit.readOnly}"
-                                 requiredMessage="Bitte geben Sie eine Datum an"
+                                 requiredMessage="Bitte geben Sie ein Datum an"
                                  validator="#{nubEdit.checkStringForValidDate}"
                                  maxlength="5">
                         <f:ajax event="blur"
@@ -108,7 +108,7 @@
                     <h:outputLabel for="nubInHouseComment" value="Kommentar:" />
                     <h:message id="msgnubInHouseComment" for="nubInHouseComment" styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubInHouseComment"
                                      value="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).comment}"
                                      required="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).date ne ''}"
@@ -144,7 +144,7 @@
                     <h:message id="msgnubHospitalCountComment" for="nubHospitalCountComment"
                                styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubHospitalCountComment"
                                      value="#{nubEdit.psyNubRequest.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).comment}"
                                      readonly="#{nubEdit.readOnly}">
@@ -168,7 +168,6 @@
                     <pf:message id="msgnubpatientsPrePreYearNumber" for="nubpatientsPrePreYearNumber" />
                     <pf:inputNumber id="nubpatientsPrePreYearNumber"
                                     value="#{nubEdit.psyNubRequest.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_PRE_TARGETYEAR).number}"
-                                    required="#{nubEdit.psyNubRequest.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_PRE_TARGETYEAR).comment ne ''}"
                                     readonly="#{nubEdit.readOnly}"
                                     minValue="0"
                                     decimalPlaces="0">
@@ -181,7 +180,7 @@
                     <h:message id="msgnubpatientsPrePreYearComment" for="nubpatientsPrePreYearComment"
                                styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubpatientsPrePreYearComment"
                                      value="#{nubEdit.psyNubRequest.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_PRE_TARGETYEAR).comment}"
                                      readonly="#{nubEdit.readOnly}">
@@ -197,7 +196,6 @@
                     <pf:message id="msgnubpatientsPreYearNumber" for="nubpatientsPreYearNumber" />
                     <pf:inputNumber id="nubpatientsPreYearNumber"
                                     value="#{nubEdit.psyNubRequest.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_TARGETYEAR).number}"
-                                    required="#{nubEdit.psyNubRequest.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_TARGETYEAR).comment ne ''}"
                                     readonly="#{nubEdit.readOnly}"
                                     minValue="0"
                                     decimalPlaces="0">
@@ -210,7 +208,7 @@
                     <h:message id="msgnubpatientsPreYearComment" for="nubpatientsPreYearComment"
                                styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubpatientsPreYearComment"
                                      value="#{nubEdit.psyNubRequest.getNumberValue(PsyNubNumberFields.PATIENTS_PRE_TARGETYEAR).comment}"
                                      readonly="#{nubEdit.readOnly}">
@@ -233,7 +231,7 @@
                     <pf:message id="msgnubpatientsYearNumber" for="nubpatientsYearNumber" />
                     <pf:inputNumber id="nubpatientsYearNumber"
                                     value="#{nubEdit.psyNubRequest.getNumberValue(PsyNubNumberFields.PATIENTS_TARGETYEAR).number}"
-                                    required="#{nubEdit.psyNubRequest.getNumberValue(PsyNubNumberFields.PATIENTS_TARGETYEAR).comment ne ''}"
+                                    required="true"
                                     readonly="#{nubEdit.readOnly}"
                                     minValue="0"
                                     decimalPlaces="0">
@@ -246,7 +244,7 @@
                     <h:message id="msgnubnubpatientsYearComment" for="nubnubpatientsYearComment"
                                styleClass="errorMessage" />
                     <br />
-                    <h:inputTextarea styleClass="areaWideHigh"
+                    <h:inputTextarea style="width: 100%;"
                                      id="nubnubpatientsYearComment"
                                      value="#{nubEdit.psyNubRequest.getNumberValue(PsyNubNumberFields.PATIENTS_TARGETYEAR).comment}"
                                      readonly="#{nubEdit.readOnly}">
