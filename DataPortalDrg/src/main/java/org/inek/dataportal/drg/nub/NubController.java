@@ -4,16 +4,18 @@
  */
 package org.inek.dataportal.drg.nub;
 
-import java.util.Calendar;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.AbstractFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.drg.nub.entities.NubRequest;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.drg.nub.enums.NubFieldKey;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Topics;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.drg.nub.entities.NubRequest;
+import org.inek.dataportal.drg.nub.enums.NubFieldKey;
+
+import java.util.Calendar;
 
 /**
  *
@@ -233,6 +235,7 @@ public class NubController extends AbstractFeatureController {
         NubRequest proposal = new NubRequest();
         proposal.setAccountId(account.getId());
         populateMasterData(proposal, account);
+        proposal.setStatus(WorkflowStatus.New);
         return proposal;
     }
 
