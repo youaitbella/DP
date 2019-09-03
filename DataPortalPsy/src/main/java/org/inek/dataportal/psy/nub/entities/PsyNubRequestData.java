@@ -1,6 +1,8 @@
 package org.inek.dataportal.psy.nub.entities;
 
 
+import org.inek.dataportal.common.utils.Documentation;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -18,42 +20,55 @@ public class PsyNubRequestData implements Serializable {
     @JoinColumn(name = "npdNubRequestId")
     private PsyNubRequest _psyNubRequest;
 
+    @Documentation(name = "Stellvertreter IK's")
     @Column(name = "npdProxyIKs")
     private String _proxyIks = "";
 
+    @Documentation(name = "Ausfüllhilfe")
     @Column(name = "npdFormFillHelper")
     private String _formFillHelper = "";
 
+    @Documentation(name = "Kommentar")
     @Column(name = "npdUserComment")
     private String _userComment = "";
 
+    @Documentation(name = "Beschreibung der NUB")
     @Column(name = "npdDescription")
     private String _description = "";
 
+    @Documentation(name = "OPS-Codes")
     @Column(name = "npdProcs")
     private String _procs = "";
 
+    @Documentation(name = "Keine Prozeduren verfügbar")
     @Column(name = "npdHasNoProcs")
     private Boolean _hasNoProcs = false;
 
+    @Documentation(name = "Anmerkung zu den Prozeduren")
     @Column(name = "npdProcsComment")
     private String _procsComment = "";
 
+    @Documentation(name = "Indikation")
     @Column(name = "npdIndication")
     private String _indication = "";
 
+    @Documentation(name = "Ablösung oder Ergänzung")
     @Column(name = "npdReplacement")
     private String _replacement = "";
 
+    @Documentation(name = "Warum handelt es sich um eine neue Methode")
     @Column(name = "npdWhatsNew")
     private String _whatsNew = "";
 
+    @Documentation(name = "Auswirkung auf die Verweildauer im Krankenhaus")
     @Column(name = "npdLos")
     private String _los = "";
 
+    @Documentation(name = "Pepps")
     @Column(name = "npdPepps")
     private String _pepps = "";
 
+    @Documentation(name = "Warum nicht im PEPP-System abgebildet")
     @Column(name = "npdWhyNotRepresented")
     private String _whyNotRepresented = "";
 

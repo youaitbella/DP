@@ -10,6 +10,10 @@ public enum PsyNubMoneyFields {
 
     private String _description;
 
+    public String getDescription() {
+        return _description;
+    }
+
     PsyNubMoneyFields(String _description) {
         this._description = _description;
     }

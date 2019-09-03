@@ -24,6 +24,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -32,6 +33,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import java.io.ByteArrayInputStream;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,10 +59,22 @@ public class NubEdit {
     private ConfigFacade _config;
 
     private PsyNubRequest _psyNubRequest;
+    private PsyNubRequest _psyNubRequestBaseline;
     private List<Integer> _allowedIks;
     private Boolean _readOnly;
 
+    private String _errorMessageTitle = "";
     private String _errorMessages = "";
+
+    private static String ERROR_MESSAGE_TITLE_ERRORS_FOUND = "Bitte geben Sie die folgenden Angaben an.";
+    private static String ERROR_MESSAGE_TITLE_MERGE_CONFLICT = "Dieser Datensatz wurde zwischenzeitlich von einem anderen Benutzer geändert. " +
+            "Die Daten wurden neu geladen. Nachfolgend finden Sie eine Liste der Felder, welche von dem anderen Benutzer geändert wurde. Die " +
+            "Eingabe des anderen Benutzers wurden in das Formular geladen. Bitte prüfen Sie die Eingabe und nehmen Sie ggf. Korrekturen vor. " +
+            "Felder die von dem anderen Benutzer und Ihnen  geändert wurden, sind mit einem '###' gekennzeichnet";
+
+    public String getErrorMessageTitle() {
+        return _errorMessageTitle;
+    }
 
     public String getErrorMessages() {
         return _errorMessages;
@@ -86,6 +102,7 @@ public class NubEdit {
             _psyNubRequest = createNewNubRequest();
         } else {
             _psyNubRequest = _psyNubFacade.findNubById(Integer.parseInt(id));
+            _psyNubRequestBaseline = _psyNubFacade.findNubById(Integer.parseInt(id));
             if (!userHasAccess(_psyNubRequest)) {
                 DialogController.showAccessDeniedDialog();
                 Utils.navigate(Pages.NubPsySummary.RedirectURL());
@@ -164,13 +181,37 @@ public class NubEdit {
                 DialogController.showSaveDialog();
             }
             return true;
-        } catch (OptimisticLockException ex) {
-            // TODO Merge Data
-            //msg = mergeAndReportChanges();
+        } catch (EJBException ex) {
+            boolean hasNoMergeErrors = handleOptimisticLockException();
+            if (hasNoMergeErrors) {
+                _psyNubRequest.setVersion(_psyNubFacade.findNubById(_psyNubRequest.getId()).getVersion());
+                save();
+            } else {
+                _psyNubRequest.setStatus(WorkflowStatus.New);
+                _psyNubRequest.setSealedAt(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+                _psyNubRequest.setVersion(_psyNubFacade.findNubById(_psyNubRequest.getId()).getVersion());
+                _errorMessageTitle = ERROR_MESSAGE_TITLE_MERGE_CONFLICT;
+                DialogController.openDialogByName("errorMessageDialog");
+            }
+
         } catch (Exception ex) {
             throw ex;
         }
         return false;
+    }
+
+    private Boolean handleOptimisticLockException() {
+        PsyNubRequest partnerNub = _psyNubFacade.findNubById(_psyNubRequest.getId());
+        PsyNubRequestMergeHelper mergeHelper = new PsyNubRequestMergeHelper(_psyNubRequestBaseline, _psyNubRequest, partnerNub);
+        List<String> conflicts = mergeHelper.compareProposals();
+
+        if (conflicts.isEmpty()) {
+            return true;
+        } else {
+            _errorMessages = String.join("\n", conflicts);
+            return false;
+        }
+
     }
 
     public void send() {
@@ -181,6 +222,7 @@ public class NubEdit {
                 _psyNubRequestHelper.sendPsyNubConformationMail(_psyNubRequest, _sessionController.getAccount());
             }
         } else {
+            _errorMessageTitle = ERROR_MESSAGE_TITLE_ERRORS_FOUND;
             DialogController.openDialogByName("errorMessageDialog");
         }
     }

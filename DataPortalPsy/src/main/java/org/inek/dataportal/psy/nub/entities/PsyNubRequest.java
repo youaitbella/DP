@@ -2,6 +2,7 @@ package org.inek.dataportal.psy.nub.entities;
 
 import org.inek.dataportal.common.data.converter.WorkflowStatusConverter;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.Documentation;
 import org.inek.dataportal.psy.nub.enums.PsyNubDateFields;
 import org.inek.dataportal.psy.nub.enums.PsyNubMoneyFields;
 import org.inek.dataportal.psy.nub.enums.PsyNubNumberFields;
@@ -68,54 +69,71 @@ public class PsyNubRequest implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date _dateCorrectionRequested = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
+    @Documentation(name = "Anzeigename")
     @Column(name = "nubDisplayName")
     private String _displayName = "";
 
+    @Documentation(name = "NUB-Name")
     @Column(name = "nubName")
     private String _name = "";
 
+    @Documentation(name = "Alternativer Name")
     @Column(name = "nubAltName")
     private String _altName = "";
 
+    @Documentation(name = "IK")
     @Column(name = "nubIk")
     private int _ik;
 
+    @Documentation(name = "Krankenhausname")
     @Column(name = "nubIkName")
     private String _ikName = "";
 
+    @Documentation(name = "Geschlecht")
     @Column(name = "nubGender")
     private int _gender;
 
+    @Documentation(name = "Titel")
     @Column(name = "nubTitle")
     private String _title = "";
 
+    @Documentation(name = "Vorname")
     @Column(name = "nubFirstName")
     private String _firstName = "";
 
+    @Documentation(name = "Nachname")
     @Column(name = "nubLastName")
     private String _lastName = "";
 
+    @Documentation(name = "Abteilung")
     @Column(name = "nubDivision")
     private String _division = "";
 
+    @Documentation(name = "Funktion")
     @Column(name = "nubRoleId")
     private int _roleId;
 
+    @Documentation(name = "Straße")
     @Column(name = "nubStreet")
     private String _street = "";
 
+    @Documentation(name = "PLZ")
     @Column(name = "nubPostalCode")
     private String _postalCode = "";
 
+    @Documentation(name = "Stadt")
     @Column(name = "nubTown")
     private String _town = "";
 
+    @Documentation(name = "Telefon")
     @Column(name = "nubPhone")
     private String _phone = "";
 
+    @Documentation(name = "FAX")
     @Column(name = "nubFax")
     private String _fax = "";
 
+    @Documentation(name = "Email")
     @Column(name = "nubEmail")
     private String _email = "";
 
@@ -152,6 +170,14 @@ public class PsyNubRequest implements Serializable {
 
     @Transient
     private Boolean _selected = false;
+
+    public int getVersion() {
+        return _version;
+    }
+
+    public void setVersion(int version) {
+        this._version = version;
+    }
 
     public Boolean getSelected() {
         return _selected;
