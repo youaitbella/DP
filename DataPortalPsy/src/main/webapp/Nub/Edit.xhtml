@@ -89,6 +89,7 @@
             </pf:tabView>
 
             <div class="footerInformation">
+
                 <pf:commandButton styleClass="btnPsy"
                                   value="Speichern"
                                   onstart="PF('dialogProcess').show()"
@@ -106,6 +107,15 @@
                                   ajax="false"
                                   immediate="true"
                                   rendered="#{nubEdit.isCreateTemplateAllowed()}" />
+
+                <pf:commandButton styleClass="btnPsy"
+                                  value="In neue NUB übernehmen"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  action="#{nubEdit.createNewNubFromNub()}"
+                                  ajax="false"
+                                  immediate="true"
+                                  rendered="#{nubEdit.isCreateNewNubFromNubAllowed()}" />
 
                 <pf:commandButton value="Ans InEK senden"
                                   update="@(.ui-message) @form"

@@ -165,6 +165,10 @@ public class NubEdit {
         return _config.readConfigBool(ConfigKey.IsPsyNubSendEnabled) && !_readOnly;
     }
 
+    public Boolean isCreateNewNubFromNubAllowed() {
+        return _config.readConfigBool(ConfigKey.IsPsyNubCreateEnabled) && !_readOnly;
+    }
+
     private PsyNubRequest createNewNubRequest() {
         return NewPsyNubRequestHelper.createNewPsyNubRequest(_sessionController.getAccount());
     }
@@ -316,5 +320,12 @@ public class NubEdit {
 
     public void reloadAccountInformation() {
         NewPsyNubRequestHelper.fillAccountToPsyNub(_psyNubRequest, _sessionController.getAccount());
+    }
+
+    public void createNewNubFromNub() {
+        PsyNubRequest newRequest = NewPsyNubRequestHelper.createNewPsyNubRequestFromPsyNubRequest(_psyNubRequest, _sessionController.getAccount());
+        _psyNubFacade.save(newRequest);
+        DialogController.showSuccessDialog("Neue NUB erfolgreich angelegt", "Die NUB wurde erfolgreich kopiert. " +
+                "Sie finden diese in der Übersichtsliste");
     }
 }
