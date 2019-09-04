@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
       xmlns:pf="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
 
@@ -10,7 +11,7 @@
     <title>DocumentScanner</title>
 </h:head>
 <h:body>
-<h:form>
+<h:form id="Form">
     <h1>Basisverzeichnis: #{documentScannerBean.baseDir}</h1>
 
     <h1 style="background-color: #{documentScannerBean.documentScanStatus ? 'green' :
@@ -19,21 +20,20 @@
     <h:commandButton actionListener="#{documentScannerBean.switchDocumentScanner()}"
                      value="Status ändern" />
 
-
-    <h:dataTable var ="dir" value="#{documentScannerBean.loadDir}" id="scannedDirectorys">
+<div jsf:id="table">
+    <h:dataTable var ="dir" value="#{documentScannerBean.loadDir}" id="scannedDocuments">
         <h:column>
-            <div style="background-color:red">
+            <div style="background-color:#{dir.scanDir ? 'green' : 'red'}" jsf:id="directoryString">
                 <h:outputText value="#{dir.dir}"/>
             </div>
         </h:column>
         <h:column>
             <h:selectBooleanCheckbox value ="#{dir.scanDir}" id ="chkScanDir" >
-                <f:ajax render="scannedDirectorys" event="change"/>
+                <f:ajax render="directoryString" event="change"/>
             </h:selectBooleanCheckbox>
-            <h:outputText value="#{dir.scanDir}"/>
         </h:column>
     </h:dataTable>
-
+</div>
 
     <h1>#{documentScannerBean.documentScanStatus}</h1>
 
