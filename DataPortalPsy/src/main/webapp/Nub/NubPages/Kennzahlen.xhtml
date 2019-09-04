@@ -40,9 +40,7 @@
                     <h:inputTextarea style="width: 100%;"
                                      id="nubInGermanyComment"
                                      value="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.IN_GERMANY).comment}"
-                                     required="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.IN_GERMANY).date ne ''}"
-                                     readonly="#{nubEdit.readOnly}"
-                                     requiredMessage="Bitte geben Sie einen Kommentar an">
+                                     readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur" render="@this :logout:remaining msgnubInGermanyComment nubInGermanyDate" />
                     </h:inputTextarea>
                 </h:panelGroup>
@@ -75,9 +73,7 @@
                     <h:inputTextarea style="width: 100%;"
                                      id="nubMedApprovedComment"
                                      value="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).comment}"
-                                     required="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).date ne ''}"
-                                     readonly="#{nubEdit.readOnly}"
-                                     requiredMessage="Bitte geben Sie einen Kommentar an">
+                                     readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
                                 render="@this :logout:remaining nubMedApprovedComment nubMedApprovedDate" />
                     </h:inputTextarea>
@@ -111,9 +107,7 @@
                     <h:inputTextarea style="width: 100%;"
                                      id="nubInHouseComment"
                                      value="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).comment}"
-                                     required="#{nubEdit.psyNubRequest.getDateValue(PsyNubDateFields.INTRODUCED_HOSPITAL).date ne ''}"
-                                     readonly="#{nubEdit.readOnly}"
-                                     requiredMessage="Bitte geben Sie einen Kommentar an">
+                                     readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur" render="@this :logout:remaining nubInHouseComment nubInHouseDate" />
                     </h:inputTextarea>
                 </h:panelGroup>

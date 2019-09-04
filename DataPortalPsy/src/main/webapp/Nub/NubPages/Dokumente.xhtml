@@ -21,7 +21,11 @@
             </pf:commandLink>
         </pf:column>
         <pf:column headerText="Dokument">
-            <pf:outputLabel value="#{doc.name}" />
+            <pf:commandLink ajax="false"
+                            immediate="true"
+                            value="#{doc.name}">
+                <pf:fileDownload value="#{nubEdit.downloadDocument(doc)}" />
+            </pf:commandLink>
         </pf:column>
         <pf:column>
             <pf:commandButton value="Download"

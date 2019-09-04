@@ -40,7 +40,7 @@ public class PsyNubRequestChecker implements Serializable {
     private static String FIELD_NUB_LESS_COST_OTHER = "Kommentar zu den Kosteneinsparungen in dem Bereich Sonstige Kosten";
 
     private static String FIELD_NUB_INDICATORS = "Indikation der NUB";
-    private static String FIELD_NUB_REPLACEMENT = "Welche Methode wird durch die Anfrage abgelößt oder ergänzt";
+    private static String FIELD_NUB_REPLACEMENT = "Welche Methode wird durch die Anfrage abgelöst oder ergänzt";
     private static String FIELD_NUB_WHATS_NEW = "Warum handelt es sich um eine neue Methode";
     private static String FIELD_NUB_WHY_NOT_IN_PEPP = "Warum ist die NUB nicht im PEPP System abgebildet";
 
@@ -157,7 +157,7 @@ public class PsyNubRequestChecker implements Serializable {
     }
 
     private static void checkIsBetweenValue(int value, int min, int max, String errorMessage, List<String> errorMessages) {
-        if (value <= min || value >= max) {
+        if (value < min || value > max) {
             addMessage(errorMessage, errorMessages);
         }
     }

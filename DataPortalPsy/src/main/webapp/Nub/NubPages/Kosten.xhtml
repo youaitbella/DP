@@ -27,7 +27,7 @@
                                     symbol=" €"
                                     symbolPosition="s"
                                     decimalPlaces="2">
-                        <pf:ajax event="blur" />
+                        <pf:ajax event="blur" update="nubAddCostPersonalComment" />
                     </pf:inputNumber>
                 </h:panelGroup>
 
@@ -38,6 +38,8 @@
                     <br />
                     <h:inputTextarea style="width: 100%;"
                                      id="nubAddCostPersonalComment"
+                                     required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).money gt 0}"
+                                     requiredMessage="Bitte geben Sie einen Kommentar an"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
@@ -59,7 +61,7 @@
                                     symbol=" €"
                                     symbolPosition="s"
                                     decimalPlaces="2">
-                        <pf:ajax event="blur" />
+                        <pf:ajax event="blur" update="nubAddCostMaterialComment" />
                     </pf:inputNumber>
                 </h:panelGroup>
 
@@ -70,6 +72,8 @@
                     <br />
                     <h:inputTextarea style="width: 100%;"
                                      id="nubAddCostMaterialComment"
+                                     required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).money gt 0}"
+                                     requiredMessage="Bitte geben Sie einen Kommentar an"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
@@ -91,7 +95,7 @@
                                     symbol=" €"
                                     symbolPosition="s"
                                     decimalPlaces="2">
-                        <pf:ajax event="blur" />
+                        <pf:ajax event="blur" update="nubAddCostOtherComment"/>
                     </pf:inputNumber>
                 </h:panelGroup>
 
@@ -102,6 +106,8 @@
                     <br />
                     <h:inputTextarea style="width: 100%;"
                                      id="nubAddCostOtherComment"
+                                     required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).money gt 0}"
+                                     requiredMessage="Bitte geben Sie einen Kommentar an"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
