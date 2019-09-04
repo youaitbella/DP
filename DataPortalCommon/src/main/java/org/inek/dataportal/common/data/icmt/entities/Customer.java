@@ -139,7 +139,7 @@ public class Customer implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property PsyState">
+    // <editor-fold defaultstate="collapsed" desc="Property cuPsyHospitalTypeId">
     @Column(name = "cuPsyHospitalTypeId")
     private Integer _psyHospitalTypeId = PsyHospitalType.Unknown.getId();
 

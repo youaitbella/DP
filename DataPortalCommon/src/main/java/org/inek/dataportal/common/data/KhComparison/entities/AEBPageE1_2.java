@@ -1,5 +1,7 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
+import org.inek.dataportal.common.helper.MathHelper;
+
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
@@ -22,6 +24,7 @@ public class AEBPageE1_2 extends AEBPage implements Serializable {
         this._et = page.getEt();
         this._calculationDays = page.getCalculationDays();
         this._valuationRadioDay = page.getValuationRadioDay();
+        this._isOverlyer = page.isIsOverlyer();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -88,7 +91,20 @@ public class AEBPageE1_2 extends AEBPage implements Serializable {
     }
 
     public void setValuationRadioDay(double valuationRadioDay) {
-        _valuationRadioDay = valuationRadioDay;
+        _valuationRadioDay = MathHelper.round(valuationRadioDay, 4);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property peIsOverlyer">
+    @Column(name = "peIsOverlyer")
+    private boolean _isOverlyer = false;
+
+    public boolean isIsOverlyer() {
+        return _isOverlyer;
+    }
+
+    public void setIsOverlyer(boolean isOverlyer) {
+        this._isOverlyer = isOverlyer;
     }
     //</editor-fold>
 
@@ -97,43 +113,20 @@ public class AEBPageE1_2 extends AEBPage implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this._baseInformation);
-        hash = 67 * hash + Objects.hashCode(this._et);
-        hash = 67 * hash + this._calculationDays;
-        hash = 67 * hash + (int) (Double.doubleToLongBits(this._valuationRadioDay) ^ (Double.doubleToLongBits(this._valuationRadioDay) >>> 32));
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AEBPageE1_2 that = (AEBPageE1_2) o;
+        return _calculationDays == that._calculationDays &&
+                Double.compare(that._valuationRadioDay, _valuationRadioDay) == 0 &&
+                _isOverlyer == that._isOverlyer &&
+                Objects.equals(_id, that._id) &&
+                Objects.equals(_baseInformation, that._baseInformation) &&
+                Objects.equals(_et, that._et);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final AEBPageE1_2 other = (AEBPageE1_2) obj;
-        if (this._calculationDays != other._calculationDays) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this._valuationRadioDay) != Double.doubleToLongBits(other._valuationRadioDay)) {
-            return false;
-        }
-        if (!Objects.equals(this._et, other._et)) {
-            return false;
-        }
-        if (!Objects.equals(this._id, other._id)) {
-            return false;
-        }
-        if (!Objects.equals(this._baseInformation, other._baseInformation)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(_id, _baseInformation, _et, _calculationDays, _valuationRadioDay, _isOverlyer);
     }
-
 }

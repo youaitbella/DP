@@ -3,110 +3,126 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:cb="http://inek.org/dataportal/clientbehaviour"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <!-- INTERFACE -->
-    <cc:interface>
-        <cc:attribute name="parentNode" class="org.inek.dataportal.helper.tree.AccountTreeNode"/>
-        <cc:attribute name="showDelete" default="true"/>
-        <cc:attribute name="showSelectBox" default="true"/>
-        <cc:attribute name="isSealed" default="true"/>
-    </cc:interface>
+<!-- INTERFACE -->
+<cc:interface>
+    <cc:attribute name="parentNode" class="org.inek.dataportal.helper.tree.AccountTreeNode"/>
+    <cc:attribute name="showDelete" default="true"/>
+    <cc:attribute name="showSelectBox" default="true"/>
+    <cc:attribute name="isSealed" default="true"/>
+</cc:interface>
 
-    <!-- IMPLEMENTATION -->
-    <cc:implementation>
-        <!-- cc.attrs.parentNode.children.stream().sorted((n1, n2) -> n1.proposalInfo.name.compareTo(n2.proposalInfo.name)).toList() -->
-        <h:dataTable   headerClass="list-header" value="#{cc.attrs.parentNode.sortedChildren}" id="NubRequests"
-                       var="node" width="100%" rowClasses="row1, row2"
-                       columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, #{cc.attrs.isSealed.equals('true') ? 'colId, colShortCentered, ' : ''} coIk, colValue">
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+    <!-- cc.attrs.parentNode.children.stream().sorted((n1, n2) -> n1.proposalInfo.name.compareTo(n2.proposalInfo.name)).toList() -->
+    <h:dataTable headerClass="list-header" value="#{cc.attrs.parentNode.sortedChildren}" id="NubRequests"
+                 var="node" width="100%" rowClasses="row1, row2"
+                 columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, #{cc.attrs.isSealed.equals('true') ? 'colId, colShortCentered, ' : ''} coIk, colValue">
 
-            <h:column rendered="#{cc.attrs.showSelectBox}">
-                <f:facet name="header">
-                    <h:outputText value=""/>
-                </f:facet>
-                <h:selectBooleanCheckbox value="#{node.checked}" >
-                    <f:ajax event="blur" render="@this :logout:remaining "/>
-                </h:selectBooleanCheckbox>
-            </h:column>
+        <h:column rendered="#{cc.attrs.showSelectBox}">
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:selectBooleanCheckbox value="#{node.checked}">
+                <f:ajax event="blur" render="@this :logout:remaining "/>
+            </h:selectBooleanCheckbox>
+        </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value=""/>
-                </f:facet>
-                <h:commandLink action="#{nubRequestList.printNubRequest(node.proposalInfo.id)}" immediate="true" >
-                    <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Druckansicht" value=""/>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink action="#{nubRequestList.printNubRequest(node.proposalInfo.id)}" immediate="true">
+                <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Druckansicht" value=""/>
+            </h:commandLink>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink action="#{nubRequestList.deleteNubRequest(node.proposalInfo.id)}" immediate="true"
+                           rendered="#{cc.attrs.showDelete and node.proposalInfo.status.value lt 90 or (nubSessionTools.isDeleteAllowedForNub(node.proposalInfo.ik) and node.proposalInfo.status.value lt 90)}"
+                           onclick="#{nubRequestList.getConfirmMessage(node.proposalInfo.id)}">
+                <h:graphicImage alt="löschen"
+                                name="Icon/small/#{node.proposalInfo.status.value le 9 ? 'delete.png' : 'cross.png'}"
+                                title="#{node.proposalInfo.status.value le 9 ? 'Löschen' : 'Zurückziehen'}"
+                                value=""/>
+            </h:commandLink>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value=""/>
+            </f:facet>
+            <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" immediate="true"
+                           rendered="#{node.proposalInfo.status.icon.length() gt 0}">
+                <h:graphicImage alt="Status" name="Icon/small/#{node.proposalInfo.status.icon}"
+                                title="#{node.proposalInfo.status.value == 1 ? nubRequestList.getRejectReason(node.proposalInfo.id) : node.proposalInfo.status.description}"/>
+                <f:param name="id" value="#{node.proposalInfo.id}"/>
+            </h:commandLink>
+        </h:column>
+
+        <h:column rendered="#{cc.attrs.isSealed}">
+            <f:facet name="header">
+                <h:commandLink
+                        value="ID #{cc.attrs.parentNode.sortCriteria.equals('Id') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
+                    <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Id')}"
+                            render="NubRequests :logout:remaining"/>
                 </h:commandLink>
-            </h:column>
+            </f:facet>
+            <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}"
+                           value="N#{node.proposalInfo.id}"
+                           immediate="true">
+                <f:param name="id" value="#{node.proposalInfo.id}"/>
+            </h:commandLink>
+        </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value=""/>
-                </f:facet>
-                <h:commandLink action="#{nubRequestList.deleteNubRequest(node.proposalInfo.id)}" immediate="true"
-                               rendered="#{cc.attrs.showDelete and node.proposalInfo.status.value lt 90 or (nubSessionTools.isDeleteAllowedForNub(node.proposalInfo.ik) and node.proposalInfo.status.value lt 90)}"
-                               onclick="#{nubRequestList.getConfirmMessage(node.proposalInfo.id)}">
-                    <h:graphicImage alt="löschen" name="Icon/small/#{node.proposalInfo.status.value le 9 ? 'delete.png' : 'cross.png'}"
-                                    title="#{node.proposalInfo.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
+        <h:column id="state" rendered="#{cc.attrs.isSealed}">
+            <f:facet name="header">
+                <h:commandLink
+                        value="Status #{cc.attrs.parentNode.sortCriteria.equals('Status') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
+                    <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Status')}"
+                            render="NubRequests :logout:remaining"/>
                 </h:commandLink>
-            </h:column>
+            </f:facet>
+            <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}"
+                           value="#{nubRequestList.getExternalState(node.proposalInfo.id)}" immediate="true">
+                <f:param name="id" value="#{node.proposalInfo.id}"/>
+            </h:commandLink>
+        </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value=""/>
-                </f:facet>
-                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" immediate="true" rendered="#{node.proposalInfo.status.icon.length() gt 0}">
-                    <h:graphicImage alt="Status" name="Icon/small/#{node.proposalInfo.status.icon}"
-                                    title="#{node.proposalInfo.status.value == 1 ? nubRequestList.getRejectReason(node.proposalInfo.id) : node.proposalInfo.status.description}" />
-                    <f:param name="id" value="#{node.proposalInfo.id}"/>
+        <h:column>
+            <f:facet name="header">
+                <h:commandLink
+                        value="IK #{cc.attrs.parentNode.sortCriteria.equals('Ik') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
+                    <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Ik')}"
+                            render="NubRequests :logout:remaining"/>
                 </h:commandLink>
-            </h:column>
+            </f:facet>
+            <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}"
+                           value="#{node.proposalInfo.ik lt 0 ? '[ohne]' : node.proposalInfo.ik}" immediate="true">
+                <f:param name="id" value="#{node.proposalInfo.id}"/>
+            </h:commandLink>
+        </h:column>
 
-            <h:column rendered="#{cc.attrs.isSealed}">
-                <f:facet name="header">
-                    <h:commandLink value="ID #{cc.attrs.parentNode.sortCriteria.equals('Id') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
-                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Id')}" render="NubRequests :logout:remaining"/>
-                    </h:commandLink>
-                </f:facet>
-                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="N#{node.proposalInfo.id}" immediate="true">
-                    <f:param name="id" value="#{node.proposalInfo.id}"/>
+        <h:column>
+            <f:facet name="header">
+                <h:commandLink
+                        value="Name #{cc.attrs.parentNode.sortCriteria.equals('Name') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
+                    <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Name')}"
+                            render="NubRequests :logout:remaining"/>
                 </h:commandLink>
-            </h:column>
+            </f:facet>
+            <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}"
+                           value="#{node.proposalInfo.name}"
+                           immediate="true">
+                <f:param name="id" value="#{node.proposalInfo.id}"/>
+            </h:commandLink>
+        </h:column>
 
-            <h:column id="state" rendered="#{cc.attrs.isSealed}">
-                <f:facet name="header">
-                    <h:commandLink value="Status #{cc.attrs.parentNode.sortCriteria.equals('Status') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
-                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Status')}" render="NubRequests :logout:remaining"/>
-                    </h:commandLink>
-                </f:facet>
-                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="#{nubRequestList.getExternalState(node.proposalInfo.id)}" immediate="true">
-                    <f:param name="id" value="#{node.proposalInfo.id}"/>
-                </h:commandLink>
-            </h:column>
+    </h:dataTable>
 
-            <h:column>
-                <f:facet name="header">
-                    <h:commandLink value="IK #{cc.attrs.parentNode.sortCriteria.equals('Ik') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
-                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Ik')}" render="NubRequests :logout:remaining"/>
-                    </h:commandLink>
-                </f:facet>
-                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="#{node.proposalInfo.ik lt 0 ? '[ohne]' : node.proposalInfo.ik}" immediate="true">
-                    <f:param name="id" value="#{node.proposalInfo.id}"/>
-                </h:commandLink>
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">
-                    <h:commandLink value="Name #{cc.attrs.parentNode.sortCriteria.equals('Name') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
-                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Name')}" render="NubRequests :logout:remaining"/>
-                    </h:commandLink>
-                </f:facet>
-                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="#{node.proposalInfo.name}" immediate="true">
-                    <f:param name="id" value="#{node.proposalInfo.id}"/>
-                </h:commandLink>
-            </h:column>
-
-        </h:dataTable>
-
-    </cc:implementation>
+</cc:implementation>
 </html>

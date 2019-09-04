@@ -11,6 +11,7 @@ import org.inek.dataportal.common.data.KhComparison.checker.RenumerationChecker;
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.exceptions.FormulaInCellException;
 import org.inek.dataportal.common.exceptions.StringInNumericCellException;
+import org.inek.dataportal.common.exceptions.ValueToLongCellException;
 import org.inek.dataportal.common.helper.excelimport.CellImportHelper;
 
 import java.io.InputStream;
@@ -51,13 +52,14 @@ public class AebImporter {
     private static final int MAX_SCAN_ROWS_B1 = 60;
 
     private static final String ERROR_TEXT = "Import fehlgeschlagen: ";
+    private static final String NO_ERROR_MESSAGES = "Keine Fehlermeldungen vorhanden";
 
     private int _counter = 0;
 
     private String _errorMessages = "";
 
     public String getErrorMessages() {
-        return _errorMessages;
+        return _errorMessages.isEmpty() ? NO_ERROR_MESSAGES : _errorMessages;
     }
 
     public int getCounter() {
@@ -501,9 +503,21 @@ public class AebImporter {
 
                 AEBPageE3_2 page = new AEBPageE3_2();
                 page.setZe(CellImportHelper.getStringFromCell(row.getCell(colStart)));
-                page.setRenumerationKey(CellImportHelper.getStringFromCell(row.getCell(colStart + 1)));
-                page.setOps(CellImportHelper.getStringFromCell(row.getCell(colStart + 2)));
-                page.setCount(CellImportHelper.getIntegerFromCell(row.getCell(colStart + 3)));
+
+                String renumerationKeyFromCell = CellImportHelper.getStringFromCell(row.getCell(colStart + 1));
+                if (renumerationKeyFromCell.length() > 10) {
+                    throw new ValueToLongCellException(row.getCell(colStart + 1), 10);
+                }
+
+                page.setRenumerationKey(renumerationKeyFromCell);
+
+                String opsFromCell = CellImportHelper.getStringFromCell(row.getCell(colStart + 2));
+                if (opsFromCell.length() > 20) {
+                    throw new ValueToLongCellException(row.getCell(colStart + 2), 20);
+                }
+
+                page.setOps(opsFromCell);
+                page.setCount(CellImportHelper.getIntegerFromCell(row.getCell(colStart + 3), false, true));
                 page.setRenumerationValue(CellImportHelper.getDoubleFromCell(row.getCell(colStart + 4)));
                 page.setImportetFrom(getImportetFromString(sheet, i));
                 info.addAebPageE3_2(page);
@@ -600,16 +614,21 @@ public class AebImporter {
     }
 
     private void addErrorMessage(String value) {
-        _errorMessages += value + "\n \n";
+        _errorMessages += value + "\n";
     }
 
     private void handleImporterException(Exception ex) {
-        if (ex.getClass().isInstance(FormulaInCellException.class)) {
-            addErrorMessage("Blatt [" + ((FormulaInCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: "
-                    + ((FormulaInCellException) ex).getCell().getAddress() + "Formeln sind nicht erlaubt.");
-        } else if (ex.getClass().isInstance(StringInNumericCellException.class)) {
-            addErrorMessage("Blatt [" + ((StringInNumericCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: "
-                    + ((StringInNumericCellException) ex).getCell().getAddress() + "Text in Zahlenspalte gefunden.");
+        if (ex instanceof FormulaInCellException) {
+            addErrorMessage("Blatt [" + ((FormulaInCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: ["
+                    + ((FormulaInCellException) ex).getCell().getAddress() + "] Formeln sind nicht erlaubt.");
+        } else if (ex instanceof StringInNumericCellException) {
+            addErrorMessage("Blatt [" + ((StringInNumericCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: ["
+                    + ((StringInNumericCellException) ex).getCell().getAddress() + "] Text in Zahlenspalte gefunden.");
+        }
+        else if (ex instanceof ValueToLongCellException) {
+            addErrorMessage("Blatt [" + ((ValueToLongCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: ["
+                    + ((ValueToLongCellException) ex).getCell().getAddress() + "] Text zu lang. Erlaubte Länge: "
+                    + ((ValueToLongCellException) ex).getMaxAllowedLength());
         }
     }
 }

@@ -502,7 +502,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
 
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
-            _mailer.sendMail("DSAnfragen@inek-drg.de", "Teilnahmeerklärung", "" + _statement.getIk());
+            _mailer.sendMail("Anfragen@datenstelle.de", "Teilnahmeerklärung", "" + _statement.getIk());
         }
         //createTransferFile(_statement);
         if (isValidId(_statement.getId())) {

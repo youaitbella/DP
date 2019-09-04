@@ -11,7 +11,11 @@ public class RenumerationChecker {
     }
 
     public static boolean isFormalValidPepp(String pepp) {
-        return pepp.matches("(^P[0-9]{3}[A-Z]$|^[P,T][A-Z][0-9]{2}[A-Z])");
+        return pepp.matches("(^P[0-9]{3}[A-Z]$|^[P,T,Q][A-Z][0-9]{2}[A-Z])") || isPseudoPepp(pepp);
+    }
+
+    public static boolean isPseudoPepp(String pepp) {
+        return pepp.matches("PUEL|PKOR");
     }
 
     private static boolean endWithNumber(String value) {

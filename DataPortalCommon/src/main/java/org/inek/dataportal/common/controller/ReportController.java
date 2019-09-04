@@ -46,6 +46,10 @@ public class ReportController implements Serializable {
         }
     }
 
+    public ReportTemplate getReportTemplateByName(String name) {
+        return _adminFacade.findReportTemplateByName(name).get();
+    }
+
     public byte[] getSingleDocument(ReportTemplate template, String id, String fileName) {
         String hostName = _appTools.readConfig(ConfigKey.ReportHostName);
         String address = template.getAddress().replace("{hostName}", hostName).replace("{0}", id);
@@ -100,7 +104,10 @@ public class ReportController implements Serializable {
     }
     public byte[] getSingleDocument(String path) {
         try {
-            URL url = new URL(path);
+            String hostName = _appTools.readConfig(ConfigKey.ReportHostName);
+            String address = path.replace("{hostName}", hostName);
+
+            URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("X-ReportServer-ClientId", "portal");

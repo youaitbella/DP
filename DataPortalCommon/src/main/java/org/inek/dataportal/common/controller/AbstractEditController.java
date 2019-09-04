@@ -4,12 +4,13 @@
  */
 package org.inek.dataportal.common.controller;
 
-import java.io.Serializable;
-import java.util.List;
-import javax.annotation.PostConstruct;
 import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.common.helper.Topics;
 import org.inek.dataportal.common.helper.Utils;
+
+import javax.annotation.PostConstruct;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -121,10 +122,14 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
         return getOutcome();
     }
 
+    public String determineOutcome(String newTopic) {
+        return findTopic(newTopic).getOutcome();
+    }
+
     protected String getOutcome() {
         return _topics.getActiveTopic().getOutcome();
     }
-    
+
     @Override
     public void addDiagnosis(String code) {
     }

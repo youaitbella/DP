@@ -1,7 +1,8 @@
 package org.inek.dataportal.common.helper.structures;
 
-import java.io.Serializable;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+
+import java.io.Serializable;
 
 /**
  *
@@ -23,6 +24,9 @@ public class ProposalInfo implements Serializable {
         this(id, name, year, status, -1);
     }
 
+    public ProposalInfo(final int id, final String name, String displayName, final int year, final int statusId, Integer ik) {
+        this(id, (displayName.trim().length() == 0 ? name : displayName), year, WorkflowStatus.fromValue(statusId), ik);
+    }
     public ProposalInfo(final int id, final String name, final int year, final WorkflowStatus status, Integer ik) {
         _id = id;
         _name = name;

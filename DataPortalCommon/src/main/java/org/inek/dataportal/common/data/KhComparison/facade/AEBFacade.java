@@ -7,14 +7,17 @@ package org.inek.dataportal.common.data.KhComparison.facade;
 
 import javafx.util.Pair;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
-import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
-import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
+import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyGroup;
+import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonStatus;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.XmlReaderPsyEvaluation;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -86,6 +89,9 @@ public class AEBFacade extends AbstractDataAccess {
     }
 
     public List<AEBBaseInformation> getAllByStatusAndIk(List<WorkflowStatus> status, Set<Integer> iks, CustomerTyp typ) {
+        if (iks.size() == 0 || status.size() == 0) {
+            return new ArrayList<>();
+        }
         String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._status in :status "
                 + "and bi._ik in :iks "
                 + "and bi._typ = :typ";
@@ -101,6 +107,32 @@ public class AEBFacade extends AbstractDataAccess {
         TypedQuery<StructureBaseInformation> query = getEntityManager().createQuery(sql, StructureBaseInformation.class);
         query.setParameter("ik", ik);
         return !query.getResultList().isEmpty();
+    }
+
+    public Optional<AEBBaseInformation> getBaseInformationForComparing(int id) {
+        String sql = "select top 1 *\n" +
+                "from psy.AEBBaseInformation a\n" +
+                "where a.biDataYear = (\n" +
+                "\tselect biDataYear\n" +
+                "\tfrom psy.AEBBaseInformation\n" +
+                "\twhere biid = " + id + "\n" +
+                ")\n" +
+                "and a.biIk = (\n" +
+                "\tselect biIk\n" +
+                "\tfrom psy.AEBBaseInformation\n" +
+                "\twhere biid = " + id + "\n" +
+                ")\n" +
+                "and a.biTyp != (\n" +
+                "\tselect biTyp\n" +
+                "\tfrom psy.AEBBaseInformation\n" +
+                "\twhere biid = " + id + "\n" +
+                ") \n" +
+                "and a.biStatusId in (10, 200)\n" +
+                "order by a.biStatusId, a.biSend desc";
+        Query query = getEntityManager().createNativeQuery(sql, AEBBaseInformation.class);
+
+        AEBBaseInformation result = (AEBBaseInformation) query.getSingleResult();
+        return Optional.ofNullable(result);
     }
 
     public boolean ikHasModelIntention(int ik) {
@@ -167,6 +199,16 @@ public class AEBFacade extends AbstractDataAccess {
         return result;
     }
 
+    public List<Integer> getUsedDataYears(int ik) {
+        String sql = "select distinct biDataYear from psy.AEBBaseInformation\n"
+                + "where biIk = " + ik + "\n"
+                + "and biStatusId in (10, 3, 200)";
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> result = query.getResultList();
+        return result;
+    }
+
     @Transactional
     public AEBBaseInformation save(AEBBaseInformation aebBaseInformation) {
         if (aebBaseInformation.getId() == -1) {
@@ -183,6 +225,21 @@ public class AEBFacade extends AbstractDataAccess {
             return info;
         }
         return merge(info);
+    }
+
+    @Transactional
+    public HospitalComparisonInfo save(HospitalComparisonInfo info) {
+        if (info.getId() == 0) {
+            persist(info);
+            return info;
+        }
+        return merge(info);
+    }
+
+    @Transactional
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public HospitalComparisonJob save(HospitalComparisonJob job) {
+        return merge(job);
     }
 
     public void deleteBaseInformation(AEBBaseInformation info) {
@@ -202,5 +259,127 @@ public class AEBFacade extends AbstractDataAccess {
                 "and ehYear = " + year + "";
         Query query = getEntityManager().createNativeQuery(sql);
         query.executeUpdate();
+    }
+
+    public List<HospitalComparisonInfo> getHosptalComparisonInfoByAccount(Account acc) {
+        String jpql = "select hc from HospitalComparisonInfo hc where hc._accountId = :id";
+        TypedQuery<HospitalComparisonInfo> query = getEntityManager().createQuery(jpql, HospitalComparisonInfo.class);
+        query.setParameter("id", acc.getId());
+        return query.getResultList();
+    }
+
+    public PsyGroup getPsyGroupByIkAndYear(int ik, int year) {
+        String sql = "select ehPsyGroup\n" +
+                "from psy.ExpectedHospital\n" +
+                "where ehIk = " + ik + "\n" +
+                "and ehYear = " + year + "";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> result = query.getResultList();
+        if (result.size() == 1) {
+            return PsyGroup.getById(result.get(0));
+        } else {
+            throw new IllegalArgumentException("PsyGroup not found for IK: " + ik + " and Year: " + year);
+        }
+    }
+
+
+    public List<Integer> getAebIdsForEvaluationGroup2_3_8_9(String stateIds, int year, PsyGroup psyGroup) {
+        String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_2_3_8_9");
+        sql = sql.replace("{year}", String.valueOf(year));
+        sql = sql.replace("{psyGroupId}", String.valueOf(psyGroup.getId()));
+        sql = sql.replace("{stateIds}", stateIds);
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> results = query.getResultList();
+
+        return results;
+    }
+
+    public List<Integer> getAebIdsForEvaluationGroup1_7(String stateIds, int year, PsyGroup psyGroup) {
+        String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_1_7");
+        sql = sql.replace("{year}", String.valueOf(year));
+        sql = sql.replace("{psyGroupId}", String.valueOf(psyGroup.getId()));
+        sql = sql.replace("{stateIds}", stateIds);
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> results = query.getResultList();
+
+        return results;
+    }
+
+    public List<Integer> getAebIdsForEvaluationGroup5_6(String stateIds, int year) {
+        String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_5_6");
+        sql = sql.replace("{year}", String.valueOf(year));
+        sql = sql.replace("{stateIds}", stateIds);
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> results = query.getResultList();
+
+        return results;
+    }
+
+    public List<Integer> getAebIdsForEvaluationGroup4(String stateIds, int year) {
+        String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_4");
+        sql = sql.replace("{year}", String.valueOf(year));
+        sql = sql.replace("{stateIds}", stateIds);
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> results = query.getResultList();
+
+        return results;
+    }
+
+    public int getAebIdForEvaluationHospital2_3_5_6_8_9(int ik, int year) {
+        return getAebIdForEvaluationHospital(ik, year, "KH_2_3_5_6_8_9");
+    }
+
+    public int getAebIdForEvaluationHospital1_4_7(int ik, int year) {
+        return getAebIdForEvaluationHospital(ik, year, "KH_1_4_7");
+    }
+
+    private int getAebIdForEvaluationHospital(int ik, int year, String statementName) {
+        String sql = XmlReaderPsyEvaluation.getStatementById(statementName);
+        sql = sql.replace("{year}", String.valueOf(year));
+        sql = sql.replace("{ik}", String.valueOf(ik));
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> result = query.getResultList();
+
+        if (result.size() == 1) {
+            return result.get(0);
+        } else {
+            return 0;
+        }
+    }
+
+    public void insertNewCompatingConflict(AEBBaseInformation aebBaseInformation1, HospitalComparisonHospitals hospital) {
+        String sqlTemplate = "insert into psy.HospitalComparisonConflicts" +
+                "(hccHospitalComparisonEvaluationId, hccAebBaseInformationId1, hccAebBaseInformationId2) values(%s, %s, %s)";
+
+        String sql = String.format(sqlTemplate, hospital.getId(), hospital.getAebBaseInformationId(), aebBaseInformation1);
+
+        getEntityManager().createNativeQuery(sql).executeUpdate();
+    }
+
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public Optional<HospitalComparisonJob> getOldestNewJob() {
+        String sql = "SELECT jo FROM HospitalComparisonJob jo WHERE jo._status = :status order by jo._createdDate";
+        TypedQuery<HospitalComparisonJob> query = getEntityManager().createQuery(sql, HospitalComparisonJob.class);
+        query.setParameter("status", PsyHosptalComparisonStatus.NEW.name());
+
+        List<HospitalComparisonJob> resultList = query.getResultList();
+
+        if (resultList.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(resultList.get(0));
+        }
     }
 }

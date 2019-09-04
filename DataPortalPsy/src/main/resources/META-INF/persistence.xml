@@ -7,9 +7,6 @@
         <properties>
             <property name="eclipselink.jpa.uppercase-column-names" value="true"/>
             <property name="eclipselink.cache.shared.default" value="false"/>
-            <property name="eclipselink.logging.logger" value="JavaLogger"/>
-            <property name="eclipselink.logging.level" value="INFO"/>       
-            <property name="eclipselink.logging.parameters" value="true"/>     
         </properties>
     </persistence-unit>
 </persistence>

@@ -113,12 +113,12 @@ public class IkAdmin implements Serializable {
     }
 
     private void ensureRightsForAccounts(int ik) {
-        List<Account> accountsForIk = _accountFacade.getAccounts4Ik(ik);
+        /*List<Account> accountsForIk = _accountFacade.getAccounts4Ik(ik);
         List<org.inek.dataportal.common.data.ikadmin.entity.IkAdmin> ikAdminsForIk = _ikAdminFacade.findIkAdminsForIk(ik);
         AccessRightHelper.ensureRightsForAccounts(accountsForIk, ikAdminsForIk, ik);
         for (Account acc : accountsForIk) {
             _accountFacade.merge(acc);
-        }
+        }*/
     }
 
     public void setInput(IkAccount ikAccount) {
@@ -189,7 +189,6 @@ public class IkAdmin implements Serializable {
             return "";
         }
         _sessionController.logMessage("Modified IK Admin: account=" + _account.getId() + ", ik=" + _ik);
-        collectExistingAccess(_ik);
 
         if (!_account.getFullIkSet().contains(_ik)) {
             _account.addIk(_ik);
@@ -221,8 +220,10 @@ public class IkAdmin implements Serializable {
             }
         }
 
+
         _accountFacade.merge(_account);
         ensureRightsForAccounts(_ik);
+        collectExistingAccess(_ik);
         DialogController.showSaveDialog();
         createAdminAccountList();
 

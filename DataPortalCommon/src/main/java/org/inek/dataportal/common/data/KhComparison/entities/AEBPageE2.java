@@ -1,5 +1,7 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
+import org.inek.dataportal.common.helper.MathHelper;
+
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
@@ -86,7 +88,20 @@ public class AEBPageE2 extends AEBPage implements Serializable {
     }
 
     public void setValuationRadioDay(double valuationRadioDay) {
-        _valuationRadioDay = valuationRadioDay;
+        _valuationRadioDay = MathHelper.round(valuationRadioDay, 4);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property peIsOverlyer">
+    @Column(name = "peIsOverlyer")
+    private boolean _isOverlyer = false;
+
+    public boolean isIsOverlyer() {
+        return _isOverlyer;
+    }
+
+    public void setIsOverlyer(boolean isOverlyer) {
+        this._isOverlyer = isOverlyer;
     }
     //</editor-fold>
 
@@ -95,43 +110,20 @@ public class AEBPageE2 extends AEBPage implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this._baseInformation);
-        hash = 23 * hash + Objects.hashCode(this._ze);
-        hash = 23 * hash + this._zeCount;
-        hash = 23 * hash + (int) (Double.doubleToLongBits(this._valuationRadioDay) ^ (Double.doubleToLongBits(this._valuationRadioDay) >>> 32));
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AEBPageE2 aebPageE2 = (AEBPageE2) o;
+        return _zeCount == aebPageE2._zeCount &&
+                Double.compare(aebPageE2._valuationRadioDay, _valuationRadioDay) == 0 &&
+                _isOverlyer == aebPageE2._isOverlyer &&
+                Objects.equals(_id, aebPageE2._id) &&
+                Objects.equals(_baseInformation, aebPageE2._baseInformation) &&
+                Objects.equals(_ze, aebPageE2._ze);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final AEBPageE2 other = (AEBPageE2) obj;
-        if (this._zeCount != other._zeCount) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this._valuationRadioDay) != Double.doubleToLongBits(other._valuationRadioDay)) {
-            return false;
-        }
-        if (!Objects.equals(this._ze, other._ze)) {
-            return false;
-        }
-        if (!Objects.equals(this._id, other._id)) {
-            return false;
-        }
-        if (!Objects.equals(this._baseInformation, other._baseInformation)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(_id, _baseInformation, _ze, _zeCount, _valuationRadioDay, _isOverlyer);
     }
-
 }

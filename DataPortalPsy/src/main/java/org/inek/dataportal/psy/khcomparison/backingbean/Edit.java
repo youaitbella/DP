@@ -5,11 +5,13 @@
  */
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
+import org.eclipse.persistence.exceptions.OptimisticLockException;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.KhComparison.checker.AebChecker;
 import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
+import org.inek.dataportal.common.data.KhComparison.checker.RenumerationChecker;
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyGroup;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
@@ -34,7 +36,6 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -88,11 +89,17 @@ public class Edit {
         setReadOnly();
     }
 
-    public String getHintMessage() { return _hintMessage; }
+    public String getHintMessage() {
+        return _hintMessage;
+    }
 
-    public void setHintMessage(String hintMessage) { this._hintMessage = hintMessage; }
+    public void setHintMessage(String hintMessage) {
+        this._hintMessage = hintMessage;
+    }
 
-    public String getErrorMessage() { return _errorMessage; }
+    public String getErrorMessage() {
+        return _errorMessage;
+    }
 
     public void setErrorMessage(String errorMessage) {
         this._errorMessage = errorMessage;
@@ -175,7 +182,12 @@ public class Edit {
 
     private Boolean save(Boolean sendCheck) {
         _errorMessage = "";
-        if (baseInfoisComplete(_aebBaseInformation) && baseInfoIsCorrect(_aebBaseInformation, sendCheck)) {
+        if (!baseInfoisComplete(_aebBaseInformation)) {
+            DialogController.showWarningDialog("Fehler beim Speichern",
+                    "Bitte geben Sie eine gültige IK und Datenjahr");
+            return false;
+        }
+        if (baseInfoIsCorrect(_aebBaseInformation, sendCheck)) {
             removeEmptyEntries(_aebBaseInformation);
             AebCheckerHelper.ensureValuationRadios(_aebBaseInformation, _aebListItemFacade);
             _aebBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
@@ -188,6 +200,10 @@ public class Edit {
                 } else {
                     DialogController.showSaveDialog();
                 }
+            } catch (OptimisticLockException ex) {
+                DialogController.showErrorDialog("Daten können nicht gespeichert werden.", "Die Daten wurden bereits von einem " +
+                        "anderen Benutzer geändert. Bitte laden Sie die Seite neu.");
+                return false;
             } catch (Exception ex) {
                 DialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
                 _mailer.sendError("AEB Fehler beim speichern", ex);
@@ -196,7 +212,7 @@ public class Edit {
             return true;
         } else {
             DialogController.showWarningDialog("Fehler beim Speichern",
-                    "Bitte geben Sie eine gültige IK und Datenjahr an und überprüfen Sie das Fehlerprotokoll");
+                    "Bitte überprüfen Sie das Fehlerprotokoll");
             return false;
         }
     }
@@ -342,6 +358,12 @@ public class Edit {
         if (page.getPepp().length() == 5) {
             page.setValuationRadioDay(_aebListItemFacade.getValuationRadioDaysByPepp(page.getPepp(),
                     page.getCompensationClass(), _aebBaseInformation.getYear()));
+            page.setIsOverlyer(false);
+        } else if (isPseudoPepp(page.getPepp())) {
+            page.setCompensationClass(1);
+            page.setCaseCount(1);
+            page.setCalculationDays(1);
+            page.setIsOverlyer(page.getPepp().equals("PUEL"));
         } else {
             page.setValuationRadioDay(0.0);
         }
@@ -446,5 +468,9 @@ public class Edit {
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation2}", _mailer.getSalutation(ac2));
 
         _mailer.sendMailTemplate(template, ac1.getEmail() + ";" + ac2.getEmail());
+    }
+
+    public boolean isPseudoPepp(String pepp) {
+        return RenumerationChecker.isPseudoPepp(pepp);
     }
 }

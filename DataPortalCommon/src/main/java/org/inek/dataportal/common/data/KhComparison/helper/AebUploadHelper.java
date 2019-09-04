@@ -21,10 +21,13 @@ public class AebUploadHelper {
             AebChecker checker = new AebChecker(aebListItemFacade, true, false);
             if (importer.startImport(info, input)) {
                 checker.checkAeb(info);
-                message = "Start Formatprüfung: \n \n";
+                message = "### Anfang Importmeldungen ### \n \n";
                 message += importer.getErrorMessages();
-                message += "\n \n Ende Formatprüfung\n";
+                message += "\n### Ende Importmeldungen ###\n";
+
+                message += "\n### Anfang Formatprüfungen ###\n \n";
                 message += checker.getMessage() + "\n \n --> " + importer.getCounter() + " Zeilen eingelesen";
+                message += "\n### Ende Formatprüfungen ###\n";
                 DialogController.showInfoDialog("Upload abgeschlossen", "Ihre Daten wurden erfolgreich hochgeladen");
             }
             else {

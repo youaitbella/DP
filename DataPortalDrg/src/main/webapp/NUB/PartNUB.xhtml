@@ -4,7 +4,6 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:jsf="http://xmlns.jcp.org/jsf"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
       xmlns:nub="http://xmlns.jcp.org/jsf/composite/components/feature/nub"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
@@ -14,9 +13,9 @@
         <div class="paddingElement">
             #{nubSessionTools.nubFilter=""}
             #{nubSessionTools.accountNode.refresh()}
-            <nub:NubRequestNode parentNode="#{nubSessionTools.accountNode}" isSealed="false" 
-                                 showDelete="true" showSelectBox="false"
-                                 rendered="#{nubSessionTools.accountNode.children.size() gt 0}"/>
+            <nub:NubRequestNode parentNode="#{nubSessionTools.accountNode}" isSealed="false"
+                                showDelete="true" showSelectBox="false"
+                                rendered="#{nubSessionTools.accountNode.children.size() gt 0}"/>
 
             <p>
                 <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') and nubSessionTools.createAllowed ? '' : 'buttonDisabled'}"

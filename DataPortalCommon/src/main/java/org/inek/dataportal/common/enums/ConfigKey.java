@@ -1,7 +1,6 @@
 package org.inek.dataportal.common.enums;
 
 /**
- *
  * @author muellermi
  */
 public enum ConfigKey {
@@ -59,6 +58,8 @@ public enum ConfigKey {
     DocumentSetRead(false),
     CertCompareOnUpload(true),
     IkAdminEnable(true),
+    KhComparisonJobSavePath("//vFileserver01/company$/EDV/Datenportal/kh-vergleich/auswertungen"),
+    KhComparisonUploadPath("//vFileserver01/company$/EDV/Datenportal/documents/KH-Vergleich"),
     isKhComparisionInsuranceEnabled(false),
     ReportHostName("vreportserver01");
     //

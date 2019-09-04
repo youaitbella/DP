@@ -12,6 +12,42 @@
         <h:outputScript name="script/fileuploader.js" />
         <h:form id="psychStaff" enctype="multipart/form-data">
 
+
+            <pf:dialog widgetVar="errorMessageDialog"
+                       header="Es wurden folgende Auffälligkeiten gefunden:"
+                       modal="true"
+                       width="60%"
+                       height="600px"
+                       closable="true"
+                       resizable="true">
+                <div id="container" style="width: 100%; height:530px">
+                    <div>
+                        Bitte prüfen Sie Ihre Angaben und nehmen Sie bitte ggf. Korrekturen vor.
+                    </div>
+
+                    <br />
+
+                    <pf:inputTextarea value="#{editPsyStaff.plausiMessages}"
+                                      readonly="true"
+                                      style="width: 100%; height: 400px" />
+
+                    <div id="buttons" style="position: absolute !important; bottom: 10px !important; vertical-align: bottom !important;">
+                        <pf:button styleClass="btnPsy"
+                                   value="Korrekturen vornehmen"
+                                   tabindex="0"
+                                   style="position: relative;"
+                                   onclick="PF('errorMessageDialog').hide();" />
+
+                        <pf:commandButton styleClass="btnSend arrow-right"
+                                          value="Eingabe bestätigen"
+                                          action="#{editPsyStaff.close}"
+                                          style="position: relative;"
+                                          oncomplete="PF('errorMessageDialog').hide();"
+                                          update="@form" />
+                    </div>
+                </div>
+            </pf:dialog>
+
             <h1><h:commandLink value="#{featureMsg.namePSYCH_STAFF}"
                                action="#{sessionController.navigate(sessionTools.pages.PsychStaffSummary)}"
                                immediate="true"
@@ -97,7 +133,7 @@
 
                         <h:commandLink styleClass="bigButton highlightColor"
                                        immediate="false"
-                                       action="#{editPsyStaff.close}"
+                                       action="#{editPsyStaff.tryToclose}"
                                        value="#{editPsyStaff.btnClose}"
                                        rendered="#{editPsyStaff.closeEnabled}"
                                        title="#{msg.msgCloseWithSignature}"

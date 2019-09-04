@@ -65,6 +65,10 @@ public class OccupationalCategory implements Serializable {
     public String getName() {
         return _name;
     }
+
+    public void setName(String name) {
+        _name = name;
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Number">

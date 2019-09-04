@@ -345,7 +345,8 @@ div#wrapper {
   width: 260px !important;
   margin: 5px 0 5px 10px !important;
 }
-#content .navi a {
+#content .navi a,
+.naviLabel {
   font-size: 1.2em;
   display: block;
   text-decoration: none;
