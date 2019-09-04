@@ -39,7 +39,7 @@
                     <h:inputTextarea style="width: 100%;"
                                      id="nubAddCostPersonalComment"
                                      required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).money gt 0}"
-                                     requiredMessage="Bitte geben Sie einen Kommentar an"
+                                     requiredMessage="Bitte geben Sie einen Kommentar zu den Mehrkosten - Personal an"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
@@ -73,7 +73,7 @@
                     <h:inputTextarea style="width: 100%;"
                                      id="nubAddCostMaterialComment"
                                      required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).money gt 0}"
-                                     requiredMessage="Bitte geben Sie einen Kommentar an"
+                                     requiredMessage="Bitte geben Sie einen Kommentar zu den Mehrkosten - Material an"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
@@ -107,7 +107,7 @@
                     <h:inputTextarea style="width: 100%;"
                                      id="nubAddCostOtherComment"
                                      required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).money gt 0}"
-                                     requiredMessage="Bitte geben Sie einen Kommentar an"
+                                     requiredMessage="Bitte geben Sie einen Kommentar zu den Mehrkosten - Sonstige an"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
@@ -148,6 +148,7 @@
                                      id="nubLessCostPersonalComment"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).comment}"
                                      required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).money gt 0}"
+                                     requiredMessage="Bitte geben Sie einen Kommentar zu den Kosteneinsparungen - Personal an"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
                                 render="@this :logout:remaining msgnubLessCostPersonalComment nubLessCostPersonalMoney" />
@@ -181,6 +182,7 @@
                                      id="nubLessCostMaterialComment"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).comment}"
                                      required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).money gt 0}"
+                                     requiredMessage="Bitte geben Sie einen Kommentar zu den Kosteneinsparungen - Material an"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
                                 render="@this :logout:remaining msgnubLessCostMaterialComment nubLessCostMaterialMoney" />
@@ -201,7 +203,7 @@
                                     symbol=" €"
                                     symbolPosition="s"
                                     decimalPlaces="2">
-                        <pf:ajax event="blur" />
+                        <pf:ajax event="blur" update="nubLessCostOtherComment"/>
                     </pf:inputNumber>
                 </h:panelGroup>
 
@@ -213,6 +215,8 @@
                     <h:inputTextarea style="width: 100%;"
                                      id="nubLessCostOtherComment"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).comment}"
+                                     required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).money gt 0}"
+                                     requiredMessage="Bitte geben Sie einen Kommentar zu den Kosteneinsparungen - Sonstige an"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
                                 render="@this :logout:remaining msgnubLessCostOtherComment nubLessCostOtherMoney" />
