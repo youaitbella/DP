@@ -132,7 +132,7 @@ public class PsyNubRequestTemplateHelper implements Serializable {
                 }
             }
         } else {
-            throw new IllegalArgumentException("Invalid checksum [PSY-NUB]");
+            return Optional.empty();
         }
         return Optional.of(newPsyNubRequest);
     }

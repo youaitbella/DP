@@ -14,6 +14,7 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.psy.nub.bo.UploadedTemplate;
 import org.inek.dataportal.psy.nub.entities.PsyNubRequest;
 import org.inek.dataportal.psy.nub.facade.PsyNubFacade;
 import org.inek.dataportal.psy.nub.helper.NewPsyNubRequestHelper;
@@ -56,7 +57,7 @@ public class NubSummary implements Serializable {
 
     private List<PsyNubRequest> _listComplete = new ArrayList<>();
     private List<PsyNubRequest> _listWorking = new ArrayList<>();
-    private List<PsyNubRequest> _requestFromTemplateUploads = new ArrayList<>();
+    private List<UploadedTemplate> _requestFromTemplateUploads = new ArrayList<>();
 
     private String _selectedWorkingListCommand = "";
     private String _selectedCompleteListCommand = "";
@@ -83,7 +84,7 @@ public class NubSummary implements Serializable {
         this._selectedCompleteListCommand = selectedCompleteListCommand;
     }
 
-    public List<PsyNubRequest> getRequestsFromTemplateUploads() {
+    public List<UploadedTemplate> getRequestsFromTemplateUploads() {
         return _requestFromTemplateUploads;
     }
 
@@ -184,22 +185,25 @@ public class NubSummary implements Serializable {
             String content = new String(file.getFile().getContents(), "UTF-8");
             Optional<PsyNubRequest> request = PsyNubRequestTemplateHelper.createNewRequestFromTemplate(content,
                     _sessionController.getAccount());
-            _requestFromTemplateUploads.add(request.get());
+            _requestFromTemplateUploads.add(new UploadedTemplate(file.getFile().getFileName(), request));
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error during template import: " + ex.getMessage());
-            //TODO Fehlerhaftes einlesen abfangen
         }
     }
 
     public void createNubsFromTemplates() {
         if (!_requestFromTemplateUploads.isEmpty()) {
-            for (PsyNubRequest request : _requestFromTemplateUploads) {
+            for (PsyNubRequest request : _requestFromTemplateUploads
+                    .stream()
+                    .filter(c -> !c.getHasError())
+                    .map(UploadedTemplate::getRequest)
+                    .collect(Collectors.toList())) {
                 _psyNubFacade.save(request);
             }
             _requestFromTemplateUploads.clear();
             setWorkingList();
         } else {
-            DialogController.showInfoDialog("Keine Vorlagen ausgewählt", "Bitte ladnen Sie mindesten eine Vorlage hoch, " +
+            DialogController.showInfoDialog("Keine Vorlagen ausgewählt", "Bitte laden Sie mindestens eine Vorlage hoch, " +
                     "um daraus eine neue NUB zu erzeugen. Ein hochladen von mehreren Vorlagen gleichzeitig ist auch möglich.");
         }
     }

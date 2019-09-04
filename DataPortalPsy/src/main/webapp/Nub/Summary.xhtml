@@ -151,35 +151,39 @@
                     <f:param name="id" value="new" />
                 </pf:commandButton>
 
-                <pf:fieldset id="newNubFromTemplateFieldSet"
-                             legend="Neue NUB aus Vorlage"
-                             toggleable="true"
-                             collapsed="true"
-                             rendered="#{nubSummary.isCreateEntryAllowed()}"
-                             class="inekFieldset">
+                <br />
+                <br />
 
+                <h2>Nub aus Vorlage erstellen</h2>
+                <div class="groupBox">
                     <pf:fileUpload styleClass="inekUploader"
                                    rendered="#{nubSummary.isCreateEntryAllowed()}"
                                    fileUploadListener="#{nubSummary.handleTemplateUpload}"
+                                   allowTypes="/(\.|\/)(nub)$/"
+                                   invalidFileMessage="Es dürfen nur NUB-Vorlagen hochgeladen werden"
                                    mode="advanced"
                                    multiple="true"
                                    auto="true"
                                    cancelLabel="Abbrechen"
-                                   uploadLabel="Templates Hochladen"
-                                   label="Templates auswählen"
+                                   uploadLabel="Neue NUB aus Vorlage"
+                                   label="Neue NUB aus Vorlage"
                                    update="listTemplates" />
 
                     <pf:dataTable id="listTemplates"
                                   styleClass="inekTablePsy"
                                   value="#{nubSummary.requestsFromTemplateUploads}"
                                   emptyMessage="Noch keine Templates hochgeladen"
-                                  var="proposal">
-                        <pf:column headerText="NUB">
-                            #{proposal.name}
+                                  var="template">
+
+                        <pf:column headerText="Template">
+                            #{template.displayName}
                         </pf:column>
                     </pf:dataTable>
 
-                    <pf:commandButton value="NUB's aus hochgeladenen Dateien erzeugen"
+                    <br />
+
+                    <pf:commandButton value="NUB's der Liste hinzufügen"
+                                      id="newNubFromTemplatesButton"
                                       action="#{nubSummary.createNubsFromTemplates()}"
                                       rendered="#{nubSummary.isCreateEntryAllowed()}"
                                       styleClass="btnPsy"
@@ -188,7 +192,8 @@
                                       update="listTemplates erfassungtable"
                                       immediate="true" />
 
-                </pf:fieldset>
+                </div>
+
                 <div class="ui-g ui-fluid">
                     <div class="ui-g-12">
                         <h2>An das InEK gesendet</h2>
