@@ -1,44 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:pf="http://primefaces.org/ui">
-<head>
+      xmlns:pf="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
     <title>DocumentScanner</title>
-</head>
-
-<ui:composition>
-
-<style>
-    .red{
-        background-color:red;
-    }
-
-    .green{
-        background-color:green;
-    }
-</style>
-
+</h:head>
+<h:body>
 <h:form>
     <h1>Basisverzeichnis: #{documentScannerBean.baseDir}</h1>
 
-    <h1 style="background-color: #{documentScannerBean.documentScanStatus ? 'green' : 'red'}">Aktueller Status von DocumentenScan Scanning: #{documentScannerBean.documentScanStatus}</h1>
+    <h1 style="background-color: #{documentScannerBean.documentScanStatus ? 'green' :
+    'red'}">Aktueller Status von DocumentenScan Scanning: #{documentScannerBean.documentScanStatus}</h1>
 
     <h:commandButton actionListener="#{documentScannerBean.switchDocumentScanner()}"
                      value="Status ändern" />
 
 
-    <h:dataTable var ="dir" value="#{documentScannerBean.loadDir}"
-                        rowStyleClass="green">
+    <h:dataTable var ="dir" value="#{documentScannerBean.loadDir}" id="scannedDirectorys">
         <h:column>
-            <h:outputText value="#{dir.dir}"/>
+            <div style="background-color:red">
+                <h:outputText value="#{dir.dir}"/>
+            </div>
         </h:column>
         <h:column>
+            <h:selectBooleanCheckbox value ="#{dir.scanDir}" id ="chkScanDir" >
+                <f:ajax render="scannedDirectorys" event="change"/>
+            </h:selectBooleanCheckbox>
             <h:outputText value="#{dir.scanDir}"/>
         </h:column>
     </h:dataTable>
+
 
     <h1>#{documentScannerBean.documentScanStatus}</h1>
 
@@ -59,5 +54,5 @@
                      value="Test Error senden" />
 
 </h:form>
-</ui:composition>
+</h:body>
 </html>

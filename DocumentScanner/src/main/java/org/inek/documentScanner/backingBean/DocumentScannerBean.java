@@ -6,6 +6,7 @@ import org.inek.dataportal.common.mail.Mailer;
 import org.inek.documentScanner.business.ScanDirectory;
 import org.inek.documentScanner.config.DocumentScannerConfig;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
@@ -57,18 +58,35 @@ public class DocumentScannerBean implements Serializable {
     }
 
 
-    public List<ScanDirectory> getLoadDir(){
-        List<ScanDirectory> directories = new ArrayList<>();
-        for (String dir:_config.getAllDirs()) {
+
+    @PostConstruct
+    public void init(){
+        loadDir = initLoadDir();
+    }
+
+    private List<ScanDirectory> loadDir = new ArrayList();
+
+    public void setLoadDir(List<ScanDirectory> loadDir) {
+        this.loadDir = loadDir;
+    }
+    public List<ScanDirectory> getLoadDir() {
+        return loadDir;
+    }
+
+    public List<ScanDirectory> initLoadDir() {
+
+        List<ScanDirectory> loadDir = new ArrayList();
+        for (String dir : _config.getAllDirs()) {
             String[] splittedDir = dir.split(":");
             ScanDirectory scanDirectory = new ScanDirectory();
             scanDirectory.setDir(splittedDir[1]);
             scanDirectory.setScanDir(false);
-            directories.add(scanDirectory);
+            loadDir.add(scanDirectory);
         }
-
-        return  directories;
+        return loadDir;
     }
+
+
 
 /*
     public List<String> loadDir(){
