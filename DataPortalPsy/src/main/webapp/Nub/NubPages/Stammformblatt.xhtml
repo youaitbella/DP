@@ -42,7 +42,7 @@
         <h:message for="khName" id="msgNubKhName" styleClass="errorMessage" />
         <br />
         <h:inputText styleClass="inputlong" readonly="#{nubEdit.readOnly}" maxlength="100" id="khName"
-                     value="#{nubEdit.psyNubRequest.ikName}" required="true"
+                     value="#{nubEdit.psyNubRequest.ikName}" required="#{nubEdit.psyNubRequest.ik gt 0}"
                      requiredMessage="Bitte geben Sie einen Krankenhausnamen an">
             <f:ajax event="blur" render="@this :logout:remaining msgNubKhName" />
         </h:inputText>

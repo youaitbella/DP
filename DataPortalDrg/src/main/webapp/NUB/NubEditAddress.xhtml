@@ -45,7 +45,9 @@
             <h:outputLabel id="nubKhName" for="khName" styleClass="label" value="#{msg.lblHospitalName}:" />
             <h:message for="khName" id="msgNubKhName" styleClass="errorMessage"/>
             <br />
-            <h:inputText styleClass="inputlong" readonly="#{editNubRequest.readOnly}" maxlength="100" id="khName" value="#{editNubRequest.nubRequest.ikName}" required="true" requiredMessage="#{msg.msgValueNeeded}">
+            <h:inputText styleClass="inputlong" readonly="#{editNubRequest.readOnly}" maxlength="100" id="khName"
+                         value="#{editNubRequest.nubRequest.ikName}"
+                         required="#{editNubRequest.nubRequest.ik gt 0}" requiredMessage="#{msg.msgValueNeeded}">
                 <f:ajax event="blur" render="@this :logout:remaining msgNubKhName"/>
             </h:inputText>
             <h:commandLink styleClass="button rightAllign" action="#{editNubRequest.reloadMaster}"
