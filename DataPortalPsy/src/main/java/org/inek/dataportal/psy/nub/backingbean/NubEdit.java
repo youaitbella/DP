@@ -31,14 +31,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.OptimisticLockException;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author lautenti
@@ -60,7 +59,6 @@ public class NubEdit {
 
     private PsyNubRequest _psyNubRequest;
     private PsyNubRequest _psyNubRequestBaseline;
-    private List<Integer> _allowedIks;
     private Boolean _readOnly;
 
     private String _errorMessageTitle = "";
@@ -80,8 +78,8 @@ public class NubEdit {
         return _errorMessages;
     }
 
-    public List<Integer> getAllowedIks() {
-        return _allowedIks;
+    public Set<Integer> getAllowedIks() {
+        return _accessManager.obtainIksForCreation(Feature.NUB_PSY);
     }
 
     public Boolean getReadOnly() {
@@ -108,21 +106,7 @@ public class NubEdit {
                 Utils.navigate(Pages.NubPsySummary.RedirectURL());
             }
         }
-        setAllowedIksList();
         setReadOnly();
-    }
-
-    private void setAllowedIksList() {
-        _allowedIks = new ArrayList<>();
-        for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
-            if (_accessManager.ikIsManaged(ik, Feature.NUB_PSY)) {
-                if (_accessManager.userHasReadAccess(Feature.NUB_PSY, ik)) {
-                    _allowedIks.add(ik);
-                }
-            } else {
-                _allowedIks.add(ik);
-            }
-        }
     }
 
     private boolean userHasAccess(PsyNubRequest request) {
@@ -138,19 +122,10 @@ public class NubEdit {
     }
 
     public void setReadOnly() {
-        if (_psyNubRequest.getStatus().getId() >= WorkflowStatus.Accepted.getId()) {
-            _readOnly = true;
-            return;
-        }
-        if (_psyNubRequest.getIk() > 0 && _accessManager.ikIsManaged(_psyNubRequest.getIk(), Feature.NUB_PSY)) {
-            if (_accessManager.userHasReadAccess(Feature.NUB_PSY, _psyNubRequest.getIk())) {
-                _readOnly = false;
-            } else {
-                _readOnly = true;
-            }
-        } else {
-            _readOnly = !(_psyNubRequest.getCreatedByAccountId() == _sessionController.getAccountId());
-        }
+        _readOnly = _accessManager.isReadOnly(Feature.NUB_PSY,
+                _psyNubRequest.getStatus(),
+                _psyNubRequest.getCreatedByAccountId(),
+                _psyNubRequest.getIk());
     }
 
     public Boolean isSaveAllowed() {
@@ -162,11 +137,16 @@ public class NubEdit {
     }
 
     public Boolean isSendAllowed() {
-        return _config.readConfigBool(ConfigKey.IsPsyNubSendEnabled) && !_readOnly;
+        return _config.readConfigBool(ConfigKey.IsPsyNubSendEnabled) &&
+                _accessManager.isSealedEnabled(Feature.NUB_PSY,
+                        _psyNubRequest.getStatus(),
+                        _psyNubRequest.getCreatedByAccountId(),
+                        _psyNubRequest.getIk());
     }
 
     public Boolean isCreateNewNubFromNubAllowed() {
-        return _config.readConfigBool(ConfigKey.IsPsyNubCreateEnabled) && !_readOnly;
+        return _config.readConfigBool(ConfigKey.IsPsyNubCreateEnabled) &&
+                _accessManager.isCreateAllowed(Feature.NUB_PSY);
     }
 
     private PsyNubRequest createNewNubRequest() {
