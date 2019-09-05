@@ -45,19 +45,4 @@ public class PsyNubRequestValueChecker implements Serializable {
         }
         return invalidPepps.toString();
     }
-
-    public static String formatValuesForDatabase(String value) {
-        String[] iks = value.split("\\s|,|\r|\n|;");
-        String formatted = "";
-        for (String ik : iks) {
-            if (ik.isEmpty()) {
-                continue;
-            }
-            if (formatted.length() > 0) {
-                formatted += ", ";
-            }
-            formatted += ik;
-        }
-        return formatted;
-    }
 }

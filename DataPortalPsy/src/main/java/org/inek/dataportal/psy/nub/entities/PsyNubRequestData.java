@@ -1,6 +1,7 @@
 package org.inek.dataportal.psy.nub.entities;
 
 
+import org.inek.dataportal.common.helper.nub.NubValueFormatter;
 import org.inek.dataportal.common.utils.Documentation;
 import org.inek.dataportal.psy.nub.helper.PsyNubRequestValueChecker;
 
@@ -100,7 +101,7 @@ public class PsyNubRequestData implements Serializable {
     }
 
     public void setProxyIks(String proxyIks) {
-        this._proxyIks = PsyNubRequestValueChecker.formatValuesForDatabase(proxyIks);
+        this._proxyIks = NubValueFormatter.formatValuesForDatabase(proxyIks);
     }
 
     public String getFormFillHelper() {
@@ -132,7 +133,7 @@ public class PsyNubRequestData implements Serializable {
     }
 
     public void setProcs(String procs) {
-        this._procs = PsyNubRequestValueChecker.formatValuesForDatabase(procs);
+        this._procs = NubValueFormatter.formatValuesForDatabase(procs);
     }
 
     public Boolean getHasNoProcs() {
@@ -188,7 +189,7 @@ public class PsyNubRequestData implements Serializable {
     }
 
     public void setPepps(String pepps) {
-        this._pepps = PsyNubRequestValueChecker.formatValuesForDatabase(pepps);
+        this._pepps = NubValueFormatter.formatValuesForDatabase(pepps);
     }
 
     public String getWhyNotRepresented() {

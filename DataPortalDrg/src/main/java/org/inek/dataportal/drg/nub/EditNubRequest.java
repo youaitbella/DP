@@ -304,21 +304,6 @@ public class EditNubRequest extends AbstractEditController {
         }
     }
 
-    public void formatProxyIks() {
-        String[] iks = _nubRequest.getProxyIKs().split("\\s|,|\r|\n");
-        String formatted = "";
-        for (String ik : iks) {
-            if (ik.isEmpty() || (_nubRequest.getIk() + "").equals(ik)) {
-                continue;
-            }
-            if (formatted.length() > 0) {
-                formatted += ", ";
-            }
-            formatted += ik;
-        }
-        _nubRequest.setProxyIKs(formatted);
-    }
-
     // </editor-fold>
 
     /**
@@ -368,7 +353,6 @@ public class EditNubRequest extends AbstractEditController {
 
     public String saveData(boolean showSaveMessage) {
         setModifiedInfo();
-        formatProxyIks();
         boolean isNewRequest = !isValidId(_nubRequest.getId());
         String msg = "";
         try {

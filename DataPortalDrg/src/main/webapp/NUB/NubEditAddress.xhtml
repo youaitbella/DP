@@ -230,7 +230,7 @@
                              value="#{editNubRequest.nubRequest.proxyIKs}"
                              validator="#{editNubRequest.checkProxyIKs}"
                              >
-                <f:ajax event="blur" render="@this :logout:remaining msgNubProxyIks" listener="#{editNubRequest.formatProxyIks}"/>
+                <f:ajax event="blur" render="@this :logout:remaining msgNubProxyIks"/>
             </h:inputTextarea>
         </div>
 

@@ -188,7 +188,7 @@ public class PsyNubRequest implements Serializable {
     }
 
     public String getNubIdExtern() {
-        return "N" + _id;
+        return "PN" + _id;
     }
 
     public int getId() {
