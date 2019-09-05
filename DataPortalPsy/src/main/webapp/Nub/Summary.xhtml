@@ -154,7 +154,7 @@
                 <br />
                 <br />
 
-                <h2>Nub aus Vorlage erstellen</h2>
+                <h2>NUB aus Vorlage erstellen</h2>
                 <div class="groupBox">
                     <pf:fileUpload styleClass="inekUploader"
                                    rendered="#{nubSummary.isCreateEntryAllowed()}"
@@ -172,17 +172,17 @@
                     <pf:dataTable id="listTemplates"
                                   styleClass="inekTablePsy"
                                   value="#{nubSummary.requestsFromTemplateUploads}"
-                                  emptyMessage="Noch keine Templates hochgeladen"
+                                  emptyMessage="Noch keine Vorlagen hochgeladen"
                                   var="template">
 
-                        <pf:column headerText="Template">
+                        <pf:column headerText="Vorlage">
                             #{template.displayName}
                         </pf:column>
                     </pf:dataTable>
 
                     <br />
 
-                    <pf:commandButton value="NUB's der Liste hinzufügen"
+                    <pf:commandButton value="NUB der Liste hinzufügen"
                                       id="newNubFromTemplatesButton"
                                       action="#{nubSummary.createNubsFromTemplates()}"
                                       rendered="#{nubSummary.isCreateEntryAllowed()}"
