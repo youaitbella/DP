@@ -150,7 +150,12 @@ public class NubEdit {
     }
 
     private PsyNubRequest createNewNubRequest() {
-        return NewPsyNubRequestHelper.createNewPsyNubRequest(_sessionController.getAccount());
+        PsyNubRequest psyNubRequest = NewPsyNubRequestHelper.createNewPsyNubRequest(_sessionController.getAccount());
+        Set<Integer> iks = _accessManager.obtainIksForCreation(Feature.NUB_PSY);
+        if (iks.size() == 1) {
+            psyNubRequest.setIk(iks.stream().findFirst().get());
+        }
+        return psyNubRequest;
     }
 
     public void ikChanged() {
