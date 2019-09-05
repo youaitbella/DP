@@ -28,6 +28,7 @@ import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,9 +36,11 @@ import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author lautenti
@@ -78,8 +81,14 @@ public class NubEdit {
         return _errorMessages;
     }
 
-    public Set<Integer> getAllowedIks() {
-        return _accessManager.obtainIksForCreation(Feature.NUB_PSY);
+    public List<SelectItem> getAllowedIks() {
+        Set<Integer> iks = _accessManager.obtainIksForCreation(Feature.NUB_PSY);
+        if (iks.size() == 0) {
+            return new ArrayList<>();
+        }
+        List<SelectItem> items = iks.stream().map(i -> new SelectItem(i, "" + i)).collect(Collectors.toList());
+        items.add(new SelectItem(0, ""));
+        return items;
     }
 
     public Boolean getReadOnly() {
@@ -122,6 +131,11 @@ public class NubEdit {
     }
 
     public void setReadOnly() {
+        if (_psyNubRequest.getIk() <= 0 && _psyNubRequest.getStatus() == WorkflowStatus.New) {
+            _readOnly = false;
+            return;
+        }
+
         _readOnly = _accessManager.isReadOnly(Feature.NUB_PSY,
                 _psyNubRequest.getStatus(),
                 _psyNubRequest.getCreatedByAccountId(),

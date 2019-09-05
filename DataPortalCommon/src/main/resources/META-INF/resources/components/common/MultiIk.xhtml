@@ -10,6 +10,7 @@
         <cc:attribute name="ikList"/>
         <cc:attribute name="isFixed"/>
         <cc:attribute name="value"/>
+        <cc:attribute name="noSelectionValue" default="{0}"/>
         <cc:attribute name="required" default="true"/>
         <cc:attribute name="listener" method-signature="void listener()"/>
         <cc:attribute name="readonly" default="false"/>
@@ -34,15 +35,20 @@
                              requiredMessage="#{msg.msgValueNeeded}"
                              value="#{cc.attrs.value}"
                              hideNoSelectionOption="true" >
-                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{cc.attrs.noSelectionValue}"
+                              noSelectionOption="true"/>
                 <f:selectItems value="#{cc.attrs.ikList}"/>
                 <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining msgMultiIk"/>
                 <f:ajax event="change" listener="#{cc.attrs.listener}" render="@form :logout:remaining msgMultiIk" />
             </h:selectOneMenu>
 
-            <h:inputText styleClass="col07em" readonly="true" value="#{cc.attrs.value}" rendered="#{cc.attrs.readonly or cc.attrs.ikList.size() le 1 or cc.attrs.isFixed}"/>
+            <h:inputText styleClass="col07em" readonly="true"
+                         value="#{cc.attrs.value eq 0 ? 'nicht vorhanden' : cc.attrs.value}"
+                         rendered="#{cc.attrs.readonly or cc.attrs.ikList.size() le 1 or cc.attrs.isFixed}"/>
 
-            <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{applicationTools.retrieveHospitalInfo(cc.attrs.value)}"/>
+            <h:outputLabel id="hospitalName" styleClass="label marginLeft"
+                           value="#{applicationTools.retrieveHospitalInfo(cc.attrs.value)}"
+                           rendered="#{cc.attrs.value gt 0}"/>
 
             <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
 

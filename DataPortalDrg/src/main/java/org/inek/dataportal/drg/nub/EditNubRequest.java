@@ -40,6 +40,7 @@ import javax.persistence.OptimisticLockException;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Named
 @FeatureScoped
@@ -214,6 +215,15 @@ public class EditNubRequest extends AbstractEditController {
             _iks = _accessManager.obtainIksForCreation(Feature.NUB);
         }
         return _iks;
+    }
+
+    public List<SelectItem> getAllowedIks() {
+        if (getIks().size() == 0) {
+            return new ArrayList<SelectItem>();
+        }
+        List<SelectItem> items = _iks.stream().map(i -> new SelectItem(i, "" + i)).collect(Collectors.toList());
+        items.add(new SelectItem(0, ""));
+        return items;
     }
 
     public void checkPostalCode(FacesContext context, UIComponent component, Object value) {
