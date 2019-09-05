@@ -59,7 +59,7 @@ public class ProcedureFacade extends AbstractFacade<ProcedureInfo> {
     }
 
     public String checkProcedures(String value, int firstYear, int lastYear) {
-        return checkProcedures(value, firstYear, lastYear, "\\s");
+        return checkProcedures(value, firstYear, lastYear, "\\s|,|\n|;");
     }
     
     public String checkProcedures(String value, int firstYear, int lastYear, String splitRegex) {

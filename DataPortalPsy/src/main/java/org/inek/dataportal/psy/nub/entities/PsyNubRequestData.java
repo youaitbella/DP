@@ -2,6 +2,7 @@ package org.inek.dataportal.psy.nub.entities;
 
 
 import org.inek.dataportal.common.utils.Documentation;
+import org.inek.dataportal.psy.nub.helper.PsyNubRequestValueChecker;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -99,7 +100,7 @@ public class PsyNubRequestData implements Serializable {
     }
 
     public void setProxyIks(String proxyIks) {
-        this._proxyIks = proxyIks;
+        this._proxyIks = PsyNubRequestValueChecker.formatValuesForDatabase(proxyIks);
     }
 
     public String getFormFillHelper() {
@@ -131,7 +132,7 @@ public class PsyNubRequestData implements Serializable {
     }
 
     public void setProcs(String procs) {
-        this._procs = procs;
+        this._procs = PsyNubRequestValueChecker.formatValuesForDatabase(procs);
     }
 
     public Boolean getHasNoProcs() {
@@ -187,7 +188,7 @@ public class PsyNubRequestData implements Serializable {
     }
 
     public void setPepps(String pepps) {
-        this._pepps = pepps;
+        this._pepps = PsyNubRequestValueChecker.formatValuesForDatabase(pepps);
     }
 
     public String getWhyNotRepresented() {

@@ -244,11 +244,6 @@ public class NubEdit {
     private void preparePsyNubRequestForSave() {
         _psyNubRequest.setLastModifiedAt(new Date());
         _psyNubRequest.setLastChangedByAccountId(_sessionController.getAccountId());
-        formatProxyIks();
-    }
-
-    private void formatProxyIks() {
-        _psyNubRequest.getProposalData().setProxyIks(_psyNubRequestHelper.formatProxyIks(_psyNubRequest.getProposalData().getProxyIks()));
     }
 
     public void handleDocumentUpload(FileUploadEvent file) {
