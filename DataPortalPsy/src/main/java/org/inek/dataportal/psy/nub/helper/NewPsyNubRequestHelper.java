@@ -15,6 +15,7 @@ public class NewPsyNubRequestHelper {
 
     public static PsyNubRequest createNewPsyNubRequest(Account account) {
         PsyNubRequest proposal = new PsyNubRequest();
+        proposal.setStatus(WorkflowStatus.New);
         fillGeneralInformation(proposal, account);
         fillAccountToPsyNub(proposal, account);
         ensureNubRequestData(proposal);
