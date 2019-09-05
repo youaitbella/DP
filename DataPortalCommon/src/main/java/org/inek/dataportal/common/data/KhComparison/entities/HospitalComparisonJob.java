@@ -78,7 +78,7 @@ public class HospitalComparisonJob implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property hcsStartWorking">
     @Column(name = "hcsStartWorking")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _startWorking;
+    private Date _startWorking = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));;
 
     public Date getStartWorking() {
         return _startWorking;
@@ -92,7 +92,7 @@ public class HospitalComparisonJob implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property hcsEndWorking">
     @Column(name = "hcsEndWorking")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _endWorking;
+    private Date _endWorking = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));;
 
     public Date getEndWorking() {
         return _endWorking;

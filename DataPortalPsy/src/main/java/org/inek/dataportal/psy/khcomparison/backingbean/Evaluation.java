@@ -281,6 +281,7 @@ public class Evaluation {
             HospitalComparisonHospitals ho = new HospitalComparisonHospitals();
             ho.setAebBaseInformationId(id);
             ho.setType(type);
+            hospitalComparisonHospitals.add(ho);
         }
 
         return hospitalComparisonHospitals;
