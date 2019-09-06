@@ -99,7 +99,7 @@ public class ScannerTimer {
     }
 
     private void createFolderForJob() {
-        _jobSaveFile = new File(_config.readConfig(ConfigKey.KhComparisonJobSavePath) + "/" + _currentJob.getId());
+        _jobSaveFile = new File(_currentJob.getJobFolder(_config.readConfig(ConfigKey.KhComparisonJobSavePath)));
         try {
             if (_jobSaveFile.exists()) {
                 Files.walk(_jobSaveFile.toPath())
@@ -214,9 +214,7 @@ public class ScannerTimer {
     }
 
     private String buildZipFileName() {
-        String fileNamePattern = "%s_%s_Auswertungen_KH_Vergleich.zip";
-        return _jobSaveFile + "\\" + String.format(fileNamePattern, _currentJob.getHosptalComparisonInfo().getHospitalComparisonId(),
-                _currentJob.getHosptalComparisonInfo().getHospitalIk());
+        return _currentJob.getEvaluationFilePath(_config.readConfig(ConfigKey.KhComparisonJobSavePath));
     }
 
     private String buildAccountDokZipFileName() {

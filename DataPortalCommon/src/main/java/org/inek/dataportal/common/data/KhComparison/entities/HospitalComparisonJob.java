@@ -4,7 +4,6 @@ import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonSt
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
@@ -12,7 +11,6 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- *
  * @author lautenti
  */
 @Entity
@@ -26,6 +24,32 @@ public class HospitalComparisonJob implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hcsId")
     private int _id;
+    //<editor-fold defaultstate="collapsed" desc="Property version">
+    @Column(name = "hcsVersion")
+    @Version
+    private int _version;
+    //<editor-fold defaultstate="collapsed" desc="Property hceEvaluationTypeId">
+    @OneToOne
+    @JoinColumn(name = "hcsHospitalComparisonInfoId")
+    private HospitalComparisonInfo _hospitalComparisonInfo;
+    // </editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Property Status">
+    @Column(name = "hcsStatus")
+    private String _status;
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Property hcsCreatedAt">
+    @Column(name = "hcsCreatedAt", insertable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _createdDate;
+    //<editor-fold defaultstate="collapsed" desc="Property hcsStartWorking">
+    @Column(name = "hcsStartWorking")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _startWorking = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
+    //<editor-fold defaultstate="collapsed" desc="Property hcsEndWorking">
+    @Column(name = "hcsEndWorking")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _endWorking = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
+    //</editor-fold>
 
     public int getId() {
         return _id;
@@ -34,65 +58,37 @@ public class HospitalComparisonJob implements Serializable {
     public void setId(int id) {
         _id = id;
     }
-    // </editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property version">
-    @Column(name = "hcsVersion")
-    @Version
-    private int _version;
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property hceEvaluationTypeId">
-    @OneToOne
-    @JoinColumn(name = "hcsHospitalComparisonInfoId")
-    private HospitalComparisonInfo _hospitalComparisonInfo;
 
     public HospitalComparisonInfo getHosptalComparisonInfo() {
         return _hospitalComparisonInfo;
     }
+    //</editor-fold>
 
     public void setHosptalComparisonInfo(HospitalComparisonInfo hospitalComparisonInfo) {
         this._hospitalComparisonInfo = hospitalComparisonInfo;
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Status">
-    @Column(name = "hcsStatus")
-    private String _status;
-
     public PsyHosptalComparisonStatus getStatus() {
         return PsyHosptalComparisonStatus.valueOf(_status);
     }
 
+    ;
+
     public void setStatus(PsyHosptalComparisonStatus status) {
         this._status = status.name();
     }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property hcsCreatedAt">
-    @Column(name = "hcsCreatedAt", insertable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date _createdDate;
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property hcsStartWorking">
-    @Column(name = "hcsStartWorking")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date _startWorking = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));;
 
     public Date getStartWorking() {
         return _startWorking;
     }
+    //</editor-fold>
 
     public void setStartWorking(Date startWorking) {
         this._startWorking = startWorking;
     }
-    //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property hcsEndWorking">
-    @Column(name = "hcsEndWorking")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date _endWorking = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));;
+    ;
 
     public Date getEndWorking() {
         return _endWorking;
@@ -102,6 +98,20 @@ public class HospitalComparisonJob implements Serializable {
         this._endWorking = endWorking;
     }
     //</editor-fold>
+
+    public String getJobFolder(String baseDir) {
+        return baseDir + "/" + _id;
+    }
+
+    public String getEvaluationFilePath(String baseDir) {
+        return getJobFolder(baseDir) + "/" + getEvaluationFileName();
+    }
+
+    public String getEvaluationFileName() {
+        String fileNamePattern = "%s_%s_Auswertungen_KH_Vergleich.zip";
+        return String.format(fileNamePattern, _hospitalComparisonInfo.getHospitalComparisonId(),
+                _hospitalComparisonInfo.getHospitalIk());
+    }
 
 
     @Override
