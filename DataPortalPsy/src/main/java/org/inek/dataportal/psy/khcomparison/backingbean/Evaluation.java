@@ -15,15 +15,22 @@ import org.inek.dataportal.common.data.KhComparison.enums.PsyEvaluationType;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonHospitalsType;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonStatus;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.common.data.icmt.enums.State;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.ByteArrayInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -43,6 +50,8 @@ public class Evaluation {
     private SessionController _sessionController;
     @Inject
     private CustomerFacade _customerFacade;
+    @Inject
+    private ConfigFacade _config;
 
     private int _selectedIk = 0;
     private int _selectedAgreementYear = 0;
@@ -159,7 +168,7 @@ public class Evaluation {
                     AEBBaseInformation aebBaseInformation1 = baseInfo.get();
                     AEBBaseInformation aebBaseInformation2 = _aebFacade.findAEBBaseInformation(hospital.getId());
                     AebComparer comparer = new AebComparer();
-                    if(!comparer.compare(aebBaseInformation1, aebBaseInformation2)) {
+                    if (!comparer.compare(aebBaseInformation1, aebBaseInformation2)) {
                         _aebFacade.insertNewCompatingConflict(aebBaseInformation1, hospital);
                     }
                 }
@@ -281,8 +290,23 @@ public class Evaluation {
             HospitalComparisonHospitals ho = new HospitalComparisonHospitals();
             ho.setAebBaseInformationId(id);
             ho.setType(type);
+            hospitalComparisonHospitals.add(ho);
         }
 
         return hospitalComparisonHospitals;
+    }
+
+    public StreamedContent downloadEvaluation(HospitalComparisonInfo evaluation) {
+        String jobFolder = evaluation.getHospitalComparisonJob().getEvaluationFilePath(_config.readConfig(ConfigKey.KhComparisonJobSavePath));
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(jobFolder));
+            ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
+            return new DefaultStreamedContent(stream, "applikation/pdf", evaluation.getHospitalComparisonJob().getEvaluationFileName());
+        } catch (Exception ex) {
+            DialogController.showErrorDialog("Fehler beim herunterladen", "Die Datei konnte nicht heruntergeldaden werden. " +
+                    "Bitte versuchen Sie es später nocheinmal, oder kontaktieren Sie die Datenstelle.");
+            //TODO LOG
+            return null;
+        }
     }
 }

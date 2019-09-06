@@ -131,8 +131,17 @@ public class AEBFacade extends AbstractDataAccess {
                 "order by a.biStatusId, a.biSend desc";
         Query query = getEntityManager().createNativeQuery(sql, AEBBaseInformation.class);
 
-        AEBBaseInformation result = (AEBBaseInformation) query.getSingleResult();
-        return Optional.ofNullable(result);
+        List<AEBBaseInformation> resultList = query.getResultList();
+
+        if (resultList.size() > 1) {
+            throw new IllegalArgumentException("Error during get aeb for comparing for id: " + id);
+        }
+
+        if (resultList.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(resultList.get(1));
     }
 
     public boolean ikHasModelIntention(int ik) {

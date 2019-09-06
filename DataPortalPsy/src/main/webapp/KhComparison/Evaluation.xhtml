@@ -65,8 +65,15 @@
                             </pf:column>
 
                             <pf:column>
-                                <pf:button styleClass="btnPsy"
-                                           value="Download" />
+                                <pf:outputLabel value="In Bearbeitung"
+                                                rendered="#{ev.hospitalComparisonJob.status.name ne 'NEW'}" />
+
+                                <pf:commandButton value="Download"
+                                                  rendered="#{ev.hospitalComparisonJob.status.name eq 'NEW'}"
+                                                  ajax="false"
+                                                  styleClass="btnDownload">
+                                    <pf:fileDownload value="#{evaluation.downloadEvaluation(ev)}" />
+                                </pf:commandButton>
                             </pf:column>
                         </pf:dataTable>
                     </div>
