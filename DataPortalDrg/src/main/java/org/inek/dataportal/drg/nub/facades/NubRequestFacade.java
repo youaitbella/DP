@@ -90,7 +90,7 @@ public class NubRequestFacade extends AbstractDataAccessWithActionLog {
                                                   WorkflowStatus statusLow, WorkflowStatus statusHigh,
                                                   String filter, SqlOrder order) {
         String jql = "SELECT new org.inek.dataportal.common.helper.structures.ProposalInfo("
-                + "p._id, p._name, p._displayName, p._targetYear, p._status, p._ik ) "
+                + "p._id, p._name, p._displayName, p._targetYear, p._status, p._ik, p._externalState ) "
                 + "FROM NubRequest p "
                 + "WHERE p._status >= :statusLow and p._status <= :statusHigh "
                 + (accountId >= 0 ? "and p._accountId = :accountId " : "")
