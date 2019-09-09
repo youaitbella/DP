@@ -10,7 +10,7 @@ public enum Feature {
             255),
     USER_MAINTENANCE(2, "Stammdaten", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No,
             255),
-    NUB(3, "(DRG) Neue Untersuchungs- und Behandlungsmethoden",
+    NUB(3, "Neue Untersuchungs- und Behandlungsmethoden",
             ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.Yes,
             255),
     REQUEST_SYSTEM(4, "Anfrageverfahren", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No,

@@ -12,7 +12,6 @@ import org.inek.dataportal.common.tree.TreeNodeObserver;
 import org.inek.dataportal.common.tree.YearTreeNode;
 import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.drg.nub.NubSessionTools;
-import org.inek.dataportal.drg.nub.entities.NubRequest;
 import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
 
 import javax.inject.Inject;
@@ -97,33 +96,25 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         int direction = treeNode.isDescending() ? -1 : 1;
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "id":
-                sorted = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getProposalInfo().getId(), n2.
-                        getProposalInfo().getId()));
+                sorted = stream.sorted((n1, n2) -> direction *
+                        Integer.compare(n1.getProposalInfo().getId(), n2.getProposalInfo().getId()));
                 break;
             case "ik":
-                sorted = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getProposalInfo().getIk(), n2.
-                        getProposalInfo().getIk()));
+                sorted = stream.sorted((n1, n2) -> direction *
+                        Integer.compare(n1.getProposalInfo().getIk(), n2.getProposalInfo().getIk()));
                 break;
             case "name":
-                sorted = stream.sorted((n1, n2) -> direction * n1.getProposalInfo().getName().compareTo(n2.
-                        getProposalInfo().getName()));
+                sorted = stream.sorted((n1, n2) -> direction *
+                        n1.getProposalInfo().getName().compareTo(n2.getProposalInfo().getName()));
                 break;
             case "status":
-                sorted = stream.sorted((n1, n2) -> direction * getExternalState(n1).compareTo(getExternalState(n2)));
+                sorted = stream.sorted((n1, n2) -> direction *
+                        n1.getProposalInfo().getTag().compareTo(n2.getProposalInfo().getTag()));
                 break;
             default:
                 sorted = stream;
         }
         return sorted.collect(Collectors.toList());
-    }
-
-    private String getExternalState(ProposalInfoTreeNode node) {
-        int id = node.getProposalInfo().getId();
-        NubRequest nubRequest = _nubRequestFacade.find(id);
-        if (nubRequest == null) {
-            return "";
-        }
-        return nubRequest.getExternalState();
     }
 
 }
