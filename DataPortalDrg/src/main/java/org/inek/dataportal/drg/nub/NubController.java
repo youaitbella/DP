@@ -147,7 +147,7 @@ public class NubController extends AbstractFeatureController {
                 // might check version here
                 break;
             case System:
-                if (!content.equals("DRG")) {
+                if (!"DRG".equals(content)) {
                     throw new IllegalArgumentException("Unexpcted system: " + content);
                 }
                 break;

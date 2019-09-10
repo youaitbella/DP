@@ -52,8 +52,11 @@ public class PsyNubRequestTemplateHelper implements Serializable {
     @SuppressWarnings("checkstyle:JavaNCSS")
     public static Optional<PsyNubRequest> createNewRequestFromTemplate(String template, Account account) {
         PsyNubRequest newPsyNubRequest = NewPsyNubRequestHelper.createNewPsyNubRequest(account);
-        if (checksumIsValid(template)) {
-            String[] lines = template.split("[\\r\\n]+");
+        if (!checksumIsValid(template)) {
+            return Optional.empty();
+        }
+        String[] lines = template.split("[\\r\\n]+");
+        try {
             for (String line : lines) {
                 int pos = line.indexOf("=");
                 String var = line.substring(0, pos);
@@ -61,10 +64,10 @@ public class PsyNubRequestTemplateHelper implements Serializable {
                 String content = line.substring(pos + 1);
                 distributeField(newPsyNubRequest, key, content);
             }
-        } else {
+            return Optional.of(newPsyNubRequest);
+        } catch (Exception ex) {
             return Optional.empty();
         }
-        return Optional.of(newPsyNubRequest);
     }
 
     private static void distributeField(PsyNubRequest newPsyNubRequest, PsyNubFieldKey key, String content) {
@@ -73,7 +76,7 @@ public class PsyNubRequestTemplateHelper implements Serializable {
                 // might check version here
                 break;
             case System:
-                if (!content.equals("PEPP")) {
+                if (!"PEPP".equals(content)) {
                     throw new IllegalArgumentException("Unexpcted system: " + content);
                 }
                 break;
