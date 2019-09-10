@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<map xmlns:xsi="http://www.w3.org/2001/XInclude">
+<map>
   <topicref type="topic" id="408937680032260" build="ALL" modified="2011-12-20T14:11:13.466Z" icon="0" href="Introduction">
     <caption translate="true">Einführung</caption>
     <topicref type="topic" id="415335638181027" build="ALL" modified="2013-09-16T09:19:47.954Z" icon="0" href="OverviewFeatures">
@@ -317,6 +317,59 @@
         <caption translate="true">Ansicht filtern</caption>
       </topicref>
     </topicref>
+      <topicref type="topic" id="437185555445933" build="ALL" modified="2013-08-28T11:50:56.430Z" icon="0" href="NUB_2">
+          <caption translate="true">Neue Untersuchungs- und Behandlungsmethoden (NUB) (2)</caption>
+          <topicref type="topic" id="437186760674594" build="ALL" modified="2015-01-23T13:45:11.555Z" icon="0"
+                    href="ListNUB_2">
+              <caption translate="true">Auflistung von NUBs (2)</caption>
+          </topicref>
+          <topicref type="topic" id="437186353887754" build="ALL" modified="2013-09-02T16:05:03.935Z" icon="0"
+                    href="NubUserInformation_2">
+              <caption translate="true">Stammformblatt (2)</caption>
+          </topicref>
+          <topicref type="topic" id="437187004781812" build="ALL" modified="2013-08-29T16:38:47.440Z" icon="0"
+                    href="nubDescription_2">
+              <caption translate="true">Beschreibung (2)</caption>
+          </topicref>
+          <topicref type="topic" id="437186056173068" build="ALL" modified="2013-08-29T16:58:58.448Z" icon="0"
+                    href="nubDetails_2">
+              <caption translate="true">Methodendetails (2)</caption>
+          </topicref>
+          <topicref type="topic" id="437185347217435" build="ALL" modified="2013-08-29T16:59:05.800Z" icon="0"
+                    href="nubKeyFigures_2">
+              <caption translate="true">Kennzahlen (2)</caption>
+          </topicref>
+          <topicref type="topic" id="437182868175746" build="ALL" modified="2013-08-29T16:59:11.060Z" icon="0"
+                    href="nubAddCosts_2">
+              <caption translate="true">Mehrkosten (2)</caption>
+          </topicref>
+          <topicref type="topic" id="437186891129148" build="ALL" modified="2014-10-22T13:00:21.154Z" icon="0"
+                    href="Dokumente_2">
+              <caption translate="true">Dokumente (2)</caption>
+          </topicref>
+          <topicref type="topic" id="437183616339109" build="ALL" modified="2013-08-30T11:25:35.981Z" icon="0"
+                    href="Templates_2">
+              <caption translate="true">Vorlagen (2)</caption>
+          </topicref>
+          <topicref type="topic" id="437186880462466" build="ALL" modified="2014-08-28T14:08:09.962Z" icon="0"
+                    href="takeIntoNew_2">
+              <caption translate="true">In neue NUB übernehmen (2)</caption>
+          </topicref>
+          <topicref type="topic" id="437183917008639" build="ALL" modified="2015-09-01T16:52:59.083Z" icon="0"
+                    href="Korrektur-NUB-Anfrage_2">
+              <caption translate="true">Korrektur NUB-Anfrage (2)</caption>
+          </topicref>
+          <topicref type="topic" id="437185112617658" build="ALL" modified="2016-09-02T10:17:27.546Z" icon="0"
+                    href="TransferNUB_2">
+              <caption translate="true">NUB-Anfragen übertragen (2)</caption>
+          </topicref>
+          <topicref type="topic" id="437183433496604" build="ALL" modified="2016-09-28T13:58:32.023Z" icon="0"
+                    href="Informationen-zu-NUB-Anfragen_2">
+              <caption translate="true">Bereitstellung ergänzender Informationen zu den NUB-Verfahren der Jahre 2015 und
+                  2016 (2)
+              </caption>
+          </topicref>
+      </topicref>
   </topicref>
   <topicref type="topic" id="431997314533550" build="ALL" modified="2018-04-09T13:03:38.990Z" icon="0" href="Teilnahme-Kostenkalkulation">
     <caption translate="true">Teilnahme Kostenkalkulation</caption>
