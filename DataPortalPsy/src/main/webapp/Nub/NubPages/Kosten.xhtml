@@ -6,19 +6,20 @@
 
     <pf:importEnum type="org.inek.dataportal.psy.nub.enums.PsyNubMoneyFields"
                    var="PsyNubMoneyFields"
-                   allSuffix="ALL_ENUM_VALUES" />
+                   allSuffix="ALL_ENUM_VALUES"/>
 
     <h2>Kosten</h2>
 
     <div class="groupBox marginTop">
         <div class="inputPart">
-            <h:outputLabel styleClass="label" value="Entstehen durch die Anwendung der neuen Methode Mehrkosten gegenüber dem bisher üblichen Verfahren? Wenn ja, wodurch? Bitte geben Sie die Mehrkosten getrennt nach Personal- und Sachkosten an." />
+            <h:outputLabel styleClass="label"
+                           value="Entstehen durch die Anwendung der neuen Methode Mehrkosten gegenüber dem bisher üblichen Verfahren? Wenn ja, wodurch? Bitte geben Sie die Mehrkosten getrennt nach Personal- und Sachkosten an."/>
 
-            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
+            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col12em alignTop, colValue">
                 <h:panelGroup>
-                    <h:outputLabel for="nubAddCostPersonalMoney" value="Personalkosten:" />
-                    <br />
-                    <pf:message id="msgnubAddCostPersonalMoney" for="nubAddCostPersonalMoney" />
+                    <h:outputLabel for="nubAddCostPersonalMoney" value="Personalkosten:"/>
+                    <br/>
+                    <pf:message id="msgnubAddCostPersonalMoney" for="nubAddCostPersonalMoney"/>
                     <pf:inputNumber id="nubAddCostPersonalMoney"
                                     value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).money}"
                                     required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).comment ne ''}"
@@ -27,15 +28,15 @@
                                     symbol=" €"
                                     symbolPosition="s"
                                     decimalPlaces="2">
-                        <pf:ajax event="blur" update="nubAddCostPersonalComment" />
+                        <pf:ajax event="blur" update="nubAddCostPersonalComment"/>
                     </pf:inputNumber>
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputLabel for="nubAddCostPersonalComment" value="Kommentar:" />
+                    <h:outputLabel for="nubAddCostPersonalComment" value="Kommentar:"/>
                     <h:message id="msgnubAddCostPersonalComment" for="nubAddCostPersonalComment"
-                               styleClass="errorMessage" />
-                    <br />
+                               styleClass="errorMessage"/>
+                    <br/>
                     <h:inputTextarea style="width: 100%;"
                                      id="nubAddCostPersonalComment"
                                      required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).money gt 0}"
@@ -43,16 +44,16 @@
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_PERSONAL).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
-                                render="@this :logout:remaining msgnubAddCostPersonalComment nubAddCostPersonalMoney" />
+                                render="@this :logout:remaining msgnubAddCostPersonalComment nubAddCostPersonalMoney"/>
                     </h:inputTextarea>
                 </h:panelGroup>
             </h:panelGrid>
 
-            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
+            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col12em alignTop, colValue">
                 <h:panelGroup>
-                    <h:outputLabel for="nubAddCostMaterialMoney" value="Sachkosten:" />
-                    <br />
-                    <pf:message id="msgnubAddCostMaterialMoney" for="nubAddCostMaterialMoney" />
+                    <h:outputLabel for="nubAddCostMaterialMoney" value="Sachkosten:"/>
+                    <br/>
+                    <pf:message id="msgnubAddCostMaterialMoney" for="nubAddCostMaterialMoney"/>
                     <pf:inputNumber id="nubAddCostMaterialMoney"
                                     value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).money}"
                                     required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).comment ne ''}"
@@ -61,15 +62,15 @@
                                     symbol=" €"
                                     symbolPosition="s"
                                     decimalPlaces="2">
-                        <pf:ajax event="blur" update="nubAddCostMaterialComment" />
+                        <pf:ajax event="blur" update="nubAddCostMaterialComment"/>
                     </pf:inputNumber>
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputLabel for="nubAddCostMaterialComment" value="Kommentar:" />
+                    <h:outputLabel for="nubAddCostMaterialComment" value="Kommentar:"/>
                     <h:message id="msgnubAddCostMaterialComment" for="nubAddCostMaterialComment"
-                               styleClass="errorMessage" />
-                    <br />
+                               styleClass="errorMessage"/>
+                    <br/>
                     <h:inputTextarea style="width: 100%;"
                                      id="nubAddCostMaterialComment"
                                      required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).money gt 0}"
@@ -77,16 +78,16 @@
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_MATERIAL).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
-                                render="@this :logout:remaining msgnubAddCostMaterialComment nubAddCostMaterialMoney" />
+                                render="@this :logout:remaining msgnubAddCostMaterialComment nubAddCostMaterialMoney"/>
                     </h:inputTextarea>
                 </h:panelGroup>
             </h:panelGrid>
 
-            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
+            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col12em alignTop, colValue">
                 <h:panelGroup>
-                    <h:outputLabel for="nubAddCostOtherMoney" value="Sonstige Kosten:" />
-                    <br />
-                    <pf:message id="msgnubAddCostOtherMoney" for="nubAddCostOtherMoney" />
+                    <h:outputLabel for="nubAddCostOtherMoney" value="Sonstige Kosten:"/>
+                    <br/>
+                    <pf:message id="msgnubAddCostOtherMoney" for="nubAddCostOtherMoney"/>
                     <pf:inputNumber id="nubAddCostOtherMoney"
                                     value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).money}"
                                     required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).comment ne ''}"
@@ -100,10 +101,10 @@
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputLabel for="nubAddCostOtherComment" value="Kommentar:" />
+                    <h:outputLabel for="nubAddCostOtherComment" value="Kommentar:"/>
                     <h:message id="msgnubAddCostOtherComment" for="nubAddCostOtherComment"
-                               styleClass="errorMessage" />
-                    <br />
+                               styleClass="errorMessage"/>
+                    <br/>
                     <h:inputTextarea style="width: 100%;"
                                      id="nubAddCostOtherComment"
                                      required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).money gt 0}"
@@ -111,7 +112,7 @@
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.ADD_COSTS_OTHER).comment}"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
-                                render="@this :logout:remaining msgnubAddCostOtherComment nubAddCostOtherMoney" />
+                                render="@this :logout:remaining msgnubAddCostOtherComment nubAddCostOtherMoney"/>
                     </h:inputTextarea>
                 </h:panelGroup>
             </h:panelGrid>
@@ -120,13 +121,14 @@
 
     <div class="groupBox marginTop">
         <div class="inputPart">
-            <h:outputLabel styleClass="label" value="Werden durch die Anwendung der neuen Methode Kosteneinsparungen verursacht? Wenn ja, wodurch? Bitte geben Sie die Kosteneinsparungen getrennt nach Personal- und Sachkosten an." />
+            <h:outputLabel styleClass="label"
+                           value="Werden durch die Anwendung der neuen Methode Kosteneinsparungen verursacht? Wenn ja, wodurch? Bitte geben Sie die Kosteneinsparungen getrennt nach Personal- und Sachkosten an."/>
 
-            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
+            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col12em alignTop, colValue">
                 <h:panelGroup>
-                    <h:outputLabel for="nubLessCostPersonalMoney" value="Personalkosten:" />
-                    <br />
-                    <pf:message id="msgnubLessCostPersonalMoney" for="nubLessCostPersonalMoney" />
+                    <h:outputLabel for="nubLessCostPersonalMoney" value="Personalkosten:"/>
+                    <br/>
+                    <pf:message id="msgnubLessCostPersonalMoney" for="nubLessCostPersonalMoney"/>
                     <pf:inputNumber id="nubLessCostPersonalMoney"
                                     value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).money}"
                                     required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).comment ne ''}"
@@ -140,10 +142,10 @@
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputLabel for="nubLessCostPersonalComment" value="Kommentar:" />
+                    <h:outputLabel for="nubLessCostPersonalComment" value="Kommentar:"/>
                     <h:message id="msgnubLessCostPersonalComment" for="nubLessCostPersonalComment"
-                               styleClass="errorMessage" />
-                    <br />
+                               styleClass="errorMessage"/>
+                    <br/>
                     <h:inputTextarea style="width: 100%;"
                                      id="nubLessCostPersonalComment"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_PERSONAL).comment}"
@@ -151,16 +153,16 @@
                                      requiredMessage="Bitte geben Sie einen Kommentar zu den Kosteneinsparungen - Personal an"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
-                                render="@this :logout:remaining msgnubLessCostPersonalComment nubLessCostPersonalMoney" />
+                                render="@this :logout:remaining msgnubLessCostPersonalComment nubLessCostPersonalMoney"/>
                     </h:inputTextarea>
                 </h:panelGroup>
             </h:panelGrid>
 
-            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
+            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col12em alignTop, colValue">
                 <h:panelGroup>
-                    <h:outputLabel for="nubLessCostMaterialMoney" value="Sachkosten:" />
-                    <br />
-                    <pf:message id="msgnubLessCostMaterialMoney" for="nubLessCostMaterialMoney" />
+                    <h:outputLabel for="nubLessCostMaterialMoney" value="Sachkosten:"/>
+                    <br/>
+                    <pf:message id="msgnubLessCostMaterialMoney" for="nubLessCostMaterialMoney"/>
                     <pf:inputNumber id="nubLessCostMaterialMoney"
                                     value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).money}"
                                     required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).comment ne ''}"
@@ -174,10 +176,10 @@
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputLabel for="nubLessCostMaterialComment" value="Kommentar:" />
+                    <h:outputLabel for="nubLessCostMaterialComment" value="Kommentar:"/>
                     <h:message id="msgnubLessCostMaterialComment" for="nubLessCostMaterialComment"
-                               styleClass="errorMessage" />
-                    <br />
+                               styleClass="errorMessage"/>
+                    <br/>
                     <h:inputTextarea style="width: 100%;"
                                      id="nubLessCostMaterialComment"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_MATERIAL).comment}"
@@ -185,16 +187,16 @@
                                      requiredMessage="Bitte geben Sie einen Kommentar zu den Kosteneinsparungen - Material an"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
-                                render="@this :logout:remaining msgnubLessCostMaterialComment nubLessCostMaterialMoney" />
+                                render="@this :logout:remaining msgnubLessCostMaterialComment nubLessCostMaterialMoney"/>
                     </h:inputTextarea>
                 </h:panelGroup>
             </h:panelGrid>
 
-            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col30TopAlign, colValue">
+            <h:panelGrid columns="2" style="width: 100%;" columnClasses="col12em alignTop, colValue">
                 <h:panelGroup>
-                    <h:outputLabel for="nubLessCostOtherMoney" value="Sonstige Kosten:" />
-                    <br />
-                    <pf:message id="msgnubLessCostOtherMoney" for="nubLessCostOtherMoney" />
+                    <h:outputLabel for="nubLessCostOtherMoney" value="Sonstige Kosten:"/>
+                    <br/>
+                    <pf:message id="msgnubLessCostOtherMoney" for="nubLessCostOtherMoney"/>
                     <pf:inputNumber id="nubLessCostOtherMoney"
                                     value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).money}"
                                     required="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).comment ne ''}"
@@ -208,10 +210,10 @@
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputLabel for="nubLessCostOtherComment" value="Kommentar:" />
+                    <h:outputLabel for="nubLessCostOtherComment" value="Kommentar:"/>
                     <h:message id="msgnubLessCostOtherComment" for="nubLessCostOtherComment"
-                               styleClass="errorMessage" />
-                    <br />
+                               styleClass="errorMessage"/>
+                    <br/>
                     <h:inputTextarea style="width: 100%;"
                                      id="nubLessCostOtherComment"
                                      value="#{nubEdit.psyNubRequest.getMoneyValue(PsyNubMoneyFields.LESS_COSTS_OTHER).comment}"
@@ -219,7 +221,7 @@
                                      requiredMessage="Bitte geben Sie einen Kommentar zu den Kosteneinsparungen - Sonstige an"
                                      readonly="#{nubEdit.readOnly}">
                         <f:ajax event="blur"
-                                render="@this :logout:remaining msgnubLessCostOtherComment nubLessCostOtherMoney" />
+                                render="@this :logout:remaining msgnubLessCostOtherComment nubLessCostOtherMoney"/>
                     </h:inputTextarea>
                 </h:panelGroup>
             </h:panelGrid>
@@ -228,31 +230,31 @@
 
     <div class="inputPart">
         <h:outputLabel styleClass="label" for="nubPepps"
-                       value="Welche PEPP ist (sind) am häufigsten von dieser Methode betroffen? (Angabe mit Komma getrennt)" />
-        <h:message for="nubPepps" id="msgnubPepps" styleClass="errorMessage" />
-        <br />
+                       value="Welche PEPP ist (sind) am häufigsten von dieser Methode betroffen? (Angabe mit Komma getrennt)"/>
+        <h:message for="nubPepps" id="msgnubPepps" styleClass="errorMessage"/>
+        <br/>
         <h:inputTextarea styleClass="areaWideHigh"
                          id="nubPepps"
                          readonly="#{nubEdit.readOnly}"
                          value="#{nubEdit.psyNubRequest.proposalData.pepps}"
                          validator="#{nubEdit.checkPepps}"
                          required="false">
-            <f:ajax event="blur" render="@this :logout:remaining nubPepps msgnubPepps" />
+            <f:ajax event="blur" render="@this :logout:remaining nubPepps msgnubPepps"/>
         </h:inputTextarea>
     </div>
 
     <div class="inputPart">
         <h:outputLabel styleClass="label" for="nubPepps"
-                       value="Warum ist diese Methode aus Ihrer Sicht derzeit im PEPP-System nicht sachgerecht abgebildet?" />
-        <h:message for="nubWhyNotRepresented" id="msgnubWhyNotRepresented" styleClass="errorMessage" />
-        <br />
+                       value="Warum ist diese Methode aus Ihrer Sicht derzeit im PEPP-System nicht sachgerecht abgebildet?"/>
+        <h:message for="nubWhyNotRepresented" id="msgnubWhyNotRepresented" styleClass="errorMessage"/>
+        <br/>
         <h:inputTextarea styleClass="areaWideHigh"
                          id="nubWhyNotRepresented"
                          readonly="#{nubEdit.readOnly}"
                          value="#{nubEdit.psyNubRequest.proposalData.whyNotRepresented}"
                          required="true"
-                         requiredMessage="Bitte geben Sie ein Begründung an, warum diese Methode Ihrer Meinung nach nicht im System abgebildet ist" >
-            <f:ajax event="blur" render="@this :logout:remaining nubWhyNotRepresented msgnubWhyNotRepresented" />
+                         requiredMessage="Bitte geben Sie ein Begründung an, warum diese Methode Ihrer Meinung nach nicht im System abgebildet ist">
+            <f:ajax event="blur" render="@this :logout:remaining nubWhyNotRepresented msgnubWhyNotRepresented"/>
         </h:inputTextarea>
     </div>
 

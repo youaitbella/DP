@@ -5,11 +5,10 @@ import org.inek.dataportal.psy.nub.enums.PsyNubDateFields;
 import org.inek.dataportal.psy.nub.enums.PsyNubMoneyFields;
 import org.inek.dataportal.psy.nub.enums.PsyNubNumberFields;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PsyNubRequestChecker implements Serializable {
+public class PsyNubRequestChecker {
 
     private static Integer[] VALID_GENDERS = new Integer[]{1, 2};
 
