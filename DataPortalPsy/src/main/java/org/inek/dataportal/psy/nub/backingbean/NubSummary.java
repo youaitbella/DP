@@ -196,18 +196,18 @@ public class NubSummary implements Serializable {
 
     public void createNubsFromTemplates() {
         if (!_requestFromTemplateUploads.isEmpty()) {
-            for (PsyNubRequest request : _requestFromTemplateUploads
+            _requestFromTemplateUploads
                     .stream()
                     .filter(c -> !c.getHasError())
                     .map(UploadedTemplate::getRequest)
-                    .collect(Collectors.toList())) {
-                _psyNubFacade.save(request);
-            }
+                    .forEach(request -> {
+                        _psyNubFacade.save(request);
+                    });
             _requestFromTemplateUploads.clear();
             setWorkingList();
         } else {
             DialogController.showInfoDialog("Keine Vorlagen ausgewählt", "Bitte laden Sie mindestens eine Vorlage hoch, " +
-                    "um daraus eine neue NUB zu erzeugen. Ein hochladen von mehreren Vorlagen gleichzeitig ist auch möglich.");
+                    "um daraus eine neue NUB zu erzeugen. Ein Hochladen von mehreren Vorlagen gleichzeitig ist auch möglich.");
         }
     }
 
