@@ -61,7 +61,7 @@ public enum Feature {
     CARE_INSURANCE_SIGNATURE_CHECK(25, "PPUGV-Nachweisvereinbarung Signaturprüfung (Funktion für Krankenkasse)",
             ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No, 255),
     NUB_PSY(26, "(PSY) Neue Untersuchungs- und Behandlungsmethoden",
-            ManagedBy.InekOrIkAdmin, PortalType.PSY, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No,
+            ManagedBy.InekOrIkAdmin, PortalType.PSY, IkReference.Hospital, IkUsage.Direct, Selectable.No, Shareable.No,
             255);
 
     private final int _id;

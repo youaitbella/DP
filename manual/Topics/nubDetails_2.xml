@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+    <title translate="true">Methodendetails_2</title>
+    <body>
+        <header>
+            <para styleclass="Heading1">
+                <text styleclass="Heading1" translate="true">Methodendetails</text>
+            </para>
+        </header>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Beschreiben Sie in diesem Dialog möglichst genau die abgefragten
+                Details der neuen Untersuchungs- und Behandlungsmethode.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Image Caption">
+            <image src="NubProposalDetails.png" scale="100.00%" styleclass="Image Caption"></image>
+        </para>
+        <para styleclass="Image Caption">
+            <var styleclass="Image Caption">&lt;%FIGURE%&gt;</var>
+            <text styleclass="Image Caption" translate="true">Methodendetails der NUB-Anfrage</text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Heading2">
+            <text styleclass="Heading2" translate="true">Hinweise zu ausgewählten Feldern</text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" style="font-weight:bold;" translate="true">Bei welchen Patienten wird die Methode
+                angewandt (Indikation)?
+            </text>
+        </para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Beschreiben Sie bitte die Patientengruppe, die mit der neuen
+                Methode behandelt wird. Wenn Ihnen bekannt ist, dass die Indikation typischerweise mit einer bestimmten
+                DRG bzw. mehreren bestimmten DRGs verbunden ist, dann geben Sie diese bitte hier an.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Beispiel 1:</text>
+        </para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Palifermin wird angewendet zur Prophylaxe und Therapie der oralen
+                Mukositis unter Chemo- und Strahlentherapie, z.B. bei Patienten mit hämatologischen malignen
+                Erkrankungen unter myeloablativer Therapie.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Beispiel 2:</text>
+        </para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Der endovaskuläre Aortenklappenersatz wird bei Patienten mit
+                Aortenklappenerkrankungen, insbesondere Aortenklappenstenose angewandt. Besonders Patienten, bei denen
+                ein Eingriff am offenen Herzen aufgrund eines extremen Eingriffsrisikos nicht möglich ist, profitieren
+                von diesem neuen minimal-invasiven Verfahren.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" style="font-weight:bold;" translate="true">Welche bestehende Methode wird durch
+                die neue Methode abgelöst oder ergänzt?
+            </text>
+        </para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Geben Sie hier bitte an, welche bestehende Methode durch die neue
+                abgelöst oder ergänzt wird. Beschreiben Sie bitte kurz, wie Patienten vor Einführung der neuen Methode
+                bei der entsprechenden Indikation behandelt wurden.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" style="font-weight:bold;" translate="true">Ist die Methode vollständig oder in
+                Teilen neu und warum handelt es sich um eine neue Untersuchungs- und Behandlungsmethode?
+            </text>
+        </para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Erläutern Sie bitte, warum die angefragte Methode aus Ihrer Sicht
+                eine Neuerung darstellt. Wie unterscheidet sie sich von etablierten Verfahren? Gehen Sie bitte
+                insbesondere auf den innovativen Charakter der neuen Methode ein. Bitte beschreiben Sie dabei möglichst
+                genau die Neuerung(en) zu einer ggf. früher oder gegenwärtig eingesetzten Methode. Dies könnte bei
+                Medikamenten z.B. der Wirkstoff, die Galenik oder Applikationsmethode sein, bei Verfahren z.B. ein
+                Medikalprodukt (neuartiger Katheter), eine computergestützte Planung oder ein neuartiges kombiniertes
+                Behandlungskonzept.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Beispiel 1:</text>
+        </para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Es handelt sich bei Palifermin um einen neuen Wirkstoff zur
+                Behandlung der Komplikation Mukositis unter Strahlen- bzw. Chemotherapie, für die es bisher noch keine
+                etablierte Therapie oder Prophylaxe gibt. Es ist mit einer Reduktion von Häufigkeit, Dauer und
+                Schweregrad der oralen Mukositis zu rechnen.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Beispiel 2:</text>
+        </para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Der endovaskuläre Aortenklappenersatz besitzt seit September 2007
+                die CE-Zertifizierung. Im Rahmen von Studien wurde das Verfahren im Jahre 2002 erstmals durchgeführt.
+                Von 2002 - 2007 wurden nur vergleichsweise wenige Patienten im Rahmen von Studien behandelt. Eine
+                vergleichbare Therapie war vor Markteinführung nicht verfügbar.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" style="font-weight:bold;" translate="true">Welche Auswirkung hat die Methode auf
+                die Verweildauer im Krankenhaus?
+            </text>
+        </para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Beschreiben Sie bitte die verweildauersteigernde oder -senkende
+                Wirkung der neuen Methode, wenn möglich in Tagen pro Krankenhausaufenthalt (im Durchschnitt). Begründen
+                Sie kurz, wodurch die Verweildaueränderung bewirkt wird. Hat die Methode nach Ihrer Kenntnis keine
+                verweildauerändernde Wirkung, geben Sie bitte „keine“ an.
+            </text>
+        </para>
+    </body>
+</topic>

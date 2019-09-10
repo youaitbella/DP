@@ -181,14 +181,17 @@ public class NubSummary implements Serializable {
     }
 
     public void handleTemplateUpload(FileUploadEvent file) {
+        UploadedTemplate template;
         try {
             String content = new String(file.getFile().getContents(), "UTF-8");
             Optional<PsyNubRequest> request = PsyNubRequestTemplateHelper.createNewRequestFromTemplate(content,
                     _sessionController.getAccount());
-            _requestFromTemplateUploads.add(new UploadedTemplate(file.getFile().getFileName(), request));
+            template = new UploadedTemplate(file.getFile().getFileName(), request, "");
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Error during template import: " + ex.getMessage());
+            template = new UploadedTemplate(file.getFile().getFileName(), Optional.empty(), ex.getMessage());
         }
+        _requestFromTemplateUploads.add(template);
     }
 
     public void createNubsFromTemplates() {

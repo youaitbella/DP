@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+    <title translate="true">Korrektur NUB-Anfrage_2</title>
+    <body>
+        <header>
+            <para styleclass="Heading1">
+                <text styleclass="Heading1" translate="true">Korrektur NUB-Anfrage</text>
+            </para>
+        </header>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Sollte das InEK bei der Bearbeitung Ihrer NUB-Anfrage
+                feststellen, dass zur sachgerechten Beurteilung Klärungsbedarf besteht, so kann das InEK eine Korrektur
+                bzw. Konkretisierung anfordern. Hierüber erhalten Sie eine entsprechende Benachrichtigung.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Sie haben dann die Möglichkeit, binnen fünf Tagen die Anfrage
+                nochmals zu überarbeiten. Erfolgt eine derartige Überarbeitung nicht, wird Ihre Anfrage wie ursprünglich
+                geliefert, durch das InEK beantwortet. Zum Absenden einer solchen Korrektur bzw. Konkretisierung steht
+                Ihnen die Schaltfläche
+            </text>
+            <text styleclass="Button" translate="true">[ Korrektur ans InEK ]</text>
+            <text styleclass="Normal" translate="true">innerhalb des NUB-Dialogs zur Verfügung.</text>
+        </para>
+    </body>
+</topic>

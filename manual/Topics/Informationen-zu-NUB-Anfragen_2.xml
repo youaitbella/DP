@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+    <title translate="true">Bereitstellung ergänzender Informationen zu den NUB-Verfahren der Jahre 2015 und 2016_2
+    </title>
+    <body>
+        <header>
+            <para styleclass="Heading1">
+                <text styleclass="Heading1" translate="true">Bereitstellung ergänzender Informationen zu den
+                    NUB-Verfahren der Jahre 2015 und 2016
+                </text>
+            </para>
+        </header>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">In der Aufstellung der Informationen nach § 6 Abs. 2 KHEntgG
+                für
+            </text>
+            <link displaytype="text" defaultstyle="true" type="weblink"
+                  href="http://g-drg.de/cms/content/download/5752/44304/version/3/file/Aufstellung-Information_NUB_2015_150130.pdf"
+                  target="_blank" styleclass="Normal" translate="true">2015
+            </link>
+            <text styleclass="Normal" translate="true">und</text>
+            <link displaytype="text" defaultstyle="true" type="weblink"
+                  href="http://g-drg.de/cms/content/download/6093/46662/version/5/file/Aufstellung-Information_NUB_2016_160127.pdf"
+                  target="_blank" styleclass="Normal" translate="true">2016
+            </link>
+            <text styleclass="Normal" translate="true">  sind die eingegangenen Anfragen unter einer zusammenfassenden
+                Bezeichnung aufgeführt. Um die Suche nach bestimmten Methoden in den NUB-Verfahren der Vorjahre zu
+                erleichtern, zeigt die folgende Liste darüber hinaus alle Bezeichnungen, wie sie
+            </text>
+            <text styleclass="Normal" style="font-style:italic;" translate="true">von den anfragenden</text>
+            <text styleclass="Normal" translate="true"></text>
+            <text styleclass="Normal" style="font-style:italic;" translate="true">Krankenhäusern selbst</text>
+            <text styleclass="Normal" translate="true">verwendet worden sind. Zusätzlich kann per Klick zu jeder Methode
+                mindestens eine ausführliche Beschreibung des Verfahrens dargestellt werden. Dies ist typischerweise die
+                von den meisten Krankenhäusern genutzte Beschreibung. Die Beschreibung kann Angaben zur Indikation der
+                Anwendung der NUB enthalten, welche im Hinblick auf alle in den beiden Jahren gestellten Anfragen nicht
+                abschließend ist. Die ausführliche Beschreibung sowie die ggf. aufgeführten Indikationen zur Anwendung
+                der NUB wurden weder auf eine leitliniengerechte Anwendung noch auf ihre Zweckmäßigkeit hin geprüft. Die
+                Angaben sind daher ausschließlich im Hinblick auf ihre ursprüngliche Intention der Prüfung einer
+                sachgerechten Vergütung zu bewerten. Sie dienen somit der Orientierung, zu welchen NUB mit Einsatz eines
+                Medizinproduktes bereits NUB-Anfragen beim InEK eingegangen sind.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Mittels der bereitgestellten Suchfunktion kann in den ergänzenden
+                Informationen nach einzelnen oder kombinierten Suchbegriffen recherchiert werden. Damit ist in deutlich
+                komfortablerer und umfassenderer Weise möglich, Methoden zu finden, die in den vorangegangenen Jahren
+                bereits im Rahmen des NUB-Verfahrens angefragt wurden.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Es ist zu beachten, dass die bereitgestellten Inhalte weder
+                vollständig noch abschließend inhaltlich geprüft sind. Eine anderweitige Nutzung als für die Recherche
+                nach bereits zuvor angefragten Methoden ist somit weder sinnvoll noch vorgesehen.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Sowohl die genaue Schreibweise der Methodenbezeichnung wie auch
+                die Formatierung der ausführlichen Beschreibung entsprechen weitestgehend den ursprünglichen
+                NUB-Anfragen. Es wurden lediglich einzelne Inhalte wie Namen von Personen oder Krankenhäusern entfernt,
+                eine umfassende redaktionelle Überarbeitung der Inhalte ist nicht erfolgt.
+            </text>
+        </para>
+        <para></para>
+        <para styleclass="Heading2">
+            <text styleclass="Heading2" translate="true">Bedienung</text>
+        </para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Die Informationen lassen sich bequem auf zwei Wegen erreichen.
+                Zum einen finden Sie im Bereich
+            </text>
+            <text styleclass="Normal" style="font-style:italic;" translate="true">Neue Untersuchungs- und
+                Behandlungsmethoden
+            </text>
+            <text styleclass="Normal" translate="true">die Schaltfläche (Button)</text>
+            <text styleclass="Button" translate="true">[ Zusätzliche Informationen zu NUB-Verfahren der Vorjahre ]
+            </text>
+            <text styleclass="Normal" translate="true">. Zum anderen bietet Ihnen das</text>
+            <var styleclass="Normal">&lt;%TITLE%&gt;</var>
+            <text styleclass="Normal" translate="true">im linken Navigationsbereich einen gleichlautenden Menüeintrag.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Beides führt Sie zur Informationsliste. Um diese nutzen zu
+                können, ist jedoch erst Ihre Zustimmung zu den Nutzungsbedingungen erforderlich.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Image Caption">
+            <image src="NubInformation00.png" scale="100.00%" styleclass="Image Caption"></image>
+        </para>
+        <para styleclass="Image Caption">
+            <var styleclass="Image Caption">&lt;%FIGURE%&gt;</var>
+            <text styleclass="Image Caption" translate="true">Nutzungsbedingungen ergänzende Informationen zu früheren
+                NUB-Verfahren
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Sollten Sie die Nutzungsbedingungen nicht akzeptieren, so können
+                Sie an dieser Stelle einfach die Informationsseite verlassen, indem Sie eine andere Funktion über den
+                Navigationsbereich (links) wählen.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Mit einem Klick auf die Schaltfläche</text>
+            <text styleclass="Button" translate="true">[ Ich akzeptiere die Nutzungsbedingungen ]</text>
+            <text styleclass="Normal" translate="true">akzeptieren Sie angeführten Nutzungsbedingungen und erhalten
+                Zugang zu den Informationen. Das
+            </text>
+            <var styleclass="Normal">&lt;%TITLE%&gt;</var>
+            <text styleclass="Normal" translate="true">merkt sich Ihre Auswahl während einer Sitzung, so dass Sie dies
+                nicht mehrfach bestätigen müssen. Nach erneuter Anmeldung sind die Nutzungsbedingungen erneut zu
+                bestätigen.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Ungefiltert enthält die Informationsliste mehrere Tausend
+                Einträge, so dass sie in handliche Abschnitte zu je 50 Einträgen eingeteilt ist.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Image Caption">
+            <image src="NubInformation01.png" scale="100.00%" styleclass="Image Caption"></image>
+        </para>
+        <para styleclass="Image Caption">
+            <var styleclass="Image Caption">&lt;%FIGURE%&gt;</var>
+            <text styleclass="Image Caption" translate="true">Liste der NUB-Informationen, ungefiltert</text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Zur gezielten Nutzung der Liste steht Ihnen eine Filter- bzw.
+                Suchfunktionalität zur Verfügung. Damit können Sie den Umfang der Liste gezielt einschränken. Zum
+                Filtern der Daten wird dabei in den Spalten
+            </text>
+            <text styleclass="Normal" style="font-weight:bold;" translate="true">Nr.</text>
+            <text styleclass="Normal" translate="true">(Nummer wie vom InEK veröffentlicht),</text>
+            <text styleclass="Normal" style="font-weight:bold;" translate="true">Veröffentlichter Name</text>
+            <text styleclass="Normal" translate="true">sowie</text>
+            <text styleclass="Normal" style="font-weight:bold;" translate="true">Name aus Anfrage</text>
+            <text styleclass="Normal" translate="true">gesucht. Als Suchbegriff können Sie im Feld</text>
+            <text styleclass="Normal" style="font-weight:bold;" translate="true">Filter</text>
+            <text styleclass="Normal" translate="true">ein Wortfragment eingeben. In den Namensspalten wird nach allen
+                Einträgen gesucht, welche dieses irgendwo enthalten. So findet beispielsweise das Fragment &quot;implant&quot;
+                Einträge wie &quot;Implantat&quot;, &quot;Implant System&quot;, &quot;Implantation&quot;, &quot;vollimplantierbar&quot;.
+                Groß- / Kleinschreibung wird dabei nicht beachtet, so dass die Suche unabhängig davon arbeitet. In der
+                Spalte Nr. kommt der Filter nur bei vollständiger Übereinstimmung zur Anwendung. Es macht wenig Sinn,
+                nach allen Nummern mit der Ziffer &quot;3&quot; zu filtern. Vielmehr geht es in dieser Spalte um den
+                gezielten Zugriff auf eine bestimmte Nummer.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Im Filter können Sie auch mehrere Wortfragmente eingeben. Es
+                werden alle Einträge ausgefiltert, die in mindestens einer der beiden Namensspalten alle Fragmente
+                enthalten (Und-Bedingung). Dabei spielt die Reihenfolge im Filterfeld keine Rolle. So findet
+                beispielsweise &quot;pumpe implant&quot; Einträge wie &quot;implantierbare .... Pumpe&quot; oder &quot;Pumpe
+                ... implantierbar&quot;.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Eine weitere Filtermöglichkeit bietet das Ankreuzfeld</text>
+            <text styleclass="Normal" style="font-weight:bold;" translate="true">nur 1 Eintrag je Nr.</text>
+            <text styleclass="Normal" style="font-weight:normal;" translate="true">, welches die Liste auf einen Eintrag
+                je veröffentlichter Nr. (und Jahr) reduziert. Dabei wird die Liste erst entsprechend der Suchkriterien
+                gefiltert und dann aus dieser Menge jeweils 1 Eintrag je Nr. gelistet.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Soweit die (gefilterte) Liste mehr als 50 Einträge enthält, wird
+                diese wie die ungefilterte Liste in mehrere Abschnitte aufgeteilt. Sowohl zu Beginn als auch am Ende des
+                dargestellten Listenabschnitts stehen Schaltflächen zum Blättern durch die Liste zur Verfügung.
+            </text>
+        </para>
+        <para styleclass="Image Caption"></para>
+        <para styleclass="Image Caption">
+            <image src="NubInformationNavigation.png" scale="100.00%" styleclass="Image Caption"></image>
+        </para>
+        <para styleclass="Image Caption">
+            <var styleclass="Image Caption">&lt;%FIGURE%&gt;</var>
+            <text styleclass="Image Caption" translate="true">Navigationsleiste zum Blättern in der Liste</text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">In eckigen Klammern (hier: [Einträge 101 bis 150]) wird der
+                aktuelle Listenabschnitt angegeben. Links und rechts davon befinden sich Schaltflächen um den jeweiligen
+                Abschnitt davor bzw. danach anzuwählen. Dabei ist eine Navigation vor den Listenanfang bzw. hinter das
+                Listenende nicht möglich. Die Schaltflächen zum Blättern werden nur angezeigt, solange Sie in die
+                betreffende Richtung weiterblättern können. Schließlich zeigt Ihnen die Navigation noch die Gesamtzahl
+                der Listeneinträge (gemäß Filter) an.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Die Inhalte der Spalten</text>
+            <text styleclass="Normal" style="font-weight:bold;" translate="true">Nr</text>
+            <text styleclass="Normal" translate="true">. und</text>
+            <text styleclass="Normal" style="font-weight:bold;" translate="true">Veröffentlichter Name</text>
+            <text styleclass="Normal" translate="true">sind als Hyper-Link dargestellt: Klicken Sie auf einen solchen,
+                so wir eine detaillierte Beschreibung der Neuen Untersuchungs- und Behandlungsmethode eingeblendet.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Image Caption">
+            <image src="NubInformation02.png" scale="100.00%" styleclass="Image Caption"></image>
+        </para>
+        <para styleclass="Image Caption">
+            <var styleclass="Image Caption">&lt;%FIGURE%&gt;</var>
+            <text styleclass="Image Caption" translate="true">NUB-Information mit eingeblendeter Beschreibung</text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Das Beschreibungsfeld können Sie mittels &quot;Anfassers&quot; in
+                seiner rechten unteren Ecke bei Bedarf in der Größe anpassen.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Ebenfalls als Link ausgeprägt sind die Spaltenüberschriften. Hier
+                können Sie mittels Klick nach der entsprechenden Spalte sortieren, abwechselnd auf- bzw. absteigend.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal"></para>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true"></text>
+        </para>
+    </body>
+</topic>
