@@ -7,7 +7,7 @@ import java.util.Optional;
 public class UploadedTemplate {
 
     private static final String NO_ERRORS = " (Ok)";
-    private static final String ERRORS = " (Fehler in der Formatprüfung {0})";
+    private static final String ERRORS = " (Fehler in der Formatprüfung{0})";
 
     private PsyNubRequest _request;
     private Boolean _hasError = false;
@@ -16,7 +16,7 @@ public class UploadedTemplate {
 
     public UploadedTemplate(String fileName, Optional<PsyNubRequest> request, String message) {
         _fileName = fileName;
-        _message = message;
+        _message = "" + message;
         if (request.isPresent()) {
             _request = request.get();
         } else {
@@ -33,7 +33,7 @@ public class UploadedTemplate {
     }
 
     public String getDisplayName() {
-
-        return _fileName + (_hasError ? ERRORS.replace("{0}", _message) : NO_ERRORS);
+        String message = "".equals(_message) ? "" : ": " + _message;
+        return _fileName + (_hasError ? ERRORS.replace("{0}", message) : NO_ERRORS);
     }
 }

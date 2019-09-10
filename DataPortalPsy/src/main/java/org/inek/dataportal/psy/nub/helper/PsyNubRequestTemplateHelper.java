@@ -55,18 +55,19 @@ public class PsyNubRequestTemplateHelper implements Serializable {
             return Optional.empty();
         }
         String[] lines = template.split("[\\r\\n]+");
-        try {
-            for (String line : lines) {
-                int pos = line.indexOf("=");
-                String var = line.substring(0, pos);
-                PsyNubFieldKey key = PsyNubFieldKey.valueOf(var);
-                String content = line.substring(pos + 1);
-                distributeField(newPsyNubRequest, key, content);
+        for (String line : lines) {
+            int pos = line.indexOf("=");
+            String var = line.substring(0, pos);
+            PsyNubFieldKey key;
+            try {
+                key = PsyNubFieldKey.valueOf(var);
+            } catch (Exception ex) {
+                throw new IllegalArgumentException("Unbekanntes Feld gefunden: " + var);
             }
-            return Optional.of(newPsyNubRequest);
-        } catch (Exception ex) {
-            return Optional.empty();
+            String content = line.substring(pos + 1);
+            distributeField(newPsyNubRequest, key, content);
         }
+        return Optional.of(newPsyNubRequest);
     }
 
     @SuppressWarnings("checkstyle:JavaNCSS")
@@ -77,7 +78,7 @@ public class PsyNubRequestTemplateHelper implements Serializable {
                 break;
             case System:
                 if (!"PEPP".equals(content)) {
-                    throw new IllegalArgumentException("Unexpected system: " + content);
+                    throw new IllegalArgumentException("Es können nur Vorlagen für NUB-PEPP eingelesen werden.");
                 }
                 break;
             case ID:
@@ -146,7 +147,7 @@ public class PsyNubRequestTemplateHelper implements Serializable {
             case CheckSum:
                 break;
             default:
-                throw new IllegalArgumentException("Unknown Key [PSY-NUB]: + " + key);
+                throw new IllegalArgumentException("Unbekanntes Feld gefunden: + " + key.name());
         }
     }
 
