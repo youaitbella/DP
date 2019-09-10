@@ -121,7 +121,6 @@ public class NubController extends AbstractFeatureController {
      * @param template
      * @return
      */
-    @SuppressWarnings("JavaNCSS")
     public NubRequest createNubRequest(String template) {
         NubRequest request = NubController.this.createNubRequest();
         String[] lines = template.split("[\\r\\n]+");
@@ -141,6 +140,7 @@ public class NubController extends AbstractFeatureController {
         return request;
     }
 
+    @SuppressWarnings("JavaNCSS")
     private void distributeField(NubRequest request, NubFieldKey key, String content) {
         switch (key) {
             case Version:
@@ -148,7 +148,7 @@ public class NubController extends AbstractFeatureController {
                 break;
             case System:
                 if (!"DRG".equals(content)) {
-                    throw new IllegalArgumentException("Unexpcted system: " + content);
+                    throw new IllegalArgumentException("Unexpected system: " + content);
                 }
                 break;
             case ID:

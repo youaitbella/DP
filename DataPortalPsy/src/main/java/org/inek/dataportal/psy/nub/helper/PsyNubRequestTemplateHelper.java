@@ -49,7 +49,6 @@ public class PsyNubRequestTemplateHelper implements Serializable {
         return content.toString();
     }
 
-    @SuppressWarnings("checkstyle:JavaNCSS")
     public static Optional<PsyNubRequest> createNewRequestFromTemplate(String template, Account account) {
         PsyNubRequest newPsyNubRequest = NewPsyNubRequestHelper.createNewPsyNubRequest(account);
         if (!checksumIsValid(template)) {
@@ -70,6 +69,7 @@ public class PsyNubRequestTemplateHelper implements Serializable {
         }
     }
 
+    @SuppressWarnings("checkstyle:JavaNCSS")
     private static void distributeField(PsyNubRequest newPsyNubRequest, PsyNubFieldKey key, String content) {
         switch (key) {
             case Version:
@@ -77,7 +77,7 @@ public class PsyNubRequestTemplateHelper implements Serializable {
                 break;
             case System:
                 if (!"PEPP".equals(content)) {
-                    throw new IllegalArgumentException("Unexpcted system: " + content);
+                    throw new IllegalArgumentException("Unexpected system: " + content);
                 }
                 break;
             case ID:
