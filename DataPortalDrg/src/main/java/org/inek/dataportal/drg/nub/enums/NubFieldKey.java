@@ -11,6 +11,7 @@ package org.inek.dataportal.drg.nub.enums;
  */
 public enum NubFieldKey {
     Version,
+    System,
     ID,
     DisplayName,
     Helper,

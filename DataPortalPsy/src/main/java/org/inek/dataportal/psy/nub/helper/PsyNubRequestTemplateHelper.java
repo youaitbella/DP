@@ -19,6 +19,7 @@ public class PsyNubRequestTemplateHelper implements Serializable {
         appendLine(content, PsyNubFieldKey.Version, "" + request.getTargetYear());
         String helperId = encodeHelpId(account.getId());
         appendLine(content, PsyNubFieldKey.ID, helperId);
+        appendLine(content, PsyNubFieldKey.System, "PEPP");
         String helperName = account.getTitle() + " " + account.getFirstName() + " " + account.getLastName();
         String helper = account.getCompany()
                 + "\r\n" + helperName.trim()
@@ -58,83 +59,92 @@ public class PsyNubRequestTemplateHelper implements Serializable {
                 String var = line.substring(0, pos);
                 PsyNubFieldKey key = PsyNubFieldKey.valueOf(var);
                 String content = line.substring(pos + 1);
-                switch (key) {
-                    case Version:
-                        // might check version here
-                        break;
-                    case ID:
-                        newPsyNubRequest.setHelperId(decodeHelpId(content));
-                        break;
-                    case Helper:
-                        newPsyNubRequest.getProposalData().setFormFillHelper(restoreBreaks(content));
-                        break;
-                    case Name:
-                        newPsyNubRequest.setName(restoreBreaks(content));
-                        break;
-                    case DisplayName:
-                        newPsyNubRequest.setDisplayName(restoreBreaks(content));
-                        break;
-                    case AltName:
-                        newPsyNubRequest.setAltName(restoreBreaks(content));
-                        break;
-                    case Description:
-                        newPsyNubRequest.getProposalData().setDescription(restoreBreaks(content));
-                        break;
-                    case HasNoProcs:
-                        newPsyNubRequest.getProposalData().setHasNoProcs(content.toLowerCase().equals("true"));
-                        break;
-                    case ProcCodes:
-                        newPsyNubRequest.getProposalData().setProcs(restoreBreaks(content));
-                        break;
-                    case ProcComment:
-                        newPsyNubRequest.getProposalData().setProcsComment(restoreBreaks(content));
-                        break;
-                    case Indication:
-                        newPsyNubRequest.getProposalData().setIndication(restoreBreaks(content));
-                        break;
-                    case Replacement:
-                        newPsyNubRequest.getProposalData().setReplacement(restoreBreaks(content));
-                        break;
-                    case WhatsNew:
-                        newPsyNubRequest.getProposalData().setWhatsNew(restoreBreaks(content));
-                        break;
-                    case Los:
-                        newPsyNubRequest.getProposalData().setLos(restoreBreaks(content));
-                        break;
-                    case InGermanySinceDate:
-                        newPsyNubRequest.getDateValue(PsyNubDateFields.IN_GERMANY).setDate(restoreBreaks(content));
-                        break;
-                    case InGermanySinceComment:
-                        newPsyNubRequest.getDateValue(PsyNubDateFields.IN_GERMANY).setComment(restoreBreaks(content));
-                        break;
-                    case MedApprovedDate:
-                        newPsyNubRequest.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).setDate(restoreBreaks(content));
-                        break;
-                    case MedApprovedComment:
-                        newPsyNubRequest.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).setComment(restoreBreaks(content));
-                        break;
-                    case HospitalCountNumber:
-                        newPsyNubRequest.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).setNumber(Integer.parseInt(restoreBreaks(content)));
-                        break;
-                    case HospitalCountComment:
-                        newPsyNubRequest.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).setComment(restoreBreaks(content));
-                        break;
-                    case PEPPs:
-                        newPsyNubRequest.getProposalData().setPepps(restoreBreaks(content));
-                        break;
-                    case WhyNotRepresented:
-                        newPsyNubRequest.getProposalData().setWhyNotRepresented(restoreBreaks(content));
-                        break;
-                    case CheckSum:
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Unknown Key [PSY-NUB]: + " + key);
-                }
+                distributeField(newPsyNubRequest, key, content);
             }
         } else {
             return Optional.empty();
         }
         return Optional.of(newPsyNubRequest);
+    }
+
+    private static void distributeField(PsyNubRequest newPsyNubRequest, PsyNubFieldKey key, String content) {
+        switch (key) {
+            case Version:
+                // might check version here
+                break;
+            case System:
+                if (!content.equals("PEPP")) {
+                    throw new IllegalArgumentException("Unexpcted system: " + content);
+                }
+                break;
+            case ID:
+                newPsyNubRequest.setHelperId(decodeHelpId(content));
+                break;
+            case Helper:
+                newPsyNubRequest.getProposalData().setFormFillHelper(restoreBreaks(content));
+                break;
+            case Name:
+                newPsyNubRequest.setName(restoreBreaks(content));
+                break;
+            case DisplayName:
+                newPsyNubRequest.setDisplayName(restoreBreaks(content));
+                break;
+            case AltName:
+                newPsyNubRequest.setAltName(restoreBreaks(content));
+                break;
+            case Description:
+                newPsyNubRequest.getProposalData().setDescription(restoreBreaks(content));
+                break;
+            case HasNoProcs:
+                newPsyNubRequest.getProposalData().setHasNoProcs(content.toLowerCase().equals("true"));
+                break;
+            case ProcCodes:
+                newPsyNubRequest.getProposalData().setProcs(restoreBreaks(content));
+                break;
+            case ProcComment:
+                newPsyNubRequest.getProposalData().setProcsComment(restoreBreaks(content));
+                break;
+            case Indication:
+                newPsyNubRequest.getProposalData().setIndication(restoreBreaks(content));
+                break;
+            case Replacement:
+                newPsyNubRequest.getProposalData().setReplacement(restoreBreaks(content));
+                break;
+            case WhatsNew:
+                newPsyNubRequest.getProposalData().setWhatsNew(restoreBreaks(content));
+                break;
+            case Los:
+                newPsyNubRequest.getProposalData().setLos(restoreBreaks(content));
+                break;
+            case InGermanySinceDate:
+                newPsyNubRequest.getDateValue(PsyNubDateFields.IN_GERMANY).setDate(restoreBreaks(content));
+                break;
+            case InGermanySinceComment:
+                newPsyNubRequest.getDateValue(PsyNubDateFields.IN_GERMANY).setComment(restoreBreaks(content));
+                break;
+            case MedApprovedDate:
+                newPsyNubRequest.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).setDate(restoreBreaks(content));
+                break;
+            case MedApprovedComment:
+                newPsyNubRequest.getDateValue(PsyNubDateFields.MEDICAL_APPROVAL).setComment(restoreBreaks(content));
+                break;
+            case HospitalCountNumber:
+                newPsyNubRequest.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).setNumber(Integer.parseInt(restoreBreaks(content)));
+                break;
+            case HospitalCountComment:
+                newPsyNubRequest.getNumberValue(PsyNubNumberFields.USED_HOSPITALS).setComment(restoreBreaks(content));
+                break;
+            case PEPPs:
+                newPsyNubRequest.getProposalData().setPepps(restoreBreaks(content));
+                break;
+            case WhyNotRepresented:
+                newPsyNubRequest.getProposalData().setWhyNotRepresented(restoreBreaks(content));
+                break;
+            case CheckSum:
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown Key [PSY-NUB]: + " + key);
+        }
     }
 
     private static boolean checksumIsValid(String template) {

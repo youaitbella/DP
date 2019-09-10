@@ -10,6 +10,7 @@ package org.inek.dataportal.psy.nub.enums;
  */
 public enum PsyNubFieldKey {
     Version,
+    System,
     ID,
     DisplayName,
     Helper,
