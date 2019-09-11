@@ -1,140 +1,48 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="../helpproject.xsd">
-    <title translate="true">Mehrkosten_2</title>
-    <keywords>
-        <keyword translate="true">Mehrkosten</keyword>
-    </keywords>
-    <body>
-        <header>
-            <para styleclass="Heading1">
-                <text styleclass="Heading1" translate="true">Mehrkosten</text>
-            </para>
-        </header>
-        <para styleclass="Normal"></para>
-        <para styleclass="Image Caption">
-            <image src="NubProposalAddCosts.png" scale="100.00%" styleclass="Image Caption"></image>
-        </para>
-        <para styleclass="Image Caption">
-            <var styleclass="Image Caption">&lt;%FIGURE%&gt;</var>
-            <text styleclass="Image Caption" translate="true">Mehrkosten der NUB-Anfrage</text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Heading2">
-            <text styleclass="Heading2" translate="true">Hinweise zu ausgewählten Feldern</text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" style="font-weight:bold;" translate="true">Entstehen durch die neue Methode
-                Mehrkosten gegenüber dem bisher üblichen Verfahren? Wenn ja, wodurch? In welcher Höhe (möglichst
-                aufgetrennt nach Personal- und Sachkosten)?
-            </text>
-        </para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Geben Sie bitte möglichst genau an, welche Mehrkosten durch die
-                neue Methode verglichen mit der(den) bisher üblichen Methode(n) entstehen. Trennen Sie Ihre Angaben
-                soweit möglich in Personal- und Sachkosten. Machen Sie Ihre Kostenangaben bitte als Durchschnittswert in
-                Euro pro Anwendung. Sofern Ihnen die Mehrkosten nicht bekannt sind, umschreiben Sie bitte möglichst
-                genau den zusätzlichen Aufwand, der durch Anwendung der neuen Methode entsteht. Der zusätzliche Aufwand
-                kann beispielsweise durch verlängerte OP-Zeiten, eine höhere Qualifikation des einzusetzenden Personals,
-                zusätzliches Personal, die Dosierung des Medikaments, die Verabreichung zusätzlicher Medikamente zur
-                Stützung des Behandlungserfolges der neuen Methode, Implantatkosten o.ä. entstehen.
-            </text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Beispiel 1:</text>
-        </para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Eine Dosierung von 60 µg/kg/Tag i.v. 3 Tage vor und nach
-                Chemotherapie - außer an Tagen mit Chemotherapie - ergibt bei einem Patienten mit beispielsweise 75 kg
-                Körpergewicht pro Gabe: €€€ Euro. Aufsummiert auf einen Fall ergeben sich damit Kosten von €€€ Euro pro
-                typischem stationären Aufenthalt.
-            </text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Die Mehrkosten gegenüber der bisherigen Behandlung (z.B.
-                Medikament XY mit €€€ Euro pro Fall) belaufen sich bei in Körpergewicht, Dauer bzw. Höhe der Gaben usw.
-                vergleichbaren Patienten insgesamt auf €€€ Euro pro Fall.
-            </text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Beispiel 2:</text>
-        </para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Eine konventionelle Herzklappe kostet ca. €€€ Euro. Bei der
-                endovaskulären Aortenklappe entstehen durch das Implantat Mehrkosten von ca. €€€ Euro.
-            </text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Der Eingriff wird in einem so genannten Hybrid-OP durchgeführt,
-                so dass die Kosten für den Eingriff mit €€€ Euro deutlich über den Kosten einer anderen
-                perkutan-transluminalen Intervention liegen. Da mit dem Verfahren derzeit vor allem multimorbide
-                Patienten mit häufiger intensivpflichtiger Vor- und Nachbehandlung behandelt werden, ist zusätzlich zu
-                den Mehrkosten des Implantates von erhöhten Kosten für die Intensivtherapie und Normalstation
-                auszugehen.
-            </text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" style="font-weight:bold;" translate="true">Welche DRG(s) ist(sind) am häufigsten
-                von dieser Methode betroffen?
-            </text>
-        </para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Soweit Sie davon Kenntnis haben, geben Sie hier bitte die am
-                häufigsten von der angefragten Methode betroffene(n) DRG(s) an. Geben Sie bitte an, mit Hilfe welchen
-                DRG-Fallpauschalen-Kataloges (z.B. Version 2014) Sie Ihre Angaben machen. Benutzen Sie bitte pro DRG
-                eine neue Zeile.
-            </text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" style="font-weight:bold;" translate="true">Warum ist diese Methode aus Ihrer Sicht
-                derzeit im G-DRG-System nicht sachgerecht abgebildet?
-            </text>
-        </para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Erläutern Sie bitte, warum die Methode aus Ihrer Sicht nicht
-                sachgerecht im G-DRG-System abgebildet ist. Hierbei sollte auch der Aspekt der Sachgerechtigkeit der
-                Vergütung aus Ihrer Sicht betrachtet werden. Von Interesse ist, warum die durch die DRG-Fallpauschale
-                bzw. durch die Zusatzentgelte bestimmte Vergütung in Bezug auf die entstehenden Kosten der NUB-Leistung
-                nicht sachgerecht ist. Sie können Ihre Angaben auf das G-DRG-System 2013 und/oder 2014 beziehen. Wenn
-                sich Ihre Angaben auf beide G-DRG-Systeme beziehen, beschreiben Sie bitte ggf. bestehende Unterschiede
-                in der fehlenden Sachgerechtigkeit. Bitte vermerken Sie unbedingt, auf welches G-DRG-System (z.B.
-                Version 2014) sich Ihre Ausführungen beziehen.
-            </text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Beispiel 1:</text>
-        </para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Die Behandlung mit Palifermin wurde erst im Jahr 2005 in der EU
-                zugelassen. Entsprechend konnten keinerlei Kosten- und Leistungsinformationen bei der Ermittlung des
-                G-DRG-Fallpauschalen-Kataloges 2007 bzw. 2008 berücksichtigt werden. Die Kosten des für die neue Methode
-                zu verwendenden Präparates sind erheblich und können die mit der DRG-Fallpauschale verbundenen Erlöse
-                übersteigen.
-            </text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Beispiel 2:</text>
-        </para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Das Verfahren des endovaskulären Aortenklappenersatzes ist
-                derzeit in der DRG XXX mit mittleren Kosten in Höhe von €€€ Euro abgebildet. Die Implantatkosten
-                betragen €€€ Euro. Die Behandlung von Patienten mit einem endovaskulären Aortenklappenersatz wurde erst
-                im Jahr 2007 CE-zertifiziert. Entsprechend konnten Kosten- und Leistungsinformationen bei der Ermittlung
-                des G-DRG-Fallpauschalen-Kataloges 2007 bzw. 2008 noch nicht berücksichtigt werden.
-            </text>
-        </para>
-        <para styleclass="Normal"></para>
-    </body>
+<topic template="Default" lasteditedby="rentschlerel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Mehrkosten_2</title>
+  <keywords>
+    <keyword translate="true">Mehrkosten</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Mehrkosten und Kosteneinsparungen (NUB-PEPP)</text></para>
+    </header>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="Kosten_final.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Mehrkosten und Kosteneinsparungen der NUB-PEPP-Anfrage</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Hinweise zu ausgewählten Feldern</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Entstehen durch die neue Methode Mehrkosten gegenüber dem bisher üblichen Verfahren? Wenn ja, wodurch? Bitte geben Sie die Kosten getrennt nach Personal- und Sachkosten an.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie bitte möglichst genau an, welche Mehrkosten durch die neue Methode verglichen mit der(den) bisher üblichen Methode(n) entstehen. Trennen Sie Ihre Angaben soweit möglich in Personal- und Sachkosten. Machen Sie Ihre Kostenangaben bitte als Durchschnittswert in Euro pro Anwendung. Sofern Ihnen die Mehrkosten nicht bekannt sind, umschreiben Sie bitte möglichst genau den zusätzlichen Aufwand, der durch Anwendung der neuen Methode entsteht. Der zusätzliche Aufwand kann beispielsweise durch verlängerte Therapie-Zeiten, eine höhere Qualifikation des einzusetzenden Personals, zusätzliches Personal, die Dosierung des Medikaments, die Verabreichung zusätzlicher Medikamente zur Stützung des Behandlungserfolges der neuen Methode &#160;o.ä. entstehen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 1:</text></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">Personalkosten: </text><tab /><text styleclass="Todo" translate="true"> &#160; &#160;0,00 EUR</text><tab /></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">Kommentar: [...]</text></para>
+    <para styleclass="Todo"></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">Sachkosten: </text><tab /><tab /><text styleclass="Todo" translate="true">350,00 EUR</text><tab /></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">Kommentar: Eine Dosierung von 60 µg/kg/Tag i.v. 3 Tage vor und nach Chemotherapie - außer an Tagen mit Chemotherapie - ergibt bei einem Patienten mit beispielsweise 75 kg Körpergewicht pro Gabe: XXX Euro. Aufsummiert auf einen Fall ergeben sich damit Kosten von 450 Euro pro typischem stationären Aufenthalt. Die Mehrkosten gegenüber der bisherigen Behandlung (z.B. Medikament XY mit €€€ Euro pro Fall) belaufen sich bei in Körpergewicht, Dauer bzw. Höhe der Gaben usw. vergleichbaren Patienten insgesamt auf 350 Euro pro Fall.</text></para>
+    <para styleclass="Todo"></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 2:</text></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">...</text></para>
+    <para styleclass="Todo"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Werden durch die Anwendung der neuen Methode Kosteneinsparungen verursacht? Wenn ja, wodurch? Bitte geben Sie die Kosteneinsparungen getrennt nach Personal- und Sachkosten an.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie bitte möglichst genau an, welche Kosteneinsparungen durch die neue Methode verglichen mit der(den) bisher üblichen Methode(n) entstehen. Trennen Sie Ihre Angaben soweit möglich in Personal- und Sachkosten. Machen Sie Ihre Kostenangaben bitte als Durchschnittswert in Euro pro Anwendung. Sofern Ihnen die Kosteneinsparungen nicht bekannt sind, umschreiben Sie bitte möglichst genau den Aufwand, der durch Anwendung der neuen Methode nicht mehr entsteht. Der eingesparte Aufwand kann beispielsweise durch verkürzte Therapie-Zeiten, eine weniger hohe Qualifikation des einzusetzenden Personals, weniger Personal, die Dosierung des Medikaments o.ä. entstehen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Welche PEPP ist (sind) am häufigsten von dieser Methode betroffen?</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Soweit Sie davon Kenntnis haben, geben Sie hier bitte die am häufigsten von der angefragten Methode betroffene(n) PEPP an. Geben Sie bitte mehrere PEPP mit Komma getrennt ein.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Warum ist diese Methode aus Ihrer Sicht derzeit im PEPP-System nicht sachgerecht abgebildet?</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Erläutern Sie bitte, warum die Methode aus Ihrer Sicht nicht sachgerecht im PEPP-System abgebildet ist. Hierbei sollte auch der Aspekt der Sachgerechtigkeit der Vergütung aus Ihrer Sicht betrachtet werden. Von Interesse ist, warum die durch das PEPP-Entgelt bzw. durch die Zusatzentgelte bestimmte Vergütung in Bezug auf die entstehenden Kosten der NUB-PEPP-Leistung nicht sachgerecht ist. Sie können Ihre Angaben auf das PEPP-System des laufenden Jahres (z.B. 2019) oder des kommenden Jahres (z.B. 2020) beziehen. Wenn sich Ihre Angaben auf beide PEPP-Systeme beziehen, beschreiben Sie bitte ggf. bestehende Unterschiede in der fehlenden Sachgerechtigkeit. Bitte vermerken Sie unbedingt, auf welches PEPP-System (z.B. Version 2020) sich Ihre Ausführungen beziehen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 1:</text></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">Die Behandlung mit Palifermin wurde erst im Jahr 2005 in der EU zugelassen. Entsprechend konnten keinerlei Kosten- und Leistungsinformationen bei der Ermittlung des G-DRG-Fallpauschalen-Kataloges 2007 bzw. 2008 berücksichtigt werden. Die Kosten des für die neue Methode zu verwendenden Präparates sind erheblich und können die mit der DRG-Fallpauschale verbundenen Erlöse übersteigen.</text></para>
+    <para styleclass="Todo"></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 2:</text></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">...</text></para>
+  </body>
 </topic>

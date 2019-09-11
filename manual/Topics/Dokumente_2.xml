@@ -1,55 +1,20 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="../helpproject.xsd">
-    <title translate="true">Dokumente_2</title>
-    <body>
-        <header>
-            <para styleclass="Heading1">
-                <text styleclass="Heading1" translate="true">Dokumente</text>
-            </para>
-        </header>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Sollten Sie dem InEK weitere relevante Informationen in Form
-                anderer elektronischer Dokumente bereitstellen wollen, so können Sie diese in der Registerkarte &quot;Dok&quot;
-                hoch laden. Dabei darf es sich beispielsweise um Bilder, Texte, Tabellen oder PDF-Dokumente handeln.
-            </text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Image Caption">
-            <image src="NubDoc.png" scale="100.00%" styleclass="Image Caption"></image>
-        </para>
-        <para styleclass="Image Caption">
-            <var styleclass="Image Caption">&lt;%FIGURE%&gt;</var>
-            <text styleclass="Image Caption" translate="true">Registerkater Dok(umente)</text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal">
-            <text styleclass="Button" translate="true">[Datei hochladen]</text>
-            <text styleclass="Normal" translate="true">Klicken Sie auf diese Schaltfläche, erscheint der
-                Datei-Auswahldialog Ihres Browsers. Wählen Sie die gewünschte(n) Datei(en) und bestätigen Sie Ihre
-                Auswahl. Nach dem Upload werden die Dateien in einer Liste oberhalb dieser Schaltfläche angezeigt. Die
-                Dateien befinden sich zu diesem Zeitpunkt bereits auf dem InEK-Server. Sie werden aber erst beim
-                Speichern dauerhaft abgelegt. Mittels Klick auf das rote Papierkorb-Symbol können Sie die Datei löschen.
-                Soweit die Datei vorher bereits gespeichert war, wird die Löschung erst mit dem Speichern dieser
-                Änderung wirksam.
-            </text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Normal">
-            <text styleclass="Normal" translate="true">Die Schaltfläche</text>
-            <text styleclass="Button" translate="true">[Datei hochladen]</text>
-            <text styleclass="Normal" translate="true">wird erst sichtbar, wenn der Vorschlag in der Datenbank
-                existiert. Dazu muss er zuvor bereits gespeichert werden. Er ist nicht mehr sichtbar, wenn Sie über
-                keine Schreibberechtigung für die Anfrage verfügen, z.B. wenn diese bereits an das InEK gesendet wurde.
-            </text>
-        </para>
-        <para styleclass="Normal"></para>
-        <para styleclass="Hinweis">
-            <text styleclass="Hinweis" translate="true">Die Dokumente haben lediglich ergänzenden Charakter. Sie
-                ersetzen nicht die Beschreibung oder sonstige Pflichtfelder. Maßgeblich für die Beurteilung Ihrer
-                Anfrage sind die in den übrigen Registerkarten gemachten Angaben.
-            </text>
-        </para>
-    </body>
+<topic template="Default" lasteditedby="rentschlerel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Dokumente_2</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Dokumente</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sollten Sie dem InEK weitere relevante Informationen in Form anderer elektronischer Dokumente bereitstellen wollen, so können Sie diese in der Registerkarte &quot;Dok&quot; hoch laden. Dabei darf es sich beispielsweise um Bilder, Texte, Tabellen oder PDF-Dokumente handeln.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="Dokumente.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Registerkater Dokumente</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="ButtonPsy"><text styleclass="ButtonPsy" translate="true">[+ Dateien auswählen]</text><text styleclass="Normal" translate="true"> Klicken Sie auf diese Schaltfläche, erscheint der Datei-Auswahldialog Ihres Browsers. Wählen Sie die gewünschte(n) Datei(en) und bestätigen Sie Ihre Auswahl. Nach dem Upload werden die Dateien in einer Liste oberhalb dieser Schaltfläche angezeigt. Die Dateien befinden sich zu diesem Zeitpunkt bereits auf dem InEK-Server. Sie werden aber erst beim Speichern dauerhaft abgelegt. Mittels Klick auf das rote Papierkorb-Symbol können Sie die Datei löschen. Soweit die Datei vorher bereits gespeichert war, wird die Löschung erst mit dem Speichern dieser Änderung wirksam.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Schaltfläche </text><text styleclass="ButtonPsy" translate="true">[+ Dateien auswählen]</text><text styleclass="Normal" translate="true"> wird erst sichtbar, wenn der Vorschlag in der Datenbank existiert. Dazu muss er zuvor bereits gespeichert werden. Er ist nicht mehr sichtbar, wenn Sie über keine Schreibberechtigung für die Anfrage verfügen, z.B. wenn diese bereits an das InEK gesendet wurde.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Die Dokumente haben lediglich ergänzenden Charakter. Sie ersetzen nicht die Beschreibung oder sonstige Pflichtfelder. Maßgeblich für die Beurteilung Ihrer Anfrage sind die in den übrigen Registerkarten gemachten Angaben.</text></para>
+  </body>
 </topic>

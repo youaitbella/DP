@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			      xmlns:xi="http://www.w3.org/2001/XInclude"
+                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
 >
-<xsl:output method="html" encoding="utf-8" indent="yes" />
 
 <xsl:param name="projectfile" select="document('DataPortal.hmxp')" />
 
@@ -17,7 +17,7 @@
 </xsl:variable>
 
 <xsl:variable name="imagepath">
-    <xsl:value-of select="substring-before($searchpath,';')"/>
+.<xsl:value-of select="substring-before($searchpath,';')"/>
 </xsl:variable>
 
 <xsl:template match="include">
@@ -52,7 +52,6 @@
 </xsl:template>
 
 <xsl:template match="/">
-  <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
   <html>
   <xsl:value-of disable-output-escaping="yes" select="'&lt;!-- saved from url=(0029)http://www.helpandmanual.com/ --&gt;'"/>
   <head>
@@ -79,17 +78,18 @@
     var s2 = '<xsl:value-of select="$searchpath" />' + ';./Baggage/';
     var s3 = s2.split(';');
 
-        function imageError(theImage) {
+    function imageError(theImage) {
       var p = 0;
-      if (theImage.getAttribute("pathno") != null) { 
+      if (theImage.getAttribute("pathno") == null) { 
+        p = 1; 
+      } 
+      else  { 
         p = parseInt(theImage.getAttribute("pathno"))+1; 
       }
       theImage.setAttribute("pathno", p);
       if (p &lt; s3.length) {
-        if (s3[p] == "./") s3[p] = "";
-		if (s3[p].substring(0,2) == "./") s3[p] = s3[p].substring(2, s3[p].length);
         filename = theImage.src.substring(theImage.src.lastIndexOf('/')+1); 
-	    theImage.src = s1 + s3[p] + filename;  
+	theImage.src = s1.substring(0, s1.length-1) + s3[p].substring(1, s3[p].length) + filename;  
       }
     }
 
