@@ -299,6 +299,10 @@ public class PsyNubRequest implements Serializable {
         return _displayName;
     }
 
+    public String getDisplayName4Table() {
+        return "".equals(_displayName) ? _name : _displayName;
+    }
+
     public void setDisplayName(String displayName) {
         this._displayName = displayName;
     }

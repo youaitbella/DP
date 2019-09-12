@@ -1,8 +1,9 @@
 package org.inek.dataportal.common.controller;
 
+import org.primefaces.PrimeFaces;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -35,7 +36,7 @@ public class DialogController{
     }
 
     public static void showSaveDialog() {
-        showSuccessDialog("Speichern erfolgreich", "Ihre Daten wurden erfolgreich gespeichert");
+        showSuccessDialog("Speichern erfolgreich", "Ihre Daten wurden gespeichert. Eventuell fehlerhafte Felder wurden dabei nicht übernommen (behalten vorherige Werte).");
     }
 
     public static void showSendDialog() {

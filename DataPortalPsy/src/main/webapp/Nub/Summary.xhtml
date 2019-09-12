@@ -108,10 +108,11 @@
                             <pf:column headerText="Name"
                                        filterable="true"
                                        sortable="true"
-                                       filterBy="#{proposal.displayName}"
-                                       sortBy="#{proposal.displayName}">
+                                       filterBy="#{proposal.displayName4Table}"
+                                       sortBy="#{proposal.displayName4Table}"
+                                       filterMatchMode="contains">
                                 <h:link outcome="#{nubSummary.psyNubEditOpen()}"
-                                        value="#{proposal.displayName}">
+                                        value="#{proposal.displayName4Table}">
                                     <f:param name="id" value="#{proposal.id}" />
                                 </h:link>
                             </pf:column>
@@ -246,7 +247,8 @@
                                        filterable="true"
                                        sortable="true"
                                        filterBy="#{proposal.externalStatus}"
-                                       sortBy="#{proposal.externalStatus}">
+                                       sortBy="#{proposal.externalStatus}"
+                                       filterMatchMode="contains">
                                 <h:link outcome="#{nubSummary.psyNubEditOpen()}"
                                         value="#{proposal.externalStatus}">
                                     <f:param name="id" value="#{proposal.id}" />
@@ -267,10 +269,11 @@
                             <pf:column headerText="Name"
                                        filterable="true"
                                        sortable="true"
-                                       filterBy="#{proposal.displayName}"
-                                       sortBy="#{proposal.displayName}">
+                                       filterBy="#{proposal.displayName4Table}"
+                                       sortBy="#{proposal.displayName4Table}"
+                                       filterMatchMode="contains">
                                 <h:link outcome="#{nubSummary.psyNubEditOpen()}"
-                                        value="#{proposal.displayName}">
+                                        value="#{proposal.displayName4Table}">
                                     <f:param name="id" value="#{proposal.id}" />
                                 </h:link>
                             </pf:column>

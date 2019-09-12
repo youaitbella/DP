@@ -67,7 +67,7 @@
                 <h:selectOneMenu styleClass="inputmedium" id="cbxGender" value="#{nubEdit.psyNubRequest.gender}"
                                  required="true"
                                  readonly="#{nubEdit.readOnly}"
-                                 requiredMessage="Bitte wählen Sie ein Geschlecht">
+                                 requiredMessage="Bitte wählen Sie eine Anrede">
                     <f:selectItems value="#{sessionTools.genderItems}" />
                     <f:ajax event="blur" render="@this :logout:remaining msgGender" />
                 </h:selectOneMenu>
@@ -213,7 +213,7 @@
         <h:inputText styleClass="inputlong" id="email" value="#{nubEdit.psyNubRequest.email}"
                      required="true"
                      readonly="#{nubEdit.readOnly}"
-                     requiredMessage="Bitte geben Sie eine E-Mail an"
+                     requiredMessage="Bitte geben Sie eine E-Mail-Adresse an"
                      maxlength="100">
             <f:ajax event="blur" render="@this :logout:remaining msgEmail" />
             <f:validator validatorId="EmailValidator" />
