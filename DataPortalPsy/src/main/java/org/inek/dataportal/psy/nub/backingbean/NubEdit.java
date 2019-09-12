@@ -188,7 +188,7 @@ public class NubEdit {
             boolean hasNoMergeErrors = handleOptimisticLockException();
             if (hasNoMergeErrors) {
                 _psyNubRequest.setVersion(_psyNubFacade.findNubById(_psyNubRequest.getId()).getVersion());
-                save();
+                return save();
             } else {
                 _psyNubRequest.setStatus(WorkflowStatus.New);
                 _psyNubRequest.setSealedAt(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)));

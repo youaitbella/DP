@@ -36,7 +36,9 @@ public class DialogController{
     }
 
     public static void showSaveDialog() {
-        showSuccessDialog("Speichern erfolgreich", "Ihre Daten wurden gespeichert. Eventuell fehlerhafte Felder wurden dabei nicht übernommen (behalten vorherige Werte).");
+        showSuccessDialog("Speichern erfolgreich",
+                "Ihre Daten wurden gespeichert.\\r\\n "
+                        + "Eventuell fehlerhafte Felder wurden dabei nicht übernommen (behalten vorherige Werte).");
     }
 
     public static void showSendDialog() {
