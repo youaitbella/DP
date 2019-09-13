@@ -25,11 +25,8 @@
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Angefragte Untersuchungs- und Behandlungsmethode</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie bitte eine prägnante Kurzbezeichnung mit einer Länge von maximal 200 Zeichen der angefragten Methode an. Wenn es sich um ein Medikament handelt, geben Sie bitte den Wirkstoffnamen an.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 1:</text></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Eine prägnante Kurzbeschreibung für die Behandlung von Patienten mit schwerer oraler Mukositis unter Chemo- und Strahlentherapie mit Palifermin wäre: Palifermin.</text></para>
-    <para styleclass="Todo"></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 2:</text></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Eine prägnante Kurzbeschreibung für die Behandlung von Patienten mit ... wäre: XXX.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Eine prägnante Kurzbeschreibung für die Behandlung von Patienten mit chronischen Hepatitis C (CHC) mit Sofosbuvir wäre: Sofosbuvir.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Alternative Bezeichnung(en) der Methode</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Unter welcher anderen Bezeichnung (oder ggf. welchem Namen, z.B. auch Handelsname) ist die Methode noch bekannt?</text></para>
@@ -37,11 +34,8 @@
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Beschreibung der neuen Methode</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beschreiben Sie die neue Untersuchungs- und Behandlungsmethode konkret. Machen Sie dabei bitte insbesondere plausible Angaben zu Funktions-/Anwendungsweise, Technik, Materialien/Mengen, Wirkmechanismus, Wirkstoff, Dosierungen, Häufigkeit und Dauer der Anwendung etc. (soweit möglich und sinnvoll). Erstellen Sie Ihre Beschreibung der neuen Methode/Leistung bitte so, dass Ihre Erläuterungen vom Leser Ihrer Anfrage auch nachvollzogen werden können.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 1:</text></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Bei Palifermin handelt es sich um einen mit Hilfe rekombinanter DNA-Technologie in E. coli hergestellten humanen Keratinozyten-Wachstumsfaktor (Keratinocyte Growth Factor, KGF), der die Proliferation und Differenzierung von Keratinozyten und die Hochregulierung von zytoprotektiven Mechanismen stimuliert. Endogener KGF ist ein spezifischer Wachstumsfaktor für Epithelzellen.</text></para>
-    <para styleclass="Todo"></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 2:</text></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Zur Behandlung von Patienten mit ...</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofosbuvir ist ein pangenotypischer Inhibitor der RNA-abhängigen RNA-Polymerase NS5B des Hepatitis-C-Virus (HCV), das für die Virusreplikation erforderlich ist. Nach intrazellulärer Metabolisierung in das pharmakologisch wirksame Uridin-Analogon-Triphosphat wird es anstelle des natürlichen Substrats in die HCV-RNA eingebaut, wodurch es zum Kettenabbruch kommt. Sofosbuvir hemmt weder humane DNA- oder RNA-Polymerasen noch die mitochondriale RNA-Polymerase. Sofosbuvir wird in Kombination mit anderen Arzneimitteln zur Behandlung der chronischen Hepatitis C (CHC) angewendet.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Mit welchem OPS wird die Methode verschlüsselt?</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie bitte an, mit welchem OPS-Kode/welchen OPS-Kodes die Methode im </text><text styleclass="Normal" style="font-weight:bold;" translate="true">laufenden</text><text styleclass="Normal" translate="true"> Jahr verschlüsselt wird. Geben Sie bitte die Kodes getrennt mit Komma in das Feld ein.</text></para>

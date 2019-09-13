@@ -18,11 +18,8 @@
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Bei welchen Patienten wird die Methode angewandt (Indikation)?</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beschreiben Sie bitte die Patientengruppe, die mit der neuen Methode behandelt wird. Wenn Ihnen bekannt ist, dass die Indikation typischerweise mit einer bestimmten PEPP bzw. mehreren bestimmten PEPP verbunden ist, dann geben Sie diese bitte hier an.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 1:</text></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Palifermin wird angewendet zur Prophylaxe und Therapie der oralen Mukositis unter Chemo- und Strahlentherapie, z.B. bei Patienten mit hämatologischen malignen Erkrankungen unter myeloablativer Therapie.</text></para>
-    <para styleclass="Todo"></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 2:</text></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">...</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofosbuvir wird in Kombination mit anderen Arzneimitteln zur Behandlung der chronischen Hepatitis C (CHC) bei Erwachsenen und Jugendlichen zwischen 12 und 17 Jahren angewendet. Während Sofosbuvir bei Erwachsenen pangenotypisch eingesetzt werden kann, ist die Zulassung bei Jugendlichen beschränkt auf die Behandlung der HCV-GT 2 und 3. </text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Welche bestehende Methode wird durch die neue Methode abgelöst oder ergänzt?</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie hier bitte an, welche bestehende Methode durch die neue abgelöst oder ergänzt wird. Beschreiben Sie bitte kurz, wie Patienten vor Einführung der neuen Methode bei der entsprechenden Indikation behandelt wurden.</text></para>
@@ -30,12 +27,9 @@
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Ist die Methode vollständig oder in Teilen neu und warum handelt es sich um eine neue Untersuchungs- und Behandlungsmethode?</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Erläutern Sie bitte, warum die angefragte Methode aus Ihrer Sicht eine Neuerung darstellt. Wie unterscheidet sie sich von etablierten Verfahren? Gehen Sie bitte insbesondere auf den innovativen Charakter der neuen Methode ein. Bitte beschreiben Sie dabei möglichst genau die Neuerung(en) zu einer ggf. früher oder gegenwärtig eingesetzten Methode. Dies könnte bei Medikamenten z.B. der Wirkstoff, die Galenik oder Applikationsmethode sein, bei Verfahren z.B. ein neuartiges kombiniertes Behandlungskonzept.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 1:</text></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Es handelt sich bei Palifermin um einen neuen Wirkstoff zur Behandlung der Komplikation Mukositis unter Strahlen- bzw. Chemotherapie, für die es bisher noch keine etablierte Therapie oder Prophylaxe gibt. Es ist mit einer Reduktion von Häufigkeit, Dauer und Schweregrad der oralen Mukositis zu rechnen.</text></para>
-    <para styleclass="Todo"></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 2:</text></para>
-    <para styleclass="Todo"><text styleclass="Todo" translate="true">...</text></para>
-    <para styleclass="Todo"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofosbuvir wurde 2014 von der Europäischen Zulassungsbehörde (European Medicines Agency; EMA) &#160;zugelassen. Die direkt antiviral wirksame Substanz Sofosbuvir ist der erste Hemmer der RNA-Polymerase NS5B des Hepatitis C-Virus. Als integraler Bestandteil einer antiviralen Kombinationstherapie führt Sofosbuvir zu einer signifikanten Verbesserung der dauerhaften virologischen Ansprechraten bei gleichzeitig verkürzter Therapiedauer und deutlich verringerten Nebenwirkungen. Ein vergleichbarer Wirkstoff zur Behandlung der chronischen Hepatitis C stand zuvor nicht zur Verfügung. &#160;</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Welche Auswirkung hat die Methode auf die Verweildauer im Krankenhaus?</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beschreiben Sie bitte die verweildauersteigernde oder -senkende Wirkung der neuen Methode, wenn möglich in Tagen pro Krankenhausaufenthalt (im Durchschnitt). Begründen Sie kurz, wodurch die Verweildaueränderung bewirkt wird. Hat die Methode nach Ihrer Kenntnis keine verweildauerändernde Wirkung, geben Sie bitte „keine“ an.</text></para>
   </body>
