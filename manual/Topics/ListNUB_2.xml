@@ -10,11 +10,11 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Sobald die NUB-PEPP-Anfragen durch das InEK beantwortet wurden - in der Regel bis Ende Januar - erscheint hinter der Spalte ID eine weitere Spalte namens Status. Dieser NUB-PEPP-Status wird auch im Stammformblatt sowie in der Druckfunktion (PDF) einer NUB-PEPP-Anfrage ausgegeben. Der Status hat folgende Bedeutung:</text></para>
     <para styleclass="Normal"></para>
-    <list id="54" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Arial; font-size:11pt; color:#000000;">
+    <list id="82" type="ol" listtype="decimal" formatstring="&#37;&#48;&#58;&#115;&#46;" format-charset="DEFAULT_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Arial; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Angefragte Methoden/Leistungen, welche die Kriterien der NUB-PEPP-Vereinbarung der Vertragsparteien erfüllen.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Angefragte Methoden/Leistungen, welche die Kriterien der NUB-PEPP-Vereinbarung der Vertragsparteien nicht erfüllen.</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Angefragte Methoden/Leistungen, die innerhalb der festgesetzten Frist nicht vollständig bearbeitet werden konnten und für die daher keine Information nach </text><text styleclass="Font Style" style="font-family:Arial; font-size:11pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">§ 6 Abs. 4 BPflV</text><text styleclass="Bullet Text" translate="true"> vorliegen.</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die mit der Anfrage gemäß </text><text styleclass="Font Style" style="font-family:Arial; font-size:11pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">§ 6 Abs. 4 BPflV</text><text styleclass="Bullet Text" translate="true"> übermittelten Informationen haben die Kriterien der NUB--PEPP-Vereinbarung zur Bewertung der angefragten Methode/Leistung im Sinne des Verfahrens nicht ausreichend dargestellt.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die mit der Anfrage gemäß </text><text styleclass="Font Style" style="font-family:Arial; font-size:11pt; font-weight:normal; font-style:normal; text-decoration:none; text-transform:none; vertical-align:baseline; color:#000000; background-color:transparent; letter-spacing:normal; letter-scaling:100%;" translate="true">§ 6 Abs. 4 BPflV</text><text styleclass="Bullet Text" translate="true"> übermittelten Informationen haben die Kriterien der NUB-PEPP-Vereinbarung zur Bewertung der angefragten Methode/Leistung im Sinne des Verfahrens nicht ausreichend dargestellt.</text></li>
     </list>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Es sind auch Doppelstatus wie </text><text styleclass="Normal" style="font-style:italic;" translate="true">1 bzw. 2</text><text styleclass="Normal" translate="true"> möglich. In einem solchen Fall konsultieren Sie bitte die NUB-PEPP-Liste Ihres Hauses, die alle Anfragen mit ihrem Status enthält, und solche Doppelstatus erläutert. Diese Liste wird Ihnen mit der Beantwortung der NUB-PEPP-Anfragen zur Verfügung gestellt. Sie finden diese im Bereich </text><link displaytype="text" defaultstyle="true" type="topiclink" href="documents" styleclass="Normal" translate="true">Dokumente</link><text styleclass="Normal" translate="true">.</text></para>
@@ -27,33 +27,16 @@
     <para styleclass="Normal"></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Filter</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Gesamtliste der NUB-PEPP-Anfragen wächst im Laufe der Zeit an, insbesondere wenn Sie Anfragen von Kooperationspartnern sehen dürfen. Um dennoch schnell die gewünschten NUB-PEPP-Anfragen wiederzufinden, können Sie einen Filter einsetzen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Gesamtliste der NUB-PEPP-Anfragen wächst im Laufe der Zeit an. Um dennoch schnell die gewünschten NUB-PEPP-Anfragen wiederzufinden, können Sie die Anfragen filtern.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Todo"><image src="NubFilter.png" scale="100.00%" styleclass="Todo"></image></para>
+    <para styleclass="Image Caption"></para>
+    <para styleclass="Image Caption"><image src="Filterfunktion.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Filter für Neue Untersuchungs- und Behandlungsmethoden</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie im Filter einen Eintrag vornehmen und </text><text styleclass="Button" translate="true">[</text><text styleclass="ButtonPsy" translate="true">Liste aktualisieren]</text><text styleclass="Normal" translate="true"> anklicken, listet Ihnen das InEK Datenportal nur solche Anfragen, die den Begriff im Anzeigenamen oder Namen beinhalten. Der eingegebene Filter bleibt erhalten und wird beim erneuten Aufruf wieder genutzt. Sie können den Filterinhalt jedoch jederzeit abändern. Beim Aufruf der Funktion &quot;Übersicht&quot; wird der Filter gelöscht, damit in der Übersicht alle offenen NUB-Anfragen gelistet werden.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sobald Sie in die leeren Felder über der Liste (&quot;Jahr&quot;, &quot;IK&quot;, &quot;Name&quot;) einen Begriff eingeben, listet das InEK Datenportal nur solche Anfragen, die den Begriff im Anzeigenamen oder Namen beinhalten. Sobald die Übersicht verlassen wird, ist auch der eingegebene Begriff gelöscht und beim erneuten Aufruf ist wieder die komplette Liste aller noch offenen NUB-PEPP-Anfragen wieder zu sehen. </text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Filter funktioniert unabhängig von einer Groß- / Kleinschreibung.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Filter arbeitet mit Platzhaltern, sogenannten Jokerzeichen. Dabei steht das Prozentzeichen (%) für eine beliebige Anzahl von Zeichen sowie der Unterstrich für genau ein beliebiges Zeichen. </text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiele:</text></para>
-    <para styleclass="Normal"></para>
-    <list id="55" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">%Therapie% </text><br/><text styleclass="Bullet Text" translate="true">Findet alle Namen, die den Begriff &quot;Therapie&quot; (oder beispielsweise &quot;THERAPIE&quot;) enthalten</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Therapie%</text><br/><text styleclass="Bullet Text" translate="true">Findet alle Namen, die mit dem Begriff &quot;Therapie&quot; beginnen</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">%Therapie</text><br/><text styleclass="Bullet Text" translate="true">Findet alle Namen, die mit dem Begriff &quot;Therapie&quot; enden</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">%Aufwand%Therapie%</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Findet alle Namen, welche die Begriffe &quot;Aufwand&quot; und &quot;Therapie&quot; (in dieser Reihenfolge) enthalten</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">%aufw_nd%</text><br/><text styleclass="Bullet Text" translate="true">Findet alle Namen, die Begriffe wie &quot;aufwand&quot;, &quot;aufwändig&quot; etc. enthalten, nicht aber &quot;aufwaendig&quot; (ae sind zwei Zeichen, der Unterstrich ersetzt genau eines)</text></li>
-    </list>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie kein Jokerzeichen angeben, wird automatisch je ein Prozentzeichen vorangestellt und angehängt. Somit ist beispielsweise &quot;</text><text styleclass="Bullet Text" translate="true">Therapie</text><text styleclass="Normal" translate="true">&quot; gleichbedeutend wie &quot;%</text><text styleclass="Bullet Text" translate="true">Therapie</text><text styleclass="Normal" translate="true">%&quot;.</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">&#32;</text></para>
-    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Filter funktioniert unabhängig von einer Groß- oder Kleinschreibung. Ebenso kann der gesuchte Begriff am Anfang des Namen, in der Mitte oder am Ende stehen. Diese Filterfunktion können Sie sowohl bei der Übersicht &quot;Daten in Erfassung&quot; als auch bei der Übersicht &quot;An das InEK gesendet&quot; verwenden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
   </body>

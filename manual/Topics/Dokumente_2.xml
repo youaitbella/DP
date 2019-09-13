@@ -6,7 +6,7 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Dokumente</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sollten Sie dem InEK weitere relevante Informationen in Form anderer elektronischer Dokumente bereitstellen wollen, so können Sie diese in der Registerkarte &quot;Dok&quot; hoch laden. Dabei darf es sich beispielsweise um Bilder, Texte, Tabellen oder PDF-Dokumente handeln.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sollten Sie dem InEK weitere relevante Informationen in Form anderer elektronischer Dokumente bereitstellen wollen, so können Sie diese in der Registerkarte &quot;Dokumente&quot; hoch laden. Dabei darf es sich beispielsweise um Bilder, Texte, Tabellen oder PDF-Dokumente handeln.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="Dokumente.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Registerkater Dokumente</text></para>

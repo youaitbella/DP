@@ -18,11 +18,11 @@
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Bei welchen Patienten wird die Methode angewandt (Indikation)?</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beschreiben Sie bitte die Patientengruppe, die mit der neuen Methode behandelt wird. Wenn Ihnen bekannt ist, dass die Indikation typischerweise mit einer bestimmten PEPP bzw. mehreren bestimmten PEPP verbunden ist, dann geben Sie diese bitte hier an.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel 1:</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Palifermin wird angewendet zur Prophylaxe und Therapie der oralen Mukositis unter Chemo- und Strahlentherapie, z.B. bei Patienten mit hämatologischen malignen Erkrankungen unter myeloablativer Therapie.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" style="font-style:italic;" translate="true">Beispiel 2:</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" style="font-style:italic;" translate="true">...</text></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 1:</text></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">Palifermin wird angewendet zur Prophylaxe und Therapie der oralen Mukositis unter Chemo- und Strahlentherapie, z.B. bei Patienten mit hämatologischen malignen Erkrankungen unter myeloablativer Therapie.</text></para>
+    <para styleclass="Todo"></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">Beispiel 2:</text></para>
+    <para styleclass="Todo"><text styleclass="Todo" translate="true">...</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Welche bestehende Methode wird durch die neue Methode abgelöst oder ergänzt?</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie hier bitte an, welche bestehende Methode durch die neue abgelöst oder ergänzt wird. Beschreiben Sie bitte kurz, wie Patienten vor Einführung der neuen Methode bei der entsprechenden Indikation behandelt wurden.</text></para>
