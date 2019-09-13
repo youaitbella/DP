@@ -112,19 +112,23 @@ public class PsychStaffList implements Serializable {
         return "return confirm ('" + msg + "');";
     }
 
+    public boolean isDeleteAllowed(StaffProof staffProof) {
+        return _accessManager.isDeleteEnabled(Feature.PSYCH_STAFF, staffProof.getAccountId(), staffProof.getIk());
+    }
+
     public void delete(int id) {
-        StaffProof data = _psychFacade.findStaffProof(id);
-        if (data == null) {
+        StaffProof staffProof = _psychFacade.findStaffProof(id);
+        if (staffProof == null) {
             return;
         }
-        if (!_accessManager.isDeleteEnabled(Feature.PSYCH_STAFF, data.getAccountId(), data.getIk())){
+        if (!_accessManager.isDeleteEnabled(Feature.PSYCH_STAFF, staffProof.getAccountId(), staffProof.getIk())) {
             return;
         }
-        if (data.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
-            data.setStatus(WorkflowStatus.Retired);
-            _psychFacade.saveStaffProof(data);
+        if (staffProof.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
+            staffProof.setStatus(WorkflowStatus.Retired);
+            _psychFacade.saveStaffProof(staffProof);
         } else {
-            _psychFacade.delete(data);
+            _psychFacade.delete(staffProof);
         }
     }
 
