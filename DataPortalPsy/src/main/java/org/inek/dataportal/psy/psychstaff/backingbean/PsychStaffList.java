@@ -117,6 +117,9 @@ public class PsychStaffList implements Serializable {
         if (data == null) {
             return;
         }
+        if (!_accessManager.isDeleteEnabled(Feature.PSYCH_STAFF, data.getAccountId(), data.getIk())){
+            return;
+        }
         if (data.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
             data.setStatus(WorkflowStatus.Retired);
             _psychFacade.saveStaffProof(data);
