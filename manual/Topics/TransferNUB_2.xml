@@ -4,7 +4,7 @@
   <title translate="true">NUB-Anfragen übertragen_2</title>
   <body>
     <header>
-      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">NUB-Anfragen übertragen</text></para>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">NUB-Anfragen übertragen (NUB-PEPP)</text></para>
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Soweit für Ihr Haus kein Funktionsbeauftragter eingerichtet wurde, sind alle Daten, die Sie im </text><var styleclass="Normal">&lt;%TITLE_PSY%&gt;</var><text styleclass="Normal" translate="true"> erfassen, erst einmal Ihnen zugeordnet. Sie sind zur Bearbeitung im InEK bestimmt, werden aber vor anderen Anwendern des </text><var styleclass="Normal">&lt;%TITLE_PSY%&gt;s</var><text styleclass="Normal" translate="true"> verborgen, es sei denn Sie geben bestimmte Bereiche im Rahmen einer Kooperation für andere Anwender frei. Es ist möglich, NUB-PEPP-Anfragen unter bestimmten Umständen einem anderen Anwender zu übertragen.</text></para>
     <para styleclass="Normal"></para>

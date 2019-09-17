@@ -4,7 +4,7 @@
   <title translate="true">Methodendetails_2</title>
   <body>
     <header>
-      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Methodendetails</text></para>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Methodendetails (NUB-PEPP)</text></para>
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beschreiben Sie in diesem Dialog möglichst genau die abgefragten Details der neuen Untersuchungs- und Behandlungsmethode.</text></para>
     <para styleclass="Normal"></para>
@@ -22,7 +22,7 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofosbuvir wird in Kombination mit anderen Arzneimitteln zur Behandlung der chronischen Hepatitis C (CHC) bei Erwachsenen und Jugendlichen zwischen 12 und 17 Jahren angewendet. Während Sofosbuvir bei Erwachsenen pangenotypisch eingesetzt werden kann, ist die Zulassung bei Jugendlichen beschränkt auf die Behandlung der HCV-GT 2 und 3. </text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Welche bestehende Methode wird durch die neue Methode abgelöst oder ergänzt?</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie hier bitte an, welche bestehende Methode durch die neue abgelöst oder ergänzt wird. Beschreiben Sie bitte kurz, wie Patienten vor Einführung der neuen Methode bei der entsprechenden Indikation behandelt wurden.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie hier bitte an, welche bestehende Methode durch die neue Methode abgelöst oder ergänzt wird. Beschreiben Sie bitte kurz, wie Patienten vor Einführung der neuen Methode bei der entsprechenden Indikation behandelt wurden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Ist die Methode vollständig oder in Teilen neu und warum handelt es sich um eine neue Untersuchungs- und Behandlungsmethode?</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Erläutern Sie bitte, warum die angefragte Methode aus Ihrer Sicht eine Neuerung darstellt. Wie unterscheidet sie sich von etablierten Verfahren? Gehen Sie bitte insbesondere auf den innovativen Charakter der neuen Methode ein. Bitte beschreiben Sie dabei möglichst genau die Neuerung(en) zu einer ggf. früher oder gegenwärtig eingesetzten Methode. Dies könnte bei Medikamenten z.B. der Wirkstoff, die Galenik oder Applikationsmethode sein, bei Verfahren z.B. ein neuartiges kombiniertes Behandlungskonzept.</text></para>
