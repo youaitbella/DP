@@ -6,6 +6,10 @@
                 xmlns:pf="http://primefaces.org/ui"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Other">
 
+    <pf:importEnum type="org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonStatus"
+                   var="PsyHosptalComparisonStatus"
+                   allSuffix="ALL_ENUM_VALUES"/>
+
     <ui:define name="content">
         <h1>Krankenhausvergleich Auswertung</h1>
         <pf:panel style="background-color: #eeeeee;">
@@ -22,6 +26,8 @@
                                   yearList="#{evaluation.validYears}"
                                   showState="true"
                                   updateElement="@form" />
+
+                <br/>
 
                 <pf:commandButton value="Informative Auswertung starten"
                                   action="#{evaluation.startInfoEvaluation()}"
@@ -64,12 +70,12 @@
                                 <pf:outputLabel value="#{ev.hospitalComparisonId}" />
                             </pf:column>
 
-                            <pf:column>
+                            <pf:column headerText="Status">
                                 <pf:outputLabel value="In Bearbeitung"
-                                                rendered="#{ev.hospitalComparisonJob.status.name ne 'NEW'}" />
+                                                rendered="#{ev.hospitalComparisonJob.status ne PsyHosptalComparisonStatus.DONE}" />
 
                                 <pf:commandButton value="Download"
-                                                  rendered="#{ev.hospitalComparisonJob.status.name eq 'NEW'}"
+                                                  rendered="#{ev.hospitalComparisonJob.status eq PsyHosptalComparisonStatus.DONE}"
                                                   ajax="false"
                                                   styleClass="btnDownload">
                                     <pf:fileDownload value="#{evaluation.downloadEvaluation(ev)}" />

@@ -62,7 +62,6 @@ public class ScannerTimer {
                     ex.getStackTrace().toString());
             updateJobStatus(_currentJob, PsyHosptalComparisonStatus.ERROR);
             saveJob();
-            _mailer.sendException(Level.SEVERE, ex.getMessage(), ex);
             LOGGER.log(Level.SEVERE, ex.getMessage());
             ex.printStackTrace();
         } finally {
@@ -116,12 +115,11 @@ public class ScannerTimer {
     }
 
     private void processingEvaluations() {
-        int hceId = _currentJob.getHosptalComparisonInfo().getId();
         for (HospitalComparisonEvaluation evaluation : _currentJob.getHosptalComparisonInfo().getHospitalComparisonEvaluation()) {
             logJobInfo("start evaluation [" + evaluation.getId() + "]");
             int aebIdHospital = evaluation.getHospitalComparisonHospitalsHospital().getAebBaseInformationId();
             String aebIdsGroupe = concatAebIds(evaluation.getHospitalComparisonHospitals());
-            String reportUrl = buildUrlWithParameter(hceId, aebIdHospital, aebIdsGroupe);
+            String reportUrl = buildUrlWithParameter(evaluation.getId(), aebIdHospital, aebIdsGroupe);
             String fileName = buildExcelFileName(evaluation);
 
             logJobInfo("request document from " + reportUrl);

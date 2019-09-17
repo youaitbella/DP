@@ -32,6 +32,8 @@ import java.io.ByteArrayInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author lautenti
@@ -41,6 +43,7 @@ import java.util.*;
 public class Evaluation {
 
     private static final String ALL_STATE_IDS = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16";
+    private static final Logger LOGGER = Logger.getLogger("PSY_Evaluation");
 
     @Inject
     private AEBFacade _aebFacade;
@@ -269,13 +272,20 @@ public class Evaluation {
         }
 
         // Add aebids to evaluationType
-        evaluation.addHospitalComparisonHospitals(createHosptalComparisonHospitalsForIdsAndType(new ArrayList<>(aebId),
-                PsyHosptalComparisonHospitalsType.Hospital));
+        evaluation.addHospitalComparisonHospitals(createHosptalComparisonHospitalsForIdsAndType(aebId, PsyHosptalComparisonHospitalsType.Hospital));
+
 
         evaluation.addHospitalComparisonHospitals(createHosptalComparisonHospitalsForIdsAndType(aebIdsForGroup,
                 PsyHosptalComparisonHospitalsType.Group));
 
         return Optional.of(evaluation);
+    }
+
+
+    private List<HospitalComparisonHospitals> createHosptalComparisonHospitalsForIdsAndType(int id, PsyHosptalComparisonHospitalsType type) {
+        List<Integer> idList = new ArrayList<>();
+        idList.add(id);
+        return createHosptalComparisonHospitalsForIdsAndType(idList, type);
     }
 
     private String createNewHcId() {
@@ -305,7 +315,7 @@ public class Evaluation {
         } catch (Exception ex) {
             DialogController.showErrorDialog("Fehler beim herunterladen", "Die Datei konnte nicht heruntergeldaden werden. " +
                     "Bitte versuchen Sie es später nocheinmal, oder kontaktieren Sie die Datenstelle.");
-            //TODO LOG
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex.getStackTrace());
             return null;
         }
     }
