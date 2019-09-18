@@ -145,7 +145,7 @@
 
                 <h:column>
                     <f:facet name="header">Ärztlicher Dienst</f:facet>
-                    <inek:InputIntegerWithMessage id="partition"
+                    <inek:InputNumberWithMessage id="partition"
                                                   value="#{obstretic.medicalServiceCnt}"
                                                   styleClass="col05em number"
                                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
@@ -153,21 +153,21 @@
 
                 <h:column>
                     <f:facet name="header">Pflegedienst</f:facet>
-                    <inek:InputIntegerWithMessage value="#{obstretic.nursingServiceCnt}"
+                    <inek:InputNumberWithMessage value="#{obstretic.nursingServiceCnt}"
                                                   styleClass="col05em number"
                                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Funktionsdienst (ohne Hebammen)</f:facet>
-                    <inek:InputIntegerWithMessage value="#{obstretic.functionalServiceCnt}"
+                    <inek:InputNumberWithMessage value="#{obstretic.functionalServiceCnt}"
                                                   styleClass="col05em number"
                                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Hebammen</f:facet>
-                    <inek:InputIntegerWithMessage value="#{obstretic.midwifeCnt}"
+                    <inek:InputNumberWithMessage value="#{obstretic.midwifeCnt}"
                                                   styleClass="col05em number"
                                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
                 </h:column>
