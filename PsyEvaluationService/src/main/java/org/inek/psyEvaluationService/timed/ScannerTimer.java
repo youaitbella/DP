@@ -15,10 +15,9 @@ import javax.annotation.Resource;
 import javax.ejb.Timer;
 import javax.ejb.*;
 import javax.inject.Inject;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -119,18 +118,28 @@ public class ScannerTimer {
             logJobInfo("start evaluation [" + evaluation.getId() + "]");
             int aebIdHospital = evaluation.getHospitalComparisonHospitalsHospital().getAebBaseInformationId();
             String aebIdsGroupe = concatAebIds(evaluation.getHospitalComparisonHospitals());
-            String reportUrl = buildUrlWithParameter(evaluation.getId(), aebIdHospital, aebIdsGroupe);
             String fileName = buildExcelFileName(evaluation);
+            String reportUrl = buildUrlWithParameter(evaluation.getId(), aebIdHospital, aebIdsGroupe, fileName.replace("\\", "/"));
 
             logJobInfo("request document from " + reportUrl);
-            byte[] singleDocument = _reportController.getSingleDocument(reportUrl);
 
-            try (FileOutputStream out = new FileOutputStream(fileName)) {
-                logJobInfo("write data to file " + fileName);
-                out.write(singleDocument);
-            } catch (Exception ex) {
-                throw new IllegalArgumentException("Job: " + _currentJob.getId() + " error writing file: "
-                        + fileName);
+            //TODO antwort vom server interpretieren
+            byte[] requestAnswer = _reportController.getSingleDocument(reportUrl);
+
+            int maxLoops = 200;
+
+            for (int i = 0 ; i < maxLoops ; i++) {
+                if (Files.exists(Paths.get(fileName))) {
+                    logJobInfo("file found " + fileName);
+                    logJobInfo("end evaluation [" + evaluation.getId() + "]");
+                    return;
+                } else {
+                    try {
+                        Thread.sleep(30000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             logJobInfo("end evaluation [" + evaluation.getId() + "]");
         }
@@ -233,11 +242,16 @@ public class ScannerTimer {
                 new SimpleDateFormat("ddMMyyyyHHmmss").format(Calendar.getInstance().getTime()));
     }
 
-    private String buildUrlWithParameter(int hcId, int aebIdHospital, String evaluationGroupeIds) {
+    private String buildUrlWithParameter(int hcId, int aebIdHospital, String evaluationGroupeIds, String savePath) {
         String result = _reportController.getReportTemplateByName("KH-Vergleich Auswertung").getAddress();
-        result = result.replace("{0}", String.valueOf(hcId));
-        result = result.replace("{1}", String.valueOf(aebIdHospital));
-        result = result.replace("{2}", evaluationGroupeIds);
+        try {
+            result = result.replace("{0}", String.valueOf(hcId));
+            result = result.replace("{1}", String.valueOf(aebIdHospital));
+            result = result.replace("{2}", evaluationGroupeIds);
+            result = result.replace("{3}", URLEncoder.encode(savePath, StandardCharsets.UTF_8.toString()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return result;
     }
 
