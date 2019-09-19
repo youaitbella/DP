@@ -7,11 +7,14 @@ package org.inek.dataportal.psy.nub.backingbean;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.StreamHelper;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.nub.bo.UploadedTemplate;
@@ -22,11 +25,13 @@ import org.inek.dataportal.psy.nub.helper.PsyNubRequestChecker;
 import org.inek.dataportal.psy.nub.helper.PsyNubRequestHelper;
 import org.inek.dataportal.psy.nub.helper.PsyNubRequestTemplateHelper;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +39,10 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author lautenti
@@ -51,7 +60,8 @@ public class NubSummary implements Serializable {
     private SessionController _sessionController;
     @Inject
     private ConfigFacade _configFacade;
-
+    @Inject
+    private ReportController _reportController;
     @Inject
     private PsyNubRequestHelper _psyNubRequestHelper;
 
@@ -240,6 +250,7 @@ public class NubSummary implements Serializable {
             return;
         }
 
+        DialogController.openDialogByName("dialogProcess");
         switch (_selectedCompleteListCommand) {
             case "createNew":
                 createNewPsyRequestFromSelectedRequests(_listComplete);
@@ -268,7 +279,32 @@ public class NubSummary implements Serializable {
     }
 
     private void printAllSelectedRequests(List<PsyNubRequest> requestList) {
-        // TODO Print selected proposals
+        //TODO Alle ausgewählte drucken
+        /*
+        File zipFile = new File("NUB's.zip");
+
+        try (FileOutputStream fileOut = new FileOutputStream(zipFile);
+             CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
+             ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
+            for (PsyNubRequest psyNubRequest : requestList) {
+                String fileName = "NUB_" + psyNubRequest.getNubIdExtern() + ".pdf";
+                compressedOut.putNextEntry(new ZipEntry(fileName));
+                ByteArrayInputStream ips = new ByteArrayInputStream(
+                        _reportController.getSingleDocument("NUB_PSY.pdf", psyNubRequest.getId(), fileName));
+                StreamHelper.copyStream(ips, compressedOut);
+                compressedOut.closeEntry();
+                compressedOut.flush();
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage() + " " + ex.getStackTrace().toString());
+        }
+        try {
+            InputStream is = new FileInputStream(zipFile);
+            Utils.downLoadDocument(is, zipFile.getName(), 0);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage() + " " + ex.getStackTrace().toString());
+        }
+        */
     }
 
     private void sendAllSelectedRequests(List<PsyNubRequest> requestList) {
@@ -307,4 +343,16 @@ public class NubSummary implements Serializable {
     private void createErrorMessageString(List<String> errors) {
         _errorMessages += String.join("\n", errors);
     }
+
+
+    public StreamedContent printNubRequest(PsyNubRequest request) {
+        String fileName = "NUB_" + request.getNubIdExtern() + ".pdf";
+        ByteArrayInputStream stream = new ByteArrayInputStream(
+                _reportController.getSingleDocument("NUB_PSY.pdf", request.getId(), fileName));
+        return new DefaultStreamedContent(stream, "applikation/pdf", fileName);
+    }
 }
+
+
+
+
