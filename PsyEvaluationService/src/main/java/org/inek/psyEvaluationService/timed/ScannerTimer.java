@@ -15,7 +15,10 @@ import javax.annotation.Resource;
 import javax.ejb.Timer;
 import javax.ejb.*;
 import javax.inject.Inject;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -126,22 +129,24 @@ public class ScannerTimer {
             //TODO antwort vom server interpretieren
             byte[] requestAnswer = _reportController.getSingleDocument(reportUrl);
 
-            int maxLoops = 200;
+            waitForFile(fileName, 300);
 
-            for (int i = 0 ; i < maxLoops ; i++) {
-                if (Files.exists(Paths.get(fileName))) {
-                    logJobInfo("file found " + fileName);
-                    logJobInfo("end evaluation [" + evaluation.getId() + "]");
-                    return;
-                } else {
-                    try {
-                        Thread.sleep(30000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+            logJobInfo("end evaluation [" + evaluation.getId() + "]");
+        }
+    }
+
+    private void waitForFile(String fileName, int maxLoops) {
+        for (int i = 0; i < maxLoops; i++) {
+            if (Files.exists(Paths.get(fileName))) {
+                logJobInfo("file found " + fileName);
+                return;
+            } else {
+                try {
+                    Thread.sleep(30000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
-            logJobInfo("end evaluation [" + evaluation.getId() + "]");
         }
     }
 
@@ -156,11 +161,13 @@ public class ScannerTimer {
     }
 
     private void copyAccountDocumentZipToDataPortal(String zipFilePath) {
-        Path destination = Paths.get(_config.readConfig(ConfigKey.KhComparisonUploadPath));
         Path source = Paths.get(zipFilePath);
+        Path destination = Paths.get(_config.readConfig(ConfigKey.KhComparisonUploadPath) + "/" + source.getFileName());
 
         try {
+            logJobInfo("copy [" + source + "] to [" + destination + "]");
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+            logJobInfo("successfully copy [" + source + "] to [" + destination + "]");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -184,7 +191,7 @@ public class ScannerTimer {
 
     private void zipFiles(String zipFilePath, List<String> filesForZip) {
         try {
-            logJobInfo("try to zip files: [" + filesForZip + "]");
+            logJobInfo("try to zip files to [" + zipFilePath + "] files [" + filesForZip + "]");
             FileOutputStream fos = new FileOutputStream(zipFilePath);
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             for (String srcFile : filesForZip) {
@@ -204,7 +211,8 @@ public class ScannerTimer {
             fos.close();
             logJobInfo("end zip files");
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Job " + _currentJob.getId() + " error during zip files [" + filesForZip + "]: " + ex.getMessage());
+            throw new IllegalArgumentException("Job " + _currentJob.getId() + " error during zip file [" + zipFilePath + "] files [" +
+                    filesForZip + "]: " + ex.getMessage());
         }
     }
 
