@@ -312,7 +312,7 @@ public class NubSummary implements Serializable {
 
 
     public String printNubRequest(int requestId) {
-        _reportController.createSingleDocument("NUB.pdf", requestId, "NUB_N" + requestId + ".pdf");
+        _reportController.createSingleDocument("NUB_PSY.pdf", requestId, "NUB_PN" + requestId + ".pdf");
         return "";
     }
 }
