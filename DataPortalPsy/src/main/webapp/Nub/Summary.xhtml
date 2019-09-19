@@ -79,9 +79,13 @@
                                     <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen"
                                                     value="" />
                                 </pf:commandLink>
-                                <pf:commandLink action="#{nubSummary.printNubRequest(proposal.id)}"
-                                                process="@this">
-                                    <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Drucken"/>
+                            </pf:column>
+
+                            <pf:column class="colIcon">
+                                <pf:commandLink ajax="false"
+                                                immediate="true">
+                                    <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Drucken" />
+                                    <pf:fileDownload value="#{nubSummary.printNubRequest(proposal)}" />
                                 </pf:commandLink>
                             </pf:column>
 
@@ -128,7 +132,6 @@
 
                 <pf:selectOneMenu value="#{nubSummary.selectedWorkingListCommand}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="" noSelectionOption="true" />
-                    <f:selectItem itemLabel="Drucken" itemValue="print" noSelectionOption="true" />
                     <f:selectItem itemLabel="Senden" itemValue="send"
                                   itemDisabled="#{not nubSummary.isCreateEntryAllowed()}" />
                     <pf:ajax />
@@ -231,10 +234,19 @@
                             </pf:column>
 
                             <pf:column class="colIcon">
+                                <pf:commandLink ajax="false"
+                                                immediate="true">
+                                    <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Drucken" />
+                                    <pf:fileDownload value="#{nubSummary.printNubRequest(proposal)}" />
+                                </pf:commandLink>
+                            </pf:column>
+
+                            <pf:column class="colIcon">
                                 <h:graphicImage alt="löschen" name="Icon/small/#{proposal.status.icon}"
                                                 title="#{proposal.status.description}"
                                                 value="" />
                             </pf:column>
+
 
                             <pf:column headerText="ID"
                                        filterable="true"
@@ -289,7 +301,6 @@
 
                 <pf:selectOneMenu value="#{nubSummary.selectedCompleteListCommand}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="" noSelectionOption="true" />
-                    <f:selectItem itemLabel="Drucken" itemValue="print" noSelectionOption="true" />
                     <f:selectItem itemLabel="In neue NUB übernehmen" itemValue="createNew"
                                   itemDisabled="#{not nubSummary.isCreateEntryAllowed()}" />
                     <pf:ajax />
