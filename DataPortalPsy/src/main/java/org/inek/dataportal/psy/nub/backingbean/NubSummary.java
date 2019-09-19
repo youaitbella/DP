@@ -7,6 +7,7 @@ package org.inek.dataportal.psy.nub.backingbean;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
@@ -51,7 +52,8 @@ public class NubSummary implements Serializable {
     private SessionController _sessionController;
     @Inject
     private ConfigFacade _configFacade;
-
+    @Inject
+    private ReportController _reportController;
     @Inject
     private PsyNubRequestHelper _psyNubRequestHelper;
 
@@ -307,4 +309,14 @@ public class NubSummary implements Serializable {
     private void createErrorMessageString(List<String> errors) {
         _errorMessages += String.join("\n", errors);
     }
+
+
+    public String printNubRequest(int requestId) {
+        _reportController.createSingleDocument("NUB.pdf", requestId, "NUB_N" + requestId + ".pdf");
+        return "";
+    }
 }
+
+
+
+
