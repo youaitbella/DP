@@ -158,6 +158,7 @@ public class PsyNubRequestHistoryData implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(_id, _psyNubRequest, _proxyIks, _formFillHelper, _userComment, _description, _procs,
-                _hasNoProcs, _procsComment, _indication, _replacement, _whatsNew, _los, _pepps, _whyNotRepresented, _formerRequest, _formerExternalId);
+                _hasNoProcs, _procsComment, _indication, _replacement, _whatsNew, _los, _pepps, _whyNotRepresented,
+                _formerRequest, _formerExternalId);
     }
 }
