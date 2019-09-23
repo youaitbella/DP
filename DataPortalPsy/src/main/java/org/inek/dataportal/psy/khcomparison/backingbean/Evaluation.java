@@ -134,9 +134,16 @@ public class Evaluation {
     public void startEvaluation() {
         if (isReadeForEvaluation()) {
             Customer customerByIK = _customerFacade.getCustomerByIK(_selectedIk);
-            createHospitalComparisonInfo(customerByIK);
-            setEvaluationsList();
-            DialogController.showInfoDialog("Noch nicht", "Wird demnächts irgendwann funktionieren");
+            if (createHospitalComparisonInfo(customerByIK)) {
+                DialogController.showInfoDialog("Auswertung gestartet", "Wir erstellen nun die Auswertung nach Ihren Kriterien. " +
+                        "Sobald der Vorgang abgeschlossen ist, wird diese Ihnen als Dokument im InEK Datenportal zur Verfügung gestellt. " +
+                        "Sie werden per E-Mail über die Bereitstellung informaiert.");
+                setEvaluationsList();
+
+            } else {
+                DialogController.showInfoDialog("Keine Auswertung möglich", "Es konnte keine Vergleichsgruppe gebildet " +
+                        "werden. Bitte versuchen Sie es später nocheinmal.");
+            }
         } else {
             DialogController.showErrorDialog("Daten unvollständig", "Bitte wählen Sie eine gültige IK und Vereinbarungsjahr.");
         }
@@ -146,7 +153,7 @@ public class Evaluation {
         return _selectedIk > 0 && _selectedAgreementYear > 0;
     }
 
-    private void createHospitalComparisonInfo(Customer cus) {
+    private boolean createHospitalComparisonInfo(Customer cus) {
         HospitalComparisonInfo newInfo = new HospitalComparisonInfo();
         newInfo.setAccountId(_sessionController.getAccountId());
         newInfo.setAccountFirstName(_sessionController.getAccount().getFirstName());
@@ -160,7 +167,11 @@ public class Evaluation {
         ensureHospitalComparisonEvaluations(newInfo);
         ensureHospitalComparisonJob(newInfo);
         ensureAebConflicts(newInfo);
+        if (newInfo.getHospitalComparisonEvaluation().isEmpty()) {
+            return false;
+        }
         _aebFacade.save(newInfo);
+        return true;
     }
 
     private void ensureAebConflicts(HospitalComparisonInfo newInfo) {
