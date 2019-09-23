@@ -117,7 +117,10 @@ public class Evaluation {
 
     public void ikChanged() {
         _validYears.clear();
-        _validYears = _aebFacade.getUsedDataYears(_selectedIk);
+        List<Integer> usedDataYears = _aebFacade.getUsedDataYears(_selectedIk);
+        for (Integer value : usedDataYears) {
+            _validYears.add(value + 1);
+        }
     }
 
     public void startInfoEvaluation() {
