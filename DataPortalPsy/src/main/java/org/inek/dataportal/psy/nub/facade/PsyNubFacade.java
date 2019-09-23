@@ -2,12 +2,18 @@ package org.inek.dataportal.psy.nub.facade;
 
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.DateUtils;
 import org.inek.dataportal.psy.nub.entities.PsyNubRequest;
+import org.inek.dataportal.psy.nub.entities.PsyNubRequestHistory;
+import org.inek.dataportal.psy.nub.helper.PsyNubRequestHistoryMergeHelper;
+import org.inek.dataportal.psy.nub.helper.PsyNubRequestMergeHelper;
 
+import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -74,5 +80,27 @@ public class PsyNubFacade extends AbstractDataAccess {
 
     public void delete(PsyNubRequest request) {
         remove(request);
+    }
+
+    //@Schedule(hour = "0", info = "once a day")
+    private void check4NubOrphantCorrections() {
+        Date date = DateUtils.getDateWithDayOffset(-5);
+        String jpql = "SELECT p FROM PsyNubRequest p WHERE p._dateCorrectionRequested < :date and p._status = :status ";
+        TypedQuery<PsyNubRequest> query = getEntityManager().createQuery(jpql, PsyNubRequest.class);
+        query.setParameter("date", date);
+        query.setParameter("status", WorkflowStatus.CorrectionRequested.getId());
+        for (PsyNubRequest request : query.getResultList()) {
+            resetPsyNubRequestToHistoryEntry(request);
+        }
+    }
+
+    private void resetPsyNubRequestToHistoryEntry(PsyNubRequest request) {
+        String jpql = "SELECT p FROM PsyNubRequestHistory p WHERE p._psyNubRequestId = :nubId";
+        TypedQuery<PsyNubRequestHistory> query = getEntityManager().createQuery(jpql, PsyNubRequestHistory.class);
+        query.setParameter("nubId", request.getId());
+        PsyNubRequestHistory nubRequestHistory = query.getResultList().get(0);
+        PsyNubRequestHistoryMergeHelper.copyHistoryToRequest(request, nubRequestHistory);
+        save(request);
+        remove(nubRequestHistory);
     }
 }

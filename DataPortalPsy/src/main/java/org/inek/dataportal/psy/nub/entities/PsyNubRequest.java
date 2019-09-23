@@ -502,6 +502,10 @@ public class PsyNubRequest implements Serializable {
         return _requestDocuments;
     }
 
+    public void clearDocuments() {
+        _requestDocuments.clear();
+    }
+
     @SuppressWarnings("checkstyle:CyclomaticComplexity")
     @Override
     public boolean equals(Object o) {
