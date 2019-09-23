@@ -391,4 +391,14 @@ public class AEBFacade extends AbstractDataAccess {
             return Optional.of(resultList.get(0));
         }
     }
+
+    public List<HospitalComparisonInfo> getHosptalComparisonInfoByIks(Set<Integer> iks) {
+        if (iks.isEmpty()) {
+            return new ArrayList<>();
+        }
+        String jpql = "select hc from HospitalComparisonInfo hc where hc._hospitalIk in :ik";
+        TypedQuery<HospitalComparisonInfo> query = getEntityManager().createQuery(jpql, HospitalComparisonInfo.class);
+        query.setParameter("ik", iks);
+        return query.getResultList();
+    }
 }

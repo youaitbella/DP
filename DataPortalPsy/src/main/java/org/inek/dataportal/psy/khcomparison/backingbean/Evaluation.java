@@ -101,10 +101,9 @@ public class Evaluation {
     }
 
     private void setEvaluationsList() {
-        //TODO Klären ob man alle Auswertungen für IK Anzeigen darf
-        //Set<Integer> iks = _accessManager.retrieveAllowedManagedIks(Feature.HC_HOSPITAL);
-        //_listEvaluations = _aebFacade.getHosptalComparisonInfoByIks(iks);
-        _listEvaluations = _aebFacade.getHosptalComparisonInfoByAccount(_sessionController.getAccount());
+        Set<Integer> iks = _accessManager.retrieveAllowedManagedIks(Feature.HC_HOSPITAL);
+        _listEvaluations = _aebFacade.getHosptalComparisonInfoByIks(iks);
+        //_listEvaluations = _aebFacade.getHosptalComparisonInfoByAccount(_sessionController.getAccount());
     }
 
     public Set<Integer> getAllowedIks() {
@@ -112,20 +111,21 @@ public class Evaluation {
     }
 
     public boolean isCreateNewEvaluationAllowed() {
-        //todo machen
+        //todo klären, ob es eine einschränkung gib
         return true;
     }
 
     public void ikChanged() {
-        //_validYears = _aebFacade.getUsedDataYears(_selectedIk);
         _validYears.clear();
-        _validYears.add(2019);
+        _validYears = _aebFacade.getUsedDataYears(_selectedIk);
     }
 
     public void startInfoEvaluation() {
         if (isReadeForEvaluation()) {
             setEvaluationsList();
-            DialogController.showInfoDialog("Noch nicht", "Wird demnächts irgendwann funktionieren");
+            DialogController.showInfoDialog("Auswertung gestartet", "Wir erstellen nun die Auswertung nach Ihren Kriterien. " +
+                    "Sobald der Vorgang abgeschlossen ist, wird diese Ihnen als Dokument im InEK Datenportal zur Verfügung gestellt. " +
+                    "Sie werden per E-Mail über die Bereitstellung informaiert.");
         } else {
             DialogController.showErrorDialog("Daten unvollständig", "Bitte wählen Sie eine gültige IK und Vereinbarungsjahr.");
         }
@@ -134,7 +134,7 @@ public class Evaluation {
     public void startEvaluation() {
         if (isReadeForEvaluation()) {
             Customer customerByIK = _customerFacade.getCustomerByIK(_selectedIk);
-            createHosptalComparisonInfo(customerByIK);
+            createHospitalComparisonInfo(customerByIK);
             setEvaluationsList();
             DialogController.showInfoDialog("Noch nicht", "Wird demnächts irgendwann funktionieren");
         } else {
@@ -146,7 +146,7 @@ public class Evaluation {
         return _selectedIk > 0 && _selectedAgreementYear > 0;
     }
 
-    private void createHosptalComparisonInfo(Customer cus) {
+    private void createHospitalComparisonInfo(Customer cus) {
         HospitalComparisonInfo newInfo = new HospitalComparisonInfo();
         newInfo.setAccountId(_sessionController.getAccountId());
         newInfo.setAccountFirstName(_sessionController.getAccount().getFirstName());
@@ -157,8 +157,8 @@ public class Evaluation {
         newInfo.setHospitalComparisonId(createNewHcId());
         newInfo.setHospitalStateId(cus.getPsyState().equals(State.Unknown) ? cus.getState().getId() : cus.getState().getId());
         newInfo.setHospitalPsyGroup(_aebFacade.getPsyGroupByIkAndYear(_selectedIk, _selectedAgreementYear - 1));
-        ensureHosptalComparisonEvaluations(newInfo);
-        ensureHosptalComparisonJob(newInfo);
+        ensureHospitalComparisonEvaluations(newInfo);
+        ensureHospitalComparisonJob(newInfo);
         ensureAebConflicts(newInfo);
         _aebFacade.save(newInfo);
     }
@@ -180,13 +180,13 @@ public class Evaluation {
 
     }
 
-    private void ensureHosptalComparisonJob(HospitalComparisonInfo newInfo) {
+    private void ensureHospitalComparisonJob(HospitalComparisonInfo newInfo) {
         HospitalComparisonJob newJob = new HospitalComparisonJob();
         newJob.setStatus(PsyHosptalComparisonStatus.NEW);
         newInfo.setHospitalComparisonJob(newJob);
     }
 
-    private void ensureHosptalComparisonEvaluations(HospitalComparisonInfo info) {
+    private void ensureHospitalComparisonEvaluations(HospitalComparisonInfo info) {
         for (PsyEvaluationType psyEvaluationType : PsyEvaluationType.values()) {
             Optional<HospitalComparisonEvaluation> evaluation = getHosptalComparisonEvaluations(psyEvaluationType, info);
             evaluation.ifPresent(info::addHospitalComparisonEvaluation);
@@ -318,5 +318,9 @@ public class Evaluation {
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex.getStackTrace());
             return null;
         }
+    }
+
+    public boolean evaluationIsReadyForDownload(HospitalComparisonInfo evaluation) {
+        return evaluation.getHospitalComparisonJob().getStatus().equals(PsyHosptalComparisonStatus.DONE);
     }
 }

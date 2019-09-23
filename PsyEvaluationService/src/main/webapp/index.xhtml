@@ -8,16 +8,11 @@
 </head>
 <body>
 <h:form>
-    <h1>Kommt noch</h1>
-
-    <h:commandButton actionListener="#{evaluationServiceBean.switchScannerEnable()}"
-                     value="#{evaluationServiceBean.scanEnable ? 'Service stoppen' : 'Service starten'}" />
-
     <h:commandButton actionListener="#{evaluationServiceBean.start()}"
-                     value="Programm starten" />
+                     value="Service starten" />
 
     <h:commandButton actionListener="#{evaluationServiceBean.end()}"
-                     value="Programm beenden" />
+                     value="Service beenden" />
 </h:form>
 </body>
 </html>

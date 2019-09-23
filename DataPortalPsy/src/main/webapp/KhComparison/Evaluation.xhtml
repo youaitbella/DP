@@ -25,23 +25,23 @@
                                   valueYear="#{evaluation.selectedAgreementYear}"
                                   yearList="#{evaluation.validYears}"
                                   showState="true"
-                                  updateElement="@form" />
+                                  updateElement="@form"/>
 
                 <br/>
-
-                <pf:commandButton value="Informative Auswertung starten"
-                                  action="#{evaluation.startInfoEvaluation()}"
-                                  rendered="#{evaluation.createNewEvaluationAllowed}"
-                                  update="auswertungsTable"
-                                  styleClass="btnPsy"
-                                  immediate="true" />
-
+                <ui:remove>
+                    <pf:commandButton value="Informative Auswertung starten"
+                                      action="#{evaluation.startInfoEvaluation()}"
+                                      rendered="#{evaluation.createNewEvaluationAllowed}"
+                                      update="auswertungsTable"
+                                      styleClass="btnPsy"
+                                      immediate="true"/>
+                </ui:remove>
                 <pf:commandButton value="Auswertung starten"
                                   action="#{evaluation.startEvaluation()}"
                                   rendered="#{evaluation.createNewEvaluationAllowed}"
                                   update="auswertungsTable"
                                   styleClass="btnPsy"
-                                  immediate="true" />
+                                  immediate="true"/>
 
                 <div class="ui-g ui-fluid">
                     <div class="ui-g-12">
@@ -53,32 +53,33 @@
                                       tableStyleClass="inekTablePsy">
 
                             <pf:column headerText="IK">
-                                <pf:outputLabel value="#{ev.hospitalIk}" />
+                                <pf:outputLabel value="#{ev.hospitalIk}"/>
                             </pf:column>
 
                             <pf:column headerText="Vereinbarungsjahr">
-                                <pf:outputLabel value="#{ev.agreementYear}" />
+                                <pf:outputLabel value="#{ev.agreementYear}"/>
                             </pf:column>
 
                             <pf:column headerText="Auswertung vom">
                                 <h:outputText value="#{ev.createdAt}">
-                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                    <f:convertDateTime pattern="dd.MM.yyyy"/>
                                 </h:outputText>
                             </pf:column>
 
                             <pf:column headerText="Krankenhausvergleich ID">
-                                <pf:outputLabel value="#{ev.hospitalComparisonId}" />
+                                <pf:outputLabel value="#{ev.hospitalComparisonId}"/>
                             </pf:column>
 
                             <pf:column headerText="Status">
                                 <pf:outputLabel value="In Bearbeitung"
-                                                rendered="#{ev.hospitalComparisonJob.status ne PsyHosptalComparisonStatus.DONE}" />
+                                                rendered="#{not evaluation.evaluationIsReadyForDownload(ev)}"/>
 
                                 <pf:commandButton value="Download"
-                                                  rendered="#{ev.hospitalComparisonJob.status eq PsyHosptalComparisonStatus.DONE}"
+                                                  rendered="#{evaluation.evaluationIsReadyForDownload(ev)}"
                                                   ajax="false"
+                                                  immediate="true"
                                                   styleClass="btnDownload">
-                                    <pf:fileDownload value="#{evaluation.downloadEvaluation(ev)}" />
+                                    <pf:fileDownload value="#{evaluation.downloadEvaluation(ev)}"/>
                                 </pf:commandButton>
                             </pf:column>
                         </pf:dataTable>
