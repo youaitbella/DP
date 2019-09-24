@@ -125,6 +125,15 @@
                                   styleClass="btnSend arrow-right"
                                   immediate="false"
                                   rendered="#{nubEdit.isSendAllowed()}" />
+
+                <pf:commandButton value="Korrektur ans InEK"
+                                  update="@(.ui-message) @form"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  action="#{nubEdit.sendAsCorrection()}"
+                                  styleClass="btnSend arrow-right"
+                                  immediate="false"
+                                  rendered="#{nubEdit.isCorrectionAllowed()}" />
             </div>
 
         </h:form>

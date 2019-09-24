@@ -152,7 +152,16 @@ public class NubEdit {
 
     public Boolean isSendAllowed() {
         return _config.readConfigBool(ConfigKey.IsPsyNubSendEnabled) &&
+                _psyNubRequest.getStatus() != WorkflowStatus.CorrectionRequested &&
                 _accessManager.isSealedEnabled(Feature.NUB_PSY,
+                        _psyNubRequest.getStatus(),
+                        _psyNubRequest.getCreatedByAccountId(),
+                        _psyNubRequest.getIk());
+    }
+
+    public Boolean isCorrectionAllowed() {
+        return _config.readConfigBool(ConfigKey.IsPsyNubSendEnabled) &&
+                _accessManager.isUpdateEnabled(Feature.NUB_PSY,
                         _psyNubRequest.getStatus(),
                         _psyNubRequest.getCreatedByAccountId(),
                         _psyNubRequest.getIk());
@@ -180,7 +189,7 @@ public class NubEdit {
         preparePsyNubRequestForSave();
         try {
             _psyNubRequest = _psyNubFacade.save(_psyNubRequest);
-            if (_psyNubRequest.getStatus().equals(WorkflowStatus.New)) {
+            if (_psyNubRequest.getStatus().equals(WorkflowStatus.New) || _psyNubRequest.getStatus().equals(WorkflowStatus.CorrectionRequested)) {
                 DialogController.showSaveDialog();
             }
             return true;
@@ -223,6 +232,21 @@ public class NubEdit {
             if (save()) {
                 DialogController.showSendDialog();
                 _psyNubRequestHelper.sendPsyNubConformationMail(_psyNubRequest, _sessionController.getAccount());
+                setReadOnly();
+            }
+        } else {
+            _errorMessageTitle = ERROR_MESSAGE_TITLE_ERRORS_FOUND;
+            DialogController.openDialogByName("errorMessageDialog");
+        }
+    }
+
+    public void sendAsCorrection() {
+        if (isReadyForSend()) {
+            preparePsyNubRequestForCorrection();
+            if (save()) {
+                DialogController.showSendDialog();
+                _psyNubRequestHelper.sendPsyNubConformationMail(_psyNubRequest, _sessionController.getAccount());
+                setReadOnly();
             }
         } else {
             _errorMessageTitle = ERROR_MESSAGE_TITLE_ERRORS_FOUND;
@@ -234,6 +258,11 @@ public class NubEdit {
         List<String> errorMessages = PsyNubRequestChecker.checkPsyRequestForSend(_psyNubRequest);
         _errorMessages = String.join("\n", errorMessages);
         return errorMessages.isEmpty();
+    }
+
+    private void preparePsyNubRequestForCorrection() {
+        _psyNubRequest.setStatus(WorkflowStatus.Updated);
+        _psyNubRequest.setSealedAt(new Date());
     }
 
     private void preparePsyNubRequestForSend() {

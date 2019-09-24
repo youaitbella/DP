@@ -121,15 +121,22 @@ public class NubSummary implements Serializable {
     }
 
     private void setWorkingList() {
-        _listWorking.clear();
-        _listWorking.addAll(_psyNubFacade.findAllByAccountIdAndNoIk(_sessionController.getAccountId(), WorkflowStatus.New));
+        List<WorkflowStatus> statusForWorkingList = new ArrayList<>();
+        statusForWorkingList.add(WorkflowStatus.New);
+        statusForWorkingList.add(WorkflowStatus.CorrectionRequested);
+        setListWithStatus(statusForWorkingList, _listWorking);
+    }
+
+    private void setListWithStatus(List<WorkflowStatus> statusForWorkingList, List<PsyNubRequest> listWorking) {
+        listWorking.clear();
+        listWorking.addAll(_psyNubFacade.findAllByAccountIdAndNoIk(_sessionController.getAccountId(), statusForWorkingList));
         for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
             if (_accessManager.ikIsManaged(ik, Feature.NUB_PSY)) {
                 if (_accessManager.userHasReadAccess(Feature.NUB_PSY, ik)) {
-                    _listWorking.addAll(_psyNubFacade.findAllByIkAndStatus(ik, WorkflowStatus.New));
+                    listWorking.addAll(_psyNubFacade.findAllByIkAndStatus(ik, statusForWorkingList));
                 }
             } else {
-                _listWorking.addAll(_psyNubFacade.findAllByAccountIdAndIkAndStatus(_sessionController.getAccountId(), ik, WorkflowStatus.New));
+                listWorking.addAll(_psyNubFacade.findAllByAccountIdAndIkAndStatus(_sessionController.getAccountId(), ik, statusForWorkingList));
             }
         }
     }
@@ -141,18 +148,7 @@ public class NubSummary implements Serializable {
         statusForCompleteList.add(WorkflowStatus.Retired);
         statusForCompleteList.add(WorkflowStatus.Taken);
         statusForCompleteList.add(WorkflowStatus.TakenUpdated);
-        _listComplete.clear();
-
-        _listComplete.addAll(_psyNubFacade.findAllByAccountIdAndNoIk(_sessionController.getAccountId(), statusForCompleteList));
-        for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
-            if (_accessManager.ikIsManaged(ik, Feature.NUB_PSY)) {
-                if (_accessManager.userHasReadAccess(Feature.NUB_PSY, ik)) {
-                    _listComplete.addAll(_psyNubFacade.findAllByIkAndStatus(ik, statusForCompleteList));
-                }
-            } else {
-                _listComplete.addAll(_psyNubFacade.findAllByAccountIdAndIkAndStatus(_sessionController.getAccountId(), ik, statusForCompleteList));
-            }
-        }
+        setListWithStatus(statusForCompleteList, _listComplete);
     }
 
     public String psyNubEditOpen() {
