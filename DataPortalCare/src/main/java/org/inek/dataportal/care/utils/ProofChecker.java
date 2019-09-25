@@ -9,14 +9,22 @@ import java.util.List;
 
 public class ProofChecker {
 
-    public static final String MORE_FAILUERS_THAN_TOTAL_SHIFTS = "Es sind mehr Schichten als \"nicht eingehalten\" eingetragen als Schichten insgesamt vorhanden sind";
-    public static final String NO_NURSE_BUT_PATIENT = "Es sind keine Pflegekräfte eingetragen, obwohl Patienten vorhanden sind";
-    public static final String NO_PATIENT_BUT_NURSE = "Es sind keine Patienten eingetragen, obwohl Pflegekräfte vorhanden sind. Bitte eintragen oder im Kommentarfeld erläutern.";
-    public static final String SHIFT_BUT_NURSE = "Es sind weder Pflegekräfte noch Patienten eingetragen, obwohl Schichten vorhanden sind";
-    public static final String NURSE_BUT_SHIFT = "Es sind Pflegekräfte eingetragen, aber es fehlen die zugehörigen Schichten";
-    public static final String MISSING_SHIFT = "Es sind keine Schichten vorhanden. Bitte eintragen oder im Kommentarfeld erläutern.";
-    public static final String PATIENT_PER_NURSE_LOW = "Das Verhältnis Patient/Pflegekraft ist auffällig niedrig. Bitte korrigieren oder im Kommentarfeld erläutern.";
-    public static final String PATIENT_PER_NURSE_HIGH = "Das Verhältnis Patient/Pflegekraft ist auffällig hoch. Bitte korrigieren oder im Kommentarfeld erläutern.";
+    public static final String MORE_FAILUERS_THAN_TOTAL_SHIFTS =
+            "Es sind mehr Schichten als \"nicht eingehalten\" eingetragen als Schichten insgesamt vorhanden sind";
+    public static final String NO_NURSE_BUT_PATIENT =
+            "Es sind keine Pflegekräfte eingetragen, obwohl Patienten vorhanden sind";
+    public static final String NO_PATIENT_BUT_NURSE =
+            "Es sind keine Patienten eingetragen, obwohl Pflegekräfte vorhanden sind. Bitte eintragen oder im Kommentarfeld erläutern.";
+    public static final String SHIFT_BUT_NURSE =
+            "Es sind weder Pflegekräfte noch Patienten eingetragen, obwohl Schichten vorhanden sind";
+    public static final String NURSE_BUT_SHIFT =
+            "Es sind Pflegekräfte eingetragen, aber es fehlen die zugehörigen Schichten";
+    public static final String MISSING_SHIFT =
+            "Es sind keine Schichten vorhanden. Bitte eintragen oder im Kommentarfeld erläutern.";
+    public static final String PATIENT_PER_NURSE_LOW =
+            "Das Verhältnis Patient/Pflegekraft ist auffällig niedrig. Bitte korrigieren oder im Kommentarfeld erläutern.";
+    public static final String PATIENT_PER_NURSE_HIGH =
+            "Das Verhältnis Patient/Pflegekraft ist auffällig hoch. Bitte korrigieren oder im Kommentarfeld erläutern.";
 
     public static List<String> proofIsReadyForSave(ProofRegulationBaseInformation baseInfo, int exceptionsFactsCount) {
         List<String> errorMessages = new ArrayList<>();
@@ -107,7 +115,9 @@ public class ProofChecker {
                 return "Für eine oder mehrere Stationen sind zuviele Ausnahmetatbestände angegeben";
             }
             for (ProofExceptionFact fact : proof.getExceptionFact()) {
-                if (proof.getExceptionFact().stream().filter(c -> c.getExceptionFactId() == fact.getExceptionFactId()).count() > 1) {
+                if (proof.getExceptionFact()
+                        .stream()
+                        .filter(c -> c.getExceptionFactId() == fact.getExceptionFactId()).count() > 1) {
                     return "Für eine oder mehrere Stationen sind doppelte Ausnahmetatbestände angegeben";
                 }
             }
