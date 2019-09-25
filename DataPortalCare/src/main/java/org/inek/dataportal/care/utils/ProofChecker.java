@@ -30,11 +30,23 @@ public class ProofChecker {
                         + " Schicht: " + proof.getShift().getName()
                         + ": Es sind keine Pflegekräfte eingetragen, obwohl Patienten vorhanden sind");
             }
+            if (proof.getNurse() == 0 && proof.getPatientOccupancy() == 0 && proof.getCountShift() > 0) {
+                addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
+                        + " Monat: " + proof.getMonth().getName()
+                        + " Schicht: " + proof.getShift().getName()
+                        + ": Es sind weder Pflegekräfte noch Patienten eingetragen, obwohl Schichten vorhanden sind");
+            }
             if (proof.getCountShift() == 0 && proof.getNurse() > 0) {
                 addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
                         + " Monat: " + proof.getMonth().getName()
                         + " Schicht: " + proof.getShift().getName()
                         + ": Es sind Pflegekräfte eingetragen, obwohl die Anzahl der Schichten Null beträgt");
+            }
+            if (proof.getCountShift() == 0 && "".equals(proof.getComment().trim())) {
+                addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
+                        + " Monat: " + proof.getMonth().getName()
+                        + " Schicht: " + proof.getShift().getName()
+                        + ": Entweder fehlen Schichten oder eine Erläuterung im Kommentarfeld,");
             }
             if (proof.getCountShift() < proof.getCountShiftNotRespected()) {
                 addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
