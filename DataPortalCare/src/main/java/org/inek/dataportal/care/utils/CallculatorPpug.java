@@ -9,12 +9,12 @@ import java.math.RoundingMode;
 public class CallculatorPpug {
 
     public static void calculateAll(Proof proof) {
-        calculatePatientPerNurse(proof, proof.getPart());
-        calculateCountHelpeNurseChargeable(proof, proof.getPart());
+        calculatePatientPerNurse(proof);
+        calculateCountHelpeNurseChargeable(proof);
     }
 
-    public static void calculatePatientPerNurse(Proof proof, double part) {
-        part = 1 - part;
+    public static void calculatePatientPerNurse(Proof proof) {
+        double part = 1 - proof.getPart();
 
         BigDecimal decNurse = new BigDecimal(String.valueOf(proof.getNurse())).setScale(2, RoundingMode.HALF_UP);
         BigDecimal decHelpNurse = new BigDecimal(String.valueOf(proof.getHelpNurse())).setScale(2, RoundingMode.HALF_UP);
@@ -34,8 +34,8 @@ public class CallculatorPpug {
         proof.setPatientPerNurse(MathHelper.round(result, 2));
     }
 
-    public static void calculateCountHelpeNurseChargeable(Proof proof, double part) {
-        part = 1 - part;
+    public static void calculateCountHelpeNurseChargeable(Proof proof) {
+        double part = 1 - proof.getPart();
 
         BigDecimal decNurse = new BigDecimal(String.valueOf(proof.getNurse())).setScale(2, RoundingMode.HALF_UP);
         BigDecimal decHelpNurse = new BigDecimal(String.valueOf(proof.getHelpNurse())).setScale(2, RoundingMode.HALF_UP);
