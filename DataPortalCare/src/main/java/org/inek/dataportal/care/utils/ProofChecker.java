@@ -42,17 +42,29 @@ public class ProofChecker {
                         + " Schicht: " + proof.getShift().getName()
                         + ": Es sind Pflegekräfte eingetragen, obwohl die Anzahl der Schichten Null beträgt");
             }
+            if (proof.getCountShift() < proof.getCountShiftNotRespected()) {
+                addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
+                        + " Monat: " + proof.getMonth().getName()
+                        + " Schicht: " + proof.getShift().getName()
+                        + ": Es sind mehr Schichten als nicht eingehalten eingetragen als Schichten insgesamt vorhanden sind");
+            }
             if (proof.getCountShift() == 0 && "".equals(proof.getComment().trim())) {
                 addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
                         + " Monat: " + proof.getMonth().getName()
                         + " Schicht: " + proof.getShift().getName()
                         + ": Entweder fehlen Schichten oder eine Erläuterung im Kommentarfeld,");
             }
-            if (proof.getCountShift() < proof.getCountShiftNotRespected()) {
+            if (proof.getPatientPerNurse() < 0.5 && "".equals(proof.getComment().trim())) {
                 addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
                         + " Monat: " + proof.getMonth().getName()
                         + " Schicht: " + proof.getShift().getName()
-                        + ": Es sind mehr Schichten als nicht eingehalten eingetragen als Schichten insgesamt vorhanden sind");
+                        + ": Der Betreuungsschlüssel ist auffällig hoch und es fehlt eine Erläuterung im Kommentarfeld,");
+            }
+            if (proof.getPatientPerNurse() > 100. && "".equals(proof.getComment().trim())) {
+                addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
+                        + " Monat: " + proof.getMonth().getName()
+                        + " Schicht: " + proof.getShift().getName()
+                        + ": Der Betreuungsschlüssel ist auffällig niedrig und es fehlt eine Erläuterung im Kommentarfeld,");
             }
         }
         return messages;
