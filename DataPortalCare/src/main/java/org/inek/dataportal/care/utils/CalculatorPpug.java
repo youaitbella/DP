@@ -6,7 +6,7 @@ import org.inek.dataportal.common.helper.MathHelper;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class CallculatorPpug {
+public class CalculatorPpug {
 
     public static void calculateAll(Proof proof) {
         calculatePatientPerNurse(proof);

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-class CallculatorPpugTest {
+class CalculatorPpugTest {
 
     @Test
     void calculatePatientPerNurseWithNullTest() {
@@ -20,7 +20,7 @@ class CallculatorPpugTest {
         testEntrys.add(new TestEntry(createProof(0, 0, 0, 0.0), 0));
 
         for(TestEntry entry : testEntrys) {
-            CallculatorPpug.calculatePatientPerNurse(entry.getProof(), entry.getPart());
+            CalculatorPpug.calculatePatientPerNurse(entry.getProof());
             Assertions.assertThat(entry.getProof().getPatientPerNurse())
                     .as(getTestEntryString(entry))
                     .isEqualTo(entry.getResult());
@@ -37,7 +37,7 @@ class CallculatorPpugTest {
         testEntrys.add(new TestEntry(createProof(0, 0, 0, 0.0), 0));
 
         for(TestEntry entry : testEntrys) {
-            CallculatorPpug.calculateCountHelpeNurseChargeable(entry.getProof(), entry.getPart());
+            CalculatorPpug.calculateCountHelpeNurseChargeable(entry.getProof());
             Assertions.assertThat(entry.getProof().getPatientPerNurse())
                     .as(getTestEntryString(entry))
                     .isEqualTo(entry.getResult());
@@ -49,7 +49,7 @@ class CallculatorPpugTest {
         List<TestEntry> testEntrysPatientPerNurse = createTestEntrysPatientPerNurse();
 
         for(TestEntry entry : testEntrysPatientPerNurse) {
-            CallculatorPpug.calculatePatientPerNurse(entry.getProof(), entry.getPart());
+            CalculatorPpug.calculatePatientPerNurse(entry.getProof());
             Assertions.assertThat(entry.getProof().getPatientPerNurse())
                     .as(getTestEntryString(entry))
                     .isEqualTo(entry.getResult());
@@ -61,7 +61,7 @@ class CallculatorPpugTest {
         List<TestEntry> testEntrysCountHelpeNurseChargeable = createTestEntrysCountHelpeNurseChargeable();
 
         for(TestEntry entry : testEntrysCountHelpeNurseChargeable) {
-            CallculatorPpug.calculateCountHelpeNurseChargeable(entry.getProof(), entry.getPart());
+            CalculatorPpug.calculateCountHelpeNurseChargeable(entry.getProof());
             Assertions.assertThat(entry.getProof().getCountHelpeNurseChargeable())
                     .as(getTestEntryString(entry))
                     .isEqualTo(entry.getResult());
