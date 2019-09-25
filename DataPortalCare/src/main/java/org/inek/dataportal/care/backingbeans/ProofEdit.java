@@ -447,12 +447,12 @@ public class ProofEdit implements Serializable {
     }
 
     public double calculatePatientPerNurse(Proof proof) {
-        CallculatorPpug.calculateAll(proof);
+        CalculatorPpug.calculateAll(proof);
         return proof.getPatientPerNurse();
     }
 
     public double calculateCountHelpeNurseChargeable(Proof proof) {
-        CallculatorPpug.calculateAll(proof);
+        CalculatorPpug.calculateAll(proof);
         return proof.getCountHelpeNurseChargeable();
     }
 

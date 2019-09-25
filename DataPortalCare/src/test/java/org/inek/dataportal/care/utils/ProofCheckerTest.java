@@ -9,6 +9,10 @@ import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static org.inek.dataportal.care.utils.ProofChecker.*;
+
 class ProofCheckerTest {
 
     @Test
@@ -49,7 +53,112 @@ class ProofCheckerTest {
     }
 
     @Test
-    void proofIsReadyForSendTest() {
+    void proofIsReadyForSendTestReturns_MISSING_SHIFT_IfAllDataIsMissing() {
+        ProofRegulationBaseInformation baseInfo = createBaseInfo();
+        List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
+        Assertions.assertThat(messages)
+                .hasSize(2)
+                .contains("Station: Station H1 Monat: Januar Schicht: Tag: " + MISSING_SHIFT)
+                .contains("Station: Station H2 Monat: Januar Schicht: Nacht: " + MISSING_SHIFT);
+    }
+
+    @Test
+    void proofIsReadyForSendTestDoesNotReturn_MISSING_SHIFT_IfAllDataIsMissingButComment() {
+        ProofRegulationBaseInformation baseInfo = createBaseInfo();
+        baseInfo.getProofs().get(0).setComment("closed");
+        List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
+        Assertions.assertThat(messages)
+                .hasSize(1)
+                .containsOnly("Station: Station H2 Monat: Januar Schicht: Nacht: " + MISSING_SHIFT);
+    }
+
+    @Test
+    void proofIsReadyForSendTestReturns_Mismatch_IfOnlyPatientOrNursesAreGiven() {
+        ProofRegulationBaseInformation baseInfo = createBaseInfo();
+        baseInfo.getProofs().get(0).setPatientOccupancy(10);
+        baseInfo.getProofs().get(1).setNurse(10);
+        List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
+        Assertions.assertThat(messages)
+                .hasSize(2)
+                .contains("Station: Station H1 Monat: Januar Schicht: Tag: " + NO_NURSE_BUT_PATIENT)
+                .contains("Station: Station H2 Monat: Januar Schicht: Nacht: " + NO_PATIENT_BUT_NURSE);
+    }
+
+    @Test
+    void proofIsReadyForSendTestReturns_Mismatch_and_MORE_FAILUERS_THAN_TOTAL_SHIFTS_IfOnlyPatientOrNursesAreGivenAndMoreFailuresThanSifts() {
+        ProofRegulationBaseInformation baseInfo = createBaseInfo();
+        baseInfo.getProofs().get(0).setPatientOccupancy(10);
+        baseInfo.getProofs().get(0).setCountShiftNotRespected(1);
+        baseInfo.getProofs().get(1).setNurse(10);
+        baseInfo.getProofs().get(1).setCountShiftNotRespected(10);
+        baseInfo.getProofs().get(1).setCountShift(5);
+        List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
+        Assertions.assertThat(messages)
+                .hasSize(4)
+                .contains("Station: Station H1 Monat: Januar Schicht: Tag: " + NO_NURSE_BUT_PATIENT)
+                .contains("Station: Station H1 Monat: Januar Schicht: Tag: " + MORE_FAILUERS_THAN_TOTAL_SHIFTS)
+                .contains("Station: Station H2 Monat: Januar Schicht: Nacht: " + NO_PATIENT_BUT_NURSE)
+                .contains("Station: Station H2 Monat: Januar Schicht: Nacht: " + MORE_FAILUERS_THAN_TOTAL_SHIFTS);
+    }
+
+    @Test
+    void proofIsReadyForSendTestReturn_SHIFT_BUT_NURSE_IfOnlyShiftHasValue() {
+        ProofRegulationBaseInformation baseInfo = createBaseInfo();
+        baseInfo.getProofs().get(0).setComment("closed");
+        baseInfo.getProofs().get(1).setCountShift(5);
+        List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
+        Assertions.assertThat(messages)
+                .hasSize(1)
+                .containsOnly("Station: Station H2 Monat: Januar Schicht: Nacht: " + SHIFT_BUT_NURSE);
+    }
+
+    @Test
+    void proofIsReadyForSendTestReturn_NURSE_BUT_SHIFT_IfShiftIsMissingButNuresAndPatient() {
+        ProofRegulationBaseInformation baseInfo = createBaseInfo();
+        baseInfo.getProofs().get(0).setComment("closed");
+        baseInfo.getProofs().get(1).setPatientOccupancy(8);
+        baseInfo.getProofs().get(1).setNurse(8);
+        List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
+        Assertions.assertThat(messages)
+                .hasSize(1)
+                .containsOnly("Station: Station H2 Monat: Januar Schicht: Nacht: " + NURSE_BUT_SHIFT);
+    }
+
+    @Test
+    void proofIsReadyForSendTestReturn_PATIENT_PER_NURSE_HIGH_IfLowAndNotCommented() {
+        ProofRegulationBaseInformation baseInfo = createBaseInfo();
+        baseInfo.getProofs().get(0).setCountShift(1);
+        baseInfo.getProofs().get(0).setPatientOccupancy(101);
+        baseInfo.getProofs().get(0).setNurse(1);
+        baseInfo.getProofs().get(0).setComment("really");
+        baseInfo.getProofs().get(1).setCountShift(1);
+        baseInfo.getProofs().get(1).setPatientOccupancy(101);
+        baseInfo.getProofs().get(1).setNurse(1);
+        CalculatorPpug.calculateAll(baseInfo.getProofs().get(1));
+        List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
+        Assertions.assertThat(messages)
+                .hasSize(1)
+                .containsOnly("Station: Station H2 Monat: Januar Schicht: Nacht: " + PATIENT_PER_NURSE_HIGH);
+    }
+
+    @Test
+    void proofIsReadyForSendTestReturn_PATIENT_PER_NURSE_LOW_IfLowAndNotCommented() {
+        ProofRegulationBaseInformation baseInfo = createBaseInfo();
+        baseInfo.getProofs().get(0).setCountShift(1);
+        baseInfo.getProofs().get(0).setPatientOccupancy(1);
+        baseInfo.getProofs().get(0).setNurse(10);
+        baseInfo.getProofs().get(0).setComment("really");
+        baseInfo.getProofs().get(1).setCountShift(1);
+        baseInfo.getProofs().get(1).setPatientOccupancy(1);
+        baseInfo.getProofs().get(1).setNurse(10);
+        CalculatorPpug.calculateAll(baseInfo.getProofs().get(1));
+        List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
+        Assertions.assertThat(messages)
+                .hasSize(1)
+                .containsOnly("Station: Station H2 Monat: Januar Schicht: Nacht: " + PATIENT_PER_NURSE_LOW);
+    }
+
+    private ProofRegulationBaseInformation createBaseInfo() {
         ProofRegulationBaseInformation baseInfo = new ProofRegulationBaseInformation();
 
         Proof proof1 = new Proof();
@@ -72,30 +181,6 @@ class ProofCheckerTest {
 
         baseInfo.addProof(proof1);
         baseInfo.addProof(proof2);
-
-        Assertions.assertThat(ProofChecker.proofIsReadyForSend(baseInfo, 0)).isEmpty();
-
-        proof1.setNurse(0);
-        proof1.setPatientOccupancy(1);
-
-        Assertions.assertThat(ProofChecker.proofIsReadyForSend(baseInfo, 0))
-                .hasSize(1)
-                .containsOnly("Station: Station H1 Monat: Januar Schicht: Tag: Es sind keine Pflegekräfte eingetragen, obwohl Patienten vorhanden sind");
-
-        proof1.setCountShiftNotRespected(5);
-
-        Assertions.assertThat(ProofChecker.proofIsReadyForSend(baseInfo, 0))
-                .hasSize(2)
-                .contains("Station: Station H1 Monat: Januar Schicht: Tag: Es sind keine Pflegekräfte eingetragen, obwohl Patienten vorhanden sind")
-                .contains("Station: Station H1 Monat: Januar Schicht: Tag: Es sind mehr Schichten als nicht eingehalten eingetragen als Schichten insgesamt vorhanden sind");
-
-        proof2.setCountShift(0);
-        proof2.setNurse(5);
-
-        Assertions.assertThat(ProofChecker.proofIsReadyForSend(baseInfo, 0))
-                .hasSize(3)
-                .contains("Station: Station H1 Monat: Januar Schicht: Tag: Es sind keine Pflegekräfte eingetragen, obwohl Patienten vorhanden sind")
-                .contains("Station: Station H1 Monat: Januar Schicht: Tag: Es sind mehr Schichten als nicht eingehalten eingetragen als Schichten insgesamt vorhanden sind")
-                .contains("Station: Station H2 Monat: Januar Schicht: Nacht: Es sind Pflegekräfte eingetragen, obwohl die Anzahl der Schichten Null beträgt");
+        return baseInfo;
     }
 }

@@ -8,6 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProofChecker {
+
+    public static final String MORE_FAILUERS_THAN_TOTAL_SHIFTS = "Es sind mehr Schichten als \"nicht eingehalten\" eingetragen als Schichten insgesamt vorhanden sind";
+    public static final String NO_NURSE_BUT_PATIENT = "Es sind keine Pflegekräfte eingetragen, obwohl Patienten vorhanden sind";
+    public static final String NO_PATIENT_BUT_NURSE = "Es sind keine Patienten eingetragen, obwohl Pflegekräfte vorhanden sind. Bitte eintragen oder im Kommentarfeld erläutern.";
+    public static final String SHIFT_BUT_NURSE = "Es sind weder Pflegekräfte noch Patienten eingetragen, obwohl Schichten vorhanden sind";
+    public static final String NURSE_BUT_SHIFT = "Es sind Pflegekräfte eingetragen, aber es fehlen die zugehörigen Schichten";
+    public static final String MISSING_SHIFT = "Es sind keine Schichten vorhanden. Bitte eintragen oder im Kommentarfeld erläutern.";
+    public static final String PATIENT_PER_NURSE_LOW = "Das Verhältnis Patient/Pflegekraft ist auffällig niedrig. Bitte korrigieren oder im Kommentarfeld erläutern.";
+    public static final String PATIENT_PER_NURSE_HIGH = "Das Verhältnis Patient/Pflegekraft ist auffällig hoch. Bitte korrigieren oder im Kommentarfeld erläutern.";
+
     public static List<String> proofIsReadyForSave(ProofRegulationBaseInformation baseInfo, int exceptionsFactsCount) {
         List<String> errorMessages = new ArrayList<>();
         addMessage(errorMessages, checkExceptionFacts(baseInfo, exceptionsFactsCount));
@@ -24,47 +34,56 @@ public class ProofChecker {
     private static List<String> checkProofPlausi(ProofRegulationBaseInformation baseInfo) {
         List<String> messages = new ArrayList<>();
         for (Proof proof : baseInfo.getProofs()) {
-            if (proof.getNurse() == 0 && proof.getPatientOccupancy() > 0) {
-                addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
-                        + " Monat: " + proof.getMonth().getName()
-                        + " Schicht: " + proof.getShift().getName()
-                        + ": Es sind keine Pflegekräfte eingetragen, obwohl Patienten vorhanden sind");
-            }
-            if (proof.getNurse() == 0 && proof.getPatientOccupancy() == 0 && proof.getCountShift() > 0) {
-                addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
-                        + " Monat: " + proof.getMonth().getName()
-                        + " Schicht: " + proof.getShift().getName()
-                        + ": Es sind weder Pflegekräfte noch Patienten eingetragen, obwohl Schichten vorhanden sind");
-            }
-            if (proof.getCountShift() == 0 && proof.getNurse() > 0) {
-                addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
-                        + " Monat: " + proof.getMonth().getName()
-                        + " Schicht: " + proof.getShift().getName()
-                        + ": Es sind Pflegekräfte eingetragen, obwohl die Anzahl der Schichten Null beträgt");
-            }
             if (proof.getCountShift() < proof.getCountShiftNotRespected()) {
                 addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
                         + " Monat: " + proof.getMonth().getName()
                         + " Schicht: " + proof.getShift().getName()
-                        + ": Es sind mehr Schichten als nicht eingehalten eingetragen als Schichten insgesamt vorhanden sind");
+                        + ": "
+                        + MORE_FAILUERS_THAN_TOTAL_SHIFTS);
             }
-            if (proof.getCountShift() == 0 && "".equals(proof.getComment().trim())) {
+
+            if (proof.getNurse() == 0 && proof.getPatientOccupancy() > 0) {
                 addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
                         + " Monat: " + proof.getMonth().getName()
                         + " Schicht: " + proof.getShift().getName()
-                        + ": Entweder fehlen Schichten oder eine Erläuterung im Kommentarfeld,");
-            }
-            if (proof.getPatientPerNurse() < 0.5 && "".equals(proof.getComment().trim())) {
+                        + ": "
+                        + NO_NURSE_BUT_PATIENT);
+            } else if (proof.getNurse() > 0 && proof.getPatientOccupancy() == 0 && "".equals(proof.getComment().trim())) {
                 addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
                         + " Monat: " + proof.getMonth().getName()
                         + " Schicht: " + proof.getShift().getName()
-                        + ": Der Betreuungsschlüssel ist auffällig hoch und es fehlt eine Erläuterung im Kommentarfeld,");
-            }
-            if (proof.getPatientPerNurse() > 100. && "".equals(proof.getComment().trim())) {
+                        + ": "
+                        + NO_PATIENT_BUT_NURSE);
+            } else if (proof.getNurse() == 0 && proof.getPatientOccupancy() == 0 && proof.getCountShift() > 0) {
                 addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
                         + " Monat: " + proof.getMonth().getName()
                         + " Schicht: " + proof.getShift().getName()
-                        + ": Der Betreuungsschlüssel ist auffällig niedrig und es fehlt eine Erläuterung im Kommentarfeld,");
+                        + ": "
+                        + SHIFT_BUT_NURSE);
+            } else if (proof.getCountShift() == 0 && proof.getNurse() > 0) {
+                addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
+                        + " Monat: " + proof.getMonth().getName()
+                        + " Schicht: " + proof.getShift().getName()
+                        + ": "
+                        + NURSE_BUT_SHIFT);
+            } else if (proof.getCountShift() == 0 && "".equals(proof.getComment().trim())) {
+                addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
+                        + " Monat: " + proof.getMonth().getName()
+                        + " Schicht: " + proof.getShift().getName()
+                        + ": "
+                        + MISSING_SHIFT);
+            } else if (proof.getPatientPerNurse() < 0.5 && "".equals(proof.getComment().trim())) {
+                addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
+                        + " Monat: " + proof.getMonth().getName()
+                        + " Schicht: " + proof.getShift().getName()
+                        + ": "
+                        + PATIENT_PER_NURSE_LOW);
+            } else if (proof.getPatientPerNurse() > 100. && "".equals(proof.getComment().trim())) {
+                addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
+                        + " Monat: " + proof.getMonth().getName()
+                        + " Schicht: " + proof.getShift().getName()
+                        + ": "
+                        + PATIENT_PER_NURSE_HIGH);
             }
         }
         return messages;

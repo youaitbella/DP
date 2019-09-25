@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class CalculatorPpug {
+    // todo: move calculation into Proof and perform automatically on property change?
 
     public static void calculateAll(Proof proof) {
         calculatePatientPerNurse(proof);
