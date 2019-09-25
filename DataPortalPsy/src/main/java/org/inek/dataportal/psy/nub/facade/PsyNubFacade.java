@@ -15,9 +15,13 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Stateless
 public class PsyNubFacade extends AbstractDataAccess {
+
+    private static final Logger LOGGER = Logger.getLogger(PsyNubFacade.class.toString());
 
     @Transactional
     public PsyNubRequest save(PsyNubRequest request) {
@@ -82,8 +86,8 @@ public class PsyNubFacade extends AbstractDataAccess {
         remove(request);
     }
 
-    //@Schedule(hour = "0", info = "once a day")
-    private void check4NubOrphantCorrections() {
+    public void check4NubOrphantCorrections() {
+        LOGGER.log(Level.INFO, "Scanning for PSY-NUBs with correctionRequested older then 5 days");
         Date date = DateUtils.getDateWithDayOffset(-5);
         String jpql = "SELECT p FROM PsyNubRequest p WHERE p._dateCorrectionRequested < :date and p._status = :status ";
         TypedQuery<PsyNubRequest> query = getEntityManager().createQuery(jpql, PsyNubRequest.class);
@@ -95,6 +99,7 @@ public class PsyNubFacade extends AbstractDataAccess {
     }
 
     private void resetPsyNubRequestToHistoryEntry(PsyNubRequest request) {
+        LOGGER.log(Level.INFO, "reset nub [" + request.getExternalStatus() + "]");
         String jpql = "SELECT p FROM PsyNubRequestHistory p WHERE p._psyNubRequestId = :nubId";
         TypedQuery<PsyNubRequestHistory> query = getEntityManager().createQuery(jpql, PsyNubRequestHistory.class);
         query.setParameter("nubId", request.getId());
