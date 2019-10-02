@@ -1,24 +1,27 @@
 package org.inek.dataportal.common.data.access;
 
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.PortalType;
+import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.adm.Announcement;
+import org.inek.dataportal.common.data.adm.Config;
+import org.inek.dataportal.common.data.common.PortalAddress;
+import org.inek.dataportal.common.data.common.Synchronizer;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Stage;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
+
+import javax.enterprise.context.RequestScoped;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.enterprise.context.RequestScoped;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
-import org.inek.dataportal.common.data.adm.Config;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.adm.Announcement;
-import org.inek.dataportal.common.data.common.PortalAddress;
-import org.inek.dataportal.api.enums.PortalType;
-import org.inek.dataportal.common.enums.Stage;
-import org.inek.dataportal.common.helper.EnvironmentInfo;
 
 /**
- *
  * @author muellermi
  */
 @RequestScoped
@@ -56,7 +59,7 @@ public class ConfigFacade extends AbstractDataAccess {
     public void saveConfig(ConfigKey key, int value) {
         saveConfig(key, "" + value);
     }
-    
+
     public String readConfig(String key, String defaultValue) {
         if (_configCache.containsKey(key)) {
             return _configCache.get(key);
@@ -122,4 +125,16 @@ public class ConfigFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    public boolean canFirstWriteSynchronizer(String key) {
+        String fullKey = key + LocalDateTime.now().format(dateFormatter);
+        Synchronizer item = new Synchronizer(fullKey);
+        try {
+            persist(item);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
 }

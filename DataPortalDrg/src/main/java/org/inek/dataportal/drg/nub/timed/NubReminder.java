@@ -38,10 +38,15 @@ public class NubReminder {
     @Inject
     private ConfigFacade _config;
 
-    //    @Schedule(hour = "*", minute = "*/1", info = "every minute") // use this for testing purpose
+//    @Schedule(hour = "*", minute = "*", second = "*/10") // use this for testing purpose
 //    public void remindSealTest() {
-//        remindSeal();
+//        if (_config.canFirstWriteSynchronizer("Test")) {
+//            System.out.println("I am the first");
+//        } else {
+//            System.out.println("Sombody had been quicker");
+//        }
 //    }
+
     @Schedule(month = "10", dayOfMonth = "24", hour = "0")
     public void remindSeal7DaysBefore() {
         remindSeal();
@@ -61,6 +66,9 @@ public class NubReminder {
         if (!_config.readConfigBool(ConfigKey.RemindNubSeal) || _config.readConfigBool(ConfigKey.TestMode)) {
             LOGGER.log(Level.INFO, "RemindNubSeal is not enabled");
             return;
+        }
+        if (!_config.canFirstWriteSynchronizer("NubDrgReminder")) {
+            LOGGER.log(Level.INFO, "RemindNubSeal is started by other server");
         }
         LOGGER.log(Level.INFO, "Start remindSeal");
         Map<Integer, Integer> accounts = _nubFacade.countOpenPerIk();

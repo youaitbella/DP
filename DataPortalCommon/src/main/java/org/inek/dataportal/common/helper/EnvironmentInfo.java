@@ -1,10 +1,11 @@
 package org.inek.dataportal.common.helper;
 
+import org.inek.dataportal.api.helper.Const;
+
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
-import org.inek.dataportal.api.helper.Const;
 
 /**
  *
@@ -17,9 +18,18 @@ public class EnvironmentInfo {
         return externalContext.getRequestServerName();
     }
 
+    private static String serverName = "";
     public static String getLocalServerName() {
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        return ((ServletRequest) externalContext.getRequest()).getLocalName();
+
+        if ("".equals(serverName)) {
+            try {
+                ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+                serverName = ((ServletRequest) externalContext.getRequest()).getLocalName();
+            } catch (Exception ex) {
+                // we're outside of a Faces request
+            }
+        }
+        return serverName;
     }
 
     public static String getServerUrl() {

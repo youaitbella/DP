@@ -1,10 +1,12 @@
 package org.inek.dataportal.common.data.common;
 
+import org.inek.dataportal.common.helper.EnvironmentInfo;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "Synchronizer", schema = "dbo")
@@ -14,6 +16,7 @@ public class Synchronizer {
     }
 
     public Synchronizer(String key) {
+        this.key = key;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Key">
@@ -32,26 +35,26 @@ public class Synchronizer {
 
     // <editor-fold defaultstate="collapsed" desc="Property Server">
     @Column(name = "syncServer")
-    private int server;
+    private String server = EnvironmentInfo.getLocalServerName();
 
-    public int getServer() {
+    public String getServer() {
         return server;
     }
 
-    public void setServer(int server) {
+    public void setServer(String server) {
         this.server = server;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property DateTime">
     @Column(name = "syncDateTime")
-    LocalDateTime dateTime = LocalDateTime.now();
+    Date dateTime = new Date();
 
-    public LocalDateTime getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
     // </editor-fold>
