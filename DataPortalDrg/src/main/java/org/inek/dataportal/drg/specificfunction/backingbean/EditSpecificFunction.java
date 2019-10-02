@@ -1,47 +1,43 @@
 package org.inek.dataportal.drg.specificfunction.backingbean;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.helper.structures.MessageContainer;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.specificfunction.entity.CenterName;
+import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.drg.specificfunction.entity.RequestAgreedCenter;
+import org.inek.dataportal.drg.specificfunction.entity.RequestProjectedCenter;
+import org.inek.dataportal.drg.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.drg.specificfunction.facade.SpecificFunctionFacade;
+
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.drg.specificfunction.facade.SpecificFunctionFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
-import org.inek.dataportal.common.specificfunction.entity.CenterName;
-import org.inek.dataportal.drg.specificfunction.entity.RequestAgreedCenter;
-import org.inek.dataportal.drg.specificfunction.entity.RequestProjectedCenter;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
-import org.inek.dataportal.drg.specificfunction.entity.SpecificFunctionRequest;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.helper.structures.MessageContainer;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.utils.DocumentationUtil;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneOffset;
+import java.util.*;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  *
@@ -150,7 +146,9 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         List<Integer> existingYears = _specificFunctionFacade.getExistingYears(_request.getIk());
 
         _availableYears = new ArrayList<>();
-        IntStream.rangeClosed(2015, 2019) // allowed range according to agreement
+
+        //IntStream.rangeClosed(2015, 2019) // allowed range according to agreement
+        IntStream.rangeClosed(2015, LocalDateTime.now().getYear() + 2) // dynamicc range, issue #304
                 .filter(y -> y == _request.getDataYear() || !existingYears.contains(y))
                 .forEach(y -> _availableYears.add(y));
     }
