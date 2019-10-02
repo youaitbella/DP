@@ -22,7 +22,7 @@ public class PsyNubRequestValueChecker implements Serializable {
         if (value.isEmpty()) {
             return true;
         }
-        String regex = "0[1-9]\\/[0-9][0-9]|1[1-2]\\/[0-9][0-9]";
+        String regex = "0[1-9]\\/[0-9][0-9]|1[0-2]\\/[0-9][0-9]";
         return value.matches(regex);
     }
 
