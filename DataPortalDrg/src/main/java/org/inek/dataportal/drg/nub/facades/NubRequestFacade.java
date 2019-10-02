@@ -163,10 +163,7 @@ public class NubRequestFacade extends AbstractDataAccessWithActionLog {
     }
 
     public Map<Integer, Integer> countOpenPerIk() {
-        return NubRequestFacade.this.countOpenPerIk(1 + Calendar.getInstance().get(Calendar.YEAR));
-    }
-
-    public Map<Integer, Integer> countOpenPerIk(int targetYear) {
+        int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
         String jpql = "SELECT p._accountId, COUNT(p) "
                 + "FROM NubRequest p JOIN Account a "
                 + "WHERE p._accountId = a._id and a._customerTypeId = 5 "
