@@ -14,8 +14,9 @@ public class TimerAccess extends AbstractDataAccess {
         for (Object x : query.getResultList()) {
             Object[] info = (Object[]) x;
             int id = (int) info[0];
-            String text = (String) info[1];
-            result.add(new IdIkText(id, text));
+            int ik = (int) info[1];
+            String text = (String) info[2];
+            result.add(new IdIkText(id, ik, text));
         }
         return result;
     }
