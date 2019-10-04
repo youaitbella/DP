@@ -59,7 +59,7 @@ public class PsyNubRequestHelper implements Serializable {
     }
 
     public void sendPsyNubConformationMail(PsyNubRequest request, Account account) {
-        if (account.isNubInformationMail()) {
+        if (account.isNubConfirmation()) {
             MailTemplate template;
 
             if (request.getStatus().equals(WorkflowStatus.Retired)) {
