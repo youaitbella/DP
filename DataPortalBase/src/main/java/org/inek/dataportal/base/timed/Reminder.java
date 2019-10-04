@@ -31,9 +31,9 @@ public class Reminder {
     @Inject
     private ConfigFacade _config;
     @Inject
-    TimerAccess _timeAccess;
+    private TimerAccess _timeAccess;
 
-    private final static String QEURY_NUB_DRG = "select nubAccountId as Id, "
+    private static final String QEURY_NUB_DRG = "select nubAccountId as Id, "
             + "    dbo.ConcatenateDeli(iif(name = '' or name = ' (*)', '<kein Name angegeben>' + name, "
             + "        iif(len(name) > 100, left(name, 100) + '...', name)), char(13) + char(10)) as [Text]\n"
             + "from (\n"
@@ -48,7 +48,9 @@ public class Reminder {
             + ") d\n"
             + "group by nubAccountId\n";
 
-    private final static String QEURY_NUB_PEPP = "select nubCreatedByAccountId as Id, dbo.ConcatenateDeli(iif(name = '' or name = ' (*)', '<kein Name angegeben>' + name, iif(len(name) > 100, left(name, 100) + '...', name)), char(13) + char(10)) as [Text]\n"
+    private static final String QEURY_NUB_PEPP = "select nubCreatedByAccountId as Id, "
+            + "    dbo.ConcatenateDeli(iif(name = '' or name = ' (*)', '<kein Name angegeben>' + name, "
+            + "        iif(len(name) > 100, left(name, 100) + '...', name)), char(13) + char(10)) as [Text]\n"
             + "from (\n"
             + "    select nubCreatedByAccountId, iif(nubDisplayName = '', nubName, nubDisplayName) + iif(nubStatusId < 5, '', ' (*)') as name\n"
             + "    from psy.NubRequest\n"
@@ -61,7 +63,7 @@ public class Reminder {
             + ") d\n"
             + "group by nubCreatedByAccountId\n";
 
-    private final static String QUERY_CARE_PROOF = "select prbiCreatedBy as Id, '' as [Text]\n"
+    private static final String QUERY_CARE_PROOF = "select prbiCreatedBy as Id, '' as [Text]\n"
             + "from care.ProofRegulationBaseInformation\n"
             + "where prbiYear = datepart(year, getdate()) and prbiStatusId < 10\n"
             + "and prbiQuarter = case datepart(MONTH, getdate()) when 1 then 4 when 4 then 1 when 7 then 2 when 10 then 3 else 0 end\n";
