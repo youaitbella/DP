@@ -48,7 +48,7 @@ public class Synchronizer {
 
     // <editor-fold defaultstate="collapsed" desc="Property DateTime">
     @Column(name = "syncDateTime")
-    Date dateTime = new Date();
+    private Date dateTime = new Date();
 
     public Date getDateTime() {
         return dateTime;
