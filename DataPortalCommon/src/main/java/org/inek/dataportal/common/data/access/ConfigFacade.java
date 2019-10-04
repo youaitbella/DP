@@ -25,7 +25,6 @@ import java.util.Map;
  * @author muellermi
  */
 @RequestScoped
-@Transactional
 public class ConfigFacade extends AbstractDataAccess {
 
     private static final String FEATURE = "Feature:";
@@ -127,6 +126,7 @@ public class ConfigFacade extends AbstractDataAccess {
 
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean canFirstWriteSynchronizer(String key) {
         String fullKey = key + LocalDateTime.now().format(dateFormatter);
         Synchronizer item = new Synchronizer(fullKey);

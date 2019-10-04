@@ -11,6 +11,7 @@ public enum ConfigKey {
     IsPsyNubCreateEnabled(false),
     IsPsyNubSendEnabled(false),
     RemindNubSeal(false),
+    RemindNubPeppSeal(false),
     IsCareCreateEnabled(false),
     IsCareSendEnabled(false),
     IsCareChangeEnabled(false),

@@ -6,15 +6,12 @@ import org.inek.dataportal.common.utils.DateUtils;
 import org.inek.dataportal.psy.nub.entities.PsyNubRequest;
 import org.inek.dataportal.psy.nub.entities.PsyNubRequestHistory;
 import org.inek.dataportal.psy.nub.helper.PsyNubRequestHistoryMergeHelper;
-import org.inek.dataportal.psy.nub.helper.PsyNubRequestMergeHelper;
 
-import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -108,4 +105,24 @@ public class PsyNubFacade extends AbstractDataAccess {
         save(request);
         remove(nubRequestHistory);
     }
+
+    public Map<Integer, Integer> countOpenPerIk() {
+        int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
+        String jpql = "SELECT p._createdByAccountId, COUNT(p) "
+                + "FROM PsyNubRequest p JOIN Account a "
+                + "WHERE p._createdByAccountId = a._id and a._customerTypeId = 5 "
+                + "    and p._status < 10 and p._targetYear = :targetYear GROUP BY p._createdByAccountId";
+        Query query = getEntityManager().createQuery(jpql);
+        query.setParameter("targetYear", targetYear);
+        List data = query.getResultList();
+        Map<Integer, Integer> result = new HashMap<>();
+        for (Object x : data) {
+            Object[] info = (Object[]) x;
+            int accountId = (int) info[0];
+            int count = (int) (long) info[1];
+            result.put(accountId, count);
+        }
+        return result;
+    }
+
 }
