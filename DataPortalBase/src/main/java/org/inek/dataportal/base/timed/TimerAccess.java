@@ -19,5 +19,4 @@ public class TimerAccess extends AbstractDataAccess {
         }
         return result;
     }
-
 }

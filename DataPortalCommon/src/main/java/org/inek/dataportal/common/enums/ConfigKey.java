@@ -11,7 +11,7 @@ public enum ConfigKey {
     IsPsyNubCreateEnabled(false),
     IsPsyNubSendEnabled(false),
     RemindNubSeal(false),
-    RemindNubPeppSeal(false),
+    RemindNubPeppSeal(true),
     IsCareCreateEnabled(false),
     IsCareSendEnabled(false),
     IsCareChangeEnabled(false),
@@ -64,7 +64,8 @@ public enum ConfigKey {
     KhComparisonJobSavePath("//vFileserver01/company$/EDV/Datenportal/kh-vergleich/auswertungen"),
     KhComparisonUploadPath("//vFileserver01/company$/EDV/Datenportal/documents/KH-Vergleich"),
     isKhComparisionInsuranceEnabled(false),
-    ReportHostName("vreportserver01");
+    ReportHostName("vreportserver01"),
+    RemindCareProof(true);
     //
     private final Object _defaultValue;
 

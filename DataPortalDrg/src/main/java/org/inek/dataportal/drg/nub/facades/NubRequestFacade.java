@@ -162,25 +162,6 @@ public class NubRequestFacade extends AbstractDataAccessWithActionLog {
         return query.getResultList();
     }
 
-    public Map<Integer, Integer> countOpenPerIk() {
-        int targetYear = 1 + Calendar.getInstance().get(Calendar.YEAR);
-        String jpql = "SELECT p._accountId, COUNT(p) "
-                + "FROM NubRequest p JOIN Account a "
-                + "WHERE p._accountId = a._id and a._customerTypeId = 5 "
-                + "    and p._status < 10 and p._targetYear = :targetYear GROUP BY p._accountId";
-        Query query = getEntityManager().createQuery(jpql);
-        query.setParameter("targetYear", targetYear);
-        List data = query.getResultList();
-        Map<Integer, Integer> result = new HashMap<>();
-        for (Object x : data) {
-            Object[] info = (Object[]) x;
-            int accountId = (int) info[0];
-            int count = (int) (long) info[1];
-            result.put(accountId, count);
-        }
-        return result;
-    }
-
     public List<NubRequest> find(List<Integer> requestIds) {
         if (requestIds.isEmpty()) {
             return Collections.emptyList();
