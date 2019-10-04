@@ -2,10 +2,11 @@ package org.inek.dataportal.base.timed;
 
 import java.util.Objects;
 
-public class IdText {
+public class IdIkText {
 
-    public IdText(int id, String text) {
+    public IdIkText(int id, int ik, String text) {
         this.id = id;
+        this.ik = ik;
         this.text = text;
     }
 
@@ -15,6 +16,11 @@ public class IdText {
         return id;
     }
 
+    private int ik;
+
+    public int getIk() {
+        return ik;
+    }
 
     private String text;
 
@@ -30,13 +36,14 @@ public class IdText {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        IdText idText = (IdText) o;
-        return id == idText.id &&
-                text.equals(idText.text);
+        IdIkText idIkText = (IdIkText) o;
+        return id == idIkText.id &&
+                ik == idIkText.ik &&
+                text.equals(idIkText.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text);
+        return Objects.hash(id, ik, text);
     }
 }

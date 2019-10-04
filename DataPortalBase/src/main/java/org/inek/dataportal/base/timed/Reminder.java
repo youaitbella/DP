@@ -33,7 +33,7 @@ public class Reminder {
     @Inject
     private TimerAccess _timeAccess;
 
-    private static final String QEURY_NUB_DRG = "select nubAccountId as Id, "
+    private static final String QEURY_NUB_DRG = "select nubAccountId as Id, 0 as IK"
             + "    dbo.ConcatenateDeli(iif(name = '' or name = ' (*)', '<kein Name angegeben>' + name, "
             + "        iif(len(name) > 100, left(name, 100) + '...', name)), char(13) + char(10)) as [Text]\n"
             + "from (\n"
@@ -48,7 +48,7 @@ public class Reminder {
             + ") d\n"
             + "group by nubAccountId\n";
 
-    private static final String QEURY_NUB_PEPP = "select nubCreatedByAccountId as Id, "
+    private static final String QEURY_NUB_PEPP = "select nubCreatedByAccountId as Id, 0 as IK"
             + "    dbo.ConcatenateDeli(iif(name = '' or name = ' (*)', '<kein Name angegeben>' + name, "
             + "        iif(len(name) > 100, left(name, 100) + '...', name)), char(13) + char(10)) as [Text]\n"
             + "from (\n"
@@ -63,10 +63,16 @@ public class Reminder {
             + ") d\n"
             + "group by nubCreatedByAccountId\n";
 
-    private static final String QUERY_CARE_PROOF = "select prbiCreatedBy as Id, '' as [Text]\n"
-            + "from care.ProofRegulationBaseInformation\n"
-            + "where prbiYear = datepart(year, getdate()) and prbiStatusId < 10\n"
-            + "and prbiQuarter = case datepart(MONTH, getdate()) when 1 then 4 when 4 then 1 when 7 then 2 when 10 then 3 else 0 end\n";
+    private static final String QUERY_CARE_PROOF = "select isnull(arAccountId, iaAccountId) as Id, iaIk as IK, "
+            + "'15.' + cast(datepart(MONTH, getdate()) as varchar) + '.' + cast(datepart(YEAR, getdate()) as varchar) as [Text] \n"
+            + "from ikadm.IkAdmin\n"
+            + "join ikadm.IkAdminFeature on iaId=iafIkAdminId\n"
+            + "left join ikadm.AccessRight on iaIk=arIk and iafFeatureId=arFeatureId and arRight in ('A', 'W')\n"
+            + "left join care.ProofRegulationBaseInformation on iaIk = prbiIk and prbiYear = datepart(year, getdate()) \n"
+            + "    and prbiQuarter = case datepart(MONTH, getdate()) when 1 then 4 when 4 then 1 when 7 then 2 when 10 then 3 else 0 end\n"
+            + "where iafFeatureId = 22\n"
+            + "and isnull(prbiStatusId, 0) < 10\n"
+            + "and datepart(MONTH, getdate()) in (1, 4, 7, 10)\n";
 
 
     @Schedule(hour = "*", minute = "*", second = "*/10") // use this for testing purpose
@@ -109,17 +115,19 @@ public class Reminder {
             return;
         }
         LOGGER.log(Level.INFO, "Start " + configKey.name());
-        for (IdText idText : _timeAccess.retrieveIdTexts(sql)) {
+        for (IdIkText idText : _timeAccess.retrieveIdTexts(sql)) {
             Account account = _accountFacade.findAccount(idText.getId());
             if (account.isReminderMail()) {
-                sendReminderMail(account, idText.getText(), template);
+                sendReminderMail(account, idText.getIk(), idText.getText(), template);
             }
         }
     }
 
-    private boolean sendReminderMail(Account account, String text, String template) {
+    private boolean sendReminderMail(Account account, int ik, String text, String template) {
         Map<String, String> substitutions = new HashMap<>();
+        substitutions.put("{IK}", "" + ik);
         substitutions.put("{listOpenNUB}", "" + text);
+        substitutions.put("{text}", "" + text);
         return _mailer.sendMailWithTemplate(template, substitutions, account);
     }
 
