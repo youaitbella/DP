@@ -515,17 +515,19 @@ public class ProofEdit implements Serializable {
     }
 
     private boolean sendExtension(int ik, int year, int quarter) {
-        int extensionYear = year + quarter == 4 ? 1 : 0;
+        int extensionYear = year + (quarter == 4 ? 1 : 0);
         int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
         LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 29);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         Map<String, String> substitutions = new HashMap<>();
         substitutions.put("{IK}", "" + ik);
+        substitutions.put("{quarter}", "" + quarter);
+        substitutions.put("{year}", "" + year);
         substitutions.put("{date}", "" + extensionDate.format(formatter));
         return _mailer.sendMailWithTemplate("CareProofExtension", substitutions, _sessionController.getAccount());
     }
 
-    public Boolean isRequestExensionAllowed() {
+    public Boolean getRequestExensionAllowed() {
         int ik = _proofRegulationBaseInformation.getIk();
         if (ik <= 0) {
             return false;
@@ -538,7 +540,7 @@ public class ProofEdit implements Serializable {
         if (quarter <= 0) {
             return false;
         }
-        int extensionYear = year + quarter == 4 ? 1 : 0;
+        int extensionYear = year + (quarter == 4 ? 1 : 0);
         int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
         LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 15);
         if (LocalDate.now().isAfter(extensionDate)) {

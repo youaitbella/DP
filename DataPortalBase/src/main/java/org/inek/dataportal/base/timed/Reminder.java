@@ -82,8 +82,7 @@ public class Reminder {
     private void remindSealTest() {
 //        remindSeal(ConfigKey.RemindNubSeal, QEURY_NUB_DRG, "NUB reminder");
 //        remindSeal(ConfigKey.RemindNubPeppSeal, QEURY_NUB_PEPP, "PSY-NUB reminder");
-//        List<IdIkText> idTexts = _timeAccess.retrieveIdTexts(QUERY_CARE_PROOF);
-//        System.out.println(idTexts.size());
+//        remindSeal(ConfigKey.RemindCareProof, QUERY_CARE_PROOF, "CareProofReminder");
     }
 
     @Schedule(month = "10", dayOfMonth = "24", hour = "0")
@@ -109,7 +108,7 @@ public class Reminder {
      */
     @Asynchronous
     private void remindSeal(ConfigKey configKey, String sql, String template) {
-        if (!_config.readConfigBool(configKey) || _config.readConfigBool(ConfigKey.TestMode)) {
+        if (!_config.readConfigBool(configKey)) {
             LOGGER.log(Level.INFO, configKey.name() + " is not enabled");
             return;
         }
@@ -122,6 +121,9 @@ public class Reminder {
             Account account = _accountFacade.findAccount(idText.getId());
             if (account.isReminderMail()) {
                 sendReminderMail(account, idText.getIk(), idText.getText(), template);
+                if (_config.readConfigBool(ConfigKey.TestMode)) {
+                    break;  // in test mode stop after sending one
+                }
             }
         }
     }

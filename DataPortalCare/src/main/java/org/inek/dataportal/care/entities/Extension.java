@@ -12,6 +12,7 @@ public class Extension {
 
     //<editor-fold desc="Property Id">
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "exId")
     Integer id;
 

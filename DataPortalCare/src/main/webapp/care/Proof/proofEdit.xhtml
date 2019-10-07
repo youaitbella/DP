@@ -212,7 +212,7 @@
 
             <div class="ui-g" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
                 <div class="card">
-                    <div class="ui-g-12">
+                    <div class="ui-g-12" jsf:id="buttons">
 
                         <pf:commandButton value="Datensatz ändern (inkl. Daten und neue Signatur)"
                                           action="#{proofEdit.change()}"
@@ -270,9 +270,9 @@
                                           action="#{proofEdit.requestExtension()}"
                                           onstart="PF('dlgLoadingData').show()"
                                           oncomplete="PF('dlgLoadingData').hide()"
-                                          rendered="#{!proofEdit.isRequestExensionAllowed}"
+                                          rendered="#{proofEdit.requestExensionAllowed}"
                                           style="margin-left: 10px;"
-                                          update="@(.ui-message) @this"/>
+                                          update="@(.ui-message) :form:buttons"/>
 
 
                         <pf:outputLabel rendered="#{not proofEdit.sendAllowedForToday() and proofEdit.proofRegulationBaseInformation.status.id lt 10}"
