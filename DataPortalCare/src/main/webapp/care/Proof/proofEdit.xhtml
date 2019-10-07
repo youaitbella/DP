@@ -265,6 +265,16 @@
                                           icon="fa fa-arrow-right"
                                           iconPos="right"
                                           update="@(.ui-message) @form" />
+
+                        <pf:commandButton value="Fristverlängerung beantragen"
+                                          action="#{proofEdit.requestExtension()}"
+                                          onstart="PF('dlgLoadingData').show()"
+                                          oncomplete="PF('dlgLoadingData').hide()"
+                                          rendered="#{!proofEdit.isRequestExensionAllowed}"
+                                          style="margin-left: 10px;"
+                                          update="@(.ui-message) @this"/>
+
+
                         <pf:outputLabel rendered="#{not proofEdit.sendAllowedForToday() and proofEdit.proofRegulationBaseInformation.status.id lt 10}"
                                         style="padding-left: 10px"
                                         value="Die Daten können erst am Ende des Quartals ans InEK gesendet werden" />

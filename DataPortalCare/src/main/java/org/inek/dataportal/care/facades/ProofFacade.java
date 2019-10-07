@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.care.facades;
 
+import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.entities.ProofRegulationStation;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
@@ -178,4 +179,21 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         return items;
     }
 
+    public boolean hasExtension(int ik, int year, int quarter) {
+        String name = "Extension.findByCoordinates";
+        TypedQuery<Extension> query = getEntityManager().createNamedQuery(name, Extension.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", year);
+        query.setParameter("quarter", quarter);
+        try {
+            query.getSingleResult();
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    public void saveExtension(Extension extension) {
+        persist(extension);
+    }
 }

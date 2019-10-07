@@ -1,10 +1,7 @@
 package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.care.entities.Proof;
-import org.inek.dataportal.care.entities.ProofExceptionFact;
-import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
-import org.inek.dataportal.care.entities.ProofRegulationStation;
+import org.inek.dataportal.care.entities.*;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.ProofFacade;
 import org.inek.dataportal.care.utils.*;
@@ -43,10 +40,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -299,7 +294,7 @@ public class ProofEdit implements Serializable {
         try {
             if (_oldProofRegulationBaseInformation != null &&
                     (_proofRegulationBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested ||
-                    _proofRegulationBaseInformation.getStatus() == WorkflowStatus.Provided)) {
+                            _proofRegulationBaseInformation.getStatus() == WorkflowStatus.Provided)) {
                 _proofFacade.save(_oldProofRegulationBaseInformation);
             }
 
@@ -506,4 +501,50 @@ public class ProofEdit implements Serializable {
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
     }
+
+    public void requestExtension() {
+        Extension extension = new Extension();
+        int ik = _proofRegulationBaseInformation.getIk();
+        int year = _proofRegulationBaseInformation.getYear();
+        int quarter = _proofRegulationBaseInformation.getQuarter();
+        extension.setIk(ik);
+        extension.setYear(year);
+        extension.setQuarter(quarter);
+        _proofFacade.saveExtension(extension);
+        sendExtension(ik, year, quarter);
+    }
+
+    private boolean sendExtension(int ik, int year, int quarter) {
+        int extensionYear = year + quarter == 4 ? 1 : 0;
+        int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
+        LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 29);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        Map<String, String> substitutions = new HashMap<>();
+        substitutions.put("{IK}", "" + ik);
+        substitutions.put("{date}", "" + extensionDate.format(formatter));
+        return _mailer.sendMailWithTemplate("CareProofExtension", substitutions, _sessionController.getAccount());
+    }
+
+    public Boolean isRequestExensionAllowed() {
+        int ik = _proofRegulationBaseInformation.getIk();
+        if (ik <= 0) {
+            return false;
+        }
+        int year = _proofRegulationBaseInformation.getYear();
+        if (year <= 2010) {
+            return false;
+        }
+        int quarter = _proofRegulationBaseInformation.getQuarter();
+        if (quarter <= 0) {
+            return false;
+        }
+        int extensionYear = year + quarter == 4 ? 1 : 0;
+        int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
+        LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 15);
+        if (LocalDate.now().isAfter(extensionDate)) {
+            return false;
+        }
+        return !_proofFacade.hasExtension(ik, year, quarter);
+    }
+
 }
