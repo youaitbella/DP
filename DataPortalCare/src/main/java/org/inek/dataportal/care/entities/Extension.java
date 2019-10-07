@@ -14,7 +14,7 @@ public class Extension {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "exId")
-    Integer id;
+    private Integer id;
 
     public Integer getId() {
         return id;
@@ -27,7 +27,7 @@ public class Extension {
 
     //<editor-fold desc="Property Ik">
     @Column(name = "exIk")
-    int ik;
+    private int ik;
 
     public int getIk() {
         return ik;
@@ -40,7 +40,7 @@ public class Extension {
 
     //<editor-fold desc="Property Year">
     @Column(name = "exYear")
-    int year;
+    private int year;
 
     public int getYear() {
         return year;
@@ -53,7 +53,7 @@ public class Extension {
 
     //<editor-fold desc="Property Quarter">
     @Column(name = "exQuarter")
-    int quarter;
+    private int quarter;
 
     public int getQuarter() {
         return quarter;
@@ -74,7 +74,7 @@ public class Extension {
     }
 
     @Column(name = "exDate")
-    Date date = new Date();
+    private Date date = new Date();
     //</editor-fold>
 
 
