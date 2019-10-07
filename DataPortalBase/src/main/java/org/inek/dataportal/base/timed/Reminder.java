@@ -33,11 +33,11 @@ public class Reminder {
     @Inject
     private TimerAccess _timeAccess;
 
-    private static final String QEURY_NUB_DRG = "select nubAccountId as Id, 0 as IK"
+    private static final String QEURY_NUB_DRG = "select nubAccountId as Id, max(nubIk) as IK,"
             + "    dbo.ConcatenateDeli(iif(name = '' or name = ' (*)', '<kein Name angegeben>' + name, "
             + "        iif(len(name) > 100, left(name, 100) + '...', name)), char(13) + char(10)) as [Text]\n"
             + "from (\n"
-            + "    select nubAccountId, iif(nubDisplayName = '', nubName, nubDisplayName) + iif(nubstatus < 5, '', ' (*)') as name\n"
+            + "    select nubAccountId, nubIk, iif(nubDisplayName = '', nubName, nubDisplayName) + iif(nubstatus < 5, '', ' (*)') as name\n"
             + "    from NubProposal\n"
             + "    where nubstatus < 10 and nubtargetyear > datepart(year, getdate()) and nubAccountId in (\n"
             + "        select distinct acId\n"
@@ -48,11 +48,11 @@ public class Reminder {
             + ") d\n"
             + "group by nubAccountId\n";
 
-    private static final String QEURY_NUB_PEPP = "select nubCreatedByAccountId as Id, 0 as IK"
+    private static final String QEURY_NUB_PEPP = "select nubCreatedByAccountId as Id, max(nubIk) as IK,"
             + "    dbo.ConcatenateDeli(iif(name = '' or name = ' (*)', '<kein Name angegeben>' + name, "
             + "        iif(len(name) > 100, left(name, 100) + '...', name)), char(13) + char(10)) as [Text]\n"
             + "from (\n"
-            + "    select nubCreatedByAccountId, iif(nubDisplayName = '', nubName, nubDisplayName) + iif(nubStatusId < 5, '', ' (*)') as name\n"
+            + "    select nubCreatedByAccountId, nubIk, iif(nubDisplayName = '', nubName, nubDisplayName) + iif(nubStatusId < 5, '', ' (*)') as name\n"
             + "    from psy.NubRequest\n"
             + "    where nubStatusId < 10 and nubtargetyear > datepart(year, getdate()) and nubCreatedByAccountId in (\n"
             + "        select distinct acId\n"
@@ -67,7 +67,7 @@ public class Reminder {
             + "    '15.' + cast(datepart(MONTH, getdate()) as varchar) + '.' + cast(datepart(YEAR, getdate()) as varchar) as [Text] \n"
             + "from ikadm.IkAdmin\n"
             + "join ikadm.IkAdminFeature on iaId=iafIkAdminId\n"
-            + "left join care.Extension on iaIk = exIk \n"
+            + "left join care.Extension on iaIk = exIk and exYear = datepart(YEAR, getdate()) - iif (datepart(MONTH, getdate()) < 3, 1, 0)\n"
             + "  and exQuarter =  case datepart(MONTH, getdate()) when 1 then 4 when 4 then 1 when 7 then 2 when 10 then 3 else 0 end\n"
             + "left join ikadm.AccessRight on iaIk=arIk and iafFeatureId=arFeatureId and arRight in ('A', 'W')\n"
             + "left join care.ProofRegulationBaseInformation on iaIk = prbiIk and prbiYear = datepart(year, getdate()) \n"
@@ -82,7 +82,7 @@ public class Reminder {
     private void remindSealTest() {
 //        remindSeal(ConfigKey.RemindNubSeal, QEURY_NUB_DRG, "NUB reminder");
 //        remindSeal(ConfigKey.RemindNubPeppSeal, QEURY_NUB_PEPP, "PSY-NUB reminder");
-//        List<IdText> idTexts = _timeAccess.retrieveIdTexts(QUERY_CARE_PROOF);
+//        List<IdIkText> idTexts = _timeAccess.retrieveIdTexts(QUERY_CARE_PROOF);
 //        System.out.println(idTexts.size());
     }
 
@@ -130,7 +130,7 @@ public class Reminder {
         Map<String, String> substitutions = new HashMap<>();
         substitutions.put("{IK}", "" + ik);
         substitutions.put("{listOpenNUB}", "" + text);
-        substitutions.put("{text}", "" + text);
+        substitutions.put("{date}", "" + text);
         return _mailer.sendMailWithTemplate(template, substitutions, account);
     }
 
