@@ -98,8 +98,24 @@ public class Reminder {
         remindSeal(ConfigKey.RemindNubPeppSeal, QEURY_NUB_PEPP, "PSY-NUB reminder");
     }
 
-    @Schedule(month = "*", dayOfMonth = "11", hour = "0")
-    private void remindCareProof() {
+    //@Schedule(month = "*", dayOfMonth = "11", hour = "0") did not work, thus 4 methods...
+    @Schedule(month = "1", dayOfMonth = "11", hour = "0")
+    private void remindCareProof1() {
+        remindSeal(ConfigKey.RemindCareProof, QUERY_CARE_PROOF, "CareProofReminder");
+    }
+
+    @Schedule(month = "4", dayOfMonth = "11", hour = "0")
+    private void remindCareProof4() {
+        remindSeal(ConfigKey.RemindCareProof, QUERY_CARE_PROOF, "CareProofReminder");
+    }
+
+    @Schedule(month = "7", dayOfMonth = "11", hour = "0")
+    private void remindCareProof7() {
+        remindSeal(ConfigKey.RemindCareProof, QUERY_CARE_PROOF, "CareProofReminder");
+    }
+
+    @Schedule(month = "10", dayOfMonth = "11", hour = "0")
+    private void remindCareProof10() {
         remindSeal(ConfigKey.RemindCareProof, QUERY_CARE_PROOF, "CareProofReminder");
     }
 
