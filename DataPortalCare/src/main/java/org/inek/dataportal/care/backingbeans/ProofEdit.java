@@ -282,6 +282,11 @@ public class ProofEdit implements Serializable {
     }
 
     public void save() {
+        for (Proof proof : _proofRegulationBaseInformation.getProofs()) {
+            calculateCountHelpeNurseChargeable(proof);
+            calculatePatientPerNurse(proof);
+        }
+
         List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofRegulationBaseInformation, _listExceptionsFacts.size());
         if (!errorMessages.isEmpty()) {
             DialogController.showErrorDialog("Daten unvollständig", errorMessages.get(0));
@@ -334,6 +339,11 @@ public class ProofEdit implements Serializable {
     }
 
     public void send() {
+        for (Proof proof : _proofRegulationBaseInformation.getProofs()) {
+            calculateCountHelpeNurseChargeable(proof);
+            calculatePatientPerNurse(proof);
+        }
+
         List<String> errorMessages = ProofChecker.proofIsReadyForSend(_proofRegulationBaseInformation, _listExceptionsFacts.size());
 
         if (!errorMessages.isEmpty()) {
@@ -343,10 +353,6 @@ public class ProofEdit implements Serializable {
             return;
         }
 
-        for (Proof proof : _proofRegulationBaseInformation.getProofs()) {
-            calculateCountHelpeNurseChargeable(proof);
-            calculatePatientPerNurse(proof);
-        }
 
         _proofRegulationBaseInformation.setSend(new Date());
         _proofRegulationBaseInformation.setStatus(WorkflowStatus.Provided);
