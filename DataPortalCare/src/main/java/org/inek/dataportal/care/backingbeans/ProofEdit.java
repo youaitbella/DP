@@ -509,43 +509,37 @@ public class ProofEdit implements Serializable {
     }
 
     public void requestExtension() {
-        Extension extension = new Extension();
         int ik = _proofRegulationBaseInformation.getIk();
         int year = _proofRegulationBaseInformation.getYear();
         int quarter = _proofRegulationBaseInformation.getQuarter();
-        extension.setIk(ik);
-        extension.setYear(year);
-        extension.setQuarter(quarter);
+        Extension extension = new Extension(ik, year, quarter, _sessionController.getAccountId());
+        extension.setAccountId(_sessionController.getAccountId());
         _proofFacade.saveExtension(extension);
-        sendExtension(ik, year, quarter);
+        sendExtensionMail(ik, year, quarter);
     }
 
-    private boolean sendExtension(int ik, int year, int quarter) {
+    private boolean sendExtensionMail(int ik, int year, int quarter) {
         int extensionYear = year + (quarter == 4 ? 1 : 0);
         int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
         LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 29);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        Map<String, String> substitutions = new HashMap<>();
-        substitutions.put("{IK}", "" + ik);
-        substitutions.put("{quarter}", "" + quarter);
-        substitutions.put("{year}", "" + year);
-        substitutions.put("{date}", "" + extensionDate.format(formatter));
-        return _mailer.sendMailWithTemplate("CareProofExtension", substitutions, _sessionController.getAccount());
+
+        MailTemplate template = _mailer.getMailTemplate("CareProofExtension");
+        //MailTemplate template = _mailer.getMailTemplate("Care Proof Senden Bestätigung");
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{IK}", String.valueOf(ik));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{quarter}", String.valueOf(quarter));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{year}", String.valueOf(year));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{date}", extensionDate.format(formatter));
+
+        DialogController.showInfoDialog("Erfolgreich beantragt", "Sie haben erfolgreich eine " +
+                "Fristverlängerung beantragt. Sie erhalten eine Bestätung per E-Mail.");
+        return _mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail());
     }
 
-    public Boolean getRequestExensionAllowed() {
+    public Boolean getRequestExtensionAllowed() {
         int ik = _proofRegulationBaseInformation.getIk();
-        if (ik <= 0) {
-            return false;
-        }
         int year = _proofRegulationBaseInformation.getYear();
-        if (year <= 2010) {
-            return false;
-        }
         int quarter = _proofRegulationBaseInformation.getQuarter();
-        if (quarter <= 0) {
-            return false;
-        }
         int extensionYear = year + (quarter == 4 ? 1 : 0);
         int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
         LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 15);

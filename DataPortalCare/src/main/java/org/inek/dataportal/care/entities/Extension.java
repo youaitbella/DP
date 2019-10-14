@@ -1,101 +1,138 @@
 package org.inek.dataportal.care.entities;
 
 import javax.persistence.*;
+import java.time.*;
 import java.util.Date;
 import java.util.Objects;
 
 @NamedQuery(name = "Extension.findByCoordinates",
-        query = "select e from Extension e where e.ik = :ik and e.year = :year and e.quarter = :quarter")
+        query = "select e from Extension e where e._ik = :ik and e._year = :year and e._quarter = :quarter")
 @Entity
-@Table(name = "Extension", schema = "care")
+@Table(name = "ProofDeadlineForIk", schema = "care")
 public class Extension {
+
+    public Extension() {
+
+    }
+
+    public Extension(int ik, int year, int quarter, int accountId) {
+        this._ik = ik;
+        this._year = year;
+        this._quarter = quarter;
+        this._accountId = accountId;
+        calculateDeadline(year, quarter);
+    }
+
+    private void calculateDeadline(int year, int quarter) {
+        switch (quarter) {
+            case 1:
+                _deadline = createDate(29,Month.APRIL, year);
+                break;
+            case 2:
+                _deadline = createDate(29,Month.JULY, year);
+                break;
+            case 3:
+                _deadline = createDate(29,Month.OCTOBER, year);
+                break;
+            case 4:
+                _deadline = createDate(29,Month.JANUARY, year + 1);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknows quarder: " + quarter);
+        }
+    }
+
+    private Date createDate(int day, Month month, int year) {
+        LocalDateTime datetime = LocalDateTime.of(year, month, day, 23, 59, 59);
+
+        return java.util.Date.from(datetime
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+    }
 
     //<editor-fold desc="Property Id">
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "exId")
-    private Integer id;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Property Ik">
-    @Column(name = "exIk")
-    private int ik;
+    @Column(name = "pdIk")
+    private int _ik;
 
     public int getIk() {
-        return ik;
+        return _ik;
     }
 
     public void setIk(int ik) {
-        this.ik = ik;
+        this._ik = ik;
     }
     //</editor-fold>
 
     //<editor-fold desc="Property Year">
-    @Column(name = "exYear")
-    private int year;
+    @Id
+    @Column(name = "pdYear")
+    private int _year;
 
     public int getYear() {
-        return year;
+        return _year;
     }
 
     public void setYear(int year) {
-        this.year = year;
+        this._year = year;
     }
     //</editor-fold>
 
     //<editor-fold desc="Property Quarter">
-    @Column(name = "exQuarter")
-    private int quarter;
+    @Id
+    @Column(name = "pdQuarter")
+    private int _quarter;
 
     public int getQuarter() {
-        return quarter;
+        return _quarter;
     }
 
     public void setQuarter(int quarter) {
-        this.quarter = quarter;
+        this._quarter = quarter;
     }
     //</editor-fold>
 
     //<editor-fold desc="Property Date">
-    public Date getDate() {
-        return date;
+    @Column(name = "pdDeadline")
+    private Date _deadline = new Date();
+
+    public Date getDeadline() {
+        return _deadline;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDeadline(Date deadline) {
+        this._deadline = deadline;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property Account Id">
+    @Column(name = "pdAccountId")
+    private int _accountId = 0;
+
+    public int getAccountId() {
+        return _accountId;
     }
 
-    @Column(name = "exDate")
-    private Date date = new Date();
+    public void setAccountId(int accountId) {
+        this._accountId = accountId;
+    }
     //</editor-fold>
 
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Extension extension = (Extension) o;
-        return ik == extension.ik &&
-                year == extension.year &&
-                quarter == extension.quarter &&
-                id.equals(extension.id) &&
-                date.equals(extension.date);
+        return _ik == extension._ik &&
+                _year == extension._year &&
+                _quarter == extension._quarter &&
+                _accountId == extension._accountId &&
+                Objects.equals(_deadline, extension._deadline);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ik, year, quarter, date);
+        return Objects.hash(_ik, _year, _quarter, _deadline, _accountId);
     }
 }
