@@ -6,10 +6,12 @@ package org.inek.dataportal.psy.controller;
 
 import java.io.Serializable;
 import javax.enterprise.context.Dependent;
+
 import org.inek.dataportal.common.controller.FeatureFactory;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.psy.khcomparison.Controller.HospitalEvaluationController;
 import org.inek.dataportal.psy.khcomparison.Controller.KhComparisonController;
 import org.inek.dataportal.psy.modelintention.ModelIntentionController;
 import org.inek.dataportal.psy.nub.controller.PsyNubController;
@@ -17,7 +19,6 @@ import org.inek.dataportal.psy.peppproposal.PeppProposalController;
 import org.inek.dataportal.psy.psychstaff.controller.PsychStaffController;
 
 /**
- *
  * @author muellermi
  */
 @Dependent
@@ -37,6 +38,8 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable {
                 return new KhComparisonController(sessionController);
             case NUB_PSY:
                 return new PsyNubController(sessionController);
+            case HOSPITAL_EVALUATION:
+                return new HospitalEvaluationController(sessionController);
             default:
                 throw new IllegalArgumentException("no such controller");
         }
