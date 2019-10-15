@@ -20,6 +20,7 @@ import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.common.data.icmt.enums.State;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.primefaces.model.DefaultStreamedContent;
@@ -29,6 +30,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -58,6 +60,8 @@ public class Evaluation {
 
     private int _selectedIk = 0;
     private int _selectedAgreementYear = 0;
+
+    private String _hospitalComparisonId = "";
 
     private List<HospitalComparisonInfo> _listEvaluations = new ArrayList<>();
     private List<Integer> _validYears = new ArrayList<>();
@@ -93,6 +97,14 @@ public class Evaluation {
 
     public void setValidYears(List<Integer> validYears) {
         this._validYears = validYears;
+    }
+
+    public String getHospitalComparisonId() {
+        return _hospitalComparisonId;
+    }
+
+    public void setHospitalComparisonId(String hospitalComparisonId) {
+        this._hospitalComparisonId = hospitalComparisonId;
     }
 
     @PostConstruct
@@ -336,5 +348,48 @@ public class Evaluation {
 
     public boolean evaluationIsReadyForDownload(HospitalComparisonInfo evaluation) {
         return evaluation.getHospitalComparisonJob().getStatus().equals(PsyHosptalComparisonStatus.DONE);
+    }
+
+    public String downloadWithId() {
+        Optional<HospitalComparisonInfo> hospitalComparisonInfo = _aebFacade.getHospitalComparisonInfoByHcId(_hospitalComparisonId);
+        if (!hospitalComparisonInfo.isPresent()) {
+            DialogController.showErrorDialog("Keine Auswertung gefunden", "Zu der angegeben ID wurde keine Auswertung gefunden.");
+            return "";
+        }
+        HospitalComparisonInfo info = hospitalComparisonInfo.get();
+        if (info.getHospitalComparisonJob().getStatus() != PsyHosptalComparisonStatus.DONE) {
+            DialogController.showInfoDialog("Auswertung in Arbeit", "Die angeforderte Auswertung befindet sich noch in " +
+                    "der erstellung. Bitte versuchen Sie es später nocheinmal.");
+            return "";
+        }
+        if (userIsAllowedForDownloadIEvaluation(info)) {
+            try {
+                String jobFolder = info.getHospitalComparisonJob().getEvaluationFilePath(_config.readConfig(ConfigKey.KhComparisonJobSavePath));
+                byte[] bytes = Files.readAllBytes(Paths.get(jobFolder));
+                InputStream is = new ByteArrayInputStream(bytes);
+                Utils.downLoadDocument(is, info.getHospitalComparisonJob().getEvaluationFileName(), 0);
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, ex.getMessage());
+                DialogController.showErrorDialog("Download fehlgeschlagen", "Die Datei konnte nicht heruntergeladen werden. " +
+                        "Bitte versuchen Sie es später erneut.");
+            }
+        } else {
+            DialogController.showAccessDeniedDialog();
+        }
+        return "";
+    }
+
+    private boolean userIsAllowedForDownloadIEvaluation(HospitalComparisonInfo info) {
+        Set<Integer> iks = _accessManager.retrieveAllowedManagedIks(Feature.HC_HOSPITAL);
+        if (iks.contains(info.getHospitalIk())) {
+            return true;
+        } else return userIsLka(info.getHospitalStateId());
+    }
+
+    private boolean userIsLka(int stateId) {
+        String email = _sessionController.getAccount().getEmail();
+        int i = email.indexOf('@');
+        String emailDomain = email.substring(i);
+        return _aebFacade.emailIsLkaForStateId(emailDomain, stateId);
     }
 }

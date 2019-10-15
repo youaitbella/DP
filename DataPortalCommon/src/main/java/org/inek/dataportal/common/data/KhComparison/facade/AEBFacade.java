@@ -270,6 +270,17 @@ public class AEBFacade extends AbstractDataAccess {
         query.executeUpdate();
     }
 
+    public Optional<HospitalComparisonInfo> getHospitalComparisonInfoByHcId(String hcId) {
+        String jpql = "select hc from HospitalComparisonInfo hc where hc._hospitalComparisonId = :hcId";
+        TypedQuery<HospitalComparisonInfo> query = getEntityManager().createQuery(jpql, HospitalComparisonInfo.class);
+        query.setParameter("hcId", hcId);
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
+    }
+
     public List<HospitalComparisonInfo> getHosptalComparisonInfoByAccount(Account acc) {
         String jpql = "select hc from HospitalComparisonInfo hc where hc._accountId = :id";
         TypedQuery<HospitalComparisonInfo> query = getEntityManager().createQuery(jpql, HospitalComparisonInfo.class);
@@ -400,5 +411,15 @@ public class AEBFacade extends AbstractDataAccess {
         TypedQuery<HospitalComparisonInfo> query = getEntityManager().createQuery(jpql, HospitalComparisonInfo.class);
         query.setParameter("ik", iks);
         return query.getResultList();
+    }
+
+    public boolean emailIsLkaForStateId(String emailDomain, int stateId) {
+        String sql = "select *\n" +
+                "from psy.lkaStateDomainMap\n" +
+                "where lstStateId = " + stateId + "\n" +
+                "and lstEmailDomain = '" + emailDomain + "'";
+
+        List resultList = getEntityManager().createNativeQuery(sql).getResultList();
+        return !resultList.isEmpty();
     }
 }

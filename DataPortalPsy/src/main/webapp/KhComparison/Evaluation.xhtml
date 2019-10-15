@@ -12,10 +12,29 @@
 
     <ui:define name="content">
         <h1>Krankenhausvergleich Auswertung</h1>
+
         <pf:panel style="background-color: #eeeeee;">
-
             <h:form>
+                <pf:outputLabel style="margin-right: 10px"
+                                styleClass="label"
+                                for="hcId"
+                                value="Krankenhausvergleichs ID:"/>
 
+                <pf:inputText id="hcId"
+                              value="#{evaluation.hospitalComparisonId}">
+                    <pf:ajax/>
+                </pf:inputText>
+
+                <h:commandLink action="#{evaluation.downloadWithId()}"
+                               immediate="true"
+                               style="color: #ffffff !important; margin-left: 15px;"
+                               styleClass="bigButton"
+                               value="Auswertung herunterladen"/>
+            </h:form>
+        </pf:panel>
+
+        <pf:panel style="background-color: #eeeeee;">
+            <h:form>
                 <inek:MultiIkYear labelIk="#{msg.lblIkShort}"
                                   required="true"
                                   valueIk="#{evaluation.selectedIk}"
