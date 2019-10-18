@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.common.helper.MathHelper;
 
 import java.io.Serializable;
@@ -46,12 +47,13 @@ public class AEBPageE1_1 extends AEBPage implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="BaseInformation">
     @ManyToOne
     @JoinColumn(name = "peBaseInformationId")
+    @JsonIgnore
     private AEBBaseInformation _baseInformation;
-
+    @JsonIgnore
     public AEBBaseInformation getBaseInformation() {
         return _baseInformation;
     }
-
+    @JsonIgnore
     public void setBaseInformation(AEBBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
     }
