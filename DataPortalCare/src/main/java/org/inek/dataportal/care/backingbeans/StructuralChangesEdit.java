@@ -64,7 +64,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void createNew() {
-
+        /*
         StructuralChangesBaseInformation scbi = new StructuralChangesBaseInformation();
         scbi.setAgendId(99);
         scbi.setIk(999999999);
@@ -91,8 +91,31 @@ public class StructuralChangesEdit implements Serializable {
         scw.setWardsToChange(wtc);
 
         scbi.addStructuralChangesWards(scw);
+        */
 
-        _structuralChangesFacade.save(scbi);
+        StructuralChangesBaseInformation baseEntity = new StructuralChangesBaseInformation();
+        baseEntity.setAgendId(99);
+        baseEntity.setIk(999999999);
+        baseEntity.setProcessedAt(Date.from(Instant.now()));
+        baseEntity.setRequestedAt(Date.from(Instant.now()));
+        baseEntity.setStatusId(2);
+        baseEntity.setType(Type.Loeschen);
+        baseEntity.setRequestedAccountId(3577);
+
+        WardsToChange wtc = new WardsToChange();
+        wtc.setDeptId(1);
+        wtc.setDeptName("TestAbteilung");
+        wtc.setFab("AAAA");
+        wtc.setLocationP21(83272);
+        wtc.setLocationVz(83271);
+        wtc.setValidFrom(Date.from(Instant.now()));
+        wtc.setValidTo(Date.from(Instant.now()));
+        wtc.setWardName("TestWard");
+        wtc.setStructuralChangesBaseInformation(baseEntity);
+
+        baseEntity.setWardsToChange(wtc);
+
+        _structuralChangesFacade.save(baseEntity);
 
 
     }

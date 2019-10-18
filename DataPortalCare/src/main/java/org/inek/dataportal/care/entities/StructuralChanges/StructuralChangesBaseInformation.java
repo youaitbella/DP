@@ -130,8 +130,8 @@ public class StructuralChangesBaseInformation implements Serializable {
     //</editor-fold>
 
 
-    /*@OneToOne()
-    @JoinColumn(name = "scWardsToChangeId")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "scWardsToChangeId", referencedColumnName  = "wtcId")
     private WardsToChange _wardsToChange;
 
     public WardsToChange getWardsToChange() {
@@ -140,7 +140,8 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     public void setWardsToChange(WardsToChange wardsToChange) {
         this._wardsToChange = wardsToChange;
-    }*/
+    }
+
 
     @OneToMany(mappedBy = "_structuralChangesBaseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "scwStructuralChangesId")

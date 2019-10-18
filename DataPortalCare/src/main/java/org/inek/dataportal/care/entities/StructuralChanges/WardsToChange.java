@@ -133,9 +133,8 @@ public class WardsToChange implements Serializable {
     }
     //</editor-fold>
 
-    /*
-    //<editor-fold defaultstate="collapsed" desc="Property StructuralChangesBaseInformation">
-    @OneToOne(mappedBy = "_wardsToChange", cascade = CascadeType.ALL)
+    //<editor-fold defaultstate="collapsed" desc="Property StructuralChangesWards">
+    @OneToOne(mappedBy = "_wardsToChange")
     private StructuralChangesBaseInformation _structuralChangesBaseInformation;
 
     public StructuralChangesBaseInformation getStructuralChangesBaseInformation() {
@@ -146,7 +145,6 @@ public class WardsToChange implements Serializable {
         this._structuralChangesBaseInformation = structuralChangesBaseInformation;
     }
     //</editor-fold>
-*/
 
 
     //<editor-fold defaultstate="collapsed" desc="Property StructuralChangesWards">
