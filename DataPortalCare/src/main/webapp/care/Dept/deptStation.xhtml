@@ -14,21 +14,21 @@
                widgetVar="dlgFabSelection"
                modal="true"
                width="800px">
-        <h:outputText value="Für welche Fachabteilung wollen Sie eine Änderung eintragen?" />
+        <h:outputText value="Für welche Fachabteilung wollen Sie eine Änderung eintragen?"/>
 
-        <br />
+        <br/>
 
         <pf:repeat value="#{deptEdit.deptBaseInformation.depts}" var="dept">
 
             <div class="ui-g">
                 <div class="ui-g-10">
-                    <pf:outputLabel rendered="#{dept.deptArea ne 3}" value="#{dept.deptNumber} - #{dept.deptName}" />
-                    <pf:outputLabel rendered="#{dept.deptArea eq 3}" value="#{dept.sensitiveArea}" />
+                    <pf:outputLabel rendered="#{dept.deptArea ne 3}" value="#{dept.deptNumber} - #{dept.deptName}"/>
+                    <pf:outputLabel rendered="#{dept.deptArea eq 3}" value="#{dept.sensitiveArea}"/>
                 </div>
                 <div class="ui-g-2">
                     <pf:commandButton value="Auswählen"
                                       action="#{deptEdit.addNewDeptAfterTargetYear(dept)}"
-                                      update="@form" />
+                                      update="@form"/>
                 </div>
             </div>
 
@@ -46,36 +46,37 @@
                                    readonly="#{deptEdit.isReadOnly}"
                                    listener="#{deptEdit.ikChanged()}"
                                    isFixed="#{deptEdit.deptBaseInformation.id gt 0}"
-                                   updateElement="form" />
+                                   updateElement="form"/>
 
             </div>
 
             <div class="ui-g-12">
                 <h1>Umsetzung der Verordnung zur Festlegung von Pflegepersonaluntergrenzen in pflegesensitiven Bereichen in Krankenhäusern (PpUGV)</h1>
                 <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
-                    <br />
+                    <br/>
                     Die nach § 5 PpUGV geforderten Angaben Ihres Krankenhauses können Sie in diesem Bereich des InEK-Datenportals eintragen und an das InEK übermitteln. Zur Vereinfachung der Dateneingabe haben wir Ihnen die Eingabefelder bereits mit den in unserem Schreiben übermittelten, identifizierten pflegesensitiven Bereiche Ihres Krankenhauses vor befüllt. Lediglich die Informationen nach § 5 Abs. 3 PpUGV, die aus den §-21-Datensätzen nicht abgeleitet werden können, sind von Ihnen zu ergänzen. Sie können Ihre Eingaben jederzeit speichern ohne diese direkt an das InEK zu übermitteln. Über die Speicherung der Daten erhalten Sie eine Informationsmail. So können Sie schrittweise arbeiten und erst nach Beendigung der Eingabe die Daten an das InEK übermitteln (Button „Meldung abschließend ans InEK senden“). Nach erfolgreicher Übermittlung erhalten Sie eine Bestätigungsmail über den erfolgreichen Dateneingang im InEK.
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     Nach erfolgreicher Übermittlung an das InEK können Sie die übermittelten Daten in eine Excel-Tabelle exportieren und an die örtlichen Vertragsparteien nach § 11 KHEntgG weiterleiten (§ 5 Abs. 3 PpUGV). Eine erneute Erfassung der Daten zur Weiterleitung an die örtlichen Vertragsparteien ist also nicht erforderlich.
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     Bitte geben Sie die Namen der Fachabteilungen und Stationen möglichst nachvollziehbar ein. Verwenden Sie neben ggf. intern verwendeten Kurzbezeichnung („Station G1“) auch Klartexte zur besseren Nachvollziehbarkeit („Station G1 – Innere Medizin, Schwerpunkt Geriatrie“).
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     Bitte geben Sie in der Spalte „Fachabteilung“ den in Ihrem Krankenhaus verwendeten Namen der Fachabteilung an. Nach § 5 Abs. 3 PpUGV sind Angaben für sämtliche zu diesen Fachabteilungen gehörenden Stationen einzutragen. Wenn Ihr Krankenhaus über mehrere Standorte verfügt, sind die Angaben Standortbezogen vorzunehmen. Zu jedem Eintrag ist zunächst nur eine Datenzeile auf Stationsebene eingeblendet. Mit dem +-Button können Sie die Anzahl der einzugebenden Zeilen bedarfsweise erhöhen.
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     Bei einem Fehleintrag können Sie die Zeile mit dem „Papierkorb“-Button wieder löschen.
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     Bei Fragen konsultieren Sie bitte den Text der Rechtsverordnung sowie die auf unserer Internetseite bereitgestellte
-                    <a href="https://www.g-drg.de/Pflegepersonaluntergrenzen/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ" target="_blank">FAQ-Liste</a>. Bei darüber hinaus gehenden Fragestellungen können Sie sich gerne an das InEK wenden (per E-Mail:
+                    <a href="https://www.g-drg.de/Pflegepersonaluntergrenzen/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ"
+                       target="_blank">FAQ-Liste</a>. Bei darüber hinaus gehenden Fragestellungen können Sie sich gerne an das InEK wenden (per E-Mail:
                     <a href="mailto:PPUGV-Umsetzung@inek-drg.de">PPUGV-Umsetzung@inek-drg.de</a> bzw. per Telefon: (02241) 93 82 500).
                 </div>
 
                 <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
-                    <br />
+                    <br/>
                     <b>Ausfüllhinweise:</b>
                     <p>Alle Angaben beziehen sich auf die Situation in Ihrem Krankenhaus im Datenjahr 2017. Bei Änderungen im Sinne des § 5 Abs. 4 PpUGV (ersatzloser Wegfall, Umbenennung, strukturelle Veränderungen) geben Sie diese bitte im entsprechenden Bereich am unteren Ende des Datenportals an.</p>
                     <p>Wenn in Ihrem Krankenhaus die Fachabteilung einen Namen verwendet, der von der Namensgebung im Schlüsselverzeichnis zur Datenübermittlung nach § 301 SGB V abweicht, tragen Sie diesen Namen bitte in der Spalte "Fachabteilungsnamen" ein.</p>
@@ -97,26 +98,36 @@
                                   var="station">
                         <pf:column class="colIcon" style="width: 20px;" rendered="#{!deptEdit.isReadOnly}">
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
-                                                 updateElement="form" />
+                                                 updateElement="form"/>
                         </pf:column>
                         <pf:column headerText="Fachabteilungsname">
                             <inekInput:InputText value="#{station.deptName}"
                                                  require="true"
                                                  Style="width: 100%;"
                                                  requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"
-                                                 readonly="#{deptEdit.isReadOnly}" />
+                                                 readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                         <pf:column headerText="Stationsbezeichnung">
                             <inekInput:InputText value="#{station.stationName}"
                                                  require="true"
                                                  Style="width: 100%;"
                                                  requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
-                                                 readonly="#{deptEdit.isReadOnly}" />
+                                                 readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column headerText="Standort" style="width: 100px;">
-                            <inekInput:InputText value="#{station.locationCode}"
-                                                 Style="width: 100%;"
-                                                 readonly="#{deptEdit.isReadOnly}" />
+                        <pf:column headerText="Standort P21" style="width: 100px;">
+                            <inekInput:InputNumber value="#{station.locationCodeP21}"
+                                                   Style="width: 100%;"
+                                                   readonly="#{deptEdit.isReadOnly}"/>
+                        </pf:column>
+                        <pf:column headerText="Standortnummer VZ" style="width: 100px;">
+                            <inekInput:InputNumber value="#{station.locationCodeVz}"
+                                                   Style="width: 100%;"
+                                                   readonly="#{deptEdit.isReadOnly}"/>
+                        </pf:column>
+                        <pf:column headerText="Betten" style="width: 100px;">
+                            <inekInput:InputNumber value="#{station.bedCount}"
+                                                   Style="width: 100%;"
+                                                   readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                     </pf:dataTable>
 
@@ -127,13 +138,13 @@
                                       rendered="#{!deptEdit.isReadOnly}"
                                       style="margin-top: 10px;"
                                       icon="fa fa-plus"
-                                      update="depTable" />
+                                      update="depTable"/>
 
                 </pf:repeat>
 
             </div>
 
-            <br />
+            <br/>
 
             <div style="margin-top: 20px;" class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(2).size() gt 0}">
 
@@ -150,14 +161,14 @@
                                   var="station">
                         <pf:column style="width: 20px;" rendered="#{!deptEdit.isReadOnly}">
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
-                                                 updateElement="form" />
+                                                 updateElement="form"/>
                         </pf:column>
                         <pf:column headerText="Fachabteilungsname">
                             <inekInput:InputText value="#{station.deptName}"
                                                  require="true"
                                                  Style="width: 100%;"
                                                  requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"
-                                                 readonly="#{deptEdit.isReadOnly}" />
+                                                 readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                         <pf:column headerText="Stationsbezeichnung">
                             <inekInput:InputText value="#{station.stationName}"
@@ -165,12 +176,22 @@
                                                  require="true"
                                                  requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
                                                  readonly="#{deptEdit.isReadOnly}"
-                                                 updateComponents="form" />
+                                                 updateComponents="form"/>
                         </pf:column>
-                        <pf:column headerText="Standort" style="width: 100px;">
-                            <inekInput:InputText value="#{station.locationCode}"
-                                                 Style="width: 100%;"
-                                                 readonly="#{deptEdit.isReadOnly}" />
+                        <pf:column headerText="Standort P21" style="width: 100px;">
+                            <inekInput:InputNumber value="#{station.locationCodeP21}"
+                                                   Style="width: 100%;"
+                                                   readonly="#{deptEdit.isReadOnly}"/>
+                        </pf:column>
+                        <pf:column headerText="Standortnummer VZ" style="width: 100px;">
+                            <inekInput:InputNumber value="#{station.locationCodeVz}"
+                                                   Style="width: 100%;"
+                                                   readonly="#{deptEdit.isReadOnly}"/>
+                        </pf:column>
+                        <pf:column headerText="Betten" style="width: 100px;">
+                            <inekInput:InputNumber value="#{station.bedCount}"
+                                                   Style="width: 100%;"
+                                                   readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                     </pf:dataTable>
 
@@ -181,12 +202,12 @@
                                       rendered="#{!deptEdit.isReadOnly}"
                                       style="margin-top: 10px;"
                                       icon="fa fa-plus"
-                                      update="depTable" />
+                                      update="depTable"/>
                 </pf:repeat>
 
             </div>
 
-            <br />
+            <br/>
 
             <div style="margin-top: 20px;" class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(3).size() gt 0}">
 
@@ -207,20 +228,20 @@
                                   var="station">
                         <pf:column class="colIcon" style="width: 20px;" rendered="#{!deptEdit.isReadOnly}">
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
-                                                 updateElement="form" />
+                                                 updateElement="form"/>
                         </pf:column>
                         <pf:column headerText="Fachabteilungsnr." style="width: 120px;">
-                            <inekInput:InputText value="#{station.deptNumber}"
+                            <inekInput:InputText value="#{station.fab}"
                                                  Style="width: 100%;"
                                                  maxlength="4"
-                                                 readonly="#{deptEdit.isReadOnly}" />
+                                                 readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                         <pf:column headerText="Fachabteilungsname">
                             <inekInput:InputText value="#{station.deptName}"
                                                  require="true"
                                                  Style="width: 100%;"
                                                  requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"
-                                                 readonly="#{deptEdit.isReadOnly}" />
+                                                 readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                         <pf:column headerText="Stationsbezeichnung">
                             <inekInput:InputText value="#{station.stationName}"
@@ -228,12 +249,22 @@
                                                  require="true"
                                                  requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
                                                  readonly="#{deptEdit.isReadOnly}"
-                                                 updateComponents="form" />
+                                                 updateComponents="form"/>
                         </pf:column>
-                        <pf:column headerText="Standort" style="width: 100px;">
-                            <inekInput:InputText value="#{station.locationCode}"
-                                                 Style="width: 100%;"
-                                                 readonly="#{deptEdit.isReadOnly}" />
+                        <pf:column headerText="Standort P21" style="width: 100px;">
+                            <inekInput:InputNumber value="#{station.locationCodeP21}"
+                                                   Style="width: 100%;"
+                                                   readonly="#{deptEdit.isReadOnly}"/>
+                        </pf:column>
+                        <pf:column headerText="Standortnummer VZ" style="width: 100px;">
+                            <inekInput:InputNumber value="#{station.locationCodeVz}"
+                                                   Style="width: 100%;"
+                                                   readonly="#{deptEdit.isReadOnly}"/>
+                        </pf:column>
+                        <pf:column headerText="Betten" style="width: 100px;">
+                            <inekInput:InputNumber value="#{station.bedCount}"
+                                                   Style="width: 100%;"
+                                                   readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                     </pf:dataTable>
 
@@ -244,111 +275,8 @@
                                       rendered="#{!deptEdit.isReadOnly}"
                                       style="margin-top: 10px;"
                                       icon="fa fa-plus"
-                                      update="depTable" />
+                                      update="depTable"/>
                 </pf:repeat>
-            </div>
-
-            <br />
-
-            <div style="margin-top: 20px;" class="ui-g-12" jsf:rendered="#{deptEdit.deptBaseInformation.ik > 0}">
-
-                <h1>Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)</h1>
-
-                <pf:dataTable id="depTableAfterTargetYear"
-                              value="#{deptEdit.stationsAfterTargetYear}"
-                              emptyMessage="Noch keine Einträge vorhanden"
-                              var="deptAfterTargetYear">
-
-                    <pf:columnGroup type="header">
-                        <pf:row>
-                            <pf:column style="width: 20px;" headerText="" />
-                            <pf:column colspan="4" headerText="2017" style="border-right-width:5px;" />
-                            <pf:column colspan="6" headerText="Nach 2017" />
-                        </pf:row>
-                        <pf:row>
-                            <pf:column style="width: 20px;" headerText="" />
-                            <pf:column headerText="Fachabteilung" />
-                            <pf:column headerText="Fachabteilung gem. KH" />
-                            <pf:column headerText="Station" />
-                            <pf:column headerText="Standort" style="border-right-width:5px;" />
-                            <pf:column headerText="PS Bereich" />
-                            <pf:column headerText="FAB - Nummer" />
-                            <pf:column headerText="FAB Name" />
-                            <pf:column headerText="Station" />
-                            <pf:column headerText="Standort" />
-                            <pf:column headerText="Anmerkung" />
-                        </pf:row>
-
-                    </pf:columnGroup>
-                    <pf:column class="colIcon" style="width: 20px;">
-                        <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteDeptAfterTargetYear(deptAfterTargetYear)}"
-                                             show="#{!deptEdit.isReadOnly}"
-                                             updateElement="form" />
-                    </pf:column>
-                    <pf:column headerText="Fachabteilung">
-                        <pf:outputLabel
-                                value="#{deptAfterTargetYear.dept.deptNumber} - #{deptAfterTargetYear.dept.deptName}" />
-                    </pf:column>
-                    <pf:column headerText="Fachabteilung gem. KH">
-                        <inekInput:InputText value="#{deptAfterTargetYear.deptNameHospital}"
-                                             require="true"
-                                             Style="width: 100%;"
-                                             requiredMessage="Bitte geben Sie den Fachabteilungsnamen an"
-                                             readonly="#{deptEdit.isReadOnly}" />
-                    </pf:column>
-                    <pf:column headerText="Station">
-                        <inekInput:InputText value="#{deptAfterTargetYear.stationNameTargetYear}"
-                                             require="true"
-                                             Style="width: 100%;"
-                                             requiredMessage="Bitte geben Sie die Station an"
-                                             readonly="#{deptEdit.isReadOnly}" />
-                    </pf:column>
-                    <pf:column headerText="Standort" style="border-right-width:5px;">
-                        <inekInput:InputText value="#{deptAfterTargetYear.locationCodeTargetYear}"
-                                             Style="width: 100%;"
-                                             readonly="#{deptEdit.isReadOnly}" />
-                    </pf:column>
-                    <pf:column headerText="PS Bereich">
-                        <inekInput:InputText value="#{deptAfterTargetYear.sensitiveArea}"
-                                             Style="width: 100%;"
-                                             readonly="#{deptEdit.isReadOnly}" />
-                    </pf:column>
-                    <pf:column headerText="FAB - Nummer">
-                        <inekInput:InputText value="#{deptAfterTargetYear.deptNumber}"
-                                             maxlength="4"
-                                             Style="width: 100%;"
-                                             readonly="#{deptEdit.isReadOnly}" />
-                    </pf:column>
-                    <pf:column headerText="FAB Name">
-                        <inekInput:InputText value="#{deptAfterTargetYear.deptName}"
-                                             Style="width: 100%;"
-                                             readonly="#{deptEdit.isReadOnly}" />
-                    </pf:column>
-                    <pf:column headerText="Station">
-                        <inekInput:InputText value="#{deptAfterTargetYear.stationName}"
-                                             Style="width: 100%;"
-                                             readonly="#{deptEdit.isReadOnly}" />
-                    </pf:column>
-                    <pf:column headerText="Standort">
-                        <inekInput:InputText value="#{deptAfterTargetYear.locationCode}"
-                                             Style="width: 100%;"
-                                             readonly="#{deptEdit.isReadOnly}" />
-                    </pf:column>
-                    <pf:column headerText="Anmerkung">
-                        <pf:inputTextarea value="#{deptAfterTargetYear.comment}"
-                                          rows="1"
-                                          style="width: 100%;"
-                                          readonly="#{deptEdit.isReadOnly}" />
-                    </pf:column>
-                </pf:dataTable>
-
-                <pf:commandButton value="Neuen Eintrag"
-                                  onclick="PF('dlgFabSelection').show();"
-                                  immediate="false"
-                                  rendered="#{!deptEdit.isReadOnly}"
-                                  style="margin-top: 10px;"
-                                  icon="fa fa-plus"
-                                  update="depTableAfterTargetYear" />
             </div>
         </div>
     </div>

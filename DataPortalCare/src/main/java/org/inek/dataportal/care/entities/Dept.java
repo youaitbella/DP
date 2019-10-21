@@ -3,6 +3,7 @@ package org.inek.dataportal.care.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,7 +18,6 @@ public class Dept implements Serializable {
 
     public Dept() {
     }
-
 
     public Dept(Dept dept) {
         this._deptArea = dept.getDeptArea();
@@ -38,7 +38,6 @@ public class Dept implements Serializable {
             addDeptAfterTargetYear(newStation);
         }
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -135,7 +134,7 @@ public class Dept implements Serializable {
     //</editor-fold>
 
     @OneToMany(mappedBy = "_dept", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "desDeptId")
+    @JoinColumn(name = "dpDeptId")
     private List<DeptStation> _deptStations = new ArrayList<>();
 
     public List<DeptStation> getDeptStations() {
@@ -146,10 +145,13 @@ public class Dept implements Serializable {
         this._deptStations = deptStations;
     }
 
-    public void addNewDeptStation() {
+    public void addNewDeptStation(Date validFrom, Date validTo) {
         DeptStation deptStation = new DeptStation();
         deptStation.setDept(this);
         deptStation.setDeptName(_deptName);
+        deptStation.setFab(_deptNumber);
+        deptStation.setValidFrom(validFrom);
+        deptStation.setValidTo(validTo);
         _deptStations.add(deptStation);
     }
 

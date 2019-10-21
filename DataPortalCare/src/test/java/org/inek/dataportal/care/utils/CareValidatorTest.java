@@ -10,6 +10,8 @@ import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
+
 /**
  *
  * @author lautenti
@@ -30,7 +32,7 @@ public class CareValidatorTest {
         dept2.setRequired(true);
         dept3.setRequired(true);
 
-        dept1.addNewDeptStation();
+        dept1.addNewDeptStation(new Date(), new Date());
 
         info.addDept(dept1);
         info.addDept(dept2);
@@ -86,7 +88,7 @@ public class CareValidatorTest {
         dept2.setRequired(false);
         dept3.setRequired(false);
 
-        dept1.addNewDeptStation();
+        dept1.addNewDeptStation(new Date(), new Date());
 
         info.addDept(dept1);
         info.addDept(dept2);

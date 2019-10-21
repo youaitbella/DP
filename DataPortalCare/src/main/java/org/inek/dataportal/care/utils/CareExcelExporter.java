@@ -161,11 +161,11 @@ public class CareExcelExporter {
                 row.createCell(startCol).setCellValue(getAreaText(dept.getDeptArea()));
                 row.createCell(startCol + 1).setCellValue(dept.getDeptNumber());
                 row.createCell(startCol + 2).setCellValue(dept.getDeptName());
-                row.createCell(startCol + 3).setCellValue(deptStation.getDeptNumber());
+                row.createCell(startCol + 3).setCellValue(deptStation.getFab());
                 row.createCell(startCol + 4).setCellValue(deptStation.getDeptName());
                 row.createCell(startCol + 5).setCellValue(dept.getSensitiveArea());
                 row.createCell(startCol + 6).setCellValue(deptStation.getStationName());
-                row.createCell(startCol + 7).setCellValue(deptStation.getLocationCode());
+                row.createCell(startCol + 7).setCellValue(deptStation.getLocationCodeP21());
 
                 for (int i = 0; i < 8; i++) {
                     row.getCell(i).setCellStyle(styleBorderd);

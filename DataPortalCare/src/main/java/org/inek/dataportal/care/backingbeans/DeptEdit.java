@@ -36,6 +36,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,15 +71,6 @@ public class DeptEdit implements Serializable {
     private DeptBaseInformation _oldDeptbaseInformation;
     private Boolean _isReadOnly;
     private Set<Integer> _validIks;
-    private List<DeptStationsAfterTargetYear> _stationsAfterTargetYear = new ArrayList<>();
-
-    public List<DeptStationsAfterTargetYear> getStationsAfterTargetYear() {
-        return _stationsAfterTargetYear;
-    }
-
-    public void setStationsAfterTargetYear(List<DeptStationsAfterTargetYear> stationsAfterTargetYear) {
-        this._stationsAfterTargetYear = stationsAfterTargetYear;
-    }
 
     public Set<Integer> getValidIks() {
         return _validIks;
@@ -122,7 +117,6 @@ public class DeptEdit implements Serializable {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
-            loadStationsAfterTargetYear(_deptBaseInformation);
         }
         setReadOnly();
     }
@@ -150,7 +144,7 @@ public class DeptEdit implements Serializable {
 
         info.setStatus(WorkflowStatus.New);
         info.setCreated(new Date());
-        info.setYear(2017);
+        info.setYear(2018);
 
         return info;
     }
@@ -202,14 +196,23 @@ public class DeptEdit implements Serializable {
     }
 
     public void addNewStation(Dept dept) {
-        dept.addNewDeptStation();
+
+        dept.addNewDeptStation(createNewValidFromDate(), createNewValidToDate());
     }
 
-    public void addNewDeptAfterTargetYear(Dept dept) {
-        DeptStationsAfterTargetYear station = new DeptStationsAfterTargetYear();
-        station.setDept(dept);
-        dept.addDeptAfterTargetYear(station);
-        _stationsAfterTargetYear.add(station);
+    private Date createNewValidFromDate() {
+        return createDate(1, Month.JANUARY, _deptBaseInformation.getYear(), 0, 0, 1);
+    }
+
+    private Date createNewValidToDate() {
+        return createDate(31, Month.DECEMBER, 2069, 23, 59, 58);
+    }
+
+    private Date createDate(int day, Month month, int year, int hour, int minute, int second) {
+        LocalDateTime datetime = LocalDateTime.of(year, month, day, hour, minute, second);
+        return java.util.Date.from(datetime
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
     }
 
     private void preloadDataForIk(DeptBaseInformation info) {
@@ -227,11 +230,6 @@ public class DeptEdit implements Serializable {
 
     public void deleteStationFromDept(Dept dept, DeptStation station) {
         dept.removeDeptStation(station);
-    }
-
-    public void deleteDeptAfterTargetYear(DeptStationsAfterTargetYear dept) {
-        dept.getDept().removeDeptAfterTargetYear(dept);
-        _stationsAfterTargetYear.remove(dept);
     }
 
     public StreamedContent exportAsExcel() {
@@ -293,13 +291,6 @@ public class DeptEdit implements Serializable {
         DeptBaseInformation baseInfo = new DeptBaseInformation(deptBaseInformation);
         baseInfo.setStatus(WorkflowStatus.Retired);
         return baseInfo;
-    }
-
-    private void loadStationsAfterTargetYear(DeptBaseInformation info) {
-        _stationsAfterTargetYear.clear();
-        for (Dept dept : info.getDepts()) {
-            _stationsAfterTargetYear.addAll(dept.getDeptsAftertargetYear());
-        }
     }
 
 }
