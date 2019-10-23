@@ -17,7 +17,7 @@
             }
         </style>
 
-        <script type="text/javascript">
+        <script structuralChangesType="text/javascript">
             function start() {
                 PF('dialogProcess').show();
             }
@@ -53,15 +53,15 @@
                                   icon="fa fa-arrow-left"
                                   action="#{sessionController.navigate(sessionTools.pages.CareDeptSummary)}"
                                   onclick="PF('navigationDialog').show();"
-                                  immediate="true" />
+                                  immediate="true"/>
 
                 <pf:button target="blank"
                            value="Hilfe?"
                            icon="fa fa-info"
-                           href="https://www.g-drg.de/Pflegepersonaluntergrenzen/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ" />
+                           href="https://www.g-drg.de/Pflegepersonaluntergrenzen/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ"/>
             </div>
 
-            <ui:include src="deptStation.xhtml" />
+            <ui:include src="deptStation.xhtml"/>
 
             <div class="ui-g">
                 <div class="card">
@@ -71,7 +71,7 @@
                                           action="#{deptEdit.change()}"
                                           rendered="#{deptEdit.changeAllowed()}"
                                           style="margin-left: 10px;"
-                                          update="@(.ui-message) @form" />
+                                          update="@(.ui-message) @form"/>
 
                         <pf:commandButton value="Meldung exportieren (Excel)"
                                           ajax="false"
@@ -79,14 +79,14 @@
                                           style="margin-left: 10px;"
                                           onclick="PrimeFaces.monitorDownload(start, stop);"
                                           icon="ui-icon-arrowthick-1-s">
-                            <pf:fileDownload value="#{deptEdit.exportAsExcel()}" />
+                            <pf:fileDownload value="#{deptEdit.exportAsExcel()}"/>
                         </pf:commandButton>
 
                         <pf:commandButton value="Speichern ohne Senden"
                                           action="#{deptEdit.save()}"
                                           rendered="#{!deptEdit.isReadOnly}"
                                           style="margin-left: 10px;"
-                                          update="@(.ui-message) @form" />
+                                          update="@(.ui-message) @form"/>
 
                         <pf:commandButton value="Meldung abschließend ans InEK senden"
                                           action="#{deptEdit.send()}"
@@ -95,13 +95,12 @@
                                           style="margin-left: 10px;"
                                           icon="fa fa-arrow-right"
                                           iconPos="right"
-                                          update="@(.ui-message) @form" />
+                                          update="@(.ui-message) @form"/>
 
                     </div>
                 </div>
             </div>
         </h:form>
-
     </ui:define>
 
 </ui:composition>

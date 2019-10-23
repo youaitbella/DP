@@ -17,6 +17,7 @@ public class CareController extends AbstractFeatureController {
     protected void addTopics(Topics topics) {
         topics.addTopic("Mitteilung gem. § 5 PpUGV", Pages.CareDeptSummary.URL());
         topics.addTopic("Nachweisvereinbarung", Pages.CareProofSummary.URL());
+        //topics.addTopic("Strukturelle Veränderungen", Pages.CareStructuralChangesSummary.URL());
     }
 
     @Override

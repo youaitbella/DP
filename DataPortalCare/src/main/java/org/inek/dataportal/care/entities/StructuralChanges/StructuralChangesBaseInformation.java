@@ -1,10 +1,7 @@
 package org.inek.dataportal.care.entities.StructuralChanges;
 
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
-import org.inek.dataportal.care.entities.BaseData;
-import org.inek.dataportal.care.enums.SensitiveArea;
-import org.inek.dataportal.care.enums.Shift;
-import org.inek.dataportal.care.enums.Type;
+import org.inek.dataportal.care.enums.StructuralChangesType;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -55,12 +52,12 @@ public class StructuralChangesBaseInformation implements Serializable {
     @Column(name = "scStatusId")
     private int _statusId;
 
-    public int getStatusId() {
-        return _statusId;
+    public WorkflowStatus getStatus() {
+        return WorkflowStatus.fromValue(_statusId);
     }
 
-    public void setStatusId(int statusId) {
-        this._statusId = statusId;
+    public void setStatus(WorkflowStatus status) {
+        this._statusId = status.getId();
     }
     //</editor-fold>
 
@@ -116,22 +113,23 @@ public class StructuralChangesBaseInformation implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Type">
+    //<editor-fold defaultstate="collapsed" desc="Property StructuralChangesType">
     @Column(name = "scType")
-    private Type _type;
+    private int _structuralChangesTypeId;
 
-    public Type getType() {
-        return _type;
+    public StructuralChangesType getStructuralChangesType() {
+        return StructuralChangesType.getById(_structuralChangesTypeId);
     }
 
-    public void setType(Type type) {
-        this._type = type;
+    public void setStructuralChangesType(StructuralChangesType structuralChangesType) {
+        this._structuralChangesTypeId = structuralChangesType.getId();
     }
+
     //</editor-fold>
 
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "scWardsToChangeId", referencedColumnName  = "wtcId")
+    @JoinColumn(name = "scWardsToChangeId", referencedColumnName = "wtcId")
     private WardsToChange _wardsToChange;
 
     public WardsToChange getWardsToChange() {
@@ -139,6 +137,7 @@ public class StructuralChangesBaseInformation implements Serializable {
     }
 
     public void setWardsToChange(WardsToChange wardsToChange) {
+        wardsToChange.setStructuralChangesBaseInformation(this);
         this._wardsToChange = wardsToChange;
     }
 
@@ -160,6 +159,7 @@ public class StructuralChangesBaseInformation implements Serializable {
         _structuralChangesWards.add(scw);
     }
 
+    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -169,14 +169,17 @@ public class StructuralChangesBaseInformation implements Serializable {
                 _statusId == that._statusId &&
                 _requestedAccountId == that._requestedAccountId &&
                 _agentId == that._agentId &&
+                _structuralChangesTypeId == that._structuralChangesTypeId &&
                 Objects.equals(_id, that._id) &&
                 Objects.equals(_requestedAt, that._requestedAt) &&
                 Objects.equals(_processedAt, that._processedAt) &&
-                _type == that._type;
+                Objects.equals(_wardsToChange, that._wardsToChange) &&
+                Objects.equals(_structuralChangesWards, that._structuralChangesWards);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _ik, _statusId, _requestedAt, _requestedAccountId, _agentId, _processedAt, _type);
+        return Objects.hash(_id, _ik, _statusId, _requestedAt, _requestedAccountId, _agentId, _processedAt,
+                _structuralChangesTypeId, _wardsToChange, _structuralChangesWards);
     }
 }

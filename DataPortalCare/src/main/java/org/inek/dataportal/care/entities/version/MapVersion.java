@@ -1,4 +1,6 @@
-package org.inek.dataportal.common.data.version;
+package org.inek.dataportal.care.entities.version;
+
+import org.inek.dataportal.care.entities.DeptStation;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -31,6 +33,13 @@ public class MapVersion implements Serializable {
 
     public void setCreatedAt(Date createdAt) {
         this._createdAt = createdAt;
+    }
+
+    @OneToOne(mappedBy = "_mapVersion")
+    private DeptStation _deptStation;
+
+    public DeptStation getDeptStation() {
+        return _deptStation;
     }
 
     @Override

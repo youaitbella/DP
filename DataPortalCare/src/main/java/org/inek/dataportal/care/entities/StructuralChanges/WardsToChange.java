@@ -1,5 +1,8 @@
 package org.inek.dataportal.care.entities.StructuralChanges;
 
+import org.inek.dataportal.care.entities.DeptStation;
+import org.inek.dataportal.care.entities.version.MapVersion;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -12,6 +15,18 @@ public class WardsToChange implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public WardsToChange() {
+    }
+
+    public WardsToChange(DeptStation station) {
+        _deptId = station.getDept().getId();
+        _mapVersion = station.getMapVersion();
+        _wardName = station.getStationName();
+        _deptName = station.getDeptName();
+        _locationP21 = station.getLocationCodeP21();
+        _locationVz = station.getLocationCodeVz();
+        _fab = station.getFab();
+        _validFrom = station.getValidFrom();
+        _validTo = station.getValidTo();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -41,6 +56,18 @@ public class WardsToChange implements Serializable {
         _deptId = deptId;
     }
     //</editor-fold>
+
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "wtcMapVersionId")
+    private MapVersion _mapVersion;
+
+    public MapVersion getMapVersion() {
+        return _mapVersion;
+    }
+
+    public void setMapVersion(MapVersion mapVersion) {
+        this._mapVersion = mapVersion;
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Property WardName">
     @Column(name = "wtcWardName")
@@ -79,6 +106,20 @@ public class WardsToChange implements Serializable {
     public void setLocationP21(int locationP21) {
         this._locationP21 = locationP21;
     }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property BedCount">
+    @Column(name = "wtcBedCount")
+    private int _beds;
+
+    public int getBeds() {
+        return _beds;
+    }
+
+    public void setBeds(int beds) {
+        this._beds = beds;
+    }
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property LocationVz">
@@ -161,6 +202,7 @@ public class WardsToChange implements Serializable {
     //</editor-fold>
 
 
+    @SuppressWarnings("checkstyle:CyclomaticComplexity")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -168,17 +210,22 @@ public class WardsToChange implements Serializable {
         WardsToChange that = (WardsToChange) o;
         return _deptId == that._deptId &&
                 _locationP21 == that._locationP21 &&
+                _beds == that._beds &&
                 _locationVz == that._locationVz &&
                 Objects.equals(_id, that._id) &&
+                Objects.equals(_mapVersion, that._mapVersion) &&
                 Objects.equals(_wardName, that._wardName) &&
                 Objects.equals(_deptName, that._deptName) &&
                 Objects.equals(_fab, that._fab) &&
                 Objects.equals(_validFrom, that._validFrom) &&
-                Objects.equals(_validTo, that._validTo);
+                Objects.equals(_validTo, that._validTo) &&
+                Objects.equals(_structuralChangesBaseInformation, that._structuralChangesBaseInformation) &&
+                Objects.equals(_structuralChangesWards, that._structuralChangesWards);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _deptId, _wardName, _deptName, _locationP21, _locationVz, _fab, _validFrom, _validTo);
+        return Objects.hash(_id, _deptId, _mapVersion, _wardName, _deptName, _locationP21, _beds, _locationVz,
+                _fab, _validFrom, _validTo, _structuralChangesBaseInformation, _structuralChangesWards);
     }
 }

@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="content">
+        <h:form>
+            <div class="ui-g">
+                <div class="card">
+                    <div class="ui-g-12">
+                        <h1>Meldung struktureller Veränderungen</h1>
+
+                        <pf:dataTable value="#{structuralChangesEdit.wards}"
+                                      tableStyle="width: auto;"
+                                      emptyMessage="Keine Daten vorhanden"
+                                      var="ward">
+                            <pf:column headerText="Sensitiver Bereich">
+                                <pf:outputLabel value="#{ward.dept.sensitiveArea}"/>
+                            </pf:column>
+                            <pf:column headerText="FAB">
+                                <pf:outputLabel value="#{ward.fab}"/>
+                            </pf:column>
+                            <pf:column headerText="FAB-Name">
+                                <pf:outputLabel value="#{ward.deptName}"/>
+                            </pf:column>
+                            <pf:column headerText="Station">
+                                <pf:outputLabel value="#{ward.stationName}"/>
+                            </pf:column>
+                            <pf:column headerText="Standort P21">
+                                <pf:outputLabel value="#{ward.locationCodeP21}"/>
+                            </pf:column>
+                            <pf:column headerText="Standort VZ">
+                                <pf:outputLabel value="#{ward.locationCodeVz}"/>
+                            </pf:column>
+                            <pf:column headerText="Betten">
+                                <pf:outputLabel value="#{ward.bedCount}"/>
+                            </pf:column>
+                            <pf:column headerText="Gültig von">
+                                <pf:outputLabel value="#{ward.validFrom}"/>
+                            </pf:column>
+                            <pf:column headerText="Gültig bis">
+                                <pf:outputLabel value="#{ward.validTo}"/>
+                            </pf:column>
+                            <pf:column>
+                                <pf:splitButton value="Aktionen">
+                                    <pf:menuitem value="Daten ändern"
+                                                 update="@form"
+                                                 action="#{structuralChangesEdit.newChangeWard(ward)}"/>
+                                    <pf:menuitem value="Löschen"
+                                                 update="@form"
+                                                 action="#{structuralChangesEdit.deleteWard(ward)}"/>
+                                </pf:splitButton>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="ui-g-12">
+                        <h1>Stationsdaten ändern</h1>
+
+                        <pf:dataTable value="#{structuralChangesEdit.changesBaseInformations}"
+                                      tableStyle="width: auto;"
+                                      var="baseInfo">
+                            <pf:column class="colIcon" style="width: 20px;">
+                                <inekIcon:DeleteIcon
+                                        deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
+                                        updateElement="@form"/>
+                            </pf:column>
+                            <pf:column headerText="Sensitiver Bereich">
+                                <ui:remove>
+                                    <pf:outputLabel value="#{ward.dept.sensitiveArea}"/>
+                                </ui:remove>
+                            </pf:column>
+                            <pf:column headerText="FAB">
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.mapVersion.deptStation.fab}"/>
+                                <pf:separator/>
+                                <pf:inputText id="inputFabChange"
+                                              value="#{baseInfo.wardsToChange.fab}">
+                                    <pf:ajax event="blur" update="inputFabChange_m"/>
+                                </pf:inputText>
+                                <pf:message id="inputFabChange_m" for="inputFabChange"/>
+                            </pf:column>
+                            <pf:column headerText="FAB-Name">
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.mapVersion.deptStation.deptName}"/>
+                                <pf:separator/>
+                                <pf:inputText value="#{baseInfo.wardsToChange.deptName}"/>
+                            </pf:column>
+                            <pf:column headerText="Station">
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.mapVersion.deptStation.stationName}"/>
+                                <pf:separator/>
+                                <pf:inputText value="#{baseInfo.wardsToChange.wardName}"/>
+                            </pf:column>
+                            <pf:column headerText="Standort P21">
+                                <pf:outputLabel
+                                        value="#{baseInfo.wardsToChange.mapVersion.deptStation.locationCodeP21}"/>
+                                <pf:separator/>
+                                <pf:inputNumber value="#{baseInfo.wardsToChange.locationP21}"/>
+                            </pf:column>
+                            <pf:column headerText="Standort VZ">
+                                <pf:outputLabel
+                                        value="#{baseInfo.wardsToChange.mapVersion.deptStation.locationCodeVz}"/>
+                                <pf:separator/>
+                                <pf:inputNumber value="#{baseInfo.wardsToChange.locationVz}"/>
+                            </pf:column>
+                            <pf:column headerText="Betten">
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.mapVersion.deptStation.bedCount}"/>
+                                <pf:separator/>
+                                <pf:inputText value="#{baseInfo.wardsToChange.beds}"/>
+                            </pf:column>
+                            <pf:column headerText="Gültig von">
+                                <pf:calendar value="#{baseInfo.wardsToChange.mapVersion.deptStation.validFrom}"
+                                             disabled="true"
+                                             pattern="dd.MM.yyyy"
+                                             mask="true"
+                                             inputStyle="text-align: right;"/>
+                                <pf:separator/>
+                                <pf:calendar value="#{baseInfo.wardsToChange.validFrom}"
+                                             required="true"
+                                             requiredMessage="Bitte ein Datum angeben"
+                                             locale="de"
+                                             navigator="true"
+                                             pattern="dd.MM.yyyy"
+                                             mask="true"
+                                             inputStyle="text-align: right;"/>
+                            </pf:column>
+                            <pf:column headerText="Gültig bis">
+                                <pf:calendar value="#{baseInfo.wardsToChange.mapVersion.deptStation.validTo}"
+                                             disabled="true"
+                                             pattern="dd.MM.yyyy"
+                                             mask="true"
+                                             inputStyle="text-align: right;"/>
+                                <pf:separator/>
+                                <pf:calendar value="#{baseInfo.wardsToChange.validTo}"
+                                             required="true"
+                                             requiredMessage="Bitte ein Datum angeben"
+                                             locale="de"
+                                             navigator="true"
+                                             pattern="dd.MM.yyyy"
+                                             mask="true"
+                                             inputStyle="text-align: right;"/>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
+                </div>
+            </div>
+
+            <pf:commandButton value="Änderungsmeldung ans InEK senden"
+                              action="#{structuralChangesEdit.send()}"
+                              styleClass="green-button"
+                              style="margin-left: 10px;"
+                              icon="fa fa-arrow-right"
+                              iconPos="right"
+                              update="@(.ui-message) @form"/>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+

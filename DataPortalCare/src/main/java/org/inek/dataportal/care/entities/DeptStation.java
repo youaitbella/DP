@@ -1,6 +1,6 @@
 package org.inek.dataportal.care.entities;
 
-import org.inek.dataportal.common.data.version.MapVersion;
+import org.inek.dataportal.care.entities.version.MapVersion;
 
 import javax.persistence.*;
 import java.io.Serializable;

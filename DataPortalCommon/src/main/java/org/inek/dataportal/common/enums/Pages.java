@@ -1,7 +1,6 @@
 package org.inek.dataportal.common.enums;
 
 /**
- *
  * @author muellermi
  */
 public enum Pages {
@@ -154,6 +153,8 @@ public enum Pages {
     CareDeptEdit("/care/Dept/deptEdit"),
     CareProofSummary("/care/Proof/proofSummary"),
     CareProofEdit("/care/Proof/proofEdit"),
+    CareStructuralChangesSummary("/care/StructuralChanges/structuralChangesSummary"),
+    CareStructuralChangesEdit("/care/StructuralChanges/structuralChangeEdit"),
     //
     PartAgency("/Agency/PartAgency"),
     //

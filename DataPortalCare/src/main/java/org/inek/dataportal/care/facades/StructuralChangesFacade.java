@@ -5,19 +5,16 @@
  */
 package org.inek.dataportal.care.facades;
 
-import javafx.util.Pair;
-import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
+import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
+import org.inek.dataportal.care.utils.CareDeptStationHelper;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
-import org.inek.dataportal.common.enums.WorkflowStatus;
 
 import javax.ejb.Stateless;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -33,5 +30,15 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
             return baseInfo;
         }
         return merge(baseInfo);
+    }
+
+    public List<DeptStation> findWardsByIkAndDate(int ik, Date date) {
+        String sql = "select bi from DeptBaseInformation bi where bi._ik = :ik and " +
+                "bi._statusId in (10, 200) order by bi._year desc, bi._send desc";
+        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(sql, DeptBaseInformation.class);
+        query.setParameter("ik", ik);
+        List<DeptBaseInformation> resultList = query.getResultList();
+        DeptBaseInformation deptBaseInformation = resultList.get(0);
+        return CareDeptStationHelper.getStationsByDate(deptBaseInformation.getAllStations(), date);
     }
 }
