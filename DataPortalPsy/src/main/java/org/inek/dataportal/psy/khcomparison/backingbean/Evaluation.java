@@ -150,9 +150,10 @@ public class Evaluation {
         if (isReadeForEvaluation()) {
             Customer customerByIK = _customerFacade.getCustomerByIK(_selectedIk);
             if (createHospitalComparisonInfo(customerByIK)) {
-                DialogController.showInfoDialog("Auswertung gestartet", "Wir erstellen nun die Auswertung nach Ihren Kriterien. " +
-                        "Sobald der Vorgang abgeschlossen ist, wird diese Ihnen als Dokument im InEK Datenportal zur Verfügung gestellt. " +
-                        "Sie werden per E-Mail über die Bereitstellung informaiert.");
+                DialogController.showInfoDialog("Auswertung gestartet", "Ihre Auswertung wird gerade bearbeitet. " +
+                        "Dies kann einige Minuten dauern. Bitte haben Sie etwas Geduld. " +
+                        "Sobald die Datei fertig erstellt ist, wird diese Ihnen im Datenportal zur Verfügung gestellt. " +
+                        "Sie erhalten dann eine Benachrichtigung per Mail.");
                 setEvaluationsList();
 
             } else {
