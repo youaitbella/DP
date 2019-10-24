@@ -15,7 +15,6 @@ public class AggregatedWardsHelper {
         List<List<DeptStation>> lists = groupStationsByNameAndLocationCodes(wards);
 
 
-
         return aggregatedWards;
     }
 
@@ -26,7 +25,27 @@ public class AggregatedWardsHelper {
         return value1Formatted.equals(value2Formatted);
     }
 
-    //protected static List<List<DeptStation>> groupStationListsBy
+    protected static List<List<DeptStation>> groupStationListsByValidity(List<List<DeptStation>> lists) {
+        List<List<DeptStation>> newList = new ArrayList<>();
+
+        for (List<DeptStation> list : lists) {
+            List<List<DeptStation>> tmpNewList = new ArrayList<>();
+
+            for (DeptStation station : list) {
+
+            }
+        }
+
+        return newList;
+    }
+
+    protected static void findAllValidityRanges(List<DeptStation> stations) {
+
+    }
+
+    protected static boolean listsContainsListWithValidity(List<List<DeptStation>> lists, DeptStation station) {
+        return true;
+    }
 
     protected static List<List<DeptStation>> groupStationsByNameAndLocationCodes(List<DeptStation> wards) {
         List<List<DeptStation>> deptsStations = new ArrayList<>();

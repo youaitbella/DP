@@ -38,6 +38,30 @@ class AggregatedWardsHelperTest {
     }
 
     @Test
+    void groupStationListsByValidityMultipleValidityTest() {
+        List<List<DeptStation>> lists = new ArrayList<>();
+
+        List<DeptStation> stations = new ArrayList<>();
+
+        DeptStation station1 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.MARCH, 2018), "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptStation station2 = createDeptStation(createDate(1, Month.APRIL, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 12", 1, 772548, "5600");
+        DeptStation station3 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 13", 1, 772548, "1600");
+        DeptStation station4 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+
+        stations.add(station1);
+        stations.add(station2);
+        stations.add(station3);
+        stations.add(station4);
+
+        lists.add(stations);
+
+        List<List<DeptStation>> resultLists = AggregatedWardsHelper.groupStationListsByValidity(lists);
+        Assertions.assertThat(resultLists).hasSize(2);
+        Assertions.assertThat(resultLists.get(0)).containsExactly(station1, station3, station4);
+        Assertions.assertThat(resultLists.get(1)).containsExactly(station2, station3, station4);
+    }
+
+    @Test
     void groupStationsByNameAndLocationCodesWithMultipleStationsVzTest() {
         List<DeptStation> wards = new ArrayList<>();
 
@@ -79,14 +103,20 @@ class AggregatedWardsHelperTest {
         Assertions.assertThat(lists.get(1)).containsExactly(station3, station4);
     }
 
-    private DeptStation createDeptStation(String name, String deptName, int p21, int vz, String fab) {
+    private DeptStation createDeptStation(Date validFrom, Date validTo, String name, String deptName, int p21, int vz, String fab) {
         DeptStation station = new DeptStation();
+        station.setValidFrom(validFrom);
+        station.setValidTo(validTo);
         station.setStationName(name);
         station.setDeptName(deptName);
         station.setLocationCodeP21(p21);
         station.setLocationCodeVz(vz);
         station.setFab(fab);
         return station;
+    }
+
+    private DeptStation createDeptStation(String name, String deptName, int p21, int vz, String fab) {
+        return createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.DECEMBER, 2019), name, deptName, p21, vz, fab);
     }
 
     @Test
@@ -96,8 +126,6 @@ class AggregatedWardsHelperTest {
         WardNumber wardNumber1 = createWardNumber(1);
 
         DeptStation station1 = createDeptStation("Station A", "Fachabteilung 1", 1, 772548, "1300");
-        station1.setValidFrom(createDate(1, Month.JANUARY, 2019));
-        station1.setValidTo(createDate(31, Month.DECEMBER, 2019));
         station1.setWardNumber(wardNumber1);
         station1.setMapVersion(createMapVersion(1));
         station1.setBedCount(20);
@@ -105,8 +133,6 @@ class AggregatedWardsHelperTest {
         WardNumber wardNumber2 = createWardNumber(2);
 
         DeptStation station2 = createDeptStation("Station A", "Fachabteilung 19", 1, 772548, "1600");
-        station2.setValidFrom(createDate(1, Month.JANUARY, 2019));
-        station2.setValidTo(createDate(31, Month.DECEMBER, 2019));
         station2.setWardNumber(wardNumber2);
         station2.setMapVersion(createMapVersion(2));
         station2.setBedCount(20);
@@ -115,8 +141,6 @@ class AggregatedWardsHelperTest {
         WardNumber wardNumber3 = createWardNumber(3);
 
         DeptStation station3 = createDeptStation("Station B", "Fachabteilung Neu", 2, 772548, "5600");
-        station3.setValidFrom(createDate(1, Month.JANUARY, 2019));
-        station3.setValidTo(createDate(31, Month.DECEMBER, 2019));
         station3.setWardNumber(wardNumber3);
         station3.setMapVersion(createMapVersion(3));
         station3.setBedCount(30);
@@ -124,8 +148,6 @@ class AggregatedWardsHelperTest {
         WardNumber wardNumber4 = createWardNumber(4);
 
         DeptStation station4 = createDeptStation("Station B", "Fachabteilung AltNeu", 2, 772548, "8000");
-        station4.setValidFrom(createDate(1, Month.JANUARY, 2019));
-        station4.setValidTo(createDate(31, Month.DECEMBER, 2019));
         station4.setWardNumber(wardNumber4);
         station4.setMapVersion(createMapVersion(4));
         station4.setBedCount(30);

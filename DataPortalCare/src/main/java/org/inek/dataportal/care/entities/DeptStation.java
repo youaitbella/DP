@@ -183,7 +183,7 @@ public class DeptStation implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Valid From">
+    //<editor-fold defaultstate="collapsed" desc="Property Valid To">
     @Column(name = "dpValidTo")
     private Date _validTo;
 
@@ -197,6 +197,9 @@ public class DeptStation implements Serializable {
 
     //</editor-fold>
 
+    public boolean stationIsUnlimitedValid() {
+        return _validTo.getYear() >= 2050;
+    }
 
     @SuppressWarnings("checkstyle:CyclomaticComplexity")
     @Override
