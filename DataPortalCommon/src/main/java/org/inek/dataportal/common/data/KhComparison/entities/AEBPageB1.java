@@ -49,12 +49,15 @@ public class AEBPageB1 implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="BaseInformation">
     @OneToOne
     @JoinColumn(name = "pbBaseInformationId")
-    @JsonIgnore
     private AEBBaseInformation _baseInformation;
 
     @JsonIgnore
     public AEBBaseInformation getBaseInformation() {
         return _baseInformation;
+    }
+    //Using only for JSON Export
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
     }
 
     @JsonIgnore
@@ -154,10 +157,12 @@ public class AEBPageB1 implements Serializable {
     }
     //</editor-fold>
 
+    @JsonIgnore
     private double round(double value) {
         return MathHelper.round(value, 2);
     }
 
+    @JsonIgnore
     private double round4(double value) {
         return MathHelper.round(value, 4);
     }

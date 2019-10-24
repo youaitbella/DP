@@ -43,7 +43,6 @@ public class PersonalAgreed implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="BaseInformation">
     @ManyToOne
     @JoinColumn(name = "paBaseInformationId")
-    @JsonIgnore
     private AEBBaseInformation _baseInformation;
 
     @JsonIgnore
@@ -54,6 +53,11 @@ public class PersonalAgreed implements Serializable {
     @JsonIgnore
     public void setBaseInformation(AEBBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
+    }
+
+    //Using only for JSON Export
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
     }
     //</editor-fold>
 
@@ -69,14 +73,17 @@ public class PersonalAgreed implements Serializable {
         _occupationalCategoryId = occupationalCategoryId;
     }
 
+    @JsonIgnore
     @OneToOne()
     @PrimaryKeyJoinColumn(name = "paOccupationalCategoryId")
     private OccupationalCategory _occupationalCategory;
 
+    @JsonIgnore
     public OccupationalCategory getOccupationalCategory() {
         return _occupationalCategory;
     }
 
+    @JsonIgnore
     public void setOccupationalCategory(OccupationalCategory occupationalCategory) {
         _occupationalCategory = occupationalCategory;
         _occupationalCategoryId = occupationalCategory.getId();

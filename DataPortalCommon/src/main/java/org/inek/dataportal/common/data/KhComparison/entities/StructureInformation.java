@@ -37,7 +37,6 @@ public class StructureInformation implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="BaseInformation">
     @ManyToOne
     @JoinColumn(name = "siStructureBaseInformationId")
-    @JsonIgnore
     private StructureBaseInformation _baseInformation;
 
     @JsonIgnore
@@ -48,6 +47,11 @@ public class StructureInformation implements Serializable {
     @JsonIgnore
     public void setBaseInformation(StructureBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
+    }
+
+    //Using only for JSON Export
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
     }
     //</editor-fold>
 

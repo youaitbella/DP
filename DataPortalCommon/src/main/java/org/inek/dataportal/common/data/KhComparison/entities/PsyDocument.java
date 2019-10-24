@@ -44,7 +44,6 @@ public class PsyDocument implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="BaseInformation">
     @ManyToOne
     @JoinColumn(name = "doBaseInformationId")
-    @JsonIgnore
     private AEBBaseInformation _baseInformation;
 
     @JsonIgnore
@@ -55,6 +54,11 @@ public class PsyDocument implements Serializable {
     @JsonIgnore
     public void setBaseInformation(AEBBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
+    }
+
+    //Using only for JSON Export
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
     }
     //</editor-fold>
 

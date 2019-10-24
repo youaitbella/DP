@@ -46,7 +46,6 @@ public class AEBPageE1_2 extends AEBPage implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="BaseInformation">
     @ManyToOne
     @JoinColumn(name = "peBaseInformationId")
-    @JsonIgnore
     private AEBBaseInformation _baseInformation;
 
     @JsonIgnore
@@ -57,6 +56,11 @@ public class AEBPageE1_2 extends AEBPage implements Serializable {
     @JsonIgnore
     public void setBaseInformation(AEBBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
+    }
+
+    //Using only for JSON Export
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
     }
     //</editor-fold>
 
@@ -112,6 +116,7 @@ public class AEBPageE1_2 extends AEBPage implements Serializable {
     }
     //</editor-fold>
 
+    @JsonIgnore
     public double getSumValuationRadio() {
         return _calculationDays * _valuationRadioDay;
     }

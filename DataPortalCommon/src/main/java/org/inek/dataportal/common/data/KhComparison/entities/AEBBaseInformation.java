@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.common.data.converter.WorkflowStatusConverter;
 import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -225,6 +227,7 @@ public class AEBBaseInformation implements Serializable {
         return _typ;
     }
 
+    @JsonIgnore
     public CustomerTyp getHospitalType() {
         return CustomerTyp.valueById(_typ);
     }
