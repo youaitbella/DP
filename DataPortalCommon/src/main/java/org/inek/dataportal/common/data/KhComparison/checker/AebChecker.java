@@ -84,6 +84,11 @@ public class AebChecker {
             addMessage("Blatt B1: Nr. 17 ist ungleich Summe Bewertungsrelationen E1.1 + E1.2");
         }
 
+        if (info.getAebPageB1().getBasisRenumerationValueNoCompensation() == 0 ||
+                info.getAebPageB1().getBasisRenumerationValueNoCompensation() > 1000) {
+            addMessage("Blatt B1: Der Wert Nr. 19 erscheint unplausibel. Bitte prüfen und korrigieren Sie ggf. Ihre Eingabe.");
+        }
+
         if (round(info.getAebPageB1().getSumValuationRadioRenumeration() / info.getAebPageB1().getSumEffectivValuationRadio())
                 != round(info.getAebPageB1().getBasisRenumerationValueCompensation()) && (info.getAebPageB1().getSumEffectivValuationRadio() > 0)) {
             addMessage("Blatt B1: Nr. 18 ist ungleich Nr. 16 / Nr. 17");

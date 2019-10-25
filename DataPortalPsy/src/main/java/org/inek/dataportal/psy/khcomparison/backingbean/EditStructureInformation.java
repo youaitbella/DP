@@ -51,8 +51,7 @@ public class EditStructureInformation {
     private AccessManager _accessManager;
     @Inject
     private LogFacade _logFacade;
-    @Inject
-    Mailer _mailer;
+
 
     private static final Logger LOGGER = Logger.getLogger("StructureInformationEdit");
 
@@ -181,7 +180,7 @@ public class EditStructureInformation {
                             _structureBaseInformation.getIk(), "Structureinformation");
                 } catch (Exception ex) {
                     LOGGER.log(Level.SEVERE, "Error duringTransferFileCreation Structureinformation: ik: " + _structureBaseInformation.getIk());
-                    _mailer.sendError("Error duringTransferFileCreation Structureinformation: ik: " + _structureBaseInformation.getIk(), ex);
+                    _sessionController.getMailer().sendError("Error duringTransferFileCreation Structureinformation: ik: " + _structureBaseInformation.getIk(), ex);
                 }
 
 
