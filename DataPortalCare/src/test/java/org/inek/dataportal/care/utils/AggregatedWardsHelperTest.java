@@ -2,6 +2,7 @@ package org.inek.dataportal.care.utils;
 
 import org.assertj.core.api.Assertions;
 import org.inek.dataportal.care.bo.AggregatedWards;
+import org.inek.dataportal.care.bo.DatePair;
 import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.entities.WardNumber;
 import org.inek.dataportal.care.entities.version.MapVersion;
@@ -15,6 +16,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 class AggregatedWardsHelperTest {
@@ -35,6 +37,25 @@ class AggregatedWardsHelperTest {
             , "Station A,A Station"})
     void stringsAreEqualTestNotValidValues(String value1, String value2) {
         Assertions.assertThat(AggregatedWardsHelper.stringsAreEqual(value1, value2)).isFalse();
+    }
+
+    @Test
+    void findAllValidityRangesMultipleRangesTest() {
+        List<DeptStation> stations = new ArrayList<>();
+
+        DeptStation station1 = createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.MARCH, 2019), "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptStation station2 = createDeptStation(createDate(1, Month.APRIL, 2019), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 12", 1, 772548, "5600");
+        DeptStation station3 = createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 13", 1, 772548, "1600");
+        DeptStation station4 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+
+        stations.add(station1);
+        stations.add(station2);
+        stations.add(station3);
+        stations.add(station4);
+
+        Set<DatePair> allValidityRanges = AggregatedWardsHelper.findAllValidityRanges(stations);
+
+        Assertions.assertThat(allValidityRanges).hasSize(3);
     }
 
     @Test
@@ -59,6 +80,27 @@ class AggregatedWardsHelperTest {
         Assertions.assertThat(resultLists).hasSize(2);
         Assertions.assertThat(resultLists.get(0)).containsExactly(station1, station3, station4);
         Assertions.assertThat(resultLists.get(1)).containsExactly(station2, station3, station4);
+    }
+
+    @Test
+    void findStationsInDatePairRangeWithSameDateTest() {
+        List<DeptStation> stations = new ArrayList<>();
+
+        DeptStation station1 = createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.MARCH, 2019), "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptStation station2 = createDeptStation(createDate(1, Month.APRIL, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 12", 1, 772548, "5600");
+        DeptStation station3 = createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.AUGUST, 2050), "Station A", "Fachabteilung 13", 1, 772548, "1600");
+        DeptStation station4 = createDeptStation(createDate(1, Month.FEBRUARY, 2019), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+
+        DatePair pair = new DatePair(createDate(1, Month.JANUARY, 2019), createDate(31, Month.AUGUST, 2019));
+
+        stations.add(station1);
+        stations.add(station2);
+        stations.add(station3);
+        stations.add(station4);
+
+        List<DeptStation> stationsInDatePairRange = AggregatedWardsHelper.findStationsInDatePairRange(stations, pair);
+
+        Assertions.assertThat(stationsInDatePairRange).containsExactlyInAnyOrder(station2, station3);
     }
 
     @Test

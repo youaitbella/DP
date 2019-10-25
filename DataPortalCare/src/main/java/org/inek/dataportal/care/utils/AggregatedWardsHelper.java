@@ -1,11 +1,14 @@
 package org.inek.dataportal.care.utils;
 
 import org.inek.dataportal.care.bo.AggregatedWards;
+import org.inek.dataportal.care.bo.DatePair;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptStation;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class AggregatedWardsHelper {
@@ -13,7 +16,7 @@ public class AggregatedWardsHelper {
     public static List<AggregatedWards> generateAggregatedWardsFromWards(List<DeptStation> wards) {
         List<AggregatedWards> aggregatedWards = new ArrayList<>();
         List<List<DeptStation>> lists = groupStationsByNameAndLocationCodes(wards);
-
+        List<List<DeptStation>> lists1 = groupStationListsByValidity(lists);
 
         return aggregatedWards;
     }
@@ -31,21 +34,37 @@ public class AggregatedWardsHelper {
         for (List<DeptStation> list : lists) {
             List<List<DeptStation>> tmpNewList = new ArrayList<>();
 
-            for (DeptStation station : list) {
+            Set<DatePair> allValidityRanges = findAllValidityRanges(list);
 
+            for (DatePair dateRange : allValidityRanges) {
+                List<DeptStation> stationsInDatePairRange = findStationsInDatePairRange(list, dateRange);
+                tmpNewList.add(stationsInDatePairRange);
             }
         }
 
         return newList;
     }
 
-    protected static void findAllValidityRanges(List<DeptStation> stations) {
+    protected static Set<DatePair> findAllValidityRanges(List<DeptStation> stations) {
+        Set<DatePair> datePairSet = new HashSet<>();
 
+        for (DeptStation station : stations) {
+            if (!station.stationIsUnlimitedValid()) {
+                DatePair pair = new DatePair(station.getValidFrom(), station.getValidTo());
+                datePairSet.add(pair);
+            }
+        }
+
+        return datePairSet;
     }
 
-    protected static boolean listsContainsListWithValidity(List<List<DeptStation>> lists, DeptStation station) {
-        return true;
+    protected static List<DeptStation> findStationsInDatePairRange(List<DeptStation> stations, DatePair pair) {
+        List<DeptStation> collect = stations.stream().filter(c -> (c.getValidFrom().getTime() <= pair.getDate1().getTime()) &&
+                (c.getValidTo().getTime() >= pair.getDate2().getTime()))
+                .collect(Collectors.toList());
+        return collect;
     }
+
 
     protected static List<List<DeptStation>> groupStationsByNameAndLocationCodes(List<DeptStation> wards) {
         List<List<DeptStation>> deptsStations = new ArrayList<>();

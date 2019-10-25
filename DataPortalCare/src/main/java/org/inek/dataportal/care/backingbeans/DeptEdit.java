@@ -6,6 +6,7 @@
 package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptStation;
@@ -31,7 +32,10 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -40,10 +44,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -71,6 +72,17 @@ public class DeptEdit implements Serializable {
     private DeptBaseInformation _oldDeptbaseInformation;
     private Boolean _isReadOnly;
     private Set<Integer> _validIks;
+    private List<AggregatedWards> _aggregatedWards = new ArrayList<>();
+
+    private Set<Integer> _allowedP21LocationCodes = new HashSet<>();
+
+    public List<AggregatedWards> getAggregatedWards() {
+        return _aggregatedWards;
+    }
+
+    public void setAggregatedWards(List<AggregatedWards> aggregatedWards) {
+        this._aggregatedWards = aggregatedWards;
+    }
 
     public Set<Integer> getValidIks() {
         return _validIks;
@@ -110,9 +122,11 @@ public class DeptEdit implements Serializable {
             if (_validIks.size() == 1) {
                 _deptBaseInformation.setIk((int) _validIks.toArray()[0]);
                 preloadDataForIk(_deptBaseInformation);
+                loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
             }
         } else {
             _deptBaseInformation = _deptFacade.findDeptBaseInformation(Integer.parseInt(id));
+            loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
             if (!isAccessAllowed(_deptBaseInformation)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
@@ -124,6 +138,10 @@ public class DeptEdit implements Serializable {
     private boolean isAccessAllowed(DeptBaseInformation info) {
         return _accessManager.isAccessAllowed(Feature.CARE, info.getStatus(),
                 Integer.MIN_VALUE, info.getIk());
+    }
+
+    private void loadP21LocationsForIk(int ik, int year) {
+        _allowedP21LocationCodes = _deptFacade.findP21LocationCodesForIkAndYear(ik, year);
     }
 
     private void setReadOnly() {
@@ -151,6 +169,7 @@ public class DeptEdit implements Serializable {
 
     public void ikChanged() {
         preloadDataForIk(_deptBaseInformation);
+        loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
     }
 
     public void save() {
@@ -291,6 +310,20 @@ public class DeptEdit implements Serializable {
         DeptBaseInformation baseInfo = new DeptBaseInformation(deptBaseInformation);
         baseInfo.setStatus(WorkflowStatus.Retired);
         return baseInfo;
+    }
+
+    public void isP21LocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        int locationCode = (Integer) value;
+
+        if (!_allowedP21LocationCodes.contains(locationCode) || (locationCode == 0 && _allowedP21LocationCodes.isEmpty())) {
+            throw new ValidatorException(new FacesMessage("Ungültiger P21 - Standort für diese IK"));
+        }
+    }
+
+    public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        int locationCode = (Integer) value;
+
+        //TODO Check VZ REST
     }
 
 }

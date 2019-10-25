@@ -226,4 +226,22 @@ public class DeptStation implements Serializable {
         return Objects.hash(_id, _wardNumber, _mapVersion, _dept, _stationName, _locationCodeP21,
                 _locationCodeVz, _bedCount, _deptName, _fab, _validFrom, _validTo);
     }
+
+    @Override
+    public String toString() {
+        return "DeptStation{" +
+                "_id=" + _id +
+                ", _wardNumber=" + _wardNumber +
+                ", _mapVersion=" + _mapVersion +
+                ", _dept=" + _dept +
+                ", _stationName='" + _stationName + '\'' +
+                ", _locationCodeP21=" + _locationCodeP21 +
+                ", _locationCodeVz=" + _locationCodeVz +
+                ", _bedCount=" + _bedCount +
+                ", _deptName='" + _deptName + '\'' +
+                ", _fab='" + _fab + '\'' +
+                ", _validFrom=" + _validFrom +
+                ", _validTo=" + _validTo +
+                '}';
+    }
 }

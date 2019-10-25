@@ -5,59 +5,65 @@
       xmlns:pf="http://primefaces.org/ui"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <!-- INTERFACE -->
-    <cc:interface>
-        <cc:attribute name="value"/>
-        <cc:attribute name="readonly" default="false"/>
-        <cc:attribute name="disabled" default="false"/>
-        <cc:attribute name="labelText" default="" type="java.lang.String"/>
-        <cc:attribute name="require" default="false" type="java.lang.Boolean"/>
-        <cc:attribute name="requiredMessage" default="" type="java.lang.String"/>
-        <cc:attribute name="shortInfoText" default="" type="java.lang.String"/>
-        <cc:attribute name="longInfoText" default="" type="java.lang.String"/>
-        <cc:attribute name="decimalPlaces" default="0" />
-        <cc:attribute name="maxValue" default="999999999999999" />
-        <cc:attribute name="minValue" default="-999999999999999" />
-        <cc:attribute name="validatorFunction" method-signature="void f(javax.faces.context.FacesContext,
+<!-- INTERFACE -->
+<cc:interface>
+    <cc:attribute name="value"/>
+    <cc:attribute name="readonly" default="false"/>
+    <cc:attribute name="disabled" default="false"/>
+    <cc:attribute name="labelText" default="" type="java.lang.String"/>
+    <cc:attribute name="require" default="false" type="java.lang.Boolean"/>
+    <cc:attribute name="requiredMessage" default="" type="java.lang.String"/>
+    <cc:attribute name="shortInfoText" default="" type="java.lang.String"/>
+    <cc:attribute name="longInfoText" default="" type="java.lang.String"/>
+    <cc:attribute name="decimalPlaces" default="0"/>
+    <cc:attribute name="maxValue" default="999999999999999"/>
+    <cc:attribute name="minValue" default="-999999999999999"/>
+    <cc:attribute name="validatorFunction" method-signature="void f(javax.faces.context.FacesContext,
                       javax.faces.component.UIComponent,
-                      java.lang.Object)" />
-        <cc:attribute name="validatorMessage" default="" type="java.lang.String"/>
-        <cc:attribute name="thousendSeperator" default="." type="java.lang.String"/>
-        <cc:attribute name="StyleClass" default="" type="java.lang.String"/>
-        <cc:attribute name="Style" default="" type="java.lang.String"/>
+                      java.lang.Object)"/>
+    <cc:attribute name="validatorMessage" default="" type="java.lang.String"/>
+    <cc:attribute name="thousendSeperator" default="." type="java.lang.String"/>
+    <cc:attribute name="StyleClass" default="" type="java.lang.String"/>
+    <cc:attribute name="Style" default="" type="java.lang.String"/>
 
-    </cc:interface>
+</cc:interface>
 
-    <!-- IMPLEMENTATION -->
-    <div>
-        <cc:implementation>
-            <pf:outputLabel rendered="#{cc.attrs.labelText.length() gt 0}"
-                            class="formLabel"
-                            value="#{cc.attrs.labelText}: #{cc.attrs.require ? '*' : ''} " />
-            <div class="ui-inputgroup">
-                <pf:inputNumber id="text"
-                                required="#{cc.attrs.require}"
-                                requiredMessage="#{cc.attrs.requiredMessage}"
-                                value="#{cc.attrs.value}"
-                                disabled="#{cc.attrs.disabled}"
-                                validator="#{cc.attrs.validatorFunction}"
-                                validatorMessage="#{cc.attrs.validatorMessage}"
-                                inputStyleClass="#{cc.attrs.require ? ' required ' : ''} #{cc.attrs.StyleClass}"
-                                inputStyle="text-align: right; #{cc.attrs.Style}"
-                                decimalPlaces="#{cc.attrs.decimalPlaces}"
-                                maxValue="#{cc.attrs.maxValue}"
-                                minValue="#{cc.attrs.minValue}"
-                                style="width: 100%;"
-                                thousandSeparator="#{cc.attrs.thousendSeperator}"/>
-                <span jsf:rendered="#{cc.attrs.longInfoText.length() > 0}" class="ui-inputgroup-addon" onclick="PF('longInfo').toggle()" style="cursor: help; border: none; background-color: #7f9baf"><i class="fa fa-question" style="color: #ffffff"></i></span>
-            </div>
-            <pf:tooltip rendered="#{cc.attrs.shortInfoText.length() > 0}" for="text" showEvent="focus" hideEvent="blur" value="#{cc.attrs.shortInfoText}" />
-            <pf:message for="text" />
-            <pf:panel style="border: none" rendered="#{cc.attrs.longInfoText.length() > 0}" widgetVar="longInfo" collapsed="true" closable="true" toggleable="true">
-                <pf:scrollPanel style="width:100%; height:200px">
-                    <pf:outputLabel value="#{cc.attrs.longInfoText}" />
-                </pf:scrollPanel>
-            </pf:panel>
-        </cc:implementation>
-    </div>
+<!-- IMPLEMENTATION -->
+<div>
+    <cc:implementation>
+        <pf:outputLabel rendered="#{cc.attrs.labelText.length() gt 0}"
+                        class="formLabel"
+                        value="#{cc.attrs.labelText}: #{cc.attrs.require ? '*' : ''} "/>
+        <div class="ui-inputgroup">
+            <pf:inputNumber id="text"
+                            required="#{cc.attrs.require}"
+                            requiredMessage="#{cc.attrs.requiredMessage}"
+                            value="#{cc.attrs.value}"
+                            disabled="#{cc.attrs.disabled}"
+                            validator="#{cc.attrs.validatorFunction}"
+                            validatorMessage="#{cc.attrs.validatorMessage}"
+                            inputStyleClass="#{cc.attrs.require ? ' required ' : ''} #{cc.attrs.StyleClass}"
+                            inputStyle="text-align: right; #{cc.attrs.Style}"
+                            decimalPlaces="#{cc.attrs.decimalPlaces}"
+                            maxValue="#{cc.attrs.maxValue}"
+                            minValue="#{cc.attrs.minValue}"
+                            style="width: 100%;"
+                            thousandSeparator="#{cc.attrs.thousendSeperator}">
+                <pf:ajax event="blur" update="text_message"/>
+            </pf:inputNumber>
+            <span jsf:rendered="#{cc.attrs.longInfoText.length() > 0}" class="ui-inputgroup-addon"
+                  onclick="PF('longInfo').toggle()" style="cursor: help; border: none; background-color: #7f9baf"><i
+                    class="fa fa-question" style="color: #ffffff"></i></span>
+        </div>
+        <pf:tooltip rendered="#{cc.attrs.shortInfoText.length() > 0}" for="text" showEvent="focus" hideEvent="blur"
+                    value="#{cc.attrs.shortInfoText}"/>
+        <pf:message id="text_message" for="text"/>
+        <pf:panel style="border: none" rendered="#{cc.attrs.longInfoText.length() > 0}" widgetVar="longInfo"
+                  collapsed="true" closable="true" toggleable="true">
+            <pf:scrollPanel style="width:100%; height:200px">
+                <pf:outputLabel value="#{cc.attrs.longInfoText}"/>
+            </pf:scrollPanel>
+        </pf:panel>
+    </cc:implementation>
+</div>
 </html>

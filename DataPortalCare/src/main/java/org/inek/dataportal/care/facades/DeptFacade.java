@@ -124,4 +124,15 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         return query.getResultList();
     }
 
+    public Set<Integer> findP21LocationCodesForIkAndYear(int ik, int year) {
+        String sql = "select ilLocationCode \n" +
+                "from dbo.p21IkLocation \n" +
+                "where ilIk = " + ik + "\n" +
+                "and ilDataYear = " + year;
+
+        @SuppressWarnings("unchecked")
+        List<Integer> result = getEntityManager().createNativeQuery(sql).getResultList();
+
+        return new HashSet<>(result);
+    }
 }

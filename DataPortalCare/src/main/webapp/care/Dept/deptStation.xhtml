@@ -115,9 +115,11 @@
                                                  readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                         <pf:column headerText="Standort P21" style="width: 100px;">
-                            <inekInput:InputNumber value="#{station.locationCodeP21}"
-                                                   Style="width: 100%;"
-                                                   readonly="#{deptEdit.isReadOnly}"/>
+                            <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
+                                                            validatorFunction="#{deptEdit.isP21LocationCodeValid}"
+                                                            validatorMessage="Ungültiger P21 - Standort für diese IK"
+                                                            Style="width: 100%;"
+                                                            readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                         <pf:column headerText="Standortnummer VZ" style="width: 100px;">
                             <inekInput:InputNumber value="#{station.locationCodeVz}"
@@ -179,9 +181,11 @@
                                                  updateComponents="form"/>
                         </pf:column>
                         <pf:column headerText="Standort P21" style="width: 100px;">
-                            <inekInput:InputNumber value="#{station.locationCodeP21}"
-                                                   Style="width: 100%;"
-                                                   readonly="#{deptEdit.isReadOnly}"/>
+                            <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
+                                                            validatorFunction="#{deptEdit.isP21LocationCodeValid}"
+                                                            validatorMessage="Ungültiger P21 - Standort für diese IK"
+                                                            Style="width: 100%;"
+                                                            readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                         <pf:column headerText="Standortnummer VZ" style="width: 100px;">
                             <inekInput:InputNumber value="#{station.locationCodeVz}"
@@ -252,9 +256,11 @@
                                                  updateComponents="form"/>
                         </pf:column>
                         <pf:column headerText="Standort P21" style="width: 100px;">
-                            <inekInput:InputNumber value="#{station.locationCodeP21}"
-                                                   Style="width: 100%;"
-                                                   readonly="#{deptEdit.isReadOnly}"/>
+                            <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
+                                                            validatorFunction="#{deptEdit.isP21LocationCodeValid}"
+                                                            validatorMessage="Ungültiger P21 - Standort für diese IK"
+                                                            Style="width: 100%;"
+                                                            readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                         <pf:column headerText="Standortnummer VZ" style="width: 100px;">
                             <inekInput:InputNumber value="#{station.locationCodeVz}"
@@ -277,6 +283,39 @@
                                       icon="fa fa-plus"
                                       update="depTable"/>
                 </pf:repeat>
+            </div>
+        </div>
+        <div class="card">
+            <div class="ui-g-12">
+                <h1>Aggregierte Sicht (Klären mit I.Huber was hier stehen soll)</h1>
+
+                <pf:dataTable id="aggregatedtTable"
+                              value="#{deptEdit.aggregatedWards}"
+                              tableStyle="width: auto;"
+                              emptyMessage="Es konnten keine Aggregate erstellt werden"
+                              var="aggregate">
+                    <pf:column headerText="Gültigkeit" style="width: 120px;">
+                        <pf:outputLabel value="#{aggregate.validFrom} - #{aggregate.validTo}"/>
+                    </pf:column>
+                    <pf:column headerText="Sensitiver Bereich" style="width: 120px;">
+                        <pf:outputLabel value="#{aggregate.sensitiveArea.name}"/>
+                    </pf:column>
+                    <pf:column headerText="Fachabteilungsname">
+                        <pf:outputLabel value="#{aggregate.deptNames}"/>
+                    </pf:column>di
+                    <pf:column headerText="FAB">
+                        <pf:outputLabel value="#{aggregate.fabs}"/>
+                    </pf:column>
+                    <pf:column headerText="Station">
+                        <pf:outputLabel value="#{aggregate.wardName}"/>
+                    </pf:column>
+                    <pf:column headerText="Standort P21">
+                        <pf:outputLabel value="#{aggregate.locationCode21}"/>
+                    </pf:column>
+                    <pf:column headerText="Standort VZ">
+                        <pf:outputLabel value="#{aggregate.locationCodeVz}"/>
+                    </pf:column>
+                </pf:dataTable>
             </div>
         </div>
     </div>

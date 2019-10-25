@@ -70,6 +70,7 @@
                         <pf:commandButton value="Datensatz ändern"
                                           action="#{deptEdit.change()}"
                                           rendered="#{deptEdit.changeAllowed()}"
+                                          immediate="true"
                                           style="margin-left: 10px;"
                                           update="@(.ui-message) @form"/>
 
