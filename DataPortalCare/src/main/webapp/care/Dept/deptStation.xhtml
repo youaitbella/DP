@@ -114,14 +114,14 @@
                                                  requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
                                                  readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column headerText="Standort P21" style="width: 100px;">
+                        <pf:column headerText="Standort nach § 21 KHEntgG" style="width: 100px;">
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
                                                             validatorMessage="Ungültiger P21 - Standort für diese IK"
                                                             Style="width: 100%;"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column headerText="Standortnummer VZ" style="width: 100px;">
+                        <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V" style="width: 100px;">
                             <inekInput:InputNumber value="#{station.locationCodeVz}"
                                                    Style="width: 100%;"
                                                    readonly="#{deptEdit.isReadOnly}"/>
@@ -180,14 +180,14 @@
                                                  readonly="#{deptEdit.isReadOnly}"
                                                  updateComponents="form"/>
                         </pf:column>
-                        <pf:column headerText="Standort P21" style="width: 100px;">
+                        <pf:column headerText="Standort nach § 21 KHEntgG" style="width: 100px;">
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
                                                             validatorMessage="Ungültiger P21 - Standort für diese IK"
                                                             Style="width: 100%;"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column headerText="Standortnummer VZ" style="width: 100px;">
+                        <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V" style="width: 100px;">
                             <inekInput:InputNumber value="#{station.locationCodeVz}"
                                                    Style="width: 100%;"
                                                    readonly="#{deptEdit.isReadOnly}"/>
@@ -255,14 +255,14 @@
                                                  readonly="#{deptEdit.isReadOnly}"
                                                  updateComponents="form"/>
                         </pf:column>
-                        <pf:column headerText="Standort P21" style="width: 100px;">
+                        <pf:column headerText="Standort nach § 21 KHEntgG" style="width: 100px;">
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
                                                             validatorMessage="Ungültiger P21 - Standort für diese IK"
                                                             Style="width: 100%;"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column headerText="Standortnummer VZ" style="width: 100px;">
+                        <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V" style="width: 100px;">
                             <inekInput:InputNumber value="#{station.locationCodeVz}"
                                                    Style="width: 100%;"
                                                    readonly="#{deptEdit.isReadOnly}"/>
@@ -309,10 +309,10 @@
                     <pf:column headerText="Station">
                         <pf:outputLabel value="#{aggregate.wardName}"/>
                     </pf:column>
-                    <pf:column headerText="Standort P21">
+                    <pf:column headerText="Standort nach § 21 KHEntgG">
                         <pf:outputLabel value="#{aggregate.locationCode21}"/>
                     </pf:column>
-                    <pf:column headerText="Standort VZ">
+                    <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V">
                         <pf:outputLabel value="#{aggregate.locationCodeVz}"/>
                     </pf:column>
                 </pf:dataTable>
