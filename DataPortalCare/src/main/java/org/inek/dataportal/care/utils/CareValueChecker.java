@@ -3,12 +3,10 @@ package org.inek.dataportal.care.utils;
 public class CareValueChecker {
 
     public static boolean isValidFabNumber(String value) {
-        // TODO Prüfung ob gültige FAB Nummer (4 Stellig)
-        return true;
+        return value.matches("^[0-9]{4}$");
     }
 
     public static boolean isFormalValidVzNumber(String value) {
-        // TODO Prüfung ob gültige VZ Nummer (beginnt mit 77 8 Stellen?)
-        return true;
+        return value.matches("^77[0-9]{4}$");
     }
 }

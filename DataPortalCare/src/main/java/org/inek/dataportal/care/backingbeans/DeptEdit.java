@@ -14,6 +14,7 @@ import org.inek.dataportal.care.entities.DeptStationsAfterTargetYear;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.utils.CareExcelExporter;
 import org.inek.dataportal.care.utils.CareValidator;
+import org.inek.dataportal.care.utils.CareValueChecker;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
@@ -312,6 +313,12 @@ public class DeptEdit implements Serializable {
         return baseInfo;
     }
 
+    public void isFabCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        if (!CareValueChecker.isValidFabNumber(value.toString())) {
+            throw new ValidatorException(new FacesMessage("Ungültige FAB"));
+        }
+    }
+
     public void isP21LocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
         int locationCode = (Integer) value;
 
@@ -326,7 +333,9 @@ public class DeptEdit implements Serializable {
 
     public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
         int locationCode = (Integer) value;
-
+        if (!CareValueChecker.isFormalValidVzNumber(value.toString())) {
+            throw new ValidatorException(new FacesMessage("Ungültiger Standort für diese IK"));
+        }
         //TODO Check VZ REST
     }
 
