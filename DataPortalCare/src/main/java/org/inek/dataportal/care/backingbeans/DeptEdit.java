@@ -315,7 +315,11 @@ public class DeptEdit implements Serializable {
     public void isP21LocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
         int locationCode = (Integer) value;
 
-        if (!_allowedP21LocationCodes.contains(locationCode) || (locationCode == 0 && _allowedP21LocationCodes.isEmpty())) {
+        if (_allowedP21LocationCodes.isEmpty() && locationCode == 0) {
+            return;
+        }
+
+        if (!_allowedP21LocationCodes.contains(locationCode)) {
             throw new ValidatorException(new FacesMessage("Ungültiger P21 - Standort für diese IK"));
         }
     }

@@ -39,6 +39,7 @@
                             required="#{cc.attrs.require}"
                             requiredMessage="#{cc.attrs.requiredMessage}"
                             value="#{cc.attrs.value}"
+                            readonly="#{cc.attrs.readonly}"
                             disabled="#{cc.attrs.disabled}"
                             validator="#{cc.attrs.validatorFunction}"
                             validatorMessage="#{cc.attrs.validatorMessage}"
@@ -49,7 +50,7 @@
                             minValue="#{cc.attrs.minValue}"
                             style="width: 100%;"
                             thousandSeparator="#{cc.attrs.thousendSeperator}">
-                <pf:ajax event="blur" update="text_message"/>
+                <pf:ajax event="blur" update="text_message" disabled="#{cc.attrs.readonly}"/>
             </pf:inputNumber>
             <span jsf:rendered="#{cc.attrs.longInfoText.length() > 0}" class="ui-inputgroup-addon"
                   onclick="PF('longInfo').toggle()" style="cursor: help; border: none; background-color: #7f9baf"><i
