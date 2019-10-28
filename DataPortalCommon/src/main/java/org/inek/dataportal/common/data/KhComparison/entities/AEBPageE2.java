@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.common.helper.MathHelper;
 
 import java.io.Serializable;
@@ -44,12 +45,19 @@ public class AEBPageE2 extends AEBPage implements Serializable {
     @JoinColumn(name = "peBaseInformationId")
     private AEBBaseInformation _baseInformation;
 
+    @JsonIgnore
     public AEBBaseInformation getBaseInformation() {
         return _baseInformation;
     }
 
+    @JsonIgnore
     public void setBaseInformation(AEBBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
+    }
+
+    //Using only for JSON Export
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
     }
     //</editor-fold>
 
@@ -105,6 +113,7 @@ public class AEBPageE2 extends AEBPage implements Serializable {
     }
     //</editor-fold>
 
+    @JsonIgnore
     public double getSumValuationRadio() {
         return _zeCount * _valuationRadioDay;
     }

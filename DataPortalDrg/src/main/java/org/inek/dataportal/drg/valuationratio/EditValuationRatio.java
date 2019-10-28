@@ -18,7 +18,7 @@ import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.ValidationException;
+
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.controller.SessionController;
@@ -37,7 +37,6 @@ import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
 
 /**
- *
  * @author muellermi
  */
 @Named
@@ -57,8 +56,10 @@ public class EditValuationRatio extends AbstractEditController {
     private ValuationRatioFacade _valuationRatioFacade;
     @Inject
     private SessionController _sessionController;
-    @Inject private ApplicationTools _appTools;
-    @Inject private AccessManager _accessManager;
+    @Inject
+    private ApplicationTools _appTools;
+    @Inject
+    private AccessManager _accessManager;
 
     @PostConstruct
     private void init() {
@@ -132,26 +133,26 @@ public class EditValuationRatio extends AbstractEditController {
         if (value == null) {
             return;
         }
-        int val = (int) value;
-        if (!checkRange(drg, val)) {
+        int userInput = (int) value;
+        if (!checkRange(drg, userInput)) {
             throw new ValidatorException(
                     new FacesMessage(
                             drg + ": Die Fallzahl weicht zu stark von den gemäß §21 KHEntG übermittelten Daten ab. "
-                            + "Eine Korrektur ist lediglich im Rahmen +/- 5% möglich. "
-                            + "Bei stärkeren Abweichungen ist eine Klärung mit dem InEK erforderlich (E-Mail). "
-                            + "Bitte beachten Sie: "
-                            + "Gemäß Vereinbarung ist die Fallzahl der Datenlieferung gemäß §21 KHEntG entscheidend, "
-                            + "auch wenn die Zahl der abgerechneten Fälle davon abweichen kann."));
+                                    + "Eine Korrektur ist lediglich im Rahmen +/- 5% möglich. "
+                                    + "Bei stärkeren Abweichungen ist eine Klärung mit dem InEK erforderlich (E-Mail). "
+                                    + "Bitte beachten Sie: "
+                                    + "Gemäß Vereinbarung ist die Fallzahl der Datenlieferung gemäß §21 KHEntG entscheidend, "
+                                    + "auch wenn die Zahl der abgerechneten Fälle davon abweichen kann."));
         }
     }
 
-    private boolean checkRange(String drg, int val) {
+    private boolean checkRange(String drg, int userInput) {
         ValuationRatioDrgCount caseCount = _valuationRatioFacade.
                 findValuationRatioDrgCount(_valuationRatio.getIk(), _valuationRatio.getDataYear(),
                         drg);
-        int minCount = (int) (caseCount.getCount() * 0.95);
-        int maxCount = (int) (caseCount.getCount() * 1.05);
-        return val <= maxCount && val >= minCount;
+        int median = obtainMedian(drg).getMedian();
+
+        return ValuationRatioHelper.userInputIsAllowed(userInput, median, caseCount.getCount());
     }
 
     private ValuationRatio _valuationRatio;
@@ -243,9 +244,9 @@ public class EditValuationRatio extends AbstractEditController {
     }
 
     public boolean hasError() {
-        return _validationErrorI68d 
-                || _validationErrorI68e 
-                || !checkRange("I68D", _valuationRatio.getI68d()) 
+        return _validationErrorI68d
+                || _validationErrorI68e
+                || !checkRange("I68D", _valuationRatio.getI68d())
                 || !checkRange("I68E", _valuationRatio.getI68e());
     }
 

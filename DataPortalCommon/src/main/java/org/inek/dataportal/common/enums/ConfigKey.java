@@ -64,8 +64,7 @@ public enum ConfigKey {
     KhComparisonJobSavePath("//vFileserver01/company$/EDV/Datenportal/kh-vergleich/auswertungen"),
     KhComparisonUploadPath("//vFileserver01/company$/EDV/Datenportal/documents/KH-Vergleich"),
     isKhComparisionInsuranceEnabled(false),
-    ReportHostName("vreportserver01"),
-    RemindCareProof(true);
+    ReportHostName("vreportserver01");
     //
     private final Object _defaultValue;
 

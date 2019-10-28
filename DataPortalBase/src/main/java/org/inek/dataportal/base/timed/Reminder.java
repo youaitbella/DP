@@ -64,20 +64,6 @@ public class Reminder {
             + ") d\n"
             + "group by nubCreatedByAccountId\n";
 
-    private static final String QUERY_CARE_PROOF = "select isnull(arAccountId, iaAccountId) as Id, iaIk as IK, \n"
-            + "    '15.' + cast(datepart(MONTH, getdate()) as varchar) + '.' + cast(datepart(YEAR, getdate()) as varchar) as [Text] \n"
-            + "from ikadm.IkAdmin\n"
-            + "join ikadm.IkAdminFeature on iaId=iafIkAdminId\n"
-            + "left join care.Extension on iaIk = exIk and exYear = datepart(YEAR, getdate()) - iif (datepart(MONTH, getdate()) < 3, 1, 0)\n"
-            + "  and exQuarter =  case datepart(MONTH, getdate()) when 1 then 4 when 4 then 1 when 7 then 2 when 10 then 3 else 0 end\n"
-            + "left join ikadm.AccessRight on iaIk=arIk and iafFeatureId=arFeatureId and arRight in ('A', 'W')\n"
-            + "left join care.ProofRegulationBaseInformation on iaIk = prbiIk and prbiYear = datepart(year, getdate()) \n"
-            + "    and prbiQuarter = case datepart(MONTH, getdate()) when 1 then 4 when 4 then 1 when 7 then 2 when 10 then 3 else 0 end\n"
-            + "where iafFeatureId = 22\n"
-            + "and isnull(prbiStatusId, 0) < 10\n"
-            + "and datepart(MONTH, getdate()) in (1, 4, 7, 10)\n"
-            + "and exId is null";
-
 
     @Schedule(hour = "*", minute = "*", second = "*/10") // use this for testing purpose
     private void remindSealTest() {
@@ -98,26 +84,6 @@ public class Reminder {
         remindSeal(ConfigKey.RemindNubPeppSeal, QEURY_NUB_PEPP, "PSY-NUB reminder");
     }
 
-    //@Schedule(month = "*", dayOfMonth = "11", hour = "0") did not work, thus 4 methods...
-    @Schedule(month = "1", dayOfMonth = "11", hour = "0")
-    private void remindCareProof1() {
-        remindSeal(ConfigKey.RemindCareProof, QUERY_CARE_PROOF, "CareProofReminder");
-    }
-
-    @Schedule(month = "4", dayOfMonth = "11", hour = "0")
-    private void remindCareProof4() {
-        remindSeal(ConfigKey.RemindCareProof, QUERY_CARE_PROOF, "CareProofReminder");
-    }
-
-    @Schedule(month = "7", dayOfMonth = "11", hour = "0")
-    private void remindCareProof7() {
-        remindSeal(ConfigKey.RemindCareProof, QUERY_CARE_PROOF, "CareProofReminder");
-    }
-
-    @Schedule(month = "10", dayOfMonth = "11", hour = "0")
-    private void remindCareProof10() {
-        remindSeal(ConfigKey.RemindCareProof, QUERY_CARE_PROOF, "CareProofReminder");
-    }
 
     /**
      * As a service, we will inform all accounts with non-sealed NUB requests

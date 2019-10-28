@@ -27,6 +27,7 @@ import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.MailTemplateHelper;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -46,6 +47,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author lautenti
@@ -66,6 +69,8 @@ public class Edit {
     private AccountFacade _accountFacade;
     @Inject
     private Mailer _mailer;
+
+    private static final Logger LOGGER = Logger.getLogger("AEBEdit");
 
     private AEBBaseInformation _aebBaseInformation;
     private Set<Integer> _validDatayears = new HashSet<>();
@@ -239,6 +244,14 @@ public class Edit {
                 DialogController.showWarningDialog("Unterschiede in der AEB festgestellt",
                         "Es wurden Unterschiede in bereits abgegeben Information für das IK "
                                 + _aebBaseInformation.getIk() + " festgestellt");
+            }
+            try {
+                TransferFileCreator.createObjectTransferFile(_sessionController, _aebBaseInformation,
+                        _aebBaseInformation.getIk(), "AEB");
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, "Error duringTransferFileCreation AEB: ik: " + _aebBaseInformation.getIk());
+                _mailer.sendError("Error duringTransferFileCreation AEB: ik: " + _aebBaseInformation.getIk() + " year: " +
+                        _aebBaseInformation.getYear() , ex);
             }
             return Pages.KhComparisonSummary.URL();
         } else {
