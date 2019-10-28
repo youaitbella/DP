@@ -180,7 +180,8 @@ public class EditStructureInformation {
                             _structureBaseInformation.getIk(), "Structureinformation");
                 } catch (Exception ex) {
                     LOGGER.log(Level.SEVERE, "Error duringTransferFileCreation Structureinformation: ik: " + _structureBaseInformation.getIk());
-                    _sessionController.getMailer().sendError("Error duringTransferFileCreation Structureinformation: ik: " + _structureBaseInformation.getIk(), ex);
+                    _sessionController.getMailer().sendError("Error duringTransferFileCreation Structureinformation: ik: "
+                            + _structureBaseInformation.getIk(), ex);
                 }
 
 
