@@ -270,12 +270,13 @@ public class EditValuationRatio extends AbstractEditController {
                     .replace("{formalSalutation}", getFormalSalutation())
                     .replace("{year}", "" + _valuationRatio.getDataYear())
                     .replace("{ik}", "" + _valuationRatio.getIk())
-                    .replace("{drgs}", buildDrgString());
+                    .replace("{drgsDecreased}", decreasedValuationRation())
+                    .replace("{drgsUnDecreased}", unDecreasedValuationRation());
             template.setBody(body);
             String subject = template.getSubject()
                     .replace("{year}", "" + _valuationRatio.getDataYear())
-                    .replace("{ik}", "" + _valuationRatio.getIk())
-                    .replace("{drgs}", buildDrgString());
+                    .replace("{ik}", "" + _valuationRatio.getIk());
+                    //.replace("{drgs}", buildDrgString());
             template.setSubject(subject);
             mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail());
             _sessionController.alertClient("Gezielte Absenkung wurde erfolgreich eingereicht.");
@@ -297,13 +298,31 @@ public class EditValuationRatio extends AbstractEditController {
         return salutation;
     }
 
-    private String buildDrgString() {
+    private String decreasedValuationRation(){
         String drgs = "";
         if (_valuationRatio.getI68dList()) {
             drgs += "I68D";
         }
         if (_valuationRatio.getI68eList()) {
             if (_valuationRatio.getI68dList()) {
+                drgs += ", I68E";
+            } else {
+                drgs += "I68E";
+            }
+        }
+        if (drgs.length() == 0) {
+            drgs = "<keine>";
+        }
+        return drgs;
+    }
+
+    private String unDecreasedValuationRation(){
+        String drgs = "";
+        if (!_valuationRatio.getI68dList()) {
+            drgs += "I68D";
+        }
+        if (!_valuationRatio.getI68eList()) {
+            if (!_valuationRatio.getI68dList()) {
                 drgs += ", I68E";
             } else {
                 drgs += "I68E";
