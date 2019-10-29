@@ -9,6 +9,39 @@
     <ui:define name="content">
         <h1>Krankenkasse Datenerfassung</h1>
         <pf:panel style="background-color: #eeeeee;">
+
+            <h:form>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12">
+                    <h2>Übersicht InEK</h2>
+                    <pf:dataTable id="inekTable"
+                                  value="#{summary.listProvided}"
+                                  rows="50"
+                                  paginator="true"
+                                  rowsPerPageTemplate="25,50,100,300"
+                                  var="listEntry"
+                                  emptyMessage="Keine Einträge vorhanden"
+                                  tableStyleClass="inekTableDrg">
+                        <pf:column headerText="IK"
+                                   filterable="true"
+                                   filterBy="#{listEntry.ik}"
+                                   sortable="true"
+                                   sortBy="#{listEntry.ik}">
+                            #{listEntry.ik}
+                        </pf:column>
+                        <pf:column headerText="Krankenhausname" filterable="true" filterBy="#{summary.readHospitalNameByIk(listEntry.ik)}" sortable="true"
+                                   sortBy="#{summary.readHospitalNameByIk(listEntry.ik)}">
+                            #{summary.readHospitalNameByIk(listEntry.ik)}
+                        </pf:column>
+                        <pf:column headerText="Vereinbarungsjahr" filterable="true" filterBy="#{listEntry.year}" sortable="true"
+                                   sortBy="#{listEntry.year}">
+                            #{listEntry.year}
+                        </pf:column>
+                    </pf:dataTable>
+                </div>
+            </div>
+            </h:form>
+
             <h:form>
                 <div class="ui-g ui-fluid">
                     <div class="ui-g-6">

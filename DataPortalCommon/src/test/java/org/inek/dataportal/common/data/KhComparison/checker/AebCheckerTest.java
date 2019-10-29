@@ -29,7 +29,8 @@ class AebCheckerTest {
 
         AebChecker checker = new AebChecker(null, false, false);
         checker.checkPageB1(baseInfo);
-
+        
         Assertions.assertThat(checker.getMessage()).isNotEmpty();
+
     }
 }
