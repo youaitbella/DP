@@ -10,8 +10,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class AggregatedWardsHelper {
+
+    private static final String ERROR_MESSAGE_MULTIPLE_BEDS = "Für die Station [%s] wurden unterschiedliche Bettenangaben gemacht [%s].";
 
     public static List<AggregatedWards> generateAggregatedWardsFromWards(List<DeptStation> wards) {
         List<AggregatedWards> aggregatedWards = new ArrayList<>();
@@ -22,11 +25,24 @@ public class AggregatedWardsHelper {
     }
 
     public static List<String> checkBedCountForWards(List<DeptStation> wards) {
+        List<String> errorMessages = new ArrayList<>();
         List<List<DeptStation>> lists = groupStationsByNameAndLocationCodes(wards);
 
         for (List<DeptStation> stations : lists) {
-            // TODO machen
+            if (stations.stream().mapToInt(DeptStation::getBedCount).distinct().count() != 1) {
+                errorMessages.add(buildErrorMessageForMultipleBedCounts(stations));
+            }
         }
+        return errorMessages;
+    }
+
+    protected static String buildErrorMessageForMultipleBedCounts(List<DeptStation> stations) {
+        String stationName = stations.get(0).getStationName();
+        String bedCounts = stations.stream().mapToInt(DeptStation::getBedCount)
+                .distinct()
+                .mapToObj(i -> ((Integer) i).toString())
+                .collect(Collectors.joining(", "));
+        return String.format(ERROR_MESSAGE_MULTIPLE_BEDS, stationName, bedCounts);
     }
 
     protected static Boolean stringsAreEqual(String value1, String value2) {

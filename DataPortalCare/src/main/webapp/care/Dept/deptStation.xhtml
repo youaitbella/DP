@@ -7,7 +7,14 @@
                 xmlns:inekIk="http://xmlns.jcp.org/jsf/composite/components/Other"
                 xmlns:inekInput="http://xmlns.jcp.org/jsf/composite/components/Input"
                 xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+                xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <style type="text/css">
+        .ui-tooltip {
+            max-width: 300px !important;
+            white-space:pre-wrap !important;
+        }
+    </style>
 
 
     <pf:dialog header="Fachabteilungsauswahl"
@@ -86,8 +93,8 @@
             </div>
 
             <div style="margin-top: 20px;" class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(1).size() gt 0}">
-                <h1 jsf:redndered="#{deptEdit.deptBaseInformation.year eq 2017}">Angaben zu § 3 Abs. 3 Satz 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
-                <h1 jsf:redndered="#{deptEdit.deptBaseInformation.year gt 2017}">Angaben zu § 3 Abs. 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
+                <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year eq 2017}">Angaben zu § 3 Abs. 3 Satz 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
+                <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year gt 2017}">Angaben zu § 3 Abs. 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
                 <pf:repeat value="#{deptEdit.getDeptsByArea(1)}" var="dept">
                     <h3>Stationsangaben für pflegesensitiver Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
@@ -101,7 +108,12 @@
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
                                                  updateElement="form"/>
                         </pf:column>
-                        <pf:column headerText="Fachabteilungsname">
+                        <pf:column id="colFab">
+                            <f:facet name="header">
+                                <h:outputText value="Fachabteilungsname"/>
+                                <pf:tooltip value="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." for="colFab" />
+                            </f:facet>
+
                             <inekInput:InputText value="#{station.deptName}"
                                                  require="true"
                                                  Style="width: 100%;"

@@ -47,7 +47,35 @@
             </div>
         </pf:dialog>
 
+
         <h:form id="form">
+            <pf:dialog widgetVar="errorMessageDialog"
+                       header="Es wurden folgende Auffälligkeiten gefunden:"
+                       modal="true"
+                       width="60%"
+                       height="600px"
+                       closable="true"
+                       resizable="true">
+                <div id="container" style="width: 100%; height:530px">
+                    <div>
+                        Bitte prüfen Sie Ihre Angaben und nehmen Sie bitte Korrekturen vor.
+                    </div>
+
+                    <br/>
+
+                    <pf:inputTextarea value="#{deptEdit.errorMessages}"
+                                      readonly="true"
+                                      style="width: 100%; height: 400px"/>
+
+                    <div id="buttons"
+                         style="position: absolute !important; bottom: 10px !important; vertical-align: bottom !important;">
+                        <pf:button value="Korrekturen vornehmen"
+                                   tabindex="0"
+                                   style="position: relative;"
+                                   onclick="PF('errorMessageDialog').hide(); return false;"/>
+                    </div>
+                </div>
+            </pf:dialog>
             <div style="margin-top: 10px;">
                 <pf:commandButton value="Zurück zur Übersicht"
                                   icon="fa fa-arrow-left"

@@ -10,7 +10,6 @@ import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptStation;
-import org.inek.dataportal.care.entities.DeptStationsAfterTargetYear;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.utils.AggregatedWardsHelper;
 import org.inek.dataportal.care.utils.CareExcelExporter;
@@ -20,7 +19,6 @@ import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -29,7 +27,6 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.utils.VzUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -78,6 +75,7 @@ public class DeptEdit implements Serializable {
     private Boolean _isReadOnly;
     private Set<Integer> _validIks;
     private List<AggregatedWards> _aggregatedWards = new ArrayList<>();
+    private String _errorMessages = "";
 
     private Set<Integer> _allowedP21LocationCodes = new HashSet<>();
 
@@ -111,6 +109,10 @@ public class DeptEdit implements Serializable {
 
     public void setDeptBaseInformation(DeptBaseInformation deptBaseInformation) {
         this._deptBaseInformation = deptBaseInformation;
+    }
+
+    public String getErrorMessages() {
+        return _errorMessages;
     }
 
     @PostConstruct
@@ -202,25 +204,26 @@ public class DeptEdit implements Serializable {
     }
 
     public void send() {
-        if (!isAllowedForSend()) {
-            return;
-        }
-        String errors = CareValidator.checkDeptBaseinformationIsAllowedToSend(_deptBaseInformation);
+        if (isAllowedForSend()) {
+            String errors = CareValidator.checkDeptBaseinformationIsAllowedToSend(_deptBaseInformation);
 
-        if (errors.isEmpty()) {
-            _deptBaseInformation.setSend(new Date());
-            _deptBaseInformation.setStatus(WorkflowStatus.Provided);
-            save();
-            setIsReadOnly(true);
+            if (errors.isEmpty()) {
+                _deptBaseInformation.setSend(new Date());
+                _deptBaseInformation.setStatus(WorkflowStatus.Provided);
+                save();
+                setIsReadOnly(true);
+            } else {
+                DialogController.showErrorDialog("Daten nicht vollständig", errors);
+            }
         } else {
-            DialogController.showErrorDialog("Daten nicht vollständig", errors);
+            DialogController.openDialogByName("errorMessageDialog");
         }
     }
 
     private boolean isAllowedForSend() {
-        for (DeptStation station : _deptBaseInformation.getAllStations()) {
-
-        }
+        List<String> errors = AggregatedWardsHelper.checkBedCountForWards(_deptBaseInformation.getAllStations());
+        _errorMessages = errors.stream().collect(Collectors.joining("\n"));
+        return errors.isEmpty();
     }
 
     private void loadValidIks() {
@@ -229,8 +232,7 @@ public class DeptEdit implements Serializable {
     }
 
     public void addNewStation(Dept dept) {
-
-        dept.addNewDeptStation(createNewValidFromDate(), createNewValidToDate());
+dept.addNewDeptStation(createNewValidFromDate(), createNewValidToDate());
     }
 
     private Date createNewValidFromDate() {

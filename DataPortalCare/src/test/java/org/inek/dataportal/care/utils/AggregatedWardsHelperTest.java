@@ -40,6 +40,55 @@ class AggregatedWardsHelperTest {
     }
 
     @Test
+    void checkBedCountForWardsTest() {
+        List<DeptStation> stations = new ArrayList<>();
+
+        DeptStation station1 = createDeptStation("Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptStation station2 = createDeptStation("Station A", "Fachabteilung 12", 1, 772548, "7000");
+        DeptStation station3 = createDeptStation("Station A", "Fachabteilung 31", 1, 772550, "1600");
+        DeptStation station4 = createDeptStation("Station a", "Fachabteilung 166", 1, 772550, "7000");
+
+        station1.setBedCount(20);
+        station2.setBedCount(20);
+        station3.setBedCount(20);
+        station4.setBedCount(20);
+
+        stations.add(station1);
+        stations.add(station2);
+        stations.add(station3);
+        stations.add(station4);
+
+        List<String> errors = AggregatedWardsHelper.checkBedCountForWards(stations);
+
+        Assertions.assertThat(errors).hasSize(0);
+    }
+
+    @Test
+    void checkBedCountForWards1Test() {
+        List<DeptStation> stations = new ArrayList<>();
+
+        DeptStation station1 = createDeptStation("Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptStation station2 = createDeptStation("Station A", "Fachabteilung 12", 1, 772548, "7000");
+        DeptStation station3 = createDeptStation("Station A", "Fachabteilung 31", 1, 772550, "1600");
+        DeptStation station4 = createDeptStation("Station a", "Fachabteilung 166", 1, 772550, "7000");
+
+        station1.setBedCount(20);
+        station2.setBedCount(40);
+        station3.setBedCount(20);
+        station4.setBedCount(20);
+
+        stations.add(station1);
+        stations.add(station2);
+        stations.add(station3);
+        stations.add(station4);
+
+        List<String> errors = AggregatedWardsHelper.checkBedCountForWards(stations);
+
+        Assertions.assertThat(errors).hasSize(1);
+        Assertions.assertThat(errors.get(0)).contains("20", "40");
+    }
+
+    @Test
     void findAllValidityRangesMultipleRangesTest() {
         List<DeptStation> stations = new ArrayList<>();
 
