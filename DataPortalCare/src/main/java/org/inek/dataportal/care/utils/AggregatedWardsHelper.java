@@ -21,6 +21,14 @@ public class AggregatedWardsHelper {
         return aggregatedWards;
     }
 
+    public static List<String> checkBedCountForWards(List<DeptStation> wards) {
+        List<List<DeptStation>> lists = groupStationsByNameAndLocationCodes(wards);
+
+        for (List<DeptStation> stations : lists) {
+            // TODO machen
+        }
+    }
+
     protected static Boolean stringsAreEqual(String value1, String value2) {
         String value1Formatted = value1.trim().replaceAll("\\s", "").toUpperCase();
         String value2Formatted = value2.trim().replaceAll("\\s", "").toUpperCase();

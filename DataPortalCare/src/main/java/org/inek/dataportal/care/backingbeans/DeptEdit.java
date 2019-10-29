@@ -12,6 +12,7 @@ import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.entities.DeptStationsAfterTargetYear;
 import org.inek.dataportal.care.facades.DeptFacade;
+import org.inek.dataportal.care.utils.AggregatedWardsHelper;
 import org.inek.dataportal.care.utils.CareExcelExporter;
 import org.inek.dataportal.care.utils.CareValidator;
 import org.inek.dataportal.care.utils.CareValueChecker;
@@ -29,6 +30,7 @@ import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.utils.VzUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -68,6 +70,8 @@ public class DeptEdit implements Serializable {
     private ApplicationTools _applicationTools;
     @Inject
     private ConfigFacade _configFacade;
+    @Inject
+    private VzUtils _vzUtils;
 
     private DeptBaseInformation _deptBaseInformation;
     private DeptBaseInformation _oldDeptbaseInformation;
@@ -198,6 +202,9 @@ public class DeptEdit implements Serializable {
     }
 
     public void send() {
+        if (!isAllowedForSend()) {
+            return;
+        }
         String errors = CareValidator.checkDeptBaseinformationIsAllowedToSend(_deptBaseInformation);
 
         if (errors.isEmpty()) {
@@ -207,6 +214,12 @@ public class DeptEdit implements Serializable {
             setIsReadOnly(true);
         } else {
             DialogController.showErrorDialog("Daten nicht vollständig", errors);
+        }
+    }
+
+    private boolean isAllowedForSend() {
+        for (DeptStation station : _deptBaseInformation.getAllStations()) {
+
         }
     }
 
@@ -336,7 +349,9 @@ public class DeptEdit implements Serializable {
         if (!CareValueChecker.isFormalValidVzNumber(value.toString())) {
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für diese IK"));
         }
-        //TODO Check VZ REST
+        if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)){
+            throw new ValidatorException(new FacesMessage("Ungültiger Standort für diese IK"));
+        }
     }
 
 }
