@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author lautenti
@@ -141,8 +142,23 @@ public class Dept implements Serializable {
         return _deptStations;
     }
 
+    public List<DeptStation> getInitDeptStations() {
+        return _deptStations.stream().filter(DeptStation::getIsInitial).collect(Collectors.toList());
+    }
+
     public void setDeptStations(List<DeptStation> deptStations) {
         this._deptStations = deptStations;
+    }
+
+    public void addNewInitialDeptStation(Date validFrom, Date validTo) {
+        DeptStation deptStation = new DeptStation();
+        deptStation.setDept(this);
+        deptStation.setDeptName(_deptName);
+        deptStation.setFab(_deptNumber);
+        deptStation.setValidFrom(validFrom);
+        deptStation.setValidTo(validTo);
+        deptStation.setIsInitial(true);
+        _deptStations.add(deptStation);
     }
 
     public void addNewDeptStation(Date validFrom, Date validTo) {

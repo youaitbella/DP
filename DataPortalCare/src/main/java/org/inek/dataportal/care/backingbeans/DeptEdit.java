@@ -196,6 +196,7 @@ public class DeptEdit implements Serializable {
     }
 
     public void save() {
+        generateAggregatedStation();
         _deptBaseInformation.setLastChangeBy(_sessionController.getAccountId());
         _deptBaseInformation.setLastChanged(new Date());
 
@@ -217,6 +218,10 @@ public class DeptEdit implements Serializable {
             DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
                     + "Bitte versuchen Sie es erneut");
         }
+    }
+
+    private void generateAggregatedStation() {
+        _aggregatedWards = AggregatedWardsHelper.generateAggregatedWardsFromWards(_deptBaseInformation.getAllStations());
     }
 
     public void send() {
@@ -248,15 +253,15 @@ public class DeptEdit implements Serializable {
     }
 
     public void addNewStation(Dept dept) {
-dept.addNewDeptStation(createNewValidFromDate(), createNewValidToDate());
+        dept.addNewInitialDeptStation(createNewValidFromDate(), createNewValidToDate());
     }
 
     private Date createNewValidFromDate() {
-        return createDate(1, Month.JANUARY, _deptBaseInformation.getYear(), 0, 0, 1);
+        return createDate(1, Month.JANUARY, _deptBaseInformation.getYear(), 1, 1, 1);
     }
 
     private Date createNewValidToDate() {
-        return createDate(31, Month.DECEMBER, 2069, 23, 59, 58);
+        return createDate(31, Month.DECEMBER, 2050, 1, 1, 1);
     }
 
     private Date createDate(int day, Month month, int year, int hour, int minute, int second) {
@@ -367,7 +372,7 @@ dept.addNewDeptStation(createNewValidFromDate(), createNewValidToDate());
         if (!CareValueChecker.isFormalValidVzNumber(value.toString())) {
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für diese IK"));
         }
-        if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)){
+        if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)) {
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für diese IK"));
         }
     }

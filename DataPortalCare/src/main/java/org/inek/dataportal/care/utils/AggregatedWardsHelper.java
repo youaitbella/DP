@@ -27,7 +27,9 @@ public class AggregatedWardsHelper {
         List<AggregatedWards> aggregatedWards = new ArrayList<>();
 
         for (List<DeptStation> wards : wardsList) {
-            aggregatedWards.add(new AggregatedWards(wards));
+            if (wards.size() > 0) {
+                aggregatedWards.add(new AggregatedWards(wards));
+            }
         }
 
         return aggregatedWards;

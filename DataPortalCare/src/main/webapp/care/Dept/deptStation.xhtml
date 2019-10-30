@@ -91,7 +91,7 @@
                     <a href="mailto:PPUGV-Umsetzung@inek-drg.de">PPUGV-Umsetzung@inek-drg.de</a> bzw. per Telefon: (02241) 93 82 500).
                 </div>
 
-                <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
+                <div style="text-align: justify; border: 10px solid #ffa727; padding: 10px;">
                     <br/>
                     <b>Alle Angaben beziehen sich auf die Situation in Ihrem Krankenhaus im Datenjahr 2018. </b>
                     <p>Bei Änderungen im Sinne von § 5 Abs. 4 PpUGV (ersatzloser Wegfall, Umbenennung, strukturelle Veränderungen) geben Sie diese bitte im Bereich "Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)" an, nachdem Sie die Strukturdaten für das Jahr 2018 vollständig angegeben haben.</p>
@@ -114,7 +114,7 @@
                         Keine Angabe erforderlich
                     </div>
                     <pf:dataTable id="depTable"
-                                  value="#{dept.deptStations}"
+                                  value="#{dept.initDeptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
                         <pf:column class="colIcon" style="width: 20px;" rendered="#{!deptEdit.isReadOnly}">
@@ -148,13 +148,17 @@
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.stationName}"
+                                              id="stationName"
                                               effect="fold"
                                               style="width: 95%;"
+                                              required="true"
+                                              requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
                                               disabled="#{deptEdit.isReadOnly}"
                                               editable="true">
                                 <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
                                 <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
                             </pf:selectOneMenu>
+                            <pf:message id="stationName_message" for="stationName"/>
                         </pf:column>
                         <pf:column id="colP21" style="width: 100px;">
 
@@ -235,7 +239,7 @@
                         Keine Angabe erforderlich
                     </div>
                     <pf:dataTable id="depTable"
-                                  value="#{dept.deptStations}"
+                                  value="#{dept.initDeptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
                         <pf:column style="width: 20px;" rendered="#{!deptEdit.isReadOnly}">
@@ -267,12 +271,18 @@
                                         for="colWardName"/>
                             </f:facet>
 
-                            <inekInput:InputText value="#{station.stationName}"
-                                                 Style="width: 100%;"
-                                                 require="true"
-                                                 requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
-                                                 readonly="#{deptEdit.isReadOnly}"
-                                                 updateComponents="form"/>
+                            <pf:selectOneMenu value="#{station.stationName}"
+                                              id="stationName"
+                                              effect="fold"
+                                              style="width: 95%;"
+                                              required="true"
+                                              requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
+                                              disabled="#{deptEdit.isReadOnly}"
+                                              editable="true">
+                                <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
+                                <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
+                            </pf:selectOneMenu>
+                            <pf:message id="stationName_message" for="stationName"/>
                         </pf:column>
                         <pf:column id="colP21" style="width: 100px;">
 
@@ -352,7 +362,7 @@
                         Keine Angabe erforderlich
                     </div>
                     <pf:dataTable id="depTable"
-                                  value="#{dept.deptStations}"
+                                  value="#{dept.initDeptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
                         <pf:column class="colIcon" style="width: 20px;" rendered="#{!deptEdit.isReadOnly}">
@@ -399,12 +409,18 @@
                                         for="colWardName"/>
                             </f:facet>
 
-                            <inekInput:InputText value="#{station.stationName}"
-                                                 Style="width: 100%;"
-                                                 require="true"
-                                                 requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
-                                                 readonly="#{deptEdit.isReadOnly}"
-                                                 updateComponents="form"/>
+                            <pf:selectOneMenu value="#{station.stationName}"
+                                              id="stationName"
+                                              effect="fold"
+                                              style="width: 95%;"
+                                              required="true"
+                                              requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
+                                              disabled="#{deptEdit.isReadOnly}"
+                                              editable="true">
+                                <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
+                                <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
+                            </pf:selectOneMenu>
+                            <pf:message id="stationName_message" for="stationName"/>
                         </pf:column>
                         <pf:column id="colP21" style="width: 100px;">
 
@@ -483,7 +499,7 @@
                         Keine Angabe erforderlich
                     </div>
                     <pf:dataTable id="depTable"
-                                  value="#{dept.deptStations}"
+                                  value="#{dept.initDeptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
                         <pf:column class="colIcon" style="width: 20px;" rendered="#{!deptEdit.isReadOnly}">
@@ -530,12 +546,18 @@
                                         for="colWardName"/>
                             </f:facet>
 
-                            <inekInput:InputText value="#{station.stationName}"
-                                                 Style="width: 100%;"
-                                                 require="true"
-                                                 requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
-                                                 readonly="#{deptEdit.isReadOnly}"
-                                                 updateComponents="form"/>
+                            <pf:selectOneMenu value="#{station.stationName}"
+                                              id="stationName"
+                                              effect="fold"
+                                              style="width: 95%;"
+                                              required="true"
+                                              requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
+                                              disabled="#{deptEdit.isReadOnly}"
+                                              editable="true">
+                                <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
+                                <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
+                            </pf:selectOneMenu>
+                            <pf:message id="stationName_message" for="stationName"/>
                         </pf:column>
                         <pf:column id="colP21" style="width: 100px;">
 
@@ -615,7 +637,7 @@
                         Keine Angabe erforderlich
                     </div>
                     <pf:dataTable id="depTable"
-                                  value="#{dept.deptStations}"
+                                  value="#{dept.initDeptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
                         <pf:column class="colIcon" style="width: 20px;" rendered="#{!deptEdit.isReadOnly}">
@@ -663,12 +685,18 @@
                                         for="colWardName"/>
                             </f:facet>
 
-                            <inekInput:InputText value="#{station.stationName}"
-                                                 Style="width: 100%;"
-                                                 require="true"
-                                                 requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
-                                                 readonly="#{deptEdit.isReadOnly}"
-                                                 updateComponents="form"/>
+                            <pf:selectOneMenu value="#{station.stationName}"
+                                              id="stationName"
+                                              effect="fold"
+                                              style="width: 95%;"
+                                              required="true"
+                                              requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
+                                              disabled="#{deptEdit.isReadOnly}"
+                                              editable="true">
+                                <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
+                                <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
+                            </pf:selectOneMenu>
+                            <pf:message id="stationName_message" for="stationName"/>
                         </pf:column>
                         <pf:column id="colP21" style="width: 100px;">
 
@@ -753,7 +781,7 @@
                         Keine Angabe erforderlich
                     </div>
                     <pf:dataTable id="depTable"
-                                  value="#{dept.deptStations}"
+                                  value="#{dept.initDeptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
                         <pf:column class="colIcon" style="width: 20px;" rendered="#{!deptEdit.isReadOnly}">
@@ -801,12 +829,18 @@
                                         for="colWardName"/>
                             </f:facet>
 
-                            <inekInput:InputText value="#{station.stationName}"
-                                                 Style="width: 100%;"
-                                                 require="true"
-                                                 requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
-                                                 readonly="#{deptEdit.isReadOnly}"
-                                                 updateComponents="form"/>
+                            <pf:selectOneMenu value="#{station.stationName}"
+                                              id="stationName"
+                                              effect="fold"
+                                              style="width: 95%;"
+                                              required="true"
+                                              requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
+                                              disabled="#{deptEdit.isReadOnly}"
+                                              editable="true">
+                                <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
+                                <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
+                            </pf:selectOneMenu>
+                            <pf:message id="stationName_message" for="stationName"/>
                         </pf:column>
                         <pf:column id="colP21" style="width: 100px;">
 
@@ -877,11 +911,15 @@
                               tableStyle="width: auto;"
                               emptyMessage="Es konnten keine Aggregate erstellt werden"
                               var="aggregate">
-                    <pf:column headerText="Gültigk von" style="width: 120px;">
-                        <pf:outputLabel value="#{aggregate.validFrom}"/>
+                    <pf:column headerText="Gültig von" style="width: 120px;">
+                        <h:outputText value="#{aggregate.validFrom}">
+                            <f:convertDateTime pattern="dd.MM.yyyy"/>
+                        </h:outputText>
                     </pf:column>
                     <pf:column headerText="Gültig bis" style="width: 120px;">
-                        <pf:outputLabel value="#{aggregate.validTo}"/>
+                        <h:outputText value="#{aggregate.validTo}">
+                            <f:convertDateTime pattern="dd.MM.yyyy"/>
+                        </h:outputText>
                     </pf:column>
                     <pf:column headerText="Sensitiver Bereich" style="width: 120px;">
                         <pf:outputLabel value="#{aggregate.sensitiveArea.name}"/>

@@ -197,6 +197,20 @@ public class DeptStation implements Serializable {
 
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
+    @Column(name = "dpIsInitial")
+    private Boolean _isInitial;
+
+    public Boolean getIsInitial() {
+        return _isInitial;
+    }
+
+    public void setIsInitial(Boolean isInitial) {
+        this._isInitial = isInitial;
+    }
+
+    //</editor-fold>
+
     public boolean stationIsUnlimitedValid() {
         return _validTo.getYear() >= 2050;
     }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AggregatedWards {
     private Date _validFrom;
@@ -89,6 +90,20 @@ public class AggregatedWards {
     }
 
     private void setValues(List<DeptStation> stations) {
+        DeptStation station = stations.get(0);
+        _wardName = station.getStationName();
+        _beds = station.getBedCount();
+        _locationCodeVz = station.getLocationCodeVz();
+        _locationCode21 = station.getLocationCodeP21();
+        concatenateFabs(stations);
+        concatenateDeptName(stations);
+    }
 
+    private void concatenateFabs(List<DeptStation> stations) {
+        _fabs = stations.stream().map(DeptStation::getFab).collect(Collectors.joining(", "));
+    }
+
+    private void concatenateDeptName(List<DeptStation> stations) {
+        _deptNames = stations.stream().map(DeptStation::getDeptName).collect(Collectors.joining(", "));
     }
 }
