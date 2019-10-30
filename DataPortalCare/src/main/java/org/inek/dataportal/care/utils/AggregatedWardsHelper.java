@@ -5,10 +5,10 @@ import org.inek.dataportal.care.bo.DatePair;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptStation;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -17,9 +17,18 @@ public class AggregatedWardsHelper {
     private static final String ERROR_MESSAGE_MULTIPLE_BEDS = "Für die Station [%s] wurden unterschiedliche Bettenangaben gemacht [%s].";
 
     public static List<AggregatedWards> generateAggregatedWardsFromWards(List<DeptStation> wards) {
-        List<AggregatedWards> aggregatedWards = new ArrayList<>();
         List<List<DeptStation>> lists = groupStationsByNameAndLocationCodes(wards);
         List<List<DeptStation>> lists1 = groupStationListsByValidity(lists);
+        List<AggregatedWards> aggregatedWards = generateAggregatedWardsFromSortedWards(lists1);
+        return aggregatedWards;
+    }
+
+    protected static List<AggregatedWards> generateAggregatedWardsFromSortedWards(List<List<DeptStation>> wardsList) {
+        List<AggregatedWards> aggregatedWards = new ArrayList<>();
+
+        for (List<DeptStation> wards : wardsList) {
+            aggregatedWards.add(new AggregatedWards(wards));
+        }
 
         return aggregatedWards;
     }
@@ -56,13 +65,11 @@ public class AggregatedWardsHelper {
         List<List<DeptStation>> newList = new ArrayList<>();
 
         for (List<DeptStation> list : lists) {
-            List<List<DeptStation>> tmpNewList = new ArrayList<>();
-
             Set<DatePair> allValidityRanges = findAllValidityRanges(list);
 
             for (DatePair dateRange : allValidityRanges) {
                 List<DeptStation> stationsInDatePairRange = findStationsInDatePairRange(list, dateRange);
-                tmpNewList.add(stationsInDatePairRange);
+                newList.add(stationsInDatePairRange);
             }
         }
 
@@ -72,15 +79,82 @@ public class AggregatedWardsHelper {
     protected static Set<DatePair> findAllValidityRanges(List<DeptStation> stations) {
         Set<DatePair> datePairSet = new HashSet<>();
 
-        for (DeptStation station : stations) {
-            if (!station.stationIsUnlimitedValid()) {
-                DatePair pair = new DatePair(station.getValidFrom(), station.getValidTo());
-                datePairSet.add(pair);
-            }
-        }
+        Date minDate;
+        Date nextDateInList = null;
 
+        for (int i = 0; i < stations.size(); i++) {
+            if (nextDateInList == null) {
+                minDate = stations.stream()
+                        .min(Comparator.comparing(c -> c.getValidFrom().getTime()))
+                        .get().getValidFrom();
+            } else {
+                Date finalNextDateInList = nextDateInList;
+                Optional<DeptStation> min = stations.stream()
+                        .filter(c -> c.getValidFrom().after(finalNextDateInList))
+                        .min(Comparator.comparing(c -> c.getValidFrom().getTime()));
+
+                if (min.isPresent()) {
+                    minDate = min.get().getValidFrom();
+                } else if (nextDateInList.equals(getMaxDate())) {
+                    continue;
+                } else {
+                    datePairSet.add(new DatePair(nextDateInList, getMaxDate()));
+                    continue;
+                }
+            }
+            nextDateInList = findNextDateInList(minDate, stations);
+            datePairSet.add(new DatePair(minDate, nextDateInList));
+        }
         return datePairSet;
     }
+
+    private static Date getMaxDate() {
+        LocalDateTime datetime = LocalDateTime.of(2050, Month.DECEMBER, 31, 1, 1, 1);
+        return java.util.Date.from(datetime
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+    }
+
+    protected static Date findNextDateInList(Date date, List<DeptStation> object) {
+        Date tmpMinFrom = null;
+
+        Optional<DeptStation> minFromValue = object.stream()
+                .filter(c -> c.getValidFrom().after(date))
+                .min(Comparator.comparing(c -> c.getValidFrom().getTime()));
+
+        if (minFromValue.isPresent()) {
+            tmpMinFrom = minFromValue.get().getValidFrom();
+        }
+
+        Date tmpMinTo = null;
+
+        Optional<DeptStation> minToValue = object.stream()
+                .filter(c -> c.getValidTo().after(date))
+                .min(Comparator.comparing(c -> c.getValidTo().getTime()));
+
+        if (minToValue.isPresent()) {
+            tmpMinTo = minToValue.get().getValidTo();
+        }
+
+        if (tmpMinFrom == null && tmpMinTo != null) {
+            return tmpMinTo;
+        }
+
+        if (tmpMinTo == null && tmpMinFrom != null) {
+            return tmpMinFrom;
+        }
+
+        if (tmpMinTo == null && tmpMinFrom == null) {
+            return getMaxDate();
+        }
+
+        if (tmpMinFrom.before(tmpMinTo)) {
+            return tmpMinFrom;
+        } else {
+            return tmpMinTo;
+        }
+    }
+
 
     protected static List<DeptStation> findStationsInDatePairRange(List<DeptStation> stations, DatePair pair) {
         List<DeptStation> collect = stations.stream().filter(c -> (c.getValidFrom().getTime() <= pair.getDate1().getTime()) &&

@@ -4,6 +4,7 @@ import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.enums.SensitiveArea;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +26,18 @@ public class AggregatedWards {
         this._validFrom = validFrom;
         this._validTo = validTo;
         this._stations = stations;
+        setValues(stations);
+    }
+
+    public AggregatedWards(List<DeptStation> stations) {
+        this._validFrom = stations.stream()
+                .min(Comparator.comparing(c -> c.getValidFrom().getTime()))
+                .get().getValidFrom();
+        this._validTo = stations.stream()
+                .max(Comparator.comparing(c -> c.getValidTo().getTime()))
+                .get().getValidTo();
+        this._stations = stations;
+        setValues(stations);
     }
 
     public Date getValidFrom() {
@@ -73,5 +86,9 @@ public class AggregatedWards {
 
     public void setLocationCodeVz(int locationCodeVz) {
         this._locationCodeVz = locationCodeVz;
+    }
+
+    private void setValues(List<DeptStation> stations) {
+
     }
 }

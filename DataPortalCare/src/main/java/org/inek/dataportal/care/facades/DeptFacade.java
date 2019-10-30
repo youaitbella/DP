@@ -11,18 +11,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import javafx.util.Pair;
+
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
- *
  * @author lautenti
  */
 @Stateless
@@ -69,15 +71,15 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         Set<Integer> possibleIks = allowedIks
                 .stream()
                 .filter(ik -> possibleYears
-                .stream()
-                .anyMatch(year -> !existingIkYearPairs.contains(new Pair<>(ik, year))))
+                        .stream()
+                        .anyMatch(year -> !existingIkYearPairs.contains(new Pair<>(ik, year))))
                 .collect(Collectors.toSet());
         return possibleIks;
     }
 
     public List<Integer> getPossibleDataYears() {
         List<Integer> years = new ArrayList<>();
-        years.add(2017);
+        years.add(2018);
         return years;
     }
 
@@ -134,5 +136,15 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         List<Integer> result = getEntityManager().createNativeQuery(sql).getResultList();
 
         return new HashSet<>(result);
+    }
+
+    public List<String> findStationNamesForPrefill(int ik, int year) {
+        String sql = "select distinct prsStationName\n" +
+                "from care.ProofRegulationStation\n" +
+                "where prsIk = " + ik;
+
+        @SuppressWarnings("unchecked")
+        List<String> result = getEntityManager().createNativeQuery(sql).getResultList();
+        return result;
     }
 }

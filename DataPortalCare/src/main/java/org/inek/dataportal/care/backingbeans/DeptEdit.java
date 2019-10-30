@@ -76,6 +76,7 @@ public class DeptEdit implements Serializable {
     private Set<Integer> _validIks;
     private List<AggregatedWards> _aggregatedWards = new ArrayList<>();
     private String _errorMessages = "";
+    private List<String> _stationPrefillNames = new ArrayList<>();
 
     private Set<Integer> _allowedP21LocationCodes = new HashSet<>();
 
@@ -115,6 +116,14 @@ public class DeptEdit implements Serializable {
         return _errorMessages;
     }
 
+    public List<String> getStationPrefillNames() {
+        return _stationPrefillNames;
+    }
+
+    public void setStationPrefillNames(List<String> stationPrefillNames) {
+        this._stationPrefillNames = stationPrefillNames;
+    }
+
     @PostConstruct
     private void init() {
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
@@ -130,10 +139,12 @@ public class DeptEdit implements Serializable {
                 _deptBaseInformation.setIk((int) _validIks.toArray()[0]);
                 preloadDataForIk(_deptBaseInformation);
                 loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
+                loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
             }
         } else {
             _deptBaseInformation = _deptFacade.findDeptBaseInformation(Integer.parseInt(id));
             loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
+            loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
             if (!isAccessAllowed(_deptBaseInformation)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
@@ -149,6 +160,10 @@ public class DeptEdit implements Serializable {
 
     private void loadP21LocationsForIk(int ik, int year) {
         _allowedP21LocationCodes = _deptFacade.findP21LocationCodesForIkAndYear(ik, year);
+    }
+
+    private void loadStationPrefillNames(int ik, int year) {
+        _stationPrefillNames = _deptFacade.findStationNamesForPrefill(ik, year);
     }
 
     private void setReadOnly() {
@@ -177,6 +192,7 @@ public class DeptEdit implements Serializable {
     public void ikChanged() {
         preloadDataForIk(_deptBaseInformation);
         loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
+        loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
     }
 
     public void save() {

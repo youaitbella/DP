@@ -95,7 +95,7 @@ class AggregatedWardsHelperTest {
         DeptStation station1 = createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.MARCH, 2019), "Station A", "Fachabteilung 1", 1, 772548, "1300");
         DeptStation station2 = createDeptStation(createDate(1, Month.APRIL, 2019), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 12", 1, 772548, "5600");
         DeptStation station3 = createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 13", 1, 772548, "1600");
-        DeptStation station4 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+        DeptStation station4 = createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.DECEMBER, 2020), "Station A", "Fachabteilung 130", 1, 772548, "7000");
 
         stations.add(station1);
         stations.add(station2);
@@ -105,6 +105,30 @@ class AggregatedWardsHelperTest {
         Set<DatePair> allValidityRanges = AggregatedWardsHelper.findAllValidityRanges(stations);
 
         Assertions.assertThat(allValidityRanges).hasSize(3);
+        Assertions.assertThat(allValidityRanges).containsExactlyInAnyOrder(new DatePair(createDate(1, Month.JANUARY, 2019), createDate(31, Month.MARCH, 2019))
+                , new DatePair(createDate(1, Month.APRIL, 2019), createDate(31, Month.DECEMBER, 2020))
+                , new DatePair(createDate(31, Month.DECEMBER, 2020), createDate(31, Month.DECEMBER, 2050)));
+    }
+
+    @Test
+    void findAllValidityRangesMultipleSameRangesTest() {
+        List<DeptStation> stations = new ArrayList<>();
+
+        DeptStation station1 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.MARCH, 2018), "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptStation station2 = createDeptStation(createDate(1, Month.APRIL, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 12", 1, 772548, "5600");
+        DeptStation station3 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 13", 1, 772548, "1600");
+        DeptStation station4 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+
+        stations.add(station1);
+        stations.add(station2);
+        stations.add(station3);
+        stations.add(station4);
+
+        Set<DatePair> allValidityRanges = AggregatedWardsHelper.findAllValidityRanges(stations);
+
+        Assertions.assertThat(allValidityRanges).hasSize(2);
+        Assertions.assertThat(allValidityRanges).containsExactlyInAnyOrder(new DatePair(createDate(1, Month.JANUARY, 2018), createDate(31, Month.MARCH, 2018))
+                , new DatePair(createDate(1, Month.APRIL, 2018), createDate(31, Month.DECEMBER, 2050)));
     }
 
     @Test
@@ -127,8 +151,8 @@ class AggregatedWardsHelperTest {
 
         List<List<DeptStation>> resultLists = AggregatedWardsHelper.groupStationListsByValidity(lists);
         Assertions.assertThat(resultLists).hasSize(2);
-        Assertions.assertThat(resultLists.get(0)).containsExactly(station1, station3, station4);
-        Assertions.assertThat(resultLists.get(1)).containsExactly(station2, station3, station4);
+        Assertions.assertThat(resultLists.get(1)).containsExactly(station1, station3, station4);
+        Assertions.assertThat(resultLists.get(0)).containsExactly(station2, station3, station4);
     }
 
     @Test
