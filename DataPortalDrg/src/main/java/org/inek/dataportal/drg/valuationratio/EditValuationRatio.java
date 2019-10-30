@@ -270,8 +270,8 @@ public class EditValuationRatio extends AbstractEditController {
                     .replace("{formalSalutation}", getFormalSalutation())
                     .replace("{year}", "" + _valuationRatio.getDataYear())
                     .replace("{ik}", "" + _valuationRatio.getIk())
-                    .replace("{drgsDecreased}", decreasedValuationRation())
-                    .replace("{drgsUnDecreased}", unDecreasedValuationRation());
+                    .replace("{drgOnList}", _valuationRatio.DrgOnList(true))
+                    .replace("{drgNotOnList}", _valuationRatio.DrgOnList(false));
             template.setBody(body);
             String subject = template.getSubject()
                     .replace("{year}", "" + _valuationRatio.getDataYear())
@@ -298,41 +298,7 @@ public class EditValuationRatio extends AbstractEditController {
         return salutation;
     }
 
-    private String decreasedValuationRation(){
-        String drgs = "";
-        if (_valuationRatio.getI68dList()) {
-            drgs += "I68D";
-        }
-        if (_valuationRatio.getI68eList()) {
-            if (_valuationRatio.getI68dList()) {
-                drgs += ", I68E";
-            } else {
-                drgs += "I68E";
-            }
-        }
-        if (drgs.length() == 0) {
-            drgs = "<keine>";
-        }
-        return drgs;
-    }
 
-    private String unDecreasedValuationRation(){
-        String drgs = "";
-        if (!_valuationRatio.getI68dList()) {
-            drgs += "I68D";
-        }
-        if (!_valuationRatio.getI68eList()) {
-            if (!_valuationRatio.getI68dList()) {
-                drgs += ", I68E";
-            } else {
-                drgs += "I68E";
-            }
-        }
-        if (drgs.length() == 0) {
-            drgs = "<keine>";
-        }
-        return drgs;
-    }
 
     public enum DrgRangeState {
         Valid,
