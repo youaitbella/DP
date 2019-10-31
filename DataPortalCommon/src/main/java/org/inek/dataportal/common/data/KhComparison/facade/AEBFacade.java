@@ -422,4 +422,9 @@ public class AEBFacade extends AbstractDataAccess {
         List resultList = getEntityManager().createNativeQuery(sql).getResultList();
         return !resultList.isEmpty();
     }
+
+    public List excludedIks() {
+        String sql = "select hcexIk from psy.HospitalComparisonExcludeIK";
+        return getEntityManager().createNativeQuery(sql).getResultList();
+    }
 }

@@ -113,13 +113,14 @@ public class Evaluation {
     }
 
     private void setEvaluationsList() {
-        Set<Integer> iks = _accessManager.retrieveAllowedManagedIks(Feature.HC_HOSPITAL);
-        _listEvaluations = _aebFacade.getHosptalComparisonInfoByIks(iks);
+        _listEvaluations = _aebFacade.getHosptalComparisonInfoByIks(getAllowedIks());
         //_listEvaluations = _aebFacade.getHosptalComparisonInfoByAccount(_sessionController.getAccount());
     }
 
     public Set<Integer> getAllowedIks() {
-        return _accessManager.retrieveAllowedManagedIks(Feature.HC_HOSPITAL);
+        Set<Integer> iks = _accessManager.retrieveAllowedManagedIks(Feature.HC_HOSPITAL);
+        iks.removeAll(_aebFacade.excludedIks());
+        return iks;
     }
 
     public boolean isCreateNewEvaluationAllowed() {
@@ -148,8 +149,8 @@ public class Evaluation {
 
     public void startEvaluation() {
         if (isReadeForEvaluation()) {
-            Customer customerByIK = _customerFacade.getCustomerByIK(_selectedIk);
-            if (createHospitalComparisonInfo(customerByIK)) {
+            Customer customer = _customerFacade.getCustomerByIK(_selectedIk);
+            if (createHospitalComparisonInfo(customer)) {
                 DialogController.showInfoDialog("Auswertung gestartet", "Ihre Auswertung wird gerade bearbeitet. " +
                         "Dies kann einige Minuten dauern. Bitte haben Sie etwas Geduld. " +
                         "Sobald die Datei fertig erstellt ist, wird diese Ihnen im Datenportal zur Verfügung gestellt. " +
