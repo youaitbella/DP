@@ -6,7 +6,9 @@ public enum SensitiveArea {
     HERZCHIRUGIE(3, "Herzchirurgie"),
     UNFALLCHIRUGIE(4, "Unfallchirurgie"),
     KARDIOLOGIE(5, "Kardiologie"),
-    NEUROLOGIE(6, "Neurologie");
+    NEUROLOGIE(6, "Neurologie"),
+    NEURO_STROKE(7, "Neurologie Schlaganfalleinheit"),
+    NEURO_FRUH(8, "Neurologische Frührehabilitation");
 
     private int _id;
     private String _name;
