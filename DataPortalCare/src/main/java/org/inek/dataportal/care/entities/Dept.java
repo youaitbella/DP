@@ -108,6 +108,24 @@ public class Dept implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Number">
+    @Column(name = "deLocationP21")
+    private String _location = "";
+
+    public String getLocation() {
+        return _location;
+    }
+
+    public void setLocation(String location) {
+        this._location = location;
+    }
+
+    public String getLocationForDisplay() {
+        return "Standort " + _location;
+    }
+
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property Dept Area Id">
     @Column(name = "deDeptAreaId")
     private int _deptArea;

@@ -106,7 +106,7 @@
                 </div>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(1)}" var="dept">
-                    <h3>Stationsangaben für pflegesensitiver Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName}</h3>
+                    <h3>Stationsangaben für pflegesensitiver Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName} #{dept.location ne '' ? dept.locationForDisplay : ''}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>

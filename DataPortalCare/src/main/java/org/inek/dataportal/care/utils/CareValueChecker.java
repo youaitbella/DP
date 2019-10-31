@@ -7,6 +7,6 @@ public class CareValueChecker {
     }
 
     public static boolean isFormalValidVzNumber(String value) {
-        return value.matches("^77[0-9]{4}$");
+        return value.matches("^77[0-9]{4}000$");
     }
 }

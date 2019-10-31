@@ -34,11 +34,11 @@ class CareValueCheckerTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-            "771234"
-            , "770000"
-            , "777777"
-            , "771234"
-            , "779863"})
+            "771234000"
+            , "770000000"
+            , "777777000"
+            , "771234000"
+            , "779863000"})
     void isValidVZNumberValidValuesTest(String value) {
         Assertions.assertThat(CareValueChecker.isFormalValidVzNumber(value)).isTrue();
     }
@@ -48,6 +48,8 @@ class CareValueCheckerTest {
             "77123"
             , "120000"
             , "01"
+            , "771234001"
+            , "771234"
             , "Keins"
             , ""})
     void isValidVZNumberNotValidValuesTest(String value) {
