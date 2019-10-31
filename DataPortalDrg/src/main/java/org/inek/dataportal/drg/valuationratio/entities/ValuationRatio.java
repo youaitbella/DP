@@ -279,19 +279,16 @@ public class ValuationRatio implements Serializable, StatusEntity {
     }
 
     public String DrgOnList(boolean isOnList){
-        String drgs = "";
+        String drgs = "<keine>";
         if (getI68dList() == isOnList) {
-            drgs += "I68D";
+            drgs = "I68D";
         }
         if (getI68eList()== isOnList) {
             if (getI68dList() == isOnList) {
                 drgs += ", I68E";
             } else {
-                drgs += "I68E";
+                drgs = "I68E";
             }
-        }
-        if (drgs.length() == 0) {
-            drgs = "<keine>";
         }
         return drgs;
     }
