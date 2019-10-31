@@ -49,6 +49,7 @@
                             maxValue="#{cc.attrs.maxValue}"
                             minValue="#{cc.attrs.minValue}"
                             style="width: 100%;"
+                            onclick="this.setSelectionRange(0, this.value.length)"
                             thousandSeparator="#{cc.attrs.thousendSeperator}">
                 <pf:ajax event="blur" update="text_message" disabled="#{cc.attrs.readonly}"/>
             </pf:inputNumber>

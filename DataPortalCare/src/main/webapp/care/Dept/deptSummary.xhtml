@@ -37,25 +37,28 @@
                         <pf:column style="width: 20px;">
                             <inekIcon:StatusIcon StatusId="#{baseInformation.statusId}"/>
                         </pf:column>
-                        <pf:column headerText="IK" filterBy="#{baseInformation.ik}" sortable="true" sortBy="#{baseInformation.ik}">
+                        <pf:column headerText="IK" filterBy="#{baseInformation.ik}" sortable="true"
+                                   sortBy="#{baseInformation.ik}">
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                    value="#{baseInformation.ik}" >
+                                    value="#{baseInformation.ik}">
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
-                        <pf:column headerText="Krankenhaus" filterBy="#{baseInformation.hospitalName}" sortable="true" sortBy="#{baseInformation.hospitalName}">
+                        <pf:column headerText="Krankenhaus" filterBy="#{baseInformation.hospitalName}" sortable="true"
+                                   sortBy="#{baseInformation.hospitalName}">
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                    value="#{baseInformation.hospitalName}" >
+                                    value="#{baseInformation.hospitalName}">
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
-                        <pf:column headerText="Letze Änderung" sortable="true" sortBy="#{baseInformation.lastChangeDate}">
-                            <h:outputText value="#{baseInformation.lastChangeDate}" >
-                                <f:convertDateTime pattern="dd.MM.yyyy" />
+                        <pf:column headerText="Letze Änderung" sortable="true"
+                                   sortBy="#{baseInformation.lastChangeDate}">
+                            <h:outputText value="#{baseInformation.lastChangeDate}">
+                                <f:convertDateTime pattern="dd.MM.yyyy"/>
                             </h:outputText>
                         </pf:column>
                     </pf:dataTable>
-                    <pf:remoteCommand autoRun="true" oncomplete="PF('inekTableDepst').filter();" />
+                    <pf:remoteCommand autoRun="true" oncomplete="PF('inekTableDepst').filter();"/>
                 </h:form>
             </div>
         </div>
@@ -63,7 +66,8 @@
         <div class="ui-g">
             <div class="card">
                 <h1>Übersicht über Ihre Daten</h1>
-                <div style="text-align: center; border: 1px solid #ffa727; padding: 10px; background-color: #ffa727; font-size: 18px; font-weight: bold;" class="ui-g-12" jsf:rendered="#{not applicationTools.isEnabled('IsCareSendEnabled')}">
+                <div style="text-align: center; border: 1px solid #ffa727; padding: 10px; background-color: #ffa727; font-size: 18px; font-weight: bold;"
+                     class="ui-g-12" jsf:rendered="#{not applicationTools.isEnabled('IsCareSendEnabled')}">
                     Die Eingabe und Bearbeitung der Daten ist nicht mehr möglich. Sofern Sie strukturelle Änderungen vornehmen müssen, melden Sie diese bitte per E-Mail an
                     <a href="mailto:PPUGV-Umsetzung@inek-drg.de">PPUGV-Umsetzung@inek-drg.de</a>.
                     Bitte geben Sie hierzu Ihre IK-Nummer, Krankenhausname, die Angaben (pflegesensitiver Bereich, Fachabteilungsnummer/-schlüssel, Fachabteilungsname, Station und Standort) vor der Änderung und die gewünschte Änderung sowie den Zeitpunkt der Änderung an.
@@ -77,20 +81,27 @@
                             In Erfassung
                         </f:facet>
                         <pf:column style="width: 20px;">
-                            <inekIcon:DeleteIcon deleteFunction="#{deptSummary.deleteBaseInformation(baseInformation.baseInfo)}"
-                                                 show="#{deptSummary.isDeleteAllowed(baseInformation.ik)}"
-                                                 showConfirmDialog="true"
-                                                 updateElement="erfassungtable"/>
+                            <inekIcon:DeleteIcon
+                                    deleteFunction="#{deptSummary.deleteBaseInformation(baseInformation.baseInfo)}"
+                                    show="#{deptSummary.isDeleteAllowed(baseInformation.ik)}"
+                                    showConfirmDialog="true"
+                                    updateElement="erfassungtable"/>
                         </pf:column>
-                        <pf:column headerText="IK" >
+                        <pf:column headerText="IK">
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                    value="#{baseInformation.ik}" >
+                                    value="#{baseInformation.ik}">
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
-                        <pf:column headerText="Krankenhaus" >
+                        <pf:column headerText="Krankenhaus">
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                    value="#{baseInformation.hospitalName}" >
+                                    value="#{baseInformation.hospitalName}">
+                                <f:param name="id" value="#{baseInformation.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Jahr">
+                            <h:link outcome="#{deptSummary.careDeptStationOpen()}"
+                                    value="#{baseInformation.baseInfo.year}">
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
@@ -115,13 +126,19 @@
                         </f:facet>
                         <pf:column headerText="IK">
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                    value="#{baseInformation.ik}" >
+                                    value="#{baseInformation.ik}">
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
-                        <pf:column headerText="Krankenhaus" >
+                        <pf:column headerText="Krankenhaus">
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                    value="#{baseInformation.hospitalName}" >
+                                    value="#{baseInformation.hospitalName}">
+                                <f:param name="id" value="#{baseInformation.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Jahr">
+                            <h:link outcome="#{deptSummary.careDeptStationOpen()}"
+                                    value="#{baseInformation.baseInfo.year}">
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>

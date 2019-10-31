@@ -147,4 +147,16 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         List<String> result = getEntityManager().createNativeQuery(sql).getResultList();
         return result;
     }
+
+    public Boolean isValidFab(String fab) {
+        String sql = "select *\n" +
+                "from dbo.listDept\n" +
+                "where DeIsPsych = 0\n" +
+                "and DeIsPseudo = 0\n" +
+                "and deId < 9000\n" +
+                "and DeCharId = '" + fab + "'";
+        @SuppressWarnings("unchecked")
+        List<Object> resultList = getEntityManager().createNativeQuery(sql).getResultList();
+        return resultList.size() > 0;
+    }
 }

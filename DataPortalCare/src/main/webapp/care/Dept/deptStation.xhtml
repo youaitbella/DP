@@ -82,9 +82,6 @@
                     Bei einem Fehleintrag können Sie die Zeile mit dem „Papierkorb“-Button wieder löschen.
                     <br/>
                     <br/>
-                    FAQ-Liste. Bei darüber hinaus gehenden Fragestellungen können Sie sich gerne an das PpUG-Betreungsteam im InEK wenden (per E-Mail: PPUGV-Umsetzung@inek-drg.de bzw. per Telefon: (02241) 93 82 500).
-                    <br/>
-                    <br/>
                     Bei Fragen konsultieren Sie bitte zunächst den Text der Rechtsverordnung sowie die auf unserer Internetseite bereitgestellte
                     <a href="https://www.g-drg.de/Pflegepersonaluntergrenzen/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ"
                        target="_blank">FAQ-Liste</a>. Bei darüber hinaus gehenden Fragestellungen können Sie sich gerne an das PpUG-Betreungsteam im InEK wenden (per E-Mail:
@@ -155,7 +152,6 @@
                                               requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
                                               disabled="#{deptEdit.isReadOnly}"
                                               editable="true">
-                                <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
                                 <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
                             </pf:selectOneMenu>
                             <pf:message id="stationName_message" for="stationName"/>
@@ -172,7 +168,7 @@
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
-                                                            validatorMessage="Ungültiger P21 - Standort für diese IK"
+                                                            validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
@@ -296,7 +292,7 @@
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
-                                                            validatorMessage="Ungültiger P21 - Standort für diese IK"
+                                                            validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
@@ -434,7 +430,7 @@
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
-                                                            validatorMessage="Ungültiger P21 - Standort für diese IK"
+                                                            validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
@@ -571,7 +567,7 @@
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
-                                                            validatorMessage="Ungültiger P21 - Standort für diese IK"
+                                                            validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
@@ -710,7 +706,7 @@
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
-                                                            validatorMessage="Ungültiger P21 - Standort für diese IK"
+                                                            validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
@@ -771,8 +767,9 @@
 
                 <div jsf:rendered="#{deptEdit.deptBaseInformation.year gt 2017}"
                      style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
-                    "Für den pflegesensitiven Bereich Intensivmedizin sind Angaben für sämtliche Stationen (inkl. zugehöriger Bettenanzahl) standortbezogen einzutragen, die die Merkmale und Strukturbedingungen der entsprechenden OPS-Kodes (8-980.* und 8-98f.*) erfüllen, sodass die entsprechenden OPS-Kodes dort grundsätzlich verschlüsselt werden können. Dies gilt unabhängig davon, ob für das einzelne (individuelle) Intensivbett die Voraussetzungen für die Kodierung der intensivmedizinischen OPS-Kodes erfüllt sind.
-                    Bei einer intensivmedizinischen Fachabteilung mit entsprechendem Fachabteilungsschlüssel (i.d.R. 36xx) geben Sie diesen bitte im Feld Fachabteilungsnummer an. Bei in anderen Fachabteilungen aufgestellten Intensivbetten geben Sie bitte den entsprechenden FAB-Schlüssel an, bspw. bei Intensivbetten in der Fachabteilung 0300 Kardiologie den FAB-Schlüssel 0300. Interdisziplinär belegte Intensivstationen ohne Fachabteilungsschlüssel 36xx, bei denen in der Falldokumentation die Fachabteilungsschlüssel der jeweils belegenden Fachabteilungen dokumentiert sind, bitten wir Sie, den fiktiven Fachabteilungsschlüssel 3699 und als Fachabteilungsnamen „Interdisziplinäre Intensivmedizin“ zu übermitteln."
+                    Für den pflegesensitiven Bereich Intensivmedizin sind Angaben für sämtliche Stationen (inkl. zugehöriger Bettenanzahl) standortbezogen einzutragen, die die Merkmale und Strukturbedingungen der entsprechenden OPS-Kodes (8-980.* und 8-98f.*) erfüllen, sodass die entsprechenden OPS-Kodes dort grundsätzlich verschlüsselt werden können. Dies gilt unabhängig davon, ob für das einzelne (individuelle) Intensivbett die Voraussetzungen für die Kodierung der intensivmedizinischen OPS-Kodes erfüllt sind.
+                    <br/>
+                    Bei einer intensivmedizinischen Fachabteilung mit entsprechendem Fachabteilungsschlüssel (i.d.R. 36xx) geben Sie diesen bitte im Feld Fachabteilungsnummer an. Bei in anderen Fachabteilungen aufgestellten Intensivbetten geben Sie bitte den entsprechenden FAB-Schlüssel an, bspw. bei Intensivbetten in der Fachabteilung 0300 Kardiologie den FAB-Schlüssel 0300. Interdisziplinär belegte Intensivstationen ohne Fachabteilungsschlüssel 36xx, bei denen in der Falldokumentation die Fachabteilungsschlüssel der jeweils belegenden Fachabteilungen dokumentiert sind, bitten wir Sie, den fiktiven Fachabteilungsschlüssel 3699 und als Fachabteilungsnamen „Interdisziplinäre Intensivmedizin“ zu übermitteln.
                 </div>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(3)}" var="dept">
@@ -854,7 +851,7 @@
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
-                                                            validatorMessage="Ungültiger P21 - Standort für diese IK"
+                                                            validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
@@ -921,16 +918,16 @@
                             <f:convertDateTime pattern="dd.MM.yyyy"/>
                         </h:outputText>
                     </pf:column>
-                    <pf:column headerText="Sensitiver Bereich" style="width: 120px;">
+                    <pf:column headerText="Pflegesensitiver Bereich" style="width: 120px;">
                         <pf:outputLabel value="#{aggregate.sensitiveArea.name}"/>
                     </pf:column>
                     <pf:column headerText="Fachabteilungsname">
                         <pf:outputLabel value="#{aggregate.deptNames}"/>
                     </pf:column>di
-                    <pf:column headerText="FAB">
+                    <pf:column headerText="Fachabteilungsnr.">
                         <pf:outputLabel value="#{aggregate.fabs}"/>
                     </pf:column>
-                    <pf:column headerText="Station">
+                    <pf:column headerText="Stationsbezeichnung">
                         <pf:outputLabel value="#{aggregate.wardName}"/>
                     </pf:column>
                     <pf:column headerText="Standort nach § 21 KHEntgG">
@@ -938,6 +935,9 @@
                     </pf:column>
                     <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V">
                         <pf:outputLabel value="#{aggregate.locationCodeVz}"/>
+                    </pf:column>
+                    <pf:column headerText="Bettenanzahl der Station">
+                        <pf:outputLabel value="#{aggregate.beds}"/>
                     </pf:column>
                 </pf:dataTable>
             </div>

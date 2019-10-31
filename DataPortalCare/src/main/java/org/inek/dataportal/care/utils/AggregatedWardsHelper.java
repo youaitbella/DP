@@ -14,7 +14,10 @@ import java.util.stream.IntStream;
 
 public class AggregatedWardsHelper {
 
-    private static final String ERROR_MESSAGE_MULTIPLE_BEDS = "Für die Station [%s] wurden unterschiedliche Bettenangaben gemacht [%s].";
+    //private static final String ERROR_MESSAGE_MULTIPLE_BEDS = "Für die Station [%s] wurden unterschiedliche Bettenangaben gemacht [%s].";
+    private static final String ERROR_MESSAGE_MULTIPLE_BEDS = "Für die Station [%s] wurden unterschiedliche Bettenangaben gemacht, " +
+            "diese lauten: [%s]. Es sind stets alle Betten der genannten Station anzugeben. Bitte überarbeiten Sie ihre Angaben zur " +
+            "Bettenanzahl der Station.";
 
     public static List<AggregatedWards> generateAggregatedWardsFromWards(List<DeptStation> wards) {
         List<List<DeptStation>> lists = groupStationsByNameAndLocationCodes(wards);

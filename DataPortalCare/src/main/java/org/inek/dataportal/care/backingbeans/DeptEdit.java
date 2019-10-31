@@ -321,7 +321,7 @@ public class DeptEdit implements Serializable {
         if (_deptBaseInformation == null || _deptBaseInformation.getStatusId() < 10) {
             return false;
         } else {
-            return _accessManager.userHasWriteAccess(Feature.CARE, _deptBaseInformation.getIk());
+            return _accessManager.userHasWriteAccess(Feature.CARE, _deptBaseInformation.getIk()) && _deptBaseInformation.getYear() > 2017;
         }
     }
 
@@ -353,6 +353,9 @@ public class DeptEdit implements Serializable {
         if (!CareValueChecker.isValidFabNumber(value.toString())) {
             throw new ValidatorException(new FacesMessage("Ungültige FAB"));
         }
+        if (!_deptFacade.isValidFab(value.toString())) {
+            throw new ValidatorException(new FacesMessage("Ungültige FAB"));
+        }
     }
 
     public void isP21LocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
@@ -363,7 +366,7 @@ public class DeptEdit implements Serializable {
         }
 
         if (!_allowedP21LocationCodes.contains(locationCode)) {
-            throw new ValidatorException(new FacesMessage("Ungültiger P21 - Standort für diese IK"));
+            throw new ValidatorException(new FacesMessage("Ungültiger Standort nach § 21 KHEntgG für diese IK"));
         }
     }
 
