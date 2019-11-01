@@ -302,6 +302,18 @@
         <caption translate="true">(Fallback)Kalkulationsunterlagen</caption>
       </topicref>
     </topicref>
+    <topicref type="topic" id="437707886014929" build="ALL" modified="2019-11-01T14:30:21.488Z" icon="0" href="Datenerfassung-zum-Krankenhaus_2">
+      <caption translate="true">Auswertung zum Krankenhausvergleich</caption>
+      <topicref type="topic" id="43771543297302" build="ALL" modified="2019-11-01T14:31:43.954Z" icon="0" href="Auswertung-starten">
+        <caption translate="true">Auswertung starten</caption>
+      </topicref>
+      <topicref type="topic" id="437705690953738" build="ALL" modified="2019-11-01T14:49:25.529Z" icon="0" href="Aufbau-der-Auswertung">
+        <caption translate="true">Aufbau der Auswertung</caption>
+      </topicref>
+      <topicref type="topic" id="43770208442251" build="ALL" modified="2019-11-01T14:56:36.352Z" icon="0" href="Zuordnung-der-Vergleichsgruppe">
+        <caption translate="true">Zuordnung der Vergleichsgruppe</caption>
+      </topicref>
+    </topicref>
     <topicref type="topic" id="433994162001251" build="ALL" modified="2019-05-24T14:04:43.576Z" icon="0" href="Structurinformationen">
       <caption translate="true">Strukturinformationen</caption>
       <topicref type="topic" id="433995960392291" build="ALL" modified="2018-10-26T10:39:47.171Z" icon="0" href="Neue-Structurinformation-anleg">
