@@ -40,7 +40,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
@@ -373,10 +372,10 @@ public class DeptEdit implements Serializable {
     public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
         int locationCode = (Integer) value;
         if (!CareValueChecker.isFormalValidVzNumber(value.toString())) {
-            throw new ValidatorException(new FacesMessage("Ungültiger Standort für diese IK"));
+            throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
         }
         if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)) {
-            throw new ValidatorException(new FacesMessage("Ungültiger Standort für diese IK"));
+            throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
         }
     }
 
