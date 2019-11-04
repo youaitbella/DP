@@ -1,6 +1,5 @@
 package org.inek.dataportal.common.overall;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.IkReference;
 import org.inek.dataportal.api.enums.IkUsage;
@@ -31,8 +30,8 @@ import java.util.stream.Stream;
  * Is the data in a writeable state?
  * Is the user allowed to send teh data=
  * and much more.
- * 
- * Beside the maintenace functions which store the rights, 
+ *
+ * Beside the maintenance functions which store the rights,
  * the AccessManager is the only class allowed to handle rights.
  * 
  * ik is mandatory for the data:
