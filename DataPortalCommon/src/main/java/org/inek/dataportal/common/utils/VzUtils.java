@@ -25,7 +25,7 @@ public class VzUtils implements Serializable {
     private static final String PLACEHOLDER_IK = "{ik}";
     private static final String PLACEHOLDER_VZNUMBER = "{vzNumber}";
 
-    private static final String ANSWER_OK = "ok";
+    private static final String ANSWER_OK = "{\"exists\":true}";
 
     @Inject
     private ConfigFacade _config;
@@ -40,7 +40,6 @@ public class VzUtils implements Serializable {
     private void buildRestCheckVzNumberBaseUrl() {
         String baseUrl = _config.readConfig(ConfigKey.VzRestCheckVzNumber);
         baseUrl = baseUrl.replace(PLACEHOLDER_HOST, _config.readConfig(ConfigKey.VzHost));
-        baseUrl = baseUrl.replace(PLACEHOLDER_TOKEN, _config.readConfig(ConfigKey.VzToken));
         _vzRestCheckVzNumberBaseUrl = baseUrl;
     }
 

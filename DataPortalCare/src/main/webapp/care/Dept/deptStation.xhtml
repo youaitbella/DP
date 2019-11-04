@@ -1,5 +1,4 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -98,7 +97,7 @@
 
             <div style="margin-top: 20px;" class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(1).size() gt 0}">
                 <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year eq 2017}">Angaben zu § 3 Abs. 3 Satz 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
-                <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year gt 2017}">Angaben zu § 3 Abs. 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
+                <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}">Angaben zu § 3 Abs. 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
 
                 <div jsf:rendered="#{deptEdit.deptBaseInformation.year gt 2017}"
                      style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
@@ -777,7 +776,8 @@
 
             <div style="margin-top: 20px;" class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(3).size() gt 0}">
 
-                <h1>Angaben zu § 3 Abs. 4 PpUGV (OPS-Liste Intensivmedizin)</h1>
+                <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year eq 2017}">Angaben zu § 3 Abs. 4 PpUGV (OPS-Liste Intensivmedizin)</h1>
+                <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}">Angaben zu § 3 Abs. 3 Nr. 3 PpUGV (OPS-Liste der Intensivmedizin)</h1>
 
                 <div jsf:rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
                      style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
@@ -922,12 +922,11 @@
                 </pf:repeat>
             </div>
         </div>
-        <div class="card">
+        <div class="card" jsf:id="aggregatedtTable">
             <div class="ui-g-12">
                 <h1>Zusammengefasste Stationsübersicht</h1>
 
-                <pf:dataTable id="aggregatedtTable"
-                              value="#{deptEdit.aggregatedWards}"
+                <pf:dataTable value="#{deptEdit.aggregatedWards}"
                               tableStyle="width: auto;"
                               emptyMessage="Es konnten keine Aggregate erstellt werden"
                               var="aggregate">
@@ -942,7 +941,7 @@
                         </h:outputText>
                     </pf:column>
                     <pf:column headerText="Pflegesensitiver Bereich" style="width: 120px;">
-                        <pf:outputLabel value="#{aggregate.sensitiveArea.name}"/>
+                        <pf:outputLabel value="#{aggregate.sensitiveAreas}"/>
                     </pf:column>
                     <pf:column headerText="Fachabteilungsname">
                         <pf:outputLabel value="#{aggregate.deptNames}"/>
@@ -960,7 +959,7 @@
                         <pf:outputLabel value="#{aggregate.locationCodeVz}"/>
                     </pf:column>
                     <pf:column headerText="Bettenanzahl der Station">
-                        <pf:outputLabel value="#{aggregate.beds}"/>
+                        <pf:outputLabel value="#{aggregate.differentBedCount ? 'unterschiedlich' : aggregate.beds }"/>
                     </pf:column>
                 </pf:dataTable>
             </div>

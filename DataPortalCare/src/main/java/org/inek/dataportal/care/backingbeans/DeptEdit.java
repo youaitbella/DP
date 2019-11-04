@@ -80,8 +80,7 @@ public class DeptEdit implements Serializable {
     private Set<Integer> _allowedP21LocationCodes = new HashSet<>();
 
     public List<AggregatedWards> getAggregatedWards() {
-        generateAggregatedWards();
-        return _aggregatedWards;
+        return AggregatedWardsHelper.aggregatedWards(_deptBaseInformation.getAllWards());
     }
 
     public void setAggregatedWards(List<AggregatedWards> aggregatedWards) {
@@ -196,7 +195,6 @@ public class DeptEdit implements Serializable {
     }
 
     public void save() {
-        generateAggregatedWards();
         _deptBaseInformation.setLastChangeBy(_sessionController.getAccountId());
         _deptBaseInformation.setLastChanged(new Date());
 
@@ -218,10 +216,6 @@ public class DeptEdit implements Serializable {
             DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
                     + "Bitte versuchen Sie es erneut");
         }
-    }
-
-    private void generateAggregatedWards() {
-        _aggregatedWards = AggregatedWardsHelper.generateAggregatedWardsFromWards(_deptBaseInformation.getAllWards());
     }
 
     public void send() {

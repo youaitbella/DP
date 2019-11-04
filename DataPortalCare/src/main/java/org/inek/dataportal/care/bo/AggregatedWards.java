@@ -22,6 +22,7 @@ public class AggregatedWards {
     private int _locationCodeVz;
 
     private int _beds;
+    private boolean _hasDifferentBedCount;
 
     public AggregatedWards(Date validFrom, Date validTo, List<DeptStation> stations) {
         this._validFrom = validFrom;
@@ -41,6 +42,28 @@ public class AggregatedWards {
         setValues(stations);
     }
 
+    public AggregatedWards(DeptStation ward) {
+        _locationCode21 = ward.getLocationCodeP21();
+        _locationCodeVz = ward.getLocationCodeVz();
+        _wardName = ward.getStationName();
+        _validFrom = ward.getValidFrom();
+        _validTo = ward.getValidTo();
+        _beds = ward.getBedCount();
+        _stations.add(ward);
+    }
+
+    public void aggregate(DeptStation ward) {
+        assert _locationCode21 == ward.getLocationCodeP21();
+        assert _locationCodeVz == ward.getLocationCodeVz();
+        assert _wardName.toLowerCase().replace(" ", "") == ward.getStationName().toLowerCase().replace(" ", "");
+        assert _validFrom == ward.getValidFrom();
+        assert _validTo == ward.getValidTo();
+        if (_beds != ward.getBedCount()) {
+            _hasDifferentBedCount = true;
+        }
+        _stations.add(ward);
+    }
+
     public Date getValidFrom() {
         return _validFrom;
     }
@@ -53,16 +76,16 @@ public class AggregatedWards {
         return _stations;
     }
 
-    public SensitiveArea getSensitiveArea() {
-        return _sensitiveArea;
+    public String getSensitiveAreas() {
+        return "todo"; //_stations.stream().map(DeptStation::get).collect(Collectors.joining(", "));
     }
 
     public String getDeptNames() {
-        return _deptNames;
+        return _stations.stream().map(DeptStation::getDeptName).collect(Collectors.joining(", "));
     }
 
     public String getFabs() {
-        return _fabs;
+        return _stations.stream().map(DeptStation::getFab).collect(Collectors.joining(", "));
     }
 
     public String getWardName() {
@@ -71,6 +94,10 @@ public class AggregatedWards {
 
     public int getBeds() {
         return _beds;
+    }
+
+    public boolean getDifferentBedCount() {
+        return _hasDifferentBedCount;
     }
 
     public int getLocationCode21() {
@@ -106,4 +133,5 @@ public class AggregatedWards {
     private void concatenateDeptName(List<DeptStation> stations) {
         _deptNames = stations.stream().map(DeptStation::getDeptName).collect(Collectors.joining(", "));
     }
+
 }

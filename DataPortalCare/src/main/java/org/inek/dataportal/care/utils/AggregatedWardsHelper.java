@@ -2,15 +2,14 @@ package org.inek.dataportal.care.utils;
 
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.bo.DatePair;
-import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptStation;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class AggregatedWardsHelper {
 
@@ -19,23 +18,21 @@ public class AggregatedWardsHelper {
             "diese lauten: [%s]. Es sind stets alle Betten der genannten Station anzugeben. Bitte überarbeiten Sie ihre Angaben zur " +
             "Bettenanzahl der Station.";
 
-    public static List<AggregatedWards> generateAggregatedWardsFromWards(List<DeptStation> wards) {
-        List<List<DeptStation>> lists = groupStationsByNameAndLocationCodes(wards);
-        List<List<DeptStation>> lists1 = groupStationListsByValidity(lists);
-        List<AggregatedWards> aggregatedWards = generateAggregatedWardsFromSortedWards(lists1);
-        return aggregatedWards;
-    }
-
-    protected static List<AggregatedWards> generateAggregatedWardsFromSortedWards(List<List<DeptStation>> wardsList) {
-        List<AggregatedWards> aggregatedWards = new ArrayList<>();
-
-        for (List<DeptStation> wards : wardsList) {
-            if (wards.size() > 0) {
-                aggregatedWards.add(new AggregatedWards(wards));
+    public static List<AggregatedWards> aggregatedWards(List<DeptStation> wards) {
+        Map<String, AggregatedWards> aggregatedWards = new ConcurrentHashMap<>();
+        for (DeptStation ward : wards) {
+            String key = ward.getLocationCodeP21()
+                    + "|" + ward.getLocationCodeVz()
+                    + "|" + ward.getStationName().toLowerCase().replace(" ", "")
+                    + "|" + ward.getValidFrom()
+                    + "|" + ward.getValidTo();
+            if (aggregatedWards.containsKey(key)) {
+                aggregatedWards.get(key).aggregate(ward);
+            } else {
+                aggregatedWards.put(key, new AggregatedWards(ward));
             }
         }
-
-        return aggregatedWards;
+        return new ArrayList<>(aggregatedWards.values());
     }
 
     public static List<String> checkBedCountForWards(List<DeptStation> wards) {

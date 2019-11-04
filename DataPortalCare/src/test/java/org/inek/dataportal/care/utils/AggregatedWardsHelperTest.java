@@ -272,7 +272,7 @@ class AggregatedWardsHelperTest {
         wards.add(station3);
         wards.add(station4);
 
-        List<AggregatedWards> aggregatedWards = AggregatedWardsHelper.generateAggregatedWardsFromWards(wards);
+        List<AggregatedWards> aggregatedWards = AggregatedWardsHelper.aggregatedWards(wards);
 
         Assertions.assertThat(aggregatedWards).hasSize(2);
 
