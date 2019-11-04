@@ -5,17 +5,12 @@
  */
 package org.inek.dataportal.psy.khcomparison.aebImporter;
 
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.ss.util.CellAddress;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Assumptions;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBPageB1;
 import org.inek.dataportal.common.data.KhComparison.importer.AebImporter;
 import org.junit.jupiter.api.Test;
-
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,9 +22,9 @@ import java.io.InputStream;
 /**
  * @author lautenti
  */
-public class AebImporterTest {
+public class CI_AebImporterTest {
 
-    public AebImporterTest() {
+    public CI_AebImporterTest() {
 
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-class ProofImporterTest {
+class CI_ProofImporterTest {
 
     private String FILE_BASE_FOLDER = "src\\test\\resources\\";
 
