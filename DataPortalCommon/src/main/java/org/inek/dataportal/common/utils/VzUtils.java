@@ -45,6 +45,10 @@ public class VzUtils implements Serializable {
     }
 
     public boolean locationCodeIsValidForIk(int ik, int locationCode) {
+        if (_config.readConfigBool(ConfigKey.TestMode)) {
+            return true;
+        }  // todo: remove once the interface is ready
+
         String address = _vzRestCheckVzNumberBaseUrl.replace(PLACEHOLDER_IK, String.valueOf(ik));
         address = address.replace(PLACEHOLDER_VZNUMBER, String.valueOf(locationCode));
         try {
@@ -58,9 +62,7 @@ public class VzUtils implements Serializable {
                 return answer.equals(ANSWER_OK);
             }
         } catch (Exception ex) {
-            //throw new IllegalArgumentException(ex.getMessage());
-            //TODO VZ muss API zum laufen bringen
-            return true;
+            throw new IllegalArgumentException(ex.getMessage());
         }
     }
 }

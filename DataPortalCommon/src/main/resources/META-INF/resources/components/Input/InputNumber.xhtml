@@ -18,6 +18,7 @@
         <cc:attribute name="decimalPlaces" default="0" />
         <cc:attribute name="maxValue" default="999999999999999" />
         <cc:attribute name="minValue" default="-999999999999999" />/>
+        <cc:attribute name="renderElement" default=""/>
         <cc:attribute name="thousendSeperator" default="." type="java.lang.String"/>
         <cc:attribute name="symbol" default="" type="java.lang.String"/>
         <cc:attribute name="symbolPosition" default="s" type="java.lang.String"/>
@@ -48,7 +49,7 @@
                                 onclick="this.setSelectionRange(0, this.value.length)"
                                 style="width: 100%;"
                                 symbolPosition="#{cc.attrs.symbolPosition}">
-                    <pf:ajax />
+                    <pf:ajax event="change" update="#{cc.attrs.renderElement}"/>
                 </pf:inputNumber>
                 <span jsf:rendered="#{cc.attrs.longInfoText.length() > 0}" class="ui-inputgroup-addon" onclick="PF('longInfo').toggle()" style="cursor: help; border: none; background-color: #7f9baf"><i class="fa fa-question" style="color: #ffffff"></i></span>
             </div>

@@ -80,6 +80,7 @@ public class DeptEdit implements Serializable {
     private Set<Integer> _allowedP21LocationCodes = new HashSet<>();
 
     public List<AggregatedWards> getAggregatedWards() {
+        generateAggregatedWards();
         return _aggregatedWards;
     }
 

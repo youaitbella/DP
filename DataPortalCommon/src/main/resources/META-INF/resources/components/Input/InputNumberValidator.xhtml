@@ -18,6 +18,7 @@
     <cc:attribute name="decimalPlaces" default="0"/>
     <cc:attribute name="maxValue" default="999999999999999"/>
     <cc:attribute name="minValue" default="-999999999999999"/>
+    <cc:attribute name="renderElement" default=""/>
     <cc:attribute name="validatorFunction" method-signature="void f(javax.faces.context.FacesContext,
                       javax.faces.component.UIComponent,
                       java.lang.Object)"/>
@@ -29,7 +30,6 @@
 </cc:interface>
 
 <!-- IMPLEMENTATION -->
-<div>
     <cc:implementation>
         <pf:outputLabel rendered="#{cc.attrs.labelText.length() gt 0}"
                         class="formLabel"
@@ -51,7 +51,7 @@
                             style="width: 100%;"
                             onclick="this.setSelectionRange(0, this.value.length)"
                             thousandSeparator="#{cc.attrs.thousendSeperator}">
-                <pf:ajax event="blur" update="text_message" disabled="#{cc.attrs.readonly}"/>
+                <pf:ajax event="blur" update="text_message #{cc.attrs.renderElement}" disabled="#{cc.attrs.readonly}"/>
             </pf:inputNumber>
             <span jsf:rendered="#{cc.attrs.longInfoText.length() > 0}" class="ui-inputgroup-addon"
                   onclick="PF('longInfo').toggle()" style="cursor: help; border: none; background-color: #7f9baf"><i
@@ -67,5 +67,4 @@
             </pf:scrollPanel>
         </pf:panel>
     </cc:implementation>
-</div>
 </html>

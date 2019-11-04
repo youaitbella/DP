@@ -110,7 +110,7 @@
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
-                    <pf:dataTable id="depTable"
+                    <pf:dataTable id="depTable1"
                                   value="#{dept.initDeptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
@@ -118,14 +118,14 @@
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
                                                  updateElement="form"/>
                         </pf:column>
-                        <pf:column id="colFabName">
+                        <pf:column id="colFabName1">
 
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsname"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnDeptName}"
-                                        for="colFabName"/>
+                                        for="colFabName1"/>
                             </f:facet>
 
                             <inekInput:InputText value="#{station.deptName}"
@@ -134,18 +134,18 @@
                                                  requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"
                                                  readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colWardName">
+                        <pf:column id="colWardName1">
 
                             <f:facet name="header">
                                 <h:outputText value="Stationsbezeichnung"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnWardName}"
-                                        for="colWardName"/>
+                                        for="colWardName1"/>
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.stationName}"
-                                              id="stationName"
+                                              id="stationName1"
                                               effect="fold"
                                               style="width: 95%;"
                                               required="true"
@@ -153,33 +153,35 @@
                                               disabled="#{deptEdit.isReadOnly}"
                                               editable="true">
                                 <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
+                                <pf:ajax event="change" update=":form:aggregatedtTable"/>
                             </pf:selectOneMenu>
-                            <pf:message id="stationName_message" for="stationName"/>
+                            <pf:message id="stationName1_message" for="stationName1"/>
                         </pf:column>
-                        <pf:column id="colP21" style="width: 100px;">
+                        <pf:column id="colP21Location1" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Standort nach § 21 KHEntgG"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnLocationP21}"
-                                        for="colP21"/>
+                                        for="colP21Location1"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
                                                             validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
+                                                            renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colVz" style="width: 100px;">
+                        <pf:column id="colVz1" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnLocationVz}"
-                                        for="colVz"/>
+                                        for="colVz1"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
@@ -187,20 +189,22 @@
                                                             validatorFunction="#{deptEdit.isVZLocationCodeValid}"
                                                             validatorMessage="Ungültiger Standort für dieses IK"
                                                             thousendSeperator=""
+                                                            renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colBed" style="width: 100px;">
+                        <pf:column id="colBed1" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Bettenanzahl der Station"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnBeds}"
-                                        for="colBed"/>
+                                        for="colBed1"/>
                             </f:facet>
 
                             <inekInput:InputNumber value="#{station.bedCount}"
                                                    Style="width: 100%;"
+                                                   renderElement=":form:aggregatedtTable"
                                                    readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                     </pf:dataTable>
@@ -212,7 +216,7 @@
                                       rendered="#{!deptEdit.isReadOnly}"
                                       style="margin-top: 10px;"
                                       icon="fa fa-plus"
-                                      update="depTable"/>
+                                      update="depTable1"/>
 
                 </pf:repeat>
 
@@ -234,7 +238,7 @@
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
-                    <pf:dataTable id="depTable"
+                    <pf:dataTable id="depTable2"
                                   value="#{dept.initDeptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
@@ -242,13 +246,13 @@
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
                                                  updateElement="form"/>
                         </pf:column>
-                        <pf:column id="colFabName">
+                        <pf:column id="colFabName2">
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsname"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnDeptName}"
-                                        for="colFabName"/>
+                                        for="colFabName2"/>
                             </f:facet>
 
                             <inekInput:InputText value="#{station.deptName}"
@@ -257,18 +261,18 @@
                                                  requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"
                                                  readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colWardName">
+                        <pf:column id="colWardName2">
 
                             <f:facet name="header">
                                 <h:outputText value="Stationsbezeichnung"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnWardName}"
-                                        for="colWardName"/>
+                                        for="colWardName2"/>
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.stationName}"
-                                              id="stationName"
+                                              id="stationName2"
                                               effect="fold"
                                               style="width: 95%;"
                                               required="true"
@@ -277,33 +281,35 @@
                                               editable="true">
                                 <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
                                 <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
+                                <pf:ajax event="change" update=":form:aggregatedtTable"/>
                             </pf:selectOneMenu>
-                            <pf:message id="stationName_message" for="stationName"/>
+                            <pf:message id="stationName2_message" for="stationName2"/>
                         </pf:column>
-                        <pf:column id="colP21" style="width: 100px;">
+                        <pf:column id="colP21Location2" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Standort nach § 21 KHEntgG"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnLocationP21}"
-                                        for="colP21"/>
+                                        for="colP21Location2"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
                                                             validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
+                                                            renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colVz" style="width: 100px;">
+                        <pf:column id="colVz2" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnLocationVz}"
-                                        for="colVz"/>
+                                        for="colVz2"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
@@ -311,20 +317,22 @@
                                                             validatorFunction="#{deptEdit.isVZLocationCodeValid}"
                                                             validatorMessage="Ungültiger Standort für dieses IK"
                                                             thousendSeperator=""
+                                                            renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colBed" style="width: 100px;">
+                        <pf:column id="colBed2" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Bettenanzahl der Station"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnBeds}"
-                                        for="colBed"/>
+                                        for="colBed2"/>
                             </f:facet>
 
                             <inekInput:InputNumber value="#{station.bedCount}"
                                                    Style="width: 100%;"
+                                                   renderElement=":form:aggregatedtTable"
                                                    readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                     </pf:dataTable>
@@ -336,7 +344,7 @@
                                       rendered="#{!deptEdit.isReadOnly}"
                                       style="margin-top: 10px;"
                                       icon="fa fa-plus"
-                                      update="depTable"/>
+                                      update="depTable2"/>
                 </pf:repeat>
 
             </div>
@@ -351,13 +359,12 @@
                      style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
                     Es sind die vom Krankenhaus verwendeten Namen der Fachabteilung und sämtliche zu dieser Fachabteilung gehörende Stationen standortbezogen mit zugehöriger Bettenanzahl einzutragen.
                 </div>
-
                 <pf:repeat value="#{deptEdit.getDeptsByArea(4)}" var="dept">
                     <h3>Stationsangaben für pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
-                    <pf:dataTable id="depTable"
+                    <pf:dataTable id="depTable4"
                                   value="#{dept.initDeptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
@@ -365,14 +372,14 @@
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
                                                  updateElement="form"/>
                         </pf:column>
-                        <pf:column id="colFab" style="width: 120px;">
+                        <pf:column id="colFab4" style="width: 120px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsnr."/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnFab}"
-                                        for="colFab"/>
+                                        for="colFab4"/>
                             </f:facet>
                             <inekInput:InputTextValidator value="#{station.fab}"
                                                           Style="width: 100%;"
@@ -381,13 +388,13 @@
                                                           maxlength="4"
                                                           readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colFabName">
+                        <pf:column id="colFabName4">
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsname"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnDeptName}"
-                                        for="colFabName"/>
+                                        for="colFabName4"/>
                             </f:facet>
                             <inekInput:InputText value="#{station.deptName}"
                                                  require="true"
@@ -395,18 +402,18 @@
                                                  requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"
                                                  readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colWardName">
+                        <pf:column id="colWardName4">
 
                             <f:facet name="header">
                                 <h:outputText value="Stationsbezeichnung"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnWardName}"
-                                        for="colWardName"/>
+                                        for="colWardName4"/>
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.stationName}"
-                                              id="stationName"
+                                              id="stationName4"
                                               effect="fold"
                                               style="width: 95%;"
                                               required="true"
@@ -415,33 +422,35 @@
                                               editable="true">
                                 <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
                                 <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
+                                <pf:ajax event="change" update=":form:aggregatedtTable"/>
                             </pf:selectOneMenu>
-                            <pf:message id="stationName_message" for="stationName"/>
+                            <pf:message id="stationName4_message" for="stationName4"/>
                         </pf:column>
-                        <pf:column id="colP21" style="width: 100px;">
+                        <pf:column id="colP21Location4" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Standort nach § 21 KHEntgG"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnLocationP21}"
-                                        for="colP21"/>
+                                        for="colP21Location4"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
                                                             validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
+                                                            renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colVz" style="width: 100px;">
+                        <pf:column id="colVz4" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnLocationVz}"
-                                        for="colVz"/>
+                                        for="colVz4"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
@@ -449,20 +458,22 @@
                                                             validatorFunction="#{deptEdit.isVZLocationCodeValid}"
                                                             validatorMessage="Ungültiger Standort für dieses IK"
                                                             thousendSeperator=""
+                                                            renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colBed" style="width: 100px;">
+                        <pf:column id="colBed4" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Bettenanzahl der Station"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnBeds}"
-                                        for="colBed"/>
+                                        for="colBed4"/>
                             </f:facet>
 
                             <inekInput:InputNumber value="#{station.bedCount}"
                                                    Style="width: 100%;"
+                                                   renderElement=":form:aggregatedtTable"
                                                    readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                     </pf:dataTable>
@@ -474,7 +485,7 @@
                                       rendered="#{!deptEdit.isReadOnly}"
                                       style="margin-top: 10px;"
                                       icon="fa fa-plus"
-                                      update="depTable"/>
+                                      update="depTable4"/>
                 </pf:repeat>
             </div>
 
@@ -494,7 +505,7 @@
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
-                    <pf:dataTable id="depTable"
+                    <pf:dataTable id="depTable5"
                                   value="#{dept.initDeptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
@@ -502,14 +513,14 @@
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
                                                  updateElement="form"/>
                         </pf:column>
-                        <pf:column id="colFab" style="width: 120px;">
+                        <pf:column id="colFab5" style="width: 120px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsnr."/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnFab}"
-                                        for="colFab"/>
+                                        for="colFab5"/>
                             </f:facet>
                             <inekInput:InputTextValidator value="#{station.fab}"
                                                           Style="width: 100%;"
@@ -518,13 +529,13 @@
                                                           maxlength="4"
                                                           readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colFabName">
+                        <pf:column id="colFabName5">
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsname"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnDeptName}"
-                                        for="colFabName"/>
+                                        for="colFabName5"/>
                             </f:facet>
                             <inekInput:InputText value="#{station.deptName}"
                                                  require="true"
@@ -532,18 +543,18 @@
                                                  requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"
                                                  readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colWardName">
+                        <pf:column id="colWardName5">
 
                             <f:facet name="header">
                                 <h:outputText value="Stationsbezeichnung"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnWardName}"
-                                        for="colWardName"/>
+                                        for="colWardName5"/>
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.stationName}"
-                                              id="stationName"
+                                              id="stationName5"
                                               effect="fold"
                                               style="width: 95%;"
                                               required="true"
@@ -552,33 +563,35 @@
                                               editable="true">
                                 <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
                                 <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
+                                <pf:ajax event="change" update=":form:aggregatedtTable"/>
                             </pf:selectOneMenu>
-                            <pf:message id="stationName_message" for="stationName"/>
+                            <pf:message id="stationName5_message" for="stationName5"/>
                         </pf:column>
-                        <pf:column id="colP21" style="width: 100px;">
+                        <pf:column id="colP21Location5" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Standort nach § 21 KHEntgG"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnLocationP21}"
-                                        for="colP21"/>
+                                        for="colP21Location5"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
                                                             validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
+                                                            renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colVz" style="width: 100px;">
+                        <pf:column id="colVz5" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnLocationVz}"
-                                        for="colVz"/>
+                                        for="colVz5"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
@@ -586,20 +599,22 @@
                                                             validatorFunction="#{deptEdit.isVZLocationCodeValid}"
                                                             validatorMessage="Ungültiger Standort für dieses IK"
                                                             thousendSeperator=""
+                                                            renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colBed" style="width: 100px;">
+                        <pf:column id="colBed5" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Bettenanzahl der Station"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnBeds}"
-                                        for="colBed"/>
+                                        for="colBed5"/>
                             </f:facet>
 
                             <inekInput:InputNumber value="#{station.bedCount}"
                                                    Style="width: 100%;"
+                                                   renderElement=":form:aggregatedtTable"
                                                    readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                     </pf:dataTable>
@@ -611,7 +626,7 @@
                                       rendered="#{!deptEdit.isReadOnly}"
                                       style="margin-top: 10px;"
                                       icon="fa fa-plus"
-                                      update="depTable"/>
+                                      update="depTable5"/>
                 </pf:repeat>
             </div>
 
@@ -632,7 +647,7 @@
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
-                    <pf:dataTable id="depTable"
+                    <pf:dataTable id="depTable6"
                                   value="#{dept.initDeptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
@@ -640,14 +655,14 @@
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
                                                  updateElement="form"/>
                         </pf:column>
-                        <pf:column id="colFab" style="width: 120px;">
+                        <pf:column id="colFab6" style="width: 120px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsnr."/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnFab}"
-                                        for="colFab"/>
+                                        for="colFab6"/>
                             </f:facet>
 
                             <inekInput:InputTextValidator value="#{station.fab}"
@@ -657,13 +672,13 @@
                                                           maxlength="4"
                                                           readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colFabName">
+                        <pf:column id="colFabName6">
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsname"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnDeptName}"
-                                        for="colFabName"/>
+                                        for="colFabName6"/>
                             </f:facet>
                             <inekInput:InputText value="#{station.deptName}"
                                                  require="true"
@@ -671,18 +686,18 @@
                                                  requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"
                                                  readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colWardName">
+                        <pf:column id="colWardName6">
 
                             <f:facet name="header">
                                 <h:outputText value="Stationsbezeichnung"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnWardName}"
-                                        for="colWardName"/>
+                                        for="colWardName6"/>
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.stationName}"
-                                              id="stationName"
+                                              id="stationName6"
                                               effect="fold"
                                               style="width: 95%;"
                                               required="true"
@@ -691,33 +706,35 @@
                                               editable="true">
                                 <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
                                 <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
+                                <pf:ajax event="change" update=":form:aggregatedtTable"/>
                             </pf:selectOneMenu>
-                            <pf:message id="stationName_message" for="stationName"/>
+                            <pf:message id="stationName6_message" for="stationName6"/>
                         </pf:column>
-                        <pf:column id="colP21" style="width: 100px;">
+                        <pf:column id="colP21Location6" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Standort nach § 21 KHEntgG"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnLocationP21}"
-                                        for="colP21"/>
+                                        for="colP21Location6"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
                                                             validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
+                                                            renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colVz" style="width: 100px;">
+                        <pf:column id="colVz6" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnLocationVz}"
-                                        for="colVz"/>
+                                        for="colVz6"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
@@ -725,20 +742,22 @@
                                                             validatorFunction="#{deptEdit.isVZLocationCodeValid}"
                                                             validatorMessage="Ungültiger Standort für dieses IK"
                                                             thousendSeperator=""
+                                                            renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colBed" style="width: 100px;">
+                        <pf:column id="colBed6" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Bettenanzahl der Station"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnBeds}"
-                                        for="colBed"/>
+                                        for="colBed6"/>
                             </f:facet>
 
                             <inekInput:InputNumber value="#{station.bedCount}"
                                                    Style="width: 100%;"
+                                                   renderElement=":form:aggregatedtTable"
                                                    readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                     </pf:dataTable>
@@ -750,7 +769,7 @@
                                       rendered="#{!deptEdit.isReadOnly}"
                                       style="margin-top: 10px;"
                                       icon="fa fa-plus"
-                                      update="depTable"/>
+                                      update="depTable6"/>
                 </pf:repeat>
             </div>
 
@@ -777,7 +796,7 @@
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
-                    <pf:dataTable id="depTable"
+                    <pf:dataTable id="depTable3"
                                   value="#{dept.initDeptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
@@ -785,14 +804,14 @@
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
                                                  updateElement="form"/>
                         </pf:column>
-                        <pf:column id="colFab" style="width: 120px;">
+                        <pf:column id="colFab3" style="width: 120px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsnr."/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnFab}"
-                                        for="colFab"/>
+                                        for="colFab3"/>
                             </f:facet>
 
                             <inekInput:InputTextValidator value="#{station.fab}"
@@ -802,13 +821,13 @@
                                                           maxlength="4"
                                                           readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colFabName">
+                        <pf:column id="colFabName3">
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsname"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnDeptName}"
-                                        for="colFabName"/>
+                                        for="colFabName3"/>
                             </f:facet>
                             <inekInput:InputText value="#{station.deptName}"
                                                  require="true"
@@ -816,18 +835,18 @@
                                                  requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"
                                                  readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colWardName">
+                        <pf:column id="colWardName3">
 
                             <f:facet name="header">
                                 <h:outputText value="Stationsbezeichnung"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnWardName}"
-                                        for="colWardName"/>
+                                        for="colWardName3"/>
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.stationName}"
-                                              id="stationName"
+                                              id="stationName3"
                                               effect="fold"
                                               style="width: 95%;"
                                               required="true"
@@ -836,33 +855,35 @@
                                               editable="true">
                                 <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
                                 <f:selectItems value="#{deptEdit.stationPrefillNames}"/>
+                                <pf:ajax event="change" update=":form:aggregatedtTable"/>
                             </pf:selectOneMenu>
-                            <pf:message id="stationName_message" for="stationName"/>
+                            <pf:message id="stationName3_message" for="stationName3"/>
                         </pf:column>
-                        <pf:column id="colP21" style="width: 100px;">
+                        <pf:column id="colP21Location3" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Standort nach § 21 KHEntgG"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnLocationP21}"
-                                        for="colP21"/>
+                                        for="colP21Location3"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
                                                             validatorFunction="#{deptEdit.isP21LocationCodeValid}"
                                                             validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
+                                                            renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colVz" style="width: 100px;">
+                        <pf:column id="colVz3" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnLocationVz}"
-                                        for="colVz"/>
+                                        for="colVz3"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
@@ -870,20 +891,22 @@
                                                             validatorFunction="#{deptEdit.isVZLocationCodeValid}"
                                                             validatorMessage="Ungültiger Standort für dieses IK"
                                                             thousendSeperator=""
+                                                            renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colBed" style="width: 100px;">
+                        <pf:column id="colBed3" style="width: 100px;">
 
                             <f:facet name="header">
                                 <h:outputText value="Bettenanzahl der Station"/>
                                 <i class="fa fa-question-circle"></i>
                                 <pf:tooltip
                                         value="#{msg.careColumnBeds}"
-                                        for="colBed"/>
+                                        for="colBed3"/>
                             </f:facet>
 
                             <inekInput:InputNumber value="#{station.bedCount}"
                                                    Style="width: 100%;"
+                                                   renderElement=":form:aggregatedtTable"
                                                    readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                     </pf:dataTable>
@@ -895,7 +918,7 @@
                                       rendered="#{!deptEdit.isReadOnly}"
                                       style="margin-top: 10px;"
                                       icon="fa fa-plus"
-                                      update="depTable"/>
+                                      update="depTable3"/>
                 </pf:repeat>
             </div>
         </div>
