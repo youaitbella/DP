@@ -195,7 +195,7 @@ public class DeptEdit implements Serializable {
     }
 
     public void save() {
-        generateAggregatedStation();
+        generateAggregatedWards();
         _deptBaseInformation.setLastChangeBy(_sessionController.getAccountId());
         _deptBaseInformation.setLastChanged(new Date());
 
@@ -219,8 +219,8 @@ public class DeptEdit implements Serializable {
         }
     }
 
-    private void generateAggregatedStation() {
-        _aggregatedWards = AggregatedWardsHelper.generateAggregatedWardsFromWards(_deptBaseInformation.getAllStations());
+    private void generateAggregatedWards() {
+        _aggregatedWards = AggregatedWardsHelper.generateAggregatedWardsFromWards(_deptBaseInformation.getAllWards());
     }
 
     public void send() {
@@ -241,7 +241,7 @@ public class DeptEdit implements Serializable {
     }
 
     private boolean isAllowedForSend() {
-        List<String> errors = AggregatedWardsHelper.checkBedCountForWards(_deptBaseInformation.getAllStations());
+        List<String> errors = AggregatedWardsHelper.checkBedCountForWards(_deptBaseInformation.getAllWards());
         _errorMessages = errors.stream().collect(Collectors.joining("\n"));
         return errors.isEmpty();
     }

@@ -14,7 +14,8 @@ import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -39,6 +40,6 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         query.setParameter("ik", ik);
         List<DeptBaseInformation> resultList = query.getResultList();
         DeptBaseInformation deptBaseInformation = resultList.get(0);
-        return CareDeptStationHelper.getStationsByDate(deptBaseInformation.getAllStations(), date);
+        return CareDeptStationHelper.getStationsByDate(deptBaseInformation.getAllWards(), date);
     }
 }
