@@ -53,10 +53,10 @@
                             from CallCenterDB.dbo.ccCustomer cu
                             where cuIsTest = 0
                             and cuIsActive = 1
+		                    and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
                         ) b
                         where b.stateId in ({stateIds})
                     )
-                    and ehik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
                 )
                 and bi.biDataYear = @year
                 and bi.biStatusId in (10)  -- was 10, 200
@@ -90,10 +90,10 @@
                             from CallCenterDB.dbo.ccCustomer cu
                             where cuIsTest = 0
                             and cuIsActive = 1
+		                    and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
                         ) b
                         where b.stateId in ({stateIds})
                     )
-                    and eh.ehik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
                 )
                 and bi.biDataYear <= @year
                 and bi.biStatusId in (10)

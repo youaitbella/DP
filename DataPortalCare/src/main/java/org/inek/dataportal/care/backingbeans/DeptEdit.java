@@ -213,7 +213,7 @@ public class DeptEdit implements Serializable {
             DialogController.showSaveDialog();
         } catch (Exception ex) {
             _mailer.sendError("Fehler beim speichern PPUG", ex);
-            DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
+            DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden. "
                     + "Bitte versuchen Sie es erneut");
         }
     }
