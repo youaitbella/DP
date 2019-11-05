@@ -1,26 +1,78 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="rentschlerel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Auswertung starten</title>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Auswertung starten</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Über die entsprechenden Auswahlfelder können Sie die Einstellungen für einen Vergleich auswählen. Sie können das Institutskennzeichen je nach vorhandenen Berechtigungen, und das gewünschte Vereinbarungsjahr je nach gelieferten Daten auswählen. Möchten Sie z.B. für die Verhandlungen für das Vereinbarungsjahr 2019 eine Auswertung starten, muss von dem entsprechenden Krankenhaus Daten für das Jahr 2018 vorliegen.</text></para>
+      <para styleclass="Normal">
+          <text styleclass="Normal" translate="true">Als eine der Vertragsparteien nach § 11 BPflV können Sie gemäß § 8
+              Abs. 2 Psych-Krankenhausvergleichs-Vereinbarung für das zu vergleichende Krankenhaus Vergleiche
+              durchführen. Über die entsprechenden Auswahlfelder können Sie die Einstellungen für einen Vergleich
+              auswählen: das Institutskennzeichen je nach vorhandenen Berechtigungen und das gewünschte
+              Vereinbarungsjahr je nach gelieferten Daten. Möchten Sie z.B. als Krankenhaus für die Verhandlungen des
+              Vereinbarungsjahres 2019 eine Auswertung starten, müssen von Ihrer Einrichtung Daten für das Jahr 2018
+              vorliegen.
+          </text>
+      </para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Über den Button &quot;Auswertung starten&quot; können Sie die Auswertung starten.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal" style="text-align:center;"><image src="evaluation_1.png" scale="100.00%" styleclass="Image Caption"><caption translate="true"><![CDATA[Auswahl der Auswertungsparameter]]></caption></image></para>
+      <para styleclass="Image Caption">
+          <image src="PSY-KH-Vergleich_Parameter.png" scale="85.62%" width="780" height="262"
+                 styleclass="Image Caption"></image>
+      </para>
+      <para styleclass="Image Caption">
+          <var styleclass="Image Caption">&lt;%FIGURE%&gt;</var>
+          <text styleclass="Image Caption" translate="true">Eingabe der Parameter für das zu vergleichende Krankenhaus
+          </text>
+      </para>
     <para styleclass="Normal" style="text-align:center;"></para>
-    <para styleclass="Normal" style="text-align:center;"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das InEk ermittelt nun die entsprechenden Vergleichsgruppen. Sofern für eine Auswertung genug Daten vorhanden sind, wird eine Krankenhausvergleichs-ID erzeugt, und Sie sehen die Auswertung in der Übersichtsliste.</text></para>
+      <para styleclass="Normal">
+          <text styleclass="Normal" translate="true">Das InEK ermittelt nun die entsprechenden Vergleichsgruppen (vgl.
+          </text>
+          <link displaytype="text" defaultstyle="true" type="topiclink" href="Zuordnung-der-Vergleichsgruppe"
+                styleclass="Normal" translate="true">Zuordnung der Vergleichsgruppen
+          </link>
+          <text styleclass="Normal" translate="true">). Liegen für mindestens eine Auswertungsvariante genügend Daten
+              (=Einrichtungen) vor, wird die Krankenhausvergleichs-ID erzeugt und &#160;in der Übersichtsliste
+              angezeigt.
+          </text>
+      </para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal" style="text-align:center;"><image src="evaluation_2.png" scale="100.00%" styleclass="Image Caption"><caption translate="true"><![CDATA[Übersciht der erstellten Auswertungen]]></caption></image></para>
-    <para styleclass="Normal"></para>
+      <para styleclass="Image Caption">
+          <image src="evaluation_2.png" scale="100.00%" styleclass="Image Caption"></image>
+      </para>
+      <para styleclass="Image Caption">
+          <var styleclass="Image Caption">&lt;%FIGURE%&gt;</var>
+          <text styleclass="Image Caption" translate="true">Übersicht der bereits erstellten bzw. gestarteten
+              Auswertungen
+          </text>
+      </para>
+      <para styleclass="Image Caption"></para>
     <para styleclass="Hinweis" style="text-align:center;"><text styleclass="Hinweis" style="font-size:14pt;" translate="true">Die Auswertung kann mehrere Minuten dauern. Sobald diese fertig ist, werden Sie per E-Mail informiert.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sobald die Auswertung fertig ist, kann diese entweder über die Übersichtsliste heruntergeladen werden, oder über die Krankenhausvergleich ID direkt heruntergeladen werden.</text></para>
+      <para styleclass="Normal">
+          <text styleclass="Normal" translate="true">Sobald die Auswertung fertig ist, kann diese entweder über die
+              Übersichtsliste heruntergeladen werden (siehe oben unter
+          </text>
+          <text styleclass="ButtonPsy" translate="true">[↓Download]</text>
+          <text styleclass="Normal" translate="true">) oder über die Eingabe der Krankenhausvergleichs-ID direkt
+              heruntergeladen werden (
+          </text>
+          <text styleclass="ButtonPsy" translate="true">[Auswertung herunterladen]</text>
+          <text styleclass="Normal" translate="true">).</text>
+      </para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal" style="text-align:center;"><image src="evaluation_3.png" scale="100.00%" styleclass="Image Caption"><caption translate="true"><![CDATA[Auswertungen über die Krankenhausvergleich ID herunterladen]]></caption></image></para>
+      <para styleclass="Image Caption">
+          <image src="evaluation_3.png" scale="100.00%" styleclass="Image Caption"></image>
+      </para>
+      <para styleclass="Image Caption">
+          <var styleclass="Image Caption">&lt;%FIGURE%&gt;</var>
+          <text styleclass="Image Caption" translate="true">Eingabe der Krankenhausvergleichs-ID</text>
+      </para>
+      <para styleclass="Normal" style="text-align:center;"></para>
   </body>
 </topic>
