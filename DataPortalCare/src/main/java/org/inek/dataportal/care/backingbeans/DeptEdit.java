@@ -271,7 +271,7 @@ public class DeptEdit implements Serializable {
 
     public List<Dept> getDeptsByArea(int area) {
         if (_deptBaseInformation == null) {
-            return new ArrayList<Dept>();
+            return new ArrayList<>();
         }
         return _deptBaseInformation.getDepts().stream()
                 .filter(c -> c.getDeptArea() == area)

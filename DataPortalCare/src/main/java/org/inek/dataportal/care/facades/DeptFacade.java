@@ -5,24 +5,18 @@
  */
 package org.inek.dataportal.care.facades;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import javafx.util.Pair;
+import org.inek.dataportal.care.entities.Dept;
+import org.inek.dataportal.care.entities.DeptBaseInformation;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-
-import org.inek.dataportal.care.entities.Dept;
-import org.inek.dataportal.care.entities.DeptBaseInformation;
-import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
-import org.inek.dataportal.common.enums.WorkflowStatus;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author lautenti
@@ -115,7 +109,7 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
             dept.setRequired((Boolean) record[2]);
             dept.setDeptNumber((String) record[3]);
             dept.setSensitiveArea((String) record[4]);
-            dept.setSensitiveArea((String) record[5]);
+            dept.setLocation((String) record[5]);
             info.addDept(dept);
         });
     }
