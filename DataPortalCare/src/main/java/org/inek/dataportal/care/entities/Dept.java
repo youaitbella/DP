@@ -27,8 +27,8 @@ public class Dept implements Serializable {
         this._sensitiveArea = dept.getSensitiveArea();
         this._required = dept.getRequired();
 
-        for (DeptStation station : dept.getDeptStations()) {
-            DeptStation newStation = new DeptStation(station);
+        for (DeptWard station : dept.getDeptWards()) {
+            DeptWard newStation = new DeptWard(station);
             newStation.setDept(this);
             addDeptStation(newStation);
         }
@@ -154,47 +154,47 @@ public class Dept implements Serializable {
 
     @OneToMany(mappedBy = "_dept", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dpDeptId")
-    private List<DeptStation> _deptStations = new ArrayList<>();
+    private List<DeptWard> _deptWards = new ArrayList<>();
 
-    public List<DeptStation> getDeptStations() {
-        return _deptStations;
+    public List<DeptWard> getDeptWards() {
+        return _deptWards;
     }
 
-    public List<DeptStation> getInitDeptStations() {
-        return _deptStations.stream().filter(DeptStation::getIsInitial).collect(Collectors.toList());
+    public List<DeptWard> getInitDeptWards() {
+        return _deptWards.stream().filter(DeptWard::getIsInitial).collect(Collectors.toList());
     }
 
-    public void setDeptStations(List<DeptStation> deptStations) {
-        this._deptStations = deptStations;
+    public void setDeptWards(List<DeptWard> deptWards) {
+        this._deptWards = deptWards;
     }
 
-    public void addNewInitialDeptStation(Date validFrom, Date validTo) {
-        DeptStation deptStation = new DeptStation();
-        deptStation.setDept(this);
-        deptStation.setDeptName(_deptName);
-        deptStation.setFab(_deptNumber);
-        deptStation.setValidFrom(validFrom);
-        deptStation.setValidTo(validTo);
-        deptStation.setIsInitial(true);
-        _deptStations.add(deptStation);
+    public void addNewInitialDeptWard(Date validFrom, Date validTo) {
+        DeptWard deptWard = new DeptWard();
+        deptWard.setDept(this);
+        deptWard.setDeptName(_deptName);
+        deptWard.setFab(_deptNumber);
+        deptWard.setValidFrom(validFrom);
+        deptWard.setValidTo(validTo);
+        deptWard.setIsInitial(true);
+        _deptWards.add(deptWard);
     }
 
-    public void addNewDeptStation(Date validFrom, Date validTo) {
-        DeptStation deptStation = new DeptStation();
-        deptStation.setDept(this);
-        deptStation.setDeptName(_deptName);
-        deptStation.setFab(_deptNumber);
-        deptStation.setValidFrom(validFrom);
-        deptStation.setValidTo(validTo);
-        _deptStations.add(deptStation);
+    public void addNewDeptWard(Date validFrom, Date validTo) {
+        DeptWard deptWard = new DeptWard();
+        deptWard.setDept(this);
+        deptWard.setDeptName(_deptName);
+        deptWard.setFab(_deptNumber);
+        deptWard.setValidFrom(validFrom);
+        deptWard.setValidTo(validTo);
+        _deptWards.add(deptWard);
     }
 
-    private void addDeptStation(DeptStation station) {
-        _deptStations.add(station);
+    private void addDeptStation(DeptWard station) {
+        _deptWards.add(station);
     }
 
-    public void removeDeptStation(DeptStation deptStation) {
-        _deptStations.remove(deptStation);
+    public void removeDeptStation(DeptWard deptWard) {
+        _deptWards.remove(deptWard);
     }
 
     @OneToMany(mappedBy = "_dept", cascade = CascadeType.ALL, orphanRemoval = true)

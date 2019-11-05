@@ -6,7 +6,7 @@
 package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.care.entities.DeptStation;
+import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.care.entities.StructuralChanges.WardsToChange;
 import org.inek.dataportal.care.enums.StructuralChangesType;
@@ -48,7 +48,7 @@ public class StructuralChangesEdit implements Serializable {
 
     private int _ik;
 
-    private List<DeptStation> _wards;
+    private List<DeptWard> _wards;
 
     private List<StructuralChangesBaseInformation> _changesBaseInformations = new ArrayList<>();
 
@@ -60,11 +60,11 @@ public class StructuralChangesEdit implements Serializable {
         this._changesBaseInformations = changesBaseInformations;
     }
 
-    public List<DeptStation> getWards() {
+    public List<DeptWard> getWards() {
         return _wards;
     }
 
-    public void setWards(List<DeptStation> wards) {
+    public void setWards(List<DeptWard> wards) {
         this._wards = wards;
     }
 
@@ -90,18 +90,18 @@ public class StructuralChangesEdit implements Serializable {
         return _accessManager.userHasWriteAccess(Feature.CARE, ik);
     }
 
-    public void newChangeWard(DeptStation ward) {
+    public void newChangeWard(DeptWard ward) {
         StructuralChangesBaseInformation info = createNewChangesBaseInformation();
         info.setStructuralChangesType(StructuralChangesType.CHANGE);
         info.setWardsToChange(createNewWardsToChange(ward));
         _changesBaseInformations.add(info);
     }
 
-    public void deleteWard(DeptStation ward) {
+    public void deleteWard(DeptWard ward) {
         //TODO löschung der Stationen
     }
 
-    private WardsToChange createNewWardsToChange(DeptStation ward) {
+    private WardsToChange createNewWardsToChange(DeptWard ward) {
         WardsToChange wardsToChange = new WardsToChange(ward);
         wardsToChange.setMapVersion(ward.getMapVersion());
         return wardsToChange;

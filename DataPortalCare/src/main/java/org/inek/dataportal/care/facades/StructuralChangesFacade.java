@@ -6,7 +6,7 @@
 package org.inek.dataportal.care.facades;
 
 import org.inek.dataportal.care.entities.DeptBaseInformation;
-import org.inek.dataportal.care.entities.DeptStation;
+import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.care.utils.CareDeptStationHelper;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
@@ -33,7 +33,7 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         return merge(baseInfo);
     }
 
-    public List<DeptStation> findWardsByIkAndDate(int ik, Date date) {
+    public List<DeptWard> findWardsByIkAndDate(int ik, Date date) {
         String sql = "select bi from DeptBaseInformation bi where bi._ik = :ik and " +
                 "bi._statusId in (10, 200) order by bi._year desc, bi._send desc";
         TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(sql, DeptBaseInformation.class);

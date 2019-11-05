@@ -12,14 +12,14 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "DeptWards", schema = "care")
-public class DeptStation implements Serializable {
+public class DeptWard implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public DeptStation() {
+    public DeptWard() {
     }
 
-    public DeptStation(DeptStation other) {
+    public DeptWard(DeptWard other) {
         this._wardNumber = other._wardNumber;
         this._dept = other._dept;
         this._stationName = other._stationName;
@@ -76,7 +76,7 @@ public class DeptStation implements Serializable {
 
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="BaseInformation">
+    //<editor-fold defaultstate="collapsed" desc="Dept">
     @ManyToOne
     @JoinColumn(name = "dpDeptId")
     private Dept _dept;
@@ -220,7 +220,7 @@ public class DeptStation implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DeptStation that = (DeptStation) o;
+        DeptWard that = (DeptWard) o;
         return _locationCodeP21 == that._locationCodeP21 &&
                 _locationCodeVz == that._locationCodeVz &&
                 _bedCount == that._bedCount &&
@@ -243,7 +243,7 @@ public class DeptStation implements Serializable {
 
     @Override
     public String toString() {
-        return "DeptStation{" +
+        return "DeptWard{" +
                 "_id=" + _id +
                 ", _wardNumber=" + _wardNumber +
                 ", _mapVersion=" + _mapVersion +

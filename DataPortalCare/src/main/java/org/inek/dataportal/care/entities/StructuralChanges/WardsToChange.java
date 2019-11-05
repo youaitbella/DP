@@ -1,6 +1,6 @@
 package org.inek.dataportal.care.entities.StructuralChanges;
 
-import org.inek.dataportal.care.entities.DeptStation;
+import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.version.MapVersion;
 
 import javax.persistence.*;
@@ -17,7 +17,7 @@ public class WardsToChange implements Serializable {
     public WardsToChange() {
     }
 
-    public WardsToChange(DeptStation station) {
+    public WardsToChange(DeptWard station) {
         _deptId = station.getDept().getId();
         _mapVersion = station.getMapVersion();
         _wardName = station.getStationName();

@@ -32,7 +32,7 @@ public class CareValidatorTest {
         dept2.setRequired(true);
         dept3.setRequired(true);
 
-        dept1.addNewDeptStation(new Date(), new Date());
+        dept1.addNewDeptWard(new Date(), new Date());
 
         info.addDept(dept1);
         info.addDept(dept2);
@@ -88,7 +88,7 @@ public class CareValidatorTest {
         dept2.setRequired(false);
         dept3.setRequired(false);
 
-        dept1.addNewDeptStation(new Date(), new Date());
+        dept1.addNewDeptWard(new Date(), new Date());
 
         info.addDept(dept1);
         info.addDept(dept2);

@@ -1,6 +1,6 @@
 package org.inek.dataportal.care.bo;
 
-import org.inek.dataportal.care.entities.DeptStation;
+import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.enums.SensitiveArea;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class AggregatedWards {
     private Date _validFrom;
     private Date _validTo;
-    private List<DeptStation> _stations = new ArrayList<>();
+    private List<DeptWard> _stations = new ArrayList<>();
 
     private SensitiveArea _sensitiveArea;
     private String _deptNames;
@@ -24,14 +24,14 @@ public class AggregatedWards {
     private int _beds;
     private boolean _hasDifferentBedCount;
 
-    public AggregatedWards(Date validFrom, Date validTo, List<DeptStation> stations) {
+    public AggregatedWards(Date validFrom, Date validTo, List<DeptWard> stations) {
         this._validFrom = validFrom;
         this._validTo = validTo;
         this._stations = stations;
         setValues(stations);
     }
 
-    public AggregatedWards(List<DeptStation> stations) {
+    public AggregatedWards(List<DeptWard> stations) {
         this._validFrom = stations.stream()
                 .min(Comparator.comparing(c -> c.getValidFrom().getTime()))
                 .get().getValidFrom();
@@ -42,7 +42,7 @@ public class AggregatedWards {
         setValues(stations);
     }
 
-    public AggregatedWards(DeptStation ward) {
+    public AggregatedWards(DeptWard ward) {
         _locationCode21 = ward.getLocationCodeP21();
         _locationCodeVz = ward.getLocationCodeVz();
         _wardName = ward.getStationName();
@@ -52,7 +52,7 @@ public class AggregatedWards {
         _stations.add(ward);
     }
 
-    public void aggregate(DeptStation ward) {
+    public void aggregate(DeptWard ward) {
         assert _locationCode21 == ward.getLocationCodeP21();
         assert _locationCodeVz == ward.getLocationCodeVz();
         assert _wardName.toLowerCase().replace(" ", "") == ward.getStationName().toLowerCase().replace(" ", "");
@@ -72,20 +72,20 @@ public class AggregatedWards {
         return _validTo;
     }
 
-    public List<DeptStation> getStations() {
+    public List<DeptWard> getStations() {
         return _stations;
     }
 
     public String getSensitiveAreas() {
-        return "todo"; //_stations.stream().map(DeptStation::get).collect(Collectors.joining(", "));
+        return "todo"; //_stations.stream().map(DeptWard::get).collect(Collectors.joining(", "));
     }
 
     public String getDeptNames() {
-        return _stations.stream().map(DeptStation::getDeptName).collect(Collectors.joining(", "));
+        return _stations.stream().map(DeptWard::getDeptName).collect(Collectors.joining(", "));
     }
 
     public String getFabs() {
-        return _stations.stream().map(DeptStation::getFab).collect(Collectors.joining(", "));
+        return _stations.stream().map(DeptWard::getFab).collect(Collectors.joining(", "));
     }
 
     public String getWardName() {
@@ -116,8 +116,8 @@ public class AggregatedWards {
         this._locationCodeVz = locationCodeVz;
     }
 
-    private void setValues(List<DeptStation> stations) {
-        DeptStation station = stations.get(0);
+    private void setValues(List<DeptWard> stations) {
+        DeptWard station = stations.get(0);
         _wardName = station.getStationName();
         _beds = station.getBedCount();
         _locationCodeVz = station.getLocationCodeVz();
@@ -126,12 +126,12 @@ public class AggregatedWards {
         concatenateDeptName(stations);
     }
 
-    private void concatenateFabs(List<DeptStation> stations) {
-        _fabs = stations.stream().map(DeptStation::getFab).collect(Collectors.joining(", "));
+    private void concatenateFabs(List<DeptWard> stations) {
+        _fabs = stations.stream().map(DeptWard::getFab).collect(Collectors.joining(", "));
     }
 
-    private void concatenateDeptName(List<DeptStation> stations) {
-        _deptNames = stations.stream().map(DeptStation::getDeptName).collect(Collectors.joining(", "));
+    private void concatenateDeptName(List<DeptWard> stations) {
+        _deptNames = stations.stream().map(DeptWard::getDeptName).collect(Collectors.joining(", "));
     }
 
 }

@@ -5,9 +5,10 @@
  */
 package org.inek.dataportal.care.utils;
 
-import java.util.stream.Collectors;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
+
+import java.util.stream.Collectors;
 
 /**
  *
@@ -29,7 +30,7 @@ public class CareValidator {
         for (Dept dept : info.getDepts().stream()
                 .filter(c -> c.getRequired())
                 .collect(Collectors.toList())) {
-            if (dept.getDeptStations().size() > 0) {
+            if (dept.getDeptWards().size() > 0) {
                 hasNoStation = false;
             }
         }

@@ -1,6 +1,6 @@
 package org.inek.dataportal.care.entities.version;
 
-import org.inek.dataportal.care.entities.DeptStation;
+import org.inek.dataportal.care.entities.DeptWard;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -36,10 +36,10 @@ public class MapVersion implements Serializable {
     }
 
     @OneToOne(mappedBy = "_mapVersion")
-    private DeptStation _deptStation;
+    private DeptWard _deptWard;
 
-    public DeptStation getDeptStation() {
-        return _deptStation;
+    public DeptWard getDeptStation() {
+        return _deptWard;
     }
 
     @Override

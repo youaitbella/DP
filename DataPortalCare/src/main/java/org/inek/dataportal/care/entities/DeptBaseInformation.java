@@ -197,10 +197,10 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
         _depts.add(dept);
     }
 
-    public List<DeptStation> getAllWards() {
-        List<DeptStation> stations = new ArrayList<>();
+    public List<DeptWard> getAllWards() {
+        List<DeptWard> stations = new ArrayList<>();
         for (Dept dept : _depts) {
-            stations.addAll(dept.getDeptStations());
+            stations.addAll(dept.getDeptWards());
         }
         return stations;
     }

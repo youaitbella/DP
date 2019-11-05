@@ -9,7 +9,7 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
-import org.inek.dataportal.care.entities.DeptStation;
+import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.utils.AggregatedWardsHelper;
 import org.inek.dataportal.care.utils.CareExcelExporter;
@@ -247,7 +247,7 @@ public class DeptEdit implements Serializable {
     }
 
     public void addNewStation(Dept dept) {
-        dept.addNewInitialDeptStation(createNewValidFromDate(), createNewValidToDate());
+        dept.addNewInitialDeptWard(createNewValidFromDate(), createNewValidToDate());
     }
 
     private Date createNewValidFromDate() {
@@ -278,7 +278,7 @@ public class DeptEdit implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    public void deleteStationFromDept(Dept dept, DeptStation station) {
+    public void deleteStationFromDept(Dept dept, DeptWard station) {
         dept.removeDeptStation(station);
     }
 

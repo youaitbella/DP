@@ -5,17 +5,17 @@
  */
 package org.inek.dataportal.care.utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.Comparator;
-
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
-import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.entities.DeptStationsAfterTargetYear;
+import org.inek.dataportal.care.entities.DeptWard;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.Comparator;
 
 /**
  *
@@ -156,16 +156,16 @@ public class CareExcelExporter {
         baseInfo.getDepts().sort(Comparator.comparing(Dept::getDeptArea, Comparator.nullsLast(Comparator.naturalOrder())));
 
         for (Dept dept : baseInfo.getDepts()) {
-            for (DeptStation deptStation : dept.getDeptStations()) {
+            for (DeptWard deptWard : dept.getDeptWards()) {
                 Row row = sheet.createRow(startRow);
                 row.createCell(startCol).setCellValue(getAreaText(dept.getDeptArea()));
                 row.createCell(startCol + 1).setCellValue(dept.getDeptNumber());
                 row.createCell(startCol + 2).setCellValue(dept.getDeptName());
-                row.createCell(startCol + 3).setCellValue(deptStation.getFab());
-                row.createCell(startCol + 4).setCellValue(deptStation.getDeptName());
+                row.createCell(startCol + 3).setCellValue(deptWard.getFab());
+                row.createCell(startCol + 4).setCellValue(deptWard.getDeptName());
                 row.createCell(startCol + 5).setCellValue(dept.getSensitiveArea());
-                row.createCell(startCol + 6).setCellValue(deptStation.getStationName());
-                row.createCell(startCol + 7).setCellValue(deptStation.getLocationCodeP21());
+                row.createCell(startCol + 6).setCellValue(deptWard.getStationName());
+                row.createCell(startCol + 7).setCellValue(deptWard.getLocationCodeP21());
 
                 for (int i = 0; i < 8; i++) {
                     row.getCell(i).setCellStyle(styleBorderd);
