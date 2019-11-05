@@ -45,7 +45,7 @@ public class AggregatedWards {
     public AggregatedWards(DeptWard ward) {
         _locationCode21 = ward.getLocationCodeP21();
         _locationCodeVz = ward.getLocationCodeVz();
-        _wardName = ward.getStationName();
+        _wardName = ward.getWardName();
         _validFrom = ward.getValidFrom();
         _validTo = ward.getValidTo();
         _beds = ward.getBedCount();
@@ -55,9 +55,10 @@ public class AggregatedWards {
     public void aggregate(DeptWard ward) {
         assert _locationCode21 == ward.getLocationCodeP21();
         assert _locationCodeVz == ward.getLocationCodeVz();
-        assert _wardName.toLowerCase().replace(" ", "") == ward.getStationName().toLowerCase().replace(" ", "");
-        assert _validFrom == ward.getValidFrom();
-        assert _validTo == ward.getValidTo();
+        assert _wardName.toLowerCase().replace(" ", "")
+                .equals(ward.getWardName().toLowerCase().replace(" ", ""));
+        assert _validFrom.equals(ward.getValidFrom());
+        assert _validTo.equals(ward.getValidTo());
         if (_beds != ward.getBedCount()) {
             _hasDifferentBedCount = true;
         }
@@ -72,12 +73,12 @@ public class AggregatedWards {
         return _validTo;
     }
 
-    public List<DeptWard> getStations() {
+    public List<DeptWard> getWards() {
         return _stations;
     }
 
     public String getSensitiveAreas() {
-        return "todo"; //_stations.stream().map(DeptWard::get).collect(Collectors.joining(", "));
+        return _stations.stream().map(w -> w.getDept().getSensitiveArea()).collect(Collectors.joining(", "));
     }
 
     public String getDeptNames() {
@@ -118,7 +119,7 @@ public class AggregatedWards {
 
     private void setValues(List<DeptWard> stations) {
         DeptWard station = stations.get(0);
-        _wardName = station.getStationName();
+        _wardName = station.getWardName();
         _beds = station.getBedCount();
         _locationCodeVz = station.getLocationCodeVz();
         _locationCode21 = station.getLocationCodeP21();

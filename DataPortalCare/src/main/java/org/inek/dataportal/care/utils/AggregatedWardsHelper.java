@@ -23,7 +23,7 @@ public class AggregatedWardsHelper {
         for (DeptWard ward : wards) {
             String key = ward.getLocationCodeP21()
                     + "|" + ward.getLocationCodeVz()
-                    + "|" + ward.getStationName().toLowerCase().replace(" ", "")
+                    + "|" + ward.getWardName().toLowerCase().replace(" ", "")
                     + "|" + ward.getValidFrom()
                     + "|" + ward.getValidTo();
             if (aggregatedWards.containsKey(key)) {
@@ -48,7 +48,7 @@ public class AggregatedWardsHelper {
     }
 
     protected static String buildErrorMessageForMultipleBedCounts(List<DeptWard> stations) {
-        String stationName = stations.get(0).getStationName();
+        String stationName = stations.get(0).getWardName();
         String bedCounts = stations.stream().mapToInt(DeptWard::getBedCount)
                 .distinct()
                 .mapToObj(i -> ((Integer) i).toString())
@@ -171,7 +171,7 @@ public class AggregatedWardsHelper {
 
         for (DeptWard ward : wards) {
             if (!wardIsInAnyList(deptsStations, ward)) {
-                List<DeptWard> stations = wards.stream().filter(c -> stringsAreEqual(c.getStationName(), ward.getStationName())
+                List<DeptWard> stations = wards.stream().filter(c -> stringsAreEqual(c.getWardName(), ward.getWardName())
                         && c.getLocationCodeP21() == ward.getLocationCodeP21()
                         && c.getLocationCodeVz() == ward.getLocationCodeVz())
                         .collect(Collectors.toList());

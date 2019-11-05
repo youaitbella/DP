@@ -164,7 +164,7 @@ public class CareExcelExporter {
                 row.createCell(startCol + 3).setCellValue(deptWard.getFab());
                 row.createCell(startCol + 4).setCellValue(deptWard.getDeptName());
                 row.createCell(startCol + 5).setCellValue(dept.getSensitiveArea());
-                row.createCell(startCol + 6).setCellValue(deptWard.getStationName());
+                row.createCell(startCol + 6).setCellValue(deptWard.getWardName());
                 row.createCell(startCol + 7).setCellValue(deptWard.getLocationCodeP21());
 
                 for (int i = 0; i < 8; i++) {

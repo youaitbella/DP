@@ -20,7 +20,7 @@ public class WardsToChange implements Serializable {
     public WardsToChange(DeptWard station) {
         _deptId = station.getDept().getId();
         _mapVersion = station.getMapVersion();
-        _wardName = station.getStationName();
+        _wardName = station.getWardName();
         _deptName = station.getDeptName();
         _locationP21 = station.getLocationCodeP21();
         _locationVz = station.getLocationCodeVz();

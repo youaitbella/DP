@@ -22,7 +22,7 @@ public class DeptWard implements Serializable {
     public DeptWard(DeptWard other) {
         this._wardNumber = other._wardNumber;
         this._dept = other._dept;
-        this._stationName = other._stationName;
+        this._wardName = other._wardName;
         this._locationCodeP21 = other._locationCodeP21;
         this._locationCodeVz = other._locationCodeVz;
         this._deptName = other._deptName;
@@ -92,14 +92,14 @@ public class DeptWard implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
     @Column(name = "dpWardName")
-    private String _stationName = "";
+    private String _wardName = "";
 
-    public String getStationName() {
-        return _stationName;
+    public String getWardName() {
+        return _wardName;
     }
 
-    public void setStationName(String stationName) {
-        this._stationName = stationName;
+    public void setWardName(String stationName) {
+        this._wardName = stationName;
     }
     //</editor-fold>
 
@@ -228,7 +228,7 @@ public class DeptWard implements Serializable {
                 Objects.equals(_wardNumber, that._wardNumber) &&
                 Objects.equals(_mapVersion, that._mapVersion) &&
                 Objects.equals(_dept, that._dept) &&
-                Objects.equals(_stationName, that._stationName) &&
+                Objects.equals(_wardName, that._wardName) &&
                 Objects.equals(_deptName, that._deptName) &&
                 Objects.equals(_fab, that._fab) &&
                 Objects.equals(_validFrom, that._validFrom) &&
@@ -237,7 +237,7 @@ public class DeptWard implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _wardNumber, _mapVersion, _dept, _stationName, _locationCodeP21,
+        return Objects.hash(_id, _wardNumber, _mapVersion, _dept, _wardName, _locationCodeP21,
                 _locationCodeVz, _bedCount, _deptName, _fab, _validFrom, _validTo);
     }
 
@@ -248,7 +248,7 @@ public class DeptWard implements Serializable {
                 ", _wardNumber=" + _wardNumber +
                 ", _mapVersion=" + _mapVersion +
                 ", _dept=" + _dept +
-                ", _stationName='" + _stationName + '\'' +
+                ", _wardName='" + _wardName + '\'' +
                 ", _locationCodeP21=" + _locationCodeP21 +
                 ", _locationCodeVz=" + _locationCodeVz +
                 ", _bedCount=" + _bedCount +

@@ -222,7 +222,7 @@ class AggregatedWardsHelperTest {
         DeptWard station = new DeptWard();
         station.setValidFrom(validFrom);
         station.setValidTo(validTo);
-        station.setStationName(name);
+        station.setWardName(name);
         station.setDeptName(deptName);
         station.setLocationCodeP21(p21);
         station.setLocationCodeVz(vz);
