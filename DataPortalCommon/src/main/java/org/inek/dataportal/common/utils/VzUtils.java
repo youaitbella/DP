@@ -44,9 +44,9 @@ public class VzUtils implements Serializable {
     }
 
     public boolean locationCodeIsValidForIk(int ik, int locationCode) {
-        if (_config.readConfigBool(ConfigKey.TestMode)) {
+        if (_config.readConfigBool(ConfigKey.TestMode) && ik > 1000000000 && ik < 229999999) {
             return true;
-        }  // todo: remove once the interface is ready
+        }
 
         String address = _vzRestCheckVzNumberBaseUrl.replace(PLACEHOLDER_IK, String.valueOf(ik));
         address = address.replace(PLACEHOLDER_VZNUMBER, String.valueOf(locationCode));
