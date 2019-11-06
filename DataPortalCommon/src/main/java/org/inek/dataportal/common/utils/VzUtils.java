@@ -20,7 +20,6 @@ import static java.net.HttpURLConnection.HTTP_OK;
 public class VzUtils implements Serializable {
 
     private static final String PLACEHOLDER_HOST = "{vzHost}";
-    private static final String PLACEHOLDER_TOKEN = "{vzToken}";
 
     private static final String PLACEHOLDER_IK = "{ik}";
     private static final String PLACEHOLDER_VZNUMBER = "{vzNumber}";
