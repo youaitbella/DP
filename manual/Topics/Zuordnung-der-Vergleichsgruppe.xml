@@ -27,7 +27,11 @@
           <para styleclass="Normal" style="text-align:center;"><text styleclass="Normal" translate="true">1</text></para>
         </td>
         <td style="width:1388px;">
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe im Bundesland (Jahresübergreifend)</text></para>
+            <para styleclass="Normal">
+                <text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe im Bundesland
+                    (jahresübergreifend)
+                </text>
+            </para>
           <para styleclass="Normal"></para>
         </td>
       </tr>
@@ -62,7 +66,9 @@
           <para styleclass="Normal" style="text-align:center;"><text styleclass="Normal" translate="true">4</text></para>
         </td>
         <td style="width:1388px;">
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Krankenhäuser im Bundesland (Jahresübergreifend)</text></para>
+            <para styleclass="Normal">
+                <text styleclass="Normal" translate="true">Alle Krankenhäuser im Bundesland (jahresübergreifend)</text>
+            </para>
           <para styleclass="Normal"></para>
         </td>
       </tr>
@@ -72,8 +78,10 @@
         </td>
         <td style="width:1388px;">
             <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser im Bundesland (Vereinbarungsjahr - 1)
-                </text>
+                <text styleclass="Normal" translate="true">Alle Krankenhäuser im Bundesland</text>
+            </para>
+            <para styleclass="Normal">
+                <text styleclass="Normal" translate="true">(Vereinbarungsjahr - 1)</text>
             </para>
           <para styleclass="Normal"></para>
         </td>
@@ -84,8 +92,10 @@
         </td>
         <td style="width:1388px;">
             <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser im Bundesland (Vereinbarungsjahr - 2)
-                </text>
+                <text styleclass="Normal" translate="true">Alle Krankenhäuser im Bundesland</text>
+            </para>
+            <para styleclass="Normal">
+                <text styleclass="Normal" translate="true">(Vereinbarungsjahr - 2)</text>
             </para>
           <para styleclass="Normal"></para>
         </td>
@@ -95,7 +105,11 @@
           <para styleclass="Normal" style="text-align:center;"><text styleclass="Normal" translate="true">7</text></para>
         </td>
         <td style="width:1388px;">
-          <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe Bundesweit (Jahresübergreifend)</text></para>
+            <para styleclass="Normal">
+                <text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe bundesweit
+                    (jahresübergreifend)
+                </text>
+            </para>
           <para styleclass="Normal"></para>
         </td>
       </tr>
@@ -105,7 +119,7 @@
         </td>
         <td style="width:1388px;">
             <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe Bundesweit
+                <text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe bundesweit
                     (Vereinbarungsjahr - 1)
                 </text>
             </para>
@@ -118,7 +132,7 @@
         </td>
         <td style="width:1388px;">
             <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe Bundesweit
+                <text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe bundesweit
                     (Vereinbarungsjahr - 2)
                 </text>
             </para>

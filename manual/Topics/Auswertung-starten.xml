@@ -37,8 +37,7 @@
                 styleclass="Normal" translate="true">Zuordnung der Vergleichsgruppen
           </link>
           <text styleclass="Normal" translate="true">). Liegen für mindestens eine Auswertungsvariante genügend Daten
-              (=Einrichtungen) vor, wird die Krankenhausvergleichs-ID erzeugt und &#160;in der Übersichtsliste
-              angezeigt.
+              (=Einrichtungen) vor, wird die Krankenhausvergleichs-ID erzeugt und in der Übersichtsliste angezeigt.
           </text>
       </para>
     <para styleclass="Normal"></para>
@@ -60,8 +59,11 @@
           </text>
           <text styleclass="ButtonPsy" translate="true">[↓Download]</text>
           <text styleclass="Normal" translate="true">) oder über die Eingabe der Krankenhausvergleichs-ID direkt
-              heruntergeladen werden (
+              heruntergeladen werden
           </text>
+      </para>
+      <para styleclass="Normal">
+          <text styleclass="Normal" translate="true">(</text>
           <text styleclass="ButtonPsy" translate="true">[Auswertung herunterladen]</text>
           <text styleclass="Normal" translate="true">).</text>
       </para>
