@@ -114,10 +114,11 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         });
     }
 
-    public List<DeptBaseInformation> getAllByStatus(WorkflowStatus status) {
-        String jpql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._statusId = :status ";
+    public List<DeptBaseInformation> getAllByStatus(WorkflowStatus status, int baseYear) {
+        String jpql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._statusId = :status and bi._year = :baseYear ";
         TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(jpql, DeptBaseInformation.class);
         query.setParameter(FIELD_STATUS, status.getId());
+        query.setParameter("baseYear", baseYear);
         return query.getResultList();
     }
 

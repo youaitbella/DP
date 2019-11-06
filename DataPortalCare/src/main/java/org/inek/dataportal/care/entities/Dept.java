@@ -153,7 +153,7 @@ public class Dept implements Serializable {
     //</editor-fold>
 
     @OneToMany(mappedBy = "_dept", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "dpDeptId")
+    @JoinColumn(name = "dwDeptId", referencedColumnName = "deId")
     private List<DeptWard> _deptWards = new ArrayList<>();
 
     public List<DeptWard> getDeptWards() {

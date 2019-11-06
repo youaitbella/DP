@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author lautenti
  */
 @Entity
-@Table(name = "DeptWards", schema = "care")
+@Table(name = "DeptWard", schema = "care")
 public class DeptWard implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,7 +20,6 @@ public class DeptWard implements Serializable {
     }
 
     public DeptWard(DeptWard other) {
-        this._wardNumber = other._wardNumber;
         this._dept = other._dept;
         this._wardName = other._wardName;
         this._locationCodeP21 = other._locationCodeP21;
@@ -35,7 +34,7 @@ public class DeptWard implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "dpId")
+    @Column(name = "dwId")
     private Integer _id;
 
     public int getId() {
@@ -47,23 +46,9 @@ public class DeptWard implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property WardNumber">
-    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "dpWardId")
-    private WardNumber _wardNumber = new WardNumber();
-
-    public WardNumber getWardNumber() {
-        return _wardNumber;
-    }
-
-    public void setWardNumber(WardNumber wardNumber) {
-        this._wardNumber = wardNumber;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Property Version Id">
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "dpVersionId")
+    @JoinColumn(name = "dwVersionId")
     private MapVersion _mapVersion = new MapVersion();
 
     public MapVersion getMapVersion() {
@@ -78,7 +63,7 @@ public class DeptWard implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Dept">
     @ManyToOne
-    @JoinColumn(name = "dpDeptId")
+    @JoinColumn(name = "dwDeptId")
     private Dept _dept;
 
     public Dept getDept() {
@@ -91,7 +76,7 @@ public class DeptWard implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
-    @Column(name = "dpWardName")
+    @Column(name = "dwWardName")
     private String _wardName = "";
 
     public String getWardName() {
@@ -103,8 +88,21 @@ public class DeptWard implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold desc="Property Created At">
+    @Column(name = "dwCreatedAt")
+    private Date _createdAt = new Date();
+
+    public Date getCreatedAt() {
+        return _createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this._createdAt = createdAt;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property Dept Location Code P21">
-    @Column(name = "dpLocationP21")
+    @Column(name = "dwLocationP21")
     private int _locationCodeP21;
 
     public int getLocationCodeP21() {
@@ -118,7 +116,7 @@ public class DeptWard implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Location Code VZ">
-    @Column(name = "dpLocationVz")
+    @Column(name = "dwLocationVz")
     private int _locationCodeVz;
 
     public int getLocationCodeVz() {
@@ -131,7 +129,7 @@ public class DeptWard implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Bed Count">
-    @Column(name = "dpBedCount")
+    @Column(name = "dwBedCount")
     private int _bedCount;
 
     public int getBedCount() {
@@ -145,7 +143,7 @@ public class DeptWard implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
-    @Column(name = "dpDeptName")
+    @Column(name = "dwDeptName")
     private String _deptName = "";
 
     public String getDeptName() {
@@ -158,7 +156,7 @@ public class DeptWard implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Number">
-    @Column(name = "dpFab")
+    @Column(name = "dwFab")
     private String _fab = "";
 
     public String getFab() {
@@ -171,7 +169,7 @@ public class DeptWard implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Valid From">
-    @Column(name = "dpValidFrom")
+    @Column(name = "dwValidFrom")
     private Date _validFrom;
 
     public Date getValidFrom() {
@@ -184,7 +182,7 @@ public class DeptWard implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Valid To">
-    @Column(name = "dpValidTo")
+    @Column(name = "dwValidTo")
     private Date _validTo;
 
     public Date getValidTo() {
@@ -198,7 +196,7 @@ public class DeptWard implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
-    @Column(name = "dpIsInitial")
+    @Column(name = "dwIsInitial")
     private Boolean _isInitial;
 
     public Boolean getIsInitial() {
@@ -210,6 +208,7 @@ public class DeptWard implements Serializable {
     }
 
     //</editor-fold>
+
 
     public boolean stationIsUnlimitedValid() {
         return _validTo.getYear() >= 2050;
@@ -225,7 +224,6 @@ public class DeptWard implements Serializable {
                 _locationCodeVz == that._locationCodeVz &&
                 _bedCount == that._bedCount &&
                 Objects.equals(_id, that._id) &&
-                Objects.equals(_wardNumber, that._wardNumber) &&
                 Objects.equals(_mapVersion, that._mapVersion) &&
                 Objects.equals(_dept, that._dept) &&
                 Objects.equals(_wardName, that._wardName) &&
@@ -237,7 +235,7 @@ public class DeptWard implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _wardNumber, _mapVersion, _dept, _wardName, _locationCodeP21,
+        return Objects.hash(_id, _mapVersion, _dept, _wardName, _locationCodeP21,
                 _locationCodeVz, _bedCount, _deptName, _fab, _validFrom, _validTo);
     }
 
@@ -245,7 +243,6 @@ public class DeptWard implements Serializable {
     public String toString() {
         return "DeptWard{" +
                 "_id=" + _id +
-                ", _wardNumber=" + _wardNumber +
                 ", _mapVersion=" + _mapVersion +
                 ", _dept=" + _dept +
                 ", _wardName='" + _wardName + '\'' +

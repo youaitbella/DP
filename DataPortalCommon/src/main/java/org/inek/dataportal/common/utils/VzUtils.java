@@ -44,7 +44,7 @@ public class VzUtils implements Serializable {
     }
 
     public boolean locationCodeIsValidForIk(int ik, int locationCode) {
-        if (_config.readConfigBool(ConfigKey.TestMode) && ik > 1000000000 && ik < 229999999) {
+        if (_config.readConfigBool(ConfigKey.TestMode) && ik > 100000000 && ik < 229999999) {
             return true;
         }
 

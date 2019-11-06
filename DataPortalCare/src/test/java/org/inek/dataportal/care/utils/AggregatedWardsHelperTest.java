@@ -4,7 +4,6 @@ import org.assertj.core.api.Assertions;
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.bo.DatePair;
 import org.inek.dataportal.care.entities.DeptWard;
-import org.inek.dataportal.care.entities.WardNumber;
 import org.inek.dataportal.care.entities.version.MapVersion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -238,32 +237,24 @@ class AggregatedWardsHelperTest {
     void generateAggregatedWardsFromWardsWithMultipleStationsTest() {
         List<DeptWard> wards = new ArrayList<>();
 
-        WardNumber wardNumber1 = createWardNumber(1);
 
         DeptWard station1 = createDeptStation("Station A", "Fachabteilung 1", 1, 772548, "1300");
-        station1.setWardNumber(wardNumber1);
         station1.setMapVersion(createMapVersion(1));
         station1.setBedCount(20);
 
-        WardNumber wardNumber2 = createWardNumber(2);
 
         DeptWard station2 = createDeptStation("Station A", "Fachabteilung 19", 1, 772548, "1600");
-        station2.setWardNumber(wardNumber2);
         station2.setMapVersion(createMapVersion(2));
         station2.setBedCount(20);
 
 
-        WardNumber wardNumber3 = createWardNumber(3);
 
         DeptWard station3 = createDeptStation("Station B", "Fachabteilung Neu", 2, 772548, "5600");
-        station3.setWardNumber(wardNumber3);
         station3.setMapVersion(createMapVersion(3));
         station3.setBedCount(30);
 
-        WardNumber wardNumber4 = createWardNumber(4);
 
         DeptWard station4 = createDeptStation("Station B", "Fachabteilung AltNeu", 2, 772548, "8000");
-        station4.setWardNumber(wardNumber4);
         station4.setMapVersion(createMapVersion(4));
         station4.setBedCount(30);
 
@@ -307,12 +298,6 @@ class AggregatedWardsHelperTest {
         MapVersion version = new MapVersion();
         version.setId(i);
         return version;
-    }
-
-    private WardNumber createWardNumber(int i) {
-        WardNumber wardNumber = new WardNumber();
-        wardNumber.setId(i);
-        return wardNumber;
     }
 
     private Date createDate(int day, Month month, int year) {

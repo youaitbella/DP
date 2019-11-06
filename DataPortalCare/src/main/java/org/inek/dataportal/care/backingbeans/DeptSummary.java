@@ -18,7 +18,7 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -50,6 +50,7 @@ public class DeptSummary implements Serializable {
     private List<DeptItem> _listComplete = new ArrayList<>();
     private List<DeptItem> _listWorking = new ArrayList<>();
     private List<DeptItem> _listInek = new ArrayList<>();
+    private int _baseYear = 2018;
 
     public List<DeptItem> getListComplete() {
         return _listComplete;
@@ -69,10 +70,6 @@ public class DeptSummary implements Serializable {
 
     public List<DeptItem> getListInek() {
         return _listInek;
-    }
-
-    public void setListInek(List<DeptItem> listInek) {
-        this._listInek = listInek;
     }
 
     @PostConstruct
@@ -103,10 +100,19 @@ public class DeptSummary implements Serializable {
         }
     }
 
+    public int getBaseYear() {
+        return _baseYear;
+    }
+
+    public void setBaseYear(int baseYear) {
+        this._baseYear = baseYear;
+        setInekList();
+    }
+
     private void setInekList() {
         _listInek.clear();
-        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.Provided)));
-        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.CorrectionRequested)));
+        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.Provided, _baseYear)));
+        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.CorrectionRequested, _baseYear)));
     }
 
     public String careDeptStationOpen() {
