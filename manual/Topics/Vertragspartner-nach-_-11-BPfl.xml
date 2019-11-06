@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="rentschlerel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+    <title translate="true">Auswertung ansehen</title>
+    <body>
+        <header>
+            <para styleclass="Heading1">
+                <text styleclass="Heading1" translate="true">Auswertung ansehen</text>
+            </para>
+        </header>
+        <para styleclass="Normal">
+            <text styleclass="Normal" translate="true">Als Beteiligte am Pflegesatzverfahren gemäß § 18 Abs. 1 Satz 2
+                KHG (das sind die Landeskrankenhausgesellschaft, die Landesverbände der Krankenkassen, die Ersatzkassen
+                und der Landesausschuss des Verbandes der privaten Krankenversicherung) erhalten Sie nach § 8 Abs. 2 der
+                Psych-Krankenhausvergleichs-Vereinbarung das Recht auf Einsichtnahme in die Auswertungen der jeweiligen
+                Krankenhausvergleichs-ID (KHV-ID). Wie bereits oben beschrieben, können Sie über die Eingabe der KHV-ID
+                die entsprechenden Auswertungen abrufen. Eigenständige Vergleiche können Sie als Beteiligte nach § 18
+                Abs. 1 Satz 2 KHG jedoch nicht durchführen.
+            </text>
+        </para>
+        <para styleclass="Normal"></para>
+    </body>
+</topic>
