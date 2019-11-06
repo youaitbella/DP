@@ -40,11 +40,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -53,6 +52,8 @@ import java.util.stream.Collectors;
 @Named
 @ViewScoped
 public class DeptEdit implements Serializable {
+
+    private static Logger LOGGER = Logger.getLogger("DeptEdit");
 
     @Inject
     private SessionController _sessionController;
@@ -131,7 +132,6 @@ public class DeptEdit implements Serializable {
             return;
         } else if ("new".equals(id)) {
             _deptBaseInformation = createNewDeptBaseInformation();
-            _deptBaseInformation.setCreatedBy(_sessionController.getAccountId());
             loadValidIks();
 
             if (_validIks.size() == 1) {
@@ -180,7 +180,7 @@ public class DeptEdit implements Serializable {
 
     private DeptBaseInformation createNewDeptBaseInformation() {
         DeptBaseInformation info = new DeptBaseInformation();
-
+        info.setCreatedBy(_sessionController.getAccountId());
         info.setStatus(WorkflowStatus.New);
         info.setCreated(new Date());
         info.setYear(2018);
@@ -201,6 +201,7 @@ public class DeptEdit implements Serializable {
         try {
             if (_oldDeptbaseInformation != null && _deptBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested) {
                 _deptFacade.save(_oldDeptbaseInformation);
+                _oldDeptbaseInformation = null;
             }
 
             _deptBaseInformation = _deptFacade.save(_deptBaseInformation);
@@ -251,18 +252,11 @@ public class DeptEdit implements Serializable {
     }
 
     private Date createNewValidFromDate() {
-        return createDate(1, Month.JANUARY, _deptBaseInformation.getYear(), 1, 1, 1);
+        return AggregatedWardsHelper.createDate(1, Month.JANUARY, _deptBaseInformation.getYear(), 0, 0, 0);
     }
 
     private Date createNewValidToDate() {
-        return createDate(31, Month.DECEMBER, 2050, 1, 1, 1);
-    }
-
-    private Date createDate(int day, Month month, int year, int hour, int minute, int second) {
-        LocalDateTime datetime = LocalDateTime.of(year, month, day, hour, minute, second);
-        return java.util.Date.from(datetime
-                .atZone(ZoneId.systemDefault())
-                .toInstant());
+        return AggregatedWardsHelper.getMaxDate();
     }
 
     private void preloadDataForIk(DeptBaseInformation info) {
@@ -332,15 +326,11 @@ public class DeptEdit implements Serializable {
     }
 
     public void change() {
+        _oldDeptbaseInformation = _deptBaseInformation;
+        _oldDeptbaseInformation.setStatus(WorkflowStatus.Retired);
+        _deptBaseInformation = new DeptBaseInformation(_oldDeptbaseInformation, _sessionController.getAccountId());
         _deptBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
-        _oldDeptbaseInformation = copyBaseInformation(_deptBaseInformation);
         setIsReadOnly(false);
-    }
-
-    private DeptBaseInformation copyBaseInformation(DeptBaseInformation deptBaseInformation) {
-        DeptBaseInformation baseInfo = new DeptBaseInformation(deptBaseInformation);
-        baseInfo.setStatus(WorkflowStatus.Retired);
-        return baseInfo;
     }
 
     public void isFabCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {

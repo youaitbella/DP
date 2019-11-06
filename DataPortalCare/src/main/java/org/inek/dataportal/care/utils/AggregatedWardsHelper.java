@@ -110,12 +110,17 @@ public class AggregatedWardsHelper {
         return datePairSet;
     }
 
-    private static Date getMaxDate() {
-        LocalDateTime datetime = LocalDateTime.of(2050, Month.DECEMBER, 31, 1, 1, 1);
+    public static Date getMaxDate() {
+        return createDate(31, Month.DECEMBER, 2050, 0, 0, 0);
+    }
+
+    public static Date createDate(int day, Month month, int year, int hour, int minute, int second) {
+        LocalDateTime datetime = LocalDateTime.of(year, month, day, hour, minute, second);
         return java.util.Date.from(datetime
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
     }
+
 
     protected static Date findNextDateInList(Date date, List<DeptWard> object) {
         Date tmpMinFrom = null;

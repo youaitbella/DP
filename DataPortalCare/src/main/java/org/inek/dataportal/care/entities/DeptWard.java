@@ -28,6 +28,7 @@ public class DeptWard implements Serializable {
         this._fab = other._fab;
         this._validFrom = other._validFrom;
         this._validTo = other._validTo;
+        this._isInitial = other._isInitial;
     }
 
 
@@ -197,13 +198,13 @@ public class DeptWard implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
     @Column(name = "dwIsInitial")
-    private Boolean _isInitial;
+    private boolean _isInitial;
 
-    public Boolean getIsInitial() {
+    public boolean getIsInitial() {
         return _isInitial;
     }
 
-    public void setIsInitial(Boolean isInitial) {
+    public void setIsInitial(boolean isInitial) {
         this._isInitial = isInitial;
     }
 

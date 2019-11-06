@@ -25,9 +25,9 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
 
     }
 
-    public DeptBaseInformation(DeptBaseInformation deptBaseInformation) {
-        this._created = deptBaseInformation.getCreated();
-        this._createdBy = deptBaseInformation.getCreatedBy();
+    public DeptBaseInformation(DeptBaseInformation deptBaseInformation, int accountId) {
+        this._created = new Date();
+        this._createdBy = accountId;
         this._ik = deptBaseInformation.getIk();
         this._year = deptBaseInformation.getYear();
         this._statusId = deptBaseInformation.getStatusId();

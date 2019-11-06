@@ -27,10 +27,10 @@ public class Dept implements Serializable {
         this._sensitiveArea = dept.getSensitiveArea();
         this._required = dept.getRequired();
 
-        for (DeptWard station : dept.getDeptWards()) {
-            DeptWard newStation = new DeptWard(station);
-            newStation.setDept(this);
-            addDeptStation(newStation);
+        for (DeptWard ward : dept.getDeptWards()) {
+            DeptWard deptWard = new DeptWard(ward);
+            deptWard.setDept(this);
+            addDeptWard(deptWard);
         }
 
         for (DeptStationsAfterTargetYear afterTargetYearStation : dept.getDeptsAftertargetYear()) {
@@ -189,8 +189,8 @@ public class Dept implements Serializable {
         _deptWards.add(deptWard);
     }
 
-    private void addDeptStation(DeptWard station) {
-        _deptWards.add(station);
+    private void addDeptWard(DeptWard ward) {
+        _deptWards.add(ward);
     }
 
     public void removeDeptStation(DeptWard deptWard) {
