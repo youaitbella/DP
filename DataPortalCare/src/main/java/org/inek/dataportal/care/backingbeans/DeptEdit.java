@@ -9,6 +9,7 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
+import org.inek.dataportal.care.entities.DeptStationsAfterTargetYear;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.utils.AggregatedWardsHelper;
@@ -146,6 +147,7 @@ public class DeptEdit implements Serializable {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
+            loadStationsAfterTargetYear(_deptBaseInformation);
         }
         setReadOnly();
     }
@@ -359,6 +361,30 @@ public class DeptEdit implements Serializable {
         }
         if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)) {
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
+        }
+    }
+
+    //***************************************************************************
+    // 2017
+    //***************************************************************************
+    private List<DeptStationsAfterTargetYear> _stationsAfterTargetYear = new ArrayList<>();
+
+    public List<DeptStationsAfterTargetYear> getStationsAfterTargetYear() {
+        return _stationsAfterTargetYear;
+    }
+
+    public void setStationsAfterTargetYear(List<DeptStationsAfterTargetYear> stationsAfterTargetYear) {
+        this._stationsAfterTargetYear = stationsAfterTargetYear;
+    }
+
+    private void loadStationsAfterTargetYear(DeptBaseInformation info) {
+        _stationsAfterTargetYear.clear();
+        if (info.getYear() > 2017) {
+            return;
+        }
+
+        for (Dept dept : info.getDepts()) {
+            _stationsAfterTargetYear.addAll(dept.getDeptsAftertargetYear());
         }
     }
 
