@@ -5,7 +5,10 @@ import org.inek.dataportal.care.entities.DeptWard;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.inek.dataportal.common.utils.DateUtils.getMaxDate;
 
 public class AggregatedWards {
     private Date _validFrom;
@@ -47,7 +50,7 @@ public class AggregatedWards {
     }
 
     public Date getValidTo() {
-        return _validTo;
+        return getMaxDate().equals(_validTo) ? null : _validTo;
     }
 
     public List<DeptWard> getWards() {
@@ -76,6 +79,10 @@ public class AggregatedWards {
 
     public boolean getDifferentBedCount() {
         return _hasDifferentBedCount;
+    }
+
+    public Set<Integer> getDistinctBedCounts() {
+        return _wards.stream().map(DeptWard::getBedCount).collect(Collectors.toSet());
     }
 
     public int getLocationCode21() {

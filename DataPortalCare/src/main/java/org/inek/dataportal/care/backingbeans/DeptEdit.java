@@ -46,6 +46,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static org.inek.dataportal.common.utils.DateUtils.createDate;
+import static org.inek.dataportal.common.utils.DateUtils.getMaxDate;
+
 /**
  * @author lautenti
  */
@@ -74,7 +77,6 @@ public class DeptEdit implements Serializable {
     private DeptBaseInformation _oldDeptbaseInformation;
     private Boolean _isReadOnly;
     private Set<Integer> _validIks;
-    private List<AggregatedWards> _aggregatedWards = new ArrayList<>();
     private String _errorMessages = "";
     private List<String> _stationPrefillNames = new ArrayList<>();
 
@@ -82,10 +84,6 @@ public class DeptEdit implements Serializable {
 
     public List<AggregatedWards> getAggregatedWards() {
         return AggregatedWardsHelper.aggregatedWards(_deptBaseInformation.getAllWards());
-    }
-
-    public void setAggregatedWards(List<AggregatedWards> aggregatedWards) {
-        this._aggregatedWards = aggregatedWards;
     }
 
     public Set<Integer> getValidIks() {
@@ -252,11 +250,11 @@ public class DeptEdit implements Serializable {
     }
 
     private Date createNewValidFromDate() {
-        return AggregatedWardsHelper.createDate(1, Month.JANUARY, _deptBaseInformation.getYear(), 0, 0, 0);
+        return createDate(_deptBaseInformation.getYear(), Month.JANUARY, 1);
     }
 
     private Date createNewValidToDate() {
-        return AggregatedWardsHelper.getMaxDate();
+        return getMaxDate();
     }
 
     private void preloadDataForIk(DeptBaseInformation info) {

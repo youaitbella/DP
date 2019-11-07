@@ -936,19 +936,20 @@
                         </h:outputText>
                     </pf:column>
                     <pf:column headerText="Gültig bis" style="width: 120px;">
-                        <h:outputText value="#{aggregate.validTo}">
+                        <h:outputText value="#{aggregate.validTo}" rendered="#{aggregate.validTo != null}">
                             <f:convertDateTime pattern="dd.MM.yyyy"/>
                         </h:outputText>
+                        <h:outputText value="∞" rendered="#{aggregate.validTo == null}"/>
                     </pf:column>
                     <pf:column headerText="Pflegesensitiver Bereich" style="width: 120px;">
                         <pf:outputLabel value="#{aggregate.sensitiveAreas}"/>
                     </pf:column>
-                    <pf:column headerText="Fachabteilungsname">
-                        <pf:outputLabel value="#{aggregate.deptNames}"/>
-                    </pf:column>di
                     <pf:column headerText="Fachabteilungsnr.">
                         <pf:outputLabel value="#{aggregate.fabs}"/>
                     </pf:column>
+                    <pf:column headerText="Fachabteilungsname">
+                        <pf:outputLabel value="#{aggregate.deptNames}"/>
+                    </pf:column>di
                     <pf:column headerText="Stationsbezeichnung">
                         <pf:outputLabel value="#{aggregate.wardName}"/>
                     </pf:column>
