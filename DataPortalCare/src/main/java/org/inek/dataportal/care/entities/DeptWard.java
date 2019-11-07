@@ -210,6 +210,16 @@ public class DeptWard implements Serializable {
 
     //</editor-fold>
 
+    @Column(name = "dwLocation2017")
+    private String _location2017 = "";
+
+    public String getLocation2017() {
+        return _location2017;
+    }
+
+    public void setLocation2017(String _location2017) {
+        this._location2017 = _location2017;
+    }
 
     public boolean stationIsUnlimitedValid() {
         return _validTo.getYear() >= 2050;
