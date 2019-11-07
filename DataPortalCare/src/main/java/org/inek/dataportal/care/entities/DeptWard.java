@@ -217,8 +217,8 @@ public class DeptWard implements Serializable {
         return _location2017;
     }
 
-    public void setLocation2017(String _location2017) {
-        this._location2017 = _location2017;
+    public void setLocation2017(String location2017) {
+        this._location2017 = location2017;
     }
 
     public boolean stationIsUnlimitedValid() {
