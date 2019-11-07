@@ -4,10 +4,11 @@ import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.bo.DatePair;
 import org.inek.dataportal.care.entities.DeptWard;
 
-import java.time.Month;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
+import static org.inek.dataportal.common.utils.DateUtils.getMaxDate;
 
 public class AggregatedWardsHelper {
 
@@ -106,25 +107,6 @@ public class AggregatedWardsHelper {
             datePairSet.add(new DatePair(minDate, nextDateInList));
         }
         return datePairSet;
-    }
-
-    public static Date getMaxDate() {
-        return createDate(31, Month.DECEMBER, 2050, 0, 0, 0);
-    }
-
-    public static Date createDate(int day, Month month, int year) {
-        return createDate(day, month, year, 0, 0, 0);
-
-    }
-    public static Date createDate(int day, Month month, int year, int hour, int minute, int second) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month.getValue() - 1);
-        calendar.set(Calendar.DAY_OF_MONTH, day);
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, second);
-        return calendar.getTime();
     }
 
 

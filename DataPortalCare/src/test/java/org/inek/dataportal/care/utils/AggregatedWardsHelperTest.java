@@ -15,7 +15,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import static org.inek.dataportal.care.utils.AggregatedWardsHelper.createDate;
+import static org.inek.dataportal.common.utils.DateUtils.createDate;
+import static org.inek.dataportal.common.utils.DateUtils.getMaxDate;
+
 
 
 class AggregatedWardsHelperTest {
@@ -91,10 +93,10 @@ class AggregatedWardsHelperTest {
     void findAllValidityRangesMultipleRangesTest() {
         List<DeptWard> stations = new ArrayList<>();
 
-        DeptWard station1 = createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.MARCH, 2019), "Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard station2 = createDeptStation(createDate(1, Month.APRIL, 2019), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 12", 1, 772548, "5600");
-        DeptWard station3 = createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 13", 1, 772548, "1600");
-        DeptWard station4 = createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.DECEMBER, 2020), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+        DeptWard station1 = createDeptStation(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.MARCH, 31), "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptWard station2 = createDeptStation(createDate(2019, Month.APRIL, 1), getMaxDate(), "Station A", "Fachabteilung 12", 1, 772548, "5600");
+        DeptWard station3 = createDeptStation(createDate(2019, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 13", 1, 772548, "1600");
+        DeptWard station4 = createDeptStation(createDate(2019, Month.JANUARY, 1), createDate(2020, Month.DECEMBER, 31), "Station A", "Fachabteilung 130", 1, 772548, "7000");
 
         stations.add(station1);
         stations.add(station2);
@@ -104,19 +106,19 @@ class AggregatedWardsHelperTest {
         Set<DatePair> allValidityRanges = AggregatedWardsHelper.findAllValidityRanges(stations);
 
         Assertions.assertThat(allValidityRanges).hasSize(3);
-        Assertions.assertThat(allValidityRanges).containsExactlyInAnyOrder(new DatePair(createDate(1, Month.JANUARY, 2019), createDate(31, Month.MARCH, 2019))
-                , new DatePair(createDate(1, Month.APRIL, 2019), createDate(31, Month.DECEMBER, 2020))
-                , new DatePair(createDate(31, Month.DECEMBER, 2020), createDate(31, Month.DECEMBER, 2050)));
+        Assertions.assertThat(allValidityRanges).containsExactlyInAnyOrder(new DatePair(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.MARCH, 31))
+                , new DatePair(createDate(2019, Month.APRIL, 1), createDate(2020, Month.DECEMBER, 31))
+                , new DatePair(createDate(2020, Month.DECEMBER, 31), getMaxDate()));
     }
 
     // temp disabled @Test
     void findAllValidityRangesMultipleSameRangesTest() {
         List<DeptWard> stations = new ArrayList<>();
 
-        DeptWard station1 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.MARCH, 2018), "Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard station2 = createDeptStation(createDate(1, Month.APRIL, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 12", 1, 772548, "5600");
-        DeptWard station3 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 13", 1, 772548, "1600");
-        DeptWard station4 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+        DeptWard station1 = createDeptStation(createDate(2018, Month.JANUARY, 1), createDate(2018, Month.MARCH, 31), "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptWard station2 = createDeptStation(createDate(2018, Month.APRIL, 1), getMaxDate(), "Station A", "Fachabteilung 12", 1, 772548, "5600");
+        DeptWard station3 = createDeptStation(createDate(2018, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 13", 1, 772548, "1600");
+        DeptWard station4 = createDeptStation(createDate(2018, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 130", 1, 772548, "7000");
 
         stations.add(station1);
         stations.add(station2);
@@ -126,8 +128,8 @@ class AggregatedWardsHelperTest {
         Set<DatePair> allValidityRanges = AggregatedWardsHelper.findAllValidityRanges(stations);
 
         Assertions.assertThat(allValidityRanges).hasSize(2);
-        Assertions.assertThat(allValidityRanges).containsExactlyInAnyOrder(new DatePair(createDate(1, Month.JANUARY, 2018), createDate(31, Month.MARCH, 2018))
-                , new DatePair(createDate(1, Month.APRIL, 2018), createDate(31, Month.DECEMBER, 2050)));
+        Assertions.assertThat(allValidityRanges).containsExactlyInAnyOrder(new DatePair(createDate(2018, Month.JANUARY, 1), createDate(2018, Month.MARCH, 31))
+                , new DatePair(createDate(2018, Month.APRIL, 1), getMaxDate()));
     }
 
     // temp disabled @Test
@@ -136,10 +138,10 @@ class AggregatedWardsHelperTest {
 
         List<DeptWard> stations = new ArrayList<>();
 
-        DeptWard station1 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.MARCH, 2018), "Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard station2 = createDeptStation(createDate(1, Month.APRIL, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 12", 1, 772548, "5600");
-        DeptWard station3 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 13", 1, 772548, "1600");
-        DeptWard station4 = createDeptStation(createDate(1, Month.JANUARY, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+        DeptWard station1 = createDeptStation(createDate(2018, Month.JANUARY, 1), createDate(2018, Month.MARCH, 31), "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptWard station2 = createDeptStation(createDate(2018, Month.APRIL, 1), getMaxDate(), "Station A", "Fachabteilung 12", 1, 772548, "5600");
+        DeptWard station3 = createDeptStation(createDate(2018, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 13", 1, 772548, "1600");
+        DeptWard station4 = createDeptStation(createDate(2018, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 130", 1, 772548, "7000");
 
         stations.add(station1);
         stations.add(station2);
@@ -158,12 +160,12 @@ class AggregatedWardsHelperTest {
     void findStationsInDatePairRangeWithSameDateTest() {
         List<DeptWard> stations = new ArrayList<>();
 
-        DeptWard station1 = createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.MARCH, 2019), "Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard station2 = createDeptStation(createDate(1, Month.APRIL, 2018), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 12", 1, 772548, "5600");
-        DeptWard station3 = createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.AUGUST, 2050), "Station A", "Fachabteilung 13", 1, 772548, "1600");
-        DeptWard station4 = createDeptStation(createDate(1, Month.FEBRUARY, 2019), createDate(31, Month.DECEMBER, 2050), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+        DeptWard station1 = createDeptStation(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.MARCH, 31), "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptWard station2 = createDeptStation(createDate(2018, Month.APRIL, 1), getMaxDate(), "Station A", "Fachabteilung 12", 1, 772548, "5600");
+        DeptWard station3 = createDeptStation(createDate(2019, Month.JANUARY, 1), createDate(2050, Month.AUGUST, 31), "Station A", "Fachabteilung 13", 1, 772548, "1600");
+        DeptWard station4 = createDeptStation(createDate(2019, Month.FEBRUARY, 1), getMaxDate(), "Station A", "Fachabteilung 130", 1, 772548, "7000");
 
-        DatePair pair = new DatePair(createDate(1, Month.JANUARY, 2019), createDate(31, Month.AUGUST, 2019));
+        DatePair pair = new DatePair(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.AUGUST, 31));
 
         stations.add(station1);
         stations.add(station2);
@@ -230,7 +232,7 @@ class AggregatedWardsHelperTest {
     }
 
     private DeptWard createDeptStation(String name, String deptName, int p21, int vz, String fab) {
-        return createDeptStation(createDate(1, Month.JANUARY, 2019), createDate(31, Month.DECEMBER, 2019), name, deptName, p21, vz, fab);
+        return createDeptStation(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.DECEMBER, 31), name, deptName, p21, vz, fab);
     }
 
     // temp disabled @Test
@@ -269,8 +271,8 @@ class AggregatedWardsHelperTest {
 
         AggregatedWards aggregatedWard1 = aggregatedWards.get(0);
 
-        Assertions.assertThat(aggregatedWard1.getValidFrom()).isEqualTo(createDate(1, Month.JANUARY, 2019));
-        Assertions.assertThat(aggregatedWard1.getValidTo()).isEqualTo(createDate(31, Month.DECEMBER, 2019));
+        Assertions.assertThat(aggregatedWard1.getValidFrom()).isEqualTo(createDate(2019, Month.JANUARY, 1));
+        Assertions.assertThat(aggregatedWard1.getValidTo()).isEqualTo(createDate(2019, Month.DECEMBER, 31));
         Assertions.assertThat(aggregatedWard1.getWardName()).isEqualTo("Station A");
         Assertions.assertThat(aggregatedWard1.getDeptNames()).contains("Fachabteilung 1", "Fachabteilung 19");
         Assertions.assertThat(aggregatedWard1.getFabs()).contains("1300", "1600");
@@ -282,8 +284,8 @@ class AggregatedWardsHelperTest {
 
         AggregatedWards aggregatedWard2 = aggregatedWards.get(1);
 
-        Assertions.assertThat(aggregatedWard2.getValidFrom()).isEqualTo(createDate(1, Month.JANUARY, 2019));
-        Assertions.assertThat(aggregatedWard2.getValidTo()).isEqualTo(createDate(31, Month.DECEMBER, 2019));
+        Assertions.assertThat(aggregatedWard2.getValidFrom()).isEqualTo(createDate(2019, Month.JANUARY, 1));
+        Assertions.assertThat(aggregatedWard2.getValidTo()).isEqualTo(createDate(2019, Month.DECEMBER, 31));
         Assertions.assertThat(aggregatedWard2.getWardName()).isEqualTo("Station B");
         Assertions.assertThat(aggregatedWard2.getDeptNames()).contains("Fachabteilung Neu", "Fachabteilung AltNeu");
         Assertions.assertThat(aggregatedWard2.getFabs()).contains("5600", "8000");

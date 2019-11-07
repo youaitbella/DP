@@ -5,6 +5,7 @@
 package org.inek.dataportal.common.utils;
 
 import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,5 +38,27 @@ public class DateUtils {
     public static String today(String format) {
         return new SimpleDateFormat(format).format(new Date());
     }
-    
+
+    public static Date getMaxDate() {
+        return createDate(2050, Month.DECEMBER, 31);
+    }
+
+    public static Date createDate(int year, Month month, int day) {
+        return createDate(year, month, day, 0, 0, 0);
+
+    }
+
+    private static Date createDate(int year, Month month, int day, int hour, int minute, int second) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month.getValue() - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, second);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+
 }
