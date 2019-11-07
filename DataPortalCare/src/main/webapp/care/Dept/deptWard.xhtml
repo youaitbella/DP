@@ -124,8 +124,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnDeptName}"
-                                        for="colFabName1"/>
+                                            value="#{msg.careColumnDeptName}"
+                                            for="colFabName1"/>
                             </f:facet>
 
                             <inekInput:InputText value="#{station.deptName}"
@@ -141,8 +141,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnWardName}"
-                                        for="colWardName1"/>
+                                            value="#{msg.careColumnWardName}"
+                                            for="colWardName1"/>
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.wardName}"
@@ -161,12 +161,13 @@
                         <pf:column id="colP21Location1" style="width: 100px;">
 
                             <f:facet name="header">
-                                <h:outputText value="Standort nach § 21 KHEntgG"/>
+                                <h:outputText
+                                        value="Standort#{deptEdit.deptBaseInformation.year ge 2018 ?  ' nach § 21 KHEntgG' : ''}"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnLocationP21}"
-                                        for="colP21Location1"/>
+                                            value="#{msg.careColumnLocationP21}"
+                                            for="colP21Location1"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
@@ -174,7 +175,11 @@
                                                             validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
                                                             renderElement=":form:aggregatedtTable"
+                                                            rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                                             readonly="#{deptEdit.isReadOnly}"/>
+                            <pf:inputText value="#{station.location2017}"
+                                          rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
+                                          readonly="true"/>
                         </pf:column>
                         <pf:column id="colVz1" style="width: 100px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
@@ -184,8 +189,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnLocationVz}"
-                                        for="colVz1"/>
+                                            value="#{msg.careColumnLocationVz}"
+                                            for="colVz1"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
@@ -205,8 +210,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnBeds}"
-                                        for="colBed1"/>
+                                            value="#{msg.careColumnBeds}"
+                                            for="colBed1"/>
                             </f:facet>
 
                             <inekInput:InputNumber value="#{station.bedCount}"
@@ -259,8 +264,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnDeptName}"
-                                        for="colFabName2"/>
+                                            value="#{msg.careColumnDeptName}"
+                                            for="colFabName2"/>
                             </f:facet>
 
                             <inekInput:InputText value="#{station.deptName}"
@@ -276,8 +281,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnWardName}"
-                                        for="colWardName2"/>
+                                            value="#{msg.careColumnWardName}"
+                                            for="colWardName2"/>
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.wardName}"
@@ -297,12 +302,13 @@
                         <pf:column id="colP21Location2" style="width: 100px;">
 
                             <f:facet name="header">
-                                <h:outputText value="Standort nach § 21 KHEntgG"/>
+                                <h:outputText
+                                        value="Standort#{deptEdit.deptBaseInformation.year ge 2018 ?  ' nach § 21 KHEntgG' : ''}"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnLocationP21}"
-                                        for="colP21Location2"/>
+                                            value="#{msg.careColumnLocationP21}"
+                                            for="colP21Location2"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
@@ -310,7 +316,11 @@
                                                             validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
                                                             renderElement=":form:aggregatedtTable"
+                                                            rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                                             readonly="#{deptEdit.isReadOnly}"/>
+                            <pf:inputText value="#{station.location2017}"
+                                          rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
+                                          readonly="true"/>
                         </pf:column>
                         <pf:column id="colVz2" style="width: 100px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
@@ -320,8 +330,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnLocationVz}"
-                                        for="colVz2"/>
+                                            value="#{msg.careColumnLocationVz}"
+                                            for="colVz2"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
@@ -340,8 +350,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnBeds}"
-                                        for="colBed2"/>
+                                            value="#{msg.careColumnBeds}"
+                                            for="colBed2"/>
                             </f:facet>
 
                             <inekInput:InputNumber value="#{station.bedCount}"
@@ -413,8 +423,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnDeptName}"
-                                        for="colFabName4"/>
+                                            value="#{msg.careColumnDeptName}"
+                                            for="colFabName4"/>
                             </f:facet>
                             <inekInput:InputText value="#{station.deptName}"
                                                  require="true"
@@ -429,8 +439,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnWardName}"
-                                        for="colWardName4"/>
+                                            value="#{msg.careColumnWardName}"
+                                            for="colWardName4"/>
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.wardName}"
@@ -450,12 +460,13 @@
                         <pf:column id="colP21Location4" style="width: 100px;">
 
                             <f:facet name="header">
-                                <h:outputText value="Standort nach § 21 KHEntgG"/>
+                                <h:outputText
+                                        value="Standort#{deptEdit.deptBaseInformation.year ge 2018 ?  ' nach § 21 KHEntgG' : ''}"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnLocationP21}"
-                                        for="colP21Location4"/>
+                                            value="#{msg.careColumnLocationP21}"
+                                            for="colP21Location4"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
@@ -463,7 +474,11 @@
                                                             validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
                                                             renderElement=":form:aggregatedtTable"
+                                                            rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                                             readonly="#{deptEdit.isReadOnly}"/>
+                            <pf:inputText value="#{station.location2017}"
+                                          rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
+                                          readonly="true"/>
                         </pf:column>
                         <pf:column id="colVz4" style="width: 100px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
@@ -473,8 +488,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnLocationVz}"
-                                        for="colVz4"/>
+                                            value="#{msg.careColumnLocationVz}"
+                                            for="colVz4"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
@@ -493,8 +508,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnBeds}"
-                                        for="colBed4"/>
+                                            value="#{msg.careColumnBeds}"
+                                            for="colBed4"/>
                             </f:facet>
 
                             <inekInput:InputNumber value="#{station.bedCount}"
@@ -546,8 +561,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnFab}"
-                                        for="colFab5"/>
+                                            value="#{msg.careColumnFab}"
+                                            for="colFab5"/>
                             </f:facet>
                             <inekInput:InputTextValidator value="#{station.fab}"
                                                           Style="width: 100%;"
@@ -562,8 +577,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnDeptName}"
-                                        for="colFabName5"/>
+                                            value="#{msg.careColumnDeptName}"
+                                            for="colFabName5"/>
                             </f:facet>
                             <inekInput:InputText value="#{station.deptName}"
                                                  require="true"
@@ -578,8 +593,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnWardName}"
-                                        for="colWardName5"/>
+                                            value="#{msg.careColumnWardName}"
+                                            for="colWardName5"/>
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.wardName}"
@@ -599,12 +614,13 @@
                         <pf:column id="colP21Location5" style="width: 100px;">
 
                             <f:facet name="header">
-                                <h:outputText value="Standort nach § 21 KHEntgG"/>
+                                <h:outputText
+                                        value="Standort#{deptEdit.deptBaseInformation.year ge 2018 ?  ' nach § 21 KHEntgG' : ''}"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnLocationP21}"
-                                        for="colP21Location5"/>
+                                            value="#{msg.careColumnLocationP21}"
+                                            for="colP21Location5"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
@@ -612,7 +628,11 @@
                                                             validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
                                                             renderElement=":form:aggregatedtTable"
+                                                            rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                                             readonly="#{deptEdit.isReadOnly}"/>
+                            <pf:inputText value="#{station.location2017}"
+                                          rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
+                                          readonly="true"/>
                         </pf:column>
                         <pf:column id="colVz5" style="width: 100px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
@@ -622,8 +642,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnLocationVz}"
-                                        for="colVz5"/>
+                                            value="#{msg.careColumnLocationVz}"
+                                            for="colVz5"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
@@ -642,8 +662,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnBeds}"
-                                        for="colBed5"/>
+                                            value="#{msg.careColumnBeds}"
+                                            for="colBed5"/>
                             </f:facet>
 
                             <inekInput:InputNumber value="#{station.bedCount}"
@@ -696,8 +716,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnFab}"
-                                        for="colFab6"/>
+                                            value="#{msg.careColumnFab}"
+                                            for="colFab6"/>
                             </f:facet>
 
                             <inekInput:InputTextValidator value="#{station.fab}"
@@ -713,8 +733,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnDeptName}"
-                                        for="colFabName6"/>
+                                            value="#{msg.careColumnDeptName}"
+                                            for="colFabName6"/>
                             </f:facet>
                             <inekInput:InputText value="#{station.deptName}"
                                                  require="true"
@@ -729,8 +749,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnWardName}"
-                                        for="colWardName6"/>
+                                            value="#{msg.careColumnWardName}"
+                                            for="colWardName6"/>
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.wardName}"
@@ -750,12 +770,13 @@
                         <pf:column id="colP21Location6" style="width: 100px;">
 
                             <f:facet name="header">
-                                <h:outputText value="Standort nach § 21 KHEntgG"/>
+                                <h:outputText
+                                        value="Standort#{deptEdit.deptBaseInformation.year ge 2018 ?  ' nach § 21 KHEntgG' : ''}"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnLocationP21}"
-                                        for="colP21Location6"/>
+                                            value="#{msg.careColumnLocationP21}"
+                                            for="colP21Location6"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
@@ -763,7 +784,11 @@
                                                             validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
                                                             renderElement=":form:aggregatedtTable"
+                                                            rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                                             readonly="#{deptEdit.isReadOnly}"/>
+                            <pf:inputText value="#{station.location2017}"
+                                          rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
+                                          readonly="true"/>
                         </pf:column>
                         <pf:column id="colVz6" style="width: 100px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
@@ -773,8 +798,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnLocationVz}"
-                                        for="colVz6"/>
+                                            value="#{msg.careColumnLocationVz}"
+                                            for="colVz6"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
@@ -793,8 +818,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnBeds}"
-                                        for="colBed6"/>
+                                            value="#{msg.careColumnBeds}"
+                                            for="colBed6"/>
                             </f:facet>
 
                             <inekInput:InputNumber value="#{station.bedCount}"
@@ -854,8 +879,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnFab}"
-                                        for="colFab3"/>
+                                            value="#{msg.careColumnFab}"
+                                            for="colFab3"/>
                             </f:facet>
 
                             <inekInput:InputTextValidator value="#{station.fab}"
@@ -871,8 +896,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnDeptName}"
-                                        for="colFabName3"/>
+                                            value="#{msg.careColumnDeptName}"
+                                            for="colFabName3"/>
                             </f:facet>
                             <inekInput:InputText value="#{station.deptName}"
                                                  require="true"
@@ -887,8 +912,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnWardName}"
-                                        for="colWardName3"/>
+                                            value="#{msg.careColumnWardName}"
+                                            for="colWardName3"/>
                             </f:facet>
 
                             <pf:selectOneMenu value="#{station.wardName}"
@@ -908,12 +933,13 @@
                         <pf:column id="colP21Location3" style="width: 100px;">
 
                             <f:facet name="header">
-                                <h:outputText value="Standort nach § 21 KHEntgG"/>
+                                <h:outputText
+                                        value="Standort#{deptEdit.deptBaseInformation.year ge 2018 ?  ' nach § 21 KHEntgG' : ''}"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnLocationP21}"
-                                        for="colP21Location3"/>
+                                            value="#{msg.careColumnLocationP21}"
+                                            for="colP21Location3"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeP21}"
@@ -921,7 +947,11 @@
                                                             validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                             Style="width: 100%;"
                                                             renderElement=":form:aggregatedtTable"
+                                                            rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                                             readonly="#{deptEdit.isReadOnly}"/>
+                            <pf:inputText value="#{station.location2017}"
+                                          rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
+                                          readonly="true"/>
                         </pf:column>
                         <pf:column id="colVz3" style="width: 100px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
@@ -931,8 +961,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnLocationVz}"
-                                        for="colVz3"/>
+                                            value="#{msg.careColumnLocationVz}"
+                                            for="colVz3"/>
                             </f:facet>
 
                             <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
@@ -951,8 +981,8 @@
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
-                                        value="#{msg.careColumnBeds}"
-                                        for="colBed3"/>
+                                            value="#{msg.careColumnBeds}"
+                                            for="colBed3"/>
                             </f:facet>
 
                             <inekInput:InputNumber value="#{station.bedCount}"
