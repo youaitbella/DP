@@ -4,12 +4,14 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/WEB-INF/template.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:pf="http://primefaces.org/ui"
                 xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
+                xmlns:f="http://java.sun.com/jsf/core"
 >
 
     <ui:define name="content">
-        <h:form>
+        <h:form id="change">
             <div class="ui-g">
                 <div class="card">
                     <div class="ui-g-12">
@@ -18,7 +20,8 @@
                         <pf:dataTable value="#{structuralChangesEdit.wards}"
                                       tableStyle="width: auto;"
                                       emptyMessage="Keine Daten vorhanden"
-                                      var="ward">
+                                      var="ward"
+                                      id="wardTable">
                             <pf:column headerText="Sensitiver Bereich">
                                 <pf:outputLabel value="#{ward.dept.sensitiveArea}"/>
                             </pf:column>
@@ -41,25 +44,72 @@
                                 <pf:outputLabel value="#{ward.bedCount}"/>
                             </pf:column>
                             <pf:column headerText="Gültig von">
-                                <pf:outputLabel value="#{ward.validFrom}"/>
+                                <pf:outputLabel value="#{ward.validFrom}">
+                                    <f:convertDateTime type="date" pattern="dd.MM.yyyy" timeZone="Europe/Berlin"/>
+                                </pf:outputLabel>
                             </pf:column>
                             <pf:column headerText="Gültig bis">
-                                <pf:outputLabel value="#{ward.validTo}"/>
+                                <pf:outputLabel value="#{ward.validTo}">
+                                    <f:convertDateTime type="date" pattern="dd.MM.yyyy" timeZone="Europe/Berlin"/>
+                                </pf:outputLabel>
                             </pf:column>
                             <pf:column>
-                                <pf:splitButton value="Aktionen">
-                                    <pf:menuitem value="Daten ändern"
-                                                 update="@form"
-                                                 action="#{structuralChangesEdit.newChangeWard(ward)}"/>
-                                    <pf:menuitem value="Löschen"
-                                                 update="@form"
-                                                 action="#{structuralChangesEdit.deleteWard(ward)}"/>
-                                </pf:splitButton>
+                                <pf:commandButton value="Neue Gültigkeit hinzufügen"
+                                                  icon="fa fa-plus"
+                                                  onclick="PF('validityInfo').show();"/>
+                                <pf:dialog header="Gültigkeit von" widgetVar="validityInfo" modal="true" height="100">
+                                    <pf:inputText value="#{structuralChangesEdit.validityFrom}"/>
+
+                                    <pf:commandButton value="Ok"
+                                                      action="#{structuralChangesEdit.newValidity(ward)}"
+                                                      update=":change:test" process="@this"
+                                                      oncomplete="PF('validityInfo').hide()"/>
+                                </pf:dialog>
                             </pf:column>
                         </pf:dataTable>
+
+                        <div jsf:id="test">
+                            <pf:dataTable value="#{structuralChangesEdit.wards}"
+                                          tableStyle="width: auto;"
+                                          emptyMessage="Keine Daten vorhanden"
+                                          var="ward"
+                                          id="wardChangeTable">
+                                <pf:column>
+                                    <pf:outputLabel value="#{ward.dept.sensitiveArea}"/>
+                                </pf:column>
+                                <pf:column>
+                                    <pf:outputLabel value="#{ward.fab}"/>
+                                </pf:column>
+                                <pf:column>
+                                    <pf:outputLabel value="#{ward.deptName}"/>
+                                </pf:column>
+                                <pf:column>
+                                    <pf:outputLabel value="#{ward.wardName}"/>
+                                </pf:column>
+                                <pf:column>
+                                    <pf:outputLabel value="#{ward.locationCodeP21}"/>
+                                </pf:column>
+                                <pf:column>
+                                    <pf:outputLabel value="#{ward.locationCodeVz}"/>
+                                </pf:column>
+                                <pf:column>
+                                    <pf:outputLabel value="#{ward.bedCount}"/>
+                                </pf:column>
+                                <pf:column>
+                                    <pf:outputLabel value="#{ward.validFrom}">
+                                        <f:convertDateTime type="date" pattern="dd.MM.yyyy" timeZone="Europe/Berlin"/>
+                                    </pf:outputLabel>
+                                </pf:column>
+                                <pf:column>
+                                    <pf:outputLabel value="#{ward.validTo}">
+                                        <f:convertDateTime type="date" pattern="dd.MM.yyyy" timeZone="Europe/Berlin"/>
+                                    </pf:outputLabel>
+                                </pf:column>
+
+                            </pf:dataTable>
+                        </div>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="ui-g-12">
                         <h1>Stationsdaten ändern</h1>

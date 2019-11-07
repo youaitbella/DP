@@ -28,6 +28,11 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -68,6 +73,17 @@ public class StructuralChangesEdit implements Serializable {
         this._wards = wards;
     }
 
+    private String validityFrom;
+
+    public String getValidityFrom() {
+        return validityFrom;
+    }
+
+    public void setValidityFrom(String validityFrom) {
+        this.validityFrom = validityFrom;
+    }
+
+
     @PostConstruct
     private void init() {
         String ikParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("ik");
@@ -96,6 +112,28 @@ public class StructuralChangesEdit implements Serializable {
         info.setWardsToChange(createNewWardsToChange(ward));
         _changesBaseInformations.add(info);
     }
+
+    public void newValidity(DeptWard ward) {
+        DeptWard newWard = new DeptWard();
+
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Date date = null;
+        try {
+            date = format.parse(validityFrom);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        newWard.setDeptName(ward.getDeptName());
+        newWard.setWardName(ward.getWardName());
+        newWard.setLocationCodeP21(ward.getLocationCodeP21());
+        newWard.setLocationCodeVz(ward.getLocationCodeVz());
+        newWard.setFab(ward.getFab());
+        newWard.setIsInitial(ward.getIsInitial());
+        newWard.setValidFrom(date);
+        newWard.setValidTo(ward.getValidTo());
+        _wards.add(newWard);
+    }
+
 
     public void deleteWard(DeptWard ward) {
         //TODO löschung der Stationen
