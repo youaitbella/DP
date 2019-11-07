@@ -69,7 +69,7 @@
                 <h1>Umsetzung der Verordnung zur Festlegung von Pflegepersonaluntergrenzen in pflegesensitiven Bereichen in Krankenhäusern (PpUGV)</h1>
                 <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
                     <br/>
-                    Die gem. § 5 PpUGV zu übermittelnden Angaben Ihres Krankenhauses können Sie in diesem Bereich des InEK-Datenportals eintragen und an das InEK übermitteln. Zur Vereinfachung der Dateneingabe haben wir Ihnen die Eingabefelder bereits mit den in unserem Anschreiben vom xx.11.2019 genannten für Ihr Krankenhaus ermittelten pflegesensitiven Bereichen Ihres Krankenhauses vorbefüllt. Wir bitten Sie freundlich, die voreingegebenen Daten zu prüfen. Sie können gemäß § 5 Abs. 2 Satz 1 PpUGV bis zum 30.11.2019 Einwände gegen das ermittelte Auswertungsergebnis des InEK erheben. Nähere Informationen hierzu entnehmen Sie bitte dem Anschreiben. Informationen nach § 5 Abs. 3 PpUGV, die aus den §-21-Datensätzen nicht abgeleitet werden können, sind von Ihnen zu ergänzen. Sie können Ihre Eingaben jederzeit speichern ohne diese direkt an das InEK zu übermitteln. Über die Speicherung der Daten werden Sie per E-Mail informiert. So können Sie schrittweise arbeiten und erst nach Beendigung der Eingabe die Daten an das InEK übermitteln (Button „Meldung abschließend ans InEK senden“). Nach erfolgreicher Übermittlung erhalten Sie eine Bestätigung per E-Mail über den erfolgreichen Dateneingang im InEK.
+                    Die gem. § 5 PpUGV zu übermittelnden Angaben Ihres Krankenhauses können Sie in diesem Bereich des InEK-Datenportals eintragen und an das InEK übermitteln. Zur Vereinfachung der Dateneingabe haben wir Ihnen die Eingabefelder bereits mit den in unserem Anschreiben vom 11.11.2019 genannten für Ihr Krankenhaus ermittelten pflegesensitiven Bereichen Ihres Krankenhauses vorbefüllt. Wir bitten Sie freundlich, die voreingegebenen Daten zu prüfen. Sie können gemäß § 5 Abs. 2 Satz 1 PpUGV bis zum 30.11.2019 Einwände gegen das ermittelte Auswertungsergebnis des InEK erheben. Nähere Informationen hierzu entnehmen Sie bitte dem Anschreiben. Informationen nach § 5 Abs. 3 PpUGV, die aus den §-21-Datensätzen nicht abgeleitet werden können, sind von Ihnen zu ergänzen. Sie können Ihre Eingaben jederzeit speichern ohne diese direkt an das InEK zu übermitteln. Über die Speicherung der Daten werden Sie per E-Mail informiert. So können Sie schrittweise arbeiten und erst nach Beendigung der Eingabe die Daten an das InEK übermitteln (Button „Meldung abschließend ans InEK senden“). Nach erfolgreicher Übermittlung erhalten Sie eine Bestätigung per E-Mail über den erfolgreichen Dateneingang im InEK.
                     <br/>
                     <br/>
                     Nach erfolgreicher Übermittlung an das InEK können Sie die übermittelten Daten in eine Excel-Tabelle exportieren und an die örtlichen Vertragsparteien nach § 11 KHEntgG weiterleiten (gem. § 5 Abs. 3 PpUGV). Eine erneute Erfassung der Daten zur Weiterleitung an die örtlichen Vertragsparteien ist also nicht erforderlich.
@@ -105,7 +105,7 @@
                 </div>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(1)}" var="dept">
-                    <h3>Stationsangaben für pflegesensitiver Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName} #{dept.location ne '' ? dept.locationForDisplay : ''}</h3>
+                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName}#{dept.location ne '' ? ', ' += dept.locationForDisplay : ''}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -233,7 +233,7 @@
                 </div>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(2)}" var="dept">
-                    <h3>Stationsangaben für pflegesensitiver Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName}</h3>
+                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -359,7 +359,7 @@
                     Es sind die vom Krankenhaus verwendeten Namen der Fachabteilung und sämtliche zu dieser Fachabteilung gehörende Stationen standortbezogen mit zugehöriger Bettenanzahl einzutragen.
                 </div>
                 <pf:repeat value="#{deptEdit.getDeptsByArea(4)}" var="dept">
-                    <h3>Stationsangaben für pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
+                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -500,7 +500,7 @@
                 </div>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(5)}" var="dept">
-                    <h3>Stationsangaben für pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
+                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -642,7 +642,7 @@
                 </div>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(6)}" var="dept">
-                    <h3>Stationsangaben für pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
+                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -792,7 +792,7 @@
                 </div>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(3)}" var="dept">
-                    <h3>Stationsangaben für pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
+                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>

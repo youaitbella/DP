@@ -40,7 +40,7 @@ public class DateUtils {
     }
 
     public static Date getMaxDate() {
-        return createDate(2050, Month.DECEMBER, 31);
+        return createDate(2079, Month.JANUARY, 1);
     }
 
     public static Date createDate(int year, Month month, int day) {
