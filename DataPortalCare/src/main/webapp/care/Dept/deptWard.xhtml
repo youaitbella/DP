@@ -65,7 +65,7 @@
             </div>
 
 
-            <div class="ui-g-12" jsf:rendered="#{deptEdit.deptBaseInformation.year gt 2017}">
+            <div class="ui-g-12" jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
                 <h1>Umsetzung der Verordnung zur Festlegung von Pflegepersonaluntergrenzen in pflegesensitiven Bereichen in Krankenhäusern (PpUGV)</h1>
                 <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
                     <br/>
@@ -99,7 +99,7 @@
                 <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year eq 2017}">Angaben zu § 3 Abs. 3 Satz 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
                 <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}">Angaben zu § 3 Abs. 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
 
-                <div jsf:rendered="#{deptEdit.deptBaseInformation.year gt 2017}"
+                <div jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                      style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
                     Es sind die vom Krankenhaus verwendeten Namen der Fachabteilung und sämtliche zu dieser Fachabteilung gehörende Stationen standortbezogen mit zugehöriger Bettenanzahl einzutragen.
                 </div>
@@ -121,8 +121,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsname"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnDeptName}"
                                         for="colFabName1"/>
                             </f:facet>
@@ -137,8 +138,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Stationsbezeichnung"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnWardName}"
                                         for="colWardName1"/>
                             </f:facet>
@@ -160,8 +162,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Standort nach § 21 KHEntgG"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnLocationP21}"
                                         for="colP21Location1"/>
                             </f:facet>
@@ -173,12 +176,14 @@
                                                             renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colVz1" style="width: 100px;">
+                        <pf:column id="colVz1" style="width: 100px;"
+                                   rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
                                 <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnLocationVz}"
                                         for="colVz1"/>
                             </f:facet>
@@ -191,12 +196,15 @@
                                                             renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colBed1" style="width: 100px;">
+
+                        <pf:column id="colBed1" style="width: 100px;"
+                                   rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
                                 <h:outputText value="Bettenanzahl der Station"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnBeds}"
                                         for="colBed1"/>
                             </f:facet>
@@ -227,13 +235,13 @@
 
                 <h1>Angaben zu § 3 Abs. 2 Nr. 2 PpUGV (Indikatoren - DRGs)</h1>
 
-                <div jsf:rendered="#{deptEdit.deptBaseInformation.year gt 2017}"
+                <div jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                      style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
                     Es sind die vom Krankenhaus verwendeten Namen der Fachabteilung und sämtliche zu dieser Fachabteilung gehörende Stationen standortbezogen mit zugehöriger Bettenanzahl einzutragen.
                 </div>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(2)}" var="dept">
-                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName}</h3>
+                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName}#{dept.location ne '' ? ', ' += dept.locationForDisplay : ''}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -248,8 +256,9 @@
                         <pf:column id="colFabName2">
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsname"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnDeptName}"
                                         for="colFabName2"/>
                             </f:facet>
@@ -264,8 +273,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Stationsbezeichnung"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnWardName}"
                                         for="colWardName2"/>
                             </f:facet>
@@ -288,8 +298,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Standort nach § 21 KHEntgG"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnLocationP21}"
                                         for="colP21Location2"/>
                             </f:facet>
@@ -301,12 +312,14 @@
                                                             renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colVz2" style="width: 100px;">
+                        <pf:column id="colVz2" style="width: 100px;"
+                                   rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
                                 <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnLocationVz}"
                                         for="colVz2"/>
                             </f:facet>
@@ -319,12 +332,14 @@
                                                             renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colBed2" style="width: 100px;">
+                        <pf:column id="colBed2" style="width: 100px;"
+                                   rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
                                 <h:outputText value="Bettenanzahl der Station"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnBeds}"
                                         for="colBed2"/>
                             </f:facet>
@@ -354,12 +369,12 @@
 
                 <h1>Angaben zu § 3 Abs. 2 Nr. 3 PpUGV (Belegungstage)</h1>
 
-                <div jsf:rendered="#{deptEdit.deptBaseInformation.year gt 2017}"
+                <div jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                      style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
                     Es sind die vom Krankenhaus verwendeten Namen der Fachabteilung und sämtliche zu dieser Fachabteilung gehörende Stationen standortbezogen mit zugehöriger Bettenanzahl einzutragen.
                 </div>
                 <pf:repeat value="#{deptEdit.getDeptsByArea(4)}" var="dept">
-                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
+                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}#{dept.location ne '' ? ', ' += dept.locationForDisplay : ''}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -371,27 +386,33 @@
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
                                                  updateElement="form"/>
                         </pf:column>
-                        <pf:column id="colFab4" style="width: 120px;">
 
-                            <f:facet name="header">
-                                <h:outputText value="Fachabteilungsnr."/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
-                                        value="#{msg.careColumnFab}"
-                                        for="colFab4"/>
-                            </f:facet>
-                            <inekInput:InputTextValidator value="#{station.fab}"
-                                                          Style="width: 100%;"
-                                                          validatorFunction="#{deptEdit.isFabCodeValid}"
-                                                          validatorMessage="Ungültige FAB"
-                                                          maxlength="4"
-                                                          readonly="#{deptEdit.isReadOnly}"/>
-                        </pf:column>
+                        <ui:remove>
+                            <pf:column id="colFab4" style="width: 120px;">
+
+                                <f:facet name="header">
+                                    <h:outputText value="Fachabteilungsnr."/>
+                                    <i class="fa fa-question-circle"
+                                       jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                    <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
+                                                value="#{msg.careColumnFab}"
+                                                for="colFab4"/>
+                                </f:facet>
+                                <inekInput:InputTextValidator value="#{station.fab}"
+                                                              Style="width: 100%;"
+                                                              validatorFunction="#{deptEdit.isFabCodeValid}"
+                                                              validatorMessage="Ungültige FAB"
+                                                              maxlength="4"
+                                                              readonly="#{deptEdit.isReadOnly}"/>
+                            </pf:column>
+                        </ui:remove>
+
                         <pf:column id="colFabName4">
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsname"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnDeptName}"
                                         for="colFabName4"/>
                             </f:facet>
@@ -405,8 +426,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Stationsbezeichnung"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnWardName}"
                                         for="colWardName4"/>
                             </f:facet>
@@ -429,8 +451,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Standort nach § 21 KHEntgG"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnLocationP21}"
                                         for="colP21Location4"/>
                             </f:facet>
@@ -442,12 +465,14 @@
                                                             renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colVz4" style="width: 100px;">
+                        <pf:column id="colVz4" style="width: 100px;"
+                                   rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
                                 <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnLocationVz}"
                                         for="colVz4"/>
                             </f:facet>
@@ -460,12 +485,14 @@
                                                             renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colBed4" style="width: 100px;">
+                        <pf:column id="colBed4" style="width: 100px;"
+                                   rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
                                 <h:outputText value="Bettenanzahl der Station"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnBeds}"
                                         for="colBed4"/>
                             </f:facet>
@@ -494,13 +521,13 @@
 
                 <h1>Angaben zu § 3 Abs. 3 Nr. 1 PpUGV (Neurologie gem. § 3 Abs. 2 und Belegungstage der neurologischen Frührehabilitation)</h1>
 
-                <div jsf:rendered="#{deptEdit.deptBaseInformation.year gt 2017}"
+                <div jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                      style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
                     Für den pflegesensitiven Bereich "Neurologische Frührehabilitation" sind Angaben für sämtliche Stationen, auf denen die Leistungen in den jeweiligen Indikatoren-DRGs erbracht worden sind, standortbezogen mit zugehöriger Bettenanzahl einzutragen.
                 </div>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(5)}" var="dept">
-                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
+                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}#{dept.location ne '' ? ', ' += dept.locationForDisplay : ''}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -516,8 +543,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsnr."/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnFab}"
                                         for="colFab5"/>
                             </f:facet>
@@ -531,8 +559,9 @@
                         <pf:column id="colFabName5">
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsname"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnDeptName}"
                                         for="colFabName5"/>
                             </f:facet>
@@ -546,8 +575,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Stationsbezeichnung"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnWardName}"
                                         for="colWardName5"/>
                             </f:facet>
@@ -570,8 +600,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Standort nach § 21 KHEntgG"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnLocationP21}"
                                         for="colP21Location5"/>
                             </f:facet>
@@ -583,12 +614,14 @@
                                                             renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colVz5" style="width: 100px;">
+                        <pf:column id="colVz5" style="width: 100px;"
+                                   rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
                                 <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnLocationVz}"
                                         for="colVz5"/>
                             </f:facet>
@@ -601,12 +634,14 @@
                                                             renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colBed5" style="width: 100px;">
+                        <pf:column id="colBed5" style="width: 100px;"
+                                   rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
                                 <h:outputText value="Bettenanzahl der Station"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnBeds}"
                                         for="colBed5"/>
                             </f:facet>
@@ -635,14 +670,14 @@
 
                 <h1>Angaben zu § 3 Abs. 3 Nr. 2 PpUGV (Neurologie gem. § 3 Abs. 2 und OPS-Liste der Schlaganfalleinheit)</h1>
 
-                <div jsf:rendered="#{deptEdit.deptBaseInformation.year gt 2017}"
+                <div jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                      style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
                     "Für den pflegesensitiven Bereich ""Neurologische Schlaganfalleinheit"" sind Angaben für sämtliche Stationen, auf denen Fälle mit einem OPS-Kode (8-981.* oder 8-98b.*) der neurologischen Komplexbehandlung des akuten Schlaganfalls oder der anderen neurologischen Komplexbehandlung des akuten Schlaganfalls dokumentiert worden sind, standortbezogen mit zugehöriger Bettenanzahl einzutragen.
                     Beachten Sie dabei bitte, dass im Bereich ""Angaben zu § 3 Abs. 3 Nr. 3 PpUGV"" weitere Angaben zu Stationen der Neurologischen Schlaganfalleinheit erforderlich sind, falls auf der jeweiligen Station die Voraussetzungen für die Kodierung der intensivmedizinischen OPS-Kodes (8-980.* und 8-98f.*) erfüllt sind."
                 </div>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(6)}" var="dept">
-                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
+                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}#{dept.location ne '' ? ', ' += dept.locationForDisplay : ''}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -658,8 +693,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsnr."/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnFab}"
                                         for="colFab6"/>
                             </f:facet>
@@ -674,8 +710,9 @@
                         <pf:column id="colFabName6">
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsname"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnDeptName}"
                                         for="colFabName6"/>
                             </f:facet>
@@ -689,8 +726,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Stationsbezeichnung"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnWardName}"
                                         for="colWardName6"/>
                             </f:facet>
@@ -713,8 +751,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Standort nach § 21 KHEntgG"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnLocationP21}"
                                         for="colP21Location6"/>
                             </f:facet>
@@ -726,12 +765,14 @@
                                                             renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colVz6" style="width: 100px;">
+                        <pf:column id="colVz6" style="width: 100px;"
+                                   rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
                                 <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnLocationVz}"
                                         for="colVz6"/>
                             </f:facet>
@@ -744,12 +785,14 @@
                                                             renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colBed6" style="width: 100px;">
+                        <pf:column id="colBed6" style="width: 100px;"
+                                   rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
                                 <h:outputText value="Bettenanzahl der Station"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnBeds}"
                                         for="colBed6"/>
                             </f:facet>
@@ -784,7 +827,7 @@
                     Für den pflegesensitiven Bereich Intensivmedizin sind Angaben für alle Stationen, auf denen Betten als intensivmedizinische Behandlungseinheiten aufgestellt worden sind, einzutragen. Dies gilt unabhängig davon, ob für das einzelne (individuelle) Intensivbett die Voraussetzungen für die Kodierung der intensivmedizinischen OPS-Kodes (8-980.* und 8-98f.*) erfüllt sind.
                 </div>
 
-                <div jsf:rendered="#{deptEdit.deptBaseInformation.year gt 2017}"
+                <div jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                      style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
                     Für den pflegesensitiven Bereich Intensivmedizin sind Angaben für sämtliche Stationen (inkl. zugehöriger Bettenanzahl) standortbezogen einzutragen, die die Merkmale und Strukturbedingungen der entsprechenden OPS-Kodes (8-980.* und 8-98f.*) erfüllen, sodass die entsprechenden OPS-Kodes dort grundsätzlich verschlüsselt werden können. Dies gilt unabhängig davon, ob für das einzelne (individuelle) Intensivbett die Voraussetzungen für die Kodierung der intensivmedizinischen OPS-Kodes erfüllt sind.
                     <br/>
@@ -792,7 +835,7 @@
                 </div>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(3)}" var="dept">
-                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}</h3>
+                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}#{dept.location ne '' ? ', ' += dept.locationForDisplay : ''}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -808,8 +851,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsnr."/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnFab}"
                                         for="colFab3"/>
                             </f:facet>
@@ -824,8 +868,9 @@
                         <pf:column id="colFabName3">
                             <f:facet name="header">
                                 <h:outputText value="Fachabteilungsname"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnDeptName}"
                                         for="colFabName3"/>
                             </f:facet>
@@ -839,8 +884,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Stationsbezeichnung"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnWardName}"
                                         for="colWardName3"/>
                             </f:facet>
@@ -863,8 +909,9 @@
 
                             <f:facet name="header">
                                 <h:outputText value="Standort nach § 21 KHEntgG"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnLocationP21}"
                                         for="colP21Location3"/>
                             </f:facet>
@@ -876,12 +923,14 @@
                                                             renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colVz3" style="width: 100px;">
+                        <pf:column id="colVz3" style="width: 100px;"
+                                   rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
                                 <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnLocationVz}"
                                         for="colVz3"/>
                             </f:facet>
@@ -894,12 +943,14 @@
                                                             renderElement=":form:aggregatedtTable"
                                                             readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
-                        <pf:column id="colBed3" style="width: 100px;">
+                        <pf:column id="colBed3" style="width: 100px;"
+                                   rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
                                 <h:outputText value="Bettenanzahl der Station"/>
-                                <i class="fa fa-question-circle"></i>
-                                <pf:tooltip
+                                <i class="fa fa-question-circle"
+                                   jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
+                                <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                                         value="#{msg.careColumnBeds}"
                                         for="colBed3"/>
                             </f:facet>
@@ -921,8 +972,112 @@
                                       update="depTable3"/>
                 </pf:repeat>
             </div>
+            <br/>
+
+            <div style="margin-top: 20px;" class="ui-g-12"
+                 jsf:rendered="#{deptEdit.deptBaseInformation.ik > 0 and deptEdit.deptBaseInformation.year eq 2017}">
+
+                <h1>Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)</h1>
+
+                <pf:dataTable id="depTableAfterTargetYear"
+                              value="#{deptEdit.stationsAfterTargetYear}"
+                              emptyMessage="Noch keine Einträge vorhanden"
+                              var="deptAfterTargetYear">
+
+                    <pf:columnGroup type="header">
+                        <pf:row>
+                            <pf:column style="width: 20px;" headerText=""/>
+                            <pf:column colspan="4" headerText="2017" style="border-right-width:5px;"/>
+                            <pf:column colspan="6" headerText="Nach 2017"/>
+                        </pf:row>
+                        <pf:row>
+                            <pf:column style="width: 20px;" headerText=""/>
+                            <pf:column headerText="Fachabteilung"/>
+                            <pf:column headerText="Fachabteilung gem. KH"/>
+                            <pf:column headerText="Station"/>
+                            <pf:column headerText="Standort" style="border-right-width:5px;"/>
+                            <pf:column headerText="PS Bereich"/>
+                            <pf:column headerText="FAB - Nummer"/>
+                            <pf:column headerText="FAB Name"/>
+                            <pf:column headerText="Station"/>
+                            <pf:column headerText="Standort"/>
+                            <pf:column headerText="Anmerkung"/>
+                        </pf:row>
+
+                    </pf:columnGroup>
+                    <pf:column class="colIcon" style="width: 20px;">
+                        <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteDeptAfterTargetYear(deptAfterTargetYear)}"
+                                             show="#{!deptEdit.isReadOnly}"
+                                             updateElement="form"/>
+                    </pf:column>
+                    <pf:column headerText="Fachabteilung">
+                        <pf:outputLabel
+                                value="#{deptAfterTargetYear.dept.deptNumber} - #{deptAfterTargetYear.dept.deptName}"/>
+                    </pf:column>
+                    <pf:column headerText="Fachabteilung gem. KH">
+                        <inekInput:InputText value="#{deptAfterTargetYear.deptNameHospital}"
+                                             require="true"
+                                             Style="width: 100%;"
+                                             requiredMessage="Bitte geben Sie den Fachabteilungsnamen an"
+                                             readonly="#{deptEdit.isReadOnly}"/>
+                    </pf:column>
+                    <pf:column headerText="Station">
+                        <inekInput:InputText value="#{deptAfterTargetYear.stationNameTargetYear}"
+                                             require="true"
+                                             Style="width: 100%;"
+                                             requiredMessage="Bitte geben Sie die Station an"
+                                             readonly="#{deptEdit.isReadOnly}"/>
+                    </pf:column>
+                    <pf:column headerText="Standort" style="border-right-width:5px;">
+                        <inekInput:InputText value="#{deptAfterTargetYear.locationCodeTargetYear}"
+                                             Style="width: 100%;"
+                                             readonly="#{deptEdit.isReadOnly}"/>
+                    </pf:column>
+                    <pf:column headerText="PS Bereich">
+                        <inekInput:InputText value="#{deptAfterTargetYear.sensitiveArea}"
+                                             Style="width: 100%;"
+                                             readonly="#{deptEdit.isReadOnly}"/>
+                    </pf:column>
+                    <pf:column headerText="FAB - Nummer">
+                        <inekInput:InputText value="#{deptAfterTargetYear.deptNumber}"
+                                             maxlength="4"
+                                             Style="width: 100%;"
+                                             readonly="#{deptEdit.isReadOnly}"/>
+                    </pf:column>
+                    <pf:column headerText="FAB Name">
+                        <inekInput:InputText value="#{deptAfterTargetYear.deptName}"
+                                             Style="width: 100%;"
+                                             readonly="#{deptEdit.isReadOnly}"/>
+                    </pf:column>
+                    <pf:column headerText="Station">
+                        <inekInput:InputText value="#{deptAfterTargetYear.stationName}"
+                                             Style="width: 100%;"
+                                             readonly="#{deptEdit.isReadOnly}"/>
+                    </pf:column>
+                    <pf:column headerText="Standort">
+                        <inekInput:InputText value="#{deptAfterTargetYear.locationCode}"
+                                             Style="width: 100%;"
+                                             readonly="#{deptEdit.isReadOnly}"/>
+                    </pf:column>
+                    <pf:column headerText="Anmerkung">
+                        <pf:inputTextarea value="#{deptAfterTargetYear.comment}"
+                                          rows="1"
+                                          style="width: 100%;"
+                                          readonly="#{deptEdit.isReadOnly}"/>
+                    </pf:column>
+                </pf:dataTable>
+
+                <pf:commandButton value="Neuen Eintrag"
+                                  onclick="PF('dlgFabSelection').show();"
+                                  immediate="false"
+                                  rendered="#{!deptEdit.isReadOnly}"
+                                  style="margin-top: 10px;"
+                                  icon="fa fa-plus"
+                                  update="depTableAfterTargetYear"/>
+            </div>
         </div>
-        <div class="card" jsf:id="aggregatedtTable">
+
+        <div class="card" jsf:id="aggregatedtTable" jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
             <div class="ui-g-12">
                 <h1>Zusammengefasste Stationsübersicht</h1>
 
@@ -965,6 +1120,8 @@
                 </pf:dataTable>
             </div>
         </div>
+
+
     </div>
 
 </ui:composition>

@@ -139,6 +139,19 @@ public class Dept implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property See Dept Area Id">
+    @Column(name = "deSeeDeptAreaId")
+    private int _seeSeeDeptArea;
+
+    public int getSeeDeptArea() {
+        return _deptArea;
+    }
+
+    public void setSeeDeptArea(int deptArea) {
+        this._deptArea = deptArea;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property Dept Required">
     @Column(name = "deRequired")
     private Boolean _required;
