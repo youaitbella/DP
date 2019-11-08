@@ -1,19 +1,24 @@
 package org.inek.dataportal.care.entities.version;
 
-import org.inek.dataportal.care.entities.DeptWard;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "mapVersion", schema = "adm")
+@Table(name = "listVersion", schema = "adm")
 public class MapVersion implements Serializable {
+
+    public MapVersion() {
+    }
+
+    public MapVersion(int accountId) {
+        this.accountId = accountId;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mvVersion")
+    @Column(name = "verId")
     private Integer _id;
 
     public Integer getId() {
@@ -24,7 +29,7 @@ public class MapVersion implements Serializable {
         this._id = id;
     }
 
-    @Column(name = "mvDate")
+    @Column(name = "verCreatedAt")
     private Date _createdAt = new Date();
 
     public Date getCreatedAt() {
@@ -35,11 +40,15 @@ public class MapVersion implements Serializable {
         this._createdAt = createdAt;
     }
 
-    @OneToOne(mappedBy = "_mapVersion")
-    private DeptWard _deptWard;
+    @Column(name = "verAccountId")
+    private int accountId;
 
-    public DeptWard getDeptStation() {
-        return _deptWard;
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
     @Override

@@ -220,7 +220,7 @@ class AggregatedWardsHelperTest {
     }
 
     private DeptWard createDeptStation(Date validFrom, Date validTo, String name, String deptName, int p21, int vz, String fab) {
-        DeptWard station = new DeptWard();
+        DeptWard station = new DeptWard(new MapVersion());
         station.setValidFrom(validFrom);
         station.setValidTo(validTo);
         station.setWardName(name);
@@ -241,23 +241,23 @@ class AggregatedWardsHelperTest {
 
 
         DeptWard station1 = createDeptStation("Station A", "Fachabteilung 1", 1, 772548, "1300");
-        station1.setMapVersion(createMapVersion(1));
+        // todo: station1.setMapVersion(createMapVersion(1));
         station1.setBedCount(20);
 
 
         DeptWard station2 = createDeptStation("Station A", "Fachabteilung 19", 1, 772548, "1600");
-        station2.setMapVersion(createMapVersion(2));
+        // todo: station2.setMapVersion(createMapVersion(2));
         station2.setBedCount(20);
 
 
 
         DeptWard station3 = createDeptStation("Station B", "Fachabteilung Neu", 2, 772548, "5600");
-        station3.setMapVersion(createMapVersion(3));
+        // todo: station3.setMapVersion(createMapVersion(3));
         station3.setBedCount(30);
 
 
         DeptWard station4 = createDeptStation("Station B", "Fachabteilung AltNeu", 2, 772548, "8000");
-        station4.setMapVersion(createMapVersion(4));
+        // todo: station4.setMapVersion(createMapVersion(4));
         station4.setBedCount(30);
 
         wards.add(station1);
@@ -296,10 +296,13 @@ class AggregatedWardsHelperTest {
 
     }
 
-    private MapVersion createMapVersion(int i) {
-        MapVersion version = new MapVersion();
-        version.setId(i);
+    private int versionId;
+
+    private synchronized MapVersion createMapVersion() {
+        MapVersion version = new MapVersion(0);
+        version.setId(++versionId);
         return version;
     }
+
 
 }

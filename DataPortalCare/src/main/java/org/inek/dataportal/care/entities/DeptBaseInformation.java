@@ -1,5 +1,6 @@
 package org.inek.dataportal.care.entities;
 
+import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
@@ -178,6 +179,20 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
+    //<editor-fold desc="Property CurrentVersion">
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "dbiCurrentVersionId", referencedColumnName = "verId")
+    private MapVersion currentVersion;
+
+    public MapVersion getCurrentVersion() {
+        return currentVersion;
+    }
+
+    public void setCurrentVersion(MapVersion mapVersion) {
+        this.currentVersion = mapVersion;
+    }
+    //</editor-fold>
+
     @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "deBaseInformationId")
     @OrderBy("_deptNumber")
@@ -213,7 +228,4 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
         _depts.add(dept);
     }
 
-    public void setIdNull() {
-        _id = null;
-    }
 }

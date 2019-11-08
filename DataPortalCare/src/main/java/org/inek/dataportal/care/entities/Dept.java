@@ -1,5 +1,7 @@
 package org.inek.dataportal.care.entities;
 
+import org.inek.dataportal.care.entities.version.MapVersion;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -141,14 +143,14 @@ public class Dept implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property See Dept Area Id">
     @Column(name = "deSeeDeptAreaId")
-    private int _seeSeeDeptArea;
+    private int _seeDeptAreaId;
 
-    public int getSeeDeptArea() {
-        return _deptArea;
+    public int getSeeDeptAreaId() {
+        return _seeDeptAreaId;
     }
 
-    public void setSeeDeptArea(int deptArea) {
-        this._deptArea = deptArea;
+    public void setSeeDeptAreaId(int deptArea) {
+        this._seeDeptAreaId = deptArea;
     }
     //</editor-fold>
 
@@ -181,24 +183,22 @@ public class Dept implements Serializable {
         this._deptWards = deptWards;
     }
 
-    public void addNewInitialDeptWard(Date validFrom, Date validTo) {
-        DeptWard deptWard = new DeptWard();
-        deptWard.setDept(this);
-        deptWard.setDeptName(_deptName);
-        deptWard.setFab(_deptNumber);
-        deptWard.setValidFrom(validFrom);
-        deptWard.setValidTo(validTo);
-        deptWard.setIsInitial(true);
-        _deptWards.add(deptWard);
+    public void addNewInitialDeptWard(MapVersion version, Date validFrom, Date validTo) {
+        addDeptWard(version, validFrom, validTo, true);
     }
 
-    public void addNewDeptWard(Date validFrom, Date validTo) {
-        DeptWard deptWard = new DeptWard();
+    public void addNewDeptWard(MapVersion version, Date validFrom, Date validTo) {
+        addDeptWard(version, validFrom, validTo, false);
+    }
+
+    private void addDeptWard(MapVersion version, Date validFrom, Date validTo, boolean isInitial) {
+        DeptWard deptWard = new DeptWard(version);
         deptWard.setDept(this);
         deptWard.setDeptName(_deptName);
         deptWard.setFab(_deptNumber);
         deptWard.setValidFrom(validFrom);
         deptWard.setValidTo(validTo);
+        deptWard.setIsInitial(isInitial);
         _deptWards.add(deptWard);
     }
 
