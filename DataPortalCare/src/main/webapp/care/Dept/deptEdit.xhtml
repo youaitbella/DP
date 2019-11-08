@@ -104,7 +104,7 @@
 
                         <pf:commandButton value="Umbenennung oder strukturelle Veränderungen"
                                           action="#{sessionController.navigate('/care/StructuralChanges/structuralChangesSummary')}"
-                                          rendered="#{deptEdit.deptBaseInformation.status.value eq 10}"
+                                          rendered="#{deptEdit.deptBaseInformation.status.value eq 10 and deptEdit.deptBaseInformation.year ge 2018}"
                                           immediate="true"
                                           style="margin-left: 10px;"/>
 

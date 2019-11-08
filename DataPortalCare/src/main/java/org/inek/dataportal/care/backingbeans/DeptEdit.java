@@ -126,7 +126,6 @@ public class DeptEdit implements Serializable {
 
     @PostConstruct
     private void init() {
-        LOGGER.log(Level.WARNING, "Init DeptEdit");
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (id == null) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
@@ -142,7 +141,6 @@ public class DeptEdit implements Serializable {
                 loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
             }
         } else {
-            LOGGER.log(Level.WARNING, "load existing DeptEdit");
             _deptBaseInformation = _deptFacade.findDeptBaseInformation(Integer.parseInt(id));
             loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
             loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
@@ -150,7 +148,6 @@ public class DeptEdit implements Serializable {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
-            LOGGER.log(Level.WARNING, "before loadStationsAfterTargetYear DeptEdit");
             loadStationsAfterTargetYear(_deptBaseInformation);
         }
         setReadOnly();
