@@ -7,6 +7,7 @@ package org.inek.dataportal.care.facades;
 
 import javafx.util.Pair;
 import org.inek.dataportal.care.entities.Dept;
+import org.inek.dataportal.care.entities.DeptArea;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -110,7 +111,7 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
             dept.setDeptNumber((String) record[3]);
             dept.setSensitiveArea((String) record[4]);
             dept.setLocation((String) record[5]);
-            dept.setSeeDeptArea((int) record[6]);
+            dept.setSeeDeptAreaId((int) record[6]);
             info.addDept(dept);
         });
     }
@@ -155,5 +156,11 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         @SuppressWarnings("unchecked")
         List<Object> resultList = getEntityManager().createNativeQuery(sql).getResultList();
         return resultList.size() > 0;
+    }
+
+    public List<DeptArea> getAreas() {
+        String jpql = "select a from DeptArea a";
+        TypedQuery<DeptArea> query = getEntityManager().createQuery(jpql, DeptArea.class);
+        return query.getResultList();
     }
 }

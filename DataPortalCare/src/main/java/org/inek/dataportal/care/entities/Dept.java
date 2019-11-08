@@ -141,14 +141,14 @@ public class Dept implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property See Dept Area Id">
     @Column(name = "deSeeDeptAreaId")
-    private int _seeSeeDeptArea;
+    private int _seeDeptAreaId;
 
-    public int getSeeDeptArea() {
-        return _deptArea;
+    public int getSeeDeptAreaId() {
+        return _seeDeptAreaId;
     }
 
-    public void setSeeDeptArea(int deptArea) {
-        this._deptArea = deptArea;
+    public void setSeeDeptAreaId(int deptArea) {
+        this._seeDeptAreaId = deptArea;
     }
     //</editor-fold>
 

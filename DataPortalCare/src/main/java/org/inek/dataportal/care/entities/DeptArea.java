@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name = "listDeptArea")
+@Table(name = "listDeptArea", schema = "care")
 public class DeptArea {
 
     //<editor-fold desc="Property Id">

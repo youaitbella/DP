@@ -7,10 +7,7 @@ package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.bo.AggregatedWards;
-import org.inek.dataportal.care.entities.Dept;
-import org.inek.dataportal.care.entities.DeptBaseInformation;
-import org.inek.dataportal.care.entities.DeptStationsAfterTargetYear;
-import org.inek.dataportal.care.entities.DeptWard;
+import org.inek.dataportal.care.entities.*;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.utils.AggregatedWardsHelper;
 import org.inek.dataportal.care.utils.CareExcelExporter;
@@ -272,6 +269,14 @@ public class DeptEdit implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    private List<DeptArea> areas;
+
+    public String getDeptAreaText(int areaId) {
+        if (areas == null) {
+            areas = _deptFacade.getAreas();
+        }
+        return areas.stream().filter(a -> a.getId() == areaId).map(a -> a.getText()).findAny().orElse("???");
+    }
     public void deleteStationFromDept(Dept dept, DeptWard station) {
         dept.removeDeptStation(station);
     }
