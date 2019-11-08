@@ -54,12 +54,12 @@
                                 </pf:outputLabel>
                             </pf:column>
                             <pf:column>
-                                <pf:commandButton value="Neue Gültigkeit hinzufügen(MM.yyyy)"
+                                <pf:commandButton value="Neue Gültigkeit hinzufügen(dd.MM.yyyy)"
                                                   icon="fa fa-plus"
                                                   onclick="PF('validityInfo').show();"/>
                                 <pf:dialog header="Gültigkeit von" widgetVar="validityInfo" modal="true" height="100">
                                     <pf:inputText id="validityFrom" value="#{structuralChangesEdit.validityFrom}"
-                                                  immediate="true" title="Bsp: 06.2018"
+                                                  immediate="true" title="Bsp: 15.06.2018"
                                                   validator="#{structuralChangesEdit.validateDate}"/>
                                     <pf:tooltip id="toolTipFocus" for="validityFrom" showEvent="focus"
                                                 hideEvent="blur"/>

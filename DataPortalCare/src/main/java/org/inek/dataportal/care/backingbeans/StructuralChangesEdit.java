@@ -121,7 +121,7 @@ public class StructuralChangesEdit implements Serializable {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date = null;
         try {
-            date = format.parse("01." + validityFrom);
+            date = format.parse(validityFrom);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -183,7 +183,7 @@ public class StructuralChangesEdit implements Serializable {
             ((UIInput) comp).setValid(true);
         } else {
             ((UIInput) comp).setValid(false);
-            DialogController.showErrorDialog("Falsches Format", "Bitte halten Sie das Format ein (MM.yyyy)!");
+            DialogController.showErrorDialog("Falsches Format", "Bitte halten Sie das Format ein (dd.MM.yyyy)!");
         }
     }
 
@@ -197,7 +197,7 @@ public class StructuralChangesEdit implements Serializable {
     public boolean isCorrectFormat(String value) {
         String[] split = value.split(".");
 
-        if (split[0].length() == 2 && split[1].length() == 4) {
+        if (split[0].length() == 2 && split[1].length() == 2 && split[2].length() == 4) {
             return true;
         }
         return false;
