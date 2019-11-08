@@ -81,6 +81,9 @@ public class DeptEdit implements Serializable {
 
     private Set<Integer> _allowedP21LocationCodes = new HashSet<>();
 
+    public DeptEdit() {
+        LOGGER.log(Level.WARNING, "Constructor DeptEdit");
+    }
     public List<AggregatedWards> getAggregatedWards() {
         return AggregatedWardsHelper.aggregatedWards(_deptBaseInformation.getAllWards());
     }
@@ -123,6 +126,7 @@ public class DeptEdit implements Serializable {
 
     @PostConstruct
     private void init() {
+        LOGGER.log(Level.WARNING, "Init DeptEdit");
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (id == null) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
@@ -138,6 +142,7 @@ public class DeptEdit implements Serializable {
                 loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
             }
         } else {
+            LOGGER.log(Level.WARNING, "load existing DeptEdit");
             _deptBaseInformation = _deptFacade.findDeptBaseInformation(Integer.parseInt(id));
             loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
             loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
@@ -145,6 +150,7 @@ public class DeptEdit implements Serializable {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
+            LOGGER.log(Level.WARNING, "before loadStationsAfterTargetYear DeptEdit");
             loadStationsAfterTargetYear(_deptBaseInformation);
         }
         setReadOnly();
@@ -235,9 +241,13 @@ public class DeptEdit implements Serializable {
     }
 
     private boolean isAllowedForSend() {
-        List<String> errors = AggregatedWardsHelper.checkBedCountForWards(_deptBaseInformation.getAllWards());
-        _errorMessages = errors.stream().collect(Collectors.joining("\n"));
-        return errors.isEmpty();
+        _errorMessages = AggregatedWardsHelper
+                .aggregatedWards(_deptBaseInformation.getAllWards())
+                .stream()
+                .filter(w -> w.getDifferentBedCount())
+                .map(w -> String.format(AggregatedWardsHelper.ERROR_MESSAGE_MULTIPLE_BEDS, w.getWardName(), w.getDistinctBedCounts()))
+                .collect(Collectors.joining("\n"));
+        return _errorMessages.isEmpty();
     }
 
     private void loadValidIks() {

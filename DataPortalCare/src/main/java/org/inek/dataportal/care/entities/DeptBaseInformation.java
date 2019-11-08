@@ -35,6 +35,7 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
         this._send = deptBaseInformation.getSend();
         this._lastChangeBy = deptBaseInformation.getLastChangeBy();
         this._lastChanged = deptBaseInformation.getLastChanged();
+        this.currentVersion = deptBaseInformation.getCurrentVersion();
 
         for (Dept dept : deptBaseInformation.getDepts()) {
             Dept newDept = new Dept(dept);

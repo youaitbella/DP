@@ -104,13 +104,14 @@
 
                         <pf:commandButton value="Umbenennung oder strukturelle Veränderungen"
                                           action="#{sessionController.navigate('/care/StructuralChanges/structuralChangesSummary')}"
-                                          rendered="#{deptEdit.changeAllowed()}"
+                                          rendered="#{deptEdit.deptBaseInformation.status.value eq 10}"
                                           immediate="true"
                                           style="margin-left: 10px;"/>
 
                         <pf:commandButton value="Meldung exportieren (Excel)"
                                           ajax="false"
                                           rendered="#{deptEdit.excelExportAllowed()}"
+                                          disabled="#{deptEdit.deptBaseInformation.year ge 2018}"
                                           style="margin-left: 10px;"
                                           onclick="PrimeFaces.monitorDownload(start, stop);"
                                           icon="ui-icon-arrowthick-1-s">
