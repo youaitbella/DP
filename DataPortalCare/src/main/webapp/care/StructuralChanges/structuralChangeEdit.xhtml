@@ -18,7 +18,7 @@
                         <h1>Meldung struktureller Veränderungen</h1>
 
                         <pf:dataTable value="#{structuralChangesEdit.wards}"
-                                      tableStyle="width: auto;"
+                                      tableStyle="width: 100%;"
                                       emptyMessage="Keine Daten vorhanden"
                                       var="ward"
                                       id="wardTable">
@@ -54,12 +54,15 @@
                                 </pf:outputLabel>
                             </pf:column>
                             <pf:column>
-                                <pf:commandButton value="Neue Gültigkeit hinzufügen"
+                                <pf:commandButton value="Neue Gültigkeit hinzufügen(MM.yyyy)"
                                                   icon="fa fa-plus"
                                                   onclick="PF('validityInfo').show();"/>
                                 <pf:dialog header="Gültigkeit von" widgetVar="validityInfo" modal="true" height="100">
-                                    <pf:inputText value="#{structuralChangesEdit.validityFrom}"/>
-
+                                    <pf:inputText id="validityFrom" value="#{structuralChangesEdit.validityFrom}"
+                                                  immediate="true" title="Bsp: 06.2018"
+                                                  validator="#{structuralChangesEdit.validateDate}"/>
+                                    <pf:tooltip id="toolTipFocus" for="validityFrom" showEvent="focus"
+                                                hideEvent="blur"/>
                                     <pf:commandButton value="Ok"
                                                       action="#{structuralChangesEdit.newValidity(ward)}"
                                                       update=":change:test" process="@this"
@@ -70,8 +73,7 @@
 
                         <div jsf:id="test">
                             <pf:dataTable value="#{structuralChangesEdit.wards}"
-                                          tableStyle="width: auto;"
-                                          emptyMessage="Keine Daten vorhanden"
+                                          tableStyle="width: 100%;"
                                           var="ward"
                                           id="wardChangeTable">
                                 <pf:column>

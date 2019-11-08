@@ -22,11 +22,13 @@ import org.inek.dataportal.common.overall.AccessManager;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.awt.*;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -119,11 +121,12 @@ public class StructuralChangesEdit implements Serializable {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date = null;
         try {
-            date = format.parse(validityFrom);
+            date = format.parse("01." + validityFrom);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         newWard.setDeptName(ward.getDeptName());
+        newWard.setDept(ward.getDept());
         newWard.setWardName(ward.getWardName());
         newWard.setLocationCodeP21(ward.getLocationCodeP21());
         newWard.setLocationCodeVz(ward.getLocationCodeVz());
@@ -171,5 +174,32 @@ public class StructuralChangesEdit implements Serializable {
         if (!CareValueChecker.isValidFabNumber(value.toString())) {
             throw new ValidatorException(new FacesMessage("Ungültige FAB"));
         }
+    }
+
+    public void validateDate(UIComponent comp, Object value) {
+        String validityFrom = (String) value;
+
+        if (isLengthAsExpected(validityFrom, 7) && isCorrectFormat(validityFrom)) {
+            ((UIInput) comp).setValid(true);
+        } else {
+            ((UIInput) comp).setValid(false);
+            DialogController.showErrorDialog("Falsches Format", "Bitte halten Sie das Format ein (MM.yyyy)!");
+        }
+    }
+
+    public boolean isLengthAsExpected(String value, int expectedLength) {
+        if (value.length() == expectedLength) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isCorrectFormat(String value) {
+        String[] split = value.split(".");
+
+        if (split[0].length() == 2 && split[1].length() == 4) {
+            return true;
+        }
+        return false;
     }
 }
