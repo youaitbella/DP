@@ -2,7 +2,6 @@ package org.inek.dataportal.care.entities.StructuralChanges;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -31,11 +30,6 @@ public class StructuralChangesWards implements Serializable {
 
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property MapVersionId">
-    @Column(name = "scwMapVersionId")
-    private int _mapVersionId;
-
-    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property WardsToChangeId">
     @OneToOne(cascade = CascadeType.ALL)
@@ -61,14 +55,6 @@ public class StructuralChangesWards implements Serializable {
         this._structuralChangesBaseInformation = structuralChangesBaseInformation;
     }
 
-    public int getMapVersionId() {
-        return _mapVersionId;
-    }
-
-    public void setMapVersionId(int mapVersionId) {
-        this._mapVersionId = mapVersionId;
-    }
-
     public WardsToChange getWardsToChange() {
         return _wardsToChange;
     }
@@ -82,13 +68,12 @@ public class StructuralChangesWards implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StructuralChangesWards that = (StructuralChangesWards) o;
-        return _mapVersionId == that._mapVersionId &&
-                Objects.equals(_id, that._id) &&
+        return Objects.equals(_id, that._id) &&
                 Objects.equals(_wardsToChange, that._wardsToChange);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _mapVersionId, _wardsToChange);
+        return Objects.hash(_id, _wardsToChange);
     }
 }

@@ -106,7 +106,7 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         results.stream().forEach((record) -> {
             Dept dept = new Dept();
             dept.setBaseInformation(info);
-            dept.setDeptName((String) record[0]);
+            dept.setDeptName(((String) record[0]).trim());
             dept.setDeptArea((int) record[1]);
             dept.setRequired((Boolean) record[2]);
             dept.setDeptNumber((String) record[3]);

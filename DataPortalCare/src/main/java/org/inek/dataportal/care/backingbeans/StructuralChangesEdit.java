@@ -144,7 +144,6 @@ public class StructuralChangesEdit implements Serializable {
 
     private WardsToChange createNewWardsToChange(DeptWard ward) {
         WardsToChange wardsToChange = new WardsToChange(ward);
-        wardsToChange.setMapVersion(ward.getMapVersion());
         return wardsToChange;
     }
 

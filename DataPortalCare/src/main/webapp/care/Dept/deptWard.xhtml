@@ -96,7 +96,7 @@
             </div>
 
             <div style="margin-top: 20px;" class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(1).size() gt 0}">
-                <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year eq 2017}">Angaben zu § 3 Abs. 3 Satz 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
+                <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year eq 2017}">Angaben zu § 3 Abs. 3 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
                 <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}">#{deptEdit.getDeptAreaText(1)}</h1>
 
                 <div jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -189,7 +189,7 @@
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
-                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
+                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -242,7 +242,8 @@
 
             <div style="margin-top: 20px;" class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(2).size() gt 0}">
 
-                <h1>#{deptEdit.getDeptAreaText(2)}</h1>
+                <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year eq 2017}">Angaben zu § 3 Abs. 3 Nr. 2 PpUGV (Indikatoren - DRGs)</h1>
+                <h1 jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}">#{deptEdit.getDeptAreaText(2)}</h1>
 
                 <div jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
                      style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
@@ -334,7 +335,7 @@
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
-                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
+                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -392,7 +393,7 @@
                     Es sind die vom Krankenhaus verwendeten Namen der Fachabteilung und sämtliche zu dieser Fachabteilung gehörende Stationen standortbezogen mit zugehöriger Bettenanzahl einzutragen.
                 </div>
                 <pf:repeat value="#{deptEdit.getDeptsByArea(4)}" var="dept">
-                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}#{dept.location ne '' ? ', ' += dept.locationForDisplay : ''}</h3>
+                    <h3>Stationsangaben für den pflegesensitiven Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName}#{dept.location ne '' ? ', ' += dept.locationForDisplay : ''}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -496,7 +497,7 @@
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
-                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
+                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -654,7 +655,7 @@
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
-                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
+                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -814,7 +815,7 @@
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
-                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
+                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -981,7 +982,7 @@
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
-                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V"/>
+                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -1164,7 +1165,7 @@
                     <pf:column headerText="Standort nach § 21 KHEntgG">
                         <pf:outputLabel value="#{aggregate.locationCode21}"/>
                     </pf:column>
-                    <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V">
+                    <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)">
                         <pf:outputLabel value="#{aggregate.locationCodeVz}"/>
                     </pf:column>
                     <pf:column headerText="Bettenanzahl der Station">

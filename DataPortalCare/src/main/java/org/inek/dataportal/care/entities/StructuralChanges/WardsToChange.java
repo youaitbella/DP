@@ -1,7 +1,6 @@
 package org.inek.dataportal.care.entities.StructuralChanges;
 
 import org.inek.dataportal.care.entities.DeptWard;
-import org.inek.dataportal.care.entities.version.MapVersion;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +18,6 @@ public class WardsToChange implements Serializable {
 
     public WardsToChange(DeptWard station) {
         _deptId = station.getDept().getId();
-        _mapVersion = station.getMapVersion();
         _wardName = station.getWardName();
         _deptName = station.getDeptName();
         _locationP21 = station.getLocationCodeP21();
@@ -56,18 +54,6 @@ public class WardsToChange implements Serializable {
         _deptId = deptId;
     }
     //</editor-fold>
-
-    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "wtcMapVersionId")
-    private MapVersion _mapVersion;
-
-    public MapVersion getMapVersion() {
-        return _mapVersion;
-    }
-
-    public void setMapVersion(MapVersion mapVersion) {
-        this._mapVersion = mapVersion;
-    }
 
     //<editor-fold defaultstate="collapsed" desc="Property WardName">
     @Column(name = "wtcWardName")
@@ -213,7 +199,6 @@ public class WardsToChange implements Serializable {
                 _beds == that._beds &&
                 _locationVz == that._locationVz &&
                 Objects.equals(_id, that._id) &&
-                Objects.equals(_mapVersion, that._mapVersion) &&
                 Objects.equals(_wardName, that._wardName) &&
                 Objects.equals(_deptName, that._deptName) &&
                 Objects.equals(_fab, that._fab) &&
@@ -225,7 +210,7 @@ public class WardsToChange implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _deptId, _mapVersion, _wardName, _deptName, _locationP21, _beds, _locationVz,
+        return Objects.hash(_id, _deptId, _wardName, _deptName, _locationP21, _beds, _locationVz,
                 _fab, _validFrom, _validTo, _structuralChangesBaseInformation, _structuralChangesWards);
     }
 }

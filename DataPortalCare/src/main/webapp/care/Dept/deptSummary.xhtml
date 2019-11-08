@@ -51,6 +51,7 @@
                             <inekIcon:StatusIcon StatusId="#{baseInformation.statusId}"/>
                         </pf:column>
                         <pf:column headerText="IK" filterBy="#{baseInformation.ik}" sortable="true"
+                                   filterFunction="contains"
                                    sortBy="#{baseInformation.ik}">
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
                                     value="#{baseInformation.ik}">
@@ -58,6 +59,7 @@
                             </h:link>
                         </pf:column>
                         <pf:column headerText="Krankenhaus" filterBy="#{baseInformation.hospitalName}"
+                                   filterFunction="contains"
                                    sortable="true"
                                    sortBy="#{baseInformation.hospitalName}">
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
