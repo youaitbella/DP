@@ -8,6 +8,7 @@ package org.inek.dataportal.care.backingbeans;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.entities.*;
+import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.utils.AggregatedWardsHelper;
 import org.inek.dataportal.care.utils.CareExcelExporter;
@@ -177,11 +178,11 @@ public class DeptEdit implements Serializable {
 
     private DeptBaseInformation createNewDeptBaseInformation() {
         DeptBaseInformation info = new DeptBaseInformation();
+        info.setCurrentVersion(new MapVersion(_sessionController.getAccountId()));
         info.setCreatedBy(_sessionController.getAccountId());
         info.setStatus(WorkflowStatus.New);
         info.setCreated(new Date());
         info.setYear(2018);
-
         return info;
     }
 
@@ -245,7 +246,7 @@ public class DeptEdit implements Serializable {
     }
 
     public void addNewStation(Dept dept) {
-        dept.addNewInitialDeptWard(createNewValidFromDate(), createNewValidToDate());
+        dept.addNewInitialDeptWard(_deptBaseInformation.getCurrentVersion(), createNewValidFromDate(), createNewValidToDate());
     }
 
     private Date createNewValidFromDate() {

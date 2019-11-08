@@ -17,6 +17,10 @@ public class DeptWard implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public DeptWard() {
+    }  // for JPA only!
+
+    public DeptWard(MapVersion version) {
+        this._mapVersion = version;
     }
 
     public DeptWard(DeptWard other) {
@@ -29,6 +33,7 @@ public class DeptWard implements Serializable {
         this._validFrom = other._validFrom;
         this._validTo = other._validTo;
         this._isInitial = other._isInitial;
+        this._mapVersion = other._mapVersion;
     }
 
 
@@ -48,9 +53,9 @@ public class DeptWard implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Version Id">
-    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "dwVersionId")
-    private MapVersion _mapVersion = new MapVersion();
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "dwVersionId", referencedColumnName = "verId")
+    private MapVersion _mapVersion;
 
     public MapVersion getMapVersion() {
         return _mapVersion;
@@ -59,7 +64,6 @@ public class DeptWard implements Serializable {
     public void setMapVersion(MapVersion mapVersion) {
         this._mapVersion = mapVersion;
     }
-
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Dept">

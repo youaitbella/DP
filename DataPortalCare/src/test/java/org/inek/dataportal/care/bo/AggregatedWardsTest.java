@@ -2,6 +2,7 @@ package org.inek.dataportal.care.bo;
 
 import org.assertj.core.api.Assertions;
 import org.inek.dataportal.care.entities.DeptWard;
+import org.inek.dataportal.care.entities.version.MapVersion;
 import org.junit.jupiter.api.Test;
 
 import java.time.Month;
@@ -32,7 +33,7 @@ class AggregatedWardsTest {
     }
 
     private DeptWard createDeptWard(String name, String deptName, int p21, int vz, String fab, int bedCount) {
-        DeptWard deptWard = new DeptWard();
+        DeptWard deptWard = new DeptWard(new MapVersion());
         deptWard.setValidFrom(createDate(2020, Month.JANUARY, 1));
         deptWard.setValidTo(getMaxDate());
         deptWard.setWardName(name);

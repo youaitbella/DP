@@ -81,6 +81,7 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
     @Transactional
     public DeptBaseInformation save(DeptBaseInformation deptBaseInformation) {
         if (deptBaseInformation.getId() == -1) {
+            persist(deptBaseInformation.getCurrentVersion());
             persist(deptBaseInformation);
             return deptBaseInformation;
         }
