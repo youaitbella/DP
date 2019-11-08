@@ -69,7 +69,7 @@
                 <h1>Umsetzung der Verordnung zur Festlegung von Pflegepersonaluntergrenzen in pflegesensitiven Bereichen in Krankenhäusern (PpUGV)</h1>
                 <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
                     <br/>
-                    Die gem. § 5 PpUGV zu übermittelnden Angaben Ihres Krankenhauses können Sie in diesem Bereich des InEK-Datenportals eintragen und an das InEK übermitteln. Zur Vereinfachung der Dateneingabe haben wir Ihnen die Eingabefelder bereits mit den in unserem Anschreiben vom 11.11.2019 genannten für Ihr Krankenhaus ermittelten pflegesensitiven Bereichen Ihres Krankenhauses vorbefüllt. Wir bitten Sie freundlich, die voreingegebenen Daten zu prüfen. Sie können gemäß § 5 Abs. 2 Satz 1 PpUGV bis zum 30.11.2019 Einwände gegen das ermittelte Auswertungsergebnis des InEK erheben. Nähere Informationen hierzu entnehmen Sie bitte dem Anschreiben. Informationen nach § 5 Abs. 3 PpUGV, die aus den §-21-Datensätzen nicht abgeleitet werden können, sind von Ihnen zu ergänzen. Sie können Ihre Eingaben jederzeit speichern ohne diese direkt an das InEK zu übermitteln. Über die Speicherung der Daten werden Sie per E-Mail informiert. So können Sie schrittweise arbeiten und erst nach Beendigung der Eingabe die Daten an das InEK übermitteln (Button „Meldung abschließend ans InEK senden“). Nach erfolgreicher Übermittlung erhalten Sie eine Bestätigung per E-Mail über den erfolgreichen Dateneingang im InEK.
+                    Die gem. § 5 PpUGV zu übermittelnden Angaben Ihres Krankenhauses können Sie in diesem Bereich des InEK-Datenportals eintragen und an das InEK übermitteln. Zur Vereinfachung der Dateneingabe haben wir Ihnen die Eingabefelder bereits mit den in unserem Anschreiben genannten für Ihr Krankenhaus ermittelten pflegesensitiven Bereichen Ihres Krankenhauses vorbefüllt. Wir bitten Sie freundlich, die voreingegebenen Daten zu prüfen. Sie können gemäß § 5 Abs. 2 Satz 1 PpUGV bis zum 30.11.2019 Einwände gegen das ermittelte Auswertungsergebnis des InEK erheben. Nähere Informationen hierzu entnehmen Sie bitte dem Anschreiben. Informationen nach § 5 Abs. 3 PpUGV, die aus den §-21-Datensätzen nicht abgeleitet werden können, sind von Ihnen zu ergänzen. Sie können Ihre Eingaben jederzeit speichern ohne diese direkt an das InEK zu übermitteln. Über die Speicherung der Daten werden Sie per E-Mail informiert. So können Sie schrittweise arbeiten und erst nach Beendigung der Eingabe die Daten an das InEK übermitteln (Button „Meldung abschließend ans InEK senden“). Nach erfolgreicher Übermittlung erhalten Sie eine Bestätigung per E-Mail über den erfolgreichen Dateneingang im InEK.
                     <br/>
                     <br/>
                     Nach erfolgreicher Übermittlung an das InEK können Sie die übermittelten Daten in eine Excel-Tabelle exportieren und an die örtlichen Vertragsparteien nach § 11 KHEntgG weiterleiten (gem. § 5 Abs. 3 PpUGV). Eine erneute Erfassung der Daten zur Weiterleitung an die örtlichen Vertragsparteien ist also nicht erforderlich.
@@ -221,6 +221,8 @@
                             <inekInput:InputNumber value="#{station.bedCount}"
                                                    Style="width: 100%;"
                                                    renderElement=":form:aggregatedtTable"
+                                                   minValue="1"
+                                                   maxValue="999"
                                                    readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
                     </pf:dataTable>
@@ -365,6 +367,8 @@
 
                             <inekInput:InputNumber value="#{station.bedCount}"
                                                    Style="width: 100%;"
+                                                   minValue="1"
+                                                   maxValue="999"
                                                    renderElement=":form:aggregatedtTable"
                                                    readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
@@ -527,6 +531,8 @@
 
                             <inekInput:InputNumber value="#{station.bedCount}"
                                                    Style="width: 100%;"
+                                                   minValue="1"
+                                                   maxValue="999"
                                                    renderElement=":form:aggregatedtTable"
                                                    readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
@@ -685,6 +691,8 @@
 
                             <inekInput:InputNumber value="#{station.bedCount}"
                                                    Style="width: 100%;"
+                                                   minValue="1"
+                                                   maxValue="999"
                                                    renderElement=":form:aggregatedtTable"
                                                    readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
@@ -845,6 +853,8 @@
 
                             <inekInput:InputNumber value="#{station.bedCount}"
                                                    Style="width: 100%;"
+                                                   minValue="1"
+                                                   maxValue="999"
                                                    renderElement=":form:aggregatedtTable"
                                                    readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
@@ -1012,6 +1022,8 @@
 
                             <inekInput:InputNumber value="#{station.bedCount}"
                                                    Style="width: 100%;"
+                                                   minValue="1"
+                                                   maxValue="999"
                                                    renderElement=":form:aggregatedtTable"
                                                    readonly="#{deptEdit.isReadOnly}"/>
                         </pf:column>
@@ -1148,7 +1160,7 @@
                         <h:outputText value="#{aggregate.validTo}" rendered="#{aggregate.validTo != null}">
                             <f:convertDateTime pattern="dd.MM.yyyy"/>
                         </h:outputText>
-                        <h:outputText value="endlos" rendered="#{aggregate.validTo == null}"/>
+                        <h:outputText value="unbegrenzt" rendered="#{aggregate.validTo == null}"/>
                     </pf:column>
                     <pf:column headerText="Pflegesensitiver Bereich" style="width: 120px;">
                         <pf:outputLabel value="#{aggregate.sensitiveAreas}"/>

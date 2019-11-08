@@ -23,6 +23,7 @@ public class AggregatedWardsHelper {
             String key = ward.getLocationCodeP21()
                     + "|" + ward.getLocationCodeVz()
                     + "|" + ward.getWardName().toLowerCase().replace(" ", "")
+                    + "|" + (ward.getDept().getDeptArea() == 3 ? "Intensiv" : "Other")
                     + "|" + ward.getValidFrom()
                     + "|" + ward.getValidTo();
             if (aggregatedWards.containsKey(key)) {

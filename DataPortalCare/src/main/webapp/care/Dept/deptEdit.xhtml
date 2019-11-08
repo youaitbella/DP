@@ -102,6 +102,12 @@
                                           style="margin-left: 10px;"
                                           update="@(.ui-message) @form"/>
 
+                        <pf:commandButton value="Umbenennung oder strukturelle Veränderungen"
+                                          action="#{sessionController.navigate('/care/StructuralChanges/structuralChangesSummary')}"
+                                          rendered="#{deptEdit.changeAllowed()}"
+                                          immediate="true"
+                                          style="margin-left: 10px;"/>
+
                         <pf:commandButton value="Meldung exportieren (Excel)"
                                           ajax="false"
                                           rendered="#{deptEdit.excelExportAllowed()}"

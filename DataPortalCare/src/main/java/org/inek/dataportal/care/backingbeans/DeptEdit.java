@@ -340,6 +340,10 @@ public class DeptEdit implements Serializable {
     }
 
     public void isFabCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        if ("".equals(value.toString().trim())) {
+            return;
+        }
+
         if (!CareValueChecker.isValidFabNumber(value.toString())) {
             throw new ValidatorException(new FacesMessage("Ungültige FAB"));
         }
