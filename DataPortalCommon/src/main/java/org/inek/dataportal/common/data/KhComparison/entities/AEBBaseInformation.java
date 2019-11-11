@@ -206,16 +206,24 @@ public class AEBBaseInformation implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
+    @JsonIgnore
     @Column(name = "biStatusId")
     @Convert(converter = WorkflowStatusConverter.class)
     private  WorkflowStatus _status = WorkflowStatus.Unknown;
 
+    @JsonIgnore
     public WorkflowStatus getStatus() {
         return _status;
     }
 
+    @JsonIgnore
     public void setStatus(WorkflowStatus status) {
         _status = status;
+    }
+
+    //Using only for JSON Export
+    public int getStatusId() {
+        return _status.getId();
     }
     //</editor-fold>
 
