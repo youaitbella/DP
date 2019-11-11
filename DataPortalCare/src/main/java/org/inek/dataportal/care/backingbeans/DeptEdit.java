@@ -15,6 +15,7 @@ import org.inek.dataportal.care.utils.CareExcelExporter;
 import org.inek.dataportal.care.utils.CareValidator;
 import org.inek.dataportal.care.utils.CareValueChecker;
 import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
@@ -38,6 +39,7 @@ import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.time.Month;
 import java.util.*;
@@ -71,6 +73,8 @@ public class DeptEdit implements Serializable {
     private ConfigFacade _configFacade;
     @Inject
     private VzUtils _vzUtils;
+    @Inject
+    private ReportController _reportController;
 
     private DeptBaseInformation _deptBaseInformation;
     private DeptBaseInformation _oldDeptbaseInformation;
@@ -298,6 +302,16 @@ public class DeptEdit implements Serializable {
                 hospitalName, hospitalTown), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + ".xlsx");
 
         return content;
+    }
+
+    public StreamedContent exportAsExcel2018() {
+        String fileName = "Mitteilung gem. Paragraph 5 PpUGV_" + _deptBaseInformation.getIk();
+
+        byte[] singleDocument = _reportController.getSingleDocument("PPUG_DEPT_2018",
+                _deptBaseInformation.getId(), fileName);
+
+        return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + ".xlsx");
     }
 
 

@@ -110,12 +110,20 @@
 
                         <pf:commandButton value="Meldung exportieren (Excel)"
                                           ajax="false"
-                                          rendered="#{deptEdit.excelExportAllowed()}"
-                                          disabled="#{deptEdit.deptBaseInformation.year ge 2018}"
+                                          rendered="#{deptEdit.excelExportAllowed() and deptEdit.deptBaseInformation.year eq 2017}"
                                           style="margin-left: 10px;"
                                           onclick="PrimeFaces.monitorDownload(start, stop);"
                                           icon="ui-icon-arrowthick-1-s">
                             <pf:fileDownload value="#{deptEdit.exportAsExcel()}"/>
+                        </pf:commandButton>
+
+                        <pf:commandButton value="Meldung exportieren (Excel)"
+                                          ajax="false"
+                                          rendered="#{deptEdit.excelExportAllowed() and deptEdit.deptBaseInformation.year ge 2018}"
+                                          style="margin-left: 10px;"
+                                          onclick="PrimeFaces.monitorDownload(start, stop);"
+                                          icon="ui-icon-arrowthick-1-s">
+                            <pf:fileDownload value="#{deptEdit.exportAsExcel2018()}" />
                         </pf:commandButton>
 
                         <pf:commandButton value="Speichern ohne Senden"
