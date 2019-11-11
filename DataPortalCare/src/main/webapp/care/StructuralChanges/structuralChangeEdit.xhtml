@@ -6,12 +6,19 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:pf="http://primefaces.org/ui"
+                xmlns:inekInput="http://xmlns.jcp.org/jsf/composite/components/Input"
                 xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
-                xmlns:f="http://java.sun.com/jsf/core"
->
+                xmlns:f="http://java.sun.com/jsf/core">
+
 
     <ui:define name="content">
         <h:form id="change">
+
+            <pf:importEnum type="org.inek.dataportal.care.enums.StructuralChangesType"
+                           var="StructuralChangesType"
+                           allSuffix="ALL_ENUM_VALUES"/>
+
+
             <div class="ui-g">
                 <div class="card">
                     <div class="ui-g-12">
@@ -54,141 +61,85 @@
                                 </pf:outputLabel>
                             </pf:column>
                             <pf:column>
-                                <pf:commandButton value="Neue Gültigkeit hinzufügen(dd.MM.yyyy)"
-                                                  icon="fa fa-plus"
-                                                  onclick="PF('validityInfo').show();"/>
-                                <pf:dialog header="Gültigkeit von" widgetVar="validityInfo" modal="true" height="100">
-                                    <pf:inputText id="validityFrom" value="#{structuralChangesEdit.validityFrom}"
-                                                  immediate="true" title="Bsp: 15.06.2018"
-                                                  validator="#{structuralChangesEdit.validateDate}"/>
-                                    <pf:tooltip id="toolTipFocus" for="validityFrom" showEvent="focus"
-                                                hideEvent="blur"/>
-                                    <pf:commandButton value="Ok"
-                                                      action="#{structuralChangesEdit.newValidity(ward)}"
-                                                      update=":change:test" process="@this"
-                                                      oncomplete="PF('validityInfo').hide()"/>
-                                </pf:dialog>
+                                <pf:splitButton value="Aktionen">
+                                    <pf:menuitem value="Daten ändern"
+                                                 update="@form"
+                                                 action="#{structuralChangesEdit.newChangeWard(ward)}"/>
+                                    <pf:menuitem value="Station schließen"
+                                                 update="@form"
+                                                 action="#{structuralChangesEdit.closeWard(ward)}"/>
+                                </pf:splitButton>
                             </pf:column>
                         </pf:dataTable>
-
-                        <div jsf:id="test">
-                            <pf:dataTable value="#{structuralChangesEdit.wards}"
-                                          tableStyle="width: 100%;"
-                                          var="ward"
-                                          id="wardChangeTable">
-                                <pf:column>
-                                    <pf:outputLabel value="#{ward.dept.sensitiveArea}"/>
-                                </pf:column>
-                                <pf:column>
-                                    <pf:outputLabel value="#{ward.fab}"/>
-                                </pf:column>
-                                <pf:column>
-                                    <pf:outputLabel value="#{ward.deptName}"/>
-                                </pf:column>
-                                <pf:column>
-                                    <pf:outputLabel value="#{ward.wardName}"/>
-                                </pf:column>
-                                <pf:column>
-                                    <pf:outputLabel value="#{ward.locationCodeP21}"/>
-                                </pf:column>
-                                <pf:column>
-                                    <pf:outputLabel value="#{ward.locationCodeVz}"/>
-                                </pf:column>
-                                <pf:column>
-                                    <pf:outputLabel value="#{ward.bedCount}"/>
-                                </pf:column>
-                                <pf:column>
-                                    <pf:outputLabel value="#{ward.validFrom}">
-                                        <f:convertDateTime type="date" pattern="dd.MM.yyyy" timeZone="Europe/Berlin"/>
-                                    </pf:outputLabel>
-                                </pf:column>
-                                <pf:column>
-                                    <pf:outputLabel value="#{ward.validTo}">
-                                        <f:convertDateTime type="date" pattern="dd.MM.yyyy" timeZone="Europe/Berlin"/>
-                                    </pf:outputLabel>
-                                </pf:column>
-
-                            </pf:dataTable>
-                        </div>
                     </div>
                 </div>
                 <div class="card">
-                    <div class="ui-g-12">
+                    <div class="ui-g-12"
+                         jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CHANGE).size() gt 0}">
                         <h1>Stationsdaten ändern</h1>
-
-                        <pf:dataTable value="#{structuralChangesEdit.changesBaseInformations}"
-                                      tableStyle="width: auto;"
-                                      var="baseInfo">
+                        <pf:dataTable
+                                value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CHANGE)}"
+                                tableStyle="width: auto;"
+                                var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
                                         deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
                                         updateElement="@form"/>
                             </pf:column>
                             <pf:column headerText="Sensitiver Bereich">
-                                <ui:remove>
-                                    <pf:outputLabel value="#{ward.dept.sensitiveArea}"/>
-                                </ui:remove>
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.dept.sensitiveArea}"/>
                             </pf:column>
                             <pf:column headerText="FAB">
-                                <pf:outputLabel value="#{baseInfo.wardsToChange.mapVersion.deptWard.fab}"/>
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.fab}"/>
                                 <pf:separator/>
-                                <pf:inputText id="inputFabChange"
-                                              value="#{baseInfo.wardsToChange.fab}">
-                                    <pf:ajax event="blur" update="inputFabChange_m"/>
-                                </pf:inputText>
-                                <pf:message id="inputFabChange_m" for="inputFabChange"/>
+                                <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.fab}"
+                                                              Style="width: 100%;"
+                                                              validatorFunction="#{structuralChangesEdit.isFabValid}"
+                                                              validatorMessage="Ungültige FAB"
+                                                              maxlength="4"/>
                             </pf:column>
                             <pf:column headerText="FAB-Name">
-                                <pf:outputLabel value="#{baseInfo.wardsToChange.mapVersion.deptWard.deptName}"/>
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.deptName}"/>
                                 <pf:separator/>
                                 <pf:inputText value="#{baseInfo.wardsToChange.deptName}"/>
                             </pf:column>
                             <pf:column headerText="Station">
-                                <pf:outputLabel value="#{baseInfo.wardsToChange.mapVersion.deptWard.stationName}"/>
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.wardName}"/>
                                 <pf:separator/>
                                 <pf:inputText value="#{baseInfo.wardsToChange.wardName}"/>
                             </pf:column>
                             <pf:column headerText="Standort P21">
                                 <pf:outputLabel
-                                        value="#{baseInfo.wardsToChange.mapVersion.deptWard.locationCodeP21}"/>
+                                        value="#{baseInfo.wardsToChange.deptWard.locationCodeP21}"/>
                                 <pf:separator/>
-                                <pf:inputNumber value="#{baseInfo.wardsToChange.locationP21}"/>
+                                <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationP21}"
+                                                                validatorFunction="#{structuralChangesEdit.isP21LocationCodeValid}"
+                                                                validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
+                                                                Style="width: 100%;"/>
+
                             </pf:column>
                             <pf:column headerText="Standort VZ">
                                 <pf:outputLabel
-                                        value="#{baseInfo.wardsToChange.mapVersion.deptWard.locationCodeVz}"/>
+                                        value="#{baseInfo.wardsToChange.deptWard.locationCodeVz}"/>
                                 <pf:separator/>
-                                <pf:inputNumber value="#{baseInfo.wardsToChange.locationVz}"/>
+
+                                <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationVz}"
+                                                                Style="width: 100%;"
+                                                                validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
+                                                                validatorMessage="Ungültiger Standort für dieses IK"
+                                                                thousendSeperator=""/>
+
                             </pf:column>
                             <pf:column headerText="Betten">
-                                <pf:outputLabel value="#{baseInfo.wardsToChange.mapVersion.deptWard.bedCount}"/>
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.bedCount}"/>
                                 <pf:separator/>
-                                <pf:inputText value="#{baseInfo.wardsToChange.beds}"/>
+                                <inekInput:InputNumber value="#{baseInfo.wardsToChange.beds}"
+                                                       Style="width: 100%;"
+                                                       minValue="1"
+                                                       maxValue="999"/>
                             </pf:column>
-                            <pf:column headerText="Gültig von">
-                                <pf:calendar value="#{baseInfo.wardsToChange.mapVersion.deptWard.validFrom}"
-                                             disabled="true"
-                                             pattern="dd.MM.yyyy"
-                                             mask="true"
-                                             inputStyle="text-align: right;"/>
-                                <pf:separator/>
+                            <pf:column headerText="Gültig ab">
                                 <pf:calendar value="#{baseInfo.wardsToChange.validFrom}"
-                                             required="true"
-                                             requiredMessage="Bitte ein Datum angeben"
-                                             locale="de"
-                                             navigator="true"
-                                             pattern="dd.MM.yyyy"
-                                             mask="true"
-                                             inputStyle="text-align: right;"/>
-                            </pf:column>
-                            <pf:column headerText="Gültig bis">
-                                <pf:calendar value="#{baseInfo.wardsToChange.mapVersion.deptWard.validTo}"
-                                             disabled="true"
-                                             pattern="dd.MM.yyyy"
-                                             mask="true"
-                                             inputStyle="text-align: right;"/>
-                                <pf:separator/>
-                                <pf:calendar value="#{baseInfo.wardsToChange.validTo}"
                                              required="true"
                                              requiredMessage="Bitte ein Datum angeben"
                                              locale="de"

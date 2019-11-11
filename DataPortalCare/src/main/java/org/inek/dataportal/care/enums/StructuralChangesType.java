@@ -3,7 +3,7 @@ package org.inek.dataportal.care.enums;
 public enum StructuralChangesType {
     NEW(1),
     CHANGE(2),
-    DELETE(3),
+    CLOSE(3),
     COMBINE(4),
     UNKNOWN(99);
 

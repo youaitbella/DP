@@ -10,6 +10,7 @@ import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.care.entities.StructuralChanges.WardsToChange;
 import org.inek.dataportal.care.enums.StructuralChangesType;
+import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
 import org.inek.dataportal.care.utils.CareValueChecker;
 import org.inek.dataportal.common.controller.DialogController;
@@ -38,6 +39,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * @author lautenti
@@ -46,10 +50,14 @@ import java.util.List;
 @ViewScoped
 public class StructuralChangesEdit implements Serializable {
 
+    private static final Logger LOGGER = Logger.getLogger(StructuralChangesEdit.class.toString());
+
     @Inject
     private SessionController _sessionController;
     @Inject
     private StructuralChangesFacade _structuralChangesFacade;
+    @Inject
+    private DeptFacade _deptFacade;
     @Inject
     private AccessManager _accessManager;
 
@@ -59,12 +67,8 @@ public class StructuralChangesEdit implements Serializable {
 
     private List<StructuralChangesBaseInformation> _changesBaseInformations = new ArrayList<>();
 
-    public List<StructuralChangesBaseInformation> getChangesBaseInformations() {
-        return _changesBaseInformations;
-    }
-
-    public void setChangesBaseInformations(List<StructuralChangesBaseInformation> changesBaseInformations) {
-        this._changesBaseInformations = changesBaseInformations;
+    public List<StructuralChangesBaseInformation> getChangesBaseInformationsByType(StructuralChangesType structuralChangesType) {
+        return _changesBaseInformations.stream().filter(c -> c.getStructuralChangesType().equals(structuralChangesType)).collect(Collectors.toList());
     }
 
     public List<DeptWard> getWards() {
@@ -73,16 +77,6 @@ public class StructuralChangesEdit implements Serializable {
 
     public void setWards(List<DeptWard> wards) {
         this._wards = wards;
-    }
-
-    private String validityFrom;
-
-    public String getValidityFrom() {
-        return validityFrom;
-    }
-
-    public void setValidityFrom(String validityFrom) {
-        this.validityFrom = validityFrom;
     }
 
 
@@ -95,10 +89,12 @@ public class StructuralChangesEdit implements Serializable {
                 _ik = ik;
                 _wards = _structuralChangesFacade.findWardsByIkAndDate(ik, new Date());
             } else {
+                LOGGER.log(Level.INFO, "No access for IK: " + ik);
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
-        } catch (Exception ey) {
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "error open Page: " + ex + " --> " + ex.getMessage());
             Utils.navigate(Pages.NotAllowed.RedirectURL());
             return;
         }
@@ -115,35 +111,16 @@ public class StructuralChangesEdit implements Serializable {
         _changesBaseInformations.add(info);
     }
 
-    public void newValidity(DeptWard ward) {
-        DeptWard newWard = new DeptWard();
-
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        Date date = null;
-        try {
-            date = format.parse(validityFrom);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        newWard.setDeptName(ward.getDeptName());
-        newWard.setDept(ward.getDept());
-        newWard.setWardName(ward.getWardName());
-        newWard.setLocationCodeP21(ward.getLocationCodeP21());
-        newWard.setLocationCodeVz(ward.getLocationCodeVz());
-        newWard.setFab(ward.getFab());
-        newWard.setIsInitial(ward.getIsInitial());
-        newWard.setValidFrom(date);
-        newWard.setValidTo(ward.getValidTo());
-        _wards.add(newWard);
-    }
-
-
-    public void deleteWard(DeptWard ward) {
-        //TODO löschung der Stationen
+    public void closeWard(DeptWard ward) {
+        StructuralChangesBaseInformation info = createNewChangesBaseInformation();
+        info.setStructuralChangesType(StructuralChangesType.CLOSE);
+        info.setWardsToChange(createNewWardsToChange(ward));
+        _changesBaseInformations.add(info);
     }
 
     private WardsToChange createNewWardsToChange(DeptWard ward) {
         WardsToChange wardsToChange = new WardsToChange(ward);
+        wardsToChange.setDeptWard(ward);
         return wardsToChange;
     }
 
@@ -170,35 +147,37 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void isFabValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        if ("".equals(value.toString().trim())) {
+            return;
+        }
+
         if (!CareValueChecker.isValidFabNumber(value.toString())) {
+            throw new ValidatorException(new FacesMessage("Ungültige FAB"));
+        }
+        if (!_deptFacade.isValidFab(value.toString())) {
             throw new ValidatorException(new FacesMessage("Ungültige FAB"));
         }
     }
 
-    public void validateDate(UIComponent comp, Object value) {
-        String validityFrom = (String) value;
+    public void isP21LocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        int locationCode = (Integer) value;
 
-        if (isLengthAsExpected(validityFrom, 7) && isCorrectFormat(validityFrom)) {
-            ((UIInput) comp).setValid(true);
-        } else {
-            ((UIInput) comp).setValid(false);
-            DialogController.showErrorDialog("Falsches Format", "Bitte halten Sie das Format ein (dd.MM.yyyy)!");
+        //TODO: P21 Standort überprüfen
+        /*
+        if (_allowedP21LocationCodes.isEmpty() && locationCode == 0) {
+            return;
         }
+
+        if (!_allowedP21LocationCodes.contains(locationCode)) {
+            throw new ValidatorException(new FacesMessage("Ungültiger Standort nach § 21 KHEntgG für diese IK"));
+        }
+        */
     }
 
-    public boolean isLengthAsExpected(String value, int expectedLength) {
-        if (value.length() == expectedLength) {
-            return true;
+    public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        int locationCode = (Integer) value;
+        if (!CareValueChecker.isFormalValidVzNumber(value.toString())) {
+            throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
         }
-        return false;
-    }
-
-    public boolean isCorrectFormat(String value) {
-        String[] split = value.split(".");
-
-        if (split[0].length() == 2 && split[1].length() == 2 && split[2].length() == 4) {
-            return true;
-        }
-        return false;
     }
 }

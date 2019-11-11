@@ -23,6 +23,7 @@ public class WardsToChange implements Serializable {
         _locationP21 = station.getLocationCodeP21();
         _locationVz = station.getLocationCodeVz();
         _fab = station.getFab();
+        _beds = station.getBedCount();
         _validFrom = station.getValidFrom();
         _validTo = station.getValidTo();
     }
@@ -160,7 +161,20 @@ public class WardsToChange implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property StructuralChangesWards">
+
+    @OneToOne
+    @JoinColumn(name = "wtcDeptWardId", referencedColumnName = "dwId")
+    private DeptWard _deptWard;
+
+    public DeptWard getDeptWard() {
+        return _deptWard;
+    }
+
+    public void setDeptWard(DeptWard deptWard) {
+        this._deptWard = deptWard;
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="Property StructuralChangesBaseInfo">
     @OneToOne(mappedBy = "_wardsToChange")
     private StructuralChangesBaseInformation _structuralChangesBaseInformation;
 

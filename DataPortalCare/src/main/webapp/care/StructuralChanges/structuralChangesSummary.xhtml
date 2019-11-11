@@ -19,7 +19,6 @@
             <br/>
             <h2>In Kürze wird es hier möglich sein, Umbenennungen oder strukturelle Veränderungen online durchzuführen.</h2>
         </div>
-        <ui:remove>
             <style>
                 .card {
                     max-width: 1280px !important;
@@ -43,7 +42,7 @@
                             <pf:column headerText="Krankenhaus">
                                 <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
                                         value="#{ik.value}">
-                                    <f:param name="ik" value="#{ik.value}"/>
+                                    <f:param name="ik" value="#{ik.key}"/>
                                 </h:link>
                             </pf:column>
                         </pf:dataTable>
@@ -54,7 +53,6 @@
                     </div>
                 </div>
             </div>
-        </ui:remove>
 
     </ui:define>
 

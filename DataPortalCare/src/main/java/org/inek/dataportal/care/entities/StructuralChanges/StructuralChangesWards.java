@@ -1,5 +1,7 @@
 package org.inek.dataportal.care.entities.StructuralChanges;
 
+import org.inek.dataportal.care.entities.DeptWard;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -30,6 +32,17 @@ public class StructuralChangesWards implements Serializable {
 
     //</editor-fold>
 
+    @OneToOne
+    @JoinColumn(name = "scwDeptWardId", referencedColumnName = "dwId")
+    private DeptWard _deptWard;
+
+    public DeptWard getDeptWard() {
+        return _deptWard;
+    }
+
+    public void setDeptWard(DeptWard deptWard) {
+        this._deptWard = deptWard;
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Property WardsToChangeId">
     @OneToOne(cascade = CascadeType.ALL)
