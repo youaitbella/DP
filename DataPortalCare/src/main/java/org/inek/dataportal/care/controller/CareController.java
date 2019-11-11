@@ -15,8 +15,8 @@ public class CareController extends AbstractFeatureController {
     @Override
     protected void addTopics(Topics topics) {
         topics.addTopic("Mitteilung gem. § 5 PpUGV", Pages.CareDeptSummary.URL());
+        topics.addTopic("Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)", Pages.CareStructuralChangesSummary.URL());
         topics.addTopic("Nachweisvereinbarung", Pages.CareProofSummary.URL());
-        topics.addTopic("Strukturelle Veränderungen", Pages.CareStructuralChangesSummary.URL());
     }
 
     @Override

@@ -15,6 +15,7 @@ import org.inek.dataportal.care.utils.CareExcelExporter;
 import org.inek.dataportal.care.utils.CareValidator;
 import org.inek.dataportal.care.utils.CareValueChecker;
 import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
@@ -38,6 +39,7 @@ import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.time.Month;
 import java.util.*;
@@ -71,6 +73,8 @@ public class DeptEdit implements Serializable {
     private ConfigFacade _configFacade;
     @Inject
     private VzUtils _vzUtils;
+    @Inject
+    private ReportController _reportController;
 
     private DeptBaseInformation _deptBaseInformation;
     private DeptBaseInformation _oldDeptbaseInformation;
@@ -81,6 +85,9 @@ public class DeptEdit implements Serializable {
 
     private Set<Integer> _allowedP21LocationCodes = new HashSet<>();
 
+    public DeptEdit() {
+        LOGGER.log(Level.WARNING, "Constructor DeptEdit");
+    }
     public List<AggregatedWards> getAggregatedWards() {
         return AggregatedWardsHelper.aggregatedWards(_deptBaseInformation.getAllWards());
     }
@@ -235,9 +242,13 @@ public class DeptEdit implements Serializable {
     }
 
     private boolean isAllowedForSend() {
-        List<String> errors = AggregatedWardsHelper.checkBedCountForWards(_deptBaseInformation.getAllWards());
-        _errorMessages = errors.stream().collect(Collectors.joining("\n"));
-        return errors.isEmpty();
+        _errorMessages = AggregatedWardsHelper
+                .aggregatedWards(_deptBaseInformation.getAllWards())
+                .stream()
+                .filter(w -> w.getDifferentBedCount())
+                .map(w -> String.format(AggregatedWardsHelper.ERROR_MESSAGE_MULTIPLE_BEDS, w.getWardName(), w.getDistinctBedCounts()))
+                .collect(Collectors.joining("\n"));
+        return _errorMessages.isEmpty();
     }
 
     private void loadValidIks() {
@@ -293,6 +304,16 @@ public class DeptEdit implements Serializable {
         return content;
     }
 
+    public StreamedContent exportAsExcel2018() {
+        String fileName = "Mitteilung gem. Paragraph 5 PpUGV_" + _deptBaseInformation.getIk();
+
+        byte[] singleDocument = _reportController.getSingleDocument("PPUG_DEPT_2018",
+                _deptBaseInformation.getId(), fileName);
+
+        return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + ".xlsx");
+    }
+
 
     private void sendMail(String mailTemplateName) {
         String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());
@@ -340,6 +361,10 @@ public class DeptEdit implements Serializable {
     }
 
     public void isFabCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        if ("".equals(value.toString().trim())) {
+            return;
+        }
+
         if (!CareValueChecker.isValidFabNumber(value.toString())) {
             throw new ValidatorException(new FacesMessage("Ungültige FAB"));
         }

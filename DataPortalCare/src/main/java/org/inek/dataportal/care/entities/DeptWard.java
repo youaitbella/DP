@@ -34,6 +34,7 @@ public class DeptWard implements Serializable {
         this._validTo = other._validTo;
         this._isInitial = other._isInitial;
         this._mapVersion = other._mapVersion;
+        this._bedCount = other._bedCount;
     }
 
 

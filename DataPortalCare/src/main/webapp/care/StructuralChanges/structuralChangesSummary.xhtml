@@ -1,52 +1,60 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/WEB-INF/template.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:pf="http://primefaces.org/ui"
-                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+>
 
     <ui:define name="title">Strukturelle Veränderungen</ui:define>
 
     <ui:define name="content">
 
-        <style>
-            .card {
-                max-width: 1280px !important;
-            }
-        </style>
+        <div class="marginTop02em">
+            <br/>
+            <h1>Wir verbessern das Portal für Sie</h1>
+        </div>
+        <div class="marginTop02em">
+            <br/>
+            <h2>In Kürze wird es hier möglich sein, Umbenennungen oder strukturelle Veränderungen online durchzuführen.</h2>
+        </div>
+        <ui:remove>
+            <style>
+                .card {
+                    max-width: 1280px !important;
+                }
+            </style>
 
-        <div class="ui-g">
-            <div class="card">
-                <h1>Übersicht über Ihre Daten</h1>
-                <div class="ui-g-12 ui-lg-6">
-                    <pf:dataTable id="erfassungtable"
-                                  value="#{structuralChangesSummary.iks}"
-                                  var="ik"
-                                  emptyMessage="Keine Einträge vorhanden">
-                        <pf:column headerText="IK">
-                            <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
-                                    value="#{ik.key}">
-                                <f:param name="ik" value="#{ik.key}"/>
-                            </h:link>
-                        </pf:column>
-                        <pf:column headerText="Krankenhaus">
-                            <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
-                                    value="#{ik.value}">
-                                <f:param name="ik" value="#{ik.value}"/>
-                            </h:link>
-                        </pf:column>
-                    </pf:dataTable>
-                </div>
+            <div class="ui-g">
+                <div class="card">
+                    <h1>Übersicht über Ihre Daten</h1>
+                    <div class="ui-g-12 ui-lg-6">
+                        <pf:dataTable id="erfassungtable"
+                                      value="#{structuralChangesSummary.iks}"
+                                      var="ik"
+                                      emptyMessage="Keine Einträge vorhanden">
+                            <pf:column headerText="IK">
+                                <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                        value="#{ik.key}">
+                                    <f:param name="ik" value="#{ik.key}"/>
+                                </h:link>
+                            </pf:column>
+                            <pf:column headerText="Krankenhaus">
+                                <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                        value="#{ik.value}">
+                                    <f:param name="ik" value="#{ik.value}"/>
+                                </h:link>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
 
-                <div class="ui-g-12 ui-lg-6">
+                    <div class="ui-g-12 ui-lg-6">
 
+                    </div>
                 </div>
             </div>
-        </div>
+        </ui:remove>
 
     </ui:define>
 

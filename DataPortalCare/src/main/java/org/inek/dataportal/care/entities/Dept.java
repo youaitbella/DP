@@ -28,6 +28,7 @@ public class Dept implements Serializable {
         this._deptNumber = dept.getDeptNumber();
         this._sensitiveArea = dept.getSensitiveArea();
         this._required = dept.getRequired();
+        this._seeDeptAreaId = dept.getSeeDeptAreaId();
 
         for (DeptWard ward : dept.getDeptWards()) {
             DeptWard deptWard = new DeptWard(ward);

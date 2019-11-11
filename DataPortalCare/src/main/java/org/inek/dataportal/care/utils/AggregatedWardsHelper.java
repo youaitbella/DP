@@ -13,7 +13,7 @@ import static org.inek.dataportal.common.utils.DateUtils.getMaxDate;
 public class AggregatedWardsHelper {
 
     //private static final String ERROR_MESSAGE_MULTIPLE_BEDS = "Für die Station [%s] wurden unterschiedliche Bettenangaben gemacht [%s].";
-    private static final String ERROR_MESSAGE_MULTIPLE_BEDS = "Für die Station [%s] wurden unterschiedliche Bettenangaben gemacht, " +
+    public static final String ERROR_MESSAGE_MULTIPLE_BEDS = "Für die Station [%s] wurden unterschiedliche Bettenangaben gemacht, " +
             "diese lauten: [%s]. Es sind stets alle Betten der genannten Station anzugeben. Bitte überarbeiten Sie ihre Angaben zur " +
             "Bettenanzahl der Station.";
 
@@ -23,6 +23,7 @@ public class AggregatedWardsHelper {
             String key = ward.getLocationCodeP21()
                     + "|" + ward.getLocationCodeVz()
                     + "|" + ward.getWardName().toLowerCase().replace(" ", "")
+                    + "|" + (ward.getDept().getDeptArea() == 3 ? "Intensiv" : "Other")
                     + "|" + ward.getValidFrom()
                     + "|" + ward.getValidTo();
             if (aggregatedWards.containsKey(key)) {
