@@ -1,10 +1,14 @@
 package org.inek.dataportal.care.entities.StructuralChanges;
 
+import org.inek.dataportal.care.enums.StructuralChangesDetailType;
 import org.inek.dataportal.care.enums.StructuralChangesType;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -89,9 +93,9 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property AgentId">
     @Column(name = "scAgentId")
-    private int _agentId;
+    private Integer _agentId;
 
-    public int getAgendId() {
+    public Integer getAgendId() {
         return _agentId;
     }
 
@@ -102,7 +106,7 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property ProcessedAt">
     @Column(name = "scProcessedAt")
-    private Date _processedAt;
+    private Date _processedAt = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
     public Date getPocessedAt() {
         return _processedAt;
@@ -123,6 +127,27 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     public void setStructuralChangesType(StructuralChangesType structuralChangesType) {
         this._structuralChangesTypeId = structuralChangesType.getId();
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property StructuralChangesDetailType">
+    @Column(name = "scStructuralChangesDetailTypeId")
+    private Integer _structuralChangesDetailTypeId;
+
+    public StructuralChangesDetailType getStructuralChangesDetailType() {
+        return StructuralChangesDetailType.getById(_structuralChangesDetailTypeId);
+    }
+
+    public void setStructuralChangesDetailType(StructuralChangesDetailType structuralChangesDetailType) {
+        this._structuralChangesDetailTypeId = structuralChangesDetailType.getId();
+    }
+
+    public Integer getStructuralChangesDetailTypeId() {
+        return _structuralChangesDetailTypeId;
+    }
+
+    public void setStructuralChangesDetailTypeId(int structuralChangesDetailTypeId) {
+        this._structuralChangesDetailTypeId = structuralChangesDetailTypeId;
     }
 
     //</editor-fold>
@@ -180,6 +205,6 @@ public class StructuralChangesBaseInformation implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(_id, _ik, _statusId, _requestedAt, _requestedAccountId, _agentId, _processedAt,
-                _structuralChangesTypeId, _wardsToChange, _structuralChangesWards);
+                _structuralChangesTypeId);
     }
 }

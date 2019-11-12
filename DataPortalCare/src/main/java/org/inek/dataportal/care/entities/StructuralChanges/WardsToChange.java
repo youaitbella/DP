@@ -1,6 +1,7 @@
 package org.inek.dataportal.care.entities.StructuralChanges;
 
 import org.inek.dataportal.care.entities.DeptWard;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ public class WardsToChange implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public WardsToChange() {
+        _validTo = DateUtils.getMaxDate();
     }
 
     public WardsToChange(DeptWard station) {
@@ -45,9 +47,9 @@ public class WardsToChange implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property DeptId">
     @Column(name = "wtcDeptId")
-    private int _deptId;
+    private Integer _deptId;
 
-    public int getDeptId() {
+    public Integer getDeptId() {
         return _deptId;
     }
 
@@ -105,6 +107,20 @@ public class WardsToChange implements Serializable {
 
     public void setBeds(int beds) {
         this._beds = beds;
+    }
+
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property SenstiveAreaId">
+    @Column(name = "wtcSensitivAreaId")
+    private Integer _sensitiveAreaId;
+
+    public Integer getSensitiveAreaId() {
+        return _sensitiveAreaId;
+    }
+
+    public void setSensitiveAreaId(Integer sensitiveAreaId) {
+        this._sensitiveAreaId = sensitiveAreaId;
     }
 
     //</editor-fold>

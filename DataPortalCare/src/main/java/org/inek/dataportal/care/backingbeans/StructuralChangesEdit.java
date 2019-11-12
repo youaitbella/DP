@@ -9,6 +9,8 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.care.entities.StructuralChanges.WardsToChange;
+import org.inek.dataportal.care.enums.SensitiveArea;
+import org.inek.dataportal.care.enums.StructuralChangesDetailType;
 import org.inek.dataportal.care.enums.StructuralChangesType;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
@@ -25,6 +27,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -79,7 +82,6 @@ public class StructuralChangesEdit implements Serializable {
         this._wards = wards;
     }
 
-
     @PostConstruct
     private void init() {
         String ikParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("ik");
@@ -100,6 +102,22 @@ public class StructuralChangesEdit implements Serializable {
         }
     }
 
+    public List<SelectItem> getCloseReasons() {
+        List<SelectItem> items = new ArrayList<>();
+        for (StructuralChangesDetailType value : StructuralChangesDetailType.values()) {
+            items.add(new SelectItem(value.getId(), value.getValue()));
+        }
+        return items;
+    }
+
+    public List<SelectItem> getSensitiveAreas() {
+        List<SelectItem> items = new ArrayList<>();
+        for (SensitiveArea value : SensitiveArea.values()) {
+            items.add(new SelectItem(value.getId(), value.getName()));
+        }
+        return items;
+    }
+
     private boolean isAccessAllowed(int ik) {
         return _accessManager.userHasWriteAccess(Feature.CARE, ik);
     }
@@ -115,6 +133,13 @@ public class StructuralChangesEdit implements Serializable {
         StructuralChangesBaseInformation info = createNewChangesBaseInformation();
         info.setStructuralChangesType(StructuralChangesType.CLOSE);
         info.setWardsToChange(createNewWardsToChange(ward));
+        _changesBaseInformations.add(info);
+    }
+
+    public void createNewWard() {
+        StructuralChangesBaseInformation info = createNewChangesBaseInformation();
+        info.setStructuralChangesType(StructuralChangesType.NEW);
+        info.setWardsToChange(new WardsToChange());
         _changesBaseInformations.add(info);
     }
 
@@ -176,6 +201,11 @@ public class StructuralChangesEdit implements Serializable {
 
     public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
         int locationCode = (Integer) value;
+
+        if (locationCode == 0) {
+            return;
+        }
+
         if (!CareValueChecker.isFormalValidVzNumber(value.toString())) {
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
         }
