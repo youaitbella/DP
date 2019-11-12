@@ -1,6 +1,7 @@
 package org.inek.dataportal.care.entities;
 
 import org.inek.dataportal.care.entities.version.MapVersion;
+import org.primefaces.model.SelectableDataModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "DeptWard", schema = "care")
-public class DeptWard implements Serializable {
+public class DeptWard implements Serializable, SelectableDataModel {
 
     private static final long serialVersionUID = 1L;
 
@@ -270,5 +271,15 @@ public class DeptWard implements Serializable {
                 ", _validFrom=" + _validFrom +
                 ", _validTo=" + _validTo +
                 '}';
+    }
+
+    @Override
+    public Object getRowKey(Object o) {
+        return null;
+    }
+
+    @Override
+    public Object getRowData(String s) {
+        return null;
     }
 }

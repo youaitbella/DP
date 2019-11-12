@@ -4,7 +4,7 @@ public enum StructuralChangesType {
     NEW(1),
     CHANGE(2),
     CLOSE(3),
-    COMBINE(4),
+    COMBINE_WITH_NEW(4),
     UNKNOWN(99);
 
     private int _id;

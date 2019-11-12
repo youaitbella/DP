@@ -8,6 +8,7 @@ package org.inek.dataportal.care.backingbeans;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
+import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesWards;
 import org.inek.dataportal.care.entities.StructuralChanges.WardsToChange;
 import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.care.enums.StructuralChangesDetailType;
@@ -68,6 +69,8 @@ public class StructuralChangesEdit implements Serializable {
 
     private List<DeptWard> _wards;
 
+    private List<DeptWard> _selectedWards = new ArrayList<>();
+
     private List<StructuralChangesBaseInformation> _changesBaseInformations = new ArrayList<>();
 
     public List<StructuralChangesBaseInformation> getChangesBaseInformationsByType(StructuralChangesType structuralChangesType) {
@@ -80,6 +83,14 @@ public class StructuralChangesEdit implements Serializable {
 
     public void setWards(List<DeptWard> wards) {
         this._wards = wards;
+    }
+
+    public List<DeptWard> getSelectedWards() {
+        return _selectedWards;
+    }
+
+    public void setSelectedWards(List<DeptWard> selectedWards) {
+        this._selectedWards = selectedWards;
     }
 
     @PostConstruct
@@ -141,6 +152,29 @@ public class StructuralChangesEdit implements Serializable {
         info.setStructuralChangesType(StructuralChangesType.NEW);
         info.setWardsToChange(new WardsToChange());
         _changesBaseInformations.add(info);
+    }
+
+    public void createNewWardFromSelectedWards() {
+        if (_selectedWards.size() == 0) {
+            DialogController.showInfoDialog("Keine Station ausgewählt", "Bitte wählen Sie mindesten eine Station aus");
+            return;
+        }
+
+        StructuralChangesBaseInformation info = createNewChangesBaseInformation();
+        info.setStructuralChangesType(StructuralChangesType.COMBINE_WITH_NEW);
+        info.setWardsToChange(new WardsToChange());
+        createNewStructuralChangesWards(info);
+        _changesBaseInformations.add(info);
+
+        _selectedWards.clear();
+    }
+
+    private void createNewStructuralChangesWards(StructuralChangesBaseInformation info) {
+        for (DeptWard selectedWard : _selectedWards) {
+            StructuralChangesWards structuralChangesWards = new StructuralChangesWards();
+            structuralChangesWards.setDeptWard(selectedWard);
+            info.addStructuralChangesWards(structuralChangesWards);
+        }
     }
 
     private WardsToChange createNewWardsToChange(DeptWard ward) {
@@ -209,5 +243,9 @@ public class StructuralChangesEdit implements Serializable {
         if (!CareValueChecker.isFormalValidVzNumber(value.toString())) {
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
         }
+    }
+
+    public void navigateToSummary() {
+        Utils.navigate(Pages.CareStructuralChangesSummary.RedirectURL());
     }
 }
