@@ -21,7 +21,8 @@ public class AggregatedWardsHelper {
         Map<String, AggregatedWards> aggregatedWards = new ConcurrentHashMap<>();
         for (DeptWard ward : wards) {
             String key = ward.getLocationCodeP21()
-                    + "|" + ward.getLocationCodeVz()
+                    //+ "|" + ward.getLocationCodeVz() for future usage
+                    + "|" + ward.getLocationText()
                     + "|" + ward.getWardName().toLowerCase().replace(" ", "")
                     + "|" + (ward.getDept().getDeptArea() == 3 ? "Intensiv" : "Other")
                     + "|" + ward.getValidFrom()

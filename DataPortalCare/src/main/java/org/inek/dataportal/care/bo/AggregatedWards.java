@@ -18,13 +18,15 @@ public class AggregatedWards {
     private String _wardName;
     private int _locationCode21;
     private int _locationCodeVz;
+    private String _locationText;
 
     private int _beds;
     private boolean _hasDifferentBedCount;
 
     public AggregatedWards(DeptWard ward) {
         _locationCode21 = ward.getLocationCodeP21();
-        _locationCodeVz = ward.getLocationCodeVz();
+        //_locationCodeVz = ward.getLocationCodeVz(); future usage
+        _locationText = ward.getLocationText();
         _wardName = ward.getWardName();
         _validFrom = ward.getValidFrom();
         _validTo = ward.getValidTo();
@@ -34,7 +36,8 @@ public class AggregatedWards {
 
     public void aggregate(DeptWard ward) {
         assert _locationCode21 == ward.getLocationCodeP21();
-        assert _locationCodeVz == ward.getLocationCodeVz();
+        // assert _locationCodeVz == ward.getLocationCodeVz(); for future usage
+        assert _locationText.equals(ward.getLocationText());
         assert _wardName.toLowerCase().replace(" ", "")
                 .equals(ward.getWardName().toLowerCase().replace(" ", ""));
         assert _validFrom.equals(ward.getValidFrom());
@@ -87,6 +90,10 @@ public class AggregatedWards {
 
     public int getLocationCode21() {
         return _locationCode21;
+    }
+
+    public String getLocationText() {
+        return _locationText;
     }
 
     public void setLocationCode21(int locationCode21) {
