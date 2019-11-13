@@ -90,7 +90,7 @@
                 <div style="text-align: justify; border: 10px solid #ffa727; padding: 10px;">
                     <br/>
                     <b>Alle Angaben beziehen sich auf die Situation in Ihrem Krankenhaus im Datenjahr 2018. </b>
-                    <p>Bei Änderungen im Sinne von § 5 Abs. 4 PpUGV (ersatzloser Wegfall, Umbenennung, strukturelle Veränderungen) geben Sie diese bitte im Bereich "Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)" an, nachdem Sie die Strukturdaten für das Jahr 2018 vollständig angegeben haben.</p>
+                    <p>Bei Änderungen im Sinne von § 5 Abs. 4 PpUGV (ersatzloser Wegfall, Umbenennung, strukturelle Veränderungen) geben Sie diese bitte im Bereich "Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)" an, nachdem Sie die Strukturdaten für das Jahr 2018 vollständig angegeben und abschließend an das InEK übermittelt haben.</p>
                 </div>
 
             </div>
@@ -185,11 +185,11 @@
                                           rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
                                           readonly="true"/>
                         </pf:column>
-                        <pf:column id="colVz1" style="width: 100px;"
+                        <pf:column id="colVz1" style="width: 110px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
-                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)"/>
+                                <h:outputText value="Standort(nummer) nach § 293 Abs. 6 SGB V (77xxxx000)"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -197,13 +197,18 @@
                                             for="colVz1"/>
                             </f:facet>
 
-                            <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
-                                                            Style="width: 100%;"
-                                                            validatorFunction="#{deptEdit.isVZLocationCodeValid}"
-                                                            validatorMessage="Ungültiger Standort für dieses IK"
-                                                            thousendSeperator=""
-                                                            renderElement=":form:aggregatedtTable"
-                                                            readonly="#{deptEdit.isReadOnly}"/>
+                            <ui:remove>
+                                <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
+                                                                Style="width: 100%;"
+                                                                validatorFunction="#{deptEdit.isVZLocationCodeValid}"
+                                                                validatorMessage="Ungültiger Standort für dieses IK"
+                                                                thousendSeperator=""
+                                                                renderElement=":form:aggregatedtTable"
+                                                                readonly="#{deptEdit.isReadOnly}"/>
+                            </ui:remove>
+                            <pf:inputText value="#{station.locationText}" maxlength="100"
+                                          readonly="#{deptEdit.isReadOnly}"/>
+
                         </pf:column>
 
                         <pf:column id="colBed1" style="width: 100px;"
@@ -332,11 +337,11 @@
                                           rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
                                           readonly="true"/>
                         </pf:column>
-                        <pf:column id="colVz2" style="width: 100px;"
+                        <pf:column id="colVz2" style="width: 110px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
-                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)"/>
+                                <h:outputText value="Standort(nummer) nach § 293 Abs. 6 SGB V (77xxxx000)"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -344,13 +349,18 @@
                                             for="colVz2"/>
                             </f:facet>
 
-                            <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
-                                                            Style="width: 100%;"
-                                                            validatorFunction="#{deptEdit.isVZLocationCodeValid}"
-                                                            validatorMessage="Ungültiger Standort für dieses IK"
-                                                            thousendSeperator=""
-                                                            renderElement=":form:aggregatedtTable"
-                                                            readonly="#{deptEdit.isReadOnly}"/>
+                            <ui:remove>
+                                <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
+                                                                Style="width: 100%;"
+                                                                validatorFunction="#{deptEdit.isVZLocationCodeValid}"
+                                                                validatorMessage="Ungültiger Standort für dieses IK"
+                                                                thousendSeperator=""
+                                                                renderElement=":form:aggregatedtTable"
+                                                                readonly="#{deptEdit.isReadOnly}"/>
+                            </ui:remove>
+                            <pf:inputText value="#{station.locationText}" maxlength="100"
+                                          readonly="#{deptEdit.isReadOnly}"/>
+
                         </pf:column>
                         <pf:column id="colBed2" style="width: 100px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
@@ -495,11 +505,11 @@
                                           rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
                                           readonly="true"/>
                         </pf:column>
-                        <pf:column id="colVz4" style="width: 100px;"
+                        <pf:column id="colVz4" style="width: 110px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
-                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)"/>
+                                <h:outputText value="Standort(nummer) nach § 293 Abs. 6 SGB V (77xxxx000)"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -507,13 +517,18 @@
                                             for="colVz4"/>
                             </f:facet>
 
-                            <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
-                                                            Style="width: 100%;"
-                                                            validatorFunction="#{deptEdit.isVZLocationCodeValid}"
-                                                            validatorMessage="Ungültiger Standort für dieses IK"
-                                                            thousendSeperator=""
-                                                            renderElement=":form:aggregatedtTable"
-                                                            readonly="#{deptEdit.isReadOnly}"/>
+                            <ui:remove>
+                                <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
+                                                                Style="width: 100%;"
+                                                                validatorFunction="#{deptEdit.isVZLocationCodeValid}"
+                                                                validatorMessage="Ungültiger Standort für dieses IK"
+                                                                thousendSeperator=""
+                                                                renderElement=":form:aggregatedtTable"
+                                                                readonly="#{deptEdit.isReadOnly}"/>
+                            </ui:remove>
+                            <pf:inputText value="#{station.locationText}" maxlength="100"
+                                          readonly="#{deptEdit.isReadOnly}"/>
+
                         </pf:column>
                         <pf:column id="colBed4" style="width: 100px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
@@ -654,11 +669,11 @@
                                           rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
                                           readonly="true"/>
                         </pf:column>
-                        <pf:column id="colVz5" style="width: 100px;"
+                        <pf:column id="colVz5" style="width: 110px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
-                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)"/>
+                                <h:outputText value="Standort(nummer) nach § 293 Abs. 6 SGB V (77xxxx000)"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -666,13 +681,18 @@
                                             for="colVz5"/>
                             </f:facet>
 
-                            <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
-                                                            Style="width: 100%;"
-                                                            validatorFunction="#{deptEdit.isVZLocationCodeValid}"
-                                                            validatorMessage="Ungültiger Standort für dieses IK"
-                                                            thousendSeperator=""
-                                                            renderElement=":form:aggregatedtTable"
-                                                            readonly="#{deptEdit.isReadOnly}"/>
+                            <ui:remove>
+                                <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
+                                                                Style="width: 100%;"
+                                                                validatorFunction="#{deptEdit.isVZLocationCodeValid}"
+                                                                validatorMessage="Ungültiger Standort für dieses IK"
+                                                                thousendSeperator=""
+                                                                renderElement=":form:aggregatedtTable"
+                                                                readonly="#{deptEdit.isReadOnly}"/>
+                            </ui:remove>
+                            <pf:inputText value="#{station.locationText}" maxlength="100"
+                                          readonly="#{deptEdit.isReadOnly}"/>
+
                         </pf:column>
                         <pf:column id="colBed5" style="width: 100px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
@@ -815,11 +835,11 @@
                                           rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
                                           readonly="true"/>
                         </pf:column>
-                        <pf:column id="colVz6" style="width: 100px;"
+                        <pf:column id="colVz6" style="width: 110px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
-                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)"/>
+                                <h:outputText value="Standort(nummer) nach § 293 Abs. 6 SGB V (77xxxx000)"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -827,13 +847,18 @@
                                             for="colVz6"/>
                             </f:facet>
 
-                            <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
-                                                            Style="width: 100%;"
-                                                            validatorFunction="#{deptEdit.isVZLocationCodeValid}"
-                                                            validatorMessage="Ungültiger Standort für dieses IK"
-                                                            thousendSeperator=""
-                                                            renderElement=":form:aggregatedtTable"
-                                                            readonly="#{deptEdit.isReadOnly}"/>
+                            <ui:remove>
+                                <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
+                                                                Style="width: 100%;"
+                                                                validatorFunction="#{deptEdit.isVZLocationCodeValid}"
+                                                                validatorMessage="Ungültiger Standort für dieses IK"
+                                                                thousendSeperator=""
+                                                                renderElement=":form:aggregatedtTable"
+                                                                readonly="#{deptEdit.isReadOnly}"/>
+                            </ui:remove>
+                            <pf:inputText value="#{station.locationText}" maxlength="100"
+                                          readonly="#{deptEdit.isReadOnly}"/>
+
                         </pf:column>
                         <pf:column id="colBed6" style="width: 100px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
@@ -983,11 +1008,12 @@
                                           rendered="#{deptEdit.deptBaseInformation.year eq 2017}"
                                           readonly="true"/>
                         </pf:column>
-                        <pf:column id="colVz3" style="width: 100px;"
+
+                        <pf:column id="colVz3" style="width: 110px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
 
                             <f:facet name="header">
-                                <h:outputText value="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)"/>
+                                <h:outputText value="Standort(nummer) nach § 293 Abs. 6 SGB V (77xxxx000)"/>
                                 <i class="fa fa-question-circle"
                                    jsf:rendered="#{deptEdit.deptBaseInformation.year ge 2018}"></i>
                                 <pf:tooltip rendered="#{deptEdit.deptBaseInformation.year ge 2018}"
@@ -995,13 +1021,18 @@
                                             for="colVz3"/>
                             </f:facet>
 
-                            <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
-                                                            Style="width: 100%;"
-                                                            validatorFunction="#{deptEdit.isVZLocationCodeValid}"
-                                                            validatorMessage="Ungültiger Standort für dieses IK"
-                                                            thousendSeperator=""
-                                                            renderElement=":form:aggregatedtTable"
-                                                            readonly="#{deptEdit.isReadOnly}"/>
+                            <ui:remove>
+                                <inekInput:InputNumberValidator value="#{station.locationCodeVz}"
+                                                                Style="width: 100%;"
+                                                                validatorFunction="#{deptEdit.isVZLocationCodeValid}"
+                                                                validatorMessage="Ungültiger Standort für dieses IK"
+                                                                thousendSeperator=""
+                                                                renderElement=":form:aggregatedtTable"
+                                                                readonly="#{deptEdit.isReadOnly}"/>
+                            </ui:remove>
+                            <pf:inputText value="#{station.locationText}" maxlength="100"
+                                          readonly="#{deptEdit.isReadOnly}"/>
+
                         </pf:column>
                         <pf:column id="colBed3" style="width: 100px;"
                                    rendered="#{deptEdit.deptBaseInformation.year ge 2018}">
@@ -1182,7 +1213,6 @@
             </div>
 
         </div>
-
 
 
     </div>

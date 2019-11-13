@@ -227,9 +227,17 @@ public class DeptWard implements Serializable, SelectableDataModel {
         this._location2017 = location2017;
     }
 
-    public boolean stationIsUnlimitedValid() {
-        return _validTo.getYear() >= 2050;
+    @Column(name = "dwLocationText")
+    private String _locationText = "";
+
+    public String getLocationText() {
+        return _locationText;
     }
+
+    public void setLocationText(String locationText) {
+        this._locationText = locationText;
+    }
+
 
     @SuppressWarnings("checkstyle:CyclomaticComplexity")
     @Override

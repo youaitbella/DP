@@ -387,6 +387,10 @@ public class DeptEdit implements Serializable {
 
     public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
         int locationCode = (Integer) value;
+        if (locationCode == 0) {
+            // allow to remove the code
+            return;
+        }
         if (!CareValueChecker.isFormalValidVzNumber(value.toString())) {
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
         }
