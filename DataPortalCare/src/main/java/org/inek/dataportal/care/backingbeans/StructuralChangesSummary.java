@@ -7,6 +7,8 @@ package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
+import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
+import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
@@ -35,7 +37,23 @@ public class StructuralChangesSummary implements Serializable {
     @Inject
     private SessionController _sessionController;
 
+    @Inject
+    private StructuralChangesFacade _structuralChangesFacade;
+
+    @Inject
+    private DeptFacade _deptFacade;
+
     private Map<Integer, String> _iks = new HashMap<>();
+
+    private List<StructuralChangesBaseInformation> _exitsBaseInformations = new ArrayList<>();
+
+    public List<StructuralChangesBaseInformation> getExitsBaseInformations() {
+        return _exitsBaseInformations;
+    }
+
+    public void setExitsBaseInformations(List<StructuralChangesBaseInformation> exitsBaseInformations) {
+        this._exitsBaseInformations = exitsBaseInformations;
+    }
 
     public Map<Integer, String> getIks() {
         return _iks;
@@ -50,7 +68,23 @@ public class StructuralChangesSummary implements Serializable {
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.canRead() && c.getFeature() == Feature.CARE)
                 .collect(Collectors.toList())) {
-            _iks.put(right.getIk(), _sessionController.getApplicationTools().retrieveHospitalName(right.getIk()));
+            List<DeptBaseInformation> allByStatusAndIk = _deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk());
+            if (allByStatusAndIk.size() > 0) {
+                _iks.put(right.getIk(), _sessionController.getApplicationTools().retrieveHospitalName(right.getIk()));
+            }
+        }
+
+        loadStructuralChangesBaseInformation();
+    }
+
+    public String retrieveHospitalName(int ik) {
+        return _sessionController.getApplicationTools().retrieveHospitalName(ik);
+    }
+
+    private void loadStructuralChangesBaseInformation() {
+        _exitsBaseInformations.clear();
+        for (Map.Entry<Integer, String> entry : _iks.entrySet()) {
+            _exitsBaseInformations.addAll(_structuralChangesFacade.findBaseInformationsByIk(entry.getKey()));
         }
     }
 

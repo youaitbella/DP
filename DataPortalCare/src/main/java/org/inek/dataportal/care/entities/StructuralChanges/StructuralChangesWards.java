@@ -28,7 +28,7 @@ public class StructuralChangesWards implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "scwStructuralChangesId")
-    private StructuralChangesBaseInformation _structuralChangesBaseInformation;
+    private StructuralChanges _structuralChanges;
 
     //</editor-fold>
 
@@ -60,12 +60,12 @@ public class StructuralChangesWards implements Serializable {
         this._id = id;
     }
 
-    public StructuralChangesBaseInformation getStructuralChangesBaseInformation() {
-        return _structuralChangesBaseInformation;
+    public StructuralChanges getStructuralChanges() {
+        return _structuralChanges;
     }
 
-    public void setStructuralChangesBaseInformation(StructuralChangesBaseInformation structuralChangesBaseInformation) {
-        this._structuralChangesBaseInformation = structuralChangesBaseInformation;
+    public void setStructuralChanges(StructuralChanges structuralChanges) {
+        this._structuralChanges = structuralChanges;
     }
 
     public WardsToChange getWardsToChange() {

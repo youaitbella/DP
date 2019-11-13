@@ -10,15 +10,6 @@
     <ui:define name="title">Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)</ui:define>
 
     <ui:define name="content">
-
-        <div class="marginTop02em">
-            <br/>
-            <h1>Wir verbessern das Portal für Sie</h1>
-        </div>
-        <div class="marginTop02em">
-            <br/>
-            <h2>In Kürze wird es hier möglich sein, Umbenennungen oder strukturelle Veränderungen online durchzuführen.</h2>
-        </div>
         <style>
             .card {
                 max-width: 1280px !important;
@@ -29,6 +20,7 @@
             <div class="card">
                 <h1>Übersicht über Ihre Daten</h1>
                 <div class="ui-g-12 ui-lg-6">
+                    <h2>Neue Strukturelle Veränderung anlegen</h2>
                     <pf:dataTable id="erfassungtable"
                                   value="#{structuralChangesSummary.iks}"
                                   var="ik"
@@ -49,7 +41,31 @@
                 </div>
 
                 <div class="ui-g-12 ui-lg-6">
+                    <h2>Bereits angelegte Strukturelle Veränderung</h2>
+                    <pf:dataTable id="aktTable"
+                                  value="#{structuralChangesSummary.exitsBaseInformations}"
+                                  var="baseinfo"
+                                  emptyMessage="Keine Einträge vorhanden">
+                        <pf:column headerText="IK">
+                            <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                    value="#{baseinfo.ik}">
+                                <f:param name="id" value="#{baseinfo.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Krankenhaus">
+                            <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                    value="#{structuralChangesSummary.retrieveHospitalName(baseinfo.ik)}">
+                                <f:param name="id" value="#{baseinfo.id}"/>
+                            </h:link>
+                        </pf:column>
 
+                        <pf:column headerText="Status">
+                            <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                    value="#{baseinfo.statusText}">
+                                <f:param name="id" value="#{baseinfo.id}"/>
+                            </h:link>
+                        </pf:column>
+                    </pf:dataTable>
                 </div>
             </div>
         </div>

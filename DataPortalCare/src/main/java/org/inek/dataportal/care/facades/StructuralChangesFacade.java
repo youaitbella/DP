@@ -12,13 +12,15 @@ import org.inek.dataportal.care.utils.CareDeptStationHelper;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 
 import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- *
  * @author lautenti
  */
 @Stateless
@@ -41,5 +43,40 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         List<DeptBaseInformation> resultList = query.getResultList();
         DeptBaseInformation deptBaseInformation = resultList.get(0);
         return CareDeptStationHelper.getStationsByDate(deptBaseInformation.getAllWards(), date);
+    }
+
+    public List<SelectItem> findDeleteReasons() {
+        String sql = "select scdtId, scdtText\n" +
+                "from care.listStructuralChangesDetailType\n" +
+                "where scdtCategorieId = 1";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+
+        @SuppressWarnings("unchecked")
+        List<Object[]> objects = query.getResultList();
+
+        List<SelectItem> items = new ArrayList<>();
+
+        for (Object[] obj : objects) {
+            items.add(new SelectItem((int) obj[0], (String) obj[1]));
+        }
+
+        return items;
+    }
+
+    public List<StructuralChangesBaseInformation> findBaseInformationsByIk(int ik) {
+        String sql = "select sbi from StructuralChangesBaseInformation sbi where sbi._ik = :ik order by sbi._requestedAt desc";
+        TypedQuery<StructuralChangesBaseInformation> query = getEntityManager().createQuery(sql, StructuralChangesBaseInformation.class);
+        query.setParameter("ik", ik);
+
+        return query.getResultList();
+    }
+
+    public StructuralChangesBaseInformation findBaseInformationsById(int id) {
+        String sql = "select sbi from StructuralChangesBaseInformation sbi where sbi._id = :id order by sbi._requestedAt desc";
+        TypedQuery<StructuralChangesBaseInformation> query = getEntityManager().createQuery(sql, StructuralChangesBaseInformation.class);
+        query.setParameter("id", id);
+
+        return query.getSingleResult();
     }
 }

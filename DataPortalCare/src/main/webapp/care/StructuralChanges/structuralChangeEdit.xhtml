@@ -51,7 +51,7 @@
                     <pf:column headerText="FAB-Name" style="width: 150px;">
                         <pf:outputLabel value="#{ward.deptName}"/>
                     </pf:column>
-                    <pf:column headerText="Station" style="width: 100px;">
+                    <pf:column headerText="Stationsbezeichnung" style="width: 100px;">
                         <pf:outputLabel value="#{ward.wardName}"/>
                     </pf:column>
                     <pf:column headerText="Standort P21" style="width: 50px;">
@@ -114,10 +114,10 @@
                             <pf:column headerText="FAB">
                                 <pf:outputLabel value="#{ward.fab}"/>
                             </pf:column>
-                            <pf:column headerText="FAB-Name">
+                            <pf:column headerText="Fachabteilungsname">
                                 <pf:outputLabel value="#{ward.deptName}"/>
                             </pf:column>
-                            <pf:column headerText="Station">
+                            <pf:column headerText="Stationsbezeichnung">
                                 <pf:outputLabel value="#{ward.wardName}"/>
                             </pf:column>
                             <pf:column headerText="Standort P21">
@@ -178,7 +178,6 @@
                     </div>
                 </div>
                 <div class="card">
-
                     <!-- Neue Station -->
                     <div class="ui-g-12"
                          jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.NEW).size() gt 0}">
@@ -190,10 +189,12 @@
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
                                         deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
+                                        rendered="#{not structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                         updateElement="@form"/>
                             </pf:column>
                             <pf:column headerText="Sensitiver Bereich">
-                                <pf:selectOneMenu value="#{baseInfo.wardsToChange.sensitiveAreaId}">
+                                <pf:selectOneMenu value="#{baseInfo.wardsToChange.sensitiveAreaId}"
+                                                  disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}">
                                     <f:selectItems value="#{structuralChangesEdit.sensitiveAreas}"/>
                                 </pf:selectOneMenu>
                             </pf:column>
@@ -201,22 +202,26 @@
                                 <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.fab}"
                                                               Style="width: 95%;"
                                                               require="true"
+                                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                               validatorFunction="#{structuralChangesEdit.isFabValid}"
                                                               validatorMessage="Ungültige FAB"
                                                               maxlength="4"/>
                             </pf:column>
-                            <pf:column headerText="FAB-Name">
+                            <pf:column headerText="Fachabteilungsname">
                                 <inekInput:InputText value="#{baseInfo.wardsToChange.deptName}"
                                                      require="true"
+                                                     readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                      Style="width: 95%;"
                                                      requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"/>
                             </pf:column>
-                            <pf:column headerText="Station">
+                            <pf:column headerText="Stationsbezeichnung">
                                 <pf:inputText value="#{baseInfo.wardsToChange.wardName}"
+                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                               require="true"/>
                             </pf:column>
                             <pf:column headerText="Standort P21" style="text-align: right">
                                 <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationP21}"
+                                                                readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                                 validatorFunction="#{structuralChangesEdit.isP21LocationCodeValid}"
                                                                 validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                                 Style="width: 95%;"/>
@@ -225,6 +230,7 @@
                             <pf:column headerText="Standort VZ" style="text-align: right">
                                 <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationVz}"
                                                                 Style="width: 95%;"
+                                                                readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                                 validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
                                                                 validatorMessage="Ungültiger Standort für dieses IK"
                                                                 thousendSeperator=""/>
@@ -233,6 +239,7 @@
                             <pf:column headerText="Betten" style="text-align: right">
                                 <inekInput:InputNumber value="#{baseInfo.wardsToChange.beds}"
                                                        Style="width: 95%;"
+                                                       readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                        minValue="1"
                                                        maxValue="999"/>
                             </pf:column>
@@ -244,11 +251,21 @@
                                              navigator="true"
                                              pattern="dd.MM.yyyy"
                                              mask="true"
+                                             disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: right;"/>
+                            </pf:column>
+
+                            <pf:column headerText="Anmerkung" style="text-align: right">
+                                <inekInput:InputText value="#{baseInfo.wardsToChange.comment}"
+                                                     readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                     Style="width: 95%;"
+                                                     maxlength="500"/>
                             </pf:column>
                         </pf:dataTable>
                     </div>
+                </div>
 
+                <div class="card">
                     <!-- Stationsänderung -->
                     <div class="ui-g-12"
                          jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CHANGE).size() gt 0}">
@@ -260,6 +277,7 @@
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
                                         deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
+                                        rendered="#{not structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                         updateElement="@form"/>
                             </pf:column>
                             <pf:column headerText="Sensitiver Bereich">
@@ -271,28 +289,33 @@
                                 <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.fab}"
                                                               Style="width: 95%;"
                                                               require="true"
+                                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                               validatorFunction="#{structuralChangesEdit.isFabValid}"
                                                               validatorMessage="Ungültige FAB"
                                                               maxlength="4"/>
                             </pf:column>
-                            <pf:column headerText="FAB-Name">
+                            <pf:column headerText="Fachabteilungsname">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.deptName}"/>
                                 <pf:separator/>
                                 <inekInput:InputText value="#{baseInfo.wardsToChange.deptName}"
                                                      require="true"
+                                                     readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                      Style="width: 95%;"
                                                      requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"/>
                             </pf:column>
-                            <pf:column headerText="Station">
+                            <pf:column headerText="Stationsbezeichnung">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.wardName}"/>
                                 <pf:separator/>
-                                <pf:inputText value="#{baseInfo.wardsToChange.wardName}"/>
+                                <pf:inputText value="#{baseInfo.wardsToChange.wardName}"
+                                              required="true"
+                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"/>
                             </pf:column>
                             <pf:column headerText="Standort P21" style="text-align: right">
                                 <pf:outputLabel
                                         value="#{baseInfo.wardsToChange.deptWard.locationCodeP21}"/>
                                 <pf:separator/>
                                 <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationP21}"
+                                                                readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                                 validatorFunction="#{structuralChangesEdit.isP21LocationCodeValid}"
                                                                 validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                                 Style="width: 95%;"/>
@@ -304,6 +327,7 @@
 
                                 <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationVz}"
                                                                 Style="width: 95%;"
+                                                                readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                                 validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
                                                                 validatorMessage="Ungültiger Standort für dieses IK"
                                                                 thousendSeperator=""/>
@@ -314,6 +338,7 @@
                                 <pf:separator/>
                                 <inekInput:InputNumber value="#{baseInfo.wardsToChange.beds}"
                                                        Style="width: 95%;"
+                                                       readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                        minValue="1"
                                                        maxValue="999"/>
                             </pf:column>
@@ -325,12 +350,21 @@
                                              navigator="true"
                                              pattern="dd.MM.yyyy"
                                              mask="true"
+                                             disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: right;"/>
+                            </pf:column>
+                            <pf:column headerText="Anmerkung" style="text-align: right">
+                                <inekInput:InputText value="#{baseInfo.wardsToChange.comment}"
+                                                     Style="width: 95%;"
+                                                     readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                     maxlength="500"/>
                             </pf:column>
                         </pf:dataTable>
                     </div>
+                </div>
 
-                    <!-- Stationsschließung -->
+                <!-- Stationsschließung -->
+                <div class="card">
                     <div class="ui-g-12"
                          jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE).size() gt 0}">
                         <h1>Stationsschließung</h1>
@@ -340,6 +374,7 @@
                                 var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
+                                        rendered="#{not structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                         deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
                                         updateElement="@form"/>
                             </pf:column>
@@ -349,10 +384,10 @@
                             <pf:column headerText="FAB">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.fab}"/>
                             </pf:column>
-                            <pf:column headerText="FAB-Name">
+                            <pf:column headerText="Fachabteilungsname">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.deptName}"/>
                             </pf:column>
-                            <pf:column headerText="Station">
+                            <pf:column headerText="Stationsbezeichnung">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.wardName}"/>
                             </pf:column>
                             <pf:column headerText="Standort P21">
@@ -374,18 +409,28 @@
                                              navigator="true"
                                              pattern="dd.MM.yyyy"
                                              mask="true"
+                                             disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: right;"/>
                             </pf:column>
 
                             <pf:column headerText="Grund der schließung">
-                                <pf:selectOneMenu value="#{baseInfo.structuralChangesDetailTypeId}">
+                                <pf:selectOneMenu value="#{baseInfo.structuralChangesDetailTypeId}"
+                                                  disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}">
                                     <f:selectItems value="#{structuralChangesEdit.closeReasons}"/>
                                 </pf:selectOneMenu>
                             </pf:column>
+                            <pf:column headerText="Anmerkung" style="text-align: right">
+                                <inekInput:InputText value="#{baseInfo.wardsToChange.comment}"
+                                                     readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                     Style="width: 95%;"
+                                                     maxlength="500"/>
+                            </pf:column>
                         </pf:dataTable>
                     </div>
+                </div>
 
-                    <!-- Zusammenlegung -->
+                <!-- Zusammenlegung -->
+                <div class="card">
                     <div class="ui-g-12"
                          jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.COMBINE_WITH_NEW).size() gt 0}">
                         <h1>Stationszusammenlegung</h1>
@@ -396,7 +441,7 @@
 
                             <h2>AusgewählteStationen:</h2>
 
-                            <br />
+                            <br/>
 
                             <pf:dataTable value="#{baseInfo.structuralChangesWards}"
                                           emptyMessage="Keine Daten vorhanden"
@@ -408,10 +453,10 @@
                                 <pf:column headerText="FAB" style="width: 50px;">
                                     <pf:outputLabel value="#{structuralChangesWard.deptWard.fab}"/>
                                 </pf:column>
-                                <pf:column headerText="FAB-Name" style="width: 150px;">
+                                <pf:column headerText="Fachabteilungsname" style="width: 150px;">
                                     <pf:outputLabel value="#{structuralChangesWard.deptWard.deptName}"/>
                                 </pf:column>
-                                <pf:column headerText="Station" style="width: 100px;">
+                                <pf:column headerText="Stationsbezeichnung" style="width: 100px;">
                                     <pf:outputLabel value="#{structuralChangesWard.deptWard.wardName}"/>
                                 </pf:column>
                                 <pf:column headerText="Standort P21" style="width: 50px;">
@@ -437,7 +482,7 @@
 
                             <h2>Neue Station:</h2>
 
-                            <br />
+                            <br/>
 
                             <pf:panelGrid>
                                 <f:facet name="header">
@@ -445,12 +490,13 @@
                                         <pf:column> </pf:column>
                                         <pf:column>Sensitiver Bereich</pf:column>
                                         <pf:column>FAB</pf:column>
-                                        <pf:column>FAB-Name</pf:column>
-                                        <pf:column>Station</pf:column>
+                                        <pf:column>Fachabteilungsname</pf:column>
+                                        <pf:column>Stationsbezeichnung</pf:column>
                                         <pf:column>Standort P21</pf:column>
                                         <pf:column>Standort VZ</pf:column>
                                         <pf:column>Betten</pf:column>
                                         <pf:column>Gültig ab</pf:column>
+                                        <pf:column>Anmerkung</pf:column>
                                     </pf:row>
 
                                 </f:facet>
@@ -458,11 +504,13 @@
                                 <pf:row>
                                     <pf:column class="colIcon" style="width: 20px;">
                                         <inekIcon:DeleteIcon
+                                                rendered="#{not structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                 deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
                                                 updateElement="@form"/>
                                     </pf:column>
                                     <pf:column>
-                                        <pf:selectOneMenu value="#{baseInfo.wardsToChange.sensitiveAreaId}">
+                                        <pf:selectOneMenu value="#{baseInfo.wardsToChange.sensitiveAreaId}"
+                                                          disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}">
                                             <f:selectItems value="#{structuralChangesEdit.sensitiveAreas}"/>
                                         </pf:selectOneMenu>
                                     </pf:column>
@@ -470,22 +518,26 @@
                                         <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.fab}"
                                                                       Style="width: 95%;"
                                                                       require="true"
+                                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                                       validatorFunction="#{structuralChangesEdit.isFabValid}"
                                                                       validatorMessage="Ungültige FAB"
                                                                       maxlength="4"/>
                                     </pf:column>
-                                    <pf:column headerText="FAB-Name">
+                                    <pf:column headerText="Fachabteilungsname">
                                         <inekInput:InputText value="#{baseInfo.wardsToChange.deptName}"
                                                              require="true"
+                                                             readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                              Style="width: 95%;"
                                                              requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"/>
                                     </pf:column>
-                                    <pf:column headerText="Station">
+                                    <pf:column headerText="Stationsbezeichnung">
                                         <pf:inputText value="#{baseInfo.wardsToChange.wardName}"
+                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                       require="true"/>
                                     </pf:column>
                                     <pf:column headerText="Standort P21" style="text-align: right">
                                         <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationP21}"
+                                                                        readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                                         validatorFunction="#{structuralChangesEdit.isP21LocationCodeValid}"
                                                                         validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                                         Style="width: 95%;"/>
@@ -494,6 +546,7 @@
                                     <pf:column headerText="Standort VZ" style="text-align: right">
                                         <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationVz}"
                                                                         Style="width: 95%;"
+                                                                        readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                                         validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
                                                                         validatorMessage="Ungültiger Standort für dieses IK"
                                                                         thousendSeperator=""/>
@@ -501,6 +554,7 @@
                                     </pf:column>
                                     <pf:column headerText="Betten" style="text-align: right">
                                         <inekInput:InputNumber value="#{baseInfo.wardsToChange.beds}"
+                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                                Style="width: 95%;"
                                                                minValue="1"
                                                                maxValue="999"/>
@@ -513,17 +567,27 @@
                                                      navigator="true"
                                                      pattern="dd.MM.yyyy"
                                                      mask="true"
+                                                     disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                      inputStyle="text-align: right;"/>
+                                    </pf:column>
+                                    <pf:column headerText="Anmerkung" style="text-align: right">
+                                        <inekInput:InputText value="#{baseInfo.wardsToChange.comment}"
+                                                             Style="width: 95%;"
+                                                             readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                             maxlength="500"/>
                                     </pf:column>
                                 </pf:row>
                             </pf:panelGrid>
 
                         </pf:repeat>
-
                     </div>
-
                 </div>
             </div>
+
+            <pf:commandButton value="Speichern ohne Senden"
+                              action="#{structuralChangesEdit.save()}"
+                              style="margin-left: 10px;"
+                              update="@(.ui-message) @form"/>
 
             <pf:commandButton value="Änderungsmeldung ans InEK senden"
                               action="#{structuralChangesEdit.send()}"

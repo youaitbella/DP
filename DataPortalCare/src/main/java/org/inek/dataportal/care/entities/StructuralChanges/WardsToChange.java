@@ -177,6 +177,20 @@ public class WardsToChange implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property wtcComment ">
+    @Column(name = "wtcComment")
+    private String _comment = "";
+
+    public String getComment() {
+        return _comment;
+    }
+
+    public void setComment(String comment) {
+        this._comment = comment;
+    }
+
+    //</editor-fold>
+
 
     @OneToOne
     @JoinColumn(name = "wtcDeptWardId", referencedColumnName = "dwId")
@@ -190,16 +204,16 @@ public class WardsToChange implements Serializable {
         this._deptWard = deptWard;
     }
 
-    //<editor-fold defaultstate="collapsed" desc="Property StructuralChangesBaseInfo">
+    //<editor-fold defaultstate="collapsed" desc="Property StructuralChanges">
     @OneToOne(mappedBy = "_wardsToChange")
-    private StructuralChangesBaseInformation _structuralChangesBaseInformation;
+    private StructuralChanges _structuralChanges;
 
-    public StructuralChangesBaseInformation getStructuralChangesBaseInformation() {
-        return _structuralChangesBaseInformation;
+    public StructuralChanges getStructuralChanges() {
+        return _structuralChanges;
     }
 
-    public void setStructuralChangesBaseInformation(StructuralChangesBaseInformation structuralChangesBaseInformation) {
-        this._structuralChangesBaseInformation = structuralChangesBaseInformation;
+    public void setStructuralChanges(StructuralChanges structuralChanges) {
+        this._structuralChanges = structuralChanges;
     }
     //</editor-fold>
 
@@ -234,13 +248,13 @@ public class WardsToChange implements Serializable {
                 Objects.equals(_fab, that._fab) &&
                 Objects.equals(_validFrom, that._validFrom) &&
                 Objects.equals(_validTo, that._validTo) &&
-                Objects.equals(_structuralChangesBaseInformation, that._structuralChangesBaseInformation) &&
+                Objects.equals(_structuralChanges, that._structuralChanges) &&
                 Objects.equals(_structuralChangesWards, that._structuralChangesWards);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(_id, _deptId, _wardName, _deptName, _locationP21, _beds, _locationVz,
-                _fab, _validFrom, _validTo, _structuralChangesBaseInformation, _structuralChangesWards);
+                _fab, _validFrom, _validTo, _structuralChanges, _structuralChangesWards);
     }
 }

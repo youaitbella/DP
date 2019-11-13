@@ -7,11 +7,11 @@ package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptWard;
+import org.inek.dataportal.care.entities.StructuralChanges.StructuralChanges;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesWards;
 import org.inek.dataportal.care.entities.StructuralChanges.WardsToChange;
 import org.inek.dataportal.care.enums.SensitiveArea;
-import org.inek.dataportal.care.enums.StructuralChangesDetailType;
 import org.inek.dataportal.care.enums.StructuralChangesType;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
@@ -65,16 +65,16 @@ public class StructuralChangesEdit implements Serializable {
     @Inject
     private AccessManager _accessManager;
 
-    private int _ik;
-
     private List<DeptWard> _wards;
 
     private List<DeptWard> _selectedWards = new ArrayList<>();
 
-    private List<StructuralChangesBaseInformation> _changesBaseInformations = new ArrayList<>();
+    private StructuralChangesBaseInformation _structuralChangesBaseInformation;
 
-    public List<StructuralChangesBaseInformation> getChangesBaseInformationsByType(StructuralChangesType structuralChangesType) {
-        return _changesBaseInformations.stream().filter(c -> c.getStructuralChangesType().equals(structuralChangesType)).collect(Collectors.toList());
+    public List<StructuralChanges> getChangesBaseInformationsByType(StructuralChangesType structuralChangesType) {
+        return _structuralChangesBaseInformation.getStructuralChanges().stream()
+                .filter(c -> c.getStructuralChangesType().equals(structuralChangesType))
+                .collect(Collectors.toList());
     }
 
     public List<DeptWard> getWards() {
@@ -96,29 +96,67 @@ public class StructuralChangesEdit implements Serializable {
     @PostConstruct
     private void init() {
         String ikParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("ik");
-        try {
-            int ik = Integer.parseInt(ikParam);
-            if (isAccessAllowed(ik)) {
-                _ik = ik;
-                _wards = _structuralChangesFacade.findWardsByIkAndDate(ik, new Date());
-            } else {
-                LOGGER.log(Level.INFO, "No access for IK: " + ik);
-                Utils.navigate(Pages.NotAllowed.RedirectURL());
-                return;
-            }
-        } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "error open Page: " + ex + " --> " + ex.getMessage());
+        String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
+
+        if (ikParam == null && idParam == null) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
             return;
         }
+
+        if (idParam == null) {
+            try {
+                int ik = Integer.parseInt(ikParam);
+                if (isAccessAllowed(ik)) {
+                    _structuralChangesBaseInformation = createNewStructuralChangesBaseInformation(ik);
+                    _wards = _structuralChangesFacade.findWardsByIkAndDate(ik, new Date());
+                } else {
+                    LOGGER.log(Level.INFO, "No access for IK: " + ik);
+                    Utils.navigate(Pages.NotAllowed.RedirectURL());
+                    return;
+                }
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, "error init StructuralChangesEdit: " + ex + " --> " + ex.getMessage());
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+                return;
+            }
+        } else {
+            try {
+                int id = Integer.parseInt(idParam);
+                _structuralChangesBaseInformation = _structuralChangesFacade.findBaseInformationsById(id);
+
+                if (isAccessAllowed(_structuralChangesBaseInformation.getIk())) {
+                    _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk(), new Date());
+                } else {
+                    LOGGER.log(Level.INFO, "No access for IK: " + _structuralChangesBaseInformation.getIk());
+                    Utils.navigate(Pages.NotAllowed.RedirectURL());
+                    return;
+                }
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, "error init StructuralChangesEdit: " + ex + " --> " + ex.getMessage());
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+                return;
+            }
+        }
+    }
+
+    public boolean isReadOnly() {
+        return false;
+    }
+
+    public boolean structuralChangesIsReadOnly(StructuralChanges change) {
+        return change.getStatus().getId() >= WorkflowStatus.Provided.getId();
+    }
+
+    private StructuralChangesBaseInformation createNewStructuralChangesBaseInformation(int ik) {
+        StructuralChangesBaseInformation baseInfo = new StructuralChangesBaseInformation();
+        baseInfo.setIk(ik);
+        baseInfo.setRequestedAccountId(_sessionController.getAccountId());
+        baseInfo.setRequestedAt(new Date());
+        return baseInfo;
     }
 
     public List<SelectItem> getCloseReasons() {
-        List<SelectItem> items = new ArrayList<>();
-        for (StructuralChangesDetailType value : StructuralChangesDetailType.values()) {
-            items.add(new SelectItem(value.getId(), value.getValue()));
-        }
-        return items;
+        return _structuralChangesFacade.findDeleteReasons();
     }
 
     public List<SelectItem> getSensitiveAreas() {
@@ -134,24 +172,24 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void newChangeWard(DeptWard ward) {
-        StructuralChangesBaseInformation info = createNewChangesBaseInformation();
-        info.setStructuralChangesType(StructuralChangesType.CHANGE);
-        info.setWardsToChange(createNewWardsToChange(ward));
-        _changesBaseInformations.add(info);
+        StructuralChanges change = createNewChanges();
+        change.setStructuralChangesType(StructuralChangesType.CHANGE);
+        change.setWardsToChange(createNewWardsToChange(ward));
+        _structuralChangesBaseInformation.addStructuralChanges(change);
     }
 
     public void closeWard(DeptWard ward) {
-        StructuralChangesBaseInformation info = createNewChangesBaseInformation();
-        info.setStructuralChangesType(StructuralChangesType.CLOSE);
-        info.setWardsToChange(createNewWardsToChange(ward));
-        _changesBaseInformations.add(info);
+        StructuralChanges change = createNewChanges();
+        change.setStructuralChangesType(StructuralChangesType.CLOSE);
+        change.setWardsToChange(createNewWardsToChange(ward));
+        _structuralChangesBaseInformation.addStructuralChanges(change);
     }
 
     public void createNewWard() {
-        StructuralChangesBaseInformation info = createNewChangesBaseInformation();
-        info.setStructuralChangesType(StructuralChangesType.NEW);
-        info.setWardsToChange(new WardsToChange());
-        _changesBaseInformations.add(info);
+        StructuralChanges change = createNewChanges();
+        change.setStructuralChangesType(StructuralChangesType.NEW);
+        change.setWardsToChange(new WardsToChange());
+        _structuralChangesBaseInformation.addStructuralChanges(change);
     }
 
     public void createNewWardFromSelectedWards() {
@@ -160,20 +198,20 @@ public class StructuralChangesEdit implements Serializable {
             return;
         }
 
-        StructuralChangesBaseInformation info = createNewChangesBaseInformation();
-        info.setStructuralChangesType(StructuralChangesType.COMBINE_WITH_NEW);
-        info.setWardsToChange(new WardsToChange());
-        createNewStructuralChangesWards(info);
-        _changesBaseInformations.add(info);
+        StructuralChanges change = createNewChanges();
+        change.setStructuralChangesType(StructuralChangesType.COMBINE_WITH_NEW);
+        change.setWardsToChange(new WardsToChange());
+        createNewStructuralChangesWards(change);
+        _structuralChangesBaseInformation.addStructuralChanges(change);
 
         _selectedWards.clear();
     }
 
-    private void createNewStructuralChangesWards(StructuralChangesBaseInformation info) {
+    private void createNewStructuralChangesWards(StructuralChanges change) {
         for (DeptWard selectedWard : _selectedWards) {
             StructuralChangesWards structuralChangesWards = new StructuralChangesWards();
             structuralChangesWards.setDeptWard(selectedWard);
-            info.addStructuralChangesWards(structuralChangesWards);
+            change.addStructuralChangesWards(structuralChangesWards);
         }
     }
 
@@ -183,26 +221,28 @@ public class StructuralChangesEdit implements Serializable {
         return wardsToChange;
     }
 
-    private StructuralChangesBaseInformation createNewChangesBaseInformation() {
-        StructuralChangesBaseInformation info = new StructuralChangesBaseInformation();
-        info.setIk(_ik);
-        info.setRequestedAccountId(_sessionController.getAccountId());
-        info.setStatus(WorkflowStatus.New);
-        return info;
+    private StructuralChanges createNewChanges() {
+        StructuralChanges change = new StructuralChanges();
+        change.setStatus(WorkflowStatus.New);
+        return change;
     }
 
-    public void changesBaseInformation(StructuralChangesBaseInformation baseInfo) {
-        _changesBaseInformations.remove(baseInfo);
+    public void changesBaseInformation(StructuralChanges change) {
+        _structuralChangesBaseInformation.removeStructuralChanges(change);
+    }
+
+    public void save() {
+        _structuralChangesFacade.save(_structuralChangesBaseInformation);
+        DialogController.showSaveDialog();
     }
 
     public void send() {
-        for (StructuralChangesBaseInformation baseInfo : _changesBaseInformations) {
-            baseInfo.setRequestedAt(new Date());
-            baseInfo.setStatus(WorkflowStatus.Provided);
-            _structuralChangesFacade.save(baseInfo);
+        for (StructuralChanges changes : _structuralChangesBaseInformation.getStructuralChanges()) {
+            changes.setStatus(WorkflowStatus.Provided);
         }
 
-        DialogController.showSaveDialog();
+        _structuralChangesFacade.save(_structuralChangesBaseInformation);
+        DialogController.showSendDialog();
     }
 
     public void isFabValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
