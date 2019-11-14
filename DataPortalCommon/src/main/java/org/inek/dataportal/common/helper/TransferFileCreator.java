@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.TransferFileType;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -88,8 +89,8 @@ public class TransferFileCreator {
         }
 
     }
-    
-    public static void createObjectTransferFile(SessionController sessionController, Object object, int ik, String type) {
+
+    public static void createObjectTransferFile(SessionController sessionController, Object object, int ik, TransferFileType type) {
         File workingDir = new File(sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), sessionController.getApplicationTools().
                 readConfig(ConfigKey.FolderUpload));
         File targetDir = new File(sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), "added");
@@ -100,10 +101,10 @@ public class TransferFileCreator {
              final CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
              final ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
             compressedOut.putNextEntry(new ZipEntry(emailInfo));
-            String content = obtainInfoText(sessionController.getAccount().getEmail(), type + "_" + ik);
+            String content = obtainInfoText(sessionController.getAccount().getEmail(), type.name() + "_" + ik);
             ByteArrayInputStream is = new ByteArrayInputStream(content.getBytes("UTF-8"));
             StreamHelper.copyStream(is, compressedOut);
-            String dataFileName = type + ik + "_" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".json";
+            String dataFileName = type.name() + ik + "_" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".json";
             compressedOut.putNextEntry(new ZipEntry(dataFileName));
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);

@@ -23,6 +23,7 @@ import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.MailTemplateHelper;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -47,6 +48,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static org.inek.dataportal.common.enums.TransferFileType.CareWardNames;
 import static org.inek.dataportal.common.utils.DateUtils.createDate;
 import static org.inek.dataportal.common.utils.DateUtils.getMaxDate;
 
@@ -204,7 +206,7 @@ public class DeptEdit implements Serializable {
         _deptBaseInformation.setLastChanged(new Date());
 
         try {
-            if (_oldDeptbaseInformation != null && _deptBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested) {
+            if (_oldDeptbaseInformation != null) {
                 _deptFacade.save(_oldDeptbaseInformation);
                 _oldDeptbaseInformation = null;
             }
@@ -219,7 +221,7 @@ public class DeptEdit implements Serializable {
             DialogController.showSaveDialog();
         } catch (Exception ex) {
             _mailer.sendError("Fehler beim speichern PPUG", ex);
-            DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden. "
+            DialogController.showErrorDialog("Fehler beim Speichern", "Ihre Daten konnten nicht gespeichert werden. "
                     + "Bitte versuchen Sie es erneut");
         }
     }
@@ -232,6 +234,8 @@ public class DeptEdit implements Serializable {
                 _deptBaseInformation.setSend(new Date());
                 _deptBaseInformation.setStatus(WorkflowStatus.Provided);
                 save();
+                TransferFileCreator.createObjectTransferFile(_sessionController, _deptBaseInformation, _deptBaseInformation.getIk(), CareWardNames);
+
                 setIsReadOnly(true);
             } else {
                 DialogController.showErrorDialog("Daten nicht vollständig", errors);

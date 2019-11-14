@@ -87,10 +87,6 @@ public class IkAdminTasks implements Serializable {
         return _accessRights;
     }
 
-    public void setAccessRights(List<AccessRight> accessRights) {
-        this._accessRights = accessRights;
-    }
-
     @PostConstruct
     private void init() {
         FacesContext context = FacesContext.getCurrentInstance();

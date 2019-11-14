@@ -31,10 +31,10 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.inek.dataportal.common.mail.Mailer;
+import java.util.stream.Collectors;
+
+import static org.inek.dataportal.common.enums.TransferFileType.Structureinformation;
 
 /**
  * @author lautenti
@@ -177,7 +177,7 @@ public class EditStructureInformation {
 
                 try {
                     TransferFileCreator.createObjectTransferFile(_sessionController, _structureBaseInformation,
-                            _structureBaseInformation.getIk(), "Structureinformation");
+                            _structureBaseInformation.getIk(), Structureinformation);
                 } catch (Exception ex) {
                     LOGGER.log(Level.SEVERE, "Error duringTransferFileCreation Structureinformation: ik: " + _structureBaseInformation.getIk());
                     _sessionController.getMailer().sendError("Error duringTransferFileCreation Structureinformation: ik: "

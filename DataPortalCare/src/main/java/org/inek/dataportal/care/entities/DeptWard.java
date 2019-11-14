@@ -1,5 +1,6 @@
 package org.inek.dataportal.care.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.care.entities.version.MapVersion;
 
 import javax.persistence.*;
@@ -70,8 +71,10 @@ public class DeptWard implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Dept">
     @ManyToOne
     @JoinColumn(name = "dwDeptId")
+    @JsonIgnore
     private Dept _dept;
 
+    @JsonIgnore
     public Dept getDept() {
         return _dept;
     }

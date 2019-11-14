@@ -50,6 +50,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.inek.dataportal.common.enums.TransferFileType.AEB;
+
 /**
  * @author lautenti
  */
@@ -247,7 +249,7 @@ public class Edit {
             }
             try {
                 TransferFileCreator.createObjectTransferFile(_sessionController, _aebBaseInformation,
-                        _aebBaseInformation.getIk(), "AEB");
+                        _aebBaseInformation.getIk(), AEB);
             } catch (Exception ex) {
                 LOGGER.log(Level.SEVERE, "Error duringTransferFileCreation AEB: ik: " + _aebBaseInformation.getIk());
                 _mailer.sendError("Error duringTransferFileCreation AEB: ik: " + _aebBaseInformation.getIk() + " year: " +
