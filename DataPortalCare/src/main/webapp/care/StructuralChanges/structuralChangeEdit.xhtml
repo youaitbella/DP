@@ -59,7 +59,7 @@
                         <pf:outputLabel value="#{ward.locationCodeP21}"/>
                     </pf:column>
                     <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="width: 50px;">
-                        <pf:outputLabel value="#{ward.locationCodeVz}"/>
+                        <pf:outputLabel value="#{ward.locationText}"/>
                     </pf:column>
                     <pf:column headerText="Bettenanzahl der Station" style="width: 50px;">
                         <pf:outputLabel value="#{ward.bedCount}"/>
@@ -70,9 +70,7 @@
                         </pf:outputLabel>
                     </pf:column>
                     <pf:column headerText="Gültig bis" style="width: 100px;">
-                        <pf:outputLabel value="#{ward.validTo}">
-                            <f:convertDateTime type="date" pattern="dd.MM.yyyy" timeZone="Europe/Berlin"/>
-                        </pf:outputLabel>
+                        <pf:outputLabel value="#{ward.validToDisplayText}"/>
                     </pf:column>
                 </pf:dataTable>
 
@@ -141,7 +139,7 @@
                                 <pf:outputLabel value="#{ward.locationCodeP21}"/>
                             </pf:column>
                             <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V">
-                                <pf:outputLabel value="#{ward.locationCodeVz}"/>
+                                <pf:outputLabel value="#{ward.locationText}"/>
                             </pf:column>
                             <pf:column headerText="Bettenanzahl der Station">
                                 <pf:outputLabel value="#{ward.bedCount}"/>
@@ -152,9 +150,7 @@
                                 </pf:outputLabel>
                             </pf:column>
                             <pf:column headerText="Gültig bis">
-                                <pf:outputLabel value="#{ward.validTo}">
-                                    <f:convertDateTime type="date" pattern="dd.MM.yyyy" timeZone="Europe/Berlin"/>
-                                </pf:outputLabel>
+                                <pf:outputLabel value="#{ward.validToDisplayText}" />
                             </pf:column>
                             <pf:column>
                                 <pf:splitButton value="Aktionen">
@@ -162,6 +158,10 @@
                                                  update="@form"
                                                  immediate="true"
                                                  action="#{structuralChangesEdit.newChangeWard(ward)}"/>
+                                    <pf:menuitem value="Station temporär abmelden"
+                                                 update="@form"
+                                                 immediate="true"
+                                                 action="#{structuralChangesEdit.closeWardTemp(ward)}"/>
                                     <pf:menuitem value="Station löschen"
                                                  update="@form"
                                                  immediate="true"
@@ -185,21 +185,23 @@
 
                         <pf:button value="bestehende Stationen zu einer neuen Station zusammenfassen"
                                    style="margin-left: 10px;"
+                                   rendered="false"
                                    onclick="PF('wardSelection').show(); return false;"/>
 
 
                         <pf:commandButton value="bestehende Stationen zusammenfassen"
                                           action="#{structuralChangesEdit.createNewWard()}"
                                           style="margin-left: 10px;"
+                                          rendered="false"
                                           immediate="true"
                                           update="@(.ui-message) @form"/>
 
                     </div>
                 </div>
-                <div class="card" style="width: 100%">
+                <div class="card" style="width: 100%"
+                     jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.NEW).size() gt 0}">
                     <!-- Neue Station -->
-                    <div class="ui-g-12"
-                         jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.NEW).size() gt 0}">
+                    <div class="ui-g-12">
                         <h1>Informationen zur neuen Station</h1>
                         <pf:dataTable
                                 value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.NEW)}"
@@ -247,12 +249,18 @@
 
                             </pf:column>
                             <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="text-align: right">
-                                <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationVz}"
-                                                                Style="width: 95%;"
-                                                                readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                                validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
-                                                                validatorMessage="Ungültiger Standort für dieses IK"
-                                                                thousendSeperator=""/>
+                                <ui:remove>
+                                    <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationVz}"
+                                                                    Style="width: 95%;"
+                                                                    readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                                    validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
+                                                                    validatorMessage="Ungültiger Standort für dieses IK"
+                                                                    thousendSeperator=""/>
+                                </ui:remove>
+
+                                <pf:inputText value="#{baseInfo.wardsToChange.locationVz}"
+                                              Style="width: 95%;"
+                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"/>
 
                             </pf:column>
                             <pf:column headerText="Bettenanzahl der Station" style="text-align: right">
@@ -275,19 +283,22 @@
                             </pf:column>
 
                             <pf:column headerText="Anmerkung">
-                                <inekInput:InputText value="#{baseInfo.wardsToChange.comment}"
-                                                     readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                     Style="width: 95%;"
-                                                     maxlength="500"/>
+                                <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.comment}"
+                                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                              rendered="true"
+                                                              Style="width: 95%;"
+                                                              validatorFunction="#{structuralChangesEdit.isCommentValid}"
+                                                              validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"
+                                                              maxlength="500"/>
                             </pf:column>
                         </pf:dataTable>
                     </div>
                 </div>
 
-                <div class="card" style="width: 100%">
+                <div class="card" style="width: 100%"
+                     jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CHANGE).size() gt 0}">
                     <!-- Stationsänderung -->
-                    <div class="ui-g-12"
-                         jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CHANGE).size() gt 0}">
+                    <div class="ui-g-12">
                         <h1>Stationsdaten ändern</h1>
                         <pf:dataTable
                                 value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CHANGE)}"
@@ -345,13 +356,19 @@
                                 <pf:outputLabel
                                         value="#{baseInfo.wardsToChange.deptWard.locationCodeVz}"/>
                                 <pf:separator/>
+                                <ui:remove>
+                                    <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationVz}"
+                                                                    Style="width: 95%;"
+                                                                    readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                                    validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
+                                                                    validatorMessage="Ungültiger Standort für dieses IK"
+                                                                    thousendSeperator=""/>
 
-                                <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationVz}"
-                                                                Style="width: 95%;"
-                                                                readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                                validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
-                                                                validatorMessage="Ungültiger Standort für dieses IK"
-                                                                thousendSeperator=""/>
+                                </ui:remove>
+
+                                <pf:inputText value="#{baseInfo.wardsToChange.locationVz}"
+                                              Style="width: 95%;"
+                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"/>
 
                             </pf:column>
                             <pf:column headerText="Bettenanzahl der Station" style="text-align: right">
@@ -363,7 +380,7 @@
                                                        minValue="1"
                                                        maxValue="999"/>
                             </pf:column>
-                            <pf:column headerText="Gültig ab">
+                            <pf:column headerText="Änderung gültig ab">
                                 <pf:outputLabel value=" "/>
                                 <pf:separator/>
                                 <pf:calendar value="#{baseInfo.wardsToChange.validFrom}"
@@ -379,29 +396,35 @@
                             <pf:column headerText="Kategorie">
                                 <pf:outputLabel value=" "/>
                                 <pf:separator/>
-                                <pf:selectOneMenu value="#{baseInfo.structuralChangesDetailTypeId}"
+                                <pf:selectOneMenu id="catNew"
+                                                  value="#{baseInfo.structuralChangesDetailTypeId}"
+                                                  required="true"
                                                   disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}">
                                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                                                   noSelectionOption="true"/>
                                     <f:selectItems value="#{structuralChangesEdit.changeReasons}"/>
                                 </pf:selectOneMenu>
+                                <pf:message for="catNew"/>
                             </pf:column>
                             <pf:column headerText="Anmerkung">
                                 <pf:outputLabel value=" "/>
                                 <pf:separator/>
-                                <inekInput:InputText value="#{baseInfo.wardsToChange.comment}"
-                                                     Style="width: 95%;"
-                                                     readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                     maxlength="500"/>
+                                <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.comment}"
+                                                              Style="width: 95%;"
+                                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                              rendered="true"
+                                                              maxlength="500"
+                                                              validatorFunction="#{structuralChangesEdit.isCommentValid}"
+                                                              validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"/>
                             </pf:column>
                         </pf:dataTable>
                     </div>
                 </div>
 
                 <!-- Stationsschließung -->
-                <div class="card" style="width: 100%">
-                    <div class="ui-g-12"
-                         jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE).size() gt 0}">
+                <div class="card" style="width: 100%"
+                     jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE).size() gt 0}">
+                    <div class="ui-g-12">
                         <h1>Station löschen</h1>
                         <pf:dataTable
                                 value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE)}"
@@ -431,12 +454,12 @@
                             </pf:column>
                             <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V">
                                 <pf:outputLabel
-                                        value="#{baseInfo.wardsToChange.deptWard.locationCodeVz}"/>
+                                        value="#{baseInfo.wardsToChange.deptWard.locationText}"/>
                             </pf:column>
                             <pf:column headerText="Bettenanzahl der Station">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.bedCount}"/>
                             </pf:column>
-                            <pf:column headerText="Schließung zum">
+                            <pf:column headerText="Änderung gültig ab">
                                 <pf:calendar value="#{baseInfo.wardsToChange.validFrom}"
                                              required="true"
                                              requiredMessage="Bitte ein Datum angeben"
@@ -449,27 +472,119 @@
                             </pf:column>
 
                             <pf:column headerText="Kategorie">
-                                <pf:selectOneMenu value="#{baseInfo.structuralChangesDetailTypeId}"
+                                <pf:selectOneMenu id="catDelete"
+                                                  value="#{baseInfo.structuralChangesDetailTypeId}"
+                                                  required="true"
                                                   disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}">
                                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                                                   noSelectionOption="true"/>
                                     <f:selectItems value="#{structuralChangesEdit.closeReasons}"/>
                                 </pf:selectOneMenu>
+                                <pf:message for="catDelete"/>
                             </pf:column>
                             <pf:column headerText="Anmerkung">
-                                <inekInput:InputText value="#{baseInfo.wardsToChange.comment}"
-                                                     readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                     Style="width: 95%;"
-                                                     maxlength="500"/>
+                                <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.comment}"
+                                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                              rendered="true"
+                                                              Style="width: 95%;"
+                                                              maxlength="500"
+                                                              validatorFunction="#{structuralChangesEdit.isCommentValid}"
+                                                              validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"/>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
+                </div>
+
+                <!-- Station Temp schliesen -->
+                <div class="card" style="width: 100%"
+                     jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE_TEMP).size() gt 0}">
+                    <div class="ui-g-12">
+                        <h1>Station temporär abmelden</h1>
+                        <pf:dataTable
+                                value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE_TEMP)}"
+                                tableStyle="width: auto;"
+                                var="baseInfo">
+                            <pf:column class="colIcon" style="width: 20px;">
+                                <inekIcon:DeleteIcon
+                                        rendered="#{not structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                        deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
+                                        updateElement="@form"/>
+                            </pf:column>
+                            <pf:column headerText="Pflegesensitiver Bereich">
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.dept.sensitiveArea}"/>
+                            </pf:column>
+                            <pf:column headerText="Fachabteilungsnummer">
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.fab}"/>
+                            </pf:column>
+                            <pf:column headerText="Fachabteilungsname">
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.deptName}"/>
+                            </pf:column>
+                            <pf:column headerText="Stationsbezeichnung">
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.wardName}"/>
+                            </pf:column>
+                            <pf:column headerText="Standort nach § 21 KHEntgG">
+                                <pf:outputLabel
+                                        value="#{baseInfo.wardsToChange.deptWard.locationCodeP21}"/>
+                            </pf:column>
+                            <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V">
+                                <pf:outputLabel
+                                        value="#{baseInfo.wardsToChange.deptWard.locationText}"/>
+                            </pf:column>
+                            <pf:column headerText="Bettenanzahl der Station">
+                                <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.bedCount}"/>
+                            </pf:column>
+                            <pf:column headerText="Änderung gültig ab">
+                                <pf:calendar value="#{baseInfo.wardsToChange.validFrom}"
+                                             required="true"
+                                             requiredMessage="Bitte ein Datum angeben"
+                                             locale="de"
+                                             navigator="true"
+                                             pattern="dd.MM.yyyy"
+                                             mask="true"
+                                             disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                             inputStyle="text-align: right;"/>
+                            </pf:column>
+
+                            <pf:column headerText="Änderung gültig bis">
+                                <pf:calendar value="#{baseInfo.wardsToChange.validTo}"
+                                             required="true"
+                                             requiredMessage="Bitte ein Datum angeben"
+                                             locale="de"
+                                             navigator="true"
+                                             pattern="dd.MM.yyyy"
+                                             mask="true"
+                                             disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                             inputStyle="text-align: right;"/>
+                            </pf:column>
+
+                            <pf:column headerText="Kategorie">
+                                <pf:selectOneMenu id="catCloseTmp"
+                                                  value="#{baseInfo.structuralChangesDetailTypeId}"
+                                                  required="true"
+                                                  disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}">
+                                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                                  noSelectionOption="true"/>
+                                    <f:selectItems value="#{structuralChangesEdit.closeTmpReasons}"/>
+                                </pf:selectOneMenu>
+                                <pf:message for="catCloseTmp"/>
+                            </pf:column>
+                            <pf:column headerText="Anmerkung">
+                                <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.comment}"
+                                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                              rendered="true"
+                                                              Style="width: 95%;"
+                                                              maxlength="500"
+                                                              validatorFunction="#{structuralChangesEdit.isCommentValid}"
+                                                              validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"/>
                             </pf:column>
                         </pf:dataTable>
                     </div>
                 </div>
 
                 <!-- Zusammenlegung -->
-                <div class="card" style="width: 100%">
-                    <div class="ui-g-12"
-                         jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.COMBINE_WITH_NEW).size() gt 0}">
+                <div class="card" style="width: 100%"
+                     jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.COMBINE_WITH_NEW).size() gt 0}">
+                    <div class="ui-g-12">
                         <h1>bestehende Stationen zu einer neuen Station zusammenfassen</h1>
 
                         <pf:repeat
@@ -500,7 +615,7 @@
                                     <pf:outputLabel value="#{structuralChangesWard.deptWard.locationCodeP21}"/>
                                 </pf:column>
                                 <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="width: 50px;">
-                                    <pf:outputLabel value="#{structuralChangesWard.deptWard.locationCodeVz}"/>
+                                    <pf:outputLabel value="#{structuralChangesWard.deptWard.locationText}"/>
                                 </pf:column>
                                 <pf:column headerText="Bettenanzahl der Station" style="width: 50px;">
                                     <pf:outputLabel value="#{structuralChangesWard.deptWard.bedCount}"/>
@@ -511,9 +626,7 @@
                                     </pf:outputLabel>
                                 </pf:column>
                                 <pf:column headerText="Gültig bis" style="width: 100px;">
-                                    <pf:outputLabel value="#{structuralChangesWard.deptWard.validTo}">
-                                        <f:convertDateTime type="date" pattern="dd.MM.yyyy" timeZone="Europe/Berlin"/>
-                                    </pf:outputLabel>
+                                    <pf:outputLabel value="#{structuralChangesWard.deptWard.validToDisplayText}" />
                                 </pf:column>
                             </pf:dataTable>
 
@@ -580,13 +693,20 @@
                                                                         Style="width: 95%;"/>
 
                                     </pf:column>
-                                    <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="text-align: right">
-                                        <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationVz}"
-                                                                        Style="width: 95%;"
-                                                                        readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                                        validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
-                                                                        validatorMessage="Ungültiger Standort für dieses IK"
-                                                                        thousendSeperator=""/>
+                                    <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V"
+                                               style="text-align: right">
+                                        <ui:remove>
+                                            <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationVz}"
+                                                                            Style="width: 95%;"
+                                                                            readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                                            validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
+                                                                            validatorMessage="Ungültiger Standort für dieses IK"
+                                                                            thousendSeperator=""/>
+                                        </ui:remove>
+
+                                        <pf:inputText value="#{baseInfo.wardsToChange.locationVz}"
+                                                      Style="width: 95%;"
+                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"/>
 
                                     </pf:column>
                                     <pf:column headerText="Bettenanzahl der Station" style="text-align: right">
@@ -607,11 +727,14 @@
                                                      disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                      inputStyle="text-align: right;"/>
                                     </pf:column>
-                                    <pf:column headerText="Anmerkung" style="text-align: right">
-                                        <inekInput:InputText value="#{baseInfo.wardsToChange.comment}"
-                                                             Style="width: 95%;"
-                                                             readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                             maxlength="500"/>
+                                    <pf:column headerText="Anmerkung">
+                                        <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.comment}"
+                                                                      Style="width: 95%;"
+                                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                                      rendered="true"
+                                                                      maxlength="500"
+                                                                      validatorFunction="#{structuralChangesEdit.isCommentValid}"
+                                                                      validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"/>
                                     </pf:column>
                                 </pf:row>
                             </pf:panelGrid>

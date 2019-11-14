@@ -47,7 +47,15 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         return CareDeptStationHelper.getStationsByDate(deptBaseInformation.getAllWards(), date);
     }
 
-    public List<SelectItem> findDeleteReasons() {
+    public List<SelectItem> findTmpCloseReasons() {
+        String sql = "select scdtId, scdtText\n" +
+                "from care.listStructuralChangesDetailType\n" +
+                "where scdtCategorieId = 3";
+
+        return getSelectItems(sql);
+    }
+
+    public List<SelectItem> findCloseReasons() {
         String sql = "select scdtId, scdtText\n" +
                 "from care.listStructuralChangesDetailType\n" +
                 "where scdtCategorieId = 1";

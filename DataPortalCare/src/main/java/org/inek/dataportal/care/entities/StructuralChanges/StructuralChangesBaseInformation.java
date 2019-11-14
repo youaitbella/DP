@@ -42,7 +42,7 @@ public class StructuralChangesBaseInformation implements Serializable {
         return _ik;
     }
 
-    public void setIk(Integer ik) {
+    public void setIk(int ik) {
         _ik = ik;
     }
     //</editor-fold>

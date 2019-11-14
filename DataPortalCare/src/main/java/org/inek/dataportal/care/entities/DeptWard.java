@@ -1,10 +1,13 @@
 package org.inek.dataportal.care.entities;
 
 import org.inek.dataportal.care.entities.version.MapVersion;
+import org.inek.dataportal.common.utils.DateUtils;
 import org.primefaces.model.SelectableDataModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -236,6 +239,15 @@ public class DeptWard implements Serializable, SelectableDataModel {
 
     public void setLocationText(String locationText) {
         this._locationText = locationText;
+    }
+
+    public String getValidToDisplayText() {
+        if (_validTo.equals(DateUtils.getMaxDate())) {
+            return "unbegrenzt";
+        } else {
+            Format formatter = new SimpleDateFormat("dd.MM.yyyy");
+            return formatter.format(_validTo);
+        }
     }
 
 

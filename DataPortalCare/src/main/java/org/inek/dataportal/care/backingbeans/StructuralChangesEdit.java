@@ -27,7 +27,6 @@ import org.inek.dataportal.common.overall.AccessManager;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
@@ -152,7 +151,7 @@ public class StructuralChangesEdit implements Serializable {
             List<StructuralChangesBaseInformation> sendBaseInformationsByIk = _structuralChangesFacade.findSendBaseInformationsByIk(ik);
 
             List<DeptBaseInformation> allByStatusAndIk = _deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, ik);
-            if (allByStatusAndIk.size() == 1 && sendBaseInformationsByIk.size() == 0) {
+            if (allByStatusAndIk.size() >= 1 && sendBaseInformationsByIk.size() == 0) {
                 _iks.add(ik);
             }
         }
@@ -182,7 +181,11 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public List<SelectItem> getCloseReasons() {
-        return _structuralChangesFacade.findDeleteReasons();
+        return _structuralChangesFacade.findCloseReasons();
+    }
+
+    public List<SelectItem> getCloseTmpReasons() {
+        return _structuralChangesFacade.findTmpCloseReasons();
     }
 
     public List<SelectItem> getSensitiveAreas() {
@@ -200,6 +203,13 @@ public class StructuralChangesEdit implements Serializable {
     public void newChangeWard(DeptWard ward) {
         StructuralChanges change = createNewChanges();
         change.setStructuralChangesType(StructuralChangesType.CHANGE);
+        change.setWardsToChange(createNewWardsToChange(ward));
+        _structuralChangesBaseInformation.addStructuralChanges(change);
+    }
+
+    public void closeWardTemp(DeptWard ward) {
+        StructuralChanges change = createNewChanges();
+        change.setStructuralChangesType(StructuralChangesType.CLOSE_TEMP);
         change.setWardsToChange(createNewWardsToChange(ward));
         _structuralChangesBaseInformation.addStructuralChanges(change);
     }
@@ -281,6 +291,12 @@ public class StructuralChangesEdit implements Serializable {
         }
         if (!_deptFacade.isValidFab(value.toString())) {
             throw new ValidatorException(new FacesMessage("Ungültige FAB"));
+        }
+    }
+
+    public void isCommentValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        if (value.toString().length() <= 20) {
+            throw new ValidatorException(new FacesMessage("Kommentar zu kurz (Mindestens 20 Zeichen)"));
         }
     }
 

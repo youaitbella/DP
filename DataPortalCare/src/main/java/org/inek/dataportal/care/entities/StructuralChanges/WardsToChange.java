@@ -23,7 +23,7 @@ public class WardsToChange implements Serializable {
         _wardName = station.getWardName();
         _deptName = station.getDeptName();
         _locationP21 = station.getLocationCodeP21();
-        _locationVz = station.getLocationCodeVz();
+        _locationVz = station.getLocationText();
         _fab = station.getFab();
         _beds = station.getBedCount();
         _validFrom = station.getValidFrom();
@@ -127,13 +127,13 @@ public class WardsToChange implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property LocationVz">
     @Column(name = "wtcLocationVz")
-    private int _locationVz;
+    private String _locationVz;
 
-    public int getLocationVz() {
+    public String getLocationVz() {
         return _locationVz;
     }
 
-    public void setLocationVz(int locationVz) {
+    public void setLocationVz(String locationVz) {
         this._locationVz = locationVz;
     }
     //</editor-fold>
@@ -241,7 +241,7 @@ public class WardsToChange implements Serializable {
         return _deptId == that._deptId &&
                 _locationP21 == that._locationP21 &&
                 _beds == that._beds &&
-                _locationVz == that._locationVz &&
+                Objects.equals(_locationVz, that._locationVz) &&
                 Objects.equals(_id, that._id) &&
                 Objects.equals(_wardName, that._wardName) &&
                 Objects.equals(_deptName, that._deptName) &&
