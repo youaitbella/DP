@@ -414,7 +414,8 @@ public class DeptEdit implements Serializable {
             return;
         }
         if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)) {
-            throw new ValidatorException(new FacesMessage("In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."));
+            throw new ValidatorException(new FacesMessage(
+                    "In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."));
         }
     }
 
