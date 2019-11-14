@@ -90,6 +90,7 @@ public class DeptEdit implements Serializable {
     public DeptEdit() {
         LOGGER.log(Level.WARNING, "Constructor DeptEdit");
     }
+
     public List<AggregatedWards> getAggregatedWards() {
         return AggregatedWardsHelper.aggregatedWards(_deptBaseInformation.getAllWards());
     }
@@ -211,6 +212,7 @@ public class DeptEdit implements Serializable {
                 _oldDeptbaseInformation = null;
             }
 
+            boolean needsTransfer = _deptBaseInformation.getId() == -1 || _deptBaseInformation.getStatus() == WorkflowStatus.Provided;
             _deptBaseInformation = _deptFacade.save(_deptBaseInformation);
 
             if (_deptBaseInformation.getStatus() == WorkflowStatus.Provided) {
@@ -219,8 +221,11 @@ public class DeptEdit implements Serializable {
                 sendMail("Care Speicher Bestätigung");
             }
             DialogController.showSaveDialog();
+            if (needsTransfer) {
+                TransferFileCreator.createObjectTransferFile(_sessionController, _deptBaseInformation, _deptBaseInformation.getIk(), CareWardNames);
+            }
         } catch (Exception ex) {
-            _mailer.sendError("Fehler beim speichern PPUG", ex);
+            _mailer.sendError("Fehler beim Speichern PPUG", ex);
             DialogController.showErrorDialog("Fehler beim Speichern", "Ihre Daten konnten nicht gespeichert werden. "
                     + "Bitte versuchen Sie es erneut");
         }
@@ -234,7 +239,6 @@ public class DeptEdit implements Serializable {
                 _deptBaseInformation.setSend(new Date());
                 _deptBaseInformation.setStatus(WorkflowStatus.Provided);
                 save();
-                TransferFileCreator.createObjectTransferFile(_sessionController, _deptBaseInformation, _deptBaseInformation.getIk(), CareWardNames);
 
                 setIsReadOnly(true);
             } else {
@@ -293,6 +297,7 @@ public class DeptEdit implements Serializable {
         }
         return areas.stream().filter(a -> a.getId() == areaId).map(a -> a.getText()).findAny().orElse("???");
     }
+
     public void deleteStationFromDept(Dept dept, DeptWard station) {
         dept.removeDeptStation(station);
     }
@@ -400,6 +405,16 @@ public class DeptEdit implements Serializable {
         }
         if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)) {
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
+        }
+    }
+
+    public void extractLocationCodeFromText(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        int locationCode = CareValueChecker.extractFormalValidVzNumber("" + value);
+        if (locationCode == 0) {
+            return;
+        }
+        if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)) {
+            throw new ValidatorException(new FacesMessage("In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."));
         }
     }
 

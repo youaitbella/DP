@@ -2,6 +2,7 @@ package org.inek.dataportal.care.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.care.entities.version.MapVersion;
+import org.inek.dataportal.care.utils.CareValueChecker;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -238,6 +239,7 @@ public class DeptWard implements Serializable {
 
     public void setLocationText(String locationText) {
         this._locationText = locationText;
+        this._locationCodeVz = CareValueChecker.extractFormalValidVzNumber(locationText);
     }
 
 
