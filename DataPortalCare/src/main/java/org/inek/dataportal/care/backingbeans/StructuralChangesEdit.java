@@ -177,6 +177,10 @@ public class StructuralChangesEdit implements Serializable {
         return baseInfo;
     }
 
+    public List<SelectItem> getChangeReasons() {
+        return _structuralChangesFacade.findChangeReasons();
+    }
+
     public List<SelectItem> getCloseReasons() {
         return _structuralChangesFacade.findDeleteReasons();
     }

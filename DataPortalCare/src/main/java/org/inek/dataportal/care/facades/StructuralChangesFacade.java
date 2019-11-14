@@ -52,10 +52,23 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
                 "from care.listStructuralChangesDetailType\n" +
                 "where scdtCategorieId = 1";
 
+        return getSelectItems(sql);
+    }
+
+    public List<SelectItem> findChangeReasons() {
+        String sql = "select scdtId, scdtText\n" +
+                "from care.listStructuralChangesDetailType\n" +
+                "where scdtCategorieId = 2";
+
+        return getSelectItems(sql);
+    }
+
+    private List<SelectItem> getSelectItems(String sql) {
         Query query = getEntityManager().createNativeQuery(sql);
 
         @SuppressWarnings("unchecked")
         List<Object[]> objects = query.getResultList();
+
 
         List<SelectItem> items = new ArrayList<>();
 
