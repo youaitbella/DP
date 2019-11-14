@@ -6,6 +6,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:pf="http://primefaces.org/ui"
+                xmlns:inekIk="http://xmlns.jcp.org/jsf/composite/components/Other"
                 xmlns:inekInput="http://xmlns.jcp.org/jsf/composite/components/Input"
                 xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
                 xmlns:f="http://java.sun.com/jsf/core">
@@ -97,6 +98,22 @@
             <pf:importEnum type="org.inek.dataportal.care.enums.StructuralChangesType"
                            var="StructuralChangesType"
                            allSuffix="ALL_ENUM_VALUES"/>
+
+            <div class="ui-g">
+                <div class="card">
+                    <div class="ui-g-12">
+                        <inekIk:MultiIk_V2 label="#{msg.lblIkShort}"
+                                           required="true"
+                                           value="#{structuralChangesEdit.structuralChangesBaseInformation.ik}"
+                                           ikList="#{structuralChangesEdit.iks}"
+                                           readonly="#{not structuralChangesEdit.changeIkAllowed}"
+                                           listener="#{structuralChangesEdit.ikChanged()}"
+                                           isFixed="#{structuralChangesEdit.structuralChangesBaseInformation.id gt 0}"
+                                           updateElement="@form"/>
+
+                    </div>
+                </div>
+            </div>
 
             <div class="ui-g">
                 <div class="card">
@@ -582,20 +599,24 @@
                         </pf:repeat>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="ui-g-12">
+                        <pf:commandButton value="Speichern ohne Senden"
+                                          action="#{structuralChangesEdit.save()}"
+                                          style="margin-left: 10px;"
+                                          update="@(.ui-message) @form"/>
+
+                        <pf:commandButton value="Änderungsmeldung ans InEK senden"
+                                          action="#{structuralChangesEdit.send()}"
+                                          styleClass="green-button"
+                                          style="margin-left: 10px;"
+                                          icon="fa fa-arrow-right"
+                                          iconPos="right"
+                                          update="@(.ui-message) @form"/>
+                    </div>
+                </div>
             </div>
 
-            <pf:commandButton value="Speichern ohne Senden"
-                              action="#{structuralChangesEdit.save()}"
-                              style="margin-left: 10px;"
-                              update="@(.ui-message) @form"/>
-
-            <pf:commandButton value="Änderungsmeldung ans InEK senden"
-                              action="#{structuralChangesEdit.send()}"
-                              styleClass="green-button"
-                              style="margin-left: 10px;"
-                              icon="fa fa-arrow-right"
-                              iconPos="right"
-                              update="@(.ui-message) @form"/>
 
         </h:form>
     </ui:define>

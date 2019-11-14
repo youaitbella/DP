@@ -10,6 +10,7 @@ import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.care.utils.CareDeptStationHelper;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
@@ -19,6 +20,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author lautenti
@@ -70,6 +72,29 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         query.setParameter("ik", ik);
 
         return query.getResultList();
+    }
+
+    public Optional<StructuralChangesBaseInformation> findOpenBaseInformationsByIk(int ik) {
+        List<StructuralChangesBaseInformation> baseInfo = findBaseInformationsByIk(ik);
+
+        for (StructuralChangesBaseInformation structuralChangesBaseInformation : baseInfo) {
+            if (structuralChangesBaseInformation.getStructuralChanges().stream().allMatch(c -> c.getStatus().equals(WorkflowStatus.New))) {
+                return Optional.of(structuralChangesBaseInformation);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public List<StructuralChangesBaseInformation> findSendBaseInformationsByIk(int ik) {
+        List<StructuralChangesBaseInformation> baseInfo = findBaseInformationsByIk(ik);
+
+        List<StructuralChangesBaseInformation> tmpList = new ArrayList<>();
+        for (StructuralChangesBaseInformation structuralChangesBaseInformation : baseInfo) {
+            if (structuralChangesBaseInformation.getStructuralChanges().stream().noneMatch(c -> c.getStatus().equals(WorkflowStatus.New))) {
+                tmpList.add(structuralChangesBaseInformation);
+            }
+        }
+        return tmpList;
     }
 
     public StructuralChangesBaseInformation findBaseInformationsById(int id) {

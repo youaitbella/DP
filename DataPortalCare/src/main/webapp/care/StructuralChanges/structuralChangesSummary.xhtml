@@ -4,8 +4,7 @@
                 template="/WEB-INF/template.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:pf="http://primefaces.org/ui"
->
+                xmlns:pf="http://primefaces.org/ui" >
 
     <ui:define name="title">Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)</ui:define>
 
@@ -20,32 +19,46 @@
             <div class="card">
                 <h1>Übersicht über Ihre Daten</h1>
                 <div class="ui-g-12 ui-lg-6">
-                    <h2>Neue Strukturelle Veränderung anlegen</h2>
-                    <pf:dataTable id="erfassungtable"
-                                  value="#{structuralChangesSummary.iks}"
-                                  var="ik"
+                    <pf:dataTable id="openTable"
+                                  value="#{structuralChangesSummary.openBaseInformations}"
+                                  var="baseinfo"
                                   emptyMessage="Keine Einträge vorhanden">
+                        <f:facet name="header">
+                            In Erfassung
+                        </f:facet>
                         <pf:column headerText="IK">
                             <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
-                                    value="#{ik.key}">
-                                <f:param name="ik" value="#{ik.key}"/>
+                                    value="#{baseinfo.ik}">
+                                <f:param name="id" value="#{baseinfo.id}"/>
                             </h:link>
                         </pf:column>
+
                         <pf:column headerText="Krankenhaus">
                             <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
-                                    value="#{ik.value}">
-                                <f:param name="ik" value="#{ik.key}"/>
+                                    value="#{structuralChangesSummary.retrieveHospitalName(baseinfo.ik)}">
+                                <f:param name="id" value="#{baseinfo.id}"/>
                             </h:link>
                         </pf:column>
                     </pf:dataTable>
+
+                    <pf:commandButton value="Neue Meldung erstellen"
+                                      action="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                      rendered="#{structuralChangesSummary.isCreateEntryAllowed()}"
+                                      immediate="true"
+                                      style="margin-bottom:10px; margin-top: 10px;">
+                        <f:param name="id" value="new"/>
+                    </pf:commandButton>
+
                 </div>
 
                 <div class="ui-g-12 ui-lg-6">
-                    <h2>Bereits angelegte Strukturelle Veränderung</h2>
                     <pf:dataTable id="aktTable"
-                                  value="#{structuralChangesSummary.exitsBaseInformations}"
+                                  value="#{structuralChangesSummary.sendedBaseInformations}"
                                   var="baseinfo"
                                   emptyMessage="Keine Einträge vorhanden">
+                        <f:facet name="header">
+                            An das InEK gesendet
+                        </f:facet>
                         <pf:column headerText="IK">
                             <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
                                     value="#{baseinfo.ik}">

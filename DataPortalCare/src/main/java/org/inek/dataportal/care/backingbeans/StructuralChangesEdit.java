@@ -6,6 +6,7 @@
 package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChanges;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
@@ -33,15 +34,8 @@ import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.awt.*;
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,6 +65,24 @@ public class StructuralChangesEdit implements Serializable {
 
     private StructuralChangesBaseInformation _structuralChangesBaseInformation;
 
+    private Set<Integer> _iks = new HashSet<>();
+
+    public Set<Integer> getIks() {
+        return _iks;
+    }
+
+    public void setIks(Set<Integer> iks) {
+        this._iks = iks;
+    }
+
+    public StructuralChangesBaseInformation getStructuralChangesBaseInformation() {
+        return _structuralChangesBaseInformation;
+    }
+
+    public void setStructuralChangesBaseInformation(StructuralChangesBaseInformation structuralChangesBaseInformation) {
+        this._structuralChangesBaseInformation = structuralChangesBaseInformation;
+    }
+
     public List<StructuralChanges> getChangesBaseInformationsByType(StructuralChangesType structuralChangesType) {
         return _structuralChangesBaseInformation.getStructuralChanges().stream()
                 .filter(c -> c.getStructuralChangesType().equals(structuralChangesType))
@@ -95,29 +107,15 @@ public class StructuralChangesEdit implements Serializable {
 
     @PostConstruct
     private void init() {
-        String ikParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("ik");
         String idParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
 
-        if (ikParam == null && idParam == null) {
-            Utils.navigate(Pages.NotAllowed.RedirectURL());
-            return;
-        }
+        if ("new".equals(idParam)) {
+            _structuralChangesBaseInformation = createNewStructuralChangesBaseInformation();
+            loadValidIks();
 
-        if (idParam == null) {
-            try {
-                int ik = Integer.parseInt(ikParam);
-                if (isAccessAllowed(ik)) {
-                    _structuralChangesBaseInformation = createNewStructuralChangesBaseInformation(ik);
-                    _wards = _structuralChangesFacade.findWardsByIkAndDate(ik, new Date());
-                } else {
-                    LOGGER.log(Level.INFO, "No access for IK: " + ik);
-                    Utils.navigate(Pages.NotAllowed.RedirectURL());
-                    return;
-                }
-            } catch (Exception ex) {
-                LOGGER.log(Level.SEVERE, "error init StructuralChangesEdit: " + ex + " --> " + ex.getMessage());
-                Utils.navigate(Pages.NotAllowed.RedirectURL());
-                return;
+            if (_iks.size() == 1) {
+                _structuralChangesBaseInformation.setIk(_iks.stream().findFirst().get());
+                _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk(), new Date());
             }
         } else {
             try {
@@ -139,6 +137,31 @@ public class StructuralChangesEdit implements Serializable {
         }
     }
 
+    private void loadValidIks() {
+        Set<Integer> tmpAllowedIks = _sessionController.getAccount().getAccessRights().stream()
+                .filter(c -> c.canRead() && c.getFeature() == Feature.CARE)
+                .map(c -> c.getIk())
+                .collect(Collectors.toSet());
+
+        for (Integer ik : tmpAllowedIks) {
+            Optional<StructuralChangesBaseInformation> openBaseInformationsByIk = _structuralChangesFacade.findOpenBaseInformationsByIk(ik);
+            if (openBaseInformationsByIk.isPresent()) {
+                continue;
+            }
+
+            List<StructuralChangesBaseInformation> sendBaseInformationsByIk = _structuralChangesFacade.findSendBaseInformationsByIk(ik);
+
+            List<DeptBaseInformation> allByStatusAndIk = _deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, ik);
+            if (allByStatusAndIk.size() == 1 && sendBaseInformationsByIk.size() == 0) {
+                _iks.add(ik);
+            }
+        }
+    }
+
+    public boolean isChangeIkAllowed() {
+        return true;
+    }
+
     public boolean isReadOnly() {
         return false;
     }
@@ -147,9 +170,8 @@ public class StructuralChangesEdit implements Serializable {
         return change.getStatus().getId() >= WorkflowStatus.Provided.getId();
     }
 
-    private StructuralChangesBaseInformation createNewStructuralChangesBaseInformation(int ik) {
+    private StructuralChangesBaseInformation createNewStructuralChangesBaseInformation() {
         StructuralChangesBaseInformation baseInfo = new StructuralChangesBaseInformation();
-        baseInfo.setIk(ik);
         baseInfo.setRequestedAccountId(_sessionController.getAccountId());
         baseInfo.setRequestedAt(new Date());
         return baseInfo;
@@ -287,5 +309,9 @@ public class StructuralChangesEdit implements Serializable {
 
     public void navigateToSummary() {
         Utils.navigate(Pages.CareStructuralChangesSummary.RedirectURL());
+    }
+
+    public void ikChanged() {
+        _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk(), new Date());
     }
 }

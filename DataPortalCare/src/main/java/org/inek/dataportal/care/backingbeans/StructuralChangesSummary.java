@@ -6,25 +6,18 @@
 package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.overall.AccessManager;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -43,53 +36,63 @@ public class StructuralChangesSummary implements Serializable {
     @Inject
     private DeptFacade _deptFacade;
 
-    private Map<Integer, String> _iks = new HashMap<>();
+    private Set<Integer> _allowedIks = new HashSet<>();
 
-    private List<StructuralChangesBaseInformation> _exitsBaseInformations = new ArrayList<>();
+    private List<StructuralChangesBaseInformation> _sendedBaseInformations = new ArrayList<>();
 
-    public List<StructuralChangesBaseInformation> getExitsBaseInformations() {
-        return _exitsBaseInformations;
+    private List<StructuralChangesBaseInformation> _openBaseInformations = new ArrayList<>();
+
+    public List<StructuralChangesBaseInformation> getSendedBaseInformations() {
+        return _sendedBaseInformations;
     }
 
-    public void setExitsBaseInformations(List<StructuralChangesBaseInformation> exitsBaseInformations) {
-        this._exitsBaseInformations = exitsBaseInformations;
+    public void setSendedBaseInformations(List<StructuralChangesBaseInformation> sendedBaseInformations) {
+        this._sendedBaseInformations = sendedBaseInformations;
     }
 
-    public Map<Integer, String> getIks() {
-        return _iks;
+    public List<StructuralChangesBaseInformation> getOpenBaseInformations() {
+        return _openBaseInformations;
     }
 
-    public void setIks(Map<Integer, String> iks) {
-        this._iks = iks;
+    public void setOpenBaseInformations(List<StructuralChangesBaseInformation> openBaseInformations) {
+        this._openBaseInformations = openBaseInformations;
     }
 
     @PostConstruct
     private void init() {
-        for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
+        _allowedIks = _sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.canRead() && c.getFeature() == Feature.CARE)
-                .collect(Collectors.toList())) {
-            List<DeptBaseInformation> allByStatusAndIk = _deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk());
-            if (allByStatusAndIk.size() > 0) {
-                _iks.put(right.getIk(), _sessionController.getApplicationTools().retrieveHospitalName(right.getIk()));
-            }
-        }
+                .map(c -> c.getIk())
+                .collect(Collectors.toSet());
 
-        loadStructuralChangesBaseInformation();
+        loadOpenStructuralChangesBaseInformation();
+        loadSendedStructuralChangesBaseInformation();
+    }
+
+    private void loadSendedStructuralChangesBaseInformation() {
+        for (Integer allowedIk : _allowedIks) {
+            _sendedBaseInformations = _structuralChangesFacade.findSendBaseInformationsByIk(allowedIk);
+        }
     }
 
     public String retrieveHospitalName(int ik) {
         return _sessionController.getApplicationTools().retrieveHospitalName(ik);
     }
 
-    private void loadStructuralChangesBaseInformation() {
-        _exitsBaseInformations.clear();
-        for (Map.Entry<Integer, String> entry : _iks.entrySet()) {
-            _exitsBaseInformations.addAll(_structuralChangesFacade.findBaseInformationsByIk(entry.getKey()));
+    private void loadOpenStructuralChangesBaseInformation() {
+        _openBaseInformations.clear();
+        for (Integer allowedIk : _allowedIks) {
+            Optional<StructuralChangesBaseInformation> baseInfo = _structuralChangesFacade.findOpenBaseInformationsByIk(allowedIk);
+            baseInfo.ifPresent(structuralChangesBaseInformation -> _openBaseInformations.add(structuralChangesBaseInformation));
         }
     }
 
     public String openStructuralChangesPage() {
         return Pages.CareStructuralChangesEdit.URL();
+    }
+
+    public boolean isCreateEntryAllowed() {
+        return true;
     }
 
 }
