@@ -24,7 +24,7 @@ public class VzUtils implements Serializable {
     private static final String PLACEHOLDER_IK = "{ik}";
     private static final String PLACEHOLDER_VZNUMBER = "{vzNumber}";
 
-    private static final String ANSWER_OK = "{\"exists\":true}";
+    private static final String ANSWER_OK = "[true]";
 
     @Inject
     private ConfigFacade _config;

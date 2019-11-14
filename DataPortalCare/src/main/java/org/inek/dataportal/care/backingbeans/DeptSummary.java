@@ -113,6 +113,7 @@ public class DeptSummary implements Serializable {
         _listInek.clear();
         _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.Provided, _baseYear)));
         _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.CorrectionRequested, _baseYear)));
+        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.New, _baseYear)));
     }
 
     public String careDeptStationOpen() {
