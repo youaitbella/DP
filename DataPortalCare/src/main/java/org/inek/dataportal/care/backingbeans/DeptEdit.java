@@ -23,6 +23,7 @@ import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.MailTemplateHelper;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -47,6 +48,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static org.inek.dataportal.common.enums.TransferFileType.CareWardNames;
 import static org.inek.dataportal.common.utils.DateUtils.createDate;
 import static org.inek.dataportal.common.utils.DateUtils.getMaxDate;
 
@@ -88,6 +90,7 @@ public class DeptEdit implements Serializable {
     public DeptEdit() {
         LOGGER.log(Level.WARNING, "Constructor DeptEdit");
     }
+
     public List<AggregatedWards> getAggregatedWards() {
         return AggregatedWardsHelper.aggregatedWards(_deptBaseInformation.getAllWards());
     }
@@ -204,11 +207,12 @@ public class DeptEdit implements Serializable {
         _deptBaseInformation.setLastChanged(new Date());
 
         try {
-            if (_oldDeptbaseInformation != null && _deptBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested) {
+            if (_oldDeptbaseInformation != null) {
                 _deptFacade.save(_oldDeptbaseInformation);
                 _oldDeptbaseInformation = null;
             }
 
+            boolean needsTransfer = _deptBaseInformation.getId() == -1 || _deptBaseInformation.getStatus() == WorkflowStatus.Provided;
             _deptBaseInformation = _deptFacade.save(_deptBaseInformation);
 
             if (_deptBaseInformation.getStatus() == WorkflowStatus.Provided) {
@@ -217,9 +221,12 @@ public class DeptEdit implements Serializable {
                 sendMail("Care Speicher Bestätigung");
             }
             DialogController.showSaveDialog();
+            if (needsTransfer) {
+                TransferFileCreator.createObjectTransferFile(_sessionController, _deptBaseInformation, _deptBaseInformation.getIk(), CareWardNames);
+            }
         } catch (Exception ex) {
-            _mailer.sendError("Fehler beim speichern PPUG", ex);
-            DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden. "
+            _mailer.sendError("Fehler beim Speichern PPUG", ex);
+            DialogController.showErrorDialog("Fehler beim Speichern", "Ihre Daten konnten nicht gespeichert werden. "
                     + "Bitte versuchen Sie es erneut");
         }
     }
@@ -232,6 +239,7 @@ public class DeptEdit implements Serializable {
                 _deptBaseInformation.setSend(new Date());
                 _deptBaseInformation.setStatus(WorkflowStatus.Provided);
                 save();
+
                 setIsReadOnly(true);
             } else {
                 DialogController.showErrorDialog("Daten nicht vollständig", errors);
@@ -289,6 +297,7 @@ public class DeptEdit implements Serializable {
         }
         return areas.stream().filter(a -> a.getId() == areaId).map(a -> a.getText()).findAny().orElse("???");
     }
+
     public void deleteStationFromDept(Dept dept, DeptWard station) {
         dept.removeDeptStation(station);
     }
@@ -396,6 +405,17 @@ public class DeptEdit implements Serializable {
         }
         if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)) {
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
+        }
+    }
+
+    public void extractLocationCodeFromText(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        int locationCode = CareValueChecker.extractFormalValidVzNumber("" + value);
+        if (locationCode == 0) {
+            return;
+        }
+        if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)) {
+            throw new ValidatorException(new FacesMessage(
+                    "In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."));
         }
     }
 

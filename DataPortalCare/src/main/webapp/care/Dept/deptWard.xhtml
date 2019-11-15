@@ -206,8 +206,11 @@
                                                                 renderElement=":form:aggregatedtTable"
                                                                 readonly="#{deptEdit.isReadOnly}"/>
                             </ui:remove>
-                            <pf:inputText value="#{station.locationText}" maxlength="100"
-                                          readonly="#{deptEdit.isReadOnly}"/>
+                            <inekInput:InputTextValidator value="#{station.locationText}" maxlength="100"
+                                                          readonly="#{deptEdit.isReadOnly}"
+                                                          validatorFunction="#{deptEdit.extractLocationCodeFromText}"
+                                                          validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."
+                            />
 
                         </pf:column>
 
@@ -358,8 +361,11 @@
                                                                 renderElement=":form:aggregatedtTable"
                                                                 readonly="#{deptEdit.isReadOnly}"/>
                             </ui:remove>
-                            <pf:inputText value="#{station.locationText}" maxlength="100"
-                                          readonly="#{deptEdit.isReadOnly}"/>
+                            <inekInput:InputTextValidator value="#{station.locationText}" maxlength="100"
+                                                          readonly="#{deptEdit.isReadOnly}"
+                                                          validatorFunction="#{deptEdit.extractLocationCodeFromText}"
+                                                          validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."
+                            />
 
                         </pf:column>
                         <pf:column id="colBed2" style="width: 100px;"
@@ -526,8 +532,11 @@
                                                                 renderElement=":form:aggregatedtTable"
                                                                 readonly="#{deptEdit.isReadOnly}"/>
                             </ui:remove>
-                            <pf:inputText value="#{station.locationText}" maxlength="100"
-                                          readonly="#{deptEdit.isReadOnly}"/>
+                            <inekInput:InputTextValidator value="#{station.locationText}" maxlength="100"
+                                                          readonly="#{deptEdit.isReadOnly}"
+                                                          validatorFunction="#{deptEdit.extractLocationCodeFromText}"
+                                                          validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."
+                            />
 
                         </pf:column>
                         <pf:column id="colBed4" style="width: 100px;"
@@ -690,8 +699,11 @@
                                                                 renderElement=":form:aggregatedtTable"
                                                                 readonly="#{deptEdit.isReadOnly}"/>
                             </ui:remove>
-                            <pf:inputText value="#{station.locationText}" maxlength="100"
-                                          readonly="#{deptEdit.isReadOnly}"/>
+                            <inekInput:InputTextValidator value="#{station.locationText}" maxlength="100"
+                                                          readonly="#{deptEdit.isReadOnly}"
+                                                          validatorFunction="#{deptEdit.extractLocationCodeFromText}"
+                                                          validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."
+                            />
 
                         </pf:column>
                         <pf:column id="colBed5" style="width: 100px;"
@@ -856,8 +868,11 @@
                                                                 renderElement=":form:aggregatedtTable"
                                                                 readonly="#{deptEdit.isReadOnly}"/>
                             </ui:remove>
-                            <pf:inputText value="#{station.locationText}" maxlength="100"
-                                          readonly="#{deptEdit.isReadOnly}"/>
+                            <inekInput:InputTextValidator value="#{station.locationText}" maxlength="100"
+                                                          readonly="#{deptEdit.isReadOnly}"
+                                                          validatorFunction="#{deptEdit.extractLocationCodeFromText}"
+                                                          validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."
+                            />
 
                         </pf:column>
                         <pf:column id="colBed6" style="width: 100px;"
@@ -1030,8 +1045,11 @@
                                                                 renderElement=":form:aggregatedtTable"
                                                                 readonly="#{deptEdit.isReadOnly}"/>
                             </ui:remove>
-                            <pf:inputText value="#{station.locationText}" maxlength="100"
-                                          readonly="#{deptEdit.isReadOnly}"/>
+                            <inekInput:InputTextValidator value="#{station.locationText}" maxlength="100"
+                                                          readonly="#{deptEdit.isReadOnly}"
+                                                          validatorFunction="#{deptEdit.extractLocationCodeFromText}"
+                                                          validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."
+                            />
 
                         </pf:column>
                         <pf:column id="colBed3" style="width: 100px;"
@@ -1204,7 +1222,7 @@
                         <pf:outputLabel value="#{aggregate.locationCode21}"/>
                     </pf:column>
                     <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V (77xxxx000)">
-                        <pf:outputLabel value="#{aggregate.locationCodeVz}"/>
+                        <pf:outputLabel value="#{aggregate.locationText}"/>
                     </pf:column>
                     <pf:column headerText="Bettenanzahl der Station">
                         <pf:outputLabel value="#{aggregate.differentBedCount ? 'unterschiedlich' : aggregate.beds }"/>

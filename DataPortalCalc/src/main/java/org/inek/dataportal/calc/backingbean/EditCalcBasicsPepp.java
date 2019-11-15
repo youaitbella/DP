@@ -39,6 +39,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static org.inek.dataportal.common.enums.TransferFileType.KGP;
+
 @Named
 @ViewScoped
 @SuppressWarnings("PMD")
@@ -518,7 +520,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.setSealed(Calendar.getInstance().getTime());
         saveData(false);
 
-        TransferFileCreator.createObjectTransferFile(_sessionController, _calcBasics, _calcBasics.getIk(), "KGP");
+        TransferFileCreator.createObjectTransferFile(_sessionController, _calcBasics, _calcBasics.getIk(), KGP);
 
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));

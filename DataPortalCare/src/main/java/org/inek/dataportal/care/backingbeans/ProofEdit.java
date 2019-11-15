@@ -41,10 +41,15 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import static org.inek.dataportal.common.enums.TransferFileType.PPUGV;
 
 /**
  * @author lautenti
@@ -360,7 +365,7 @@ public class ProofEdit implements Serializable {
         save();
         try {
             TransferFileCreator.createObjectTransferFile(_sessionController, _proofRegulationBaseInformation,
-                    _proofRegulationBaseInformation.getIk(), "PPUGV");
+                    _proofRegulationBaseInformation.getIk(), PPUGV);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error duringTransferFileCreation PPUG: ik: " + _proofRegulationBaseInformation.getIk());
             _mailer.sendError("Error duringTransferFileCreation PPUG: ik: " + _proofRegulationBaseInformation.getIk() + " year: " +

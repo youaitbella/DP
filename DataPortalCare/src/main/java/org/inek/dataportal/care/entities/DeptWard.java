@@ -1,13 +1,11 @@
 package org.inek.dataportal.care.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.care.entities.version.MapVersion;
-import org.inek.dataportal.common.utils.DateUtils;
-import org.primefaces.model.SelectableDataModel;
+import org.inek.dataportal.care.utils.CareValueChecker;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,7 +14,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "DeptWard", schema = "care")
-public class DeptWard implements Serializable, SelectableDataModel {
+public class DeptWard implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -74,8 +72,10 @@ public class DeptWard implements Serializable, SelectableDataModel {
     //<editor-fold defaultstate="collapsed" desc="Dept">
     @ManyToOne
     @JoinColumn(name = "dwDeptId")
+    @JsonIgnore
     private Dept _dept;
 
+    @JsonIgnore
     public Dept getDept() {
         return _dept;
     }
@@ -239,15 +239,7 @@ public class DeptWard implements Serializable, SelectableDataModel {
 
     public void setLocationText(String locationText) {
         this._locationText = locationText;
-    }
-
-    public String getValidToDisplayText() {
-        if (_validTo.equals(DateUtils.getMaxDate())) {
-            return "unbegrenzt";
-        } else {
-            Format formatter = new SimpleDateFormat("dd.MM.yyyy");
-            return formatter.format(_validTo);
-        }
+        this._locationCodeVz = CareValueChecker.extractFormalValidVzNumber(locationText);
     }
 
 
@@ -291,15 +283,5 @@ public class DeptWard implements Serializable, SelectableDataModel {
                 ", _validFrom=" + _validFrom +
                 ", _validTo=" + _validTo +
                 '}';
-    }
-
-    @Override
-    public Object getRowKey(Object o) {
-        return null;
-    }
-
-    @Override
-    public Object getRowData(String s) {
-        return null;
     }
 }

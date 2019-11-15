@@ -1,40 +1,38 @@
 package org.inek.dataportal.calc.backingbean;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.calc.entities.autopsy.AutopsyItem;
+import org.inek.dataportal.calc.entities.autopsy.AutopsyServiceText;
+import org.inek.dataportal.calc.entities.autopsy.CalcBasicsAutopsy;
+import org.inek.dataportal.calc.facades.CalcAutopsyFacade;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.TransferFileCreator;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.helper.structures.MessageContainer;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.inek.dataportal.common.helper.TransferFileCreator;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.calc.entities.autopsy.AutopsyItem;
-import org.inek.dataportal.calc.entities.autopsy.AutopsyServiceText;
-import org.inek.dataportal.calc.entities.autopsy.CalcBasicsAutopsy;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.calc.facades.CalcAutopsyFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.helper.structures.MessageContainer;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.utils.DocumentationUtil;
+import static org.inek.dataportal.common.enums.TransferFileType.KGS;
 
 @Named
 @ViewScoped
@@ -332,7 +330,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         _calcBasics.setSealed(Calendar.getInstance().getTime());
         _calcBasics = _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
 
-        TransferFileCreator.createObjectTransferFile(_sessionController, _calcBasics, _calcBasics.getIk(), "KGS");
+        TransferFileCreator.createObjectTransferFile(_sessionController, _calcBasics, _calcBasics.getIk(), KGS);
 
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));

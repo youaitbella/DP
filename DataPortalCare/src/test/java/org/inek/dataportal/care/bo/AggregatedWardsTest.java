@@ -39,7 +39,8 @@ class AggregatedWardsTest {
         deptWard.setWardName(name);
         deptWard.setDeptName(deptName);
         deptWard.setLocationCodeP21(p21);
-        deptWard.setLocationCodeVz(vz);
+        //deptWard.setLocationCodeVz(vz); future usage
+        deptWard.setLocationText("" + vz);
         deptWard.setFab(fab);
         deptWard.setBedCount(bedCount);
         return deptWard;
