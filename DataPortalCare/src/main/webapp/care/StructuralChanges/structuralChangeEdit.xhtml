@@ -246,10 +246,10 @@
                     <!-- Neue Station -->
                     <div class="ui-g-12">
                         <h1>Informationen zur neuen Station</h1>
-                        <pf:dataTable
-                                value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.NEW)}"
-                                tableStyle="width: auto;"
-                                var="baseInfo">
+                        <pf:dataTable id="tableNewWard"
+                                      value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.NEW)}"
+                                      tableStyle="width: auto;"
+                                      var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
                                         deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
@@ -335,8 +335,8 @@
                                 <pf:inputTextarea id="commentNew"
                                                   value="#{baseInfo.wardsToChange.comment}"
                                                   readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                  validator="#{structuralChangesEdit.isCommentValid}"
-                                                  validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"
+                                                  required="true"
+                                                  requiredMessage="Bitte geben Sie eine Anmerkung an"
                                                   maxlength="500"
                                                   style="width: 95%"
                                                   rows="2">
@@ -354,10 +354,10 @@
                     <!-- Stationsänderung -->
                     <div class="ui-g-12">
                         <h1>Stationsdaten ändern</h1>
-                        <pf:dataTable
-                                value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CHANGE)}"
-                                tableStyle="width: auto;"
-                                var="baseInfo">
+                        <pf:dataTable id="tableChangeWard"
+                                      value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CHANGE)}"
+                                      tableStyle="width: auto;"
+                                      var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
                                         deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
@@ -465,8 +465,8 @@
                                 <pf:inputTextarea id="commentChange"
                                                   value="#{baseInfo.wardsToChange.comment}"
                                                   readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                  validator="#{structuralChangesEdit.isCommentValid}"
-                                                  validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"
+                                                  required="true"
+                                                  requiredMessage="Bitte geben Sie eine Anmerkung an"
                                                   maxlength="500"
                                                   style="width: 95%"
                                                   rows="2">
@@ -484,10 +484,10 @@
                      jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE).size() gt 0}">
                     <div class="ui-g-12">
                         <h1>Station löschen</h1>
-                        <pf:dataTable
-                                value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE)}"
-                                tableStyle="width: auto;"
-                                var="baseInfo">
+                        <pf:dataTable id="tableCloseWard"
+                                      value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE)}"
+                                      tableStyle="width: auto;"
+                                      var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
                                         rendered="#{not structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
@@ -545,8 +545,8 @@
                                 <pf:inputTextarea id="commentclose"
                                                   value="#{baseInfo.wardsToChange.comment}"
                                                   readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                  validator="#{structuralChangesEdit.isCommentValid}"
-                                                  validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"
+                                                  required="true"
+                                                  requiredMessage="Bitte geben Sie eine Anmerkung an"
                                                   maxlength="500"
                                                   style="width: 95%"
                                                   rows="2">
@@ -564,10 +564,10 @@
                      jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE_TEMP).size() gt 0}">
                     <div class="ui-g-12">
                         <h1>Station temporär abmelden</h1>
-                        <pf:dataTable
-                                value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE_TEMP)}"
-                                tableStyle="width: auto;"
-                                var="baseInfo">
+                        <pf:dataTable id="tableCloseTempWard"
+                                      value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE_TEMP)}"
+                                      tableStyle="width: auto;"
+                                      var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
                                         rendered="#{not structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
@@ -607,11 +607,15 @@
                                              mask="true"
                                              mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                             inputStyle="text-align: right;"/>
+                                             inputStyle="text-align: right;">
+                                    <pf:ajax event="dateSelect" update="dateValidTo"/>
+                                </pf:calendar>
                             </pf:column>
 
                             <pf:column headerText="Änderung gültig bis">
-                                <pf:calendar value="#{baseInfo.wardsToChange.validTo}"
+                                <pf:calendar id="dateValidTo"
+                                             value="#{baseInfo.wardsToChange.validTo}"
+                                             mindate="#{baseInfo.wardsToChange.validFrom}"
                                              required="true"
                                              requiredMessage="Bitte ein Datum angeben"
                                              locale="de"
@@ -637,8 +641,8 @@
                                 <pf:inputTextarea id="commentcloseTmp"
                                                   value="#{baseInfo.wardsToChange.comment}"
                                                   readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                  validator="#{structuralChangesEdit.isCommentValid}"
-                                                  validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"
+                                                  required="true"
+                                                  requiredMessage="Bitte geben Sie eine Anmerkung an"
                                                   maxlength="500"
                                                   style="width: 95%"
                                                   rows="2">

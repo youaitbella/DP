@@ -25,6 +25,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
+import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -216,6 +217,7 @@ public class StructuralChangesEdit implements Serializable {
         change.setStructuralChangesType(StructuralChangesType.CHANGE);
         change.setWardsToChange(createNewWardsToChange(ward));
         _structuralChangesBaseInformation.addStructuralChanges(change);
+        scrollToId("change:tableChangeWard");
     }
 
     public void closeWardTemp(DeptWard ward) {
@@ -223,6 +225,7 @@ public class StructuralChangesEdit implements Serializable {
         change.setStructuralChangesType(StructuralChangesType.CLOSE_TEMP);
         change.setWardsToChange(createNewWardsToChangeForTempClose(ward));
         _structuralChangesBaseInformation.addStructuralChanges(change);
+        scrollToId("change:tableCloseTempWard");
     }
 
     public void closeWard(DeptWard ward) {
@@ -230,6 +233,7 @@ public class StructuralChangesEdit implements Serializable {
         change.setStructuralChangesType(StructuralChangesType.CLOSE);
         change.setWardsToChange(createNewWardsToChange(ward));
         _structuralChangesBaseInformation.addStructuralChanges(change);
+        scrollToId("change:tableCloseWard");
     }
 
     public void createNewWard() {
@@ -237,6 +241,11 @@ public class StructuralChangesEdit implements Serializable {
         change.setStructuralChangesType(StructuralChangesType.NEW);
         change.setWardsToChange(new WardsToChange());
         _structuralChangesBaseInformation.addStructuralChanges(change);
+        scrollToId("change:tableNewWard");
+    }
+
+    private void scrollToId(String id) {
+        PrimeFaces.current().scrollTo(id);
     }
 
     public void createNewWardFromSelectedWards() {
@@ -287,11 +296,18 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void save() {
+        if (baseInformationHasErrors(_structuralChangesBaseInformation)) {
+            return;
+        }
+
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
         DialogController.showSaveDialog();
     }
 
     public void send() {
+        if (baseInformationHasErrors(_structuralChangesBaseInformation)) {
+            return;
+        }
         if (_structuralChangesBaseInformation.getStructuralChanges().size() == 0) {
             DialogController.showInfoDialog("Senden nicht möglich", "Bitte geben Sie mindestens eine Strukturelle Veränderung an.");
             return;
@@ -304,6 +320,18 @@ public class StructuralChangesEdit implements Serializable {
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
         sendMail("StructuralChangesSendConfirm");
         DialogController.showSendDialog();
+    }
+
+    public boolean baseInformationHasErrors(StructuralChangesBaseInformation baseInfo) {
+        List<StructuralChanges> structuralChanges = getChangesBaseInformationsByType(StructuralChangesType.CLOSE_TEMP);
+        for (StructuralChanges structuralChange : structuralChanges) {
+            if (structuralChange.getWardsToChange().getValidFrom().after(structuralChange.getWardsToChange().getValidTo())) {
+                DialogController.showInfoDialog("Temporäre Abmeldungen unplausibel",
+                        "Bei den temporären Abmeldungen gibt es unplausible Gültigkeitszeiträume. Bitte korrigieren Sie Ihre Eingabe");
+                return true;
+            }
+        }
+        return false;
     }
 
     public void isFabValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
@@ -341,7 +369,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
-        int locationCode = (Integer) value;
+        /*int locationCode = (Integer) value;
 
         if (locationCode == 0) {
             return;
@@ -349,7 +377,7 @@ public class StructuralChangesEdit implements Serializable {
 
         if (!CareValueChecker.isFormalValidVzNumber(value.toString())) {
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
-        }
+        }*/
     }
 
     public void navigateToSummary() {

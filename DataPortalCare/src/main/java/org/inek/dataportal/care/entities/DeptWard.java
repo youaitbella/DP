@@ -3,9 +3,12 @@ package org.inek.dataportal.care.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.care.utils.CareValueChecker;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -240,6 +243,15 @@ public class DeptWard implements Serializable {
     public void setLocationText(String locationText) {
         this._locationText = locationText;
         this._locationCodeVz = CareValueChecker.extractFormalValidVzNumber(locationText);
+    }
+
+    public String getValidToDisplayText() {
+        if (_validTo.equals(DateUtils.getMaxDate())) {
+            return "unbegrenzt";
+        } else {
+            Format formatter = new SimpleDateFormat("dd.MM.yyyy");
+            return formatter.format(_validTo);
+        }
     }
 
 
