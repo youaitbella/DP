@@ -241,7 +241,10 @@
                             </pf:column>
                             <pf:column headerText="Pflegesensitiver Bereich">
                                 <pf:selectOneMenu value="#{baseInfo.wardsToChange.sensitiveAreaId}"
+                                                  required="true"
                                                   disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}">
+                                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                                  noSelectionOption="true"/>
                                     <f:selectItems value="#{structuralChangesEdit.sensitiveAreas}"/>
                                     <pf:ajax update="fabNew" />
                                 </pf:selectOneMenu>

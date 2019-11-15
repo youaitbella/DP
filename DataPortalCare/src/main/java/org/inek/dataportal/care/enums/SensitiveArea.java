@@ -7,7 +7,7 @@ public enum SensitiveArea {
     UNFALLCHIRUGIE(4, "Unfallchirurgie", true),
     KARDIOLOGIE(5, "Kardiologie", true),
     NEUROLOGIE(6, "Neurologie", true),
-    NEURO_STROKE(7, "Neurologie Schlaganfalleinheit", false),
+    NEURO_STROKE(7, "Neurologische Schlaganfalleinheit", false),
     NEURO_FRUH(8, "Neurologische Frührehabilitation", false);
 
     private int _id;

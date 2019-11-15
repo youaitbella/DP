@@ -123,6 +123,15 @@ public class StructuralChangesSummary implements Serializable {
         return iks;
     }
 
+    public void deleteBaseInformation(StructuralChangesBaseInformation baseInfo) {
+        _structuralChangesFacade.deleteBaseInformation(baseInfo);
+    }
+
+    public boolean isDeleteAllowed(StructuralChangesBaseInformation baseInfo) {
+        //TODO check
+        return true;
+    }
+
     public String formatDate(Date date) {
         Format formatter = new SimpleDateFormat("dd.MM.yyyy");
         return formatter.format(date);

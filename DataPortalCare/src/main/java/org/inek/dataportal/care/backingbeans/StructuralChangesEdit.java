@@ -19,8 +19,10 @@ import org.inek.dataportal.care.facades.StructuralChangesFacade;
 import org.inek.dataportal.care.utils.CareValueChecker;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 
@@ -163,6 +165,12 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public boolean isReadOnly() {
+        if (_structuralChangesBaseInformation.getId() == null) {
+            return false;
+        }
+        if (_structuralChangesBaseInformation.getStructuralChanges().isEmpty()) {
+            return false;
+        }
         return _structuralChangesBaseInformation.getStructuralChanges()
                 .stream()
                 .allMatch(sc -> sc.getStatus().getId() >= WorkflowStatus.Provided.getId());
@@ -284,11 +292,17 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void send() {
+        if (_structuralChangesBaseInformation.getStructuralChanges().size() == 0) {
+            DialogController.showInfoDialog("Senden nicht möglich", "Bitte geben Sie mindestens eine Strukturelle Veränderung an.");
+            return;
+        }
+
         for (StructuralChanges changes : _structuralChangesBaseInformation.getStructuralChanges()) {
             changes.setStatus(WorkflowStatus.Provided);
         }
 
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
+        sendMail("StructuralChangesSendConfirm");
         DialogController.showSendDialog();
     }
 
@@ -347,6 +361,13 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public boolean changeAllowed() {
+        if (_structuralChangesBaseInformation.getId() == null) {
+            return false;
+        }
+        if (_structuralChangesBaseInformation.getStructuralChanges().isEmpty()) {
+            return false;
+        }
+
         return _structuralChangesBaseInformation.getStructuralChanges()
                 .stream()
                 .allMatch(sc -> sc.getStatus().getId() >= WorkflowStatus.Provided.getId());
@@ -366,5 +387,20 @@ public class StructuralChangesEdit implements Serializable {
         }
 
         return SensitiveArea.getById(sensitiveAreaId).isFabRequired();
+    }
+
+    private void sendMail(String mailTemplateName) {
+        String salutation = _sessionController.getMailer().getFormalSalutation(_sessionController.getAccount());
+
+        MailTemplate template = _sessionController.getMailer().getMailTemplate(mailTemplateName);
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", Integer.toString(_structuralChangesBaseInformation.getIk()));
+
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
+
+        if (!_sessionController.getMailer().sendMailTemplate(template, _sessionController.getAccount().getEmail())) {
+            LOGGER.log(Level.SEVERE, "Fehler beim Emailversand an " + _structuralChangesBaseInformation.getIk() + "(Care Proof)");
+            _sessionController.getMailer().sendException(Level.SEVERE,
+                    "Fehler beim Emailversand an " + _structuralChangesBaseInformation.getIk() + "(Struktuelle Veränderung)", new Exception());
+        }
     }
 }
