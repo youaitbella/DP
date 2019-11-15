@@ -33,6 +33,7 @@ import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.resource.spi.work.Work;
 import java.io.Serializable;
 import java.util.*;
 import java.util.List;
@@ -162,7 +163,9 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public boolean isReadOnly() {
-        return false;
+        return _structuralChangesBaseInformation.getStructuralChanges()
+                .stream()
+                .allMatch(sc -> sc.getStatus().getId() >= WorkflowStatus.Provided.getId());
     }
 
     public boolean structuralChangesIsReadOnly(StructuralChanges change) {
@@ -210,7 +213,7 @@ public class StructuralChangesEdit implements Serializable {
     public void closeWardTemp(DeptWard ward) {
         StructuralChanges change = createNewChanges();
         change.setStructuralChangesType(StructuralChangesType.CLOSE_TEMP);
-        change.setWardsToChange(createNewWardsToChange(ward));
+        change.setWardsToChange(createNewWardsToChangeForTempClose(ward));
         _structuralChangesBaseInformation.addStructuralChanges(change);
     }
 
@@ -249,6 +252,14 @@ public class StructuralChangesEdit implements Serializable {
             structuralChangesWards.setDeptWard(selectedWard);
             change.addStructuralChangesWards(structuralChangesWards);
         }
+    }
+
+    private WardsToChange createNewWardsToChangeForTempClose(DeptWard ward) {
+        WardsToChange wardsToChange = new WardsToChange(ward);
+        wardsToChange.setDeptWard(ward);
+        wardsToChange.setValidFrom(null);
+        wardsToChange.setValidTo(null);
+        return wardsToChange;
     }
 
     private WardsToChange createNewWardsToChange(DeptWard ward) {
@@ -333,5 +344,27 @@ public class StructuralChangesEdit implements Serializable {
 
     public void ikChanged() {
         _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk(), new Date());
+    }
+
+    public boolean changeAllowed() {
+        return _structuralChangesBaseInformation.getStructuralChanges()
+                .stream()
+                .allMatch(sc -> sc.getStatus().getId() >= WorkflowStatus.Provided.getId());
+    }
+
+    public void change() {
+        for (StructuralChanges changes : _structuralChangesBaseInformation.getStructuralChanges()) {
+            changes.setStatus(WorkflowStatus.New);
+        }
+    }
+
+    public boolean fabRequired(WardsToChange wardToChange) {
+        Integer sensitiveAreaId = wardToChange.getSensitiveAreaId();
+
+        if (sensitiveAreaId == null) {
+            return true;
+        }
+
+        return SensitiveArea.getById(sensitiveAreaId).isFabRequired();
     }
 }

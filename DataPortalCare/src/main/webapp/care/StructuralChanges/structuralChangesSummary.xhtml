@@ -4,7 +4,9 @@
                 template="/WEB-INF/template.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:pf="http://primefaces.org/ui" >
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
+                xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="title">Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)</ui:define>
 
@@ -26,6 +28,13 @@
                         <f:facet name="header">
                             In Erfassung
                         </f:facet>
+                        <pf:column style="width: 20px;">
+                            <inekIcon:DeleteIcon
+                                    deleteFunction="#{structuralChangesSummary.deleteBaseInformation(baseInfo)}"
+                                    show="#{structuralChangesSummary.isDeleteAllowed(baseinfo)}"
+                                    showConfirmDialog="true"
+                                    updateElement="openTable"/>
+                        </pf:column>
                         <pf:column headerText="IK">
                             <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
                                     value="#{baseinfo.ik}">
@@ -78,8 +87,25 @@
                                 <f:param name="id" value="#{baseinfo.id}"/>
                             </h:link>
                         </pf:column>
+
+                        <pf:column headerText="Gesendet am">
+                            <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                    value="#{structuralChangesSummary.formatDate(baseinfo.requestedAt)}">
+                                <f:param name="id" value="#{baseinfo.id}"/>
+                            </h:link>
+                        </pf:column>
                     </pf:dataTable>
                 </div>
+
+                <div class="ui-g-12">
+                    <div jsf:rendered="#{not structuralChangesSummary.isCreateEntryAllowed()}"
+                         style="text-align: justify; border: 10px solid #ffa727; padding: 10px;">
+                        <br/>
+                        <b> Infotext </b>
+                        <p>Kein Eintrag möglich</p>
+                    </div>
+                </div>
+
             </div>
         </div>
 

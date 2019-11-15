@@ -6,17 +6,21 @@
 package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -71,7 +75,7 @@ public class StructuralChangesSummary implements Serializable {
 
     private void loadSendedStructuralChangesBaseInformation() {
         for (Integer allowedIk : _allowedIks) {
-            _sendedBaseInformations = _structuralChangesFacade.findSendBaseInformationsByIk(allowedIk);
+            _sendedBaseInformations.addAll(_structuralChangesFacade.findSendBaseInformationsByIk(allowedIk));
         }
     }
 
@@ -92,7 +96,35 @@ public class StructuralChangesSummary implements Serializable {
     }
 
     public boolean isCreateEntryAllowed() {
-        return true;
+        Set<Integer> iks = loadValidIks();
+        return iks.size() > 0;
     }
 
+    private Set<Integer> loadValidIks() {
+        Set<Integer> iks = new HashSet<>();
+
+        Set<Integer> tmpAllowedIks = _sessionController.getAccount().getAccessRights().stream()
+                .filter(c -> c.canRead() && c.getFeature() == Feature.CARE)
+                .map(c -> c.getIk())
+                .collect(Collectors.toSet());
+
+        for (Integer ik : tmpAllowedIks) {
+            Optional<StructuralChangesBaseInformation> openBaseInformationsByIk = _structuralChangesFacade.findOpenBaseInformationsByIk(ik);
+            if (openBaseInformationsByIk.isPresent()) {
+                continue;
+            }
+
+            List<StructuralChangesBaseInformation> sendBaseInformationsByIk = _structuralChangesFacade.findSendBaseInformationsByIk(ik);
+            List<DeptBaseInformation> allByStatusAndIk = _deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, ik);
+            if (allByStatusAndIk.size() >= 1 && sendBaseInformationsByIk.size() == 0) {
+                iks.add(ik);
+            }
+        }
+        return iks;
+    }
+
+    public String formatDate(Date date) {
+        Format formatter = new SimpleDateFormat("dd.MM.yyyy");
+        return formatter.format(date);
+    }
 }

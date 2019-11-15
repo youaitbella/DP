@@ -36,7 +36,7 @@
                    resizable="true">
             <h:form>
                 <pf:dataTable value="#{structuralChangesEdit.wards}"
-
+                              tableStyle="width: 100%"
                               emptyMessage="Keine Daten vorhanden"
                               var="ward"
                               selection="#{structuralChangesEdit.selectedWards}"
@@ -114,12 +114,38 @@
             </div>
 
             <div class="ui-g">
-                <div class="card" style="width: 100%">
+                <div class="card" style="width: 100%" jsf:rendered="#{not structuralChangesEdit.readOnly}">
                     <div class="ui-g-12">
-                        <h1>Meldung struktureller Veränderungen</h1>
+                        <h1>Meldung von Umbenennungen oder strukturellen Veränderungen (§ 5 Abs. 4 PpUGV)</h1>
+
+                        <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
+                            <br/>
+                            Änderungen im Sinne des § 5 Abs. 4 PpUGV (ersatzloser Wegfall einer mitzuteilenden Fachabteilung oder Station oder eines pflegesensitiven Bereichs; Benennung von Nachfolgeeinheiten von Stationen oder mitzuteilenden Fachabteilungen (Umbenennungen oder strukturelle Veränderungen)) geben Sie diesem Bereich an.
+                            Nachfolgend werden in der Stationsübersicht alle Stationen angezeigt, welche Sie im Rahmen der Mitteilung gemäß § 5 Abs. 3 abschließend an das InEK übermittelt haben.
+                            <br/>
+                            <br/>
+                            Sie können Änderungen im Sinne des § 5 Abs. 4 PpUGV wie folgt erfassen:
+                            Änderungen, die bereits benannte Stationen betreffen, können Sie jeweils in der letzten Spalte unter dem Button „Aktionen“ vornehmen und entweder die „Stationsdaten ändern“, die „Station temporär abmelden“ oder die „Station löschen“. Unter der Überschrift „Weitere Aktionen“ können Sie zudem eine „neue Station hinzufügen“.
+                            <br/>
+                            <br/>
+                            Bei einem Fehleintrag können Sie die hinzugefügte Zeile mit dem „Papierkorb“-Button wieder löschen.
+                            <br/>
+                            <br/>
+                            Sie können Ihre Eingaben jederzeit speichern ohne diese direkt an das InEK zu übermitteln. So können Sie schrittweise arbeiten und erst nach Beendigung der Eingabe die Daten an das InEK übermitteln (Button „Meldung abschließend ans InEK senden“). Gespeicherte Meldungen finden Sie auf der Übersichtsseite unter dem Reiter „In Erfassung“. Sie können dort Ihre Änderung zu einem späteren Zeitpunkt erneut öffnen, weiter bearbeiten und abschließend an das InEK zu übermitteln (Button „Änderungsmeldung ans InEK senden“). Nach erfolgreicher Übermittlung erhalten Sie eine Bestätigung per E-Mail über den erfolgreichen Dateneingang im InEK. Es folgt ein technischer Freigabeprozess durch das InEK. Nach Abschluss der Prüfung werden Sie per E-Mail darüber informiert.
+                            <br/>
+                            <br/>
+                            Bei Fragen konsultieren Sie bitte den Text der Rechtsverordnung sowie die auf unserer Internetseite bereitgestellte
+                            <a href="https://www.g-drg.de/Pflegepersonaluntergrenzen_2020/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV_fuer_das_Jahr_2020/FAQ_PpUGV_2020"
+                               target="_blank">FAQ-Liste</a>. Bei darüber hinaus gehenden Fragestellungen können Sie sich gerne an das InEK wenden (per E-Mail:
+                            <a href="mailto:PPUGV-Umsetzung@inek-drg.de">PPUGV-Umsetzung@inek-drg.de</a> bzw. per Telefon: (02241) 93 82 500).
+                        </div>
+
+                        <br/>
+
+                        <h1>Stationsübersicht</h1>
 
                         <pf:dataTable value="#{structuralChangesEdit.wards}"
-                                      tableStyle="width: 100%;"
+                                      tableStyle="width: auto;"
                                       emptyMessage="Keine Daten vorhanden"
                                       var="ward"
                                       id="wardTable">
@@ -150,7 +176,7 @@
                                 </pf:outputLabel>
                             </pf:column>
                             <pf:column headerText="Gültig bis">
-                                <pf:outputLabel value="#{ward.validToDisplayText}" />
+                                <pf:outputLabel value="#{ward.validToDisplayText}"/>
                             </pf:column>
                             <pf:column>
                                 <pf:splitButton value="Aktionen">
@@ -173,7 +199,7 @@
                     <div class="ui-g-12">
                         <br/>
 
-                        <h2>Weitere Aktionen</h2>
+                        <h1>Weitere Aktionen</h1>
 
                         <br/>
 
@@ -217,12 +243,14 @@
                                 <pf:selectOneMenu value="#{baseInfo.wardsToChange.sensitiveAreaId}"
                                                   disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}">
                                     <f:selectItems value="#{structuralChangesEdit.sensitiveAreas}"/>
+                                    <pf:ajax update="fabNew" />
                                 </pf:selectOneMenu>
                             </pf:column>
                             <pf:column headerText="Fachabteilungsnummer">
-                                <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.fab}"
+                                <inekInput:InputTextValidator id="fabNew"
+                                                              value="#{baseInfo.wardsToChange.fab}"
                                                               Style="width: 95%;"
-                                                              require="true"
+                                                              require="#{structuralChangesEdit.fabRequired(baseInfo.wardsToChange)}"
                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                               validatorFunction="#{structuralChangesEdit.isFabValid}"
                                                               validatorMessage="Ungültige FAB"
@@ -259,7 +287,7 @@
                                 </ui:remove>
 
                                 <pf:inputText value="#{baseInfo.wardsToChange.locationVz}"
-                                              Style="width: 95%;"
+                                              style="width: 95%;"
                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"/>
 
                             </pf:column>
@@ -278,19 +306,25 @@
                                              navigator="true"
                                              pattern="dd.MM.yyyy"
                                              mask="true"
+                                             mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: right;"/>
                             </pf:column>
 
                             <pf:column headerText="Anmerkung">
-                                <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.comment}"
-                                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                              rendered="true"
-                                                              Style="width: 95%;"
-                                                              validatorFunction="#{structuralChangesEdit.isCommentValid}"
-                                                              validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"
-                                                              maxlength="500"/>
-                            </pf:column>
+                                <pf:inputTextarea id="commentNew"
+                                                  value="#{baseInfo.wardsToChange.comment}"
+                                                  readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                  validator="#{structuralChangesEdit.isCommentValid}"
+                                                  validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"
+                                                  maxlength="500"
+                                                  style="width: 95%"
+                                                  rows="2">
+                                    <pf:ajax update="commentNewMsg"/>
+                                </pf:inputTextarea>
+
+                                <pf:message id="commentNewMsg" for="commentNew"/>
+                            </pf:column>F
                         </pf:dataTable>
                     </div>
                 </div>
@@ -320,7 +354,7 @@
                                 <pf:separator/>
                                 <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.fab}"
                                                               Style="width: 95%;"
-                                                              require="true"
+                                                              require="#{structuralChangesEdit.fabRequired(baseInfo.wardsToChange)}"
                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                               validatorFunction="#{structuralChangesEdit.isFabValid}"
                                                               validatorMessage="Ungültige Fachabteilungsnummer"
@@ -352,7 +386,7 @@
                                                                 validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                                 Style="width: 95%;"/>
                             </pf:column>
-                            <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="text-align: right">
+                            <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V">
                                 <pf:outputLabel
                                         value="#{baseInfo.wardsToChange.deptWard.locationCodeVz}"/>
                                 <pf:separator/>
@@ -367,7 +401,7 @@
                                 </ui:remove>
 
                                 <pf:inputText value="#{baseInfo.wardsToChange.locationVz}"
-                                              Style="width: 95%;"
+                                              style="width: 95%;"
                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"/>
 
                             </pf:column>
@@ -390,6 +424,7 @@
                                              navigator="true"
                                              pattern="dd.MM.yyyy"
                                              mask="true"
+                                             mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: right;"/>
                             </pf:column>
@@ -406,16 +441,19 @@
                                 </pf:selectOneMenu>
                                 <pf:message for="catNew"/>
                             </pf:column>
-                            <pf:column headerText="Anmerkung">
-                                <pf:outputLabel value=" "/>
-                                <pf:separator/>
-                                <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.comment}"
-                                                              Style="width: 95%;"
-                                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                              rendered="true"
-                                                              maxlength="500"
-                                                              validatorFunction="#{structuralChangesEdit.isCommentValid}"
-                                                              validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"/>
+                            <pf:column headerText="Anmerkung" style="width: 200px">
+                                <pf:inputTextarea id="commentChange"
+                                                  value="#{baseInfo.wardsToChange.comment}"
+                                                  readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                  validator="#{structuralChangesEdit.isCommentValid}"
+                                                  validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"
+                                                  maxlength="500"
+                                                  style="width: 95%"
+                                                  rows="2">
+                                    <pf:ajax update="commentChangeMsg"/>
+                                </pf:inputTextarea>
+
+                                <pf:message id="commentChangeMsg" for="commentChange"/>
                             </pf:column>
                         </pf:dataTable>
                     </div>
@@ -467,6 +505,7 @@
                                              navigator="true"
                                              pattern="dd.MM.yyyy"
                                              mask="true"
+                                             mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: right;"/>
                             </pf:column>
@@ -483,13 +522,18 @@
                                 <pf:message for="catDelete"/>
                             </pf:column>
                             <pf:column headerText="Anmerkung">
-                                <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.comment}"
-                                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                              rendered="true"
-                                                              Style="width: 95%;"
-                                                              maxlength="500"
-                                                              validatorFunction="#{structuralChangesEdit.isCommentValid}"
-                                                              validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"/>
+                                <pf:inputTextarea id="commentclose"
+                                                  value="#{baseInfo.wardsToChange.comment}"
+                                                  readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                  validator="#{structuralChangesEdit.isCommentValid}"
+                                                  validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"
+                                                  maxlength="500"
+                                                  style="width: 95%"
+                                                  rows="2">
+                                    <pf:ajax update="commentcloseMsg"/>
+                                </pf:inputTextarea>
+
+                                <pf:message id="commentcloseMsg" for="commentclose"/>
                             </pf:column>
                         </pf:dataTable>
                     </div>
@@ -541,6 +585,7 @@
                                              navigator="true"
                                              pattern="dd.MM.yyyy"
                                              mask="true"
+                                             mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: right;"/>
                             </pf:column>
@@ -569,13 +614,18 @@
                                 <pf:message for="catCloseTmp"/>
                             </pf:column>
                             <pf:column headerText="Anmerkung">
-                                <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.comment}"
-                                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                              rendered="true"
-                                                              Style="width: 95%;"
-                                                              maxlength="500"
-                                                              validatorFunction="#{structuralChangesEdit.isCommentValid}"
-                                                              validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"/>
+                                <pf:inputTextarea id="commentcloseTmp"
+                                                  value="#{baseInfo.wardsToChange.comment}"
+                                                  readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                  validator="#{structuralChangesEdit.isCommentValid}"
+                                                  validatorMessage="Kommentar zu kurz(Mindestens 20 Zeichen)"
+                                                  maxlength="500"
+                                                  style="width: 95%"
+                                                  rows="2">
+                                    <pf:ajax update="commentcloseTmpMsg"/>
+                                </pf:inputTextarea>
+
+                                <pf:message id="commentcloseTmpMsg" for="commentcloseTmp"/>
                             </pf:column>
                         </pf:dataTable>
                     </div>
@@ -626,7 +676,7 @@
                                     </pf:outputLabel>
                                 </pf:column>
                                 <pf:column headerText="Gültig bis" style="width: 100px;">
-                                    <pf:outputLabel value="#{structuralChangesWard.deptWard.validToDisplayText}" />
+                                    <pf:outputLabel value="#{structuralChangesWard.deptWard.validToDisplayText}"/>
                                 </pf:column>
                             </pf:dataTable>
 
@@ -705,7 +755,7 @@
                                         </ui:remove>
 
                                         <pf:inputText value="#{baseInfo.wardsToChange.locationVz}"
-                                                      Style="width: 95%;"
+                                                      style="width: 95%;"
                                                       readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"/>
 
                                     </pf:column>
@@ -724,6 +774,7 @@
                                                      navigator="true"
                                                      pattern="dd.MM.yyyy"
                                                      mask="true"
+                                                     mindate="1.1.2018"
                                                      disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                      inputStyle="text-align: right;"/>
                                     </pf:column>
@@ -744,9 +795,17 @@
                 </div>
                 <div class="card" style="width: 100%">
                     <div class="ui-g-12">
+                        <pf:commandButton value="Datensatz ändern"
+                                          action="#{structuralChangesEdit.change()}"
+                                          rendered="#{structuralChangesEdit.changeAllowed()}"
+                                          immediate="true"
+                                          style="margin-left: 10px;"
+                                          update="@(.ui-message) @form"/>
+
                         <pf:commandButton value="Speichern ohne Senden"
                                           action="#{structuralChangesEdit.save()}"
                                           style="margin-left: 10px;"
+                                          rendered="#{not structuralChangesEdit.readOnly}"
                                           update="@(.ui-message) @form"/>
 
                         <pf:commandButton value="Änderungsmeldung ans InEK senden"
@@ -755,6 +814,7 @@
                                           style="margin-left: 10px;"
                                           icon="fa fa-arrow-right"
                                           iconPos="right"
+                                          rendered="#{not structuralChangesEdit.readOnly}"
                                           update="@(.ui-message) @form"/>
                     </div>
                 </div>

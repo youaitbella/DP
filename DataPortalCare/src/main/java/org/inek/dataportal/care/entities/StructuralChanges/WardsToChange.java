@@ -1,6 +1,7 @@
 package org.inek.dataportal.care.entities.StructuralChanges;
 
 import org.inek.dataportal.care.entities.DeptWard;
+import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.persistence.*;
@@ -28,6 +29,7 @@ public class WardsToChange implements Serializable {
         _beds = station.getBedCount();
         _validFrom = station.getValidFrom();
         _validTo = station.getValidTo();
+        _sensitiveAreaId = SensitiveArea.getByName(station.getDept().getSensitiveArea()).getId();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
