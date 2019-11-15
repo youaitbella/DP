@@ -1,5 +1,6 @@
 package org.inek.dataportal.care.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -183,10 +184,17 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
     //<editor-fold desc="Property CurrentVersion">
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "dbiCurrentVersionId", referencedColumnName = "verId")
+    @JsonIgnore
     private MapVersion currentVersion;
 
+    @JsonIgnore
     public MapVersion getCurrentVersion() {
         return currentVersion;
+    }
+
+    // for Json only - do not delete
+    public int getCurrentVersionId() {
+        return currentVersion.getId();
     }
 
     public void setCurrentVersion(MapVersion mapVersion) {
