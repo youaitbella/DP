@@ -40,7 +40,7 @@ public class StructuralChanges implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
     @Column(name = "scStatusId")
-    private int _statusId;
+    private int _statusId = WorkflowStatus.New.getId();
 
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
@@ -49,6 +49,7 @@ public class StructuralChanges implements Serializable {
     public void setStatus(WorkflowStatus status) {
         this._statusId = status.getId();
     }
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property AgentId">

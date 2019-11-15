@@ -47,6 +47,19 @@ public class StructuralChangesBaseInformation implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property StatusId">
+    @Column(name = "scStatusId")
+    private int _statusId;
+
+    public WorkflowStatus getStatus() {
+        return WorkflowStatus.fromValue(_statusId);
+    }
+
+    public void setStatus(WorkflowStatus status) {
+        this._statusId = status.getId();
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property RequestedAt">
     @Column(name = "scRequestedAt")
     private Date _requestedAt;
@@ -96,7 +109,7 @@ public class StructuralChangesBaseInformation implements Serializable {
 
 
     public String getStatusText() {
-        List<WorkflowStatus> states = _structuralChanges.stream().map(StructuralChanges::getStatus).collect(Collectors.toList());
+        /*List<WorkflowStatus> states = _structuralChanges.stream().map(StructuralChanges::getStatus).collect(Collectors.toList());
 
         if (states.stream().allMatch(c -> c.equals(WorkflowStatus.New))) {
             return "In Erfassung durch Krankenhaus";
@@ -104,8 +117,13 @@ public class StructuralChangesBaseInformation implements Serializable {
 
         if (states.stream().allMatch(c -> c.equals(WorkflowStatus.Provided))) {
             return "In Prüfung";
-        }
+        }*/
 
+        if (getStatus().equals(WorkflowStatus.New)) {
+            return "In Erfassung durch Krankenhaus";
+        } else if (getStatus().equals(WorkflowStatus.Provided)) {
+            return "In Prüfung";
+        }
         return "Unbekannt";
 
     }

@@ -99,7 +99,7 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         List<StructuralChangesBaseInformation> baseInfo = findBaseInformationsByIk(ik);
 
         for (StructuralChangesBaseInformation structuralChangesBaseInformation : baseInfo) {
-            if (structuralChangesBaseInformation.getStructuralChanges().stream().allMatch(c -> c.getStatus().equals(WorkflowStatus.New))) {
+            if (structuralChangesBaseInformation.getStatus().equals(WorkflowStatus.New)) {
                 return Optional.of(structuralChangesBaseInformation);
             }
         }
@@ -111,8 +111,7 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
 
         List<StructuralChangesBaseInformation> tmpList = new ArrayList<>();
         for (StructuralChangesBaseInformation structuralChangesBaseInformation : baseInfo) {
-            if (structuralChangesBaseInformation.getStructuralChanges().stream().noneMatch(c -> c.getStatus().equals(WorkflowStatus.New))
-                    && !structuralChangesBaseInformation.getStructuralChanges().isEmpty()) {
+            if(structuralChangesBaseInformation.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
                 tmpList.add(structuralChangesBaseInformation);
             }
         }

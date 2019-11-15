@@ -169,12 +169,7 @@ public class StructuralChangesEdit implements Serializable {
         if (_structuralChangesBaseInformation.getId() == null) {
             return false;
         }
-        if (_structuralChangesBaseInformation.getStructuralChanges().isEmpty()) {
-            return false;
-        }
-        return _structuralChangesBaseInformation.getStructuralChanges()
-                .stream()
-                .allMatch(sc -> sc.getStatus().getId() >= WorkflowStatus.Provided.getId());
+        return _structuralChangesBaseInformation.getStatus().getId() >= WorkflowStatus.Provided.getId();
     }
 
     public boolean structuralChangesIsReadOnly(StructuralChanges change) {
@@ -185,6 +180,7 @@ public class StructuralChangesEdit implements Serializable {
         StructuralChangesBaseInformation baseInfo = new StructuralChangesBaseInformation();
         baseInfo.setRequestedAccountId(_sessionController.getAccountId());
         baseInfo.setRequestedAt(new Date());
+        baseInfo.setStatus(WorkflowStatus.New);
         return baseInfo;
     }
 
@@ -287,7 +283,6 @@ public class StructuralChangesEdit implements Serializable {
 
     private StructuralChanges createNewChanges() {
         StructuralChanges change = new StructuralChanges();
-        change.setStatus(WorkflowStatus.New);
         return change;
     }
 
@@ -312,6 +307,8 @@ public class StructuralChangesEdit implements Serializable {
             DialogController.showInfoDialog("Senden nicht möglich", "Bitte geben Sie mindestens eine Strukturelle Veränderung an.");
             return;
         }
+
+        _structuralChangesBaseInformation.setStatus(WorkflowStatus.Provided);
 
         for (StructuralChanges changes : _structuralChangesBaseInformation.getStructuralChanges()) {
             changes.setStatus(WorkflowStatus.Provided);
@@ -392,16 +389,12 @@ public class StructuralChangesEdit implements Serializable {
         if (_structuralChangesBaseInformation.getId() == null) {
             return false;
         }
-        if (_structuralChangesBaseInformation.getStructuralChanges().isEmpty()) {
-            return false;
-        }
 
-        return _structuralChangesBaseInformation.getStructuralChanges()
-                .stream()
-                .allMatch(sc -> sc.getStatus().getId() >= WorkflowStatus.Provided.getId());
+        return _structuralChangesBaseInformation.getStatus().getId() >= WorkflowStatus.Provided.getId();
     }
 
     public void change() {
+        _structuralChangesBaseInformation.setStatus(WorkflowStatus.New);
         for (StructuralChanges changes : _structuralChangesBaseInformation.getStructuralChanges()) {
             changes.setStatus(WorkflowStatus.New);
         }
