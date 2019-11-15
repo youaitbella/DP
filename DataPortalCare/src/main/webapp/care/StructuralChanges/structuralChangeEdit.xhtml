@@ -142,6 +142,23 @@
 
                         <br/>
 
+                        <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
+                            <pf:fieldset legend="Ausfüllhinweise"
+                                         style="border: none"
+                                         toggleable="true"
+                                         toggleSpeed="500"
+                                         collapsed="true">
+                                <p>Möchten Sie eine Nachfolgeeinheit einer Station (aufgrund von Umbenennung oder struktureller Änderung) benennen, nutzen Sie bitte den Button „Stationsdaten ändern“ in der Zeile der entsprechenden Station und geben Sie dort die Daten der neuen Station ein und benennen die Kategorie entsprechend der gemachten Änderung. Die ursprüngliche genannte Station wird damit zum Datum ihrer Gültigkeitsangabe ungültig / “abgemeldet“.</p>
+                                <p>Möchten Sie Nachfolgeeinheiten einer Fachabteilung (aufgrund von Umbenennung oder struktureller Änderung) benennen, nutzen Sie bitte den Button „Stationsdaten ändern“ in der Zeile der entsprechenden Station(en) mit diesem FAB-Schlüssel. Geben Sie in den neuen Tabellenzeilen die neuen Fachabteilungsschlüssel ein und wählen die Kategorie entsprechend Ihrer Änderung. Sie können zudem das Datum angeben ab wann diese Änderung gültig ist.</p>
+                                <p>Möchten Sie mehrere Stationen zu einer (neuen oder bestehenden) Station zusammenfassen (aufgrund von Umbenennung oder struktureller Änderung) können Sie für die entsprechenden Stationen den Button „Stationsdaten ändern“ benutzen und bei diesen Stationen entweder die Daten einer bestehenden Station eintragen (identische Stationsnamen sind zu verwenden), zu welcher die Stationen zusammengefasst werden oder eine neue Station eintragen. Sie können zudem das Datum angeben ab wann diese Änderung gültig ist.</p>
+                                <p>Möchten Sie den ersatzlosen Wegfall einer Fachabteilung anzeigen (z.B. da Ihr Krankenhaus diesen Bereich nicht weiter führt), benutzen Sie bitte den Button Station löschen und benennen die „Kategorie“ entsprechend der gemachten Änderung. Sie können zudem das Datum angeben ab wann diese Änderung gültig ist.</p>
+                                <p>Möchten Sie den ersatzloser Wegfall einer Station (z.B. wegen Schließung der Station) mitteilen, benutzen Sie bitte den Button „Station löschen“, nennen das Datum der Schließung und benennen die „Kategorie“ entsprechend der gemachten Änderung. Sie können zudem das Datum angeben ab wann diese Änderung gültig ist.</p>
+                                <p>Soll eine Station einem pflegesensitiven Bereich nicht mehr zugeordnet werden, da dieser ersatzlos wegfällt nutzen Sie bitte den Button „Station löschen“ in der Zeile der entsprechenden Station an und geben die entsprechende Kategorie an. Sie können zudem das Datum angeben ab wann diese Änderung gültig ist.</p>
+                                <p>Soll eine Station temporär geschlossen werden, nutzen Sie bitte den Button „Station löschen“ und nennen das Datum der Schließung und der Wiedereröffnung und benennen die „Kategorie“ entsprechend der gemachten Änderung.</p>
+                                <p>Möchten Sie eine neue Station hinzufügen, die keinen „Vorgänger“ hat, nutzen Sie bitte den Button „neue Station hinzufügen“ und füllen die entsprechenden Daten aus.</p>
+                            </pf:fieldset>
+                        </div>
+
                         <h1>Stationsübersicht</h1>
 
                         <pf:dataTable value="#{structuralChangesEdit.wards}"
@@ -246,7 +263,7 @@
                                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                                                   noSelectionOption="true"/>
                                     <f:selectItems value="#{structuralChangesEdit.sensitiveAreas}"/>
-                                    <pf:ajax update="fabNew" />
+                                    <pf:ajax update="fabNew"/>
                                 </pf:selectOneMenu>
                             </pf:column>
                             <pf:column headerText="Fachabteilungsnummer">
