@@ -25,6 +25,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.utils.VzUtils;
 import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
@@ -61,6 +62,8 @@ public class StructuralChangesEdit implements Serializable {
     private DeptFacade _deptFacade;
     @Inject
     private AccessManager _accessManager;
+    @Inject
+    private VzUtils _vzUtils;
 
     private List<DeptWard> _wards;
 
@@ -316,6 +319,7 @@ public class StructuralChangesEdit implements Serializable {
 
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
         sendMail("StructuralChangesSendConfirm");
+        Utils.navigate(Pages.CareStructuralChangesSummary.RedirectURL());
         DialogController.showSendDialog();
     }
 
@@ -366,15 +370,14 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
-        /*int locationCode = (Integer) value;
-
+        int locationCode = CareValueChecker.extractFormalValidVzNumber("" + value);
         if (locationCode == 0) {
             return;
         }
-
-        if (!CareValueChecker.isFormalValidVzNumber(value.toString())) {
-            throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
-        }*/
+        if (!_vzUtils.locationCodeIsValidForIk(_structuralChangesBaseInformation.getIk(), locationCode)) {
+            throw new ValidatorException(new FacesMessage(
+                    "In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."));
+        }
     }
 
     public void navigateToSummary() {

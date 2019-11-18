@@ -296,9 +296,11 @@
                                                      requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"/>
                             </pf:column>
                             <pf:column headerText="Stationsbezeichnung">
-                                <pf:inputText value="#{baseInfo.wardsToChange.wardName}"
-                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                              require="true"/>
+                                <inekInput:InputText value="#{baseInfo.wardsToChange.wardName}"
+                                                     require="true"
+                                                     readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                     Style="width: 95%;"
+                                                     requiredMessage="Bitte geben Sie eine Stationsbezeichnung ein"/>
                             </pf:column>
                             <pf:column headerText="Standort nach § 21 KHEntgG" style="text-align: right">
                                 <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationP21}"
@@ -318,9 +320,12 @@
                                                                     thousendSeperator=""/>
                                 </ui:remove>
 
-                                <pf:inputText value="#{baseInfo.wardsToChange.locationVz}"
-                                              style="width: 95%;"
-                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"/>
+                                <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.locationVz}"
+                                                              Style="width: 95%;"
+                                                              maxlength="100"
+                                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                              validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
+                                                              validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."/>
 
                             </pf:column>
                             <pf:column headerText="Bettenanzahl der Station" style="text-align: right">
@@ -404,9 +409,11 @@
                             <pf:column headerText="Stationsbezeichnung">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.wardName}"/>
                                 <pf:separator/>
-                                <pf:inputText value="#{baseInfo.wardsToChange.wardName}"
-                                              required="true"
-                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"/>
+                                <inekInput:InputText value="#{baseInfo.wardsToChange.wardName}"
+                                                     require="true"
+                                                     readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                     Style="width: 95%;"
+                                                     requiredMessage="Bitte geben Sie eine Stationsbezeichnung ein"/>
                             </pf:column>
                             <pf:column headerText="Standort nach § 21 KHEntgG" style="text-align: right">
                                 <pf:outputLabel
@@ -431,10 +438,12 @@
                                                                     thousendSeperator=""/>
 
                                 </ui:remove>
-
-                                <pf:inputText value="#{baseInfo.wardsToChange.locationVz}"
-                                              style="width: 95%;"
-                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"/>
+                                <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.locationVz}"
+                                                              Style="width: 95%;"
+                                                              maxlength="100"
+                                                              readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                              validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
+                                                              validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."/>
 
                             </pf:column>
                             <pf:column headerText="Bettenanzahl der Station" style="text-align: right">

@@ -133,6 +133,8 @@ public class StructuralChangesSummary implements Serializable {
         for (StructuralChanges changes : baseInfo.getStructuralChanges()) {
             changes.setStatus(WorkflowStatus.New);
         }
+        _sendedBaseInformations.remove(baseInfo);
+        _openBaseInformations.add(baseInfo);
         _structuralChangesFacade.save(baseInfo);
     }
 
