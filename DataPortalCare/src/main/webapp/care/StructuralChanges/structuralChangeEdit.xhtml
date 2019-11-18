@@ -327,18 +327,11 @@
 
                             </pf:column>
                             <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="text-align: right">
-                                <ui:remove>
-                                    <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationVz}"
-                                                                    Style="width: 95%;"
-                                                                    readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                                    validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
-                                                                    validatorMessage="Ungültiger Standort für dieses IK"
-                                                                    thousendSeperator=""/>
-                                </ui:remove>
-
                                 <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.locationVz}"
                                                               Style="width: 95%;"
                                                               maxlength="100"
+                                                              require="true"
+                                                              requiredMessage="Bitte geben Sie die Standortnummer nach § 293 Abs. 6 SGB V an oder benennen Sie den Standort möglichst präzise."
                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                               validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
                                                               validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."/>
@@ -445,18 +438,11 @@
                                 <pf:outputLabel
                                         value="#{baseInfo.wardsToChange.deptWard.locationCodeVz}"/>
                                 <pf:separator/>
-                                <ui:remove>
-                                    <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationVz}"
-                                                                    Style="width: 95%;"
-                                                                    readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                                    validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
-                                                                    validatorMessage="Ungültiger Standort für dieses IK"
-                                                                    thousendSeperator=""/>
-
-                                </ui:remove>
                                 <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.locationVz}"
                                                               Style="width: 95%;"
                                                               maxlength="100"
+                                                              require="true"
+                                                              requiredMessage="Bitte geben Sie die Standortnummer nach § 293 Abs. 6 SGB V an oder benennen Sie den Standort möglichst präzise."
                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                               validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
                                                               validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."/>

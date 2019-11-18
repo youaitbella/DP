@@ -127,6 +127,9 @@ public class StructuralChangesSummary implements Serializable {
     }
 
     public void deleteBaseInformation(StructuralChangesBaseInformation baseInfo) {
+        baseInfo.setStatus(WorkflowStatus.Retired);
+        TransferFileCreator.createObjectTransferFile(_sessionController, baseInfo,
+                baseInfo.getIk(), TransferFileType.CareChanges);
         _structuralChangesFacade.deleteBaseInformation(baseInfo);
     }
 
