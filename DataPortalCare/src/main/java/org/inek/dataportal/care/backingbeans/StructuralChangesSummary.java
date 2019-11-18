@@ -12,6 +12,8 @@ import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBase
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.TransferFileType;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -42,6 +44,9 @@ public class StructuralChangesSummary implements Serializable {
 
     @Inject
     private DeptFacade _deptFacade;
+
+    @Inject
+    private ConfigFacade _configFacade;
 
     private Set<Integer> _allowedIks = new HashSet<>();
 
@@ -99,6 +104,10 @@ public class StructuralChangesSummary implements Serializable {
     }
 
     public boolean isCreateEntryAllowed() {
+        if(!_configFacade.readConfigBool(ConfigKey.CareStructuralChangesEnable)) {
+            return false;
+        }
+
         Set<Integer> iks = loadValidIks();
         return iks.size() > 0;
     }
@@ -131,6 +140,7 @@ public class StructuralChangesSummary implements Serializable {
         TransferFileCreator.createObjectTransferFile(_sessionController, baseInfo,
                 baseInfo.getIk(), TransferFileType.CareChanges);
         _structuralChangesFacade.deleteBaseInformation(baseInfo);
+        _openBaseInformations.remove(baseInfo);
     }
 
     public void changeBaseInformation(StructuralChangesBaseInformation baseInfo) {

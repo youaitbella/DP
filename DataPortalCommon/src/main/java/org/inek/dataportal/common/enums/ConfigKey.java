@@ -66,7 +66,8 @@ public enum ConfigKey {
     isKhComparisionInsuranceEnabled(false),
     ReportHostName("vreportserver01"),
     VzHost("localhost:8000"),
-    VzRestCheckVzNumber("https://{vzHost}/api/intern/v1.0/LocationIdExists?hospital_ik={ik}&location_identifier={vzNumber}");
+    VzRestCheckVzNumber("https://{vzHost}/api/intern/v1.0/LocationIdExists?hospital_ik={ik}&location_identifier={vzNumber}"),
+    CareStructuralChangesEnable(true);
     //
     private final Object _defaultValue;
 
