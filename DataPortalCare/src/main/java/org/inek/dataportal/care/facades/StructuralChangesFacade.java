@@ -39,7 +39,7 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
 
     public List<DeptWard> findWardsByIkAndDate(int ik, Date date) {
         String sql = "select bi from DeptBaseInformation bi where bi._ik = :ik and " +
-                "bi._statusId in (10, 200) order by bi._year desc, bi._send desc";
+                "bi._statusId in (10, 200) and bi._year >= 2018 order by bi._year desc, bi._send desc";
         TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(sql, DeptBaseInformation.class);
         query.setParameter("ik", ik);
         List<DeptBaseInformation> resultList = query.getResultList();
