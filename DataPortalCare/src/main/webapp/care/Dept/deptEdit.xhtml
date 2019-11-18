@@ -100,7 +100,10 @@
                                           rendered="#{deptEdit.changeAllowed()}"
                                           immediate="true"
                                           style="margin-left: 10px;"
-                                          update="@(.ui-message) @form"/>
+                                          update="@(.ui-message) @form">
+                            <pf:confirm header="Wollen Sie den Eintrag wirklich zurückziehen?"
+                                        message="Sofern Sie bereits Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV) gemeldet haben, werden diese durch die Aktion gelöscht. Sie müssen alle Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV) erneut an das InEK übermitteln."/>
+                        </pf:commandButton>
 
                         <pf:commandButton value="Umbenennung oder strukturelle Veränderungen"
                                           action="#{sessionController.navigate('/care/StructuralChanges/structuralChangesSummary')}"
