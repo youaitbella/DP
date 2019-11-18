@@ -234,6 +234,7 @@ public class StructuralChangesEdit implements Serializable {
         StructuralChanges change = createNewChanges();
         change.setStructuralChangesType(StructuralChangesType.CLOSE);
         change.setWardsToChange(createNewWardsToChange(ward));
+        change.getWardsToChange().setValidFrom(null);
         _structuralChangesBaseInformation.addStructuralChanges(change);
         scrollToId("change:tableCloseWard");
     }
