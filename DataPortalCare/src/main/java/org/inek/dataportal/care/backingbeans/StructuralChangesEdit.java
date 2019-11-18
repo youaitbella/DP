@@ -21,8 +21,10 @@ import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.TransferFileType;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.MailTemplateHelper;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.utils.VzUtils;
@@ -297,8 +299,9 @@ public class StructuralChangesEdit implements Serializable {
         if (baseInformationHasErrors(_structuralChangesBaseInformation)) {
             return;
         }
-
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
+        TransferFileCreator.createObjectTransferFile(_sessionController, _structuralChangesBaseInformation,
+                _structuralChangesBaseInformation.getIk(), TransferFileType.CareChanges);
         DialogController.showSaveDialog();
     }
 
@@ -318,6 +321,8 @@ public class StructuralChangesEdit implements Serializable {
         }
 
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
+        TransferFileCreator.createObjectTransferFile(_sessionController, _structuralChangesBaseInformation,
+                _structuralChangesBaseInformation.getIk(), TransferFileType.CareChanges);
         sendMail("StructuralChangesSendConfirm");
         Utils.navigate(Pages.CareStructuralChangesSummary.RedirectURL());
         DialogController.showSendDialog();

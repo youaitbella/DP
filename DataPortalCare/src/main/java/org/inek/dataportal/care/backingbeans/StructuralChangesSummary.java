@@ -13,7 +13,9 @@ import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.TransferFileType;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -136,6 +138,8 @@ public class StructuralChangesSummary implements Serializable {
         _sendedBaseInformations.remove(baseInfo);
         _openBaseInformations.add(baseInfo);
         _structuralChangesFacade.save(baseInfo);
+        TransferFileCreator.createObjectTransferFile(_sessionController, baseInfo,
+                baseInfo.getIk(), TransferFileType.CareChanges);
     }
 
     public boolean isDeleteAllowed(StructuralChangesBaseInformation baseInfo) {

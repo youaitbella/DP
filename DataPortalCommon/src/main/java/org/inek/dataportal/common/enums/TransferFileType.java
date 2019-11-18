@@ -4,6 +4,7 @@ public enum TransferFileType {
     KGL,
     KGS,
     KGP,
+    CareChanges,
     CareWardNames,
     PPUGV,
     AEB,

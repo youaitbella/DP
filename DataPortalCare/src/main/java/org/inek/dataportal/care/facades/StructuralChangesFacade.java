@@ -11,6 +11,7 @@ import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBase
 import org.inek.dataportal.care.utils.CareDeptStationHelper;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
