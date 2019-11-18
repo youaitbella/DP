@@ -7,6 +7,7 @@ package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
+import org.inek.dataportal.care.entities.StructuralChanges.StructuralChanges;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
@@ -127,9 +128,21 @@ public class StructuralChangesSummary implements Serializable {
         _structuralChangesFacade.deleteBaseInformation(baseInfo);
     }
 
+    public void changeBaseInformation(StructuralChangesBaseInformation baseInfo) {
+        baseInfo.setStatus(WorkflowStatus.New);
+        for (StructuralChanges changes : baseInfo.getStructuralChanges()) {
+            changes.setStatus(WorkflowStatus.New);
+        }
+        _structuralChangesFacade.save(baseInfo);
+    }
+
     public boolean isDeleteAllowed(StructuralChangesBaseInformation baseInfo) {
         //TODO check
         return true;
+    }
+
+    public boolean isChangeAllowed(StructuralChangesBaseInformation baseInfo) {
+        return baseInfo.getStatus().getId() >= WorkflowStatus.Provided.getId();
     }
 
     public String formatDate(Date date) {
