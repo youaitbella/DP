@@ -70,6 +70,11 @@ public class Dept implements Serializable {
         return _baseInformation;
     }
 
+    // for Json only - do not delete
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
+    }
+
     public void setBaseInformation(DeptBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
     }
@@ -126,6 +131,7 @@ public class Dept implements Serializable {
         this._location = location;
     }
 
+    @JsonIgnore
     public String getLocationForDisplay() {
         return "Standort " + _location;
     }
@@ -216,8 +222,10 @@ public class Dept implements Serializable {
 
     @OneToMany(mappedBy = "_dept", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dsDeptId")
+    @JsonIgnore
     private List<DeptStationsAfterTargetYear> _deptsAftertargetYear = new ArrayList<>();
 
+    @JsonIgnore
     public List<DeptStationsAfterTargetYear> getDeptsAftertargetYear() {
         return _deptsAftertargetYear;
     }

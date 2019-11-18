@@ -61,10 +61,17 @@ public class DeptWard implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Version Id">
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "dwVersionId", referencedColumnName = "verId")
+    @JsonIgnore
     private MapVersion _mapVersion;
 
+    @JsonIgnore
     public MapVersion getMapVersion() {
         return _mapVersion;
+    }
+
+    // for Json only - do not delete
+    public int getMapVersionId() {
+        return _mapVersion.getId();
     }
 
     public void setMapVersion(MapVersion mapVersion) {
@@ -81,6 +88,11 @@ public class DeptWard implements Serializable {
     @JsonIgnore
     public Dept getDept() {
         return _dept;
+    }
+
+    // for Json only - do not delete
+    public int getDeptId() {
+        return _dept.getId();
     }
 
     public void setDept(Dept dept) {
