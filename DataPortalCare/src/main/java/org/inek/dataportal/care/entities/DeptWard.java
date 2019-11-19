@@ -257,6 +257,7 @@ public class DeptWard implements Serializable {
         this._locationCodeVz = CareValueChecker.extractFormalValidVzNumber(locationText);
     }
 
+    @JsonIgnore
     public String getValidToDisplayText() {
         if (_validTo.equals(DateUtils.getMaxDate())) {
             return "unbegrenzt";
