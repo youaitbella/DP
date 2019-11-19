@@ -124,7 +124,7 @@
             </div>
 
             <div class="ui-g">
-                <div class="card" style="width: 100%" jsf:rendered="#{not structuralChangesEdit.readOnly}">
+                <div class="card" style="width: 100%">
                     <div class="ui-g-12">
                         <h1>Meldung von Umbenennungen oder strukturellen Veränderungen (§ 5 Abs. 4 PpUGV)</h1>
 
@@ -221,7 +221,7 @@
                             <pf:column headerText="Gültig bis">
                                 <pf:outputLabel value="#{ward.validToDisplayText}"/>
                             </pf:column>
-                            <pf:column>
+                            <pf:column rendered="#{not structuralChangesEdit.readOnly}">
                                 <pf:splitButton value="Aktionen">
                                     <pf:menuitem value="Stationsdaten ändern"
                                                  update="@form"
@@ -247,6 +247,7 @@
                         <br/>
 
                         <pf:commandButton value="neue Station hinzufügen"
+                                          rendered="#{not structuralChangesEdit.readOnly}"
                                           action="#{structuralChangesEdit.createNewWard()}"
                                           style="margin-left: 10px;"
                                           immediate="true"
