@@ -33,6 +33,7 @@ public class DeptWard implements Serializable {
         this._wardName = other._wardName;
         this._locationCodeP21 = other._locationCodeP21;
         this._locationCodeVz = other._locationCodeVz;
+        this._locationText = other._locationText;
         this._deptName = other._deptName;
         this._fab = other._fab;
         this._validFrom = other._validFrom;
