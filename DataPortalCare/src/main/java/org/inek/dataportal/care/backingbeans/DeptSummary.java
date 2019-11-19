@@ -13,7 +13,9 @@ import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.TransferFileType;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
 
@@ -129,6 +131,9 @@ public class DeptSummary implements Serializable {
     }
 
     public void deleteBaseInformation(DeptBaseInformation info) {
+        info.setStatus(WorkflowStatus.Retired);
+        TransferFileCreator.createObjectTransferFile(_sessionController, info,
+                info.getIk(), TransferFileType.CareWardNames);
         _deptFacade.deleteBaseInformation(info);
         setWorkingList();
     }
