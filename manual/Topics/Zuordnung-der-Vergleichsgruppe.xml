@@ -1,17 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="rentschlerel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Zuordnung der Vergleichsgruppe</title>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Zuordnung der Vergleichsgruppe</text></para>
     </header>
-      <para styleclass="Normal">
-          <text styleclass="Normal" translate="true">Hier finden Sie eine Übersicht der Zuordnung der
-              Vergleichsgruppen:
-          </text>
-      </para>
+    <para styleclass="Normal" style="page-break-before:always;"><text styleclass="Normal" translate="true">Hier finden Sie eine Übersicht der Zuordnung der Vergleichsgruppen:</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><table styleclass="Default" rowcount="10" colcount="2" style="width:100%;">
       <thead style="vertical-align:top">
@@ -27,11 +22,7 @@
           <para styleclass="Normal" style="text-align:center;"><text styleclass="Normal" translate="true">1</text></para>
         </td>
         <td style="width:1388px;">
-            <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe im Bundesland
-                    (jahresübergreifend)
-                </text>
-            </para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe im Bundesland </text><br/><text styleclass="Normal" translate="true">(Datenbasis: jahresübergreifend)</text></para>
           <para styleclass="Normal"></para>
         </td>
       </tr>
@@ -40,11 +31,7 @@
           <para styleclass="Normal" style="text-align:center;"><text styleclass="Normal" translate="true">2</text></para>
         </td>
         <td style="width:1388px;">
-            <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe im Bundesland
-                    (Vereinbarungsjahr - 1)
-                </text>
-            </para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe im Bundesland </text><br/><text styleclass="Normal" translate="true">(Datenbasis: Vereinbarungszeitraum - 1 Jahr)</text></para>
           <para styleclass="Normal"></para>
         </td>
       </tr>
@@ -53,11 +40,8 @@
           <para styleclass="Normal" style="text-align:center;"><text styleclass="Normal" translate="true">3</text></para>
         </td>
         <td style="width:1388px;">
-            <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe im Bundesland
-                    (Vereinbarungsjahr - 2)
-                </text>
-            </para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe im Bundesland </text></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">(Datenbasis: Vereinbarungszeitraum - 2 Jahre)</text></para>
           <para styleclass="Normal"></para>
         </td>
       </tr>
@@ -66,9 +50,8 @@
           <para styleclass="Normal" style="text-align:center;"><text styleclass="Normal" translate="true">4</text></para>
         </td>
         <td style="width:1388px;">
-            <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser im Bundesland (jahresübergreifend)</text>
-            </para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Krankenhäuser im Bundesland </text></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">(Datenbasis: jahresübergreifend)</text></para>
           <para styleclass="Normal"></para>
         </td>
       </tr>
@@ -77,12 +60,8 @@
           <para styleclass="Normal" style="text-align:center;"><text styleclass="Normal" translate="true">5</text></para>
         </td>
         <td style="width:1388px;">
-            <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser im Bundesland</text>
-            </para>
-            <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">(Vereinbarungsjahr - 1)</text>
-            </para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Krankenhäuser im Bundesland </text></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">(Datenbasis: Vereinbarungszeitraum - 1 Jahr)</text></para>
           <para styleclass="Normal"></para>
         </td>
       </tr>
@@ -91,12 +70,8 @@
           <para styleclass="Normal" style="text-align:center;"><text styleclass="Normal" translate="true">6</text></para>
         </td>
         <td style="width:1388px;">
-            <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser im Bundesland</text>
-            </para>
-            <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">(Vereinbarungsjahr - 2)</text>
-            </para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Krankenhäuser im Bundesland</text></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true"> (Datenbasis: Vereinbarungszeitraum - 2 Jahre)</text></para>
           <para styleclass="Normal"></para>
         </td>
       </tr>
@@ -105,11 +80,8 @@
           <para styleclass="Normal" style="text-align:center;"><text styleclass="Normal" translate="true">7</text></para>
         </td>
         <td style="width:1388px;">
-            <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe bundesweit
-                    (jahresübergreifend)
-                </text>
-            </para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe bundesweit </text></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">(Datenbasis: jahresübergreifend)</text></para>
           <para styleclass="Normal"></para>
         </td>
       </tr>
@@ -118,11 +90,8 @@
           <para styleclass="Normal" style="text-align:center;"><text styleclass="Normal" translate="true">8</text></para>
         </td>
         <td style="width:1388px;">
-            <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe bundesweit
-                    (Vereinbarungsjahr - 1)
-                </text>
-            </para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe bundesweit </text></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">(Datenbasis: Vereinbarungszeitraum - 1 Jahr)</text></para>
           <para styleclass="Normal"></para>
         </td>
       </tr>
@@ -131,11 +100,8 @@
           <para styleclass="Normal" style="text-align:center;"><text styleclass="Normal" translate="true">9</text></para>
         </td>
         <td style="width:1388px;">
-            <para styleclass="Normal">
-                <text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe bundesweit
-                    (Vereinbarungsjahr - 2)
-                </text>
-            </para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Krankenhäuser der Fachgebietsgruppe bundesweit </text></para>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">(Datenbasis: Vereinbarungszeitraum - 2 Jahre)</text></para>
           <para styleclass="Normal"></para>
         </td>
       </tr>
