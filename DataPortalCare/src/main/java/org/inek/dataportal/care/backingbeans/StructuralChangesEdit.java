@@ -130,7 +130,7 @@ public class StructuralChangesEdit implements Serializable {
                 int id = Integer.parseInt(idParam);
                 _structuralChangesBaseInformation = _structuralChangesFacade.findBaseInformationsById(id);
 
-                if (isAccessAllowed(_structuralChangesBaseInformation.getIk())) {
+                if (isAccessAllowed(_structuralChangesBaseInformation)) {
                     _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk(), new Date());
                 } else {
                     LOGGER.log(Level.INFO, "No access for IK: " + _structuralChangesBaseInformation.getIk());
@@ -144,6 +144,12 @@ public class StructuralChangesEdit implements Serializable {
             }
         }
     }
+
+    private boolean isAccessAllowed(StructuralChangesBaseInformation info) {
+        return _accessManager.isAccessAllowed(Feature.CARE, info.getStatus(),
+                Integer.MIN_VALUE, info.getIk());
+    }
+
 
     private void loadValidIks() {
         Set<Integer> tmpAllowedIks = _sessionController.getAccount().getAccessRights().stream()
@@ -209,9 +215,6 @@ public class StructuralChangesEdit implements Serializable {
         return items;
     }
 
-    private boolean isAccessAllowed(int ik) {
-        return _accessManager.userHasWriteAccess(Feature.CARE, ik);
-    }
 
     public void newChangeWard(DeptWard ward) {
         StructuralChanges change = createNewChanges();
@@ -396,11 +399,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public boolean changeAllowed() {
-        if (_structuralChangesBaseInformation.getId() == null) {
-            return false;
-        }
-
-        return _structuralChangesBaseInformation.getStatus().getId() >= WorkflowStatus.Provided.getId();
+        return _accessManager.userHasWriteAccess(Feature.CARE, _structuralChangesBaseInformation.getIk());
     }
 
     public void change() {
