@@ -6,7 +6,7 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Aufbau der Auswertung</text></para>
     </header>
-    <para styleclass="Normal" style="page-break-before:always;"><text styleclass="Normal" translate="true">Sobald die Auswertung fertig ist, bekommen Sie über die Dokumente im InEK - Datenportal eine ZIP-Datei zur Verfügung gestellt. Diese enthält alle Auswertungen der möglichen Vergleichsgruppen. Sollte für eine Vergleichsgruppe keine Datei erstellt worden sein, konnte keine Vergleichsgruppe gebildet werden (bei weniger als vier Krankenhäuser).</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sobald die Auswertung fertig ist, bekommen Sie über die Dokumente im InEK - Datenportal eine ZIP-Datei zur Verfügung gestellt. Diese enthält alle Auswertungen der möglichen Vergleichsgruppen. Sollte für eine Vergleichsgruppe keine Datei erstellt worden sein, konnte keine Vergleichsgruppe gebildet werden (bei weniger als vier Krankenhäuser).</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal" style="text-align:center;"><image src="evaluation_4.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Aufbau der Vergleichsdateien</text></para>
