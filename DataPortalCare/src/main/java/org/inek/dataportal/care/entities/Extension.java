@@ -9,6 +9,7 @@ import java.util.Objects;
         query = "select e from Extension e where e._ik = :ik and e._year = :year and e._quarter = :quarter")
 @Entity
 @Table(name = "ProofDeadlineForIk", schema = "care")
+@IdClass(ExtensionId.class)
 public class Extension {
 
     public Extension() {
