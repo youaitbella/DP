@@ -130,4 +130,16 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
     public void deleteBaseInformation(StructuralChangesBaseInformation info) {
         remove(info);
     }
+
+    public List<StructuralChangesBaseInformation> getAllByStatus(WorkflowStatus status) {
+        String jpql = "SELECT sc FROM StructuralChangesBaseInformation sc WHERE sc._statusId = :status";
+        TypedQuery<StructuralChangesBaseInformation> query = getEntityManager().createQuery(jpql, StructuralChangesBaseInformation.class);
+        query.setParameter("status", status.getId());
+        return query.getResultList();
+    }
+    public List<StructuralChangesBaseInformation> getAllOpen() {
+        String jpql = "SELECT sc FROM StructuralChangesBaseInformation sc WHERE sc._statusId < 200 order by sc._statusId desc";
+        TypedQuery<StructuralChangesBaseInformation> query = getEntityManager().createQuery(jpql, StructuralChangesBaseInformation.class);
+        return query.getResultList();
+    }
 }

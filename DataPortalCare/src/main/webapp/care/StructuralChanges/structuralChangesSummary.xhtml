@@ -17,6 +17,69 @@
             }
         </style>
 
+        <div class="ui-g" jsf:rendered="#{structuralChangesSummary.isInekUser()}">
+            <div class="card">
+                <h:form id="inek">
+                    <h1>InEK Intern</h1>
+                    <ui:remove>
+                        <div class="marginBottom">
+                            <pf:outputLabel value="Basis-Jahr: "/>
+
+                            <h:selectOneMenu value="#{structuralChangesSummary.openBaseInformations}"
+                                             id="ppugvYear">
+                                <f:selectItem itemLabel="2017" itemValue="2017"/>
+                                <f:selectItem itemLabel="2018" itemValue="2018"/>
+                                <f:ajax event="change" render="@form"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </ui:remove>
+                    <pf:dataTable id="inektable"
+                                  widgetVar="inekTableDepst"
+                                  value="#{structuralChangesSummary.listInek}"
+                                  var="structuralChanges"
+                                  emptyMessage="Keine Daten vorhanden"
+                                  rows="50"
+                                  paginator="true"
+                                  rowsPerPageTemplate="15,25,50,100"
+                                  styleClass="marginTop">
+                        <f:facet name="header">
+                            Übersicht über alle erfassten Daten
+                        </f:facet>
+                        <pf:column style="width: 20px;">
+                            <inekIcon:StatusIcon StatusId="#{structuralChanges.statusId}"/>
+                        </pf:column>
+                        <pf:column headerText="IK" filterBy="#{structuralChanges.ik}" sortable="true"
+                                   filterMatchMode="contains"
+                                   sortBy="#{structuralChanges.ik}">
+                            <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                    value="#{structuralChanges.ik}">
+                                <f:param name="id" value="#{structuralChanges.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Krankenhaus"
+                                   filterBy="#{structuralChangesSummary.retrieveHospitalName(structuralChanges.ik)}"
+                                   filterMatchMode="contains"
+                                   sortable="true"
+                                   sortBy="#{structuralChangesSummary.retrieveHospitalName(structuralChanges.ik)}">
+                            <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                    value="#{structuralChangesSummary.retrieveHospitalName(structuralChanges.ik)}">
+                                <f:param name="id" value="#{structuralChanges.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Letze Änderung" sortable="true"
+                                   sortBy="#{structuralChanges.requestedAt}">
+                            <h:outputText value="#{structuralChanges.requestedAt}">
+                                <f:convertDateTime pattern="dd.MM.yyyy"/>
+                            </h:outputText>
+                        </pf:column>
+                    </pf:dataTable>
+
+                    <pf:remoteCommand autoRun="true" oncomplete="PF('inekTableDepst').filter();"/>
+                </h:form>
+            </div>
+        </div>
+
+
         <div class="ui-g">
             <div class="card">
                 <h:form>

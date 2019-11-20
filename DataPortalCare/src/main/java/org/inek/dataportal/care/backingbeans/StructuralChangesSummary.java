@@ -70,6 +70,34 @@ public class StructuralChangesSummary implements Serializable {
         this._openBaseInformations = openBaseInformations;
     }
 
+    private List<StructuralChangesBaseInformation> _listInek = new ArrayList<>();
+
+    public List<StructuralChangesBaseInformation> getListInek() {
+        return _listInek;
+    }
+
+    public void setListInek() {
+        _listInek.clear();
+        _listInek.addAll(createListItems(_structuralChangesFacade.getAllOpen()));
+    }
+
+
+    public List<StructuralChangesBaseInformation> createListItems(List<StructuralChangesBaseInformation> changeInfos) {
+        List<StructuralChangesBaseInformation> StructualItems = new ArrayList<>();
+
+        for (StructuralChangesBaseInformation info : changeInfos) {
+            StructuralChangesBaseInformation item = new StructuralChangesBaseInformation();
+            item.setId(info.getId());
+            item.setIk(info.getIk());
+            item.setRequestedAt(info.getRequestedAt());
+            item.setStatusId(info.getStatusId());
+            item.setRequestedAccountId(info.getRequestedAccountId());
+            item.setStructuralChanges(info.getStructuralChanges());
+            StructualItems.add(item);
+        }
+        return StructualItems;
+    }
+
     @PostConstruct
     private void init() {
         _allowedIks = _sessionController.getAccount().getAccessRights().stream()
@@ -79,6 +107,9 @@ public class StructuralChangesSummary implements Serializable {
 
         loadOpenStructuralChangesBaseInformation();
         loadSendedStructuralChangesBaseInformation();
+        if (isInekUser()) {
+            setListInek();
+        }
     }
 
     private void loadSendedStructuralChangesBaseInformation() {
@@ -104,7 +135,7 @@ public class StructuralChangesSummary implements Serializable {
     }
 
     public boolean isCreateEntryAllowed() {
-        if(!_configFacade.readConfigBool(ConfigKey.CareStructuralChangesEnable)) {
+        if (!_configFacade.readConfigBool(ConfigKey.CareStructuralChangesEnable)) {
             return false;
         }
 
@@ -168,4 +199,10 @@ public class StructuralChangesSummary implements Serializable {
         Format formatter = new SimpleDateFormat("dd.MM.yyyy");
         return formatter.format(date);
     }
+
+    public Boolean isInekUser() {
+        return _sessionController.isInekUser(Feature.CARE);
+    }
+
+
 }
