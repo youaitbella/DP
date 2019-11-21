@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<map>
+<map xmlns:xsi="http://www.w3.org/2001/XInclude">
   <topicref type="topic" id="408937680032260" build="ALL" modified="2011-12-20T14:11:13.466Z" icon="0" href="Introduction">
     <caption translate="true">Einführung</caption>
     <topicref type="topic" id="415335638181027" build="ALL" modified="2013-09-16T09:19:47.954Z" icon="0" href="OverviewFeatures">
@@ -307,10 +307,9 @@
       <topicref type="topic" id="43771543297302" build="ALL" modified="2019-11-01T14:31:43.954Z" icon="0" href="Auswertung-starten">
         <caption translate="true">Auswertung starten</caption>
       </topicref>
-        <topicref type="topic" id="437734059565470" build="ALL" modified="2019-11-04T15:57:44.477Z" icon="0"
-                  href="Vertragspartner-nach-_-11-BPfl">
-            <caption translate="true">Auswertung ansehen</caption>
-        </topicref>
+      <topicref type="topic" id="437734059565470" build="ALL" modified="2019-11-04T15:57:44.477Z" icon="0" href="Vertragspartner-nach-_-11-BPfl">
+        <caption translate="true">Auswertung ansehen</caption>
+      </topicref>
       <topicref type="topic" id="437705690953738" build="ALL" modified="2019-11-01T14:49:25.529Z" icon="0" href="Aufbau-der-Auswertung">
         <caption translate="true">Aufbau der Auswertung</caption>
       </topicref>

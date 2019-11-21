@@ -152,7 +152,8 @@
 
                         <br/>
 
-                        <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
+                        <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;"
+                             jsf:rendered="#{not structuralChangesEdit.readOnly}">
                             <pf:fieldset legend="Ausfüllhinweise"
                                          style="border: none"
                                          toggleable="true"
@@ -239,7 +240,7 @@
                             </pf:column>
                         </pf:dataTable>
                     </div>
-                    <div class="ui-g-12">
+                    <div class="ui-g-12" jsf:rendered="#{not structuralChangesEdit.readOnly}">
                         <br/>
 
                         <h1>Weitere Aktionen</h1>
@@ -247,7 +248,6 @@
                         <br/>
 
                         <pf:commandButton value="neue Station hinzufügen"
-                                          rendered="#{not structuralChangesEdit.readOnly}"
                                           action="#{structuralChangesEdit.createNewWard()}"
                                           style="margin-left: 10px;"
                                           immediate="true"

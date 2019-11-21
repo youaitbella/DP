@@ -4,6 +4,7 @@
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:pf="http://primefaces.org/ui"
+                xmlns:inekOut="http://xmlns.jcp.org/jsf/composite/components/Output"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Other">
 
     <pf:importEnum type="org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonStatus"
@@ -11,6 +12,14 @@
                    allSuffix="ALL_ENUM_VALUES"/>
 
     <ui:define name="content">
+
+        <style>
+            .inekInfoBox {
+                font-size: 1.2em !important;
+                background-color: #7f9baf !important;
+            }
+
+        </style>
         <h1>Krankenhausvergleich Auswertung</h1>
 
         <pf:panel style="background-color: #eeeeee;">
@@ -35,12 +44,15 @@
 
         <pf:panel style="background-color: #eeeeee;">
             <h:form>
+
+                <inekOut:InfoBox value="Zur Ermittlung der Vergleichsergebnisse geben Sie bitte den Vereinbarungszeitraum ein, für den Sie verhandeln möchten." />
+
                 <inek:MultiIkYear labelIk="#{msg.lblIkShort}"
                                   required="true"
                                   valueIk="#{evaluation.selectedIk}"
                                   ikList="#{evaluation.allowedIks}"
                                   listenerIk="#{evaluation.ikChanged()}"
-                                  labelYear="Vereinbarungsjahr"
+                                  labelYear="Vereinbarungszeitraum"
                                   valueYear="#{evaluation.selectedAgreementYear}"
                                   yearList="#{evaluation.validYears}"
                                   showState="true"
@@ -55,6 +67,9 @@
                                       styleClass="btnPsy"
                                       immediate="true"/>
                 </ui:remove>
+
+
+
                 <pf:commandButton value="Auswertung starten"
                                   action="#{evaluation.startEvaluation()}"
                                   rendered="#{evaluation.createNewEvaluationAllowed}"
@@ -75,7 +90,7 @@
                                 <pf:outputLabel value="#{ev.hospitalIk}"/>
                             </pf:column>
 
-                            <pf:column headerText="Vereinbarungsjahr">
+                            <pf:column headerText="Vereinbarungszeitraum">
                                 <pf:outputLabel value="#{ev.agreementYear}"/>
                             </pf:column>
 

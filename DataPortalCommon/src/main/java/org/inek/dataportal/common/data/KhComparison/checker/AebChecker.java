@@ -10,7 +10,9 @@ import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
 import org.inek.dataportal.common.helper.MathHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lautenti
@@ -63,7 +65,32 @@ public class AebChecker {
 
     public Boolean checkAebHints(AEBBaseInformation info) {
         checkPageE1_1Hints(info);
+        checkPersonalHints(info);
         return getMessage().isEmpty();
+    }
+
+    private void checkPersonalHints(AEBBaseInformation info) {
+        Map<String, Integer> allowedMaxValues = new HashMap<>();
+
+        allowedMaxValues.put("1", 150000);
+        allowedMaxValues.put("3", 120000);
+        allowedMaxValues.put("2", 90000);
+        allowedMaxValues.put("4", 90000);
+        allowedMaxValues.put("5", 90000);
+        allowedMaxValues.put("6", 90000);
+        allowedMaxValues.put("3-6", 90000);
+        allowedMaxValues.put("7", 90000);
+
+        for (PersonalAgreed personalAgreed : info.getPersonalAgreed()) {
+            Integer allowedMaxValue = allowedMaxValues.get(personalAgreed.getOccupationalCategory().getNumber());
+
+            if (allowedMaxValue != null) {
+                if (personalAgreed.getAverageCost() > allowedMaxValue) {
+                    addMessage("Personalausstattung: In der Berufsgruppe [" + personalAgreed.getOccupationalCategory() + "] " +
+                            "erscheint die Angabe zu den Durchschnittskosten je VK in Euro [" + personalAgreed.getAverageCost() + "] unplausibel.");
+                }
+            }
+        }
     }
 
     public void checkPageB1(AEBBaseInformation info) {
@@ -84,8 +111,8 @@ public class AebChecker {
             addMessage("Blatt B1: Nr. 17 ist ungleich Summe Bewertungsrelationen E1.1 + E1.2");
         }
 
-        if (info.getAebPageB1().getBasisRenumerationValueNoCompensation() == 0 ||
-                info.getAebPageB1().getBasisRenumerationValueNoCompensation() > 1000) {
+        if (info.getAebPageB1().getBasisRenumerationValueNoCompensation() < 50 ||
+                info.getAebPageB1().getBasisRenumerationValueNoCompensation() > 600) {
             addMessage("Blatt B1: Der Wert Nr. 19 erscheint unplausibel. Bitte prüfen und korrigieren Sie ggf. Ihre Eingabe.");
         }
 

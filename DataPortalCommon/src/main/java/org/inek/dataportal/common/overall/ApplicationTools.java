@@ -1,11 +1,13 @@
 package org.inek.dataportal.common.overall;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.Function;
 import org.inek.dataportal.api.enums.PortalType;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.access.InfoDataFacade;
 import org.inek.dataportal.common.data.common.ListFeature;
+import org.inek.dataportal.common.data.common.ListFunction;
 import org.inek.dataportal.common.data.common.ListWorkflowStatus;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.common.data.icmt.enums.PsyHospitalType;
@@ -46,8 +48,23 @@ public class ApplicationTools {
 
     @PostConstruct
     private void init() {
+        initListFunction();
         initListFeature();
         initListWorkflowStatus();
+    }
+
+    private void initListFunction() {
+        List<ListFunction> listFunctions = _info.findAllListFunction();
+
+        for(Function function : Function.values()){
+            if(listFunctions.stream().noneMatch(f -> f.getId() == function.getId())){
+                ListFunction listFunction = new ListFunction();
+            listFunction.setId(function.getId());
+            listFunction.setName(function.name());
+            _info.saveListFunction(listFunction);
+            }
+        }
+
     }
 
     private void initListFeature() {

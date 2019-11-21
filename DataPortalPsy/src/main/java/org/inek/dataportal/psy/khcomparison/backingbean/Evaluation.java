@@ -36,6 +36,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * @author lautenti
@@ -113,8 +114,8 @@ public class Evaluation {
     }
 
     private void setEvaluationsList() {
-        _listEvaluations = _aebFacade.getHosptalComparisonInfoByIks(getAllowedIks());
-        //_listEvaluations = _aebFacade.getHosptalComparisonInfoByAccount(_sessionController.getAccount());
+        //_listEvaluations = _aebFacade.getHosptalComparisonInfoByIks(getAllowedIks());
+        _listEvaluations = _aebFacade.getHosptalComparisonInfoByAccount(_sessionController.getAccount());
     }
 
     public Set<Integer> getAllowedIks() {
@@ -131,13 +132,19 @@ public class Evaluation {
     public void ikChanged() {
         _validYears.clear();
         List<Integer> usedDataYears = _aebFacade.getUsedDataYears(_selectedIk);
-        for (Integer value : usedDataYears) {
+
+        // if entfernen ab April 2020
+        if (usedDataYears.size() == 1 && usedDataYears.contains(2018)) {
+            _validYears.add(2020);
+        }
+
+        for (Integer value : usedDataYears.stream().filter(c -> c > 2018).collect(Collectors.toList())) {
             _validYears.add(value + 1);
         }
     }
 
     public void startInfoEvaluation() {
-        if (isReadeForEvaluation()) {
+        if (isReadyForEvaluation()) {
             setEvaluationsList();
             DialogController.showInfoDialog("Auswertung gestartet", "Wir erstellen nun die Auswertung nach Ihren Kriterien. " +
                     "Sobald der Vorgang abgeschlossen ist, wird diese Ihnen als Dokument im InEK Datenportal zur Verfügung gestellt. " +
@@ -148,7 +155,7 @@ public class Evaluation {
     }
 
     public void startEvaluation() {
-        if (isReadeForEvaluation()) {
+        if (isReadyForEvaluation()) {
             Customer customer = _customerFacade.getCustomerByIK(_selectedIk);
             if (createHospitalComparisonInfo(customer)) {
                 DialogController.showInfoDialog("Auswertung gestartet", "Ihre Auswertung wird gerade bearbeitet. " +
@@ -166,7 +173,7 @@ public class Evaluation {
         }
     }
 
-    private boolean isReadeForEvaluation() {
+    private boolean isReadyForEvaluation() {
         return _selectedIk > 0 && _selectedAgreementYear > 0;
     }
 
