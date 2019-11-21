@@ -77,25 +77,7 @@ public class StructuralChangesSummary implements Serializable {
     }
 
     public void setListInek() {
-        _listInek.clear();
-        _listInek.addAll(createListItems(_structuralChangesFacade.getAllOpen()));
-    }
-
-
-    public List<StructuralChangesBaseInformation> createListItems(List<StructuralChangesBaseInformation> changeInfos) {
-        List<StructuralChangesBaseInformation> StructualItems = new ArrayList<>();
-
-        for (StructuralChangesBaseInformation info : changeInfos) {
-            StructuralChangesBaseInformation item = new StructuralChangesBaseInformation();
-            item.setId(info.getId());
-            item.setIk(info.getIk());
-            item.setRequestedAt(info.getRequestedAt());
-            item.setStatusId(info.getStatusId());
-            item.setRequestedAccountId(info.getRequestedAccountId());
-            item.setStructuralChanges(info.getStructuralChanges());
-            StructualItems.add(item);
-        }
-        return StructualItems;
+        _listInek = _structuralChangesFacade.getAllOpen();
     }
 
     @PostConstruct
@@ -203,6 +185,4 @@ public class StructuralChangesSummary implements Serializable {
     public Boolean isInekUser() {
         return _sessionController.isInekUser(Feature.CARE);
     }
-
-
 }

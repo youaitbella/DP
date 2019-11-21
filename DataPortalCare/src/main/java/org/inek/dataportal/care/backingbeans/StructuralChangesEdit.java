@@ -433,4 +433,10 @@ public class StructuralChangesEdit implements Serializable {
                     "Fehler beim Emailversand an " + _structuralChangesBaseInformation.getIk() + "(Struktuelle Veränderung)", new Exception());
         }
     }
+
+    public Boolean isInekUser() {
+        return _sessionController.isInekUser(Feature.CARE);
+    }
+
+
 }
