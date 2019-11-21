@@ -6,6 +6,7 @@ package org.inek.dataportal.common.data.access;
 
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.common.ListFeature;
+import org.inek.dataportal.common.data.common.ListFunction;
 import org.inek.dataportal.common.data.common.ListWorkflowStatus;
 import org.inek.dataportal.common.data.common.TrashMail;
 
@@ -17,6 +18,7 @@ import java.util.List;
 
 /**
  * This is a facade to various informative data
+ *
  * @author muellermi
  */
 @Stateless
@@ -30,7 +32,7 @@ public class InfoDataFacade extends AbstractDataAccess {
         return getEntityManager().createQuery(cq).getResultList().size() > 0;
     }
 
-    public List<ListFeature> findAllListFeature(){
+    public List<ListFeature> findAllListFeature() {
         return findAllFresh(ListFeature.class);
     }
 
@@ -38,11 +40,19 @@ public class InfoDataFacade extends AbstractDataAccess {
         merge(listFeature);
     }
 
-    public List<ListWorkflowStatus> findAllListWorkflowStatus(){
+    public List<ListWorkflowStatus> findAllListWorkflowStatus() {
         return findAllFresh(ListWorkflowStatus.class);
     }
 
     public void saveListWorkflowStatus(ListWorkflowStatus listWorkflowStatus) {
         merge(listWorkflowStatus);
+    }
+
+    public List<ListFunction> findAllListFunction() {
+        return findAllFresh(ListFunction.class);
+    }
+
+    public void saveListFunction(ListFunction listFunction) {
+        merge(listFunction);
     }
 }
