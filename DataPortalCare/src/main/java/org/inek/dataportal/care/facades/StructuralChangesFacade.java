@@ -8,10 +8,8 @@ package org.inek.dataportal.care.facades;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
-import org.inek.dataportal.care.utils.CareDeptStationHelper;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.TransferFileCreator;
 
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
@@ -19,7 +17,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,14 +35,19 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         return merge(baseInfo);
     }
 
-    public List<DeptWard> findWardsByIkAndDate(int ik, Date date) {
+    public List<DeptWard> findWardsByIkAndDate(int ik) {
         String sql = "select bi from DeptBaseInformation bi where bi._ik = :ik and " +
-                "bi._statusId in (10, 200) and bi._year >= 2018 order by bi._year desc, bi._send desc";
+                "bi._statusId = 10 and bi._year >= 2018 order by bi._year desc, bi._send desc";
         TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(sql, DeptBaseInformation.class);
         query.setParameter("ik", ik);
-        List<DeptBaseInformation> resultList = query.getResultList();
-        DeptBaseInformation deptBaseInformation = resultList.get(0);
-        return CareDeptStationHelper.getStationsByDate(deptBaseInformation.getAllWards(), date);
+        try {
+            List<DeptBaseInformation> resultList = query.getResultList();
+            DeptBaseInformation deptBaseInformation = resultList.get(0);
+            return deptBaseInformation.getCurrentWards();
+        } catch (Exception ex) {
+            // no data
+            return new ArrayList<>();
+        }
     }
 
     public List<SelectItem> findTmpCloseReasons() {

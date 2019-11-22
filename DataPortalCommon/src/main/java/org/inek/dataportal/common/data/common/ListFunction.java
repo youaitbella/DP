@@ -5,11 +5,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name="listFunction")
-public class ListFunction {
+public class ListFunction implements Serializable {
 
     private static final long serialVersionUID = 1L;
     //<editor-fold defaultstate="collapsed" desc="Property Id">

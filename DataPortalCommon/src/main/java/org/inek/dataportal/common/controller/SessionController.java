@@ -757,4 +757,8 @@ public class SessionController implements Serializable {
             _mailer.sendMailWithTemplate("ApprovalRequestNotificationForAdmin", substitutions, user);
         });
     }
+
+    public boolean isTestMode() {
+        return _appTools.isEnabled(ConfigKey.TestMode);
+    }
 }

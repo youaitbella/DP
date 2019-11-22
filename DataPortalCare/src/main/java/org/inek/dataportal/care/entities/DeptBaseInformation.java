@@ -13,6 +13,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author lautenti
@@ -227,6 +228,18 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
             stations.addAll(dept.getDeptWards());
         }
         return stations;
+    }
+
+    public List<DeptWard> getCurrentWards() {
+        List<DeptWard> wards = new ArrayList<>();
+        DeptBaseInformation baseInfo = this;
+        for (Dept dept : _depts) {
+            wards.addAll(dept.getDeptWards()
+                    .stream()
+                    .filter(w -> w.getMapVersionId() == baseInfo.getCurrentVersionId())
+                    .collect(Collectors.toList()));
+        }
+        return wards;
     }
 
     public void removeDept(Dept dept) {
