@@ -5,7 +5,6 @@
  */
 package org.inek.dataportal.care.facades;
 
-import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
@@ -37,19 +36,20 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         return merge(baseInfo);
     }
 
-    public List<DeptWard> findWardsByIkAndDate(int ik) {
-        String sql = "select bi from DeptBaseInformation bi where bi._ik = :ik and " +
-                "bi._statusId = 10 and bi._year >= 2018 order by bi._year desc, bi._send desc";
-        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(sql, DeptBaseInformation.class);
+    public List<DeptWard> findWardsByIk(int ik) {
+        return findWardsByIkAndBaseYear(ik, 2018);
+    }
+
+    public List<DeptWard> findWardsByIkAndBaseYear(int ik, int year) {
+        String jpql = "select w from DeptBaseInformation bi " +
+                "join Dept d on bi._id = d._baseInformation._id " +
+                "join DeptWard w on d._id = w._dept._id and w._mapVersion._id = bi.currentVersion._id " +
+                "where bi._ik = :ik and " +
+                "bi._statusId = 10 and bi._year = :year order by bi._year desc, bi._send desc";
+        TypedQuery<DeptWard> query = getEntityManager().createQuery(jpql, DeptWard.class);
         query.setParameter("ik", ik);
-        try {
-            List<DeptBaseInformation> resultList = query.getResultList();
-            DeptBaseInformation deptBaseInformation = resultList.get(0);
-            return deptBaseInformation.getCurrentWards();
-        } catch (Exception ex) {
-            // no data
-            return new ArrayList<>();
-        }
+        query.setParameter("year", year);
+        return query.getResultList();
     }
 
     public List<SelectItem> findTmpCloseReasons() {
@@ -104,7 +104,19 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         List<StructuralChangesBaseInformation> baseInfo = findBaseInformationsByIk(ik);
 
         for (StructuralChangesBaseInformation structuralChangesBaseInformation : baseInfo) {
-            if (structuralChangesBaseInformation.getStatus().equals(WorkflowStatus.New)) {
+            if (structuralChangesBaseInformation.getStatus().getId() < WorkflowStatus.Provided.getId()) {
+                return Optional.of(structuralChangesBaseInformation);
+            }
+        }
+        return Optional.empty();
+    }
+
+    // todo: unify methods
+    public Optional<StructuralChangesBaseInformation> findOpenOrSendBaseInformationsByIk(int ik) {
+        List<StructuralChangesBaseInformation> baseInfo = findBaseInformationsByIk(ik);
+
+        for (StructuralChangesBaseInformation structuralChangesBaseInformation : baseInfo) {
+            if (structuralChangesBaseInformation.getStatus().getId() <= WorkflowStatus.ReProvided.getId()) {
                 return Optional.of(structuralChangesBaseInformation);
             }
         }

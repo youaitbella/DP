@@ -142,7 +142,7 @@ public class StructuralChangesEdit implements Serializable {
 
             if (_iks.size() == 1) {
                 _structuralChangesBaseInformation.setIk(_iks.stream().findFirst().get());
-                _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk());
+                _wards = _structuralChangesFacade.findWardsByIk(_structuralChangesBaseInformation.getIk());
             }
         } else {
             try {
@@ -150,7 +150,7 @@ public class StructuralChangesEdit implements Serializable {
                 _structuralChangesBaseInformation = _structuralChangesFacade.findBaseInformationsById(id);
 
                 if (isAccessAllowed(_structuralChangesBaseInformation)) {
-                    _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk());
+                    _wards = _structuralChangesFacade.findWardsByIk(_structuralChangesBaseInformation.getIk());
                 } else {
                     LOGGER.log(Level.INFO, "No access for IK: " + _structuralChangesBaseInformation.getIk());
                     Utils.navigate(Pages.NotAllowed.RedirectURL());
@@ -175,15 +175,12 @@ public class StructuralChangesEdit implements Serializable {
                 .collect(Collectors.toSet());
 
         for (Integer ik : tmpAllowedIks) {
-            Optional<StructuralChangesBaseInformation> openBaseInformationsByIk = _structuralChangesFacade.findOpenBaseInformationsByIk(ik);
-            if (openBaseInformationsByIk.isPresent()) {
+            if (_structuralChangesFacade.findOpenOrSendBaseInformationsByIk(ik).isPresent()) {
                 continue;
             }
 
-            List<StructuralChangesBaseInformation> sendBaseInformationsByIk = _structuralChangesFacade.findSendBaseInformationsByIk(ik);
-
             List<DeptBaseInformation> allByStatusAndIk = _deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, ik);
-            if (allByStatusAndIk.size() >= 1 && sendBaseInformationsByIk.size() == 0) {
+            if (allByStatusAndIk.stream().anyMatch(i -> i.getYear() >= 2018)) {
                 _iks.add(ik);
             }
         }
@@ -414,7 +411,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void ikChanged() {
-        _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk());
+        _wards = _structuralChangesFacade.findWardsByIk(_structuralChangesBaseInformation.getIk());
     }
 
     public boolean changeAllowed() {
