@@ -161,7 +161,7 @@ public class StructuralChangesEdit implements Serializable {
             }
 
             List<DeptBaseInformation> allByStatusAndIk = _deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, ik);
-            if (allByStatusAndIk.size() >= 1) {
+            if (allByStatusAndIk.stream().anyMatch(i -> i.getYear() >= 2018)) {
                 _iks.add(ik);
             }
         }
