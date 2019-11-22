@@ -461,6 +461,15 @@ public class StructuralChangesEdit implements Serializable {
     public void acceptChanges() {
         DeptBaseInformation deptBaseInformation = _deptFacade.findDeptBaseInformationByIk(_structuralChangesBaseInformation.getIk());
 
-        List<WardsToChange> wardsToChange = _structuralChangesBaseInformation.getStructuralChanges().stream().map(sc -> sc.getWardsToChange()).collect(Collectors.toList());
+        List<WardsToChange> wardsToChange = _structuralChangesBaseInformation.getStructuralChanges()
+                .stream().map(sc -> sc.getWardsToChange()).collect(Collectors.toList());
+
+        // process changes first
+        _structuralChangesBaseInformation.getStructuralChanges()
+                .stream().filter(sc -> sc.getStructuralChangesType() == StructuralChangesType.CHANGE)
+                .map(sc -> sc.getWardsToChange()).collect(Collectors.toList());
+        // adjust validities
+
+        // process close down last
     }
 }
