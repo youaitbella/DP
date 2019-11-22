@@ -41,14 +41,14 @@ public class Conversation implements Serializable {
 
     //<editor-fold desc="Property isInek">
     @Column(name= "coIsInek")
-    private boolean _Inek;
+    private boolean _inek;
 
     public boolean isInek() {
-        return _Inek;
+        return _inek;
     }
 
-    public void setInek(boolean _Inek) {
-        this._Inek = _Inek;
+    public void setInek(boolean inek) {
+        this._inek = inek;
     }
     //</editor-fold>
 
@@ -113,7 +113,7 @@ public class Conversation implements Serializable {
         Conversation that = (Conversation) o;
         return _id == that._id &&
                 _accountId == that._accountId &&
-                _Inek == that._Inek &&
+                _inek == that._inek &&
                 _functionId == that._functionId &&
                 _DataId == that._DataId &&
                 Objects.equals(_date, that._date) &&
@@ -122,6 +122,6 @@ public class Conversation implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _accountId, _Inek, _functionId, _DataId, _date, _message);
+        return Objects.hash(_id, _accountId, _inek, _functionId, _DataId, _date, _message);
     }
 }
