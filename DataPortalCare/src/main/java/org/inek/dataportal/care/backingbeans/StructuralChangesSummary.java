@@ -152,19 +152,18 @@ public class StructuralChangesSummary implements Serializable {
                 .collect(Collectors.toSet());
 
         for (Integer ik : tmpAllowedIks) {
-            Optional<StructuralChangesBaseInformation> openBaseInformationsByIk = _structuralChangesFacade.findOpenBaseInformationsByIk(ik);
-            if (openBaseInformationsByIk.isPresent()) {
+            if (_structuralChangesFacade.findOpenOrSendBaseInformationsByIk(ik).isPresent()) {
                 continue;
             }
 
-            List<StructuralChangesBaseInformation> sendBaseInformationsByIk = _structuralChangesFacade.findSendBaseInformationsByIk(ik);
             List<DeptBaseInformation> allByStatusAndIk = _deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, ik);
-            if (allByStatusAndIk.size() >= 1 && sendBaseInformationsByIk.size() == 0) {
+            if (allByStatusAndIk.stream().anyMatch(i -> i.getYear() >= 2018)) {
                 iks.add(ik);
             }
         }
         return iks;
     }
+
 
     public void deleteBaseInformation(StructuralChangesBaseInformation baseInfo) {
         baseInfo.setStatus(WorkflowStatus.Retired);
