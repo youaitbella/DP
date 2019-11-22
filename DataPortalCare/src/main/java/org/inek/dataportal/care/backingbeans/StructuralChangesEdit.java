@@ -121,7 +121,7 @@ public class StructuralChangesEdit implements Serializable {
 
             if (_iks.size() == 1) {
                 _structuralChangesBaseInformation.setIk(_iks.stream().findFirst().get());
-                _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk());
+                _wards = _structuralChangesFacade.findWardsByIk(_structuralChangesBaseInformation.getIk());
             }
         } else {
             try {
@@ -129,7 +129,7 @@ public class StructuralChangesEdit implements Serializable {
                 _structuralChangesBaseInformation = _structuralChangesFacade.findBaseInformationsById(id);
 
                 if (isAccessAllowed(_structuralChangesBaseInformation)) {
-                    _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk());
+                    _wards = _structuralChangesFacade.findWardsByIk(_structuralChangesBaseInformation.getIk());
                 } else {
                     LOGGER.log(Level.INFO, "No access for IK: " + _structuralChangesBaseInformation.getIk());
                     Utils.navigate(Pages.NotAllowed.RedirectURL());
@@ -392,7 +392,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void ikChanged() {
-        _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk());
+        _wards = _structuralChangesFacade.findWardsByIk(_structuralChangesBaseInformation.getIk());
     }
 
     public boolean changeAllowed() {
