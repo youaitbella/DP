@@ -1,5 +1,4 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/WEB-INF/template.xhtml"
@@ -855,17 +854,21 @@
                         </div>
                     </div>
                 </ui:remove>
-                <div class="card" style="width: 100%">
-                    <div class="ui-g-12" jsf:rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}">
+                <div class="card" style="width: 100%" id="correction">
+                    <div class="ui-g-12"
+                         jsf:rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}">
                         <h1>Korrektur anfordern</h1>
                         <h3>Bemerkung InEK</h3>
-                        <h:inputTextarea rows="10" cols="150" id="correctionText" style="min-width: 600px; min-height: 150px"/>
+                        <h:inputTextarea rows="10" cols="150" id="correctionText"
+                                         style="min-width: 600px; min-height: 150px"
+                        value="#{structuralChangesEdit.co}"/>
                     </div>
                     <div class="ui-g-12">
                     </div>
                     <div class="ui-g-12">
                         <h3>Antwort Krankenhaus</h3>
-                        <h:inputTextarea rows="5" cols="150" id="userText" readonly="true" style="min-width: 600px; min-height: 150px"/>
+                        <h:inputTextarea rows="5" cols="150" id="userText" readonly="true"
+                                         style="min-width: 600px; min-height: 150px"/>
                     </div>
                 </div>
                 <div class="card" style="width: 100%">
@@ -893,7 +896,8 @@
                                           update="@(.ui-message) @form"/>
 
                         <pf:commandButton value="Korrektur anfordern"
-                                          rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"/>
+                                          rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
+                                          action="#{structuralChangesEdit.askForCorrection}"/>
                     </div>
                 </div>
             </div>

@@ -9,6 +9,8 @@ import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
+import org.inek.dataportal.common.data.common.Conversation;
+import org.inek.dataportal.common.data.common.ListFunction;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 import javax.ejb.Stateless;
@@ -114,7 +116,7 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
 
         List<StructuralChangesBaseInformation> tmpList = new ArrayList<>();
         for (StructuralChangesBaseInformation structuralChangesBaseInformation : baseInfo) {
-            if(structuralChangesBaseInformation.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
+            if (structuralChangesBaseInformation.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
                 tmpList.add(structuralChangesBaseInformation);
             }
         }
@@ -139,9 +141,19 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         query.setParameter("status", status.getId());
         return query.getResultList();
     }
+
     public List<StructuralChangesBaseInformation> getAllOpen() {
         String jpql = "SELECT sc FROM StructuralChangesBaseInformation sc WHERE sc._statusId < 200 order by sc._statusId desc";
         TypedQuery<StructuralChangesBaseInformation> query = getEntityManager().createQuery(jpql, StructuralChangesBaseInformation.class);
+        return query.getResultList();
+    }
+
+    public List<Conversation> getConversation(int changeId) {
+        String jpql = "SELECT c from StructuralChangesBaseInformation sc JOIN Conversation c on c._dataId = sc._id " +
+                "WHERE sc._id = :changeId " +
+                "order by c._id";
+        TypedQuery<Conversation> query = getEntityManager().createQuery(jpql, Conversation.class);
+        query.setParameter("changeId", changeId);
         return query.getResultList();
     }
 }

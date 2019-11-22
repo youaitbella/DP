@@ -1,6 +1,9 @@
 package org.inek.dataportal.common.data.common;
 
 
+import org.inek.dataportal.api.enums.Function;
+import org.inek.dataportal.common.data.converter.FunctionConverter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -54,14 +57,15 @@ public class Conversation implements Serializable {
 
     //<editor-fold desc="Property FunctionId">
     @Column(name="coFunctionId")
-    private int _functionId;
+    @Convert(converter = FunctionConverter.class)
+    private Function _function;
 
-    public int getFunctionId() {
-        return _functionId;
+    public Function getFunction() {
+        return _function;
     }
 
-    public void setFunctionId(int functionId) {
-        this._functionId = functionId;
+    public void setFunction(Function function) {
+        this._function = function;
     }
     //</editor-fold>
 
@@ -81,7 +85,7 @@ public class Conversation implements Serializable {
     //<editor-fold desc="Property CreatedAt">
     @Column(name="coCreatedAt")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date _date;
+    private Date _date = new Date();
 
     public Date getDate() {
         return _date;
@@ -114,7 +118,7 @@ public class Conversation implements Serializable {
         return _id == that._id &&
                 _accountId == that._accountId &&
                 _inek == that._inek &&
-                _functionId == that._functionId &&
+                _function == that._function &&
                 _dataId == that._dataId &&
                 Objects.equals(_date, that._date) &&
                 Objects.equals(_message, that._message);
@@ -122,6 +126,6 @@ public class Conversation implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _accountId, _inek, _functionId, _dataId, _date, _message);
+        return Objects.hash(_id, _accountId, _inek, _function, _dataId, _date, _message);
     }
 }

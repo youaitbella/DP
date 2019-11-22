@@ -6,6 +6,7 @@
 package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.Function;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChanges;
@@ -20,6 +21,7 @@ import org.inek.dataportal.care.utils.CareValueChecker;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.data.common.Conversation;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.TransferFileType;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -109,6 +111,25 @@ public class StructuralChangesEdit implements Serializable {
 
     public void setSelectedWards(List<DeptWard> selectedWards) {
         this._selectedWards = selectedWards;
+    }
+
+    private String _correction;
+
+    public String getCorrection() {
+        return _correction;
+    }
+
+    public void setCorrection(String correction) {
+        this._correction = correction;
+    }
+
+    public void askForCorrection(){
+        Conversation conversation= new Conversation();
+        conversation.setAccountId(_sessionController.getAccountId());
+        conversation.setDataId(_structuralChangesBaseInformation.getId());
+        conversation.setFunction(Function.STRUCTURAL_CHANGES);
+        conversation.setInek(isInekUser());
+        conversation.setMessage(_correction);
     }
 
     @PostConstruct
@@ -437,6 +458,4 @@ public class StructuralChangesEdit implements Serializable {
     public Boolean isInekUser() {
         return _sessionController.isInekUser(Feature.CARE);
     }
-
-
 }

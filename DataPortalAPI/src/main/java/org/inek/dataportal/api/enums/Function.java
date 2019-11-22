@@ -14,7 +14,7 @@ public enum Function {
         return id;
     }
 
-    public Function fromId(int functionId) {
+    public static Function fromId(int functionId) {
         for (Function function : Function.values()) {
             if (function.getId() == functionId) {
                 return function;
