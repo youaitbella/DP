@@ -275,7 +275,7 @@ public class StructuralChangesEdit implements Serializable {
 
     public void createNewWardFromSelectedWards() {
         if (_selectedWards.size() == 0) {
-            DialogController.showInfoDialog("Keine Station ausgewählt", "Bitte wählen Sie mindesten eine Station aus");
+            DialogController.showInfoDialog("Keine Station ausgewählt", "Bitte wählen Sie mindestens eine Station aus");
             return;
         }
 
@@ -460,5 +460,7 @@ public class StructuralChangesEdit implements Serializable {
 
     public void acceptChanges() {
         DeptBaseInformation deptBaseInformation = _deptFacade.findDeptBaseInformationByIk(_structuralChangesBaseInformation.getIk());
+
+        List<WardsToChange> wardsToChange = _structuralChangesBaseInformation.getStructuralChanges().stream().map(sc -> sc.getWardsToChange()).collect(Collectors.toList());
     }
 }

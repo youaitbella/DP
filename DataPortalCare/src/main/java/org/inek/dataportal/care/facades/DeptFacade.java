@@ -49,11 +49,13 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
 
 
     public DeptBaseInformation findDeptBaseInformationByIkAndBaseYear(int ik, int year) {
-        String jpql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._statusId = 10 "
+        String jpql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._statusId between :minStatus and :maxStatus "
                 + "and bi._ik = :ik and bi._year = :year";
         TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(jpql, DeptBaseInformation.class);
         query.setParameter("ik", ik);
         query.setParameter("year", year);
+        query.setParameter("minStatus", WorkflowStatus.Provided);
+        query.setParameter("maxStatus", WorkflowStatus.ReProvided);
         try {
             return query.getSingleResult();
         } catch (Exception ex) {
