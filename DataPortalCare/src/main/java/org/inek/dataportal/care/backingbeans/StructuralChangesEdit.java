@@ -39,10 +39,8 @@ import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.resource.spi.work.Work;
 import java.io.Serializable;
 import java.util.*;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -123,7 +121,7 @@ public class StructuralChangesEdit implements Serializable {
 
             if (_iks.size() == 1) {
                 _structuralChangesBaseInformation.setIk(_iks.stream().findFirst().get());
-                _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk(), new Date());
+                _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk());
             }
         } else {
             try {
@@ -131,7 +129,7 @@ public class StructuralChangesEdit implements Serializable {
                 _structuralChangesBaseInformation = _structuralChangesFacade.findBaseInformationsById(id);
 
                 if (isAccessAllowed(_structuralChangesBaseInformation)) {
-                    _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk(), new Date());
+                    _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk());
                 } else {
                     LOGGER.log(Level.INFO, "No access for IK: " + _structuralChangesBaseInformation.getIk());
                     Utils.navigate(Pages.NotAllowed.RedirectURL());
@@ -177,14 +175,16 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public boolean isReadOnly() {
-        if (_structuralChangesBaseInformation.getId() == null) {
-            return false;
-        }
-        return _structuralChangesBaseInformation.getStatus().getId() >= WorkflowStatus.Provided.getId();
+        return _accessManager.
+                isReadOnly(Feature.CARE,
+                        _structuralChangesBaseInformation.getStatus(),
+                        _structuralChangesBaseInformation.getRequestedAccountId(),
+                        _structuralChangesBaseInformation.getIk());
     }
 
     public boolean structuralChangesIsReadOnly(StructuralChanges change) {
-        return change.getStatus().getId() >= WorkflowStatus.Provided.getId();
+        //return change.getStatus().getId() >= WorkflowStatus.Provided.getId(); todo? readOnly or single Element protected
+        return isReadOnly();
     }
 
     private StructuralChangesBaseInformation createNewStructuralChangesBaseInformation() {
@@ -395,7 +395,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void ikChanged() {
-        _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk(), new Date());
+        _wards = _structuralChangesFacade.findWardsByIkAndDate(_structuralChangesBaseInformation.getIk());
     }
 
     public boolean changeAllowed() {
