@@ -226,6 +226,9 @@ public class StructuralChangesEdit implements Serializable {
     public List<SelectItem> getSensitiveAreas() {
         List<SelectItem> items = new ArrayList<>();
         for (SensitiveArea value : SensitiveArea.values()) {
+            if (value.getId() < 0) {
+                continue;
+            }
             items.add(new SelectItem(value.getId(), value.getName()));
         }
         return items;

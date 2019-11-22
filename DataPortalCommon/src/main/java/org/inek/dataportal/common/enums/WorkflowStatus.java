@@ -27,7 +27,9 @@ public enum WorkflowStatus {
 
     public static WorkflowStatus fromValue (int value){
         for (WorkflowStatus status : WorkflowStatus.values()){
-            if (status.getId() == value){return status;}
+            if (status.getValue() == value) {
+                return status;
+            }
         }
         return WorkflowStatus.Unknown;
     }
@@ -38,7 +40,6 @@ public enum WorkflowStatus {
         _icon = icon;
     }
 
-    // conveniance method, because the value is used as id in the DB
     public int getId() {
         return _value;
     }
@@ -46,7 +47,6 @@ public enum WorkflowStatus {
     public int getValue() {
         return _value;
     }
-
 
     public String getDescription() {
         return _description;
@@ -59,5 +59,13 @@ public enum WorkflowStatus {
     @Override
     public String toString(){
         return _description;
+    }
+
+    public boolean isLessThen(WorkflowStatus other) {
+        return getValue() < other.getValue();
+    }
+
+    public boolean isGreaterThen(WorkflowStatus other) {
+        return getValue() > other.getValue();
     }
 }
