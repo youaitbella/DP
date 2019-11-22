@@ -898,6 +898,11 @@
                         <pf:commandButton value="Korrektur anfordern"
                                           rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
                                           action="#{structuralChangesEdit.askForCorrection}"/>
+
+                        <pf:commandButton value="Änderungen akzeptieren"
+                                          rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
+                                          action="#{structuralChangesEdit.acceptChanges}"/>
+
                     </div>
                 </div>
             </div>

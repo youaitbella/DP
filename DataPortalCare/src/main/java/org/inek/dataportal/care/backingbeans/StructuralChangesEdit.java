@@ -415,7 +415,8 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public boolean changeAllowed() {
-        return _accessManager.userHasWriteAccess(Feature.CARE, _structuralChangesBaseInformation.getIk());
+        return _structuralChangesBaseInformation.getStatus().equals(WorkflowStatus.Provided)
+                && _accessManager.userHasWriteAccess(Feature.CARE, _structuralChangesBaseInformation.getIk());
     }
 
     public void change() {
@@ -452,5 +453,9 @@ public class StructuralChangesEdit implements Serializable {
 
     public Boolean isInekUser() {
         return _sessionController.isInekUser(Feature.CARE);
+    }
+
+    public void acceptChanges() {
+
     }
 }
