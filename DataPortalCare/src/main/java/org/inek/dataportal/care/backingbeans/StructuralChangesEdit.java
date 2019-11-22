@@ -154,12 +154,10 @@ public class StructuralChangesEdit implements Serializable {
                 } else {
                     LOGGER.log(Level.INFO, "No access for IK: " + _structuralChangesBaseInformation.getIk());
                     Utils.navigate(Pages.NotAllowed.RedirectURL());
-                    return;
                 }
             } catch (Exception ex) {
                 LOGGER.log(Level.SEVERE, "error init StructuralChangesEdit: " + ex + " --> " + ex.getMessage());
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
-                return;
             }
         }
     }
@@ -313,8 +311,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     private StructuralChanges createNewChanges() {
-        StructuralChanges change = new StructuralChanges();
-        return change;
+        return new StructuralChanges();
     }
 
     public void changesBaseInformation(StructuralChanges change) {
@@ -325,6 +322,7 @@ public class StructuralChangesEdit implements Serializable {
         if (baseInformationHasErrors(_structuralChangesBaseInformation)) {
             return;
         }
+
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
         TransferFileCreator.createObjectTransferFile(_sessionController, _structuralChangesBaseInformation,
                 _structuralChangesBaseInformation.getIk(), TransferFileType.CareChanges);

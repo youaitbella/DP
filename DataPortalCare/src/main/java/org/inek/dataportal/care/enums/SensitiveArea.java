@@ -1,6 +1,7 @@
 package org.inek.dataportal.care.enums;
 
 public enum SensitiveArea {
+    INVALID(-1, "---", false),
     INTENSIVMEDIZIN(1, "Intensivmedizin", false),
     GERIATRIE(2, "Geriatrie", true),
     HERZCHIRUGIE(3, "Herzchirurgie", true),
@@ -38,7 +39,7 @@ public enum SensitiveArea {
                 return sArea;
             }
         }
-        return null;
+        return SensitiveArea.INVALID;
     }
 
     public static  SensitiveArea getByName(String name) {
@@ -47,6 +48,6 @@ public enum SensitiveArea {
                 return sArea;
             }
         }
-        return null;
+        return SensitiveArea.INVALID;
     }
 }
