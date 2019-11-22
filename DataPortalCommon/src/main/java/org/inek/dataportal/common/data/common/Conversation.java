@@ -30,12 +30,12 @@ public class Conversation implements Serializable {
     @Column(name = "coAccountId")
     private int _accountId;
 
-    public int get_accountId() {
+    public int getAccountId() {
         return _accountId;
     }
 
-    public void set_accountId(int _accountId) {
-        this._accountId = _accountId;
+    public void setAccountId(int accountId) {
+        this._accountId = accountId;
     }
     //</editor-fold>
 
@@ -56,25 +56,25 @@ public class Conversation implements Serializable {
     @Column(name="coFunctionId")
     private int _functionId;
 
-    public int get_functionId() {
+    public int getFunctionId() {
         return _functionId;
     }
 
-    public void set_functionId(int _functionId) {
-        this._functionId = _functionId;
+    public void setFunctionId(int functionId) {
+        this._functionId = functionId;
     }
     //</editor-fold>
 
     //<editor-fold desc="Property DataId">
     @Column(name="coDataId")
-    private int _DataId;
+    private int _dataId;
 
-    public int get_DataId() {
-        return _DataId;
+    public int getDataId() {
+        return _dataId;
     }
 
-    public void set_DataId(int _DataId) {
-        this._DataId = _DataId;
+    public void setDataId(int dataId) {
+        this._dataId = dataId;
     }
     //</editor-fold>
 
@@ -83,12 +83,12 @@ public class Conversation implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _date;
 
-    public Date get_date() {
+    public Date getDate() {
         return _date;
     }
 
-    public void set_date(Date _date) {
-        this._date = _date;
+    public void setDate(Date date) {
+        this._date = date;
     }
     //</editor-fold>
 
@@ -96,12 +96,12 @@ public class Conversation implements Serializable {
     @Column(name="coMessage")
     private String _message;
 
-    public String get_message() {
+    public String getMessage() {
         return _message;
     }
 
-    public void set_message(String _message) {
-        this._message = _message;
+    public void setMessage(String message) {
+        this._message = message;
     }
     //</editor-fold>
 
@@ -115,13 +115,13 @@ public class Conversation implements Serializable {
                 _accountId == that._accountId &&
                 _inek == that._inek &&
                 _functionId == that._functionId &&
-                _DataId == that._DataId &&
+                _dataId == that._dataId &&
                 Objects.equals(_date, that._date) &&
                 Objects.equals(_message, that._message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _accountId, _inek, _functionId, _DataId, _date, _message);
+        return Objects.hash(_id, _accountId, _inek, _functionId, _dataId, _date, _message);
     }
 }
