@@ -43,6 +43,24 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         return query.getResultList();
     }
 
+    public DeptBaseInformation findDeptBaseInformationByIk(int ik) {
+        return findDeptBaseInformationByIkAndBaseYear(ik, 2018);
+    }
+
+
+    public DeptBaseInformation findDeptBaseInformationByIkAndBaseYear(int ik, int year) {
+        String jpql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._statusId = 10 "
+                + "and bi._ik = :ik and bi._year = :year";
+        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(jpql, DeptBaseInformation.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", year);
+        try {
+            return query.getSingleResult();
+        } catch (Exception ex) {
+            return new DeptBaseInformation();
+        }
+    }
+
     private Set<Pair<Integer, Integer>> retrieveIkYearPairs(Collection<Integer> iks) {
         if (iks.isEmpty()) {
             return new HashSet<>();
@@ -164,4 +182,5 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         TypedQuery<DeptArea> query = getEntityManager().createQuery(jpql, DeptArea.class);
         return query.getResultList();
     }
+
 }

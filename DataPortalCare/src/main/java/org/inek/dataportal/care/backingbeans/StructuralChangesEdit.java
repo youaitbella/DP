@@ -459,6 +459,6 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void acceptChanges() {
-
+        DeptBaseInformation deptBaseInformation = _deptFacade.findDeptBaseInformationByIk(_structuralChangesBaseInformation.getIk());
     }
 }

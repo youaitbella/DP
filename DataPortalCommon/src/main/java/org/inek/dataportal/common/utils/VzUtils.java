@@ -5,19 +5,18 @@ import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.helper.StreamHelper;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
 @Named
-@SessionScoped
-public class VzUtils implements Serializable {
+@ApplicationScoped
+public class VzUtils {
 
     private static final String PLACEHOLDER_HOST = "{vzHost}";
 
