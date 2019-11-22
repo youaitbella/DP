@@ -102,7 +102,19 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         List<StructuralChangesBaseInformation> baseInfo = findBaseInformationsByIk(ik);
 
         for (StructuralChangesBaseInformation structuralChangesBaseInformation : baseInfo) {
-            if (structuralChangesBaseInformation.getStatus().equals(WorkflowStatus.New)) {
+            if (structuralChangesBaseInformation.getStatus().getId() < WorkflowStatus.Provided.getId()) {
+                return Optional.of(structuralChangesBaseInformation);
+            }
+        }
+        return Optional.empty();
+    }
+
+    // todo: unify methods
+    public Optional<StructuralChangesBaseInformation> findOpenOrSendBaseInformationsByIk(int ik) {
+        List<StructuralChangesBaseInformation> baseInfo = findBaseInformationsByIk(ik);
+
+        for (StructuralChangesBaseInformation structuralChangesBaseInformation : baseInfo) {
+            if (structuralChangesBaseInformation.getStatus().getId() <= WorkflowStatus.ReProvided.getId()) {
                 return Optional.of(structuralChangesBaseInformation);
             }
         }

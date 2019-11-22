@@ -156,15 +156,12 @@ public class StructuralChangesEdit implements Serializable {
                 .collect(Collectors.toSet());
 
         for (Integer ik : tmpAllowedIks) {
-            Optional<StructuralChangesBaseInformation> openBaseInformationsByIk = _structuralChangesFacade.findOpenBaseInformationsByIk(ik);
-            if (openBaseInformationsByIk.isPresent()) {
+            if (_structuralChangesFacade.findOpenOrSendBaseInformationsByIk(ik).isPresent()) {
                 continue;
             }
 
-            List<StructuralChangesBaseInformation> sendBaseInformationsByIk = _structuralChangesFacade.findSendBaseInformationsByIk(ik);
-
             List<DeptBaseInformation> allByStatusAndIk = _deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, ik);
-            if (allByStatusAndIk.size() >= 1 && sendBaseInformationsByIk.size() == 0) {
+            if (allByStatusAndIk.size() >= 1) {
                 _iks.add(ik);
             }
         }
