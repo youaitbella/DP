@@ -1,23 +1,22 @@
 package org.inek.dataportal.care.utils;
 
+import javafx.util.Pair;
 import org.assertj.core.api.Assertions;
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.bo.DatePair;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.version.MapVersion;
+import org.inek.dataportal.common.utils.DateUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.inek.dataportal.common.utils.DateUtils.createDate;
 import static org.inek.dataportal.common.utils.DateUtils.getMaxDate;
-
 
 
 class AggregatedWardsHelperTest {
@@ -40,63 +39,14 @@ class AggregatedWardsHelperTest {
         Assertions.assertThat(AggregatedWardsHelper.stringsAreEqual(value1, value2)).isFalse();
     }
 
-    @Test
-    void checkBedCountForWardsTest() {
-        List<DeptWard> stations = new ArrayList<>();
-
-        DeptWard station1 = createDeptStation("Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard station2 = createDeptStation("Station A", "Fachabteilung 12", 1, 772548, "7000");
-        DeptWard station3 = createDeptStation("Station A", "Fachabteilung 31", 1, 772550, "1600");
-        DeptWard station4 = createDeptStation("Station a", "Fachabteilung 166", 1, 772550, "7000");
-
-        station1.setBedCount(20);
-        station2.setBedCount(20);
-        station3.setBedCount(20);
-        station4.setBedCount(20);
-
-        stations.add(station1);
-        stations.add(station2);
-        stations.add(station3);
-        stations.add(station4);
-
-        List<String> errors = AggregatedWardsHelper.checkBedCountForWards(stations);
-
-        Assertions.assertThat(errors).hasSize(0);
-    }
-
-    @Test
-    void checkBedCountForWards1Test() {
-        List<DeptWard> stations = new ArrayList<>();
-
-        DeptWard station1 = createDeptStation("Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard station2 = createDeptStation("Station A", "Fachabteilung 12", 1, 772548, "7000");
-        DeptWard station3 = createDeptStation("Station A", "Fachabteilung 31", 1, 772550, "1600");
-        DeptWard station4 = createDeptStation("Station a", "Fachabteilung 166", 1, 772550, "7000");
-
-        station1.setBedCount(20);
-        station2.setBedCount(40);
-        station3.setBedCount(20);
-        station4.setBedCount(20);
-
-        stations.add(station1);
-        stations.add(station2);
-        stations.add(station3);
-        stations.add(station4);
-
-        List<String> errors = AggregatedWardsHelper.checkBedCountForWards(stations);
-
-        Assertions.assertThat(errors).hasSize(1);
-        Assertions.assertThat(errors.get(0)).contains("20", "40");
-    }
-
     // temp disabled @Test
     void findAllValidityRangesMultipleRangesTest() {
         List<DeptWard> stations = new ArrayList<>();
 
-        DeptWard station1 = createDeptStation(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.MARCH, 31), "Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard station2 = createDeptStation(createDate(2019, Month.APRIL, 1), getMaxDate(), "Station A", "Fachabteilung 12", 1, 772548, "5600");
-        DeptWard station3 = createDeptStation(createDate(2019, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 13", 1, 772548, "1600");
-        DeptWard station4 = createDeptStation(createDate(2019, Month.JANUARY, 1), createDate(2020, Month.DECEMBER, 31), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+        DeptWard station1 = createDeptWard(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.MARCH, 31), "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptWard station2 = createDeptWard(createDate(2019, Month.APRIL, 1), getMaxDate(), "Station A", "Fachabteilung 12", 1, 772548, "5600");
+        DeptWard station3 = createDeptWard(createDate(2019, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 13", 1, 772548, "1600");
+        DeptWard station4 = createDeptWard(createDate(2019, Month.JANUARY, 1), createDate(2020, Month.DECEMBER, 31), "Station A", "Fachabteilung 130", 1, 772548, "7000");
 
         stations.add(station1);
         stations.add(station2);
@@ -115,10 +65,10 @@ class AggregatedWardsHelperTest {
     void findAllValidityRangesMultipleSameRangesTest() {
         List<DeptWard> stations = new ArrayList<>();
 
-        DeptWard station1 = createDeptStation(createDate(2018, Month.JANUARY, 1), createDate(2018, Month.MARCH, 31), "Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard station2 = createDeptStation(createDate(2018, Month.APRIL, 1), getMaxDate(), "Station A", "Fachabteilung 12", 1, 772548, "5600");
-        DeptWard station3 = createDeptStation(createDate(2018, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 13", 1, 772548, "1600");
-        DeptWard station4 = createDeptStation(createDate(2018, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+        DeptWard station1 = createDeptWard(createDate(2018, Month.JANUARY, 1), createDate(2018, Month.MARCH, 31), "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptWard station2 = createDeptWard(createDate(2018, Month.APRIL, 1), getMaxDate(), "Station A", "Fachabteilung 12", 1, 772548, "5600");
+        DeptWard station3 = createDeptWard(createDate(2018, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 13", 1, 772548, "1600");
+        DeptWard station4 = createDeptWard(createDate(2018, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 130", 1, 772548, "7000");
 
         stations.add(station1);
         stations.add(station2);
@@ -138,10 +88,10 @@ class AggregatedWardsHelperTest {
 
         List<DeptWard> stations = new ArrayList<>();
 
-        DeptWard station1 = createDeptStation(createDate(2018, Month.JANUARY, 1), createDate(2018, Month.MARCH, 31), "Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard station2 = createDeptStation(createDate(2018, Month.APRIL, 1), getMaxDate(), "Station A", "Fachabteilung 12", 1, 772548, "5600");
-        DeptWard station3 = createDeptStation(createDate(2018, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 13", 1, 772548, "1600");
-        DeptWard station4 = createDeptStation(createDate(2018, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+        DeptWard station1 = createDeptWard(createDate(2018, Month.JANUARY, 1), createDate(2018, Month.MARCH, 31), "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptWard station2 = createDeptWard(createDate(2018, Month.APRIL, 1), getMaxDate(), "Station A", "Fachabteilung 12", 1, 772548, "5600");
+        DeptWard station3 = createDeptWard(createDate(2018, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 13", 1, 772548, "1600");
+        DeptWard station4 = createDeptWard(createDate(2018, Month.JANUARY, 1), getMaxDate(), "Station A", "Fachabteilung 130", 1, 772548, "7000");
 
         stations.add(station1);
         stations.add(station2);
@@ -160,10 +110,10 @@ class AggregatedWardsHelperTest {
     void findStationsInDatePairRangeWithSameDateTest() {
         List<DeptWard> stations = new ArrayList<>();
 
-        DeptWard station1 = createDeptStation(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.MARCH, 31), "Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard station2 = createDeptStation(createDate(2018, Month.APRIL, 1), getMaxDate(), "Station A", "Fachabteilung 12", 1, 772548, "5600");
-        DeptWard station3 = createDeptStation(createDate(2019, Month.JANUARY, 1), createDate(2050, Month.AUGUST, 31), "Station A", "Fachabteilung 13", 1, 772548, "1600");
-        DeptWard station4 = createDeptStation(createDate(2019, Month.FEBRUARY, 1), getMaxDate(), "Station A", "Fachabteilung 130", 1, 772548, "7000");
+        DeptWard station1 = createDeptWard(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.MARCH, 31), "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptWard station2 = createDeptWard(createDate(2018, Month.APRIL, 1), getMaxDate(), "Station A", "Fachabteilung 12", 1, 772548, "5600");
+        DeptWard station3 = createDeptWard(createDate(2019, Month.JANUARY, 1), createDate(2050, Month.AUGUST, 31), "Station A", "Fachabteilung 13", 1, 772548, "1600");
+        DeptWard station4 = createDeptWard(createDate(2019, Month.FEBRUARY, 1), getMaxDate(), "Station A", "Fachabteilung 130", 1, 772548, "7000");
 
         DatePair pair = new DatePair(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.AUGUST, 31));
 
@@ -181,10 +131,10 @@ class AggregatedWardsHelperTest {
     void groupStationsByNameAndLocationCodesWithMultipleStationsVzTest() {
         List<DeptWard> wards = new ArrayList<>();
 
-        DeptWard station1 = createDeptStation("Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard station2 = createDeptStation("Station A", "Fachabteilung 12", 1, 772548, "7000");
-        DeptWard station3 = createDeptStation("Station A", "Fachabteilung 31", 1, 772550, "1600");
-        DeptWard station4 = createDeptStation("Station a", "Fachabteilung 166", 1, 772550, "7000");
+        DeptWard station1 = createDeptWard("Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptWard station2 = createDeptWard("Station A", "Fachabteilung 12", 1, 772548, "7000");
+        DeptWard station3 = createDeptWard("Station A", "Fachabteilung 31", 1, 772550, "1600");
+        DeptWard station4 = createDeptWard("Station a", "Fachabteilung 166", 1, 772550, "7000");
 
         wards.add(station1);
         wards.add(station2);
@@ -202,10 +152,10 @@ class AggregatedWardsHelperTest {
     void groupStationsByNameAndLocationCodesWithMultipleStationsP21Test() {
         List<DeptWard> wards = new ArrayList<>();
 
-        DeptWard station1 = createDeptStation("Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard station2 = createDeptStation("Station A", "Fachabteilung 12", 1, 772548, "7000");
-        DeptWard station3 = createDeptStation("Station A", "Fachabteilung 31", 2, 772548, "1600");
-        DeptWard station4 = createDeptStation("Station a", "Fachabteilung 166", 2, 772548, "7000");
+        DeptWard station1 = createDeptWard("Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptWard station2 = createDeptWard("Station A", "Fachabteilung 12", 1, 772548, "7000");
+        DeptWard station3 = createDeptWard("Station A", "Fachabteilung 31", 2, 772548, "1600");
+        DeptWard station4 = createDeptWard("Station a", "Fachabteilung 166", 2, 772548, "7000");
 
         wards.add(station1);
         wards.add(station2);
@@ -219,7 +169,41 @@ class AggregatedWardsHelperTest {
         Assertions.assertThat(lists.get(1)).containsExactly(station3, station4);
     }
 
-    private DeptWard createDeptStation(Date validFrom, Date validTo, String name, String deptName, int p21, int vz, String fab) {
+    @Test
+    void evaluate() {
+        List<DeptWard> wards = new ArrayList<>();
+
+        wards.add(createDeptWard("Station A", "Fachabteilung 1", 1, 772548, "1300"));
+        wards.add(createDeptWard("Station A", "Fachabteilung 12", 1, 772548, "7000"));
+        wards.add(createDeptWard("Station A", "Fachabteilung 31", 2, 772548, "1600"));
+        wards.add(createDeptWard(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.DECEMBER, 31),
+                "Station a", "Fachabteilung 166", 2, 772548, "7000"));
+        wards.add(createDeptWard(createDate(2020, Month.JANUARY, 1), DateUtils.getMaxDate(),
+                "Station a", "Fachabteilung 166", 2, 772548, "7000"));
+
+        Map<String, List<DeptWard>> wardMap = wards.stream().collect(Collectors.groupingBy(this::getKey));
+        Assertions.assertThat(wardMap).hasSize(2);
+
+        for (List<DeptWard> deptWards : wardMap.values()) {
+            List<Date> toDates = deptWards.stream().map(w -> w.getValidTo()).distinct().sorted(Date::compareTo).collect(Collectors.toList());
+            List<Pair<Date, Date>> fromToDates = new ArrayList<>();
+            deptWards.stream().map(w -> w.getValidFrom()).distinct().sorted(Date::compareTo).forEachOrdered(from -> {
+                toDates.stream().filter(toDate -> toDate.compareTo(from) >= 0).findFirst().ifPresent(toDate -> fromToDates.add(new Pair<>(from, toDate)));
+            });
+            System.out.println(fromToDates.size());
+        }
+
+    }
+
+    private String getKey(DeptWard ward) {
+        String key = ward.getLocationCodeP21()
+                + "|" + ward.getLocationText()
+                + "|" + ward.getWardName().toLowerCase().replace(" ", "")
+                + "|" + (ward.getDept() == null ? "???" : ward.getDept().getDeptArea() == 3 ? "Intensiv" : "Other");
+        return key;
+    }
+
+    private DeptWard createDeptWard(Date validFrom, Date validTo, String name, String deptName, int p21, int vz, String fab) {
         DeptWard station = new DeptWard(new MapVersion());
         station.setValidFrom(validFrom);
         station.setValidTo(validTo);
@@ -231,8 +215,8 @@ class AggregatedWardsHelperTest {
         return station;
     }
 
-    private DeptWard createDeptStation(String name, String deptName, int p21, int vz, String fab) {
-        return createDeptStation(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.DECEMBER, 31), name, deptName, p21, vz, fab);
+    private DeptWard createDeptWard(String name, String deptName, int p21, int vz, String fab) {
+        return createDeptWard(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.DECEMBER, 31), name, deptName, p21, vz, fab);
     }
 
     // temp disabled @Test
@@ -240,23 +224,22 @@ class AggregatedWardsHelperTest {
         List<DeptWard> wards = new ArrayList<>();
 
 
-        DeptWard station1 = createDeptStation("Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptWard station1 = createDeptWard("Station A", "Fachabteilung 1", 1, 772548, "1300");
         // todo: station1.setMapVersion(createMapVersion(1));
         station1.setBedCount(20);
 
 
-        DeptWard station2 = createDeptStation("Station A", "Fachabteilung 19", 1, 772548, "1600");
+        DeptWard station2 = createDeptWard("Station A", "Fachabteilung 19", 1, 772548, "1600");
         // todo: station2.setMapVersion(createMapVersion(2));
         station2.setBedCount(20);
 
 
-
-        DeptWard station3 = createDeptStation("Station B", "Fachabteilung Neu", 2, 772548, "5600");
+        DeptWard station3 = createDeptWard("Station B", "Fachabteilung Neu", 2, 772548, "5600");
         // todo: station3.setMapVersion(createMapVersion(3));
         station3.setBedCount(30);
 
 
-        DeptWard station4 = createDeptStation("Station B", "Fachabteilung AltNeu", 2, 772548, "8000");
+        DeptWard station4 = createDeptWard("Station B", "Fachabteilung AltNeu", 2, 772548, "8000");
         // todo: station4.setMapVersion(createMapVersion(4));
         station4.setBedCount(30);
 

@@ -630,10 +630,10 @@ public class StructuralChangesEdit implements Serializable {
         newWard.setWardName(changeWard.getWardName());
         newWard.setLocationCodeP21(changeWard.getLocationP21());
         newWard.setLocationText(changeWard.getLocationVz());
-        int locationCode = CareValueChecker.extractFormalValidVzNumber(changeWard.getLocationVz());
-        if (_vzUtils != null && !_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
-            newWard.setLocationCodeVz(locationCode);
-        }
+//        int locationCode = CareValueChecker.extractFormalValidVzNumber(changeWard.getLocationVz());
+//        if (_vzUtils != null && !_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
+//            newWard.setLocationCodeVz(locationCode);
+//        }
         newWard.setBedCount(changeWard.getBeds());
     }
 

@@ -129,7 +129,7 @@ public class WardsToChange implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property LocationVz">
     @Column(name = "wtcLocationVz")
-    private String _locationVz;
+    private String _locationVz = "";
 
     public String getLocationVz() {
         return _locationVz;

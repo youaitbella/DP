@@ -1,5 +1,6 @@
 package org.inek.dataportal.care.utils;
 
+import javafx.util.Pair;
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.bo.DatePair;
 import org.inek.dataportal.care.entities.DeptWard;
@@ -36,26 +37,48 @@ public class AggregatedWardsHelper {
         return new ArrayList<>(aggregatedWards.values());
     }
 
-    public static List<String> checkBedCountForWards(List<DeptWard> wards) {
-        List<String> errorMessages = new ArrayList<>();
-        List<List<DeptWard>> lists = groupStationsByNameAndLocationCodes(wards);
+    public static List<AggregatedWards> aggregatedWardsNew(List<DeptWard> wards) {
+        Map<String, AggregatedWards> aggregatedWards = new ConcurrentHashMap<>();
 
-        for (List<DeptWard> stations : lists) {
-            if (stations.stream().mapToInt(DeptWard::getBedCount).distinct().count() != 1) {
-                errorMessages.add(buildErrorMessageForMultipleBedCounts(stations));
+        Map<String, List<DeptWard>> wardMap = wards.stream().collect(Collectors.groupingBy(AggregatedWardsHelper::getKey));
+
+        for (List<DeptWard> deptWards : wardMap.values()) {
+            List<Date> toDates = deptWards.stream().map(w -> w.getValidTo()).distinct().sorted(Date::compareTo).collect(Collectors.toList());
+            List<Pair<Date, Date>> fromToDates = new ArrayList<>();
+            deptWards.stream().map(w -> w.getValidFrom()).distinct().sorted(Date::compareTo).forEachOrdered(from -> {
+                toDates.stream().filter(toDate -> toDate.compareTo(from) >= 0).findFirst().ifPresent(toDate -> fromToDates.add(new Pair<>(from, toDate)));
+            });
+            for (DeptWard deptWard : deptWards) {
+
             }
         }
-        return errorMessages;
+
+
+        for (DeptWard ward : wards) {
+            String key = ward.getLocationCodeP21()
+                    //+ "|" + ward.getLocationCodeVz() for future usage
+                    + "|" + ward.getLocationText()
+                    + "|" + ward.getWardName().toLowerCase().replace(" ", "")
+                    + "|" + (ward.getDept().getDeptArea() == 3 ? "Intensiv" : "Other")
+                    + "|" + ward.getValidFrom()
+                    + "|" + ward.getValidTo();
+            if (aggregatedWards.containsKey(key)) {
+                aggregatedWards.get(key).aggregate(ward);
+            } else {
+                aggregatedWards.put(key, new AggregatedWards(ward));
+            }
+        }
+        return new ArrayList<>(aggregatedWards.values());
     }
 
-    protected static String buildErrorMessageForMultipleBedCounts(List<DeptWard> stations) {
-        String stationName = stations.get(0).getWardName();
-        String bedCounts = stations.stream().mapToInt(DeptWard::getBedCount)
-                .distinct()
-                .mapToObj(i -> ((Integer) i).toString())
-                .collect(Collectors.joining(", "));
-        return String.format(ERROR_MESSAGE_MULTIPLE_BEDS, stationName, bedCounts);
+    private static String getKey(DeptWard ward) {
+        String key = ward.getLocationCodeP21()
+                + "|" + ward.getLocationText()
+                + "|" + ward.getWardName().toLowerCase().replace(" ", "")
+                + "|" + (ward.getDept() == null ? "???" : ward.getDept().getDeptArea() == 3 ? "Intensiv" : "Other");
+        return key;
     }
+
 
     protected static Boolean stringsAreEqual(String value1, String value2) {
         String value1Formatted = value1.trim().replaceAll("\\s", "").toUpperCase();
@@ -186,5 +209,27 @@ public class AggregatedWardsHelper {
         }
         return false;
     }
+
+
+    public static List<AggregatedWards> generateAggregatedWardsFromWards(List<DeptWard> wards) {
+        List<List<DeptWard>> lists = groupStationsByNameAndLocationCodes(wards);
+        List<List<DeptWard>> lists1 = groupStationListsByValidity(lists);
+        List<AggregatedWards> aggregatedWards = generateAggregatedWardsFromSortedWards(lists1);
+        return aggregatedWards;
+    }
+
+    protected static List<AggregatedWards> generateAggregatedWardsFromSortedWards(List<List<DeptWard>> wardsList) {
+        List<AggregatedWards> aggregatedWards = new ArrayList<>();
+
+        for (List<DeptWard> wards : wardsList) {
+            if (wards.size() > 0) {
+                //aggregatedWards.add(new AggregatedWards(wards));
+            }
+        }
+
+        return aggregatedWards;
+    }
+
+
 
 }
