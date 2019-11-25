@@ -21,6 +21,13 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    public static Date addDays(Date date, int offset) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR, 24 * offset);
+        return calendar.getTime();
+    }
+
     public static Date getDateWithMinuteOffset(int offset) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, offset);
@@ -45,7 +52,6 @@ public class DateUtils {
 
     public static Date createDate(int year, Month month, int day) {
         return createDate(year, month, day, 0, 0, 0);
-
     }
 
     private static Date createDate(int year, Month month, int day, int hour, int minute, int second) {
