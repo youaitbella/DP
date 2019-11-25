@@ -235,6 +235,21 @@ public class DeptWard implements Serializable {
 
     //</editor-fold>
 
+    //<editor-fold desc="Property BaseDeptWardId">
+    @JsonIgnore
+    @Column(name = "dwBaseDeptWardId")
+    int baseDeptWardId;
+
+    @JsonIgnore
+    public int getBaseDeptWardId() {
+        return baseDeptWardId == 0 ? _id : baseDeptWardId;
+    }
+
+    public void setBaseDeptWardId(int baseDeptWardId) {
+        this.baseDeptWardId = baseDeptWardId;
+    }
+    //</editor-fold>
+
     @Column(name = "dwLocation2017")
     private String _location2017 = "";
 
