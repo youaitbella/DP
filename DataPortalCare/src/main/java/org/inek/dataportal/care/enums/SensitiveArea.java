@@ -33,7 +33,7 @@ public enum SensitiveArea {
         _fabRequired = fabRequired;
     }
 
-    public static SensitiveArea getById(int id) {
+    public static SensitiveArea fromId(int id) {
         for (SensitiveArea sArea : SensitiveArea.values()) {
             if (sArea.getId() == id) {
                 return sArea;
@@ -42,7 +42,7 @@ public enum SensitiveArea {
         return SensitiveArea.INVALID;
     }
 
-    public static  SensitiveArea getByName(String name) {
+    public static SensitiveArea fromName(String name) {
         for (SensitiveArea sArea : SensitiveArea.values()) {
             if (sArea.getName().toUpperCase().equals(name.toUpperCase())) {
                 return sArea;

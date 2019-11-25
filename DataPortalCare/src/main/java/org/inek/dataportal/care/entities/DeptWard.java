@@ -209,7 +209,7 @@ public class DeptWard implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Valid To">
     @Column(name = "dwValidTo")
-    private Date _validTo;
+    private Date _validTo = DateUtils.getMaxDate();
 
     public Date getValidTo() {
         return _validTo;

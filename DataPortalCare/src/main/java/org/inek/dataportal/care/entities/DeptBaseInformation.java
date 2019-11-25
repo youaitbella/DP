@@ -230,7 +230,7 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
         return stations;
     }
 
-    public List<DeptWard> getCurrentWards() {
+    public List<DeptWard> obtainCurrentWards() {
         List<DeptWard> wards = new ArrayList<>();
         DeptBaseInformation baseInfo = this;
         for (Dept dept : _depts) {

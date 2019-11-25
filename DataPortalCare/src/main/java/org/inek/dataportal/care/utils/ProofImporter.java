@@ -163,7 +163,7 @@ public class ProofImporter {
         }
         Optional<Proof> first = info.getProofs().stream()
                 .filter(c -> c.getProofRegulationStation().getSensitiveArea() ==
-                        SensitiveArea.getByName(getStringFromCell(row.getCell(CELL_SENSITIVEAREA))))
+                        SensitiveArea.fromName(getStringFromCell(row.getCell(CELL_SENSITIVEAREA))))
                 .filter(c -> c.getProofRegulationStation().getFabNumber().equals(getFabNumberFromCell(row.getCell(CELL_FABNUMBER))))
                 .filter(c -> c.getProofRegulationStation().getFabName().equals(getStringFromCell(row.getCell(CELL_FABNAME))))
                 .filter(c -> c.getProofRegulationStation().getStationName().equals(getStringFromCell(row.getCell(CELL_STATIONNAME))))

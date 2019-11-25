@@ -29,7 +29,7 @@ public class WardsToChange implements Serializable {
         _beds = station.getBedCount();
         _validFrom = station.getValidFrom();
         _validTo = station.getValidTo();
-        _sensitiveAreaId = SensitiveArea.getByName(station.getDept().getSensitiveArea()).getId();
+        _sensitiveAreaId = SensitiveArea.fromName(station.getDept().getSensitiveArea()).getId();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">

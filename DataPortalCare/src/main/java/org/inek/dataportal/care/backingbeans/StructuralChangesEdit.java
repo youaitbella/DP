@@ -7,12 +7,14 @@ package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.Function;
+import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChanges;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesWards;
 import org.inek.dataportal.care.entities.StructuralChanges.WardsToChange;
+import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.care.enums.StructuralChangesType;
 import org.inek.dataportal.care.facades.DeptFacade;
@@ -29,6 +31,7 @@ import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.utils.DateUtils;
 import org.inek.dataportal.common.utils.VzUtils;
 import org.primefaces.PrimeFaces;
 
@@ -123,8 +126,8 @@ public class StructuralChangesEdit implements Serializable {
         this._correction = correction;
     }
 
-    public void askForCorrection(){
-        Conversation conversation= new Conversation();
+    public void askForCorrection() {
+        Conversation conversation = new Conversation();
         conversation.setAccountId(_sessionController.getAccountId());
         conversation.setDataId(_structuralChangesBaseInformation.getId());
         conversation.setFunction(Function.STRUCTURAL_CHANGES);
@@ -436,7 +439,7 @@ public class StructuralChangesEdit implements Serializable {
             return true;
         }
 
-        return SensitiveArea.getById(sensitiveAreaId).isFabRequired();
+        return SensitiveArea.fromId(sensitiveAreaId).isFabRequired();
     }
 
     private void sendMail(String mailTemplateName) {
@@ -459,17 +462,180 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void acceptChanges() {
-        DeptBaseInformation deptBaseInformation = _deptFacade.findDeptBaseInformationByIk(_structuralChangesBaseInformation.getIk());
+        int ik = _structuralChangesBaseInformation.getIk();
+        DeptBaseInformation deptBaseInformation = _deptFacade.findDeptBaseInformationByIk(ik);
 
-        List<WardsToChange> wardsToChange = _structuralChangesBaseInformation.getStructuralChanges()
-                .stream().map(sc -> sc.getWardsToChange()).collect(Collectors.toList());
+        List<DeptWard> wards = obtainAndPrepareWards(deptBaseInformation);
+        List<StructuralChanges> structuralChanges = _structuralChangesBaseInformation.getStructuralChanges();
 
-        // process changes first
-        _structuralChangesBaseInformation.getStructuralChanges()
-                .stream().filter(sc -> sc.getStructuralChangesType() == StructuralChangesType.CHANGE)
-                .map(sc -> sc.getWardsToChange()).collect(Collectors.toList());
-        // adjust validities
-
-        // process close down last
+        processChanges(wards, structuralChanges, ik);
+        processDeletions(wards, structuralChanges);
+        processTempoaryDeletions(wards, structuralChanges);
+        processAdditions(wards, structuralChanges, ik);
     }
+
+    private List<DeptWard> obtainAndPrepareWards(DeptBaseInformation deptBaseInformation) {
+        List<DeptWard> wards = deptBaseInformation.obtainCurrentWards();
+        MapVersion version = new MapVersion(_sessionController.getAccountId());
+        for (DeptWard ward : wards) {
+            ward.setMapVersion(version);
+            ward.setIsInitial(false);
+        }
+        return wards;
+    }
+
+    void processChanges(List<DeptWard> wards, List<StructuralChanges> structuralChanges, int ik) {
+        structuralChanges
+                .stream().filter(sc -> sc.getStructuralChangesType() == StructuralChangesType.CHANGE)
+                .map(sc -> sc.getWardsToChange())
+                .sorted(Comparator.comparing(WardsToChange::getValidFrom))
+                .forEachOrdered(changeWard -> {
+                    List<DeptWard> deptWards = wards.stream()
+                            .filter(w -> w.getBaseDeptWardId() == changeWard.getDeptWard().getId())
+                            .sorted(Comparator.comparing(DeptWard::getValidFrom))
+                            .collect(Collectors.toList());
+                    assert deptWards.size() > 0;
+                    DeptWard firstDeptWard = deptWards.get(0);
+                    if (changeWard.getValidFrom().compareTo(firstDeptWard.getValidFrom()) < 0) {
+                        // before the first existing
+                        DeptWard newWard = new DeptWard(firstDeptWard);
+
+                        Date validTo = DateUtils.addDays(firstDeptWard.getValidFrom(), -1);
+                        newWard.setValidTo(validTo);
+                        newWard.setBaseDeptWardId(firstDeptWard.getBaseDeptWardId());
+                        wards.add(newWard);
+                        return;
+                    }
+                    DeptWard lastDeptWard = deptWards.get(deptWards.size() - 1);
+                    if (changeWard.getValidFrom().compareTo(lastDeptWard.getValidTo()) > 0) {
+                        // after the last existing
+                        DeptWard newWard = new DeptWard(lastDeptWard);
+                        newWard.setValidFrom(changeWard.getValidFrom());
+                        newWard.setValidTo(DateUtils.getMaxDate());
+                        newWard.setBaseDeptWardId(lastDeptWard.getBaseDeptWardId());
+                        wards.add(newWard);
+                        return;
+                    }
+                    DeptWard deptWard = deptWards.stream()
+                            .filter(w -> w.getValidFrom().compareTo(changeWard.getValidFrom()) <= 0
+                                    && w.getValidTo().compareTo(changeWard.getValidFrom()) >= 0)
+                            .findAny().get();
+                    DeptWard newWard = new DeptWard(deptWard);
+                    newWard.setValidFrom(changeWard.getValidFrom());
+                    newWard.setValidTo(deptWard.getValidTo());
+                    newWard.setBaseDeptWardId(lastDeptWard.getBaseDeptWardId());
+                    copyValues(changeWard, newWard, ik);
+                    wards.add(newWard);
+                    deptWard.setValidTo(DateUtils.addDays(changeWard.getValidFrom(), -1));
+                    if (deptWard.getValidFrom().compareTo(deptWard.getValidTo()) > 0) {
+                        // invalid
+                        wards.remove(deptWard);
+                    }
+                });
+    }
+
+    void processDeletions(List<DeptWard> wards, List<StructuralChanges> structuralChanges) {
+        structuralChanges
+                .stream().filter(sc -> sc.getStructuralChangesType() == StructuralChangesType.CLOSE)
+                .map(sc -> sc.getWardsToChange())
+                .sorted(Comparator.comparing(WardsToChange::getValidFrom))
+                .forEachOrdered(changeWard -> {
+                    List<DeptWard> deptWards = wards.stream()
+                            .filter(w -> w.getBaseDeptWardId() == changeWard.getDeptWard().getId())
+                            .sorted(Comparator.comparing(DeptWard::getValidFrom))
+                            .collect(Collectors.toList());
+                    for (DeptWard deptWard : deptWards) {
+                        if (deptWard.getValidFrom().compareTo(changeWard.getValidFrom()) >= 0) {
+                            wards.remove(deptWard);
+                            continue;
+                        }
+                        if (deptWard.getValidFrom().compareTo(changeWard.getValidFrom()) <= 0
+                                && deptWard.getValidTo().compareTo(changeWard.getValidFrom()) >= 0) {
+                            deptWard.setValidTo(DateUtils.addDays(changeWard.getValidFrom(), -1));
+                        }
+                    }
+                });
+    }
+
+    void processTempoaryDeletions(List<DeptWard> wards, List<StructuralChanges> structuralChanges) {
+        structuralChanges
+                .stream().filter(sc -> sc.getStructuralChangesType() == StructuralChangesType.CLOSE_TEMP)
+                .map(sc -> sc.getWardsToChange())
+                .sorted(Comparator.comparing(WardsToChange::getValidFrom))
+                .forEachOrdered(changeWard -> {
+                    List<DeptWard> deptWards = wards.stream()
+                            .filter(w -> w.getBaseDeptWardId() == changeWard.getDeptWard().getId())
+                            .sorted(Comparator.comparing(DeptWard::getValidFrom))
+                            .collect(Collectors.toList());
+                    for (DeptWard deptWard : deptWards) {
+                        if (deptWard.getValidFrom().compareTo(changeWard.getValidFrom()) >= 0
+                                && deptWard.getValidTo().compareTo(changeWard.getValidTo()) <= 0) {
+                            wards.remove(deptWard);
+                            continue;
+                        }
+                        if (deptWard.getValidFrom().compareTo(changeWard.getValidFrom()) < 0
+                                && deptWard.getValidTo().compareTo(changeWard.getValidFrom()) >= 0) {
+                            deptWard.setValidTo(DateUtils.addDays(changeWard.getValidFrom(), -1));
+                        }
+                        if (deptWard.getValidFrom().compareTo(changeWard.getValidTo()) <= 0
+                                && deptWard.getValidTo().compareTo(changeWard.getValidTo()) > 0) {
+                            deptWard.setValidFrom(DateUtils.addDays(changeWard.getValidTo(), 1));
+                        }
+                    }
+                });
+    }
+
+    void processAdditions(List<DeptWard> wards, List<StructuralChanges> structuralChanges, int ik) {
+        //wards.get(0).getDept().getBaseInformation().getDepts().stream().filter(d -> d.getS)
+
+        structuralChanges
+                .stream().filter(sc -> sc.getStructuralChangesType() == StructuralChangesType.NEW)
+                .map(sc -> sc.getWardsToChange())
+                .sorted(Comparator.comparing(WardsToChange::getValidFrom))
+                .forEachOrdered(changeWard -> {
+                    DeptWard deptWard = new DeptWard(wards.get(0).getMapVersion());
+                    deptWard.setValidFrom(changeWard.getValidFrom());
+                    deptWard.setValidTo(DateUtils.getMaxDate());
+                    copyValues(changeWard, deptWard, ik);
+                    deptWard.setDept(findDept(changeWard, wards.get(0)));
+                    // todo changeWard.getSensitiveAreaId()
+                });
+    }
+
+    /**
+     * Search Dept by best guess
+     *
+     * @param changeWard
+     * @param deptWard
+     * @return
+     */
+    private Dept findDept(WardsToChange changeWard, DeptWard deptWard) {
+        if (deptWard.getDept() == null) {
+            // during test
+            return new Dept();
+        }
+        String sensitiveArea = SensitiveArea.fromId(changeWard.getSensitiveAreaId()).getName();
+
+        List<Dept> allDepts = deptWard.getDept().getBaseInformation().getDepts();
+        List<Dept> deptsWithArea = allDepts.stream().filter(d -> d.getSensitiveArea().equals(sensitiveArea)).collect(Collectors.toList());
+        if (deptsWithArea.size() == 0) {
+            return allDepts.get(0);
+        }
+        return deptsWithArea.stream().filter(d -> d.getDeptNumber().equals("" + changeWard.getDeptId())).findAny().orElse(deptsWithArea.get(0));
+    }
+
+    private void copyValues(WardsToChange changeWard, DeptWard newWard, int ik) {
+        newWard.setDeptName(changeWard.getDeptName());
+        newWard.setFab(changeWard.getFab());
+        newWard.setWardName(changeWard.getWardName());
+        newWard.setLocationCodeP21(changeWard.getLocationP21());
+        newWard.setLocationText(changeWard.getLocationVz());
+        int locationCode = CareValueChecker.extractFormalValidVzNumber(changeWard.getLocationVz());
+        if (_vzUtils != null && !_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
+            newWard.setLocationCodeVz(locationCode);
+        }
+        newWard.setBedCount(changeWard.getBeds());
+    }
+
+
 }

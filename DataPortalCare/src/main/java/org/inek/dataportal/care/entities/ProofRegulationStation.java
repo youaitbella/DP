@@ -5,7 +5,6 @@ import org.inek.dataportal.care.enums.SensitiveArea;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -43,7 +42,7 @@ public class ProofRegulationStation implements Serializable {
     private int _sensitiveAreaId;
 
     public SensitiveArea getSensitiveArea() {
-        return SensitiveArea.getById(_sensitiveAreaId);
+        return SensitiveArea.fromId(_sensitiveAreaId);
     }
 
     public void setSensitiveArea(SensitiveArea sensitiveArea) {
