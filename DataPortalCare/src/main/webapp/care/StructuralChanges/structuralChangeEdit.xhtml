@@ -964,13 +964,13 @@
                                           rendered="#{not structuralChangesEdit.readOnly}"
                                           update="@(.ui-message) @form"/>
 
-                        <pf:commandButton value="Korrektur anfordern"
-                                          rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
-                                          action="#{structuralChangesEdit.askForCorrection}"/>
-
                         <pf:commandButton value="Änderungen akzeptieren"
                                           rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
                                           action="#{structuralChangesEdit.acceptChanges}"/>
+
+                        <pf:commandButton value="Korrektur anfordern"
+                                          rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
+                                          action="#{structuralChangesEdit.askForCorrection}"/>
 
                     </div>
                 </div>

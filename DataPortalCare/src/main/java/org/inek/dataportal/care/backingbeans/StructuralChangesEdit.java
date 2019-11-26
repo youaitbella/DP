@@ -549,6 +549,7 @@ public class StructuralChangesEdit implements Serializable {
         structuralChanges
                 .stream().filter(sc -> sc.getStructuralChangesType() == StructuralChangesType.CLOSE)
                 .map(sc -> sc.getWardsToChange())
+                .filter(w -> w.getValidFrom() != null)
                 .sorted(Comparator.comparing(WardsToChange::getValidFrom))
                 .forEachOrdered(changeWard -> {
                     List<DeptWard> deptWards = wards.stream()
@@ -572,6 +573,7 @@ public class StructuralChangesEdit implements Serializable {
         structuralChanges
                 .stream().filter(sc -> sc.getStructuralChangesType() == StructuralChangesType.CLOSE_TEMP)
                 .map(sc -> sc.getWardsToChange())
+                .filter(w -> w.getValidFrom() != null && w.getValidTo() != null)
                 .sorted(Comparator.comparing(WardsToChange::getValidFrom))
                 .forEachOrdered(changeWard -> {
                     List<DeptWard> deptWards = wards.stream()
@@ -602,6 +604,7 @@ public class StructuralChangesEdit implements Serializable {
         structuralChanges
                 .stream().filter(sc -> sc.getStructuralChangesType() == StructuralChangesType.NEW)
                 .map(sc -> sc.getWardsToChange())
+                .filter(w -> w.getValidFrom() != null)
                 .sorted(Comparator.comparing(WardsToChange::getValidFrom))
                 .forEachOrdered(changeWard -> {
                     DeptWard deptWard = new DeptWard(wards.get(0).getMapVersion());
