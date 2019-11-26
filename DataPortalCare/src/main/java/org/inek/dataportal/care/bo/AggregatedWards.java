@@ -1,6 +1,7 @@
 package org.inek.dataportal.care.bo;
 
 import org.inek.dataportal.care.entities.DeptWard;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,4 +109,12 @@ public class AggregatedWards {
         this._locationCodeVz = locationCodeVz;
     }
 
+    public String obtainSortKey() {
+        String key = _locationCode21
+                + "|" + _locationText
+                + "|" + _wardName
+                + "|" + DateUtils.toAnsi(_validFrom)
+                + "|" + DateUtils.toAnsi(_validTo);
+        return key;
+    }
 }

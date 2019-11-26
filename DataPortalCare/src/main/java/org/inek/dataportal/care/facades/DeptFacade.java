@@ -54,8 +54,8 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(jpql, DeptBaseInformation.class);
         query.setParameter("ik", ik);
         query.setParameter("year", year);
-        query.setParameter("minStatus", WorkflowStatus.Provided);
-        query.setParameter("maxStatus", WorkflowStatus.ReProvided);
+        query.setParameter("minStatus", WorkflowStatus.Provided.getId());
+        query.setParameter("maxStatus", WorkflowStatus.ReProvided.getId());
         try {
             return query.getSingleResult();
         } catch (Exception ex) {

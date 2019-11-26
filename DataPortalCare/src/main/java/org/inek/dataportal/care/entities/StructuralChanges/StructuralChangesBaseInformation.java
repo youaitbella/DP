@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Entity
@@ -95,6 +94,19 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     public void setRequestedAccountId(int requestedAccountId) {
         this._requestedAccountId = requestedAccountId;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property BasedOnVersionId">
+    @Column(name = "scBasedOnVersionId")
+    private int basedOnVersionId;
+
+    public int getBasedOnVersionId() {
+        return basedOnVersionId;
+    }
+
+    public void setBasedOnVersionId(int basedOnVersionId) {
+        this.basedOnVersionId = basedOnVersionId;
     }
     //</editor-fold>
 

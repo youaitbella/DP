@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.bo.DatePair;
 import org.inek.dataportal.care.entities.DeptWard;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,7 +41,9 @@ public class AggregatedWardsHelper {
     public static List<AggregatedWards> aggregatedWards(List<DeptWard> wards) {
         Map<String, AggregatedWards> aggregatedWards = new ConcurrentHashMap<>();
 
-        Map<String, List<DeptWard>> wardMap = wards.stream().collect(Collectors.groupingBy(AggregatedWardsHelper::getKey));
+        Map<String, List<DeptWard>> wardMap = wards.stream()
+                .sorted(Comparator.comparing(AggregatedWardsHelper::getKey))
+                .collect(Collectors.groupingBy(AggregatedWardsHelper::getKey));
 
         for (List<DeptWard> deptWards : wardMap.values()) {
             List<Date> toDates = deptWards.stream().map(w -> w.getValidTo()).distinct().sorted(Date::compareTo).collect(Collectors.toList());
@@ -48,8 +51,8 @@ public class AggregatedWardsHelper {
             deptWards.stream().map(w -> w.getValidFrom()).distinct().sorted(Date::compareTo).forEachOrdered(from -> {
                 toDates.stream().filter(toDate -> toDate.compareTo(from) >= 0).findFirst().ifPresent(toDate -> fromToDates.add(new Pair<>(from, toDate)));
             });
-            for (DeptWard deptWard : deptWards) {
-                for (Pair<Date, Date> fromTo : fromToDates) {
+            for (Pair<Date, Date> fromTo : fromToDates) {
+                for (DeptWard deptWard : deptWards) {
                     if (deptWard.getValidFrom().compareTo(fromTo.getKey()) <= 0
                             && deptWard.getValidTo().compareTo(fromTo.getValue()) >= 0) {
                         String key = deptWard.getLocationCodeP21()
@@ -57,8 +60,8 @@ public class AggregatedWardsHelper {
                                 + "|" + deptWard.getLocationText()
                                 + "|" + deptWard.getWardName().toLowerCase().replace(" ", "")
                                 + "|" + (deptWard.getDept().getDeptArea() == 3 ? "Intensiv" : "Other")
-                                + "|" + fromTo.getKey()
-                                + "|" + fromTo.getValue();
+                                + "|" + DateUtils.toAnsi(fromTo.getKey())
+                                + "|" + DateUtils.toAnsi(fromTo.getValue());
                         if (aggregatedWards.containsKey(key)) {
                             aggregatedWards.get(key).aggregate(deptWard);
                         } else {
@@ -69,7 +72,9 @@ public class AggregatedWardsHelper {
                 }
             }
         }
-        return new ArrayList<>(aggregatedWards.values());
+        return aggregatedWards.values().stream()
+                .sorted(Comparator.comparing(AggregatedWards::obtainSortKey))
+                .collect(Collectors.toList());
     }
 
     private static String getKey(DeptWard ward) {
@@ -230,7 +235,6 @@ public class AggregatedWardsHelper {
 
         return aggregatedWards;
     }
-
 
 
 }

@@ -7,6 +7,7 @@ package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.Function;
+import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptWard;
@@ -19,6 +20,7 @@ import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.care.enums.StructuralChangesType;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
+import org.inek.dataportal.care.utils.AggregatedWardsHelper;
 import org.inek.dataportal.care.utils.CareValueChecker;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -462,16 +464,24 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void acceptChanges() {
+        List<DeptWard> wards = calculateNewWards();
+    }
+
+    public List<DeptWard> calculateNewWards() {
         int ik = _structuralChangesBaseInformation.getIk();
         DeptBaseInformation deptBaseInformation = _deptFacade.findDeptBaseInformationByIk(ik);
 
         List<DeptWard> wards = obtainAndPrepareWards(deptBaseInformation);
         List<StructuralChanges> structuralChanges = _structuralChangesBaseInformation.getStructuralChanges();
+        if (structuralChanges.size() == 0) {
+            return wards;
+        }
 
         processChanges(wards, structuralChanges, ik);
         processDeletions(wards, structuralChanges);
         processTempoaryDeletions(wards, structuralChanges);
         processAdditions(wards, structuralChanges, ik);
+        return wards;
     }
 
     private List<DeptWard> obtainAndPrepareWards(DeptBaseInformation deptBaseInformation) {
@@ -488,6 +498,7 @@ public class StructuralChangesEdit implements Serializable {
         structuralChanges
                 .stream().filter(sc -> sc.getStructuralChangesType() == StructuralChangesType.CHANGE)
                 .map(sc -> sc.getWardsToChange())
+                .filter(w -> w.getValidFrom() != null)
                 .sorted(Comparator.comparing(WardsToChange::getValidFrom))
                 .forEachOrdered(changeWard -> {
                     List<DeptWard> deptWards = wards.stream()
@@ -496,7 +507,7 @@ public class StructuralChangesEdit implements Serializable {
                             .collect(Collectors.toList());
                     assert deptWards.size() > 0;
                     DeptWard firstDeptWard = deptWards.get(0);
-                    if (changeWard.getValidFrom().compareTo(firstDeptWard.getValidFrom()) < 0) {
+                    if (firstDeptWard.getValidFrom().compareTo(changeWard.getValidFrom()) >= 0) {
                         // before the first existing
                         DeptWard newWard = new DeptWard(firstDeptWard);
 
@@ -507,7 +518,7 @@ public class StructuralChangesEdit implements Serializable {
                         return;
                     }
                     DeptWard lastDeptWard = deptWards.get(deptWards.size() - 1);
-                    if (changeWard.getValidFrom().compareTo(lastDeptWard.getValidTo()) > 0) {
+                    if (lastDeptWard.getValidFrom().compareTo(changeWard.getValidTo()) <= 0) {
                         // after the last existing
                         DeptWard newWard = new DeptWard(lastDeptWard);
                         newWard.setValidFrom(changeWard.getValidFrom());
@@ -630,12 +641,11 @@ public class StructuralChangesEdit implements Serializable {
         newWard.setWardName(changeWard.getWardName());
         newWard.setLocationCodeP21(changeWard.getLocationP21());
         newWard.setLocationText(changeWard.getLocationVz());
-//        int locationCode = CareValueChecker.extractFormalValidVzNumber(changeWard.getLocationVz());
-//        if (_vzUtils != null && !_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
-//            newWard.setLocationCodeVz(locationCode);
-//        }
         newWard.setBedCount(changeWard.getBeds());
     }
 
+    public List<AggregatedWards> getAggregatedWards() {
+        return AggregatedWardsHelper.aggregatedWards(calculateNewWards());
+    }
 
 }

@@ -15,6 +15,9 @@ import java.util.Date;
  */
 public class DateUtils {
 
+    public static SimpleDateFormat ANSI_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
+    public static SimpleDateFormat GERMAN_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
+
     public static Date getDateWithDayOffset(int offset) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + offset);
@@ -34,16 +37,20 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    public static String toAnsi(Date date) {
+        return ANSI_FORMATTER.format(date);
+    }
+
     public static String todayAnsi() {
-        return today("yyyy-MM-dd");
+        return ANSI_FORMATTER.format(new Date());
+    }
+
+    public static String toGerman(Date date) {
+        return GERMAN_FORMATTER.format(date);
     }
 
     public static String todayGerman() {
-        return today("dd.MM.yyyy");
-    }
-
-    public static String today(String format) {
-        return new SimpleDateFormat(format).format(new Date());
+        return GERMAN_FORMATTER.format(new Date());
     }
 
     public static Date getMaxDate() {
