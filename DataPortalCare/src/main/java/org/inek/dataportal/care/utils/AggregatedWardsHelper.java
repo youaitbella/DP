@@ -18,7 +18,7 @@ public class AggregatedWardsHelper {
             "diese lauten: [%s]. Es sind stets alle Betten der genannten Station anzugeben. Bitte überarbeiten Sie ihre Angaben zur " +
             "Bettenanzahl der Station.";
 
-    public static List<AggregatedWards> aggregatedWards(List<DeptWard> wards) {
+    public static List<AggregatedWards> aggregatedWardsOld(List<DeptWard> wards) {
         Map<String, AggregatedWards> aggregatedWards = new ConcurrentHashMap<>();
         for (DeptWard ward : wards) {
             String key = ward.getLocationCodeP21()
@@ -37,7 +37,7 @@ public class AggregatedWardsHelper {
         return new ArrayList<>(aggregatedWards.values());
     }
 
-    public static List<AggregatedWards> aggregatedWardsNew(List<DeptWard> wards) {
+    public static List<AggregatedWards> aggregatedWards(List<DeptWard> wards) {
         Map<String, AggregatedWards> aggregatedWards = new ConcurrentHashMap<>();
 
         Map<String, List<DeptWard>> wardMap = wards.stream().collect(Collectors.groupingBy(AggregatedWardsHelper::getKey));
@@ -49,23 +49,24 @@ public class AggregatedWardsHelper {
                 toDates.stream().filter(toDate -> toDate.compareTo(from) >= 0).findFirst().ifPresent(toDate -> fromToDates.add(new Pair<>(from, toDate)));
             });
             for (DeptWard deptWard : deptWards) {
+                for (Pair<Date, Date> fromTo : fromToDates) {
+                    if (deptWard.getValidFrom().compareTo(fromTo.getKey()) <= 0
+                            && deptWard.getValidTo().compareTo(fromTo.getValue()) >= 0) {
+                        String key = deptWard.getLocationCodeP21()
+                                //+ "|" + ward.getLocationCodeVz() for future usage
+                                + "|" + deptWard.getLocationText()
+                                + "|" + deptWard.getWardName().toLowerCase().replace(" ", "")
+                                + "|" + (deptWard.getDept().getDeptArea() == 3 ? "Intensiv" : "Other")
+                                + "|" + fromTo.getKey()
+                                + "|" + fromTo.getValue();
+                        if (aggregatedWards.containsKey(key)) {
+                            aggregatedWards.get(key).aggregate(deptWard);
+                        } else {
+                            aggregatedWards.put(key, new AggregatedWards(deptWard));
+                        }
 
-            }
-        }
-
-
-        for (DeptWard ward : wards) {
-            String key = ward.getLocationCodeP21()
-                    //+ "|" + ward.getLocationCodeVz() for future usage
-                    + "|" + ward.getLocationText()
-                    + "|" + ward.getWardName().toLowerCase().replace(" ", "")
-                    + "|" + (ward.getDept().getDeptArea() == 3 ? "Intensiv" : "Other")
-                    + "|" + ward.getValidFrom()
-                    + "|" + ward.getValidTo();
-            if (aggregatedWards.containsKey(key)) {
-                aggregatedWards.get(key).aggregate(ward);
-            } else {
-                aggregatedWards.put(key, new AggregatedWards(ward));
+                    }
+                }
             }
         }
         return new ArrayList<>(aggregatedWards.values());
@@ -75,7 +76,7 @@ public class AggregatedWardsHelper {
         String key = ward.getLocationCodeP21()
                 + "|" + ward.getLocationText()
                 + "|" + ward.getWardName().toLowerCase().replace(" ", "")
-                + "|" + (ward.getDept() == null ? "???" : ward.getDept().getDeptArea() == 3 ? "Intensiv" : "Other");
+                + "|" + (ward.getDept().getDeptArea() == 3 ? "Intensiv" : "Other");
         return key;
     }
 

@@ -74,7 +74,7 @@ public class DeptEdit implements Serializable {
     @Inject
     private ConfigFacade _configFacade;
     @Inject
-    private VzUtils _vzUtils;
+    private transient VzUtils _vzUtils;
     @Inject
     private ReportController _reportController;
 

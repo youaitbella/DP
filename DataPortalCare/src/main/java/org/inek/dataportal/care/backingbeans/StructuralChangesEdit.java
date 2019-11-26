@@ -68,7 +68,7 @@ public class StructuralChangesEdit implements Serializable {
     @Inject
     private AccessManager _accessManager;
     @Inject
-    private VzUtils _vzUtils;
+    private transient VzUtils _vzUtils;
 
     private List<DeptWard> _wards;
 
