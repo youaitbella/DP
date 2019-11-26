@@ -291,7 +291,7 @@
                                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                                                   noSelectionOption="true"/>
                                     <f:selectItems value="#{structuralChangesEdit.sensitiveAreas}"/>
-                                    <pf:ajax update="catNewArea fabNew catNewAreaMsg"/>
+                                    <pf:ajax update="catNewArea fabNew catNewAreaMsg :change:aggregatedTable"/>
                                 </pf:selectOneMenu>
                                 <pf:message id="catNewAreaMsg" for="catNewArea"/>
                             </pf:column>
@@ -363,6 +363,7 @@
                                              mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: right;">
+                                    <pf:ajax event="change" update=":change:aggregatedTable"/>
                                     <pf:ajax event="dateSelect" update=":change:aggregatedTable"/>
                                 </pf:calendar>
                                 <pf:message for="newValidFrom"/>
@@ -573,7 +574,8 @@
                                              mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: right;">
-                                    <pf:ajax update=":change:aggregatedTable"/>
+                                    <pf:ajax event="change" update=":change:aggregatedTable"/>
+                                    <pf:ajax event="dateSelect" update=":change:aggregatedTable"/>
                                 </pf:calendar>
                                 <pf:message for="closeValidFrom"/>
                             </pf:column>
@@ -607,7 +609,7 @@
                     </div>
                 </div>
 
-                <!-- Station Temp schliesen -->
+                <!-- Station temp schliesen -->
                 <div class="card" style="width: 100%"
                      jsf:rendered="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE_TEMP).size() gt 0}">
                     <div class="ui-g-12">
@@ -657,7 +659,8 @@
                                              mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: right;">
-                                    <pf:ajax event="dateSelect" update="dateValidTo"/>
+                                    <pf:ajax event="change" update=":change:aggregatedTable dateValidTo"/>
+                                    <pf:ajax event="dateSelect" update=":change:aggregatedTable dateValidTo"/>
                                 </pf:calendar>
                                 <pf:message for="closeTmpValidFrom"/>
                             </pf:column>
@@ -674,7 +677,8 @@
                                              mask="true"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: right;">
-                                    <pf:ajax update=":change:aggregatedTable"/>
+                                    <pf:ajax event="change" update=":change:aggregatedTable"/>
+                                    <pf:ajax event="dateSelect" update=":change:aggregatedTable"/>
                                 </pf:calendar>
                                 <pf:message for="dateValidTo"/>
                             </pf:column>
@@ -709,7 +713,7 @@
                 </div>
 
                 <div class="ui-g-12" jsf:id="aggregatedTable">
-                    <h1>Zusammengefasste Stationsübersicht</h1>
+                    <h1>Zusammengefasste Stationsübersicht inklusive Umbenennung und strukturellen Änderungen</h1>
 
                     <pf:dataTable value="#{structuralChangesEdit.aggregatedWards}"
                                   tableStyle="width: 100%;"

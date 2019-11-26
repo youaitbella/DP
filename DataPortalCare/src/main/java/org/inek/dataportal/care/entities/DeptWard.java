@@ -48,7 +48,7 @@ public class DeptWard implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dwId")
-    private Integer _id;
+    private Integer _id = -1;
 
     public int getId() {
         return _id;

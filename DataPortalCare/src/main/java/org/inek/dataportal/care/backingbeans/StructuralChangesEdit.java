@@ -583,16 +583,27 @@ public class StructuralChangesEdit implements Serializable {
                     for (DeptWard deptWard : deptWards) {
                         if (deptWard.getValidFrom().compareTo(changeWard.getValidFrom()) >= 0
                                 && deptWard.getValidTo().compareTo(changeWard.getValidTo()) <= 0) {
-                            wards.remove(deptWard);
                             continue;
                         }
+                        boolean adjusted = false;
                         if (deptWard.getValidFrom().compareTo(changeWard.getValidFrom()) < 0
                                 && deptWard.getValidTo().compareTo(changeWard.getValidFrom()) >= 0) {
-                            deptWard.setValidTo(DateUtils.addDays(changeWard.getValidFrom(), -1));
+                            DeptWard wardBefore = new DeptWard(deptWard);
+                            wardBefore.setValidTo(DateUtils.addDays(changeWard.getValidFrom(), -1));
+                            wardBefore.setBaseDeptWardId(deptWard.getBaseDeptWardId());
+                            wards.add(wardBefore);
+                            adjusted = true;
                         }
                         if (deptWard.getValidFrom().compareTo(changeWard.getValidTo()) <= 0
                                 && deptWard.getValidTo().compareTo(changeWard.getValidTo()) > 0) {
-                            deptWard.setValidFrom(DateUtils.addDays(changeWard.getValidTo(), 1));
+                            DeptWard wardAfter = new DeptWard(deptWard);
+                            wardAfter.setValidFrom(DateUtils.addDays(changeWard.getValidTo(), 1));
+                            wardAfter.setBaseDeptWardId(deptWard.getBaseDeptWardId());
+                            wards.add(wardAfter);
+                            adjusted = true;
+                        }
+                        if (adjusted) {
+                            wards.remove(deptWard);
                         }
                     }
                 });
