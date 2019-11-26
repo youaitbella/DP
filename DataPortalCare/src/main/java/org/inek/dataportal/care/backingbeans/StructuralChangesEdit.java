@@ -592,6 +592,7 @@ public class StructuralChangesEdit implements Serializable {
                     for (DeptWard deptWard : deptWards) {
                         if (deptWard.getValidFrom().compareTo(changeWard.getValidFrom()) >= 0
                                 && deptWard.getValidTo().compareTo(changeWard.getValidTo()) <= 0) {
+                            wards.remove(deptWard);
                             continue;
                         }
                         boolean adjusted = false;
