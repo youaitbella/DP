@@ -109,7 +109,7 @@ class StructuralChangesEditTest {
         change.setWardsToChange(changeWard);
         structuralChanges.add(change);
 
-        edit.processTempoaryDeletions(wards, structuralChanges);
+        edit.processTemporaryDeletions(wards, structuralChanges);
         assertThat(wards.size()).isEqualTo(2);
         assertThat(wards.get(0).getValidFrom()).isEqualTo(DATE_1);
         assertThat(wards.get(0).getValidTo()).isEqualTo(DateUtils.addDays(DATE_2, -1));

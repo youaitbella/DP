@@ -19,25 +19,6 @@ public class AggregatedWardsHelper {
             "diese lauten: [%s]. Es sind stets alle Betten der genannten Station anzugeben. Bitte überarbeiten Sie ihre Angaben zur " +
             "Bettenanzahl der Station.";
 
-    public static List<AggregatedWards> aggregatedWardsOld(List<DeptWard> wards) {
-        Map<String, AggregatedWards> aggregatedWards = new ConcurrentHashMap<>();
-        for (DeptWard ward : wards) {
-            String key = ward.getLocationCodeP21()
-                    //+ "|" + ward.getLocationCodeVz() for future usage
-                    + "|" + ward.getLocationText()
-                    + "|" + ward.getWardName().toLowerCase().replace(" ", "")
-                    + "|" + (ward.getDept().getDeptArea() == 3 ? "Intensiv" : "Other")
-                    + "|" + ward.getValidFrom()
-                    + "|" + ward.getValidTo();
-            if (aggregatedWards.containsKey(key)) {
-                aggregatedWards.get(key).aggregate(ward);
-            } else {
-                aggregatedWards.put(key, new AggregatedWards(ward));
-            }
-        }
-        return new ArrayList<>(aggregatedWards.values());
-    }
-
     public static List<AggregatedWards> aggregatedWards(List<DeptWard> wards) {
         Map<String, AggregatedWards> aggregatedWards = new ConcurrentHashMap<>();
 
@@ -63,9 +44,9 @@ public class AggregatedWardsHelper {
                                 + "|" + DateUtils.toAnsi(fromTo.getKey())
                                 + "|" + DateUtils.toAnsi(fromTo.getValue());
                         if (aggregatedWards.containsKey(key)) {
-                            aggregatedWards.get(key).aggregate(deptWard);
+                            aggregatedWards.get(key).aggregate(deptWard, fromTo.getKey(), fromTo.getValue());
                         } else {
-                            aggregatedWards.put(key, new AggregatedWards(deptWard));
+                            aggregatedWards.put(key, new AggregatedWards(deptWard, fromTo.getKey(), fromTo.getValue()));
                         }
 
                     }

@@ -479,7 +479,7 @@ public class StructuralChangesEdit implements Serializable {
 
         processChanges(wards, structuralChanges, ik);
         processDeletions(wards, structuralChanges);
-        processTempoaryDeletions(wards, structuralChanges);
+        processTemporaryDeletions(wards, structuralChanges);
         processAdditions(wards, structuralChanges, ik);
         return wards;
     }
@@ -518,7 +518,7 @@ public class StructuralChangesEdit implements Serializable {
                         return;
                     }
                     DeptWard lastDeptWard = deptWards.get(deptWards.size() - 1);
-                    if (lastDeptWard.getValidFrom().compareTo(changeWard.getValidTo()) <= 0) {
+                    if (lastDeptWard.getValidTo().compareTo(changeWard.getValidFrom()) <= 0) {
                         // after the last existing
                         DeptWard newWard = new DeptWard(lastDeptWard);
                         newWard.setValidFrom(changeWard.getValidFrom());
@@ -568,7 +568,7 @@ public class StructuralChangesEdit implements Serializable {
                 });
     }
 
-    void processTempoaryDeletions(List<DeptWard> wards, List<StructuralChanges> structuralChanges) {
+    void processTemporaryDeletions(List<DeptWard> wards, List<StructuralChanges> structuralChanges) {
         structuralChanges
                 .stream().filter(sc -> sc.getStructuralChangesType() == StructuralChangesType.CLOSE_TEMP)
                 .map(sc -> sc.getWardsToChange())

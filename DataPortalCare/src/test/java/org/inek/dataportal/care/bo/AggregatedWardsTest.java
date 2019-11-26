@@ -15,9 +15,12 @@ class AggregatedWardsTest {
     @Test
     void distinctBedCountsReturnsOneValueIfAllTheSame() {
 
-        AggregatedWards wards = new AggregatedWards(createDeptWard("Station A", "Fachabteilung 1", 1, 771234000, "1000", 50));
-        wards.aggregate(createDeptWard("Station A", "Fachabteilung 2", 1, 771234000, "2000", 50));
-        wards.aggregate(createDeptWard("Station A", "Fachabteilung 3", 1, 771234000, "3000", 50));
+        DeptWard ward1 = createDeptWard("Station A", "Fachabteilung 1", 1, 771234000, "1000", 50);
+        DeptWard ward2 = createDeptWard("Station A", "Fachabteilung 2", 1, 771234000, "2000", 50);
+        DeptWard ward3 = createDeptWard("Station A", "Fachabteilung 3", 1, 771234000, "3000", 50);
+        AggregatedWards wards = new AggregatedWards(ward1, ward1.getValidFrom(), ward1.getValidTo());
+        wards.aggregate(ward2, ward2.getValidFrom(), ward2.getValidTo());
+        wards.aggregate(ward3, ward3.getValidFrom(), ward3.getValidTo());
 
         Assertions.assertThat(wards.getDistinctBedCounts()).hasSize(1).containsOnly(50);
     }
@@ -25,9 +28,12 @@ class AggregatedWardsTest {
     @Test
     void distinctBedCountsReturnsTwoValueIfTwoDifferentBedCountsProvided() {
 
-        AggregatedWards wards = new AggregatedWards(createDeptWard("Station A", "Fachabteilung 1", 1, 771234000, "1000", 50));
-        wards.aggregate(createDeptWard("Station A", "Fachabteilung 2", 1, 771234000, "2000", 50));
-        wards.aggregate(createDeptWard("Station A", "Fachabteilung 3", 1, 771234000, "3000", 55));
+        DeptWard ward1 = createDeptWard("Station A", "Fachabteilung 1", 1, 771234000, "1000", 50);
+        DeptWard ward2 = createDeptWard("Station A", "Fachabteilung 2", 1, 771234000, "2000", 50);
+        DeptWard ward3 = createDeptWard("Station A", "Fachabteilung 3", 1, 771234000, "3000", 55);
+        AggregatedWards wards = new AggregatedWards(ward1, ward1.getValidFrom(), ward1.getValidTo());
+        wards.aggregate(ward2, ward2.getValidFrom(), ward2.getValidTo());
+        wards.aggregate(ward3, ward3.getValidFrom(), ward3.getValidTo());
 
         Assertions.assertThat(wards.getDistinctBedCounts()).hasSize(2).containsExactly(50, 55);
     }

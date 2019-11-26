@@ -24,25 +24,25 @@ public class AggregatedWards {
     private int _beds;
     private boolean _hasDifferentBedCount;
 
-    public AggregatedWards(DeptWard ward) {
+    public AggregatedWards(DeptWard ward, Date validFrom, Date validTo) {
         _locationCode21 = ward.getLocationCodeP21();
         //_locationCodeVz = ward.getLocationCodeVz(); future usage
         _locationText = ward.getLocationText();
         _wardName = ward.getWardName();
-        _validFrom = ward.getValidFrom();
-        _validTo = ward.getValidTo();
+        _validFrom = validFrom;
+        _validTo = validTo;
         _beds = ward.getBedCount();
         _wards.add(ward);
     }
 
-    public void aggregate(DeptWard ward) {
+    public void aggregate(DeptWard ward, Date validFrom, Date validTo) {
         assert _locationCode21 == ward.getLocationCodeP21();
         // assert _locationCodeVz == ward.getLocationCodeVz(); for future usage
         assert _locationText.equals(ward.getLocationText());
         assert _wardName.toLowerCase().replace(" ", "")
                 .equals(ward.getWardName().toLowerCase().replace(" ", ""));
-        assert _validFrom.equals(ward.getValidFrom());
-        assert _validTo.equals(ward.getValidTo());
+        assert _validFrom.equals(validFrom);
+        assert _validTo.equals(validTo);
         if (_beds != ward.getBedCount()) {
             _hasDifferentBedCount = true;
         }

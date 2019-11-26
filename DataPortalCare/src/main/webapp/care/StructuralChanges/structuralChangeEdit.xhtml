@@ -303,7 +303,7 @@
                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                               validatorFunction="#{structuralChangesEdit.isFabValid}"
                                                               validatorMessage="Ungültige FAB"
-                                                              updateComponents=":change:aggregatedtTable"
+                                                              updateComponents=":change:aggregatedTable"
                                                               maxlength="4"/>
                             </pf:column>
                             <pf:column headerText="Fachabteilungsname">
@@ -311,7 +311,7 @@
                                                      require="true"
                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                      Style="width: 95%;"
-                                                     updateComponents=":change:aggregatedtTable"
+                                                     updateComponents=":change:aggregatedTable"
                                                      requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"/>
                             </pf:column>
                             <pf:column headerText="Stationsbezeichnung">
@@ -319,7 +319,7 @@
                                                      require="true"
                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                      Style="width: 95%;"
-                                                     updateComponents=":change:aggregatedtTable"
+                                                     updateComponents=":change:aggregatedTable"
                                                      requiredMessage="Bitte geben Sie eine Stationsbezeichnung ein"/>
                             </pf:column>
                             <pf:column headerText="Standort nach § 21 KHEntgG" style="text-align: right">
@@ -327,7 +327,7 @@
                                                                 readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                                 validatorFunction="#{structuralChangesEdit.isP21LocationCodeValid}"
                                                                 validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
-                                                                renderElement=":change:aggregatedtTable"
+                                                                renderElement=":change:aggregatedTable"
                                                                 Style="width: 95%;"/>
 
                             </pf:column>
@@ -338,7 +338,7 @@
                                                               require="true"
                                                               requiredMessage="Bitte geben Sie die Standortnummer nach § 293 Abs. 6 SGB V an oder benennen Sie den Standort möglichst präzise."
                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                              updateComponents=":change:aggregatedtTable"
+                                                              updateComponents=":change:aggregatedTable"
                                                               validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
                                                               validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."/>
 
@@ -347,6 +347,7 @@
                                 <inekInput:InputNumber value="#{baseInfo.wardsToChange.beds}"
                                                        Style="width: 95%;"
                                                        readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                       renderElement=":change:aggregatedTable"
                                                        minValue="1"
                                                        maxValue="999"/>
                             </pf:column>
@@ -362,6 +363,7 @@
                                              mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: right;">
+                                    <pf:ajax event="dateSelect" update=":change:aggregatedTable"/>
                                 </pf:calendar>
                                 <pf:message for="newValidFrom"/>
                             </pf:column>
@@ -410,7 +412,7 @@
                                                               Style="width: 95%;"
                                                               require="#{structuralChangesEdit.fabRequired(baseInfo.wardsToChange)}"
                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                              updateComponents=":change:aggregatedtTable"
+                                                              updateComponents=":change:aggregatedTable"
                                                               validatorFunction="#{structuralChangesEdit.isFabValid}"
                                                               validatorMessage="Ungültige Fachabteilungsnummer"
                                                               maxlength="4"/>
@@ -421,6 +423,7 @@
                                 <inekInput:InputText value="#{baseInfo.wardsToChange.deptName}"
                                                      require="true"
                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                     updateComponents=":change:aggregatedTable"
                                                      Style="width: 95%;"
                                                      requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"/>
                             </pf:column>
@@ -430,6 +433,7 @@
                                 <inekInput:InputText value="#{baseInfo.wardsToChange.wardName}"
                                                      require="true"
                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                     updateComponents=":change:aggregatedTable"
                                                      Style="width: 95%;"
                                                      requiredMessage="Bitte geben Sie eine Stationsbezeichnung ein"/>
                             </pf:column>
@@ -441,6 +445,7 @@
                                                                 readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                                 validatorFunction="#{structuralChangesEdit.isP21LocationCodeValid}"
                                                                 validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
+                                                                renderElement=":change:aggregatedTable"
                                                                 Style="width: 95%;"/>
                             </pf:column>
                             <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V">
@@ -451,6 +456,7 @@
                                                               Style="width: 95%;"
                                                               maxlength="100"
                                                               require="true"
+                                                              updateComponents=":change:aggregatedTable"
                                                               requiredMessage="Bitte geben Sie die Standortnummer nach § 293 Abs. 6 SGB V an oder benennen Sie den Standort möglichst präzise."
                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                               validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
@@ -463,6 +469,7 @@
                                 <inekInput:InputNumber value="#{baseInfo.wardsToChange.beds}"
                                                        Style="width: 95%;"
                                                        readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                       renderElement=":change:aggregatedTable"
                                                        minValue="1"
                                                        maxValue="999"/>
                             </pf:column>
@@ -479,7 +486,10 @@
                                              mask="true"
                                              mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                             inputStyle="text-align: right;"/>
+                                             inputStyle="text-align: right;">
+                                    <pf:ajax event="change" update=":change:aggregatedTable"/>
+                                    <pf:ajax event="dateSelect" update=":change:aggregatedTable"/>
+                                </pf:calendar>
                                 <pf:message for="changeValidFrom"/>
                             </pf:column>
                             <pf:column headerText="Kategorie">
@@ -562,7 +572,9 @@
                                              mask="true"
                                              mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                             inputStyle="text-align: right;"/>
+                                             inputStyle="text-align: right;">
+                                    <pf:ajax update=":change:aggregatedTable"/>
+                                </pf:calendar>
                                 <pf:message for="closeValidFrom"/>
                             </pf:column>
 
@@ -661,7 +673,9 @@
                                              pattern="dd.MM.yyyy"
                                              mask="true"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                             inputStyle="text-align: right;"/>
+                                             inputStyle="text-align: right;">
+                                    <pf:ajax update=":change:aggregatedTable"/>
+                                </pf:calendar>
                                 <pf:message for="dateValidTo"/>
                             </pf:column>
 
@@ -844,7 +858,9 @@
                                                          mask="true"
                                                          mindate="1.1.2018"
                                                          disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                         inputStyle="text-align: right;"/>
+                                                         inputStyle="text-align: right;">
+                                                <pf:ajax update=":change:aggregatedTable"/>
+                                            </pf:calendar>
                                         </pf:column>
                                         <pf:column headerText="Anmerkung">
                                             <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.comment}"
@@ -863,7 +879,7 @@
                     </div>
                 </ui:remove>
 
-                <div class="ui-g-12" jsf:id="aggregatedtTable">
+                <div class="ui-g-12" jsf:id="aggregatedTable">
                     <h1>Zusammengefasste Stationsübersicht</h1>
 
                     <pf:dataTable value="#{structuralChangesEdit.aggregatedWards}"
