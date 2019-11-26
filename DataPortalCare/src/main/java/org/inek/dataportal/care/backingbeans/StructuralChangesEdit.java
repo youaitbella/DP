@@ -103,8 +103,17 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public List<DeptWard> getWards() {
-        return _wards;
+        return _wards.stream().sorted(Comparator.comparing(this::determineSortKey)).collect(Collectors.toList());
     }
+
+    private String determineSortKey(DeptWard ward) {
+        String key = ward.getLocationCodeP21()
+                + "|" + ward.getLocationText()
+                + "|" + ward.getWardName().toLowerCase().replace(" ", "")
+                + "|" + DateUtils.toAnsi(ward.getValidFrom());
+        return key;
+    }
+
 
     public void setWards(List<DeptWard> wards) {
         this._wards = wards;
@@ -623,6 +632,7 @@ public class StructuralChangesEdit implements Serializable {
                     deptWard.setValidTo(DateUtils.getMaxDate());
                     copyValues(changeWard, deptWard, ik);
                     deptWard.setDept(findDept(changeWard, wards.get(0)));
+                    wards.add(deptWard);
                     // todo changeWard.getSensitiveAreaId()
                 });
     }
