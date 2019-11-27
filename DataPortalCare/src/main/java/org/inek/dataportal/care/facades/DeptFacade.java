@@ -9,6 +9,7 @@ import javafx.util.Pair;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptArea;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
+import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
@@ -107,6 +108,15 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
             persist(deptBaseInformation);
             return deptBaseInformation;
         }
+        // sadly from new wards only the first is stored when saving structural changes :(
+        for (Dept dept : deptBaseInformation.getDepts()) {
+            for (DeptWard ward : dept.getDeptWards()) {
+                if (ward.getId() <= 0) {
+                    persist(ward);
+                }
+            }
+        }
+
         return merge(deptBaseInformation);
     }
 
