@@ -73,7 +73,7 @@ public class StructuralChangesEdit implements Serializable {
     private transient VzUtils _vzUtils;
 
     private List<DeptWard> _wards;
-
+    private DeptBaseInformation _deptBaseInformation;
     private List<DeptWard> _selectedWards = new ArrayList<>();
 
     private StructuralChangesBaseInformation _structuralChangesBaseInformation;
@@ -156,7 +156,7 @@ public class StructuralChangesEdit implements Serializable {
 
             if (_iks.size() == 1) {
                 _structuralChangesBaseInformation.setIk(_iks.stream().findFirst().get());
-                _wards = _structuralChangesFacade.findWardsByIk(_structuralChangesBaseInformation.getIk());
+                obtainWards();
             }
         } else {
             try {
@@ -164,7 +164,7 @@ public class StructuralChangesEdit implements Serializable {
                 _structuralChangesBaseInformation = _structuralChangesFacade.findBaseInformationsById(id);
 
                 if (isAccessAllowed(_structuralChangesBaseInformation)) {
-                    _wards = _structuralChangesFacade.findWardsByIk(_structuralChangesBaseInformation.getIk());
+                    obtainWards();
                 } else {
                     LOGGER.log(Level.INFO, "No access for IK: " + _structuralChangesBaseInformation.getIk());
                     Utils.navigate(Pages.NotAllowed.RedirectURL());
@@ -174,6 +174,11 @@ public class StructuralChangesEdit implements Serializable {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
             }
         }
+    }
+
+    private void obtainWards() {
+        _deptBaseInformation = _deptFacade.findDeptBaseInformationByIk(_structuralChangesBaseInformation.getIk());
+        _wards = _deptBaseInformation.obtainCurrentWards();
     }
 
     private boolean isAccessAllowed(StructuralChangesBaseInformation info) {
@@ -435,7 +440,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void ikChanged() {
-        _wards = _structuralChangesFacade.findWardsByIk(_structuralChangesBaseInformation.getIk());
+        obtainWards();
     }
 
     public boolean changeAllowed() {

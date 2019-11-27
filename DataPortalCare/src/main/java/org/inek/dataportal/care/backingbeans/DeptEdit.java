@@ -92,7 +92,7 @@ public class DeptEdit implements Serializable {
     }
 
     public List<AggregatedWards> getAggregatedWards() {
-        return AggregatedWardsHelper.aggregatedWards(_deptBaseInformation.getAllWards());
+        return AggregatedWardsHelper.aggregatedWards(_deptBaseInformation.obtainCurrentWards());
     }
 
     public Set<Integer> getValidIks() {
@@ -251,7 +251,7 @@ public class DeptEdit implements Serializable {
 
     private boolean isAllowedForSend() {
         _errorMessages = AggregatedWardsHelper
-                .aggregatedWards(_deptBaseInformation.getAllWards())
+                .aggregatedWards(_deptBaseInformation.obtainCurrentWards())
                 .stream()
                 .filter(w -> w.getDifferentBedCount())
                 .map(w -> String.format(AggregatedWardsHelper.ERROR_MESSAGE_MULTIPLE_BEDS, w.getWardName(), w.getDistinctBedCounts()))

@@ -222,21 +222,17 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
         _depts.add(dept);
     }
 
-    public List<DeptWard> getAllWards() {
-        List<DeptWard> stations = new ArrayList<>();
-        for (Dept dept : _depts) {
-            stations.addAll(dept.getDeptWards());
-        }
-        return stations;
+    public List<DeptWard> obtainCurrentWards() {
+        int versionId = getCurrentVersionId();
+        return obtainWardsByVersion(versionId);
     }
 
-    public List<DeptWard> obtainCurrentWards() {
+    public List<DeptWard> obtainWardsByVersion(int versionId) {
         List<DeptWard> wards = new ArrayList<>();
-        DeptBaseInformation baseInfo = this;
         for (Dept dept : _depts) {
             wards.addAll(dept.getDeptWards()
                     .stream()
-                    .filter(w -> w.getMapVersionId() == baseInfo.getCurrentVersionId())
+                    .filter(w -> w.getMapVersionId() == versionId)
                     .collect(Collectors.toList()));
         }
         return wards;
