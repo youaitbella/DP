@@ -352,6 +352,13 @@ public class StructuralChangesEdit implements Serializable {
             return;
         }
 
+        if (AggregatedWardsHelper.aggregatedWards(calculateNewWards()).stream().anyMatch(w -> w.getDifferentBedCount())) {
+            DialogController.showInfoDialog("Senden nicht möglich",
+                    "Bitte achten Sie darauf, keine widersprüchlichen Bettenzahlen anzugeben " +
+                            "(in der zusammengefassten Stationsübersicht als \"unterschiedlich\" gekennzeichnet).");
+            return;
+        }
+
         _structuralChangesBaseInformation.setStatus(WorkflowStatus.Provided);
 
         for (StructuralChanges changes : _structuralChangesBaseInformation.getStructuralChanges()) {
