@@ -803,7 +803,11 @@
                         <pf:commandButton value="Änderungen akzeptieren"
                                           rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
                                           action="#{structuralChangesEdit.acceptChanges}"
-                                          onclick="confirm('Alle Änderungn übernehmen?')"/>
+                                          onclick="confirm('Alle Änderungn übernehmen?')">
+                            <pf:confirm header="Änderungen akzeptieren"
+                                        message="Hierdurch werden alle Umbenenungen und strukturelle Änderungen übernommen. Fortfahren?"/>
+
+                        </pf:commandButton>
 
                         <pf:commandButton value="Korrektur anfordern"
                                           rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"

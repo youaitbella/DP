@@ -19,7 +19,7 @@ public class MapVersion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "verId")
-    private Integer _id;
+    private Integer _id = -1;
 
     public Integer getId() {
         return _id;

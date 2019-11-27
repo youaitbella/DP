@@ -33,7 +33,6 @@ public class Dept implements Serializable {
 
         for (DeptWard ward : dept.getDeptWards()) {
             DeptWard deptWard = new DeptWard(ward);
-            deptWard.setDept(this);
             addDeptWard(deptWard);
         }
 
@@ -212,7 +211,8 @@ public class Dept implements Serializable {
         _deptWards.add(deptWard);
     }
 
-    private void addDeptWard(DeptWard ward) {
+    public void addDeptWard(DeptWard ward) {
+        ward.setDept(this);
         _deptWards.add(ward);
     }
 

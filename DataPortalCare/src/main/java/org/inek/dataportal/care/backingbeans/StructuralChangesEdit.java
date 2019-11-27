@@ -115,10 +115,6 @@ public class StructuralChangesEdit implements Serializable {
     }
 
 
-    public void setWards(List<DeptWard> wards) {
-        this._wards = wards;
-    }
-
     public List<DeptWard> getSelectedWards() {
         return _selectedWards;
     }
@@ -178,7 +174,12 @@ public class StructuralChangesEdit implements Serializable {
 
     private void obtainWards() {
         _deptBaseInformation = _deptFacade.findDeptBaseInformationByIk(_structuralChangesBaseInformation.getIk());
-        _wards = _deptBaseInformation.obtainCurrentWards();
+        int version = _structuralChangesBaseInformation.getBasedOnVersionId();
+        if (version <= 0) {
+            version = _deptBaseInformation.getCurrentVersionId();
+            _structuralChangesBaseInformation.setBasedOnVersionId(version);
+        }
+        _wards = _deptBaseInformation.obtainWardsByVersion(version);
     }
 
     private boolean isAccessAllowed(StructuralChangesBaseInformation info) {
@@ -486,13 +487,22 @@ public class StructuralChangesEdit implements Serializable {
 
     public void acceptChanges() {
         List<DeptWard> wards = calculateNewWards();
+        for (DeptWard ward : wards) {
+//            _deptBaseInformation.getDepts().stream()
+//                    .filter(d -> d.getId() == ward.getDept().getId())
+//                    .findAny().ifPresent(d -> d.addDeptWard(ward));
+            ward.getDept().addDeptWard(ward);
+        }
+        _deptBaseInformation.setCurrentVersion(wards.get(0).getMapVersion());
+        _deptFacade.save(_deptBaseInformation);
+        _structuralChangesBaseInformation.setStatus(WorkflowStatus.Taken);
+        _structuralChangesFacade.save(_structuralChangesBaseInformation);
     }
 
     public List<DeptWard> calculateNewWards() {
         int ik = _structuralChangesBaseInformation.getIk();
-        DeptBaseInformation deptBaseInformation = _deptFacade.findDeptBaseInformationByIk(ik);
 
-        List<DeptWard> wards = obtainAndPrepareWards(deptBaseInformation);
+        List<DeptWard> wards = obtainAndPrepareWards(_deptBaseInformation);
         List<StructuralChanges> structuralChanges = _structuralChangesBaseInformation.getStructuralChanges();
         if (structuralChanges.size() == 0) {
             return wards;
@@ -506,13 +516,16 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     private List<DeptWard> obtainAndPrepareWards(DeptBaseInformation deptBaseInformation) {
-        List<DeptWard> wards = deptBaseInformation.obtainCurrentWards();
         MapVersion version = new MapVersion(_sessionController.getAccountId());
-        for (DeptWard ward : wards) {
-            ward.setMapVersion(version);
-            ward.setIsInitial(false);
-        }
-        return wards;
+        return _wards.stream()
+                .map(w -> {
+                    DeptWard n = new DeptWard(w);
+                    n.setMapVersion(version);
+                    n.setIsInitial(false);
+                    n.setBaseDeptWardId(w.getId());
+                    return n;
+                })
+                .collect(Collectors.toList());
     }
 
     void processChanges(List<DeptWard> wards, List<StructuralChanges> structuralChanges, int ik) {

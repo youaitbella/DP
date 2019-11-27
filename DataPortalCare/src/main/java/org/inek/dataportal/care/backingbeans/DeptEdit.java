@@ -8,8 +8,10 @@ package org.inek.dataportal.care.backingbeans;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.entities.*;
+import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.care.facades.DeptFacade;
+import org.inek.dataportal.care.facades.StructuralChangesFacade;
 import org.inek.dataportal.care.utils.AggregatedWardsHelper;
 import org.inek.dataportal.care.utils.CareExcelExporter;
 import org.inek.dataportal.care.utils.CareValidator;
@@ -67,6 +69,8 @@ public class DeptEdit implements Serializable {
     private AccessManager _accessManager;
     @Inject
     private DeptFacade _deptFacade;
+    @Inject
+    private StructuralChangesFacade _structuralChangesFacade;
     @Inject
     private Mailer _mailer;
     @Inject
@@ -364,9 +368,30 @@ public class DeptEdit implements Serializable {
     public void change() {
         _oldDeptbaseInformation = _deptBaseInformation;
         _oldDeptbaseInformation.setStatus(WorkflowStatus.Retired);
-        _deptBaseInformation = new DeptBaseInformation(_oldDeptbaseInformation, _sessionController.getAccountId());
+
+        deleteStructuralChanges();
         _deptBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         setIsReadOnly(false);
+    }
+
+    private void deleteStructuralChanges() {
+        List<StructuralChangesBaseInformation> changes = _structuralChangesFacade.findBaseInformationsByIk(_deptBaseInformation.getIk());
+        for (StructuralChangesBaseInformation change : changes) {
+            _structuralChangesFacade.deleteBaseInformation(change);
+        }
+
+        _deptBaseInformation = new DeptBaseInformation(_oldDeptbaseInformation, _sessionController.getAccountId());
+        MapVersion initialVersion = new MapVersion(_sessionController.getAccountId());
+        for (Dept dept : _deptBaseInformation.getDepts()) {
+            for (DeptWard ward : dept.getDeptWards()) {
+                if (ward.getIsInitial()) {
+                    initialVersion = ward.getMapVersion();
+                } else {
+                    dept.removeDeptStation(ward);
+                }
+            }
+        }
+        _deptBaseInformation.setCurrentVersion(initialVersion);
     }
 
     public void isFabCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
