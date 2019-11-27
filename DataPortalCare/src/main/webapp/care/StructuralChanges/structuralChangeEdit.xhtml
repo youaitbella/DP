@@ -451,7 +451,7 @@
                             </pf:column>
                             <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V">
                                 <pf:outputLabel
-                                        value="#{baseInfo.wardsToChange.deptWard.locationCodeVz}"/>
+                                        value="#{baseInfo.wardsToChange.deptWard.locationText}"/>
                                 <pf:separator/>
                                 <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.locationVz}"
                                                               Style="width: 95%;"
@@ -802,8 +802,7 @@
 
                         <pf:commandButton value="Änderungen akzeptieren"
                                           rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
-                                          action="#{structuralChangesEdit.acceptChanges}"
-                                          onclick="confirm('Alle Änderungn übernehmen?')">
+                                          action="#{structuralChangesEdit.acceptChanges}">
                             <pf:confirm header="Änderungen akzeptieren"
                                         message="Hierdurch werden alle Umbenenungen und strukturelle Änderungen übernommen. Fortfahren?"/>
 

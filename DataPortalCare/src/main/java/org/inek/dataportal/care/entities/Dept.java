@@ -196,11 +196,11 @@ public class Dept implements Serializable {
         addDeptWard(version, validFrom, validTo, true);
     }
 
-    public void addNewDeptWard(MapVersion version, Date validFrom, Date validTo) {
-        addDeptWard(version, validFrom, validTo, false);
+    public DeptWard addNewDeptWard(MapVersion version, Date validFrom, Date validTo) {
+        return addDeptWard(version, validFrom, validTo, false);
     }
 
-    private void addDeptWard(MapVersion version, Date validFrom, Date validTo, boolean isInitial) {
+    private DeptWard addDeptWard(MapVersion version, Date validFrom, Date validTo, boolean isInitial) {
         DeptWard deptWard = new DeptWard(version);
         deptWard.setDept(this);
         deptWard.setDeptName(_deptName);
@@ -209,6 +209,7 @@ public class Dept implements Serializable {
         deptWard.setValidTo(validTo);
         deptWard.setIsInitial(isInitial);
         _deptWards.add(deptWard);
+        return deptWard;
     }
 
     public void addDeptWard(DeptWard ward) {

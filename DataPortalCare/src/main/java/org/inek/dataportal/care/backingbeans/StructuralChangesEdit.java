@@ -488,10 +488,19 @@ public class StructuralChangesEdit implements Serializable {
     public void acceptChanges() {
         List<DeptWard> wards = calculateNewWards();
         for (DeptWard ward : wards) {
-//            _deptBaseInformation.getDepts().stream()
-//                    .filter(d -> d.getId() == ward.getDept().getId())
-//                    .findAny().ifPresent(d -> d.addDeptWard(ward));
-            ward.getDept().addDeptWard(ward);
+            _deptBaseInformation.getDepts().stream()
+                    .filter(d -> d.getId() == ward.getDept().getId())
+                    .findAny().ifPresent(d -> {
+                // for testing purpos: create new one
+                DeptWard newWard = d.addNewDeptWard(ward.getMapVersion(), ward.getValidFrom(), ward.getValidTo());
+                newWard.setWardName(ward.getWardName());
+                newWard.setLocationCodeP21(ward.getLocationCodeP21());
+                newWard.setLocationCodeVz(ward.getLocationCodeVz());
+                newWard.setLocationText(ward.getLocationText());
+                newWard.setBedCount(ward.getBedCount());
+                newWard.setBaseDeptWardId(ward.getBaseDeptWardId());
+                //    d.addDeptWard(ward);
+            });
         }
         _deptBaseInformation.setCurrentVersion(wards.get(0).getMapVersion());
         _deptFacade.save(_deptBaseInformation);

@@ -383,7 +383,8 @@ public class DeptEdit implements Serializable {
         _deptBaseInformation = new DeptBaseInformation(_oldDeptbaseInformation, _sessionController.getAccountId());
         MapVersion initialVersion = new MapVersion(_sessionController.getAccountId());
         for (Dept dept : _deptBaseInformation.getDepts()) {
-            for (DeptWard ward : dept.getDeptWards()) {
+            List<DeptWard> deptWards = new ArrayList<>(dept.getDeptWards());
+            for (DeptWard ward : deptWards) {
                 if (ward.getIsInitial()) {
                     initialVersion = ward.getMapVersion();
                 } else {
