@@ -166,6 +166,10 @@ public class ApplicationTools {
         return _config.readConfigBool(key);
     }
 
+    public boolean isTestMode() {
+        return isEnabled(ConfigKey.TestMode);
+    }
+
     public String readPortalAddress(PortalType portalType, Stage stage) {
         return _config.readPortalAddress(portalType, stage);
     }

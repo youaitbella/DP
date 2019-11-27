@@ -756,7 +756,7 @@
                 </div>
 
 
-                <div class="card" style="width: 100%" id="correction">
+                <div class="card" style="width: 100%" id="correction" jsf:rendered="#{applicationTools.testMode}">
                     <div class="ui-g-12"
                          jsf:rendered="#{structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}">
                         <h1>Korrektur anfordern</h1>
@@ -802,7 +802,8 @@
 
                         <pf:commandButton value="Änderungen akzeptieren"
                                           rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
-                                          action="#{structuralChangesEdit.acceptChanges}"/>
+                                          action="#{structuralChangesEdit.acceptChanges}"
+                                          onclick="confirm('Alle Änderungn übernehmen?')"/>
 
                         <pf:commandButton value="Korrektur anfordern"
                                           rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
