@@ -542,7 +542,7 @@ public class StructuralChangesEdit implements Serializable {
                             .collect(Collectors.toList());
                     assert deptWards.size() > 0;
                     DeptWard firstDeptWard = deptWards.get(0);
-                    if (firstDeptWard.getValidFrom().compareTo(changeWard.getValidFrom()) >= 0) {
+                    if (firstDeptWard.getValidFrom().compareTo(changeWard.getValidFrom()) > 0) {
                         // before the first existing
                         DeptWard newWard = new DeptWard(firstDeptWard);
 
@@ -553,7 +553,7 @@ public class StructuralChangesEdit implements Serializable {
                         return;
                     }
                     DeptWard lastDeptWard = deptWards.get(deptWards.size() - 1);
-                    if (lastDeptWard.getValidTo().compareTo(changeWard.getValidFrom()) <= 0) {
+                    if (lastDeptWard.getValidTo().compareTo(changeWard.getValidFrom()) < 0) {
                         // after the last existing
                         DeptWard newWard = new DeptWard(lastDeptWard);
                         newWard.setValidFrom(changeWard.getValidFrom());
