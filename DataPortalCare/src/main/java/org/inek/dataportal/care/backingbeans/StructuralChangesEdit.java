@@ -729,4 +729,20 @@ public class StructuralChangesEdit implements Serializable {
     public List<AggregatedWards> getAggregatedWards() {
         return AggregatedWardsHelper.aggregatedWards(calculateNewWards());
     }
+
+
+    //TODO make a method which decides if the component is rendered or not
+    public Boolean isRenderedForInekUser() {
+        if (isInekUser() && _structuralChangesBaseInformation.getStatusId() == 10) {
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean isRenderedForHospitalUser() {
+        if (!isInekUser() && _conversation.getMessage().length() > 1) {
+            return true;
+        }
+        return false;
+    }
 }

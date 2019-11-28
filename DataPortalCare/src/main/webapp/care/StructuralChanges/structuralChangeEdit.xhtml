@@ -756,9 +756,11 @@
                 </div>
 
 
-                <div class="card" style="width: 100%" id="correction" jsf:rendered="#{applicationTools.testMode}">
+                <div class="card" style="width: 100%" id="correction"
+                     jsf:rendered="#{applicationTools.testMode
+                     and (structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser())}">
                     <div class="ui-g-12"
-                         jsf:rendered="#{structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}">
+                         jsf:rendered="#{structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser()}">
                         <h1>Korrektur anfordern</h1>
 
                         <pf:dataTable value="#{structuralChangesEdit.conversations}" var="conversation">
@@ -770,23 +772,19 @@
                             </pf:column>
                         </pf:dataTable>
 
-                        <div jsf:rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}">
+                        <div jsf:rendered="#{structuralChangesEdit.isRenderedForInekUser()}">
                             <h3>Bemerkung InEK</h3>
                         </div>
-                        <div jsf:rendered="#{not structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}">
+                        <div jsf:rendered="#{structuralChangesEdit.isRenderedForHospitalUser()}">
                             <h3>Antwort Krankenhaus</h3>
                         </div>
                         <h:inputTextarea rows="10" cols="150" id="correctionText"
                                          style="min-width: 600px; min-height: 150px"
                                          value="#{structuralChangesEdit.correction}"/>
                     </div>
-                    <div class="ui-g-12">
-                    </div>
-                    <div class="ui-g-12">
-
-                    </div>
                 </div>
-                <div class="card" style="width: 100%">
+                <div class="card" style="width: 100%"
+                     jsf:rendered="#{structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser()}">
                     <div class="ui-g-12">
                         <pf:commandButton value="Datensatz ändern"
                                           action="#{structuralChangesEdit.change()}"
