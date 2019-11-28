@@ -520,6 +520,7 @@ public class StructuralChangesEdit implements Serializable {
         }
         _deptBaseInformation.setCurrentVersion(wards.get(0).getMapVersion());
         _deptFacade.save(_deptBaseInformation);
+
         _structuralChangesBaseInformation.setStatus(WorkflowStatus.Taken);
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
 
