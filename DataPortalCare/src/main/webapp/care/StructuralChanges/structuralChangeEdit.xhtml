@@ -802,7 +802,8 @@
 
                         <pf:commandButton value="Änderungen akzeptieren"
                                           rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
-                                          action="#{structuralChangesEdit.acceptChanges}">
+                                          action="#{structuralChangesEdit.acceptChanges}"
+                                          update="@(.ui-message) @form"/>
                             <pf:confirm header="Änderungen akzeptieren"
                                         message="Hierdurch werden alle Umbenenungen und strukturelle Änderungen übernommen. Fortfahren?"/>
 
