@@ -15,8 +15,8 @@ import java.util.Date;
  */
 public class DateUtils {
 
-    public static SimpleDateFormat ANSI_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
-    public static SimpleDateFormat GERMAN_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
+    private static SimpleDateFormat ANSI_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat GERMAN_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
 
     public static Date getDateWithDayOffset(int offset) {
         Calendar calendar = Calendar.getInstance();
