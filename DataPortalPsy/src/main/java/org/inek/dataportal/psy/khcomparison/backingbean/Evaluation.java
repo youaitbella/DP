@@ -120,6 +120,7 @@ public class Evaluation {
 
     public Set<Integer> getAllowedIks() {
         Set<Integer> iks = _accessManager.retrieveAllowedManagedIks(Feature.HC_HOSPITAL);
+        iks.addAll(_accessManager.retrieveAllowedManagedIks(Feature.HC_INSURANCE));
         iks.removeAll(_aebFacade.excludedIks());
         return iks;
     }

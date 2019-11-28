@@ -45,6 +45,7 @@ public class IkAdminTasks implements Serializable {
     private int _accountId;
     private Account _account;
     private List<Account> _accounts = new ArrayList<>();
+    private List<AccessRight> _accessRightsForResponsibilities = new ArrayList<>();
     private int _featureId;
 
     public int getAccountId() {
@@ -98,6 +99,11 @@ public class IkAdminTasks implements Serializable {
                 _ik = ik;
                 List<Feature> features = obtainManageableFeatures(ik);
                 _accessRights = _ikAdminFacade.findAccessRights(_ik, features);
+                _accessRightsForResponsibilities = _accessRights
+                        .stream()
+                        .filter(r -> r.getRight() != Right.Deny)
+                        .filter(r -> r.getFeature().getIkUsage() == IkUsage.ByResponsibilityAndCorrelation)
+                        .collect(Collectors.toList());
                 buildAccountList();
                 return;
             }
@@ -129,11 +135,7 @@ public class IkAdminTasks implements Serializable {
     }
 
     public List<AccessRight> getResponsibilities() {
-        return _accessRights
-                .stream()
-                .filter(r -> r.getRight() != Right.Deny)
-                .filter(r -> r.getFeature().getIkUsage() == IkUsage.ByResponsibilityAndCorrelation)
-                .collect(Collectors.toList());
+        return _accessRightsForResponsibilities;
     }
 
     private String buildKey(int accountId, Feature feature, int ik) {
@@ -168,8 +170,7 @@ public class IkAdminTasks implements Serializable {
             _ikAdminFacade.saveResponsibilities(_responsibleForIks);
             DialogController.showSaveDialog();
             return "";
-        }
-        else {
+        } else {
             DialogController.showWarningDialog("Fehler beim speichern", errorMessages.toString());
             return "";
         }
@@ -185,6 +186,11 @@ public class IkAdminTasks implements Serializable {
                 for (AccessRight accessRight : _accessRights) {
                     _ikAdminFacade.saveAccessRight(accessRight);
                 }
+                _accessRightsForResponsibilities = _accessRights
+                        .stream()
+                        .filter(r -> r.getRight() != Right.Deny)
+                        .filter(r -> r.getFeature().getIkUsage() == IkUsage.ByResponsibilityAndCorrelation)
+                        .collect(Collectors.toList());
                 DialogController.showSaveDialog();
             }
             return null;

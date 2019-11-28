@@ -427,4 +427,16 @@ public class AEBFacade extends AbstractDataAccess {
         String sql = "select hcexIk from psy.HospitalComparisonExcludeIK";
         return getEntityManager().createNativeQuery(sql).getResultList();
     }
+
+    public boolean ikHasBedsOrPlacesForYear(int ik, int year) {
+        String sql = "select *\n" +
+                "from psy.StructureBaseInformation sbi\n" +
+                "join psy.StructureInformation si on si.siStructureBaseInformationId = sbi.sbiId\n" +
+                "where sbi.sbiIk = " + ik +"\n" +
+                "and year(si.siValidFrom) <= " + year + "\n" +
+                "and siStructureCategorie in ('BedCount', 'TherapyPartCount')";
+
+        List resultList = getEntityManager().createNativeQuery(sql).getResultList();
+        return !resultList.isEmpty();
+    }
 }
