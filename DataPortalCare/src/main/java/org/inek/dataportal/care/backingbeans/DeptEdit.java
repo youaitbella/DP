@@ -327,6 +327,16 @@ public class DeptEdit implements Serializable {
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + ".xlsx");
     }
 
+    public StreamedContent exportAsExcelWithStructuralChanges() {
+        String fileName = "Mitteilung gem. Paragraph 5 PpUGV_" + _deptBaseInformation.getIk();
+
+        byte[] singleDocument = _reportController.getSingleDocument("PPUG_STRUCTURAL_CHANGES",
+                _deptBaseInformation.getId(), fileName);
+
+        return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + ".xlsx");
+    }
+
 
     private void sendMail(String mailTemplateName) {
         String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());

@@ -129,6 +129,15 @@
                             <pf:fileDownload value="#{deptEdit.exportAsExcel2018()}" />
                         </pf:commandButton>
 
+                        <pf:commandButton value="Meldung (inkl. struktureller Veränderungen) exportieren (Excel)"
+                                          ajax="false"
+                                          rendered="#{deptEdit.excelExportAllowed() and deptEdit.deptBaseInformation.year ge 2018}"
+                                          style="margin-left: 10px;"
+                                          onclick="PrimeFaces.monitorDownload(start, stop);"
+                                          icon="ui-icon-arrowthick-1-s">
+                            <pf:fileDownload value="#{deptEdit.exportAsExcelWithStructuralChanges()}" />
+                        </pf:commandButton>
+
                         <pf:commandButton value="Speichern ohne Senden"
                                           action="#{deptEdit.save()}"
                                           rendered="#{!deptEdit.isReadOnly}"
