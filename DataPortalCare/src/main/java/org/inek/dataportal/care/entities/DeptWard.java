@@ -238,7 +238,7 @@ public class DeptWard implements Serializable {
     //<editor-fold desc="Property BaseDeptWardId">
     @JsonIgnore
     @Column(name = "dwBaseDeptWardId")
-    int baseDeptWardId;
+    private int baseDeptWardId;
 
     @JsonIgnore
     public int getBaseDeptWardId() {
