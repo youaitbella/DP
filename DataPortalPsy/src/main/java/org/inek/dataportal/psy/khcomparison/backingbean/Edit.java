@@ -230,6 +230,12 @@ public class Edit {
                     "Es wurden noch keine Strukturinformationen für das IK " + _aebBaseInformation.getIk() + " erfasst");
             return null;
         }
+        if (ikHasNoValidBedOrPlacesCountForYear(_aebBaseInformation.getIk(), _aebBaseInformation.getYear())) {
+            DialogController.showWarningDialog("Senden nicht möglich",
+                    "Das Gültigkeitsdatum für die Anzahl der Betten bzw. die Anzahl der Therapieplätze " +
+                            "(Strukturinformationen) liegt nach dem übermittelten Vereinbarungsjahr der AEB-Daten.");
+            return null;
+        }
         if (!ignoreHints && hintsExists(_aebBaseInformation, true)) {
             DialogController.openDialogByName("errorMessageDialog");
             return null;
@@ -253,7 +259,7 @@ public class Edit {
             } catch (Exception ex) {
                 LOGGER.log(Level.SEVERE, "Error duringTransferFileCreation AEB: ik: " + _aebBaseInformation.getIk());
                 _mailer.sendError("Error duringTransferFileCreation AEB: ik: " + _aebBaseInformation.getIk() + " year: " +
-                        _aebBaseInformation.getYear() , ex);
+                        _aebBaseInformation.getYear(), ex);
             }
             return Pages.KhComparisonSummary.URL();
         } else {
@@ -261,6 +267,10 @@ public class Edit {
             _aebBaseInformation.setSend(oldSend);
             return null;
         }
+    }
+
+    private boolean ikHasNoValidBedOrPlacesCountForYear(int ik, int year) {
+        return !_aebFacade.ikHasBedsOrPlacesForYear(ik, year);
     }
 
     public boolean hintsExists(AEBBaseInformation info, Boolean sendCheck) {
