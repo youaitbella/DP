@@ -93,24 +93,24 @@ public class StructuralChangesEdit implements Serializable {
         this._iks = iks;
     }
 
-    Conversation _conversation = new Conversation();
+    private Conversation _conversation = new Conversation();
 
     public Conversation getConversation() {
         return _conversation;
     }
 
-    public void setConversation(Conversation _conversation) {
-        this._conversation = _conversation;
+    public void setConversation(Conversation conversation) {
+        this._conversation = conversation;
     }
 
-    List<Conversation> _conversations = new ArrayList<>();
+    private List<Conversation> _conversations = new ArrayList<>();
 
     public List<Conversation> getConversations() {
         return _conversations;
     }
 
-    public void setConversations(List<Conversation> Conversations) {
-        this._conversations = _conversations;
+    public void setConversations(List<Conversation> conversations) {
+        this._conversations = conversations;
     }
 
     public StructuralChangesBaseInformation getStructuralChangesBaseInformation() {
@@ -729,5 +729,4 @@ public class StructuralChangesEdit implements Serializable {
     public List<AggregatedWards> getAggregatedWards() {
         return AggregatedWardsHelper.aggregatedWards(calculateNewWards());
     }
-
 }
