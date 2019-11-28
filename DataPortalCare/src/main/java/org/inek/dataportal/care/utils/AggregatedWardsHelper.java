@@ -27,10 +27,20 @@ public class AggregatedWardsHelper {
                 .collect(Collectors.groupingBy(AggregatedWardsHelper::determineKey));
 
         for (List<DeptWard> deptWards : wardMap.values()) {
-            List<Date> toDates = deptWards.stream().map(w -> w.getValidTo()).distinct().sorted(Date::compareTo).collect(Collectors.toList());
+            Set<Date> toDates = deptWards.stream().map(w -> w.getValidTo()).collect(Collectors.toSet());
+            deptWards.stream().map(w -> DateUtils.addDays(w.getValidFrom(), -1)).forEach(toDate -> {
+                toDates.add(toDate);
+            });
+
+            Set<Date> fromDates = deptWards.stream().map(w -> w.getValidFrom()).collect(Collectors.toSet());
+            deptWards.stream().map(w -> DateUtils.addDays(w.getValidTo(), 1)).forEach(toDate -> {
+                fromDates.add(toDate);
+            });
+
             List<Pair<Date, Date>> fromToDates = new ArrayList<>();
-            deptWards.stream().map(w -> w.getValidFrom()).distinct().sorted(Date::compareTo).forEachOrdered(from -> {
-                toDates.stream().filter(toDate -> toDate.compareTo(from) >= 0).findFirst().ifPresent(toDate -> fromToDates.add(new Pair<>(from, toDate)));
+            fromDates.stream().sorted(Date::compareTo).forEachOrdered(from -> {
+                toDates.stream().filter(toDate -> toDate.compareTo(from) >= 0).sorted(Date::compareTo).findFirst()
+                        .ifPresent(toDate -> fromToDates.add(new Pair<>(from, toDate)));
             });
             for (Pair<Date, Date> fromTo : fromToDates) {
                 deptWards.stream()

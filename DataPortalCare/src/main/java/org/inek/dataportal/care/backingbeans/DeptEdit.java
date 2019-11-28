@@ -63,6 +63,7 @@ public class DeptEdit implements Serializable {
 
     private static Logger LOGGER = Logger.getLogger("DeptEdit");
 
+    //todo: reduce injections and change from field to constructor injection
     @Inject
     private SessionController _sessionController;
     @Inject

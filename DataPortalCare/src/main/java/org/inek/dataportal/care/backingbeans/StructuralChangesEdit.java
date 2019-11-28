@@ -24,6 +24,8 @@ import org.inek.dataportal.care.utils.AggregatedWardsHelper;
 import org.inek.dataportal.care.utils.CareValueChecker;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.common.Conversation;
 import org.inek.dataportal.common.enums.Pages;
@@ -61,6 +63,7 @@ public class StructuralChangesEdit implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(StructuralChangesEdit.class.toString());
 
+    //todo: reduce injections and change from field to constructor injection
     @Inject
     private SessionController _sessionController;
     @Inject
@@ -71,6 +74,8 @@ public class StructuralChangesEdit implements Serializable {
     private AccessManager _accessManager;
     @Inject
     private transient VzUtils _vzUtils;
+    @Inject
+    private AccountFacade _accountFacade;
 
     private List<DeptWard> _wards;
     private DeptBaseInformation _deptBaseInformation;
@@ -498,6 +503,13 @@ public class StructuralChangesEdit implements Serializable {
         _deptFacade.save(_deptBaseInformation);
         _structuralChangesBaseInformation.setStatus(WorkflowStatus.Taken);
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
+
+        Map<String, String> substitutions = new HashMap<>();
+        substitutions.put("{ik}", "" + _structuralChangesBaseInformation.getIk());
+        Account account = _accountFacade.findAccount(_structuralChangesBaseInformation.getRequestedAccountId());
+        // todo: put account into base info and remove accountFacade
+        _sessionController.getMailer().sendMailWithTemplate("CareStructuralChangesAccepted", substitutions, account);
+        DialogController.showSaveDialog();
     }
 
     public List<DeptWard> calculateNewWards() {
