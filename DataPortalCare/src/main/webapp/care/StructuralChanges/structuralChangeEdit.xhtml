@@ -760,6 +760,16 @@
                     <div class="ui-g-12"
                          jsf:rendered="#{structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}">
                         <h1>Korrektur anfordern</h1>
+
+                        <pf:dataTable value="#{structuralChangesEdit.conversations}" var="conversation">
+                            <pf:column headerText="User" width="20%">
+                                <pf:outputLabel value="#{conversation.inek}"/>
+                            </pf:column>
+                            <pf:column headerText="Nachricht" width="80%">
+                                <pf:outputLabel value="#{conversation.message}"/>
+                            </pf:column>
+                        </pf:dataTable>
+
                         <div jsf:rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}">
                             <h3>Bemerkung InEK</h3>
                         </div>

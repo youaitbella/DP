@@ -93,6 +93,26 @@ public class StructuralChangesEdit implements Serializable {
         this._iks = iks;
     }
 
+    Conversation _conversation = new Conversation();
+
+    public Conversation getConversation() {
+        return _conversation;
+    }
+
+    public void setConversation(Conversation _conversation) {
+        this._conversation = _conversation;
+    }
+
+    List<Conversation> _conversations = new ArrayList<>();
+
+    public List<Conversation> getConversations() {
+        return _conversations;
+    }
+
+    public void setConversations(List<Conversation> Conversations) {
+        this._conversations = _conversations;
+    }
+
     public StructuralChangesBaseInformation getStructuralChangesBaseInformation() {
         return _structuralChangesBaseInformation;
     }
@@ -139,12 +159,11 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void askForCorrection() {
-        Conversation conversation = new Conversation();
-        conversation.setAccountId(_sessionController.getAccountId());
-        conversation.setDataId(_structuralChangesBaseInformation.getId());
-        conversation.setFunction(Function.STRUCTURAL_CHANGES);
-        conversation.setInek(isInekUser());
-        conversation.setMessage(_correction);
+        _conversation.setAccountId(_sessionController.getAccountId());
+        _conversation.setDataId(_structuralChangesBaseInformation.getId());
+        _conversation.setFunction(Function.STRUCTURAL_CHANGES);
+        _conversation.setInek(isInekUser());
+        _conversation.setMessage(_correction);
     }
 
     @PostConstruct
