@@ -92,7 +92,7 @@ public class DeptEdit implements Serializable {
     private Set<Integer> _allowedP21LocationCodes = new HashSet<>();
 
     public DeptEdit() {
-        LOGGER.log(Level.WARNING, "Constructor DeptEdit");
+        
     }
 
     public List<AggregatedWards> getAggregatedWards() {
