@@ -2,6 +2,7 @@ package org.inek.dataportal.care.entities.StructuralChanges;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -107,6 +108,36 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     public void setBasedOnVersionId(int basedOnVersionId) {
         this.basedOnVersionId = basedOnVersionId;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property AcceptedAt">
+    @Column(name = "scAcceptedAt")
+    @JsonIgnore  // todo: use for json (need to adopt the transfer process before
+    private Date acceptedAt = DateUtils.MIN_DATE;
+
+    @JsonIgnore  // todo: use for json (need to adopt the transfer process before
+    public Date getAcceptedAt() {
+        return acceptedAt;
+    }
+
+    public void setAcceptedAt(Date acceptedAt) {
+        this.acceptedAt = acceptedAt;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property AcceptedAccountId">
+    @Column(name = "acAcceptedAccountId")
+    @JsonIgnore  // todo: use for json (need to adopt the transfer process before
+    private int acceptedAccountId;
+
+    @JsonIgnore  // todo: use for json (need to adopt the transfer process before
+    public int getAcceptedAccountId() {
+        return acceptedAccountId;
+    }
+
+    public void setAcceptedAccountId(int acceptedAccountId) {
+        this.acceptedAccountId = acceptedAccountId;
     }
     //</editor-fold>
 

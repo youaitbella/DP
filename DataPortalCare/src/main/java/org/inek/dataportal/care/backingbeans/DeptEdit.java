@@ -51,8 +51,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.inek.dataportal.common.enums.TransferFileType.CareWardNames;
+import static org.inek.dataportal.common.utils.DateUtils.MAX_DATE;
 import static org.inek.dataportal.common.utils.DateUtils.createDate;
-import static org.inek.dataportal.common.utils.DateUtils.getMaxDate;
 
 /**
  * @author lautenti
@@ -270,15 +270,11 @@ public class DeptEdit implements Serializable {
     }
 
     public void addNewStation(Dept dept) {
-        dept.addNewInitialDeptWard(_deptBaseInformation.getCurrentVersion(), createNewValidFromDate(), createNewValidToDate());
+        dept.addNewInitialDeptWard(_deptBaseInformation.getCurrentVersion(), createNewValidFromDate(), MAX_DATE);
     }
 
     private Date createNewValidFromDate() {
         return createDate(_deptBaseInformation.getYear(), Month.JANUARY, 1);
-    }
-
-    private Date createNewValidToDate() {
-        return getMaxDate();
     }
 
     private void preloadDataForIk(DeptBaseInformation info) {
