@@ -510,6 +510,13 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void acceptChanges() {
+        updateDeptBase();
+        updateStructuralChangesBase();
+        sendAcceptedInformation();
+        DialogController.showSaveDialog();
+    }
+
+    private void updateDeptBase() {
         List<DeptWard> wards = calculateNewWards();
         for (DeptWard ward : wards) {
             _deptBaseInformation.getDepts().stream()
@@ -520,16 +527,21 @@ public class StructuralChangesEdit implements Serializable {
         }
         _deptBaseInformation.setCurrentVersion(wards.get(0).getMapVersion());
         _deptFacade.save(_deptBaseInformation);
+    }
 
+    private void updateStructuralChangesBase() {
         _structuralChangesBaseInformation.setStatus(WorkflowStatus.Taken);
+        _structuralChangesBaseInformation.setAcceptedAt(new Date());
+        _structuralChangesBaseInformation.setAcceptedAccountId(_sessionController.getAccountId());
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
+    }
 
+    private void sendAcceptedInformation() {
         Map<String, String> substitutions = new HashMap<>();
         substitutions.put("{ik}", "" + _structuralChangesBaseInformation.getIk());
         Account account = _accountFacade.findAccount(_structuralChangesBaseInformation.getRequestedAccountId());
         // todo: put account into base info and remove accountFacade
         _sessionController.getMailer().sendMailWithTemplate("CareStructuralChangesAccepted", substitutions, account);
-        DialogController.showSaveDialog();
     }
 
     public List<DeptWard> calculateNewWards() {
@@ -576,22 +588,12 @@ public class StructuralChangesEdit implements Serializable {
                     DeptWard firstDeptWard = deptWards.get(0);
                     if (firstDeptWard.getValidFrom().compareTo(changeWard.getValidFrom()) > 0) {
                         // before the first existing
-                        DeptWard newWard = new DeptWard(firstDeptWard);
-
-                        Date validTo = DateUtils.addDays(firstDeptWard.getValidFrom(), -1);
-                        newWard.setValidTo(validTo);
-                        newWard.setBaseDeptWardId(firstDeptWard.getBaseDeptWardId());
-                        wards.add(newWard);
+                        createWardBefore(wards, firstDeptWard);
                         return;
                     }
                     DeptWard lastDeptWard = deptWards.get(deptWards.size() - 1);
                     if (lastDeptWard.getValidTo().compareTo(changeWard.getValidFrom()) < 0) {
-                        // after the last existing
-                        DeptWard newWard = new DeptWard(lastDeptWard);
-                        newWard.setValidFrom(changeWard.getValidFrom());
-                        newWard.setValidTo(DateUtils.getMaxDate());
-                        newWard.setBaseDeptWardId(lastDeptWard.getBaseDeptWardId());
-                        wards.add(newWard);
+                        createWardAfter(wards, changeWard, lastDeptWard);
                         return;
                     }
                     DeptWard deptWard = deptWards.stream()
@@ -606,10 +608,26 @@ public class StructuralChangesEdit implements Serializable {
                     wards.add(newWard);
                     deptWard.setValidTo(DateUtils.addDays(changeWard.getValidFrom(), -1));
                     if (deptWard.getValidFrom().compareTo(deptWard.getValidTo()) > 0) {
-                        // invalid
+                        // has become invalid
                         wards.remove(deptWard);
                     }
                 });
+    }
+
+    private void createWardBefore(List<DeptWard> wards, DeptWard firstDeptWard) {
+        DeptWard newWard = new DeptWard(firstDeptWard);
+        Date validTo = DateUtils.addDays(firstDeptWard.getValidFrom(), -1);
+        newWard.setValidTo(validTo);
+        newWard.setBaseDeptWardId(firstDeptWard.getBaseDeptWardId());
+        wards.add(newWard);
+    }
+
+    private void createWardAfter(List<DeptWard> wards, WardsToChange changeWard, DeptWard lastDeptWard) {
+        DeptWard newWard = new DeptWard(lastDeptWard);
+        newWard.setValidFrom(changeWard.getValidFrom());
+        newWard.setValidTo(DateUtils.getMaxDate());
+        newWard.setBaseDeptWardId(lastDeptWard.getBaseDeptWardId());
+        wards.add(newWard);
     }
 
     void processDeletions(List<DeptWard> wards, List<StructuralChanges> structuralChanges) {

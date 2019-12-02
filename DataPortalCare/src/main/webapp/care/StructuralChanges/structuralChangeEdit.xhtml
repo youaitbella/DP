@@ -759,8 +759,8 @@
 
 
                 <div class="card" style="width: 100%" id="correction"
-                     jsf:rendered="#{applicationTools.testMode
-                     and (structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser())}">
+                     jsf:rendered="#{applicationTools.testMode}">
+                    <!--and (structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser())}"-->
                     <div class="ui-g-12"
                          jsf:rendered="#{structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser()}">
                         <h1>Korrektur anfordern</h1>
@@ -785,8 +785,8 @@
                                          value="#{structuralChangesEdit.correction}"/>
                     </div>
                 </div>
-                <div class="card" style="width: 100%"
-                     jsf:rendered="#{structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser()}">
+                <div class="card" style="width: 100%">
+                    <!-- temp disabled due to null pointer exception: jsf:rendered="# {structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser()}"-->
                     <div class="ui-g-12">
                         <pf:commandButton value="Datensatz ändern"
                                           action="#{structuralChangesEdit.change()}"

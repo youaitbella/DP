@@ -15,8 +15,11 @@ import java.util.Date;
  */
 public class DateUtils {
 
-    private static SimpleDateFormat ANSI_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
-    private static SimpleDateFormat GERMAN_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
+    public static final Date MIN_DATE = createDate(1900, Month.JANUARY, 1);
+    public static final Date MAX_DATE = createDate(2079, Month.JANUARY, 1);
+
+    private static final SimpleDateFormat ANSI_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat GERMAN_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
 
     public static Date getDateWithDayOffset(int offset) {
         Calendar calendar = Calendar.getInstance();
@@ -53,6 +56,10 @@ public class DateUtils {
         return GERMAN_FORMATTER.format(new Date());
     }
 
+    /**
+     * @deprecated replace by conctant MAX_DATE
+     */
+    @Deprecated
     public static Date getMaxDate() {
         return createDate(2079, Month.JANUARY, 1);
     }
@@ -72,6 +79,5 @@ public class DateUtils {
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
-
 
 }
