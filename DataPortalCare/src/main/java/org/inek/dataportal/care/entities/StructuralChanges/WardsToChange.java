@@ -62,7 +62,7 @@ public class WardsToChange implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property WardName">
     @Column(name = "wtcWardName")
-    private String _wardName;
+    private String _wardName = "";
 
     public String getWardName() {
         return _wardName;
@@ -75,7 +75,7 @@ public class WardsToChange implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property DeptName">
     @Column(name = "wtcDeptName")
-    private String _deptName;
+    private String _deptName = "";
 
     public String getDeptName() {
         return _deptName;
@@ -142,7 +142,7 @@ public class WardsToChange implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Fab">
     @Column(name = "wtcFab")
-    private String _fab;
+    private String _fab = "";
 
     public String getFab() {
         return _fab;
