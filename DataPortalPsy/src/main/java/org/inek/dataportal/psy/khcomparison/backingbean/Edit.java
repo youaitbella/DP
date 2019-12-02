@@ -511,6 +511,7 @@ public class Edit {
     public void resetAllowedToResendDate() {
         _aebBaseInformation.setAllowedToResendUntil(DateUtils.getDateWithDayOffset(3));
         _aebFacade.save(_aebBaseInformation);
+        DialogController.showInfoDialog("Datensatz freigegeben", "Der Datensatz wurde zur Änderung freigegeben");
     }
 
     public boolean isAllowedToResetResendDate() {
