@@ -77,7 +77,7 @@ public class StructuralChangesEdit implements Serializable {
     @Inject
     private AccountFacade _accountFacade;
 
-    private List<DeptWard> _wards;
+    private List<DeptWard> _wards = new ArrayList<>();
     private DeptBaseInformation _deptBaseInformation;
     private List<DeptWard> _selectedWards = new ArrayList<>();
 
