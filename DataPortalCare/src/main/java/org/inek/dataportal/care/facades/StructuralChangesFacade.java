@@ -9,7 +9,6 @@ import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.data.common.Conversation;
-import org.inek.dataportal.common.data.common.ListFunction;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 import javax.ejb.Stateless;
@@ -155,7 +154,8 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
     }
 
     public List<StructuralChangesBaseInformation> getAllOpen() {
-        String jpql = "SELECT sc FROM StructuralChangesBaseInformation sc WHERE sc._statusId < 200 order by sc._statusId desc";
+        String jpql = "SELECT sc FROM StructuralChangesBaseInformation sc WHERE sc._statusId < 200 " +
+                "order by case when sc._statusId < 20 then sc._statusId else -sc._statusId end desc, sc._requestedAt";
         TypedQuery<StructuralChangesBaseInformation> query = getEntityManager().createQuery(jpql, StructuralChangesBaseInformation.class);
         return query.getResultList();
     }
