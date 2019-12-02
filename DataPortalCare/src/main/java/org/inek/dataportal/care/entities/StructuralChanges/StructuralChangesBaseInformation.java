@@ -100,10 +100,8 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property CreatedAt">
     @Column(name = "scCreatedAt")
-    @JsonIgnore  // todo: use for json (need to adopt the transfer process before
     private Date _createdAt = new Date();
 
-    @JsonIgnore  // todo: use for json (need to adopt the transfer process before
     public Date getCreatedAt() {
         return _createdAt;
     }
@@ -128,7 +126,6 @@ public class StructuralChangesBaseInformation implements Serializable {
     }
     //</editor-fold>
 
-
     //<editor-fold desc="Property BasedOnVersionId">
     @Column(name = "scBasedOnVersionId")
     private int basedOnVersionId;
@@ -144,10 +141,8 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     //<editor-fold desc="Property AcceptedAt">
     @Column(name = "scAcceptedAt")
-    @JsonIgnore  // todo: use for json (need to adopt the transfer process before
     private Date acceptedAt = DateUtils.MIN_DATE;
 
-    @JsonIgnore  // todo: use for json (need to adopt the transfer process before
     public Date getAcceptedAt() {
         return acceptedAt;
     }
@@ -159,10 +154,8 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     //<editor-fold desc="Property AcceptedAccountId">
     @Column(name = "acAcceptedAccountId")
-    @JsonIgnore  // todo: use for json (need to adopt the transfer process before
     private int acceptedAccountId;
 
-    @JsonIgnore  // todo: use for json (need to adopt the transfer process before
     public int getAcceptedAccountId() {
         return acceptedAccountId;
     }
