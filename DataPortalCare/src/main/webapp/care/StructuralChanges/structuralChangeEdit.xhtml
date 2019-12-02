@@ -36,69 +36,6 @@
                               immediate="true"/>
         </div>
 
-        <pf:dialog widgetVar="wardSelection"
-                   header="Bitte wählen Sie die betreffenden Stationen aus"
-                   modal="true"
-                   height="550px"
-                   width="900px"
-                   closable="true"
-                   resizable="true">
-            <h:form>
-                <pf:dataTable value="#{structuralChangesEdit.wards}"
-                              tableStyle="width: 100%"
-                              emptyMessage="Keine Daten vorhanden"
-                              var="ward"
-                              selection="#{structuralChangesEdit.selectedWards}"
-                              rowKey="#{ward.id}"
-                              id="wardTableForSelection">
-                    <pf:column selectionMode="multiple" style="width:16px; text-align:center"/>
-                    <pf:column headerText="Pflegesensitiver Bereich" style="width: 100px;">
-                        <pf:outputLabel value="#{ward.dept.sensitiveArea}"/>
-                    </pf:column>
-                    <pf:column headerText="Fachabteilungsnummer" style="width: 50px;">
-                        <pf:outputLabel value="#{ward.fab}"/>
-                    </pf:column>
-                    <pf:column headerText="Fachabteilungsname" style="width: 150px;">
-                        <pf:outputLabel value="#{ward.deptName}"/>
-                    </pf:column>
-                    <pf:column headerText="Stationsbezeichnung" style="width: 100px;">
-                        <pf:outputLabel value="#{ward.wardName}"/>
-                    </pf:column>
-                    <pf:column headerText="Standort nach § 21 KHEntgG" style="width: 50px;">
-                        <pf:outputLabel value="#{ward.locationCodeP21}"/>
-                    </pf:column>
-                    <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="width: 50px;">
-                        <pf:outputLabel value="#{ward.locationText}"/>
-                    </pf:column>
-                    <pf:column headerText="Bettenanzahl der Station" style="width: 50px;">
-                        <pf:outputLabel value="#{ward.bedCount}"/>
-                    </pf:column>
-                    <pf:column headerText="Gültig von" style="width: 100px;">
-                        <pf:outputLabel value="#{ward.validFrom}">
-                            <f:convertDateTime type="date" pattern="dd.MM.yyyy" timeZone="Europe/Berlin"/>
-                        </pf:outputLabel>
-                    </pf:column>
-                    <pf:column headerText="Gültig bis" style="width: 100px;">
-                        <pf:outputLabel value="#{ward.validToDisplayText}"/>
-                    </pf:column>
-                </pf:dataTable>
-
-                <div id="buttons"
-                     style="position: absolute !important; bottom: 10px !important; vertical-align: bottom !important;">
-                    <pf:button value="Abbrechen"
-                               styleClass="red-button"
-                               tabindex="0"
-                               style="position: relative;"
-                               onclick="PF('wardSelection').hide(); return false;"/>
-
-                    <pf:commandButton value="Auswahl übernehmen"
-                                      action="#{structuralChangesEdit.createNewWardFromSelectedWards()}"
-                                      style="margin-left: 10px;"
-                                      oncomplete="PF('wardSelection').hide();"
-                                      update="@(.ui-message) :change"/>
-                </div>
-            </h:form>
-        </pf:dialog>
 
         <h:form id="change">
 
