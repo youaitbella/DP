@@ -249,8 +249,7 @@ public class StructuralChangesEdit implements Serializable {
 
     private StructuralChangesBaseInformation createNewStructuralChangesBaseInformation() {
         StructuralChangesBaseInformation baseInfo = new StructuralChangesBaseInformation();
-        baseInfo.setRequestedAccountId(_sessionController.getAccountId());
-        baseInfo.setRequestedAt(new Date());
+        baseInfo.setCreatedAccountId(_sessionController.getAccountId());
         baseInfo.setStatus(WorkflowStatus.New);
         return baseInfo;
     }
@@ -390,6 +389,8 @@ public class StructuralChangesEdit implements Serializable {
         }
 
         _structuralChangesBaseInformation.setStatus(WorkflowStatus.Provided);
+        _structuralChangesBaseInformation.setRequestedAccountId(_sessionController.getAccountId());
+        _structuralChangesBaseInformation.setRequestedAt(new Date());
 
         for (StructuralChanges changes : _structuralChangesBaseInformation.getStructuralChanges()) {
             changes.setStatus(WorkflowStatus.Provided);

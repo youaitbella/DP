@@ -74,7 +74,7 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property RequestedAt">
     @Column(name = "scRequestedAt")
-    private Date _requestedAt;
+    private Date _requestedAt = DateUtils.MIN_DATE;
 
     public Date getRequestedAt() {
         return _requestedAt;
@@ -97,6 +97,33 @@ public class StructuralChangesBaseInformation implements Serializable {
         this._requestedAccountId = requestedAccountId;
     }
     //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property CreatedAt">
+    @Column(name = "scCreatedAt")
+    private Date _createdAt = new Date();
+
+    public Date getCreatedAt() {
+        return _createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this._createdAt = createdAt;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property CreatedAccountId">
+    @Column(name = "scCreatedAccountId")
+    private int _createdAccountId;
+
+    public int getCreatedAccountId() {
+        return _createdAccountId;
+    }
+
+    public void setCreatedAccountId(int createdAccountId) {
+        this._createdAccountId = createdAccountId;
+    }
+    //</editor-fold>
+
 
     //<editor-fold desc="Property BasedOnVersionId">
     @Column(name = "scBasedOnVersionId")
