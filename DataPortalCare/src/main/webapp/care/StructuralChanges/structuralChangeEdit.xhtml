@@ -199,7 +199,7 @@
                         <h1>Informationen zur neuen Station</h1>
                         <pf:dataTable id="tableNewWard"
                                       value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.NEW)}"
-                                      tableStyle="width: 100%;"
+                                      tableStyle="width: auto;"
                                       var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
@@ -219,10 +219,10 @@
                                 </pf:selectOneMenu>
                                 <pf:message id="catNewAreaMsg" for="catNewArea"/>
                             </pf:column>
-                            <pf:column headerText="Fachabteilungsnummer" style="width: 11em;">
+                            <pf:column headerText="Fachabteilungs- nummer" style="width: 8em;">
                                 <inekInput:InputTextValidator id="fabNew"
                                                               value="#{baseInfo.wardsToChange.fab}"
-                                                              Style="width: 95%;"
+                                                              Style="width: calc(100% - 1em);"
                                                               require="#{structuralChangesEdit.fabRequired(baseInfo.wardsToChange)}"
                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                               validatorFunction="#{structuralChangesEdit.isFabValid}"
@@ -234,7 +234,7 @@
                                 <inekInput:InputText value="#{baseInfo.wardsToChange.deptName}"
                                                      require="true"
                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                     Style="width: 95%;"
+                                                     Style="width: calc(100% - 1em);"
                                                      updateComponents=":change:aggregatedTable"
                                                      requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"/>
                             </pf:column>
@@ -242,7 +242,7 @@
                                 <inekInput:InputText value="#{baseInfo.wardsToChange.wardName}"
                                                      require="true"
                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                                     Style="width: 95%;"
+                                                     Style="width: calc(100% - 1em);"
                                                      updateComponents=":change:aggregatedTable"
                                                      requiredMessage="Bitte geben Sie eine Stationsbezeichnung ein"/>
                             </pf:column>
@@ -253,12 +253,12 @@
                                                                 validatorFunction="#{structuralChangesEdit.isP21LocationCodeValid}"
                                                                 validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                                 renderElement=":change:aggregatedTable"
-                                                                Style="width: 95%;"/>
+                                                                Style="width: calc(100% - 1em);"/>
 
                             </pf:column>
                             <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="width: 9em;">
                                 <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.locationVz}"
-                                                              Style="width: 95%;"
+                                                              Style="width: calc(100% - 1em);"
                                                               maxlength="100"
                                                               require="true"
                                                               requiredMessage="Bitte geben Sie die Standortnummer nach § 293 Abs. 6 SGB V an oder benennen Sie den Standort möglichst präzise."
@@ -270,7 +270,7 @@
                             </pf:column>
                             <pf:column headerText="Bettenanzahl der Station" style="text-align: right; width: 6em;">
                                 <inekInput:InputNumber value="#{baseInfo.wardsToChange.beds}"
-                                                       Style="width: 95%;"
+                                                       Style="width: calc(100% - 1em);"
                                                        readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                        renderElement=":change:aggregatedTable"
                                                        minValue="1"
@@ -287,21 +287,21 @@
                                              mask="true"
                                              mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                             inputStyle="text-align: right;">
+                                             inputStyle="text-align: left;">
                                     <pf:ajax event="change" update=":change:aggregatedTable"/>
                                     <pf:ajax event="dateSelect" update=":change:aggregatedTable"/>
                                 </pf:calendar>
                                 <pf:message for="newValidFrom"/>
                             </pf:column>
 
-                            <pf:column headerText="Anmerkung" style="min-width: 25em; width: 35em;">
+                            <pf:column headerText="Anmerkung" style="min-width: 35em; max-width: 60em;">
                                 <pf:inputTextarea id="commentNew"
                                                   value="#{baseInfo.wardsToChange.comment}"
                                                   readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                   required="true"
                                                   requiredMessage="Bitte geben Sie eine Anmerkung an"
                                                   maxlength="500"
-                                                  style="width: 95%"
+                                                  style="width: calc(100% - 1em);"
                                                   rows="2">
                                     <pf:ajax update="commentNewMsg"/>
                                 </pf:inputTextarea>
@@ -318,7 +318,7 @@
                         <h1>Stationsdaten ändern</h1>
                         <pf:dataTable id="tableChangeWard"
                                       value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CHANGE)}"
-                                      tableStyle="width: 100%;"
+                                      tableStyle="width: auto;"
                                       var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
@@ -331,11 +331,11 @@
                                 <pf:separator/>
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.dept.sensitiveArea}"/>
                             </pf:column>
-                            <pf:column headerText="Fachabteilungsnummer" style="width: 11em;">
+                            <pf:column headerText="Fachabteilungs- nummer" style="width: 8em;">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.fab}"/>
                                 <pf:separator/>
                                 <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.fab}"
-                                                              Style="width: 95%;"
+                                                              Style="width: calc(100% - 1em);"
                                                               require="#{structuralChangesEdit.fabRequired(baseInfo.wardsToChange)}"
                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                               updateComponents=":change:aggregatedTable"
@@ -350,7 +350,7 @@
                                                      require="true"
                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                      updateComponents=":change:aggregatedTable"
-                                                     Style="width: 95%;"
+                                                     Style="width: calc(100% - 1em);"
                                                      requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"/>
                             </pf:column>
                             <pf:column headerText="Stationsbezeichnung" style="width: 11em;">
@@ -360,7 +360,7 @@
                                                      require="true"
                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                      updateComponents=":change:aggregatedTable"
-                                                     Style="width: 95%;"
+                                                     Style="width: calc(100% - 1em);"
                                                      requiredMessage="Bitte geben Sie eine Stationsbezeichnung ein"/>
                             </pf:column>
                             <pf:column headerText="Standort nach § 21 KHEntgG"
@@ -373,14 +373,14 @@
                                                                 validatorFunction="#{structuralChangesEdit.isP21LocationCodeValid}"
                                                                 validatorMessage="Ungültiger Standort nach § 21 KHEntgG für diese IK"
                                                                 renderElement=":change:aggregatedTable"
-                                                                Style="width: 95%;"/>
+                                                                Style="width: calc(100% - 1em);"/>
                             </pf:column>
                             <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="width: 9em;">
                                 <pf:outputLabel
                                         value="#{baseInfo.wardsToChange.deptWard.locationText}"/>
                                 <pf:separator/>
                                 <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.locationVz}"
-                                                              Style="width: 95%;"
+                                                              Style="width: calc(100% - 1em);"
                                                               maxlength="100"
                                                               require="true"
                                                               updateComponents=":change:aggregatedTable"
@@ -394,7 +394,7 @@
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.bedCount}"/>
                                 <pf:separator/>
                                 <inekInput:InputNumber value="#{baseInfo.wardsToChange.beds}"
-                                                       Style="width: 95%;"
+                                                       Style="width: calc(100% - 1em);"
                                                        readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                        renderElement=":change:aggregatedTable"
                                                        minValue="1"
@@ -405,6 +405,7 @@
                                 <pf:separator/>
                                 <pf:calendar id="changeValidFrom"
                                              value="#{baseInfo.wardsToChange.validFrom}"
+                                             style="width: calc(100% - 1em);"
                                              required="true"
                                              requiredMessage="Bitte ein Datum angeben"
                                              locale="de"
@@ -412,14 +413,13 @@
                                              pattern="dd.MM.yyyy"
                                              mask="true"
                                              mindate="1.1.2018"
-                                             disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                             inputStyle="text-align: right;">
+                                             disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}">
                                     <pf:ajax event="change" update=":change:aggregatedTable"/>
                                     <pf:ajax event="dateSelect" update=":change:aggregatedTable"/>
                                 </pf:calendar>
                                 <pf:message for="changeValidFrom"/>
                             </pf:column>
-                            <pf:column headerText="Kategorie" style="width: 20em;">
+                            <pf:column headerText="Kategorie">
                                 <pf:outputLabel value=" "/>
                                 <pf:separator/>
                                 <pf:selectOneMenu id="catNew"
@@ -432,14 +432,14 @@
                                 </pf:selectOneMenu>
                                 <pf:message for="catNew"/>
                             </pf:column>
-                            <pf:column headerText="Anmerkung" style="min-width: 25em; width: 35em;">
+                            <pf:column headerText="Anmerkung" style="min-width: 35em; max-width: 60em;">
                                 <pf:inputTextarea id="commentChange"
                                                   value="#{baseInfo.wardsToChange.comment}"
                                                   readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                   required="true"
                                                   requiredMessage="Bitte geben Sie eine Anmerkung an"
                                                   maxlength="500"
-                                                  style="width: 95%"
+                                                  style="width: calc(100% - 1em);"
                                                   rows="2">
                                     <pf:ajax update="commentChangeMsg"/>
                                 </pf:inputTextarea>
@@ -457,7 +457,7 @@
                         <h1>Station löschen</h1>
                         <pf:dataTable id="tableCloseWard"
                                       value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE)}"
-                                      tableStyle="width: 100%;"
+                                      tableStyle="width: auto;"
                                       var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
@@ -468,7 +468,7 @@
                             <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.dept.sensitiveArea}"/>
                             </pf:column>
-                            <pf:column headerText="Fachabteilungsnummer" style="width: 11em;">
+                            <pf:column headerText="Fachabteilungs- nummer" style="width: 8em;">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.fab}"/>
                             </pf:column>
                             <pf:column headerText="Fachabteilungsname">
@@ -499,7 +499,7 @@
                                              mask="true"
                                              mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                             inputStyle="text-align: right;">
+                                             inputStyle="text-align: left;">
                                     <pf:ajax event="change" update=":change:aggregatedTable"/>
                                     <pf:ajax event="dateSelect" update=":change:aggregatedTable"/>
                                 </pf:calendar>
@@ -517,14 +517,14 @@
                                 </pf:selectOneMenu>
                                 <pf:message for="catDelete"/>
                             </pf:column>
-                            <pf:column headerText="Anmerkung" style="min-width: 25em; width: 35em;">
+                            <pf:column headerText="Anmerkung" style="min-width: 35em; max-width: 60em;">
                                 <pf:inputTextarea id="commentclose"
                                                   value="#{baseInfo.wardsToChange.comment}"
                                                   readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                   required="true"
                                                   requiredMessage="Bitte geben Sie eine Anmerkung an"
                                                   maxlength="500"
-                                                  style="width: 95%"
+                                                  style="width: calc(100% - 1em);"
                                                   rows="2">
                                     <pf:ajax update="commentcloseMsg"/>
                                 </pf:inputTextarea>
@@ -542,7 +542,7 @@
                         <h1>Station temporär abmelden</h1>
                         <pf:dataTable id="tableCloseTempWard"
                                       value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE_TEMP)}"
-                                      tableStyle="width: 100%;"
+                                      tableStyle="width: auto;"
                                       var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
@@ -553,7 +553,7 @@
                             <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.dept.sensitiveArea}"/>
                             </pf:column>
-                            <pf:column headerText="Fachabteilungsnummer" style="width: 11em;">
+                            <pf:column headerText="Fachabteilungs- nummer" style="width: 8em;">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.fab}"/>
                             </pf:column>
                             <pf:column headerText="Fachabteilungsname">
@@ -584,7 +584,7 @@
                                              mask="true"
                                              mindate="1.1.2018"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                             inputStyle="text-align: right;">
+                                             inputStyle="text-align: left;">
                                     <pf:ajax event="change" update=":change:aggregatedTable dateValidTo"/>
                                     <pf:ajax event="dateSelect" update=":change:aggregatedTable dateValidTo"/>
                                 </pf:calendar>
@@ -602,7 +602,7 @@
                                              pattern="dd.MM.yyyy"
                                              mask="true"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
-                                             inputStyle="text-align: right;">
+                                             inputStyle="text-align: left;">
                                     <pf:ajax event="change" update=":change:aggregatedTable"/>
                                     <pf:ajax event="dateSelect" update=":change:aggregatedTable"/>
                                 </pf:calendar>
@@ -620,14 +620,14 @@
                                 </pf:selectOneMenu>
                                 <pf:message for="catCloseTmp"/>
                             </pf:column>
-                            <pf:column headerText="Anmerkung" style="min-width: 25em; width: 35em;">
+                            <pf:column headerText="Anmerkung" style="min-width: 35em; max-width: 60em;">
                                 <pf:inputTextarea id="commentcloseTmp"
                                                   value="#{baseInfo.wardsToChange.comment}"
                                                   readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                   required="true"
                                                   requiredMessage="Bitte geben Sie eine Anmerkung an"
                                                   maxlength="500"
-                                                  style="width: 95%"
+                                                  style="width: calc(100% - 1em);"
                                                   rows="2">
                                     <pf:ajax update="commentcloseTmpMsg"/>
                                 </pf:inputTextarea>
