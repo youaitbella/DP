@@ -188,7 +188,11 @@ public class Evaluation {
         newInfo.setCreatedAt(new Date());
         newInfo.setHospitalComparisonId(createNewHcId());
         newInfo.setHospitalStateId(cus.getPsyState().equals(State.Unknown) ? cus.getState().getId() : cus.getState().getId());
-        newInfo.setHospitalPsyGroup(_aebFacade.getPsyGroupByIkAndYear(_selectedIk, _selectedAgreementYear - 1));
+        if (_aebFacade.getUsedDataYears(_selectedIk).size() == 1 && _aebFacade.getUsedDataYears(_selectedIk).contains(2018)) {
+            newInfo.setHospitalPsyGroup(_aebFacade.getPsyGroupByIkAndYear(_selectedIk, _selectedAgreementYear - 2));
+        } else {
+            newInfo.setHospitalPsyGroup(_aebFacade.getPsyGroupByIkAndYear(_selectedIk, _selectedAgreementYear - 1));
+        }
         ensureHospitalComparisonEvaluations(newInfo);
         ensureHospitalComparisonJob(newInfo);
         ensureAebConflicts(newInfo);
