@@ -32,6 +32,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.utils.DateUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -155,8 +156,16 @@ public class Edit {
     }
 
     public Boolean isChangeAllowed() {
-        return _aebBaseInformation.getStatus() == WorkflowStatus.Provided &&
-                _accessManager.userHasWriteAccess(Feature.HC_HOSPITAL, _aebBaseInformation.getIk());
+        if (_aebBaseInformation.getStatus() == WorkflowStatus.Provided &&
+                _accessManager.userHasWriteAccess(Feature.HC_HOSPITAL, _aebBaseInformation.getIk())) {
+            if (_aebFacade.aebIdIsInAnyEvaluation(_aebBaseInformation.getId())) {
+                return _aebBaseInformation.getAllowedToResendUntil().after(new Date());
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
     public Boolean isSendAllowed() {
@@ -497,5 +506,14 @@ public class Edit {
 
     public boolean isPseudoPepp(String pepp) {
         return RenumerationChecker.isPseudoPepp(pepp);
+    }
+
+    public void resetAllowedToResendDate() {
+        _aebBaseInformation.setAllowedToResendUntil(DateUtils.getDateWithDayOffset(3));
+        _aebFacade.save(_aebBaseInformation);
+    }
+
+    public boolean isAllowedToResetResendDate() {
+        return _aebBaseInformation.getStatus().equals(WorkflowStatus.Provided) && _sessionController.isInekUser(Feature.HC_HOSPITAL);
     }
 }

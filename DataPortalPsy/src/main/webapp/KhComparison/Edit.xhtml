@@ -111,6 +111,13 @@
                                   action="#{edit.send(false)}"
                                   styleClass="btnSend arrow-right"
                                   rendered="#{edit.isSendAllowed()}" />
+                <pf:commandButton value="Datensatz zur Änderung freigeben"
+                                  update="@(.ui-message) @form"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  action="#{edit.resetAllowedToResendDate()}"
+                                  styleClass="btnPsy"
+                                  rendered="#{edit.isAllowedToResetResendDate()}" />
             </div>
 
         </h:form>

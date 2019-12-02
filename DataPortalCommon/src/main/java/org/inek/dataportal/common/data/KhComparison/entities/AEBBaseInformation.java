@@ -245,6 +245,24 @@ public class AEBBaseInformation implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Last Change">
+    @JsonIgnore
+    @Column(name = "biAllowedToResendUntil")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _allowedToResendUntil = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));;
+
+    @JsonIgnore
+    public Date getAllowedToResendUntil() {
+        return _allowedToResendUntil;
+    }
+
+    @JsonIgnore
+    public void setAllowedToResendUntil(Date allowedToResendUntil) {
+        this._allowedToResendUntil = allowedToResendUntil;
+    }
+
+    //</editor-fold>
+
     @OneToOne(mappedBy = "_baseInformation", cascade = CascadeType.ALL)
     private AEBPageB1 _aebPageB1;
 

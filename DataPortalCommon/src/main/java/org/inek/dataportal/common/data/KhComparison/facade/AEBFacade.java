@@ -439,4 +439,13 @@ public class AEBFacade extends AbstractDataAccess {
         List resultList = getEntityManager().createNativeQuery(sql).getResultList();
         return !resultList.isEmpty();
     }
+
+    public boolean aebIdIsInAnyEvaluation(int id) {
+        String sql = "select *\n" +
+                "from psy.HospitalComparisonHospitals hc\n" +
+                "where hc.hchAebBaseInformationId = " + id +"\n";
+
+        List resultList = getEntityManager().createNativeQuery(sql).getResultList();
+        return !resultList.isEmpty();
+    }
 }
