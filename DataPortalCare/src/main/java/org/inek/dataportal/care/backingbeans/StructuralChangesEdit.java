@@ -171,7 +171,8 @@ public class StructuralChangesEdit implements Serializable {
             try {
                 int id = Integer.parseInt(idParam);
                 _structuralChangesBaseInformation = _structuralChangesFacade.findBaseInformationsById(id);
-
+                retrieveConversation();
+                
                 if (isAccessAllowed(_structuralChangesBaseInformation)) {
                     obtainWards();
                 } else {
@@ -183,6 +184,9 @@ public class StructuralChangesEdit implements Serializable {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
             }
         }
+    }
+
+    private void retrieveConversation() {
     }
 
     private void obtainWards() {
