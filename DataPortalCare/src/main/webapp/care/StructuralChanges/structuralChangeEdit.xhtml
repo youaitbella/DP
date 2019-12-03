@@ -708,10 +708,11 @@
                         <h:inputTextarea rows="10" cols="150" id="correctionText"
                                          style="min-width: 600px; min-height: 150px"
                                          value="#{structuralChangesEdit.conversation.message}">
-                            <f:ajax render="correctionRequest"/>
+                            <f:ajax event="keyup" render=":change:correctionRequest"/>
                         </h:inputTextarea>
                     </div>
                 </div>
+
                 <div class="card" style="width: 100%">
                     <!-- temp disabled due to null pointer exception: jsf:rendered="# {structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser()}"-->
                     <div class="ui-g-12">
@@ -743,16 +744,16 @@
                                           update="@(.ui-message) @form">
                             <pf:confirm header="Änderungen akzeptieren"
                                         message="Hierdurch werden alle Umbenenungen und strukturelle Änderungen übernommen. Fortfahren?"/>
-
                         </pf:commandButton>
 
-                        <pf:commandButton value="Korrektur anfordern"
-                                          id="correctionRequest"
-                                          rendered="#{structuralChangesEdit.isInekUser()
-                                             and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10
-                                             and not empty structuralChangesEdit.conversation.message}"
-                                          action="#{structuralChangesEdit.requestCorrection}"
-                                          update="@(.ui-message) @form"/>
+                        <div jsf:id="correctionRequest" style="display: inline;">
+                            <pf:commandButton value="Korrektur anfordern"
+                                              rendered="#{structuralChangesEdit.isInekUser()
+                                                and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10
+                                                and not empty structuralChangesEdit.conversation.message}"
+                                              action="#{structuralChangesEdit.requestCorrection}"
+                                              update="@(.ui-message) @form"/>
+                        </div>
                     </div>
                 </div>
             </div>

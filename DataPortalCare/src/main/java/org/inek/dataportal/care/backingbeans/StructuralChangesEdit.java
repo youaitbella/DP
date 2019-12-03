@@ -355,6 +355,8 @@ public class StructuralChangesEdit implements Serializable {
             return;
         }
 
+        saveConversation(false);
+
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
         TransferFileCreator.createObjectTransferFile(_sessionController, _structuralChangesBaseInformation,
                 _structuralChangesBaseInformation.getIk(), TransferFileType.CareChanges);
@@ -377,6 +379,8 @@ public class StructuralChangesEdit implements Serializable {
             return;
         }
 
+        saveConversation(false);
+
         _structuralChangesBaseInformation.setStatus(WorkflowStatus.Provided);
         _structuralChangesBaseInformation.setRequestedAccountId(_sessionController.getAccountId());
         _structuralChangesBaseInformation.setRequestedAt(new Date());
@@ -394,17 +398,24 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void requestCorrection() {
-        _conversation.setAccountId(_sessionController.getAccountId());
-        _conversation.setFunction(Function.STRUCTURAL_CHANGES);
-        _conversation.setDataId(_structuralChangesBaseInformation.getId());
-        _conversation.setInek(true);
-        configFacade.saveConversation(_conversation);
+        saveConversation(true);
 
         _structuralChangesBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
 
         sendMail("StructuralChangesRequestCorrection");
         DialogController.showSaveDialog();
+    }
+
+    private void saveConversation(boolean isInek) {
+        if (_conversation.getMessage().trim().length() == 0) {
+            return;
+        }
+        _conversation.setAccountId(_sessionController.getAccountId());
+        _conversation.setFunction(Function.STRUCTURAL_CHANGES);
+        _conversation.setDataId(_structuralChangesBaseInformation.getId());
+        _conversation.setInek(isInek);
+        configFacade.saveConversation(_conversation);
     }
 
     public boolean baseInformationHasErrors(StructuralChangesBaseInformation baseInfo) {
