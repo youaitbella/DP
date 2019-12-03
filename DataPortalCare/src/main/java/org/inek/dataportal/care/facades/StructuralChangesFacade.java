@@ -168,4 +168,5 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         query.setParameter("changeId", changeId);
         return query.getResultList();
     }
+
 }

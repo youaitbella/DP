@@ -18,7 +18,8 @@ public class Conversation implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @Column(name = "coId")
-    private int _id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer _id = -1;
 
     public int getId() {
         return _id;

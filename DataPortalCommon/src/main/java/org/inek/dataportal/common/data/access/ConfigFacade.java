@@ -1,10 +1,12 @@
 package org.inek.dataportal.common.data.access;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.Function;
 import org.inek.dataportal.api.enums.PortalType;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.adm.Announcement;
 import org.inek.dataportal.common.data.adm.Config;
+import org.inek.dataportal.common.data.common.Conversation;
 import org.inek.dataportal.common.data.common.PortalAddress;
 import org.inek.dataportal.common.data.common.Synchronizer;
 import org.inek.dataportal.common.enums.ConfigKey;
@@ -25,6 +27,7 @@ import java.util.Map;
  * @author muellermi
  */
 @RequestScoped
+// todo: find better name
 public class ConfigFacade extends AbstractDataAccess {
 
     private static final String FEATURE = "Feature:";
@@ -136,5 +139,23 @@ public class ConfigFacade extends AbstractDataAccess {
         } catch (Exception ex) {
             return false;
         }
+    }
+
+    @Transactional
+    public Conversation saveConversation(Conversation conversation) {
+        if (conversation.getId() == -1) {
+            persist(conversation);
+            return conversation;
+        }
+        return merge(conversation);
+    }
+
+
+    public List<Conversation> loadConversations(Function function, Integer id) {
+        String jpql = "select c from Conversation c where c._function = :function and c._dataId = :id";
+        TypedQuery<Conversation> query = getEntityManager().createQuery(jpql, Conversation.class);
+        query.setParameter("function", function);
+        query.setParameter("id", id);
+        return query.getResultList();
     }
 }

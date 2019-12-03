@@ -24,6 +24,7 @@ import org.inek.dataportal.care.utils.AggregatedWardsHelper;
 import org.inek.dataportal.care.utils.CareValueChecker;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
@@ -76,6 +77,8 @@ public class StructuralChangesEdit implements Serializable {
     private transient VzUtils _vzUtils;
     @Inject
     private AccountFacade _accountFacade;
+    @Inject
+    private ConfigFacade configFacade;
 
     private List<DeptWard> _wards = new ArrayList<>();
     private DeptBaseInformation _deptBaseInformation;
@@ -103,9 +106,12 @@ public class StructuralChangesEdit implements Serializable {
         this._conversation = conversation;
     }
 
-    private List<Conversation> _conversations = new ArrayList<>();
+    private List<Conversation> _conversations;
 
     public List<Conversation> getConversations() {
+        if (_conversations == null) {
+            _conversations = configFacade.loadConversations(Function.STRUCTURAL_CHANGES, _structuralChangesBaseInformation.getId());
+        }
         return _conversations;
     }
 
@@ -148,23 +154,6 @@ public class StructuralChangesEdit implements Serializable {
         this._selectedWards = selectedWards;
     }
 
-    private String _correction;
-
-    public String getCorrection() {
-        return _correction;
-    }
-
-    public void setCorrection(String correction) {
-        this._correction = correction;
-    }
-
-    public void askForCorrection() {
-        _conversation.setAccountId(_sessionController.getAccountId());
-        _conversation.setDataId(_structuralChangesBaseInformation.getId());
-        _conversation.setFunction(Function.STRUCTURAL_CHANGES);
-        _conversation.setInek(isInekUser());
-        _conversation.setMessage(_correction);
-    }
 
     @PostConstruct
     private void init() {
@@ -404,6 +393,20 @@ public class StructuralChangesEdit implements Serializable {
         DialogController.showSendDialog();
     }
 
+    public void requestCorrection() {
+        _conversation.setAccountId(_sessionController.getAccountId());
+        _conversation.setFunction(Function.STRUCTURAL_CHANGES);
+        _conversation.setDataId(_structuralChangesBaseInformation.getId());
+        _conversation.setInek(true);
+        configFacade.saveConversation(_conversation);
+
+        _structuralChangesBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
+        _structuralChangesFacade.save(_structuralChangesBaseInformation);
+
+        sendMail("StructuralChangesRequestCorrection");
+        DialogController.showSaveDialog();
+    }
+
     public boolean baseInformationHasErrors(StructuralChangesBaseInformation baseInfo) {
         List<StructuralChanges> structuralChanges = getChangesBaseInformationsByType(StructuralChangesType.CLOSE_TEMP);
         for (StructuralChanges structuralChange : structuralChanges) {
@@ -498,6 +501,7 @@ public class StructuralChangesEdit implements Serializable {
         MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", Integer.toString(_structuralChangesBaseInformation.getIk()));
 
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{formalSalutation}", salutation);
 
         if (!_sessionController.getMailer().sendMailTemplate(template, _sessionController.getAccount().getEmail())) {
             LOGGER.log(Level.SEVERE, "Fehler beim Emailversand an " + _structuralChangesBaseInformation.getIk() + "(Care Proof)");

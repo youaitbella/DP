@@ -685,13 +685,14 @@
                 <div class="card" style="width: 100%" id="correction"
                      jsf:rendered="#{applicationTools.testMode}">
                     <!--and (structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser())}"-->
-                    <div class="ui-g-12"
-                         jsf:rendered="#{structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser()}">
+                    <div class="ui-g-12">
+                        <!--jsf:rendered="# {structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser()}"-->
                         <h1>Korrektur anfordern</h1>
 
-                        <pf:dataTable value="#{structuralChangesEdit.conversations}" var="conversation">
+                        <pf:dataTable value="#{structuralChangesEdit.conversations}" var="conversation"
+                                      rendered="#{not empty structuralChangesEdit.conversations}">
                             <pf:column headerText="User" width="20%">
-                                <pf:outputLabel value="#{conversation.inek}"/>
+                                <pf:outputLabel value="#{conversation.inek ? 'InEK' : 'Krankenhaus'}"/>
                             </pf:column>
                             <pf:column headerText="Nachricht" width="80%">
                                 <pf:outputLabel value="#{conversation.message}"/>
@@ -706,7 +707,9 @@
                         </div>
                         <h:inputTextarea rows="10" cols="150" id="correctionText"
                                          style="min-width: 600px; min-height: 150px"
-                                         value="#{structuralChangesEdit.correction}"/>
+                                         value="#{structuralChangesEdit.conversation.message}">
+                            <f:ajax render="correctionRequest"/>
+                        </h:inputTextarea>
                     </div>
                 </div>
                 <div class="card" style="width: 100%">
@@ -744,9 +747,12 @@
                         </pf:commandButton>
 
                         <pf:commandButton value="Korrektur anfordern"
-                                          rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
-                                          action="#{structuralChangesEdit.askForCorrection}"/>
-
+                                          id="correctionRequest"
+                                          rendered="#{structuralChangesEdit.isInekUser()
+                                             and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10
+                                             and not empty structuralChangesEdit.conversation.message}"
+                                          action="#{structuralChangesEdit.requestCorrection}"
+                                          update="@(.ui-message) @form"/>
                     </div>
                 </div>
             </div>
