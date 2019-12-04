@@ -685,36 +685,34 @@
                 <div class="card" style="width: 100%" id="correction"
                      jsf:rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10
                      or structuralChangesEdit.structuralChangesBaseInformation.statusId eq 3 and not empty structuralChangesEdit.conversations}">
-                    <div class="ui-g-12">
-                        <h1>Korrektur anfordern</h1>
 
+                    <h1>Dialog mit dem InEK</h1>
+                    <div class="ui-g-12">
                         <pf:dataTable value="#{structuralChangesEdit.conversations}" var="conversation"
-                                      style="width: 100%;"
-                                      rendered="#{not empty structuralChangesEdit.conversations}">
-                            <pf:column headerText="User" style="width: 8.3333%;">
+                                      rendered="#{not empty structuralChangesEdit.conversations}"
+                                      style="width: 100%">
+                            <pf:column headerText="Benutzer" style="width: 8.33333333%">
                                 <pf:outputLabel value="#{conversation.inek ? 'InEK' : 'Krankenhaus'}"/>
                             </pf:column>
                             <pf:column headerText="Nachricht">
                                 <pf:outputLabel value="#{conversation.message}"/>
                             </pf:column>
                         </pf:dataTable>
-
-                        <br/>
-
-                        <div style="display: inline-block; width: 20em">
-                            <h:outputLabel value="Bemerkung InEK"
-                                           rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"/>
-                            <h:outputLabel value="Antwort Krankenhaus"
-                                           rendered="#{structuralChangesEdit.structuralChangesBaseInformation.statusId eq 3 and not empty structuralChangesEdit.conversations}"/>
-                        </div>
-                        <div style="display: inline-block; width: calc(100% -20em);">
-                            <h:inputTextarea rows="5" id="correctionText"
-                                             style="width: 100%; min-height: 50px; max-height: 150px;"
-                                             value="#{structuralChangesEdit.conversation.message}">
-                                <f:ajax event="keyup" render=":change:correctionRequest"/>
-                            </h:inputTextarea>
-                        </div>
                     </div>
+                    <br/>
+                    <div class="ui-g-1">
+                        <h:outputLabel value="Bemerkung InEK"
+                                       rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"/>
+                        <h:outputLabel value="Antwort Krankenhaus"
+                                       rendered="#{structuralChangesEdit.structuralChangesBaseInformation.statusId eq 3 and not empty structuralChangesEdit.conversations}"/>
+                    </div>
+                    <div class="ui-g-11">
+                        <h:inputTextarea rows="5" cols="100" id="correctionText"
+                                         value="#{structuralChangesEdit.conversation.message}">
+                            <f:ajax event="keyup" render=":change:correctionRequest"/>
+                        </h:inputTextarea>
+                    </div>
+
                 </div>
 
                 <div class="card" style="width: 100%">
