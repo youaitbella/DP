@@ -706,7 +706,7 @@
                         <h:outputLabel value="Antwort"
                                        rendered="#{structuralChangesEdit.structuralChangesBaseInformation.statusId eq 3 and not empty structuralChangesEdit.conversations}"/>
                     </div>
-                    <div class="ui-g-11">
+                    <div class="ui-g-11" style="padding-left: 2em">
                         <h:inputTextarea rows="5" cols="100" id="correctionText"
                                          value="#{structuralChangesEdit.conversation.message}">
                             <f:ajax event="keyup" render=":change:correctionRequest"/>
