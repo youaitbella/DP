@@ -700,10 +700,10 @@
                         </pf:dataTable>
                     </div>
                     <br/>
-                    <div class="ui-g-1">
+                    <div class="ui-g-1" style="padding-left: 1em">
                         <h:outputLabel value="Bemerkung InEK"
                                        rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"/>
-                        <h:outputLabel value="Antwort Krankenhaus"
+                        <h:outputLabel value="Antwort"
                                        rendered="#{structuralChangesEdit.structuralChangesBaseInformation.statusId eq 3 and not empty structuralChangesEdit.conversations}"/>
                     </div>
                     <div class="ui-g-11">
