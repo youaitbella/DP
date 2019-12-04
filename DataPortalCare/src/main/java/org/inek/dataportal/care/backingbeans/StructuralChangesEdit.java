@@ -109,10 +109,14 @@ public class StructuralChangesEdit implements Serializable {
     private List<Conversation> _conversations;
 
     public List<Conversation> getConversations() {
+        ensureConversations();
+        return _conversations;
+    }
+
+    private void ensureConversations() {
         if (_conversations == null) {
             _conversations = configFacade.loadConversations(Function.STRUCTURAL_CHANGES, _structuralChangesBaseInformation.getId());
         }
-        return _conversations;
     }
 
     public void setConversations(List<Conversation> conversations) {
@@ -171,10 +175,10 @@ public class StructuralChangesEdit implements Serializable {
             try {
                 int id = Integer.parseInt(idParam);
                 _structuralChangesBaseInformation = _structuralChangesFacade.findBaseInformationsById(id);
-                retrieveConversation();
-                
+
                 if (isAccessAllowed(_structuralChangesBaseInformation)) {
                     obtainWards();
+                    retrieveConversation();
                 } else {
                     LOGGER.log(Level.INFO, "No access for IK: " + _structuralChangesBaseInformation.getIk());
                     Utils.navigate(Pages.NotAllowed.RedirectURL());
@@ -187,6 +191,20 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     private void retrieveConversation() {
+        ensureConversations();
+
+        if (_conversations.size() == 0) {
+            return;
+        }
+        if (_structuralChangesBaseInformation.getStatus() != WorkflowStatus.CorrectionRequested) {
+            return;
+        }
+        Conversation lastConversation = _conversations.get(_conversations.size() - 1);
+        if (lastConversation.isInek()) {
+            return;
+        }
+        _conversation = lastConversation;
+        _conversations.remove(lastConversation);
     }
 
     private void obtainWards() {

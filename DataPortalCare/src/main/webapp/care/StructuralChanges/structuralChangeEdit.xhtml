@@ -683,38 +683,41 @@
 
 
                 <div class="card" style="width: 100%" id="correction"
-                     jsf:rendered="#{applicationTools.testMode}">
-                    <!--and (structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser())}"-->
+                     jsf:rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10
+                     or structuralChangesEdit.structuralChangesBaseInformation.statusId eq 3 and not empty structuralChangesEdit.conversations}">
                     <div class="ui-g-12">
-                        <!--jsf:rendered="# {structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser()}"-->
                         <h1>Korrektur anfordern</h1>
 
                         <pf:dataTable value="#{structuralChangesEdit.conversations}" var="conversation"
+                                      style="width: 100%;"
                                       rendered="#{not empty structuralChangesEdit.conversations}">
-                            <pf:column headerText="User" width="20%">
+                            <pf:column headerText="User" style="width: 8.3333%;">
                                 <pf:outputLabel value="#{conversation.inek ? 'InEK' : 'Krankenhaus'}"/>
                             </pf:column>
-                            <pf:column headerText="Nachricht" width="80%">
+                            <pf:column headerText="Nachricht">
                                 <pf:outputLabel value="#{conversation.message}"/>
                             </pf:column>
                         </pf:dataTable>
 
-                        <div jsf:rendered="#{structuralChangesEdit.isRenderedForInekUser()}">
-                            <h3>Bemerkung InEK</h3>
+                        <br/>
+
+                        <div style="display: inline-block; width: 20em">
+                            <h:outputLabel value="Bemerkung InEK"
+                                           rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"/>
+                            <h:outputLabel value="Antwort Krankenhaus"
+                                           rendered="#{structuralChangesEdit.structuralChangesBaseInformation.statusId eq 3 and not empty structuralChangesEdit.conversations}"/>
                         </div>
-                        <div jsf:rendered="#{structuralChangesEdit.isRenderedForHospitalUser()}">
-                            <h3>Antwort Krankenhaus</h3>
+                        <div style="display: inline-block; width: calc(100% -20em);">
+                            <h:inputTextarea rows="5" id="correctionText"
+                                             style="width: 100%; min-height: 50px; max-height: 150px;"
+                                             value="#{structuralChangesEdit.conversation.message}">
+                                <f:ajax event="keyup" render=":change:correctionRequest"/>
+                            </h:inputTextarea>
                         </div>
-                        <h:inputTextarea rows="10" cols="150" id="correctionText"
-                                         style="min-width: 600px; min-height: 150px"
-                                         value="#{structuralChangesEdit.conversation.message}">
-                            <f:ajax event="keyup" render=":change:correctionRequest"/>
-                        </h:inputTextarea>
                     </div>
                 </div>
 
                 <div class="card" style="width: 100%">
-                    <!-- temp disabled due to null pointer exception: jsf:rendered="# {structuralChangesEdit.isRenderedForInekUser() or structuralChangesEdit.isRenderedForHospitalUser()}"-->
                     <div class="ui-g-12">
                         <pf:commandButton value="Datensatz ändern"
                                           action="#{structuralChangesEdit.change()}"

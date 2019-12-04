@@ -152,7 +152,7 @@ public class ConfigFacade extends AbstractDataAccess {
 
 
     public List<Conversation> loadConversations(Function function, Integer id) {
-        String jpql = "select c from Conversation c where c._function = :function and c._dataId = :id";
+        String jpql = "select c from Conversation c where c._function = :function and c._dataId = :id order by c._id";
         TypedQuery<Conversation> query = getEntityManager().createQuery(jpql, Conversation.class);
         query.setParameter("function", function);
         query.setParameter("id", id);
