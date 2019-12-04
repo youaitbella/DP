@@ -691,7 +691,7 @@
                         <pf:dataTable value="#{structuralChangesEdit.conversations}" var="conversation"
                                       rendered="#{not empty structuralChangesEdit.conversations}"
                                       style="width: 100%">
-                            <pf:column headerText="Benutzer" style="width: 8.33333333%">
+                            <pf:column headerText="Benutzer" style="width: 8.33333333%; box-sizing: border-box;">
                                 <pf:outputLabel value="#{conversation.inek ? 'InEK' : 'Krankenhaus'}"/>
                             </pf:column>
                             <pf:column headerText="Nachricht">
@@ -706,7 +706,7 @@
                         <h:outputLabel value="Antwort"
                                        rendered="#{structuralChangesEdit.structuralChangesBaseInformation.statusId eq 3 and not empty structuralChangesEdit.conversations}"/>
                     </div>
-                    <div class="ui-g-11" style="padding-left: 2em">
+                    <div class="ui-g-11">
                         <h:inputTextarea rows="5" cols="100" id="correctionText"
                                          value="#{structuralChangesEdit.conversation.message}">
                             <f:ajax event="keyup" render=":change:correctionRequest"/>
