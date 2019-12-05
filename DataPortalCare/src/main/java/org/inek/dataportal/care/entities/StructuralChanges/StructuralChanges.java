@@ -105,6 +105,19 @@ public class StructuralChanges implements Serializable {
 
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property StructuralChangesMarker">
+    @Column(name = "scStructuralChangesMarker")
+    private int _structuralChangesMarkerId;
+
+    public int getStructuralChangesMarkerId() {
+        return _structuralChangesMarkerId;
+    }
+
+    public void setStructuralChangesMarkerId(int _structuralChangesMarkerId) {
+        this._structuralChangesMarkerId = _structuralChangesMarkerId;
+    }
+    //</editor-fold>
+
     @ManyToOne
     @JoinColumn(name = "scStructuralChangesBaseInformationId")
     private StructuralChangesBaseInformation _structuralChangesBaseInformation;
