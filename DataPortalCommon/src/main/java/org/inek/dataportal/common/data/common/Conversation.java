@@ -99,7 +99,7 @@ public class Conversation implements Serializable {
 
     //<editor-fold desc="Property Message">
     @Column(name="coMessage")
-    private String _message;
+    private String _message = "";
 
     public String getMessage() {
         return _message;
