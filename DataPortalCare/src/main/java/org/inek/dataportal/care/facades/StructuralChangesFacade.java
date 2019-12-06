@@ -169,4 +169,13 @@ public class StructuralChangesFacade extends AbstractDataAccessWithActionLog {
         return query.getResultList();
     }
 
+    public List<Integer> retrievePriorIk(int ik) {
+        String sql = "select isnull(prev.cuIK, 0)\n" +
+                "from CallCenterDB.dbo.ccCustomer curr\n" +
+                "left join CallCenterDB.dbo.CustomerHistory on curr.cuId = chCustomerId\n" +
+                "left join CallCenterDB.dbo.ccCustomer prev on chPreviousCustomerId = prev.cuId\n" +
+                "where curr.cuIK = " + ik;
+        Query query = getEntityManager().createNativeQuery(sql);
+        return query.getResultList();
+    }
 }
