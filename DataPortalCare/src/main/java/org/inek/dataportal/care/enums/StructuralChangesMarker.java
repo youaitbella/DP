@@ -38,4 +38,8 @@ public enum StructuralChangesMarker {
         }
         return StructuralChangesMarker.NEUTRAL;
     }
+
+    public StructuralChangesMarker nextColor() {
+        return fromId(_id+1);
+    }
 }
