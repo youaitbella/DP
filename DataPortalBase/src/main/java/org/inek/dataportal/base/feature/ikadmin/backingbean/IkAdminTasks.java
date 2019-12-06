@@ -40,7 +40,7 @@ public class IkAdminTasks implements Serializable {
     private IkAdminFacade _ikAdminFacade;
     @Inject
     private AccountFacade _accountFacade;
-    private List<AccessRight> _accessRights;
+    private List<AccessRight> _accessRights = new ArrayList<>();
     private int _ik;
     private int _accountId;
     private Account _account;
@@ -181,7 +181,7 @@ public class IkAdminTasks implements Serializable {
             StringBuilder errorMessages = new StringBuilder();
             if (!AccessRightHelper.accessWriteHasNotToMuchUsers(_accessRights, errorMessages)
                     || !AccessRightHelper.accessWriteHasMinOneWithAccesRigth(_accessRights, errorMessages)) {
-                DialogController.showWarningDialog("Fehler beim speichern", errorMessages.toString());
+                DialogController.showWarningDialog("Fehler beim Speichern", errorMessages.toString());
             } else {
                 for (AccessRight accessRight : _accessRights) {
                     _ikAdminFacade.saveAccessRight(accessRight);
