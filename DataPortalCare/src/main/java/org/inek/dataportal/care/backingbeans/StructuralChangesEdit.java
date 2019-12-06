@@ -565,7 +565,7 @@ public class StructuralChangesEdit implements Serializable {
     private void sendMail(String template, boolean toCurrentUser) {
         Map<String, String> substitutions = new HashMap<>();
         substitutions.put("{ik}", "" + _structuralChangesBaseInformation.getIk());
-        int accountId = _structuralChangesBaseInformation.getStatus().isLessThen(WorkflowStatus.Provided)
+        int accountId = toCurrentUser
                 ? _sessionController.getAccountId()
                 : _structuralChangesBaseInformation.getRequestedAccountId();
         Account account = _accountFacade.findAccount(accountId);
