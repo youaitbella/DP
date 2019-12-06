@@ -799,14 +799,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void changeMarkerValue(StructuralChanges changes) {
-        if (changes.getStructuralChangesMarker().getId() == 0) {
-            changes.setStructuralChangesMarkerId(StructuralChangesMarker.GELB);
-            return;
-        }
-        if (changes.getStructuralChangesMarker().getId() == 1) {
-            changes.setStructuralChangesMarkerId(StructuralChangesMarker.NEUTRAL);
-            return;
-        }
+        changes.setStructuralChangesMarkerId(changes.getStructuralChangesMarker().nextColor());
     }
 
     //TODO make a method which decides if the component is rendered or not
