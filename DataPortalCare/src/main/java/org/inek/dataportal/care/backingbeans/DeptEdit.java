@@ -437,7 +437,7 @@ public class DeptEdit implements Serializable {
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
         }
         if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)) {
-            List<Integer> iks = _structuralChangesFacade.retrievePriorIk(_deptBaseInformation.getIk());
+            List<Integer> iks = _deptFacade.retrievePriorIk(_deptBaseInformation.getIk());
             for (int ik : iks) {
                 if (_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
                     return;
@@ -453,7 +453,7 @@ public class DeptEdit implements Serializable {
             return;
         }
         if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)) {
-            List<Integer> iks = _structuralChangesFacade.retrievePriorIk(_deptBaseInformation.getIk());
+            List<Integer> iks = _deptFacade.retrievePriorIk(_deptBaseInformation.getIk());
             for (int ik : iks) {
                 if (_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
                     return;

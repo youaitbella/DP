@@ -492,6 +492,12 @@ public class StructuralChangesEdit implements Serializable {
             return;
         }
         if (!_vzUtils.locationCodeIsValidForIk(_structuralChangesBaseInformation.getIk(), locationCode)) {
+            List<Integer> iks = _deptFacade.retrievePriorIk(_deptBaseInformation.getIk());
+            for (int ik : iks) {
+                if (_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
+                    return;
+                }
+            }
             throw new ValidatorException(new FacesMessage(
                     "In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."));
         }
