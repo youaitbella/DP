@@ -32,6 +32,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.Month;
@@ -108,11 +109,15 @@ public class NubEdit {
         } else if ("new".equals(id)) {
             _psyNubRequest = createNewNubRequest();
         } else {
-            _psyNubRequest = _psyNubFacade.findNubById(Integer.parseInt(id));
-            _psyNubRequestBaseline = _psyNubFacade.findNubById(Integer.parseInt(id));
-            if (!userHasAccess(_psyNubRequest)) {
-                DialogController.showAccessDeniedDialog();
-                Utils.navigate(Pages.NubPsySummary.RedirectURL());
+            try {
+                _psyNubRequest = _psyNubFacade.findNubById(Integer.parseInt(id));
+                _psyNubRequestBaseline = _psyNubFacade.findNubById(Integer.parseInt(id));
+                if (!userHasAccess(_psyNubRequest)) {
+                    DialogController.showAccessDeniedDialog();
+                    Utils.navigate(Pages.NubPsySummary.RedirectURL());
+                }
+            } catch (NoResultException ex) {
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
             }
         }
         setReadOnly();
