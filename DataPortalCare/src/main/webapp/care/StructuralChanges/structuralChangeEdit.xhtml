@@ -215,8 +215,8 @@
                                         updateElement="@form"/>
                                 <pf:commandButton value="Markieren"
                                                   action="#{structuralChangesEdit.changeMarkerValue(baseInfo)}"
-                                                  rendered="#{structuralChangesEdit.isInekUser()}"
-                                                  readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
+                                                  rendered="#{structuralChangesEdit.isInekUser()
+                                                    and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
                                                   immediate="true"
                                                   style="margin-left: 10px;"
                                                   update="@(.ui-message) @form"/>
