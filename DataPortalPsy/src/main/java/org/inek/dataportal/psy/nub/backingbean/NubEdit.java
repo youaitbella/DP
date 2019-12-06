@@ -62,7 +62,7 @@ public class NubEdit {
 
     private PsyNubRequest _psyNubRequest;
     private PsyNubRequest _psyNubRequestBaseline;
-    private Boolean _readOnly;
+    private boolean _readOnly;
 
     private String _errorMessageTitle = "";
     private String _errorMessages = "";
@@ -91,7 +91,7 @@ public class NubEdit {
         return items;
     }
 
-    public Boolean getReadOnly() {
+    public boolean getReadOnly() {
         return _readOnly;
     }
 
