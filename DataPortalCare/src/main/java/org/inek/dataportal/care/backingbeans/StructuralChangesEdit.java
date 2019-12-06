@@ -17,6 +17,7 @@ import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesWard
 import org.inek.dataportal.care.entities.StructuralChanges.WardsToChange;
 import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.care.enums.SensitiveArea;
+import org.inek.dataportal.care.enums.StructuralChangesMarker;
 import org.inek.dataportal.care.enums.StructuralChangesType;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
@@ -787,6 +788,26 @@ public class StructuralChangesEdit implements Serializable {
         return AggregatedWardsHelper.aggregatedWards(calculateNewWards());
     }
 
+    public boolean mark(StructuralChanges changes) {
+        if (changes == null) {
+            return false;
+        }
+        if (changes.getStructuralChangesMarker().getId() == StructuralChangesMarker.GELB.getId()) {
+            return true;
+        }
+        return false;
+    }
+
+    public void changeMarkerValue(StructuralChanges changes) {
+        if (changes.getStructuralChangesMarker().getId() == 0) {
+            changes.setStructuralChangesMarkerId(StructuralChangesMarker.GELB);
+            return;
+        }
+        if (changes.getStructuralChangesMarker().getId() == 1) {
+            changes.setStructuralChangesMarkerId(StructuralChangesMarker.NEUTRAL);
+            return;
+        }
+    }
 
     //TODO make a method which decides if the component is rendered or not
     public Boolean isRenderedForInekUser() {
