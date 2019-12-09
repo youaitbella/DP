@@ -182,6 +182,7 @@ public class StructuralChangesEdit implements Serializable {
                     Utils.navigate(Pages.NotAllowed.RedirectURL());
                 }
             } catch (Exception ex) {
+                _structuralChangesBaseInformation = new StructuralChangesBaseInformation();  // avoind null pointer on leaving form
                 LOGGER.log(Level.SEVERE, "error init StructuralChangesEdit: " + ex + " --> " + ex.getMessage());
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
             }
@@ -585,7 +586,7 @@ public class StructuralChangesEdit implements Serializable {
 
         List<DeptWard> wards = obtainAndPrepareWards(_deptBaseInformation);
         List<StructuralChanges> structuralChanges = _structuralChangesBaseInformation.getStructuralChanges();
-        if (structuralChanges.size() == 0) {
+        if (wards.isEmpty() || structuralChanges.size() == 0) {
             return wards;
         }
 
@@ -742,7 +743,7 @@ public class StructuralChangesEdit implements Serializable {
                 .forEachOrdered(changeWard -> {
                     DeptWard deptWard = new DeptWard(wards.get(0).getMapVersion());
                     deptWard.setValidFrom(changeWard.getValidFrom());
-                    deptWard.setValidTo(DateUtils.getMaxDate());
+                    deptWard.setValidTo(DateUtils.MAX_DATE);
                     copyValues(changeWard, deptWard, ik);
                     deptWard.setDept(findDept(changeWard, wards.get(0)));
                     wards.add(deptWard);
