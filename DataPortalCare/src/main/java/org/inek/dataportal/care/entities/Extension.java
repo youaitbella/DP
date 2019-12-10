@@ -1,7 +1,9 @@
 package org.inek.dataportal.care.entities;
 
 import javax.persistence.*;
-import java.time.*;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
 
@@ -39,7 +41,7 @@ public class Extension {
                 _deadline = createDate(29,Month.JANUARY, year + 1);
                 break;
             default:
-                throw new IllegalArgumentException("Unknows quarder: " + quarter);
+                throw new IllegalArgumentException("Unknown quarter: " + quarter);
         }
     }
 
