@@ -3,7 +3,8 @@ package org.inek.dataportal.care.enums;
 public enum StructuralChangesMarker {
 
     NEUTRAL(0, "Neutral"),
-    GELB(1, "Gelb");
+    ORANGE(1, "Orange"),
+    GREEN(2, "Green");;
 
     private int _id;
     private String _colour;
