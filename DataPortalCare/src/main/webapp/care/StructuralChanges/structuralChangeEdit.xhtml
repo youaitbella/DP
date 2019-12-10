@@ -219,12 +219,12 @@
                                         deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
                                         rendered="#{not structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                         updateElement="@form"/>
-                                <pf:commandButton value="Markieren"
+                                <pf:commandButton value=""
                                                   action="#{structuralChangesEdit.changeMarkerValue(baseInfo)}"
                                                   rendered="#{structuralChangesEdit.isInekUser()
                                                     and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
                                                   immediate="true"
-                                                  style="margin-left: 10px;"
+                                                  styleClass="#{baseInfo.structuralChangesMarker.nextColor().name()}"
                                                   update="@(.ui-message) @form"/>
                             </pf:column>
                             <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;">
