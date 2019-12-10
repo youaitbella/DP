@@ -1,4 +1,4 @@
-package org.inek.dataportal.care.enums;
+package org.inek.dataportal.care.entities.StructuralChanges;
 
 public enum StructuralChangesMarker {
 
