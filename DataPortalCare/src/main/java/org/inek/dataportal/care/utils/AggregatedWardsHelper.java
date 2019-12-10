@@ -51,7 +51,7 @@ public class AggregatedWardsHelper {
                             //+ "|" + ward.getLocationCodeVz() for future usage
                             + "|" + deptWard.getLocationText()
                             + "|" + deptWard.getWardName().toLowerCase().replace(" ", "")
-                            + "|" + (deptWard.getDept().getDeptArea() == 3 ? "Intensiv" : "Other")
+                            // #332 + "|" + (deptWard.getDept().getDeptArea() == 3 ? "Intensiv" : "Other")
                             + "|" + DateUtils.toAnsi(fromTo.getKey())
                             + "|" + DateUtils.toAnsi(fromTo.getValue());
                     if (aggregatedWards.containsKey(key)) {
@@ -71,8 +71,8 @@ public class AggregatedWardsHelper {
     private static String determineKey(DeptWard ward) {
         String key = ward.getLocationCodeP21()
                 + "|" + ward.getLocationText()
-                + "|" + ward.getWardName().toLowerCase().replace(" ", "")
-                + "|" + (ward.getDept().getDeptArea() == 3 ? "Intensiv" : "Other");
+                + "|" + ward.getWardName().toLowerCase().replace(" ", "");
+        // #332 + "|" + (ward.getDept().getDeptArea() == 3 ? "Intensiv" : "Other");
         return key;
     }
 

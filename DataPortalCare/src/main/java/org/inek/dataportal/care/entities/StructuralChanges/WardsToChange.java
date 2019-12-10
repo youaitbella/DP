@@ -115,13 +115,13 @@ public class WardsToChange implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property SenstiveAreaId">
     @Column(name = "wtcSensitivAreaId")
-    private Integer _sensitiveAreaId;
+    private int _sensitiveAreaId = -1;
 
-    public Integer getSensitiveAreaId() {
+    public int getSensitiveAreaId() {
         return _sensitiveAreaId;
     }
 
-    public void setSensitiveAreaId(Integer sensitiveAreaId) {
+    public void setSensitiveAreaId(int sensitiveAreaId) {
         this._sensitiveAreaId = sensitiveAreaId;
     }
 

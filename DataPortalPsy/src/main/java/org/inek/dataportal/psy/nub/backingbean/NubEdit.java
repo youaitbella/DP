@@ -32,6 +32,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.Month;
@@ -62,7 +63,7 @@ public class NubEdit {
 
     private PsyNubRequest _psyNubRequest;
     private PsyNubRequest _psyNubRequestBaseline;
-    private Boolean _readOnly;
+    private boolean _readOnly;
 
     private String _errorMessageTitle = "";
     private String _errorMessages = "";
@@ -91,7 +92,7 @@ public class NubEdit {
         return items;
     }
 
-    public Boolean getReadOnly() {
+    public boolean getReadOnly() {
         return _readOnly;
     }
 
@@ -108,11 +109,15 @@ public class NubEdit {
         } else if ("new".equals(id)) {
             _psyNubRequest = createNewNubRequest();
         } else {
-            _psyNubRequest = _psyNubFacade.findNubById(Integer.parseInt(id));
-            _psyNubRequestBaseline = _psyNubFacade.findNubById(Integer.parseInt(id));
-            if (!userHasAccess(_psyNubRequest)) {
-                DialogController.showAccessDeniedDialog();
-                Utils.navigate(Pages.NubPsySummary.RedirectURL());
+            try {
+                _psyNubRequest = _psyNubFacade.findNubById(Integer.parseInt(id));
+                _psyNubRequestBaseline = _psyNubFacade.findNubById(Integer.parseInt(id));
+                if (!userHasAccess(_psyNubRequest)) {
+                    DialogController.showAccessDeniedDialog();
+                    Utils.navigate(Pages.NubPsySummary.RedirectURL());
+                }
+            } catch (NoResultException ex) {
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
             }
         }
         setReadOnly();
@@ -185,7 +190,7 @@ public class NubEdit {
         _psyNubRequest.setIkName(_sessionController.getApplicationTools().retrieveHospitalName(_psyNubRequest.getIk()));
     }
 
-    public Boolean save() {
+    public boolean save() {
         preparePsyNubRequestForSave();
         try {
             _psyNubRequest = _psyNubFacade.save(_psyNubRequest);
@@ -194,10 +199,19 @@ public class NubEdit {
             }
             return true;
         } catch (EJBException ex) {
+            if (handleMergeConflict()) return save();
+        } catch (Exception ex) {
+            throw ex;
+        }
+        return false;
+    }
+
+    private boolean handleMergeConflict() {
+        try {
             boolean hasNoMergeErrors = handleOptimisticLockException();
             if (hasNoMergeErrors) {
                 _psyNubRequest.setVersion(_psyNubFacade.findNubById(_psyNubRequest.getId()).getVersion());
-                return save();
+                return true;
             } else {
                 _psyNubRequest.setStatus(WorkflowStatus.New);
                 _psyNubRequest.setSealedAt(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)));
@@ -205,14 +219,14 @@ public class NubEdit {
                 _errorMessageTitle = ERROR_MESSAGE_TITLE_MERGE_CONFLICT;
                 DialogController.openDialogByName("errorMessageDialog");
             }
-
-        } catch (Exception ex) {
+        } catch (NoResultException ex) {
+            // todo: handle deletion
             throw ex;
         }
         return false;
     }
 
-    private Boolean handleOptimisticLockException() {
+    private boolean handleOptimisticLockException() {
         PsyNubRequest partnerNub = _psyNubFacade.findNubById(_psyNubRequest.getId());
         PsyNubRequestMergeHelper mergeHelper = new PsyNubRequestMergeHelper(_psyNubRequestBaseline, _psyNubRequest, partnerNub);
         List<String> conflicts = mergeHelper.compareProposals();
@@ -223,7 +237,6 @@ public class NubEdit {
             _errorMessages = String.join("\n", conflicts);
             return false;
         }
-
     }
 
     public void send() {

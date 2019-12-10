@@ -28,12 +28,10 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.common.Conversation;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.TransferFileType;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -185,6 +183,7 @@ public class StructuralChangesEdit implements Serializable {
                     Utils.navigate(Pages.NotAllowed.RedirectURL());
                 }
             } catch (Exception ex) {
+                _structuralChangesBaseInformation = new StructuralChangesBaseInformation();  // avoind null pointer on leaving form
                 LOGGER.log(Level.SEVERE, "error init StructuralChangesEdit: " + ex + " --> " + ex.getMessage());
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
             }
@@ -415,7 +414,7 @@ public class StructuralChangesEdit implements Serializable {
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
         TransferFileCreator.createObjectTransferFile(_sessionController, _structuralChangesBaseInformation,
                 _structuralChangesBaseInformation.getIk(), TransferFileType.CareChanges);
-        sendMail("StructuralChangesSendConfirm");
+        sendMail("StructuralChangesSendConfirm", true);
         Utils.navigate(Pages.CareStructuralChangesSummary.RedirectURL());
         DialogController.showSendDialog();
     }
@@ -426,7 +425,7 @@ public class StructuralChangesEdit implements Serializable {
         _structuralChangesBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
 
-        sendMail("StructuralChangesRequestCorrection");
+        sendMail("StructuralChangesRequestCorrection", false);
         DialogController.showSaveDialog();
     }
 
@@ -493,6 +492,12 @@ public class StructuralChangesEdit implements Serializable {
             return;
         }
         if (!_vzUtils.locationCodeIsValidForIk(_structuralChangesBaseInformation.getIk(), locationCode)) {
+            List<Integer> iks = _deptFacade.retrievePriorIk(_deptBaseInformation.getIk());
+            for (int ik : iks) {
+                if (_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
+                    return;
+                }
+            }
             throw new ValidatorException(new FacesMessage(
                     "In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."));
         }
@@ -528,22 +533,6 @@ public class StructuralChangesEdit implements Serializable {
         return SensitiveArea.fromId(sensitiveAreaId).isFabRequired();
     }
 
-    private void sendMail(String mailTemplateName) {
-        String salutation = _sessionController.getMailer().getFormalSalutation(_sessionController.getAccount());
-
-        MailTemplate template = _sessionController.getMailer().getMailTemplate(mailTemplateName);
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", Integer.toString(_structuralChangesBaseInformation.getIk()));
-
-        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
-        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{formalSalutation}", salutation);
-
-        if (!_sessionController.getMailer().sendMailTemplate(template, _sessionController.getAccount().getEmail())) {
-            LOGGER.log(Level.SEVERE, "Fehler beim Emailversand an " + _structuralChangesBaseInformation.getIk() + "(Care Proof)");
-            _sessionController.getMailer().sendException(Level.SEVERE,
-                    "Fehler beim Emailversand an " + _structuralChangesBaseInformation.getIk() + "(Struktuelle Veränderung)", new Exception());
-        }
-    }
-
     public Boolean isInekUser() {
         return _sessionController.isInekUser(Feature.CARE);
     }
@@ -551,7 +540,7 @@ public class StructuralChangesEdit implements Serializable {
     public void acceptChanges() {
         updateDeptBase();
         updateStructuralChangesBase();
-        sendAcceptedInformation();
+        sendMail("CareStructuralChangesAccepted", false);
         DialogController.showSaveDialog();
     }
 
@@ -575,12 +564,22 @@ public class StructuralChangesEdit implements Serializable {
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
     }
 
-    private void sendAcceptedInformation() {
+    private void sendMail(String template, boolean toCurrentUser) {
         Map<String, String> substitutions = new HashMap<>();
         substitutions.put("{ik}", "" + _structuralChangesBaseInformation.getIk());
-        Account account = _accountFacade.findAccount(_structuralChangesBaseInformation.getRequestedAccountId());
+        int accountId = toCurrentUser
+                ? _sessionController.getAccountId()
+                : _structuralChangesBaseInformation.getRequestedAccountId();
+        Account account = _accountFacade.findAccount(accountId);
         // todo: put account into base info and remove accountFacade
-        _sessionController.getMailer().sendMailWithTemplate("CareStructuralChangesAccepted", substitutions, account);
+        boolean success = _sessionController.getMailer().sendMailWithTemplate(template, substitutions, account);
+        if (!success) {
+            int ik = _structuralChangesBaseInformation.getIk();
+            String msg = "[Struktuelle Veränderung] Fehler beim Emailversand (" + template + ") an " + ik;
+            LOGGER.log(Level.SEVERE, msg);
+            _sessionController.getMailer().sendException(Level.SEVERE, msg, new Exception());
+        }
+
     }
 
     public List<DeptWard> calculateNewWards() {
@@ -588,7 +587,7 @@ public class StructuralChangesEdit implements Serializable {
 
         List<DeptWard> wards = obtainAndPrepareWards(_deptBaseInformation);
         List<StructuralChanges> structuralChanges = _structuralChangesBaseInformation.getStructuralChanges();
-        if (structuralChanges.size() == 0) {
+        if (wards.isEmpty() || structuralChanges.size() == 0) {
             return wards;
         }
 
@@ -745,7 +744,7 @@ public class StructuralChangesEdit implements Serializable {
                 .forEachOrdered(changeWard -> {
                     DeptWard deptWard = new DeptWard(wards.get(0).getMapVersion());
                     deptWard.setValidFrom(changeWard.getValidFrom());
-                    deptWard.setValidTo(DateUtils.getMaxDate());
+                    deptWard.setValidTo(DateUtils.MAX_DATE);
                     copyValues(changeWard, deptWard, ik);
                     deptWard.setDept(findDept(changeWard, wards.get(0)));
                     wards.add(deptWard);

@@ -98,7 +98,7 @@ public class AccessRight implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Feature">
     @Column(name = "arFeatureId")
     @Convert(converter = FeatureConverter.class)
-    private Feature _feature;
+    private Feature _feature = Feature.UNKNOWN;
 
     public Feature getFeature() {
         return _feature;

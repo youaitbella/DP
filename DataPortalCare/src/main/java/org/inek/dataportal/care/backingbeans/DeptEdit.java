@@ -93,7 +93,7 @@ public class DeptEdit implements Serializable {
     private Set<Integer> _allowedP21LocationCodes = new HashSet<>();
 
     public DeptEdit() {
-        
+
     }
 
     public List<AggregatedWards> getAggregatedWards() {
@@ -437,16 +437,28 @@ public class DeptEdit implements Serializable {
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
         }
         if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)) {
+            List<Integer> iks = _deptFacade.retrievePriorIk(_deptBaseInformation.getIk());
+            for (int ik : iks) {
+                if (_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
+                    return;
+                }
+            }
             throw new ValidatorException(new FacesMessage("Ungültiger Standort für dieses IK"));
         }
     }
 
-    public void extractLocationCodeFromText(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+    public void extractAndCheckLocationCode(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
         int locationCode = CareValueChecker.extractFormalValidVzNumber("" + value);
         if (locationCode == 0) {
             return;
         }
         if (!_vzUtils.locationCodeIsValidForIk(_deptBaseInformation.getIk(), locationCode)) {
+            List<Integer> iks = _deptFacade.retrievePriorIk(_deptBaseInformation.getIk());
+            for (int ik : iks) {
+                if (_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
+                    return;
+                }
+            }
             throw new ValidatorException(new FacesMessage(
                     "In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."));
         }
