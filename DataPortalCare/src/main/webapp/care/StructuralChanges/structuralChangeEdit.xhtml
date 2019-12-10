@@ -23,11 +23,17 @@
                 background: #F2F5F9;
             }
 
-            .orange {
+            .ORANGE {
                 background-color: #fca752 !important;
                 background-image: none !important;
                 color: #000000 !important;
             }
+            .GREEN {
+                background-color: #389c4c !important;
+                background-image: none !important;
+                color: #000000 !important;
+            }
+
         </style>
 
         <div style="margin-top: 10px;">
@@ -206,9 +212,9 @@
                         <pf:dataTable id="tableNewWard"
                                       value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.NEW)}"
                                       tableStyle="width: auto;"
+                                      rowStyleClass="#{baseInfo.structuralChangesMarker.name()}"
                                       var="baseInfo">
-                            <pf:column class="colIcon" style="width: 20px;"
-                                       styleClass="#{structuralChangesEdit.mark(baseInfo) ? 'orange' : ''}">
+                            <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
                                         deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
                                         rendered="#{not structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
@@ -221,8 +227,7 @@
                                                   style="margin-left: 10px;"
                                                   update="@(.ui-message) @form"/>
                             </pf:column>
-                            <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;"
-                                       styleClass="#{structuralChangesEdit.mark(baseInfo) ? 'orange' : ''}">
+                            <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;">
                                 <pf:selectOneMenu id="catNewArea"
                                                   value="#{baseInfo.wardsToChange.sensitiveAreaId}"
                                                   required="true"
@@ -234,8 +239,7 @@
                                 </pf:selectOneMenu>
                                 <pf:message id="catNewAreaMsg" for="catNewArea"/>
                             </pf:column>
-                            <pf:column headerText="Fachabteilungs- nummer" style="width: 8em;"
-                                       styleClass="#{structuralChangesEdit.mark(baseInfo) ? 'orange' : ''}">
+                            <pf:column headerText="Fachabteilungs- nummer" style="width: 8em;">
                                 <inekInput:InputTextValidator id="fabNew"
                                                               value="#{baseInfo.wardsToChange.fab}"
                                                               Style="width: calc(100% - 1em);"
@@ -246,8 +250,7 @@
                                                               updateComponents=":change:aggregatedTable"
                                                               maxlength="4"/>
                             </pf:column>
-                            <pf:column headerText="Fachabteilungsname" style="width: 11em;"
-                                       styleClass="#{structuralChangesEdit.mark(baseInfo) ? 'orange' : ''}">
+                            <pf:column headerText="Fachabteilungsname" style="width: 11em;">
                                 <inekInput:InputText value="#{baseInfo.wardsToChange.deptName}"
                                                      require="true"
                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
@@ -256,7 +259,7 @@
                                                      requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"/>
                             </pf:column>
                             <pf:column headerText="Stationsbezeichnung" style="width: 11em;"
-                                       styleClass="#{structuralChangesEdit.mark(baseInfo) ? 'orange' : ''}">
+                                       >
                                 <inekInput:InputText value="#{baseInfo.wardsToChange.wardName}"
                                                      require="true"
                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
@@ -265,8 +268,7 @@
                                                      requiredMessage="Bitte geben Sie eine Stationsbezeichnung ein"/>
                             </pf:column>
                             <pf:column headerText="Standort nach § 21 KHEntgG"
-                                       style="text-align: right; width: 7em;"
-                                       styleClass="#{structuralChangesEdit.mark(baseInfo) ? 'orange' : ''}">
+                                       style="text-align: right; width: 7em;">
                                 <inekInput:InputNumberValidator value="#{baseInfo.wardsToChange.locationP21}"
                                                                 readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                                 validatorFunction="#{structuralChangesEdit.isP21LocationCodeValid}"
@@ -275,8 +277,7 @@
                                                                 Style="width: calc(100% - 1em);"/>
 
                             </pf:column>
-                            <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="width: 9em;"
-                                       styleClass="#{structuralChangesEdit.mark(baseInfo) ? 'orange' : ''}">
+                            <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="width: 9em;">
                                 <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.locationVz}"
                                                               Style="width: calc(100% - 1em);"
                                                               maxlength="100"
@@ -288,8 +289,7 @@
                                                               validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."/>
 
                             </pf:column>
-                            <pf:column headerText="Bettenanzahl der Station" style="text-align: right; width: 6em;"
-                                       styleClass="#{structuralChangesEdit.mark(baseInfo) ? 'orange' : ''}">
+                            <pf:column headerText="Bettenanzahl der Station" style="text-align: right; width: 6em;">
                                 <inekInput:InputNumber value="#{baseInfo.wardsToChange.beds}"
                                                        Style="width: calc(100% - 1em);"
                                                        readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
@@ -297,8 +297,7 @@
                                                        minValue="1"
                                                        maxValue="999"/>
                             </pf:column>
-                            <pf:column headerText="Gültig ab" style="width: 6em;"
-                                       styleClass="#{structuralChangesEdit.mark(baseInfo) ? 'orange' : ''}">
+                            <pf:column headerText="Gültig ab" style="width: 6em;">
                                 <pf:calendar id="newValidFrom"
                                              value="#{baseInfo.wardsToChange.validFrom}"
                                              required="true"
@@ -316,8 +315,7 @@
                                 <pf:message for="newValidFrom"/>
                             </pf:column>
 
-                            <pf:column headerText="Anmerkung" style="min-width: 35em; max-width: 60em;"
-                                       styleClass="#{structuralChangesEdit.mark(baseInfo) ? 'orange' : ''}">
+                            <pf:column headerText="Anmerkung" style="min-width: 35em; max-width: 60em;">
                                 <pf:inputTextarea id="commentNew"
                                                   value="#{baseInfo.wardsToChange.comment}"
                                                   readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
@@ -342,12 +340,20 @@
                         <pf:dataTable id="tableChangeWard"
                                       value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CHANGE)}"
                                       tableStyle="width: auto;"
+                                      rowStyleClass="#{baseInfo.structuralChangesMarker.name()}"
                                       var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
                                         deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
                                         rendered="#{not structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                         updateElement="@form"/>
+                                <pf:commandButton value=""
+                                                  action="#{structuralChangesEdit.changeMarkerValue(baseInfo)}"
+                                                  rendered="#{structuralChangesEdit.isInekUser()
+                                                    and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
+                                                  immediate="true"
+                                                  styleClass="#{baseInfo.structuralChangesMarker.nextColor().name()}"
+                                                  update="@(.ui-message) @form"/>
                             </pf:column>
                             <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;">
                                 <pf:outputLabel value=" "/>
@@ -481,12 +487,20 @@
                         <pf:dataTable id="tableCloseWard"
                                       value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE)}"
                                       tableStyle="width: auto;"
+                                      rowStyleClass="#{baseInfo.structuralChangesMarker.name()}"
                                       var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
                                         rendered="#{not structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                         deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
                                         updateElement="@form"/>
+                                <pf:commandButton value=""
+                                                  action="#{structuralChangesEdit.changeMarkerValue(baseInfo)}"
+                                                  rendered="#{structuralChangesEdit.isInekUser()
+                                                    and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
+                                                  immediate="true"
+                                                  styleClass="#{baseInfo.structuralChangesMarker.nextColor().name()}"
+                                                  update="@(.ui-message) @form"/>
                             </pf:column>
                             <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.dept.sensitiveArea}"/>
@@ -566,12 +580,20 @@
                         <pf:dataTable id="tableCloseTempWard"
                                       value="#{structuralChangesEdit.getChangesBaseInformationsByType(StructuralChangesType.CLOSE_TEMP)}"
                                       tableStyle="width: auto;"
+                                      rowStyleClass="#{baseInfo.structuralChangesMarker.name()}"
                                       var="baseInfo">
                             <pf:column class="colIcon" style="width: 20px;">
                                 <inekIcon:DeleteIcon
                                         rendered="#{not structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                         deleteFunction="#{structuralChangesEdit.changesBaseInformation(baseInfo)}"
                                         updateElement="@form"/>
+                                <pf:commandButton value=""
+                                                  action="#{structuralChangesEdit.changeMarkerValue(baseInfo)}"
+                                                  rendered="#{structuralChangesEdit.isInekUser()
+                                                    and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
+                                                  immediate="true"
+                                                  styleClass="#{baseInfo.structuralChangesMarker.nextColor().name()}"
+                                                  update="@(.ui-message) @form"/>
                             </pf:column>
                             <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.dept.sensitiveArea}"/>
