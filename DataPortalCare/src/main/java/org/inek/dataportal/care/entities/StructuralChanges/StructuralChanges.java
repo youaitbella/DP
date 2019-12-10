@@ -1,6 +1,5 @@
 package org.inek.dataportal.care.entities.StructuralChanges;
 
-import org.inek.dataportal.care.enums.StructuralChangesMarker;
 import org.inek.dataportal.care.enums.StructuralChangesType;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
@@ -108,14 +107,15 @@ public class StructuralChanges implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property StructuralChangesMarker">
     @Column(name = "scMarker")
-    private int _structuralChangesMarker;
+    @Convert(converter = StructuralChangesMarkerConverter.class)
+    private StructuralChangesMarker _structuralChangesMarker;
 
     public StructuralChangesMarker getStructuralChangesMarker() {
-        return StructuralChangesMarker.fromId(_structuralChangesMarker);
+        return _structuralChangesMarker;
     }
 
-    public void setStructuralChangesMarkerId(StructuralChangesMarker _structuralChangesMarker) {
-        this._structuralChangesMarker = _structuralChangesMarker.getId();
+    public void setStructuralChangesMarker(StructuralChangesMarker _structuralChangesMarker) {
+        this._structuralChangesMarker = _structuralChangesMarker;
     }
     //</editor-fold>
 
