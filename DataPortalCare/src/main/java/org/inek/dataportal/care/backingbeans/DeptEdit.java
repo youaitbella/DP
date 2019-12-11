@@ -53,6 +53,7 @@ import java.util.stream.Collectors;
 import static org.inek.dataportal.common.enums.TransferFileType.CareWardNames;
 import static org.inek.dataportal.common.utils.DateUtils.MAX_DATE;
 import static org.inek.dataportal.common.utils.DateUtils.createDate;
+import static org.inek.dataportal.common.utils.PortalConstants.EXCEL_EXTENSION;
 
 /**
  * @author lautenti
@@ -309,7 +310,7 @@ public class DeptEdit implements Serializable {
         String hospitalTown = _applicationTools.retrieveHospitalTown(_deptBaseInformation.getIk());
         String fileName = "Mitteilung gem. Paragraph 5 PpUGV_" + _deptBaseInformation.getIk();
         StreamedContent content = new DefaultStreamedContent(exporter.createExcelExportFile(_deptBaseInformation,
-                hospitalName, hospitalTown), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + ".xlsx");
+                hospitalName, hospitalTown), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + EXCEL_EXTENSION);
 
         return content;
     }
@@ -321,7 +322,7 @@ public class DeptEdit implements Serializable {
                 _deptBaseInformation.getId(), fileName);
 
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + ".xlsx");
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + EXCEL_EXTENSION);
     }
 
     public StreamedContent exportAsExcelWithStructuralChanges() {
@@ -331,7 +332,7 @@ public class DeptEdit implements Serializable {
                 _deptBaseInformation.getId(), fileName);
 
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + ".xlsx");
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + EXCEL_EXTENSION);
     }
 
 

@@ -114,8 +114,8 @@ public class StructuralChanges implements Serializable {
         return _structuralChangesMarker;
     }
 
-    public void setStructuralChangesMarker(StructuralChangesMarker _structuralChangesMarker) {
-        this._structuralChangesMarker = _structuralChangesMarker;
+    public void setStructuralChangesMarker(StructuralChangesMarker structuralChangesMarker) {
+        this._structuralChangesMarker = structuralChangesMarker;
     }
     //</editor-fold>
 
