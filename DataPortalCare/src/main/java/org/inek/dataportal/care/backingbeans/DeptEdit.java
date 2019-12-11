@@ -50,10 +50,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static org.inek.dataportal.api.helper.PortalConstants.EXCEL_EXTENSION;
 import static org.inek.dataportal.common.enums.TransferFileType.CareWardNames;
 import static org.inek.dataportal.common.utils.DateUtils.MAX_DATE;
 import static org.inek.dataportal.common.utils.DateUtils.createDate;
-import static org.inek.dataportal.common.utils.PortalConstants.EXCEL_EXTENSION;
 
 /**
  * @author lautenti

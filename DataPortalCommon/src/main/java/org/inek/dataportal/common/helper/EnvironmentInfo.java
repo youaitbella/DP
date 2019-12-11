@@ -1,6 +1,6 @@
 package org.inek.dataportal.common.helper;
 
-import org.inek.dataportal.api.helper.Const;
+import org.inek.dataportal.api.helper.PortalConstants;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -37,7 +37,7 @@ public class EnvironmentInfo {
         String protocol = externalContext.getRequestScheme() + "://";
         int port = externalContext.getRequestServerPort();
         String server = externalContext.getRequestServerName();
-        return protocol + server + (port == Const.HTTP_PORT || port == Const.HTTPS_PORT ? "" : ":" + port);
+        return protocol + server + (port == PortalConstants.HTTP_PORT || port == PortalConstants.HTTPS_PORT ? "" : ":" + port);
     }
 
     public static String getServerUrlWithContextpath() {

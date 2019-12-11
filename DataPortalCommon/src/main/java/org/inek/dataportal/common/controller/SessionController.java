@@ -3,7 +3,7 @@ package org.inek.dataportal.common.controller;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.api.enums.PortalType;
-import org.inek.dataportal.api.helper.Const;
+import org.inek.dataportal.api.helper.PortalConstants;
 import org.inek.dataportal.common.data.access.CustomerTypeFacade;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
@@ -40,7 +40,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static org.inek.dataportal.api.helper.Const.*;
+import static org.inek.dataportal.api.helper.PortalConstants.*;
 
 /**
  *
@@ -172,12 +172,12 @@ public class SessionController implements Serializable {
 
     public String getRemainingTime() {
         int maxInterval = FacesContext.getCurrentInstance().getExternalContext().getSessionMaxInactiveInterval();
-        int minutes = maxInterval / Const.SECONDS_PER_MINUTE;
-        int seconds = maxInterval % Const.SECONDS_PER_MINUTE;
+        int minutes = maxInterval / PortalConstants.SECONDS_PER_MINUTE;
+        int seconds = maxInterval % PortalConstants.SECONDS_PER_MINUTE;
         //substract some seconds to ensure the client will log-out before the session expires
         seconds -= 5;
         if (seconds < 0) {
-            seconds += Const.SECONDS_PER_MINUTE;
+            seconds += PortalConstants.SECONDS_PER_MINUTE;
             minutes--;
         }
         return "" + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
@@ -431,9 +431,9 @@ public class SessionController implements Serializable {
         }
         int sessionTimeout = (_portalType == PortalType.CALC
                 || _portalType == PortalType.CERT
-                || _portalType == PortalType.BASE) ? Const.SECONDS_PER_HOUR : Const.SECONDS_PER_HOUR / 2;
+                || _portalType == PortalType.BASE) ? PortalConstants.SECONDS_PER_HOUR : PortalConstants.SECONDS_PER_HOUR / 2;
         sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")
-                && isInternalClient()) ? 2 * Const.SECONDS_PER_HOUR : sessionTimeout; // session timeout extended to 4 hour for internal user
+                && isInternalClient()) ? 2 * PortalConstants.SECONDS_PER_HOUR : sessionTimeout; // session timeout extended to 4 hour for internal user
         FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
     }
 

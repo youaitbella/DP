@@ -4,22 +4,10 @@
  */
 package org.inek.dataportal.common.helper;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.zip.Adler32;
-import java.util.zip.CheckedInputStream;
-import java.util.zip.CheckedOutputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
-import org.inek.dataportal.api.helper.Const;
+import org.inek.dataportal.api.helper.PortalConstants;
+
+import java.io.*;
+import java.util.zip.*;
 
 /**
  *
@@ -34,7 +22,7 @@ public class StreamHelper {
                 CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
                 ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
             for (File file : files) {
-                try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), Const.BUFFER_SIZE)) {
+                try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), PortalConstants.BUFFER_SIZE)) {
                     compressedOut.putNextEntry(new ZipEntry(file.getName()));
                     copyStream(is, compressedOut);
                 }
@@ -57,7 +45,7 @@ public class StreamHelper {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
                 File file = new File(dir, entry.getName());
-                try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(file), Const.BUFFER_SIZE)) {
+                try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(file), PortalConstants.BUFFER_SIZE)) {
                     copyStream(zis, dest);
                     dest.flush();
                 }
@@ -66,7 +54,7 @@ public class StreamHelper {
     }
 
     public static void copyStream(InputStream is, OutputStream os) throws IOException {
-        byte[] buff = new byte[Const.BUFFER_SIZE];
+        byte[] buff = new byte[PortalConstants.BUFFER_SIZE];
         int count;
         while ((count = is.read(buff)) != -1) {
             os.write(buff, 0, count);

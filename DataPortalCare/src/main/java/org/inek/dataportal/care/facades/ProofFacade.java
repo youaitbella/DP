@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.care.facades;
 
 import org.inek.dataportal.care.entities.Extension;
@@ -20,15 +15,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * @author lautenti
- */
+import static org.inek.dataportal.api.helper.PortalConstants.*;
+
 @Stateless
 public class ProofFacade extends AbstractDataAccessWithActionLog {
 
-    public static final String IK = "ik";
-    public static final String STATUS = "status";
-    public static final String YEAR = "year";
 
     public ProofRegulationBaseInformation findBaseInformation(int id) {
         String jpql = "SELECT bi FROM ProofRegulationBaseInformation bi WHERE bi._id = :id";

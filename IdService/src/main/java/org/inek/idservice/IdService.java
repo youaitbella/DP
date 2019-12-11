@@ -1,5 +1,11 @@
 package org.inek.idservice;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.ejb.Timeout;
+import javax.ejb.TimerService;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -7,15 +13,8 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.ejb.Timeout;
-import javax.ejb.TimerService;
-import static org.inek.dataportal.api.helper.Const.REQUEST_ID;
-import static org.inek.dataportal.api.helper.Const.REQUEST_TOKEN;
-import static org.inek.dataportal.api.helper.Const.SERVICE_PORT;
+
+import static org.inek.dataportal.api.helper.PortalConstants.*;
 
 @Singleton
 @Startup

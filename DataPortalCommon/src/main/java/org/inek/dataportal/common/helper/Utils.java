@@ -4,19 +4,12 @@
  */
 package org.inek.dataportal.common.helper;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.helper.PortalConstants;
+import org.inek.dataportal.common.data.account.iface.Document;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.utils.Helper;
+
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
@@ -34,11 +27,19 @@ import javax.faces.context.PartialResponseWriter;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.inek.dataportal.common.data.account.iface.Document;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.api.helper.Const;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.utils.Helper;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -225,7 +226,7 @@ public class Utils {
         try {
             ByteArrayInputStream is = new ByteArrayInputStream(text.getBytes("UTF-8"));
             MessageDigest md = MessageDigest.getInstance("SHA1");
-            byte[] buffer = new byte[Const.BUFFER_SIZE];
+            byte[] buffer = new byte[PortalConstants.BUFFER_SIZE];
             int n;
             while ((n = is.read(buffer)) != -1) {
                 md.update(buffer, 0, n);
