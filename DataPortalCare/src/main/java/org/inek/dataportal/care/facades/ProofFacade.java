@@ -26,6 +26,10 @@ import java.util.Set;
 @Stateless
 public class ProofFacade extends AbstractDataAccessWithActionLog {
 
+    public static final String IK = "ik";
+    public static final String STATUS = "status";
+    public static final String YEAR = "year";
+
     public ProofRegulationBaseInformation findBaseInformation(int id) {
         String jpql = "SELECT bi FROM ProofRegulationBaseInformation bi WHERE bi._id = :id";
         TypedQuery<ProofRegulationBaseInformation> query = getEntityManager().createQuery(jpql, ProofRegulationBaseInformation.class);
@@ -37,8 +41,8 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         String jpql = "SELECT bi FROM ProofRegulationBaseInformation bi WHERE bi._statusId = :status "
                 + "and bi._ik = :ik";
         TypedQuery<ProofRegulationBaseInformation> query = getEntityManager().createQuery(jpql, ProofRegulationBaseInformation.class);
-        query.setParameter("status", status.getId());
-        query.setParameter("ik", ik);
+        query.setParameter(STATUS, status.getId());
+        query.setParameter(IK, ik);
         return query.getResultList();
     }
 
@@ -141,7 +145,7 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
     public List<ProofRegulationBaseInformation> getAllByStatus(WorkflowStatus status) {
         String jpql = "SELECT bi FROM ProofRegulationBaseInformation bi WHERE bi._statusId = :status ";
         TypedQuery<ProofRegulationBaseInformation> query = getEntityManager().createQuery(jpql, ProofRegulationBaseInformation.class);
-        query.setParameter("status", status.getId());
+        query.setParameter(STATUS, status.getId());
         return query.getResultList();
     }
 
@@ -151,8 +155,8 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
                 "WHERE ds._ik = :ik " +
                 "AND ds._year = :year";
         TypedQuery<ProofRegulationStation> query = getEntityManager().createQuery(jpql, ProofRegulationStation.class);
-        query.setParameter("ik", ik);
-        query.setParameter("year", year);
+        query.setParameter(IK, ik);
+        query.setParameter(YEAR, year);
         return query.getResultList();
     }
 
@@ -182,8 +186,8 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
     public boolean hasExtension(int ik, int year, int quarter) {
         String name = "Extension.findByCoordinates";
         TypedQuery<Extension> query = getEntityManager().createNamedQuery(name, Extension.class);
-        query.setParameter("ik", ik);
-        query.setParameter("year", year);
+        query.setParameter(IK, ik);
+        query.setParameter(YEAR, year);
         query.setParameter("quarter", quarter);
         try {
             query.getSingleResult();
