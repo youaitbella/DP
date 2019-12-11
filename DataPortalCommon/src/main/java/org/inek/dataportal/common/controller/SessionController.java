@@ -433,7 +433,9 @@ public class SessionController implements Serializable {
                 || _portalType == PortalType.CERT
                 || _portalType == PortalType.BASE) ? PortalConstants.SECONDS_PER_HOUR : PortalConstants.SECONDS_PER_HOUR / 2;
         sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")
-                && isInternalClient()) ? 2 * PortalConstants.SECONDS_PER_HOUR : sessionTimeout; // session timeout extended to 4 hour for internal user
+                && isInternalClient())
+                ? 2 * PortalConstants.SECONDS_PER_HOUR // session timeout extended to 4 hour for internal user
+                : sessionTimeout;
         FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
     }
 
