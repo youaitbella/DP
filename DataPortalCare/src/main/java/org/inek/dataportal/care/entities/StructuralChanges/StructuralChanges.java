@@ -108,7 +108,7 @@ public class StructuralChanges implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property StructuralChangesMarker">
     @Column(name = "scMarker")
     @Convert(converter = StructuralChangesMarkerConverter.class)
-    private StructuralChangesMarker _structuralChangesMarker;
+    private StructuralChangesMarker _structuralChangesMarker = StructuralChangesMarker.NEUTRAL;
 
     public StructuralChangesMarker getStructuralChangesMarker() {
         return _structuralChangesMarker;
