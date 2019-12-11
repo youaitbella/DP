@@ -28,6 +28,7 @@
                 background-image: none !important;
                 color: #000000 !important;
             }
+
             .GREEN {
                 background-color: #389c4c !important;
                 background-image: none !important;
@@ -225,7 +226,7 @@
                                                     and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
                                                   immediate="true"
                                                   styleClass="#{baseInfo.structuralChangesMarker.nextColor().name()}"
-                                                  update="@(.ui-message) @form"/>
+                                                  update=":change:tableNewWard"/>
                             </pf:column>
                             <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;">
                                 <pf:selectOneMenu id="catNewArea"
@@ -258,8 +259,7 @@
                                                      updateComponents=":change:aggregatedTable"
                                                      requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"/>
                             </pf:column>
-                            <pf:column headerText="Stationsbezeichnung" style="width: 11em;"
-                                       >
+                            <pf:column headerText="Stationsbezeichnung" style="width: 11em;">
                                 <inekInput:InputText value="#{baseInfo.wardsToChange.wardName}"
                                                      require="true"
                                                      readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
@@ -353,7 +353,7 @@
                                                     and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
                                                   immediate="true"
                                                   styleClass="#{baseInfo.structuralChangesMarker.nextColor().name()}"
-                                                  update="@(.ui-message) @form"/>
+                                                  update=":change:tableChangeWard"/>
                             </pf:column>
                             <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;">
                                 <pf:outputLabel value=" "/>
@@ -500,7 +500,7 @@
                                                     and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
                                                   immediate="true"
                                                   styleClass="#{baseInfo.structuralChangesMarker.nextColor().name()}"
-                                                  update="@(.ui-message) @form"/>
+                                                  update=":change:tableCloseWard"/>
                             </pf:column>
                             <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.dept.sensitiveArea}"/>
@@ -593,7 +593,7 @@
                                                     and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
                                                   immediate="true"
                                                   styleClass="#{baseInfo.structuralChangesMarker.nextColor().name()}"
-                                                  update="@(.ui-message) @form"/>
+                                                  update=":change:tableCloseTempWard"/>
                             </pf:column>
                             <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;">
                                 <pf:outputLabel value="#{baseInfo.wardsToChange.deptWard.dept.sensitiveArea}"/>
