@@ -209,7 +209,7 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date extensionRequested = DateUtils.MIN_DATE;
 
-    public Date getExtensionRequested() {
+    public Date get() {
         return extensionRequested;
     }
 
