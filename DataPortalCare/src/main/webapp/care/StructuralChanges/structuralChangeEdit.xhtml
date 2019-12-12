@@ -23,13 +23,13 @@
                 background: #F2F5F9;
             }
 
-            .ORANGE {
+            .MARKER_1 {
                 background-color: #fca752 !important;
                 background-image: none !important;
                 color: #000000 !important;
             }
 
-            .GREEN {
+            .MARKER_2 {
                 background-color: #389c4c !important;
                 background-image: none !important;
                 color: #000000 !important;
@@ -225,7 +225,6 @@
                                                   rendered="#{structuralChangesEdit.isInekUser()
                                                     and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10}"
                                                   immediate="true"
-                                                  styleClass="#{baseInfo.structuralChangesMarker.nextColor().name()}"
                                                   update=":change:tableNewWard"/>
                             </pf:column>
                             <pf:column headerText="Pflegesensitiver Bereich" style="width: 9em;">
