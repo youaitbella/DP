@@ -207,14 +207,14 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="Property ExtensionRequested">
     @Column(name = "dbiExtensionRequested")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _extensionRequested = DateUtils.MIN_DATE;
+    private Date extensionRequested = DateUtils.MIN_DATE;
 
     public Date getExtensionRequested() {
-        return _extensionRequested;
+        return extensionRequested;
     }
 
     public void setExtensionRequested(Date extensionRequested) {
-        _extensionRequested = extensionRequested;
+        this.extensionRequested = extensionRequested;
     }
     //</editor-fold>
 
