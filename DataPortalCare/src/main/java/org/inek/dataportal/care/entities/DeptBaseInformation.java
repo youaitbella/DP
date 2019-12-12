@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -202,6 +203,21 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
         this.currentVersion = mapVersion;
     }
     //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property ExtensionRequested">
+    @Column(name = "dbiExtensionRequested")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _extensionRequested = DateUtils.MIN_DATE;
+
+    public Date getExtensionRequested() {
+        return _extensionRequested;
+    }
+
+    public void setExtensionRequested(Date extensionRequested) {
+        _extensionRequested = extensionRequested;
+    }
+    //</editor-fold>
+
 
     @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "deBaseInformationId")
