@@ -469,6 +469,7 @@
                                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                                                   noSelectionOption="true"/>
                                     <f:selectItems value="#{structuralChangesEdit.changeReasons}"/>
+                                    <pf:ajax/>
                                 </pf:selectOneMenu>
                                 <pf:message for="catNew"/>
                             </pf:column>
@@ -562,6 +563,7 @@
                                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                                                   noSelectionOption="true"/>
                                     <f:selectItems value="#{structuralChangesEdit.closeReasons}"/>
+                                    <pf:ajax/>
                                 </pf:selectOneMenu>
                                 <pf:message for="catDelete"/>
                             </pf:column>
@@ -673,6 +675,7 @@
                                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                                                   noSelectionOption="true"/>
                                     <f:selectItems value="#{structuralChangesEdit.closeTmpReasons}"/>
+                                    <pf:ajax/>
                                 </pf:selectOneMenu>
                                 <pf:message for="catCloseTmp"/>
                             </pf:column>
