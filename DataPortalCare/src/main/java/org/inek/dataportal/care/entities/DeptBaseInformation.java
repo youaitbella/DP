@@ -51,10 +51,10 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dbiId")
-    private Integer _id;
+    private Integer _id = -1;
 
     public int getId() {
-        return _id == null ? -1 : _id;
+        return _id;
     }
 
     public void setId(int id) {

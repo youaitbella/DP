@@ -196,7 +196,7 @@ public class DeptWard implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Valid From">
     @Column(name = "dwValidFrom")
-    private Date _validFrom;
+    private Date _validFrom = DateUtils.MIN_DATE;
 
     public Date getValidFrom() {
         return _validFrom;
@@ -209,7 +209,7 @@ public class DeptWard implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Valid To">
     @Column(name = "dwValidTo")
-    private Date _validTo = DateUtils.getMaxDate();
+    private Date _validTo = DateUtils.MAX_DATE;
 
     public Date getValidTo() {
         return _validTo;
@@ -275,7 +275,7 @@ public class DeptWard implements Serializable {
 
     @JsonIgnore
     public String getValidToDisplayText() {
-        if (_validTo.equals(DateUtils.getMaxDate())) {
+        if (_validTo.equals(DateUtils.MAX_DATE)) {
             return "unbegrenzt";
         } else {
             Format formatter = new SimpleDateFormat("dd.MM.yyyy");

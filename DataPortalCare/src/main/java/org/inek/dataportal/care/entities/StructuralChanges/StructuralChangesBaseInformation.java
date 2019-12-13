@@ -209,7 +209,9 @@ public class StructuralChangesBaseInformation implements Serializable {
         if (getStatus().equals(WorkflowStatus.New)) {
             return "In Erfassung durch Krankenhaus";
         } else if (getStatus().equals(WorkflowStatus.Provided)) {
-            return "in Bearbeitung durch das InEK";
+            return "In Bearbeitung durch das InEK";
+        } else if (getStatus().equals(WorkflowStatus.Taken)) {
+            return "Änderungen übernommen";
         }
         return "Unbekannt";
 

@@ -36,11 +36,16 @@
             }
 
             .GLOBAL_MESSAGE::before {
-                content: "Bei der Prüfung sind Fehler aufgetreten:";
+                content: "Bei der Prüfung sind folgende Fehler aufgetreten:";
             }
 
+            .GLOBAL_MESSAGE {
+                color: #9c1627;
+            }
+
+
             .GLOBAL_MESSAGE::after {
-                content: "Bitte prüfen Sie Ihre Eingaben. Die fehlerhaften Felder sind mit einer Fehlermeldung markiert.";
+                content: "Bitte prüfen Sie Ihre Eingaben. Die fehlerhaften Felder sind jeweils mit einer der obigen Fehlermeldungen markiert.";
             }
         </style>
 
@@ -464,6 +469,7 @@
                                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                                                   noSelectionOption="true"/>
                                     <f:selectItems value="#{structuralChangesEdit.changeReasons}"/>
+                                    <pf:ajax/>
                                 </pf:selectOneMenu>
                                 <pf:message for="catNew"/>
                             </pf:column>
@@ -557,6 +563,7 @@
                                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                                                   noSelectionOption="true"/>
                                     <f:selectItems value="#{structuralChangesEdit.closeReasons}"/>
+                                    <pf:ajax/>
                                 </pf:selectOneMenu>
                                 <pf:message for="catDelete"/>
                             </pf:column>
@@ -668,6 +675,7 @@
                                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                                                   noSelectionOption="true"/>
                                     <f:selectItems value="#{structuralChangesEdit.closeTmpReasons}"/>
+                                    <pf:ajax/>
                                 </pf:selectOneMenu>
                                 <pf:message for="catCloseTmp"/>
                             </pf:column>
