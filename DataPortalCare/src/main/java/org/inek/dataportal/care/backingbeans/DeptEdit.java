@@ -20,6 +20,7 @@ import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
@@ -341,15 +342,17 @@ public class DeptEdit implements Serializable {
     }
 
 
-    private void sendMail(String mailTemplateName) {
-        String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());
+    private void sendMail(String template) {
+        Map<String, String> substitutions = new HashMap<>();
+        substitutions.put("{ik}", "" + _deptBaseInformation.getIk());
+        substitutions.put("{year}", "" + _deptBaseInformation.getYear());
+        Date date = createDate(_deptBaseInformation.getYear() + 2, Month.JANUARY, 10);
+        substitutions.put("{date}", DateUtils.toGerman(date));
+        Account account = _sessionController.getAccount();
+        boolean success = _sessionController.getMailer().sendMailWithTemplate(template, substitutions, account);
 
-        MailTemplate template = _mailer.getMailTemplate(mailTemplateName);
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", Integer.toString(_deptBaseInformation.getIk()));
 
-        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
-
-        if (!_mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail())) {
+        if (!success) {
             _mailer.sendException(Level.SEVERE,
                     "Fehler beim Emailversand an " + _deptBaseInformation.getIk() + "(Care)", new Exception());
         }
@@ -506,6 +509,7 @@ public class DeptEdit implements Serializable {
     public void applyExtension(){
         _deptBaseInformation.setExtensionRequested(new Date());
         save();
+        sendMail("CareDeptExtensionRequested");
     }
 
 
