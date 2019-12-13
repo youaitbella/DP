@@ -372,10 +372,6 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void save() {
-        if (baseInformationHasErrors(_structuralChangesBaseInformation)) {
-            return;
-        }
-
         saveConversation(false);
 
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
@@ -442,7 +438,12 @@ public class StructuralChangesEdit implements Serializable {
     public boolean baseInformationHasErrors(StructuralChangesBaseInformation baseInfo) {
         List<StructuralChanges> structuralChanges = getChangesBaseInformationsByType(StructuralChangesType.CLOSE_TEMP);
         for (StructuralChanges structuralChange : structuralChanges) {
-            if (structuralChange.getWardsToChange().getValidFrom().after(structuralChange.getWardsToChange().getValidTo())) {
+            WardsToChange wardsToChange = structuralChange.getWardsToChange();
+            if (wardsToChange.getComment().trim().isEmpty()) {
+                DialogController.showInfoDialog("Änderungen unvollständig",
+                        "Bitte geben Sie eine Bemerkung an");
+            }
+            if (wardsToChange.getValidFrom().after(structuralChange.getWardsToChange().getValidTo())) {
                 DialogController.showInfoDialog("Temporäre Abmeldungen unplausibel",
                         "Bei den temporären Abmeldungen gibt es unplausible Gültigkeitszeiträume. Bitte korrigieren Sie Ihre Eingabe");
                 return true;

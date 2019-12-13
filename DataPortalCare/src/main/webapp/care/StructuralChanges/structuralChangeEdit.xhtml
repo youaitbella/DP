@@ -35,6 +35,13 @@
                 color: #000000 !important;
             }
 
+            .GLOBAL_MESSAGE::before {
+                content: "Bei der Prüfung sind Fehler aufgetreten:";
+            }
+
+            .GLOBAL_MESSAGE::after {
+                content: "Bitte prüfen Sie Ihre Eingaben. Die fehlerhaften Felder sind mit einer Fehlermeldung markiert.";
+            }
         </style>
 
         <div style="margin-top: 10px;">
@@ -770,6 +777,7 @@
 
                         <pf:commandButton value="Speichern ohne Senden"
                                           action="#{structuralChangesEdit.save()}"
+                                          immediate="true"
                                           style="margin-left: 10px;"
                                           rendered="#{not structuralChangesEdit.readOnly}"
                                           update="@(.ui-message) @form"/>
@@ -801,6 +809,7 @@
                         </div>
                     </div>
                 </div>
+                <h:messages globalOnly="false" showSummary="true" styleClass="GLOBAL_MESSAGE"/>
             </div>
         </h:form>
     </ui:define>

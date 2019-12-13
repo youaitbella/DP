@@ -67,6 +67,7 @@ public class StructuralChanges implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property ProcessedAt">
     @Column(name = "scProcessedAt")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date _processedAt = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
     public Date getPocessedAt() {
