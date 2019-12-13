@@ -17,7 +17,6 @@ import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesWard
 import org.inek.dataportal.care.entities.StructuralChanges.WardsToChange;
 import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.care.enums.SensitiveArea;
-import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesMarker;
 import org.inek.dataportal.care.enums.StructuralChangesType;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
@@ -492,7 +491,9 @@ public class StructuralChangesEdit implements Serializable {
             return;
         }
         if (!_vzUtils.locationCodeIsValidForIk(_structuralChangesBaseInformation.getIk(), locationCode)) {
-            List<Integer> iks = _deptFacade.retrievePriorIk(_deptBaseInformation.getIk());
+            List<Integer> iks = _deptBaseInformation != null
+                    ? _deptFacade.retrievePriorIk(_deptBaseInformation.getIk())
+                    : new ArrayList<>();
             for (int ik : iks) {
                 if (_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
                     return;
