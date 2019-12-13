@@ -47,13 +47,13 @@ public class Dept implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "deId")
-    private Integer _id;
+    private Integer _id = -1;
 
     public int getId() {
         return _id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         _id = id;
     }
     // </editor-fold>
@@ -94,7 +94,7 @@ public class Dept implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept SensitiveArea">
     @Column(name = "deSensitiveArea")
-    private String _sensitiveArea;
+    private String _sensitiveArea = "";
 
     public String getSensitiveArea() {
         return _sensitiveArea;
