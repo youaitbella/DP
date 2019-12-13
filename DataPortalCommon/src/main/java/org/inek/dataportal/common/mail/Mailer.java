@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 import static org.inek.dataportal.api.helper.PortalConstants.*;
 
 /**
- *
  * @author muellermi
  */
 @Singleton
@@ -61,7 +60,6 @@ public class Mailer implements Serializable {
     }
 
     /**
-     *
      * @param from
      * @param recipient one or more addresses, separated by semicolon
      * @param cc        none, one or more addresses, separated by semicolon
@@ -69,11 +67,10 @@ public class Mailer implements Serializable {
      * @param subject
      * @param body
      * @param files
-     *
      * @return
      */
     public boolean sendMailFrom(String from, String recipient, String cc, String bcc, String subject, String body,
-            String... files) {
+                                String... files) {
         if (recipient.toLowerCase().endsWith(".test")) {
             // this is just to mock a successful mail
             return true;
@@ -177,7 +174,9 @@ public class Mailer implements Serializable {
             return false;
         }
         String subject = template.getSubject();
-        String body = template.getBody().replace(VAR_SALUTATION, getFormalSalutation(receiver));
+        String body = template.getBody()
+                .replace(VAR_SALUTATION, getFormalSalutation(receiver))
+                .replace("{salutation}", getFormalSalutation(receiver)); // todo remove after adopting false templates
         for (String param : substitutions.keySet()) {
             String value = substitutions.get(param);
             subject = subject.replace(param, value);

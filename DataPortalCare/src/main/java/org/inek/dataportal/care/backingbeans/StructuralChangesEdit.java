@@ -48,6 +48,12 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Month;
+import java.time.Year;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -801,18 +807,5 @@ public class StructuralChangesEdit implements Serializable {
         changes.setStructuralChangesMarker(changes.getStructuralChangesMarker().nextColor());
     }
 
-    //TODO make a method which decides if the component is rendered or not
-    public Boolean isRenderedForInekUser() {
-        if (isInekUser() && _structuralChangesBaseInformation.getStatusId() == 10) {
-            return true;
-        }
-        return false;
-    }
 
-    public Boolean isRenderedForHospitalUser() {
-        if (!isInekUser() && _conversation.getMessage().length() > 1) {
-            return true;
-        }
-        return false;
-    }
 }
