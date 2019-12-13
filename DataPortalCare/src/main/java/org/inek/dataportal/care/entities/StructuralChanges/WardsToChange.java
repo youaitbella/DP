@@ -19,17 +19,17 @@ public class WardsToChange implements Serializable {
         _validTo = DateUtils.MAX_DATE;
     }
 
-    public WardsToChange(DeptWard station) {
-        _deptId = station.getDept().getId();
-        _wardName = station.getWardName();
-        _deptName = station.getDeptName();
-        _locationP21 = station.getLocationCodeP21();
-        _locationVz = station.getLocationText();
-        _fab = station.getFab();
-        _beds = station.getBedCount();
-        _validFrom = station.getValidFrom();
-        _validTo = station.getValidTo();
-        _sensitiveAreaId = SensitiveArea.fromName(station.getDept().getSensitiveArea()).getId();
+    public WardsToChange(DeptWard ward) {
+        _deptId = ward.getDept().getId();
+        _wardName = ward.getWardName();
+        _deptName = ward.getDeptName();
+        _locationP21 = ward.getLocationCodeP21();
+        _locationVz = ward.getLocationText();
+        _fab = ward.getFab();
+        _beds = ward.getBedCount();
+        setValidFrom(ward.getValidFrom());
+        setValidTo(ward.getValidTo());
+        _sensitiveAreaId = SensitiveArea.fromName(ward.getDept().getSensitiveArea()).getId();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -170,14 +170,14 @@ public class WardsToChange implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property ValidTo ">
     @Column(name = "wtcValidTo")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _validTo;
+    private Date _validTo = DateUtils.MAX_DATE;
 
     public Date getValidTo() {
         return _validTo;
     }
 
     public void setValidTo(Date validTo) {
-        this._validTo = validTo;
+        this._validTo = validTo == null ? DateUtils.MAX_DATE : validTo;
     }
     //</editor-fold>
 
