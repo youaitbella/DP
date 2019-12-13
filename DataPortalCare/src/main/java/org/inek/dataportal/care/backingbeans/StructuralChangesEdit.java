@@ -540,9 +540,17 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void acceptChanges() {
+        acceptChanges(false);
+    }
+
+    public void acceptChangesWithHint() {
+        acceptChanges(false);
+    }
+
+    private void acceptChanges(boolean withHint) {
         updateDeptBase();
         updateStructuralChangesBase();
-        sendMail("CareStructuralChangesAccepted", false);
+        sendMail(withHint ? "CareStructuralChangesAcceptedWithHint" : "CareStructuralChangesAccepted", false);
         DialogController.showSaveDialog();
     }
 
