@@ -802,7 +802,7 @@
                         </div>
                         <pf:commandButton value="Fristverlängerung beantragen"
                                           rendered="#{not structuralChangesEdit.readOnly and structuralChangesEdit.isRenewalButtonRendered()}"
-                                          action="#{structuralChangesEdit.applyRenewal}"
+                                          action="#{structuralChangesEdit.applyRenewal()}"
                                           update="@(.ui-message) @form">
                         </pf:commandButton>
                     </div>
