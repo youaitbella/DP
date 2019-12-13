@@ -49,6 +49,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -791,16 +794,34 @@ public class StructuralChangesEdit implements Serializable {
         changes.setStructuralChangesMarker(changes.getStructuralChangesMarker().nextColor());
     }
 
-    //TODO make a method which decides if the component is rendered or not
-    public Boolean isRenderedForInekUser() {
-        if (isInekUser() && _structuralChangesBaseInformation.getStatusId() == 10) {
-            return true;
-        }
-        return false;
+    public boolean isRenewalButtonRendered() throws ParseException {
+        if (!isMinDate() && dateBefore20thDec() && dateAfter10thJan()) {
+            return false;
+         }
+        return true;
     }
 
-    public Boolean isRenderedForHospitalUser() {
-        if (!isInekUser() && _conversation.getMessage().length() > 1) {
+    private boolean isMinDate() {
+        return _deptBaseInformation.getExtensionRequested().compareTo(DateUtils.MIN_DATE) == 0;
+    }
+
+    private boolean dateBefore20thDec() throws ParseException {
+        Date date = new Date();
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date1 =sdf.parse(date.toString());
+        Date date2 = sdf.parse("2019-12-20 23:59:59");
+        if(date1.compareTo(date2) == 1){
+            return false;
+        }
+        return true;
+    }
+
+    private boolean dateAfter10thJan() throws ParseException {
+        Date date = new Date();
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date1 =sdf.parse(date.toString());
+        Date date2 = sdf.parse("2020-01-10 23:59:59");
+        if(date1.compareTo(date2) == 1){
             return true;
         }
         return false;

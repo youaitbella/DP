@@ -800,6 +800,11 @@
                                               action="#{structuralChangesEdit.requestCorrection}"
                                               update="@(.ui-message) @form"/>
                         </div>
+                        <pf:commandButton value="Fristverlängerung beantragen"
+                                          rendered="#{not structuralChangesEdit.readOnly and structuralChangesEdit.isRenewalButtonRendered()}"
+                                          action="#{structuralChangesEdit.applyRenewal}"
+                                          update="@(.ui-message) @form">
+                        </pf:commandButton>
                     </div>
                 </div>
             </div>
