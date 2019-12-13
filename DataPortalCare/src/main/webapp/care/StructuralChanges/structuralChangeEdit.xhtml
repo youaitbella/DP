@@ -810,7 +810,8 @@
                         <pf:commandButton value="Fristverlängerung beantragen"
                                           rendered="#{not structuralChangesEdit.readOnly and structuralChangesEdit.isRenewalButtonRendered()}"
                                           action="#{structuralChangesEdit.applyRenewal()}"
-                                          update="@(.ui-message) @form">
+                                          update="@(.ui-message) @form"
+                                          immediate="true">
                         </pf:commandButton>
                     </div>
                 </div>
