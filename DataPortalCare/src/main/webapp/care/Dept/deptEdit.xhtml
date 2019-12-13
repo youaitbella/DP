@@ -93,7 +93,7 @@
 
             <div class="ui-g">
                 <div class="card">
-                    <div class="ui-g-12">
+                    <div class="ui-g-12" jsf:id="buttons">
 
                         <pf:commandButton value="Datensatz ändern"
                                           action="#{deptEdit.change()}"
@@ -152,6 +152,15 @@
                                           icon="fa fa-arrow-right"
                                           iconPos="right"
                                           update="@(.ui-message) @form"/>
+
+                        <pf:commandButton value="Fristverlängerung beantragen"
+                                          rendered="#{not deptEdit.isReadOnly and deptEdit.isExtensionAllowed()}"
+                                          action="#{deptEdit.applyExtension()}"
+                                          update="@(.ui-message) buttons"
+                                          immediate="true">
+                        </pf:commandButton>
+                        <h:outputLabel value="Fristverlängerung beantragt"
+                                       rendered="#{not deptEdit.isMinDate()}"/>
 
                     </div>
                 </div>

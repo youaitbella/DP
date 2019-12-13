@@ -52,6 +52,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.time.Year;
 import java.util.*;
 import java.util.logging.Level;
@@ -798,42 +799,5 @@ public class StructuralChangesEdit implements Serializable {
         changes.setStructuralChangesMarker(changes.getStructuralChangesMarker().nextColor());
     }
 
-    public boolean isRenewalButtonRendered() throws ParseException {
-        if (!isMinDate() && dateBefore20thDec() && dateAfter10thJan()) {
-            return false;
-         }
-        return true;
-    }
 
-    private boolean isMinDate() {
-        return _deptBaseInformation.getExtensionRequested().compareTo(DateUtils.MIN_DATE) == 0;
-    }
-
-    private boolean dateBefore20thDec() throws ParseException {
-        Date date = new Date();
-        java.sql.Timestamp timestamp = new Timestamp(date.getTime());
-        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date1 = sdf.parse(date.toString());
-        Date date2 = sdf.parse("2019-12-10 23:59:59");
-        if(date1.compareTo(date2) == 1){
-            return false;
-        }
-        return true;
-    }
-
-    private boolean dateAfter10thJan() throws ParseException {
-        Date date = new Date();
-        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date1 = sdf.parse(date.toString());
-        Date date2 = sdf.parse("2020-01-10 23:59:59");
-        if(date1.compareTo(date2) == 1){
-            return true;
-        }
-        return false;
-    }
-
-    public void applyRenewal(){
-        _deptBaseInformation.setExtensionRequested(new Date());
-        save();
-    }
 }

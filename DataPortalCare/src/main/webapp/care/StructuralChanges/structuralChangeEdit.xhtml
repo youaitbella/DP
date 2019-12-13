@@ -766,7 +766,7 @@
 
                 </div>
 
-                <div class="card" style="width: 100%">
+                <div class="card" style="width: 100%" jsf:id="buttons">
                     <div class="ui-g-12">
                         <pf:commandButton value="Datensatz ändern"
                                           action="#{structuralChangesEdit.change()}"
@@ -807,12 +807,6 @@
                                               action="#{structuralChangesEdit.requestCorrection}"
                                               update="@(.ui-message) @form"/>
                         </div>
-                        <pf:commandButton value="Fristverlängerung beantragen"
-                                          rendered="#{not structuralChangesEdit.readOnly and structuralChangesEdit.isRenewalButtonRendered()}"
-                                          action="#{structuralChangesEdit.applyRenewal()}"
-                                          update="@(.ui-message) @form"
-                                          immediate="true">
-                        </pf:commandButton>
                     </div>
                 </div>
                 <h:messages globalOnly="false" showSummary="true" styleClass="GLOBAL_MESSAGE"/>

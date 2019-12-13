@@ -30,6 +30,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.utils.DateUtils;
 import org.inek.dataportal.common.utils.VzUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -492,5 +493,20 @@ public class DeptEdit implements Serializable {
             _stationsAfterTargetYear.addAll(dept.getDeptsAftertargetYear());
         }
     }
+
+    public boolean isExtensionAllowed() {
+        return  isMinDate()
+                && new Date().compareTo(DateUtils.createDate(2020, Month.JANUARY, 11)) < 0;
+    }
+
+    public boolean isMinDate() {
+        return _deptBaseInformation.getExtensionRequested().compareTo(DateUtils.MIN_DATE) == 0;
+    }
+
+    public void applyExtension(){
+        _deptBaseInformation.setExtensionRequested(new Date());
+        save();
+    }
+
 
 }
