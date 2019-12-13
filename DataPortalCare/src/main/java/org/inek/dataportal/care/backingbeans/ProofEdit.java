@@ -84,7 +84,7 @@ public class ProofEdit implements Serializable {
     private Set<Integer> _validQuarters;
     private List<ProofExceptionFact> _exceptionsFacts = new ArrayList<>();
     private BaseDataManager _baseDatamanager;
-    private List<SelectItem> _listExceptionsFacts;
+    private List<SelectItem> _listExceptionsFacts = new ArrayList<>();
     private List<SortMeta> _preSortOrder = new ArrayList<>();
 
     public List<SelectItem> getListExceptionsFacts() {
