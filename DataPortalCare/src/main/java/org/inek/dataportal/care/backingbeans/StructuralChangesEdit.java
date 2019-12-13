@@ -48,12 +48,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Month;
-import java.time.Year;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -550,7 +544,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void acceptChangesWithHint() {
-        acceptChanges(false);
+        acceptChanges(true);
     }
 
     private void acceptChanges(boolean withHint) {

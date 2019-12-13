@@ -141,7 +141,7 @@
 
                         <pf:commandButton value="Speichern ohne Senden"
                                           action="#{deptEdit.save()}"
-                                          rendered="#{!deptEdit.isReadOnly}"
+                                          rendered="#{!deptEdit.isReadOnly and deptEdit.saveAllowed()}"
                                           style="margin-left: 10px;"
                                           update="@(.ui-message) @form"/>
 

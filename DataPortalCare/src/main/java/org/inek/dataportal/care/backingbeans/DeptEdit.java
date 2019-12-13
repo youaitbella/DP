@@ -21,11 +21,9 @@ import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
@@ -377,7 +375,19 @@ public class DeptEdit implements Serializable {
         }
     }
 
+    public Boolean saveAllowed() {
+        return !isAfterEndDate();
+    }
+
+    private boolean isAfterEndDate() {
+        Date endDate = _deptBaseInformation.getExtensionRequested().equals(DateUtils.MIN_DATE)
+                ? DateUtils.createDate(2019, Month.DECEMBER, 21)
+                : DateUtils.createDate(2020, Month.JANUARY, 11);
+        return new Date().compareTo(endDate) >= 0;
+    }
+
     public Boolean sendAllowed() {
+        if (isAfterEndDate()) return false;
         return _configFacade.readConfigBool(ConfigKey.IsCareSendEnabled);
     }
 
