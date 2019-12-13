@@ -16,7 +16,7 @@ public class WardsToChange implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public WardsToChange() {
-        _validTo = DateUtils.getMaxDate();
+        _validTo = DateUtils.MAX_DATE;
     }
 
     public WardsToChange(DeptWard station) {
@@ -155,19 +155,21 @@ public class WardsToChange implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property ValidFrom">
     @Column(name = "wtcValidFrom")
-    private Date _validFrom;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _validFrom = DateUtils.MIN_DATE;
 
     public Date getValidFrom() {
-        return _validFrom;
+        return _validFrom == DateUtils.MIN_DATE ? null : _validFrom;
     }
 
     public void setValidFrom(Date validFrom) {
-        this._validFrom = validFrom;
+        this._validFrom = validFrom == null ? DateUtils.MIN_DATE : validFrom;
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property ValidTo ">
     @Column(name = "wtcValidTo")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date _validTo;
 
     public Date getValidTo() {

@@ -1,46 +1,38 @@
 package org.inek.dataportal.care.entities.StructuralChanges;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum StructuralChangesMarker {
 
-    NEUTRAL(0, "Neutral"),
-    ORANGE(1, "Orange"),
-    GREEN(2, "Green");;
+    NEUTRAL(0),
+    MARKER_1(1),
+    MARKER_2(2);
 
     private int _id;
-    private String _colour;
 
     public int getId() {
         return _id;
     }
 
-    public String getColour() {
-        return _colour;
-    }
+    private static Map<Integer, StructuralChangesMarker> markers = new HashMap<>();
 
-    StructuralChangesMarker(int id, String colour) {
-        _id = id;
-        _colour = colour;
-    }
-
-    public static StructuralChangesMarker fromColor(String colour){
+    static {
         for (StructuralChangesMarker marker : StructuralChangesMarker.values()) {
-            if (marker.getColour().toUpperCase().equals(colour.toUpperCase())) {
-                return marker;
-            }
+            markers.put(marker.getId(), marker);
         }
-        return StructuralChangesMarker.NEUTRAL;
+    }
+
+    StructuralChangesMarker(int id) {
+        _id = id;
     }
 
     public static StructuralChangesMarker fromId(int id){
-        for (StructuralChangesMarker marker : StructuralChangesMarker.values()) {
-            if (marker.getId() == id) {
-                return marker;
-            }
-        }
-        return StructuralChangesMarker.NEUTRAL;
+        return markers.computeIfAbsent(id, (i) -> StructuralChangesMarker.NEUTRAL);
     }
 
     public StructuralChangesMarker nextColor() {
-        return fromId(_id+1);
+        Integer nextId = markers.keySet().stream().sorted().filter(id -> id > _id).findFirst().orElse(NEUTRAL.getId());
+        return fromId(nextId);
     }
 }

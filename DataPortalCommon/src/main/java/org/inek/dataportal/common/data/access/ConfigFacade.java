@@ -27,6 +27,7 @@ import java.util.Map;
  * @author muellermi
  */
 @RequestScoped
+@Transactional
 // todo: find better name
 public class ConfigFacade extends AbstractDataAccess {
 

@@ -154,14 +154,20 @@ public class DeptEdit implements Serializable {
                 loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
             }
         } else {
-            _deptBaseInformation = _deptFacade.findDeptBaseInformation(Integer.parseInt(id));
-            loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
-            loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
-            if (!isAccessAllowed(_deptBaseInformation)) {
+            try {
+                _deptBaseInformation = _deptFacade.findDeptBaseInformation(Integer.parseInt(id));
+                loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
+                loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
+                if (!isAccessAllowed(_deptBaseInformation)) {
+                    Utils.navigate(Pages.NotAllowed.RedirectURL());
+                    return;
+                }
+                loadStationsAfterTargetYear(_deptBaseInformation);
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, "No DeptBaseInfo found for " + id);
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
-            loadStationsAfterTargetYear(_deptBaseInformation);
         }
         setReadOnly();
     }
@@ -180,16 +186,14 @@ public class DeptEdit implements Serializable {
     }
 
     private void setReadOnly() {
-        if (!_configFacade.readConfigBool(ConfigKey.IsCareSendEnabled)) {
+        if (!_configFacade.readConfigBool(ConfigKey.IsCareSendEnabled) || _deptBaseInformation == null) {
             setIsReadOnly(true);
             return;
         }
-        if (_deptBaseInformation != null) {
-            setIsReadOnly(_accessManager.isReadOnly(Feature.CARE,
-                    _deptBaseInformation.getStatus(),
-                    Integer.MIN_VALUE,
-                    _deptBaseInformation.getIk()));
-        }
+        setIsReadOnly(_accessManager.isReadOnly(Feature.CARE,
+                _deptBaseInformation.getStatus(),
+                Integer.MIN_VALUE,
+                _deptBaseInformation.getIk()));
     }
 
     private DeptBaseInformation createNewDeptBaseInformation() {

@@ -17,7 +17,6 @@ import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesWard
 import org.inek.dataportal.care.entities.StructuralChanges.WardsToChange;
 import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.care.enums.SensitiveArea;
-import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesMarker;
 import org.inek.dataportal.care.enums.StructuralChangesType;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
@@ -376,10 +375,6 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void save() {
-        if (baseInformationHasErrors(_structuralChangesBaseInformation)) {
-            return;
-        }
-
         saveConversation(false);
 
         _structuralChangesFacade.save(_structuralChangesBaseInformation);
@@ -446,7 +441,12 @@ public class StructuralChangesEdit implements Serializable {
     public boolean baseInformationHasErrors(StructuralChangesBaseInformation baseInfo) {
         List<StructuralChanges> structuralChanges = getChangesBaseInformationsByType(StructuralChangesType.CLOSE_TEMP);
         for (StructuralChanges structuralChange : structuralChanges) {
-            if (structuralChange.getWardsToChange().getValidFrom().after(structuralChange.getWardsToChange().getValidTo())) {
+            WardsToChange wardsToChange = structuralChange.getWardsToChange();
+            if (wardsToChange.getComment().trim().isEmpty()) {
+                DialogController.showInfoDialog("Änderungen unvollständig",
+                        "Bitte geben Sie eine Bemerkung an");
+            }
+            if (wardsToChange.getValidFrom().after(structuralChange.getWardsToChange().getValidTo())) {
                 DialogController.showInfoDialog("Temporäre Abmeldungen unplausibel",
                         "Bei den temporären Abmeldungen gibt es unplausible Gültigkeitszeiträume. Bitte korrigieren Sie Ihre Eingabe");
                 return true;
@@ -495,7 +495,9 @@ public class StructuralChangesEdit implements Serializable {
             return;
         }
         if (!_vzUtils.locationCodeIsValidForIk(_structuralChangesBaseInformation.getIk(), locationCode)) {
-            List<Integer> iks = _deptFacade.retrievePriorIk(_deptBaseInformation.getIk());
+            List<Integer> iks = _deptBaseInformation != null
+                    ? _deptFacade.retrievePriorIk(_deptBaseInformation.getIk())
+                    : new ArrayList<>();
             for (int ik : iks) {
                 if (_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
                     return;

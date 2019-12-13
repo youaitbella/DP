@@ -65,6 +65,8 @@ public enum ConfigKey {
     KhComparisonUploadPath("//vFileserver01/company$/EDV/Datenportal/documents/KH-Vergleich"),
     isKhComparisionInsuranceEnabled(false),
     ReportHostName("vreportserver01"),
+    CombitReportHostName("vreportserver01"),
+    InekReportHostName("vreportserver01"),
     VzHost("localhost:8000"),
     VzRestCheckVzNumber("https://{vzHost}/api/intern/v1.0/LocationIdExists?hospital_ik={ik}&location_identifier={vzNumber}"),
     CareStructuralChangesEnable(true);

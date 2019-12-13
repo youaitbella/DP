@@ -74,6 +74,7 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property RequestedAt">
     @Column(name = "scRequestedAt")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date _requestedAt = DateUtils.MIN_DATE;
 
     public Date getRequestedAt() {
@@ -100,6 +101,7 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property CreatedAt">
     @Column(name = "scCreatedAt")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date _createdAt = new Date();
 
     public Date getCreatedAt() {
@@ -141,6 +143,7 @@ public class StructuralChangesBaseInformation implements Serializable {
 
     //<editor-fold desc="Property AcceptedAt">
     @Column(name = "scAcceptedAt")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date acceptedAt = DateUtils.MIN_DATE;
 
     public Date getAcceptedAt() {
