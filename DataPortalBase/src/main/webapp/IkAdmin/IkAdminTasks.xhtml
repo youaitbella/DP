@@ -1,33 +1,44 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:pf="http://primefaces.org/ui">
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+>
 
     <ui:define name="content">
 
         <h:form>
             <h1>
                 <h:commandLink action="#{sessionController.navigate(sessionTools.pages.IkAdminSummary)}"
-                               value="#{featureMsg.nameIK_ADMIN} - #{ikAdminTasks.ik} #{applicationTools.retrieveHospitalInfo(ikAdminTasks.ik)}"
+                               value="#{featureMsg.nameIK_ADMIN} - #{ikAdminTaskController.ik} #{applicationTools.retrieveHospitalInfo(ikAdminTaskController.ik)}"
                                onclick="PF('navigationDialog').show();"
                                immediate="true" />
             </h1>
         </h:form>
+
         <h:form>
-            <pf:tabView styleClass="featureTabs" dynamic="true" id="ikAdminTabs">
-                <pf:tab title="Rechteverwaltung">
-                    <ui:include src="fragment/rightManagement.xhtml" />
-                </pf:tab>
-                <pf:tab title="Funktionszuweisung">
-                    <ui:include src="fragment/userManagement.xhtml" />
-                </pf:tab>
-                <pf:tab title="Zuständigkeiten" rendered="#{responsibleForEditor.containsResponsibility}">
-                    <ui:include src="fragment/responsibilityManagement.xhtml" />
-                </pf:tab>
-            </pf:tabView>
+            <div class="tab" jsf:rendered="#{ikAdminTasks.containsResponsibility}">
+                <ul class="tab">
+                    <ui:repeat value="#{ikAdminTaskController.topics}" var="topic">
+                        <li class="#{topic.active ? 'activetab' : 'tab'}">
+                            <h:commandLink value="#{topic.title}"
+                                           action="#{ikAdminTaskController.changeTabPage(topic.key)}"
+                                           immediate="false">
+                                <f:param name="ik" value="#{ikAdminTaskController.ik}"/>
+
+                            </h:commandLink>
+                        </li>
+
+                    </ui:repeat>
+                </ul>
+            </div>
+
+            <div class="edit">
+                <ui:insert name="ikAdminContent">Content</ui:insert>
+            </div>
+
         </h:form>
 
     </ui:define>

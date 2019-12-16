@@ -226,6 +226,8 @@ public enum Pages {
     PartIkAdmin("/IkAdmin/PartIkAdmin"),
     IkAdminList("/IkAdmin/fragment/IkList"),
     IkAdminTasks("/IkAdmin/IkAdminTasks"),
+    IkAdminRightManagement("/IkAdmin/rightManagement"),
+    IkAdminResponsibilityManagement("/IkAdmin/responsibilityManagement"),
     //
     RequestSummary("/RequestSystem/RequestSummary"),
     PartRequest("/RequestSystem/PartRequest"),

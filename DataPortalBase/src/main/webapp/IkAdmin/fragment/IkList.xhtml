@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -12,7 +13,7 @@
                   tableStyle="table-layout: auto; width: 99%"
                   rendered="#{ikAdminList.account.disclaimerConfirmed}">
         <pf:column headerText="IK">
-            <h:link outcome="#{sessionTools.pages.IkAdminTasks}"
+            <h:link outcome="#{sessionTools.pages.IkAdminRightManagement}"
                     value="#{ik}" >
                 <f:param name="ik" value="#{ik}"/>
             </h:link>

@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 
 @Named
 @ViewScoped
-public class ResponsibleForEditor {
+public class ResponsibleForEditor implements Serializable {
     private static final Logger LOGGER = Logger.getLogger("ResponsibleForEditor");
 
     @Inject
@@ -123,7 +124,7 @@ public class ResponsibleForEditor {
             DialogController.showSaveDialog();
             return "";
         } else {
-            DialogController.showWarningDialog("Fehler beim speichern", errorMessages.toString());
+            DialogController.showWarningDialog("Fehler beim Speichern", errorMessages.toString());
             return "";
         }
     }

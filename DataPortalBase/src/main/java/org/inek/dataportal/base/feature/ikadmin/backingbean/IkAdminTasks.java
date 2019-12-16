@@ -2,6 +2,7 @@ package org.inek.dataportal.base.feature.ikadmin.backingbean;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.IkReference;
+import org.inek.dataportal.api.enums.IkUsage;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -118,6 +119,11 @@ public class IkAdminTasks implements Serializable {
                 .filter(f -> f.getIkReference() != IkReference.None)
                 .collect(Collectors.toList());
         return features;
+    }
+
+    public Boolean getContainsResponsibility() {
+        return _accessRights.stream().
+                anyMatch(r -> r.getFeature().getIkUsage() == IkUsage.ByResponsibilityAndCorrelation);
     }
 
     public String saveAccessRights() {
