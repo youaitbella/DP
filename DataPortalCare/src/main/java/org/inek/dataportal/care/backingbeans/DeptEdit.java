@@ -380,7 +380,7 @@ public class DeptEdit implements Serializable {
     }
 
     private boolean isAfterEndDate() {
-        Date endDate = _deptBaseInformation.getExtensionRequested().equals(DateUtils.MIN_DATE)
+        Date endDate = _deptBaseInformation == null || _deptBaseInformation.getExtensionRequested().equals(DateUtils.MIN_DATE)
                 ? DateUtils.createDate(2019, Month.DECEMBER, 21)
                 : DateUtils.createDate(2020, Month.JANUARY, 11);
         return new Date().compareTo(endDate) >= 0;
@@ -514,7 +514,7 @@ public class DeptEdit implements Serializable {
     }
 
     public boolean isMinDate() {
-        return _deptBaseInformation.getExtensionRequested().compareTo(DateUtils.MIN_DATE) == 0;
+        return _deptBaseInformation != null && _deptBaseInformation.getExtensionRequested().compareTo(DateUtils.MIN_DATE) == 0;
     }
 
     public void applyExtension(){
