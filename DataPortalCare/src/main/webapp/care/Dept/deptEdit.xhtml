@@ -154,7 +154,8 @@
                                           iconPos="right"
                                           update="@(.ui-message) @form"/>
 
-                        <pf:commandButton value="Fristverlängerung beantragen"
+                        <pf:commandButton id="btnExtension"
+                                          value="Fristverlängerung beantragen"
                                           rendered="#{not deptEdit.isReadOnly and deptEdit.isExtensionAllowed()}"
                                           action="#{deptEdit.applyExtension()}"
                                           update="@(.ui-message) buttons"

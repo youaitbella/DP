@@ -508,7 +508,8 @@ public class DeptEdit implements Serializable {
     }
 
     public boolean isExtensionAllowed() {
-        return  isMinDate()
+        return _deptBaseInformation.getIk() > 0
+                && isMinDate()
                 && new Date().compareTo(DateUtils.createDate(2020, Month.JANUARY, 11)) < 0;
     }
 
