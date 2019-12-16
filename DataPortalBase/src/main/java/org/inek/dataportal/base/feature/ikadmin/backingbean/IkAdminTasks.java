@@ -2,14 +2,12 @@ package org.inek.dataportal.base.feature.ikadmin.backingbean;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.IkReference;
-import org.inek.dataportal.api.enums.IkUsage;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.common.User;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.Right;
@@ -33,7 +31,6 @@ public class IkAdminTasks implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("IkAdminTasks");
-    private final Map<String, List<AccountResponsibility>> _responsibleForIks = new HashMap<>();
     @Inject
     private SessionController _sessionController;
     @Inject
@@ -121,57 +118,6 @@ public class IkAdminTasks implements Serializable {
                 .filter(f -> f.getIkReference() != IkReference.None)
                 .collect(Collectors.toList());
         return features;
-    }
-
-    public Boolean getContainsResponsibility() {
-        return _accessRights.stream().
-                anyMatch(r -> r.getFeature().getIkUsage() == IkUsage.ByResponsibilityAndCorrelation);
-    }
-
-    public List<AccessRight> getResponsibilities() {
-        return _accessRights
-                .stream()
-                .filter(r -> r.getRight() != Right.Deny)
-                .filter(r -> r.getFeature().getIkUsage() == IkUsage.ByResponsibilityAndCorrelation)
-                .collect(Collectors.toList());
-    }
-
-    private String buildKey(int accountId, Feature feature, int ik) {
-        return accountId + "|" + feature.name() + "|" + ik;
-    }
-
-    public List<AccountResponsibility> obtainIkList(int accountId, Feature feature) {
-        String key = buildKey(accountId, feature, _ik);
-        if (!_responsibleForIks.containsKey(key)) {
-            List<AccountResponsibility> responsibleForIks = _ikAdminFacade.
-                    obtainAccountResponsibilities(accountId, feature, _ik);
-            _responsibleForIks.put(key, responsibleForIks);
-        }
-        return _responsibleForIks.get(key);
-    }
-
-    public void deleteIk(int accountId, Feature feature, AccountResponsibility responsibility) {
-        String key = buildKey(accountId, feature, _ik);
-        _responsibleForIks.get(key).remove(responsibility);
-    }
-
-    public void addIk(int accountId, Feature feature) {
-        String key = buildKey(accountId, feature, _ik);
-        _responsibleForIks.get(key).add(new AccountResponsibility(accountId, feature, _ik, 0));
-    }
-
-    public String saveResponsibilities() {
-
-        StringBuilder errorMessages = new StringBuilder();
-
-        if (AccessRightHelper.responsibilitiesHasNotToMuchUsers(_responsibleForIks, errorMessages)) {
-            _ikAdminFacade.saveResponsibilities(_responsibleForIks);
-            DialogController.showSaveDialog();
-            return "";
-        } else {
-            DialogController.showWarningDialog("Fehler beim speichern", errorMessages.toString());
-            return "";
-        }
     }
 
     public String saveAccessRights() {

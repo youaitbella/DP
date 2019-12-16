@@ -10,14 +10,14 @@
         <pf:dataTable id="iks"
                       var="responsibleForIk"
                       widgetVar="wIks#{userRow}"
-                      value="#{ikAdminTasks.obtainIkList(right.accountId, right.feature)}"
+                      value="#{responsibleForEditor.obtainIkList(right.accountId, right.feature)}"
                       emptyMessage="Keine IK's eingetragen"
                       rowIndexVar="rowIndex"
                       tableStyle="width: auto">
 
             <pf:column class="colIcon">
                 <pf:commandLink rendered="true"
-                                action="#{ikAdminTasks.deleteIk(right.accountId, right.feature, responsibleForIk)}"
+                                action="#{responsibleForEditor.deleteIk(right.accountId, right.feature, responsibleForIk)}"
                                 update="iks"
                                 process="@this">
                     <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
@@ -44,7 +44,8 @@
 
         <br />
         <div>
-            <pf:commandButton value="IK hinzufügen" icon="fa fa-plus" process="@this" action="#{ikAdminTasks.addIk(right.accountId, right.feature)}" update="iks" />
+            <pf:commandButton value="IK hinzufügen" icon="fa fa-plus" process="@this"
+                              action="#{responsibleForEditor.addIk(right.accountId, right.feature)}" update="iks"/>
         </div>
 
     </div>

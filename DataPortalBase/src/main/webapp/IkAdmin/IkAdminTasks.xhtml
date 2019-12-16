@@ -24,7 +24,7 @@
                 <pf:tab title="Funktionszuweisung">
                     <ui:include src="fragment/userManagement.xhtml" />
                 </pf:tab>
-                <pf:tab title="Zuständigkeiten" rendered="#{ikAdminTasks.containsResponsibility}">
+                <pf:tab title="Zuständigkeiten" rendered="#{responsibleForEditor.containsResponsibility}">
                     <ui:include src="fragment/responsibilityManagement.xhtml" />
                 </pf:tab>
             </pf:tabView>

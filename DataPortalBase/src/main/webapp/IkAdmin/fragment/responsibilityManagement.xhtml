@@ -7,7 +7,7 @@
 
     <h2>Zuständigkeiten (für andere IK)</h2>
         <pf:dataTable id="accessRightsResponsibilities"
-                      value="#{ikAdminTasks.responsibilities}"
+                      value="#{responsibleForEditor.responsibilities}"
                       var="right"
                       emptyMessage="Keine Einträge vorhanden"
                       rows="50"
@@ -38,7 +38,7 @@
         </pf:dataTable>
 
         <pf:commandButton value="#{msg.btnSave}"
-                          action="#{ikAdminTasks.saveResponsibilities()}"
+                          action="#{responsibleForEditor.saveResponsibilities()}"
                           styleClass="btnDrg"
                           update="@form"
                           immediate="false" />
