@@ -91,7 +91,7 @@
 
             <ui:include src="deptWard.xhtml"/>
 
-            <div class="ui-g">
+            <div class="ui-g" jsf:rendered="#{deptEdit.deptBaseInformation.ik gt 0}">
                 <div class="card">
                     <div class="ui-g-12" jsf:id="buttons">
 
@@ -142,6 +142,7 @@
                                           action="#{deptEdit.save()}"
                                           rendered="#{!deptEdit.isReadOnly and deptEdit.saveAllowed()}"
                                           style="margin-left: 10px;"
+                                          immediate="true"
                                           update="@(.ui-message) @form"/>
 
                         <pf:commandButton value="Meldung abschließend ans InEK senden"
