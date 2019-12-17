@@ -508,7 +508,8 @@ public class DeptEdit implements Serializable {
     }
 
     public boolean isExtensionAllowed() {
-        return _deptBaseInformation.getIk() > 0
+        return _deptBaseInformation != null
+                && _deptBaseInformation.getIk() > 0
                 && isMinDate()
                 && new Date().compareTo(DateUtils.createDate(2020, Month.JANUARY, 11)) < 0;
     }
@@ -517,7 +518,7 @@ public class DeptEdit implements Serializable {
         return _deptBaseInformation != null && _deptBaseInformation.getExtensionRequested().compareTo(DateUtils.MIN_DATE) == 0;
     }
 
-    public void applyExtension(){
+    public void applyExtension() {
         _deptBaseInformation.setExtensionRequested(new Date());
         save();
         sendMail("CareDeptExtensionRequested");
