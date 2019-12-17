@@ -30,7 +30,7 @@ public class DateUtils {
     public static Date addDays(Date date, int offset) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.add(Calendar.HOUR, 24 * offset);
+        calendar.add(Calendar.DATE, offset);
         return calendar.getTime();
     }
 
