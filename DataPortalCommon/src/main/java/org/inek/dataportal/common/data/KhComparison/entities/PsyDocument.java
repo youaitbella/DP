@@ -2,10 +2,10 @@ package org.inek.dataportal.common.data.KhComparison.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
-import javax.persistence.*;
 
 /**
  *
@@ -102,6 +102,7 @@ public class PsyDocument implements Serializable {
     }
     //</editor-fold>
 
+    @JsonIgnore
     public String getContentTyp() {
         String[] content = _name.split("\\.");
         return content[content.length - 1];
