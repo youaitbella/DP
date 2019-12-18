@@ -347,7 +347,7 @@ public class Evaluation {
     }
 
     public StreamedContent downloadEvaluation(HospitalComparisonInfo evaluation) {
-        String jobFolder = evaluation.getHospitalComparisonJob().getEvaluationFilePath(_config.readConfig(ConfigKey.KhComparisonJobSavePath));
+        String jobFolder = evaluation.getHospitalComparisonJob().getEvaluationFilePath(determineSaveFolder());
         try {
             byte[] bytes = Files.readAllBytes(Paths.get(jobFolder));
             ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
@@ -378,7 +378,7 @@ public class Evaluation {
         }
         if (userIsAllowedForDownloadIEvaluation(info)) {
             try {
-                String jobFolder = info.getHospitalComparisonJob().getEvaluationFilePath(_config.readConfig(ConfigKey.KhComparisonJobSavePath));
+                String jobFolder = info.getHospitalComparisonJob().getEvaluationFilePath(determineSaveFolder());
                 byte[] bytes = Files.readAllBytes(Paths.get(jobFolder));
                 InputStream is = new ByteArrayInputStream(bytes);
                 Utils.downLoadDocument(is, info.getHospitalComparisonJob().getEvaluationFileName(), 0);
@@ -392,6 +392,15 @@ public class Evaluation {
         }
         return "";
     }
+
+    private String determineSaveFolder() {
+        String rootFolder = _config.readConfig(ConfigKey.FolderRoot);
+        if ("/".equals(rootFolder.substring(rootFolder.length() - 1))) {
+            rootFolder = rootFolder.substring(0, rootFolder.length() - 1);
+        }
+        return _config.readConfig(ConfigKey.KhComparisonJobSavePath).replace("{root}", rootFolder);
+    }
+
 
     private boolean userIsAllowedForDownloadIEvaluation(HospitalComparisonInfo info) {
         Set<Integer> iks = _accessManager.retrieveAllowedManagedIks(Feature.HC_HOSPITAL);

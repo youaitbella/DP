@@ -100,7 +100,7 @@ public class ScannerTimer {
     }
 
     private void createFolderForJob() {
-        _jobSaveFile = new File(_currentJob.getJobFolder(_config.readConfig(ConfigKey.KhComparisonJobSavePath)));
+        _jobSaveFile = new File(_currentJob.getJobFolder(determineSaveFolder()));
         try {
             if (_jobSaveFile.exists()) {
                 Files.walk(_jobSaveFile.toPath())
@@ -162,7 +162,7 @@ public class ScannerTimer {
 
     private void copyAccountDocumentZipToDataPortal(String zipFilePath) {
         Path source = Paths.get(zipFilePath);
-        Path destination = Paths.get(_config.readConfig(ConfigKey.KhComparisonUploadPath) + "/" + source.getFileName());
+        Path destination = Paths.get(determineUploadFolder() + "/" + source.getFileName());
 
         try {
             logJobInfo("copy [" + source + "] to [" + destination + "]");
@@ -229,7 +229,7 @@ public class ScannerTimer {
     }
 
     private String buildZipFileName() {
-        return _currentJob.getEvaluationFilePath(_config.readConfig(ConfigKey.KhComparisonJobSavePath));
+        return _currentJob.getEvaluationFilePath(determineSaveFolder());
     }
 
     private String buildAccountDokZipFileName() {
@@ -327,4 +327,22 @@ public class ScannerTimer {
         }
         LOGGER.log(Level.INFO, "Timer stopped");
     }
+
+    private String determineSaveFolder() {
+        String rootFolder = _config.readConfig(ConfigKey.FolderRoot);
+        if ("/".equals(rootFolder.substring(rootFolder.length() - 1))) {
+            rootFolder = rootFolder.substring(0, rootFolder.length() - 1);
+        }
+        return _config.readConfig(ConfigKey.KhComparisonJobSavePath).replace("{root}", rootFolder);
+    }
+
+    private String determineUploadFolder() {
+        String rootFolder = _config.readConfig(ConfigKey.FolderRoot);
+        if ("/".equals(rootFolder.substring(rootFolder.length() - 1))) {
+            rootFolder = rootFolder.substring(0, rootFolder.length() - 1);
+        }
+        return _config.readConfig(ConfigKey.KhComparisonUploadPath).replace("{root}", rootFolder);
+    }
+
+
 }
