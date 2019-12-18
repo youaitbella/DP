@@ -71,9 +71,9 @@
             </div>
 
             <div>
-                <h:outputLabel styleClass="label element10em"
-                               value="Funktion: "
-                               for="missingFeatures"/>
+                <pf:outputLabel styleClass="label element10em"
+                                value="Funktion: "
+                                for="missingFeatures"/>
                 <pf:selectOneMenu id="missingFeatures" value="#{ikAdminTasks.featureId}">
                     <f:selectItem itemLabel="#{msg.itemChoose}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItems value="#{ikAdminTasks.missingFeatures}" var="f" itemValue="#{f.id}"
