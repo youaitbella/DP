@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 @Named
 public class MessageProvider {
 
-    private final int MaxMessages = 200;
+    private final int MAX_MESSAGES = 200;
     private final LinkedList<String> _messages = new LinkedList<>();
     protected static final Logger LOGGER = Logger.getLogger("MessageProvider");
 
@@ -42,7 +42,7 @@ public class MessageProvider {
     public synchronized void addMessage(String message) {
         String currentTS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS").format(new Date());
         _messages.addFirst(currentTS + " - " + message);
-        if (_messages.size() > MaxMessages) {
+        if (_messages.size() > MAX_MESSAGES) {
             _messages.pollLast();
         }
         LOGGER.log(Level.INFO, message);
