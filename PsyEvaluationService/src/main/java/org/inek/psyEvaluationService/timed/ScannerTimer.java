@@ -10,6 +10,7 @@ import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.mail.Mailer;
+import org.inek.psyEvaluationService.backingBean.MessageProvider;
 
 import javax.annotation.Resource;
 import javax.ejb.Timer;
@@ -48,6 +49,8 @@ public class ScannerTimer {
     private ReportController _reportController;
     @Inject
     private Mailer _mailer;
+    @Inject
+    private MessageProvider _messageProvider;
 
     @Resource
     private TimerService _timerService;
@@ -311,21 +314,21 @@ public class ScannerTimer {
     }
 
     private void logJobInfo(HospitalComparisonJob job, String message) {
-        LOGGER.log(Level.INFO, "Job [" + job.getId() + "] " + message);
+        _messageProvider.addMessage("Job [" + job.getId() + "] " + message);
     }
 
     public void startTimer() {
         ScheduleExpression expression = new ScheduleExpression();
         expression.second("*/30").minute("*").hour("*");
         _timerService.createCalendarTimer(expression);
-        LOGGER.log(Level.INFO, "Timer started");
+        _messageProvider.addMessage("Timer started");
     }
 
     public void stopTimer() {
         for (Timer allTimer : _timerService.getAllTimers()) {
             allTimer.cancel();
         }
-        LOGGER.log(Level.INFO, "Timer stopped");
+        _messageProvider.addMessage("Timer stopped");
     }
 
     private String determineSaveFolder() {

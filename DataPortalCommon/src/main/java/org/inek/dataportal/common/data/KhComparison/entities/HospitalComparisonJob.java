@@ -33,10 +33,20 @@ public class HospitalComparisonJob implements Serializable {
     @JoinColumn(name = "hcsHospitalComparisonInfoId")
     private HospitalComparisonInfo _hospitalComparisonInfo;
     // </editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property Status">
     @Column(name = "hcsStatus")
     private String _status;
+
+    public PsyHosptalComparisonStatus getStatus() {
+        return PsyHosptalComparisonStatus.valueOf(_status);
+    }
+
+    public void setStatus(PsyHosptalComparisonStatus status) {
+        this._status = status.name();
+    }
     //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property hcsCreatedAt">
     @Column(name = "hcsCreatedAt", insertable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -69,15 +79,6 @@ public class HospitalComparisonJob implements Serializable {
     }
     //</editor-fold>
 
-    public PsyHosptalComparisonStatus getStatus() {
-        return PsyHosptalComparisonStatus.valueOf(_status);
-    }
-
-    ;
-
-    public void setStatus(PsyHosptalComparisonStatus status) {
-        this._status = status.name();
-    }
 
     public Date getStartWorking() {
         return _startWorking;
