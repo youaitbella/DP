@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 @Named
 public class MessageProvider {
 
-    private final int MAX_MESSAGES = 200;
+    private static final int MAX_MESSAGES = 200;
     private final LinkedList<String> _messages = new LinkedList<>();
     protected static final Logger LOGGER = Logger.getLogger("MessageProvider");
 
