@@ -127,7 +127,7 @@ public class AEBFacade extends AbstractDataAccess {
                 "\tfrom psy.AEBBaseInformation\n" +
                 "\twhere biid = " + id + "\n" +
                 ") \n" +
-                "and a.biStatusId in (10, 200)\n" +
+                "and a.biStatusId in (10)\n" +
                 "order by a.biStatusId, a.biSend desc";
         Query query = getEntityManager().createNativeQuery(sql, AEBBaseInformation.class);
 
@@ -211,7 +211,7 @@ public class AEBFacade extends AbstractDataAccess {
     public List<Integer> getUsedDataYears(int ik) {
         String sql = "select distinct biDataYear from psy.AEBBaseInformation\n"
                 + "where biIk = " + ik + "\n"
-                + "and biStatusId in (10, 3, 200)";
+                + "and biStatusId in (10)";
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked")
         List<Integer> result = query.getResultList();

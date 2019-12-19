@@ -148,21 +148,22 @@ public class Evaluation {
     }
 
     public void startEvaluation() {
-        if (isReadyForEvaluation()) {
-            Customer customer = _customerFacade.getCustomerByIK(_selectedIk);
-            if (createHospitalComparisonInfo(customer)) {
-                DialogController.showInfoDialog("Auswertung gestartet", "Ihre Auswertung wird gerade bearbeitet. " +
-                        "Dies kann einige Minuten dauern. Bitte haben Sie etwas Geduld. " +
-                        "Sobald die Datei fertig erstellt ist, wird diese Ihnen im Datenportal zur Verfügung gestellt. " +
-                        "Sie erhalten dann eine Benachrichtigung per Mail.");
-                setEvaluationsList();
-
-            } else {
-                DialogController.showInfoDialog("Keine Auswertung möglich", "Es konnte keine Vergleichsgruppe gebildet " +
-                        "werden. Bitte versuchen Sie es später nocheinmal.");
-            }
-        } else {
+        if (!isReadyForEvaluation()) {
             DialogController.showErrorDialog("Daten unvollständig", "Bitte wählen Sie eine gültige IK und Vereinbarungsjahr.");
+            return;
+        }
+
+        Customer customer = _customerFacade.getCustomerByIK(_selectedIk);
+        if (createHospitalComparisonInfo(customer)) {
+            DialogController.showInfoDialog("Auswertung gestartet", "Ihre Auswertung wird gerade bearbeitet. " +
+                    "Dies kann einige Minuten dauern. Bitte haben Sie etwas Geduld. " +
+                    "Sobald die Datei fertig erstellt ist, wird diese Ihnen im Datenportal zur Verfügung gestellt. " +
+                    "Sie erhalten dann eine Benachrichtigung per Mail.");
+            setEvaluationsList();
+
+        } else {
+            DialogController.showInfoDialog("Keine Auswertung möglich", "Es konnte keine Vergleichsgruppe gebildet " +
+                    "werden. Bitte versuchen Sie es später nocheinmal.");
         }
     }
 
@@ -179,8 +180,9 @@ public class Evaluation {
         newInfo.setHospitalIk(_selectedIk);
         newInfo.setCreatedAt(new Date());
         newInfo.setHospitalComparisonId(createNewHcId());
-        newInfo.setHospitalStateId(cus.getPsyState().equals(State.Unknown) ? cus.getState().getId() : cus.getState().getId());
-        if (_aebFacade.getUsedDataYears(_selectedIk).size() == 1 && _aebFacade.getUsedDataYears(_selectedIk).contains(2018)) {
+        newInfo.setHospitalStateId(cus.getPsyState().equals(State.Unknown) ? cus.getState().getId() : cus.getPsyState().getId());
+        List<Integer> usedDataYears = _aebFacade.getUsedDataYears(_selectedIk);
+        if (usedDataYears.size() == 1 && usedDataYears.contains(2018)) {
             newInfo.setHospitalPsyGroup(_aebFacade.getPsyGroupByIkAndYear(_selectedIk, _selectedAgreementYear - 2));
         } else {
             newInfo.setHospitalPsyGroup(_aebFacade.getPsyGroupByIkAndYear(_selectedIk, _selectedAgreementYear - 1));
