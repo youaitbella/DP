@@ -17,14 +17,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static org.inek.dataportal.api.helper.PortalConstants.END_PARAGRAPH;
-import static org.inek.dataportal.api.helper.PortalConstants.SEPERATOR;
 
 public class PortalExceptionHandler extends ExceptionHandlerWrapper {
 
@@ -74,7 +70,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             i.remove();
         }
         if (messageCollector.length() > 0) {
-            messageCollector.insert(0, collectUrlInformation());
+            messageCollector.insert(0, Utils.collectUrlInformation());
             SendExeptionMessage(messageCollector.toString());
         }
         Utils.navigate(targetPage);
@@ -146,30 +142,6 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             LOGGER.log(Level.SEVERE, head, exception);
             messageCollector.append(ExceptionCollector.collect(head, exception));
         }
-    }
-
-
-    private StringBuilder collectUrlInformation() {
-        StringBuilder collector = new StringBuilder();
-        try {
-            FacesContext context = FacesContext.getCurrentInstance();
-            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            String url = request.getRequestURL().toString();
-            collector.append("URL ").append(url).append(request.getQueryString()).append(END_PARAGRAPH);
-            collector.append(SEPERATOR);
-
-            String viewId = context.getViewRoot().getViewId();
-            collector.append("ViewId ").append(viewId).append(END_PARAGRAPH);
-            collector.append("ClientIP: ").append(Utils.getClientIP()).append("\r\n");
-            if (_sessionController != null && _sessionController.isLoggedIn()) {
-                collector.append("AccountId: ").append(_sessionController.getAccount()).append("\r\n");
-            }
-            collector.append(SEPERATOR);
-        } catch (Exception ex) {
-            collector.append("Exception whilst collection info ").append(ex.getMessage()).append(END_PARAGRAPH);
-            collector.append(SEPERATOR);
-        }
-        return collector;
     }
 
     private void SendExeptionMessage(String msg) {

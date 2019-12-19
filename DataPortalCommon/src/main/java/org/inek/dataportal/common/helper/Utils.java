@@ -41,6 +41,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.inek.dataportal.api.helper.PortalConstants.END_PARAGRAPH;
+import static org.inek.dataportal.api.helper.PortalConstants.MESSAGE_SEPERATOR;
+
 /**
  *
  * @author muellermi
@@ -147,6 +150,26 @@ public class Utils {
         ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, "#{" + name + "}", type);
         //return (T) valueExpression.getValue(elContext);
         return type.cast(valueExpression.getValue(elContext));
+    }
+
+    public static StringBuilder collectUrlInformation() {
+        StringBuilder collector = new StringBuilder();
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+            String url = request.getRequestURL().toString();
+            collector.append("URL ").append(url).append(request.getQueryString()).append(END_PARAGRAPH);
+            collector.append(MESSAGE_SEPERATOR);
+
+            String viewId = context.getViewRoot().getViewId();
+            collector.append("ViewId ").append(viewId).append(END_PARAGRAPH);
+            collector.append("ClientIP: ").append(Utils.getClientIP()).append("\r\n");
+            collector.append(MESSAGE_SEPERATOR);
+        } catch (Exception ex) {
+            collector.append("Exception whilst collection info ").append(ex.getMessage()).append(END_PARAGRAPH);
+            collector.append(MESSAGE_SEPERATOR);
+        }
+        return collector;
     }
 
     public static Flash getFlash() {

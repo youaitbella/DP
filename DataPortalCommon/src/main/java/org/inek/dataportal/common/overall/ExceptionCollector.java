@@ -1,7 +1,7 @@
 package org.inek.dataportal.common.overall;
 
 import static org.inek.dataportal.api.helper.PortalConstants.END_PARAGRAPH;
-import static org.inek.dataportal.api.helper.PortalConstants.SEPERATOR;
+import static org.inek.dataportal.api.helper.PortalConstants.MESSAGE_SEPERATOR;
 
 public class ExceptionCollector {
 
@@ -20,7 +20,7 @@ public class ExceptionCollector {
 
     private void collectException(StringBuilder collector, String head, Throwable exception, int level) {
         if (collector.length() > 0) {
-            collector.append(SEPERATOR);
+            collector.append(MESSAGE_SEPERATOR);
         }
         collector.append("Level: ").append(level).append(END_PARAGRAPH);
         collector.append(head).append(END_PARAGRAPH);
