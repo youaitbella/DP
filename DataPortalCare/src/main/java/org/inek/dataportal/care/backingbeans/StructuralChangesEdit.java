@@ -136,6 +136,9 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public List<DeptWard> getWards() {
+        if (_wards == null || _wards.isEmpty()) {
+            return new ArrayList<>();
+        }
         return _wards.stream().sorted(Comparator.comparing(this::determineSortKey)).collect(Collectors.toList());
     }
 
