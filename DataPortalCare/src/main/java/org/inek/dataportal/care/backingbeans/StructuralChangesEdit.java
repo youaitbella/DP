@@ -798,7 +798,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void changeMarkerValue(StructuralChanges changes) {
-        changes.setStructuralChangesMarker(changes.getStructuralChangesMarker().nextColor());
+        changes.setStructuralChangesMarker(changes.getStructuralChangesMarker().nextMarker());
     }
 
 

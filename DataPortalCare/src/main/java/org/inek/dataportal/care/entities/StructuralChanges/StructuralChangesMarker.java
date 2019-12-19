@@ -28,10 +28,11 @@ public enum StructuralChangesMarker {
     }
 
     public static StructuralChangesMarker fromId(int id){
+        // no error handling for unknown id (e.g. removed id). return neutral instead.
         return markers.computeIfAbsent(id, (i) -> StructuralChangesMarker.NEUTRAL);
     }
 
-    public StructuralChangesMarker nextColor() {
+    public StructuralChangesMarker nextMarker() {
         Integer nextId = markers.keySet().stream().sorted().filter(id -> id > _id).findFirst().orElse(NEUTRAL.getId());
         return fromId(nextId);
     }
