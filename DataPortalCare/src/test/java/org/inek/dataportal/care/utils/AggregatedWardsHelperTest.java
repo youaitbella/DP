@@ -90,6 +90,13 @@ class AggregatedWardsHelperTest {
         return createDeptWard(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.DECEMBER, 31), name, deptName, p21, vz, fab);
     }
 
+    @Test
+    void emptyWardsGenereateEmptyList() {
+        List<DeptWard> wards = new ArrayList<>();
+        List<AggregatedWards> aggregatedWards = new AggregatedWardsHelper().aggregatedWards(wards);
+        Assertions.assertThat(aggregatedWards).hasSize(0);
+    }
+
     // temp disabled @Test
     void generateAggregatedWardsFromWardsWithMultipleStationsTest() {
         List<DeptWard> wards = new ArrayList<>();
