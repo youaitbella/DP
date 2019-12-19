@@ -75,6 +75,13 @@
                                   rendered="#{evaluation.createNewEvaluationAllowed}"
                                   update="auswertungsTable"
                                   styleClass="btnPsy"
+                                  immediate="false"/>
+
+                <pf:commandButton value="Öffentliche Auswertung starten"
+                                  action="#{evaluation.startEvaluation()}"
+                                  rendered="#{sessionController.isInekUser('HC_HOSPITAL')}"
+                                  update="auswertungsTable"
+                                  styleClass="btnPsy"
                                   immediate="true"/>
 
                 <div class="ui-g ui-fluid">
