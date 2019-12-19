@@ -563,7 +563,8 @@ public class StructuralChangesEdit implements Serializable {
                 d.addDeptWard(ward);
             });
         }
-        _deptBaseInformation.setCurrentVersion(wards.get(0).getMapVersion());
+        MapVersion version = wards.isEmpty() ? new MapVersion(_sessionController.getAccountId()) : wards.get(0).getMapVersion();
+        _deptBaseInformation.setCurrentVersion(version);
         _deptFacade.save(_deptBaseInformation);
     }
 
