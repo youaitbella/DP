@@ -3,7 +3,7 @@ package org.inek.dataportal.common.overall;
 import static org.inek.dataportal.api.helper.PortalConstants.END_PARAGRAPH;
 import static org.inek.dataportal.api.helper.PortalConstants.MESSAGE_SEPERATOR;
 
-public class ExceptionCollector {
+public final class ExceptionCollector {
 
     private ExceptionCollector() {
     }
