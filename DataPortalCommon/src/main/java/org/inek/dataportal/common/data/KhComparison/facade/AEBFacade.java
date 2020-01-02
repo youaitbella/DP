@@ -379,15 +379,6 @@ public class AEBFacade extends AbstractDataAccess {
         }
     }
 
-    public void insertNewCompatingConflict(AEBBaseInformation aebBaseInformation1, HospitalComparisonHospitals hospital) {
-        String sqlTemplate = "insert into psy.HospitalComparisonConflicts" +
-                "(hccHospitalComparisonEvaluationId, hccAebBaseInformationId1, hccAebBaseInformationId2) values(%s, %s, %s)";
-
-        String sql = String.format(sqlTemplate, hospital.getId(), hospital.getAebBaseInformationId(), aebBaseInformation1);
-
-        getEntityManager().createNativeQuery(sql).executeUpdate();
-    }
-
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Optional<HospitalComparisonJob> getOldestNewJob() {
         String sql = "SELECT jo FROM HospitalComparisonJob jo WHERE jo._status = :status order by jo._createdDate";

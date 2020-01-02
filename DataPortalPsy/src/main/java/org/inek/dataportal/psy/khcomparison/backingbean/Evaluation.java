@@ -4,8 +4,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
-import org.inek.dataportal.common.data.KhComparison.entities.*;
+import org.inek.dataportal.common.data.KhComparison.entities.HospitalComparisonEvaluation;
+import org.inek.dataportal.common.data.KhComparison.entities.HospitalComparisonHospitals;
+import org.inek.dataportal.common.data.KhComparison.entities.HospitalComparisonInfo;
+import org.inek.dataportal.common.data.KhComparison.entities.HospitalComparisonJob;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyEvaluationType;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonHospitalsType;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonStatus;
@@ -188,7 +190,6 @@ public class Evaluation {
         newInfo.setHospitalPsyGroup(_aebFacade.getPsyGroupByIkAndYear(_selectedIk, maxYear));
         ensureHospitalComparisonEvaluations(newInfo);
         ensureHospitalComparisonJob(newInfo);
-        ensureAebConflicts(newInfo);
         if (newInfo.getHospitalComparisonEvaluation().isEmpty()) {
             return false;
         }
@@ -196,27 +197,8 @@ public class Evaluation {
         return true;
     }
 
-    private void ensureAebConflicts(HospitalComparisonInfo newInfo) {
-        for (HospitalComparisonEvaluation evaluation : newInfo.getHospitalComparisonEvaluation()) {
-            for (HospitalComparisonHospitals hospital : evaluation.getHospitalComparisonHospitalsGroup()) {
-                Optional<AEBBaseInformation> baseInfo = _aebFacade.getBaseInformationForComparing(hospital.getAebBaseInformationId());
-                if (baseInfo.isPresent()) {
-                    AEBBaseInformation aebBaseInformation1 = baseInfo.get();
-                    AEBBaseInformation aebBaseInformation2 = _aebFacade.findAEBBaseInformation(hospital.getId());
-                    AebComparer comparer = new AebComparer();
-                    if (!comparer.compare(aebBaseInformation1, aebBaseInformation2)) {
-                        _aebFacade.insertNewCompatingConflict(aebBaseInformation1, hospital);
-                    }
-                }
-            }
-        }
-
-    }
-
-    private void ensureHospitalComparisonJob(HospitalComparisonInfo newInfo) {
-        HospitalComparisonJob newJob = new HospitalComparisonJob();
-        newJob.setStatus(PsyHosptalComparisonStatus.NEW);
-        newInfo.setHospitalComparisonJob(newJob);
+    private String createNewHcId() {
+        return RandomStringUtils.randomAlphanumeric(15);
     }
 
     private void ensureHospitalComparisonEvaluations(HospitalComparisonInfo info) {
@@ -224,6 +206,12 @@ public class Evaluation {
             Optional<HospitalComparisonEvaluation> evaluation = getHosptalComparisonEvaluations(psyEvaluationType, info);
             evaluation.ifPresent(info::addHospitalComparisonEvaluation);
         }
+    }
+
+    private void ensureHospitalComparisonJob(HospitalComparisonInfo newInfo) {
+        HospitalComparisonJob newJob = new HospitalComparisonJob();
+        newJob.setStatus(PsyHosptalComparisonStatus.NEW);
+        newInfo.setHospitalComparisonJob(newJob);
     }
 
     private Optional<HospitalComparisonEvaluation> getHosptalComparisonEvaluations(PsyEvaluationType psyEvaluationType, HospitalComparisonInfo info) {
@@ -307,7 +295,6 @@ public class Evaluation {
         // Add aebids to evaluationType
         evaluation.addHospitalComparisonHospitals(createHosptalComparisonHospitalsForIdsAndType(aebId, PsyHosptalComparisonHospitalsType.Hospital));
 
-
         evaluation.addHospitalComparisonHospitals(createHosptalComparisonHospitalsForIdsAndType(aebIdsForGroup,
                 PsyHosptalComparisonHospitalsType.Group));
 
@@ -319,10 +306,6 @@ public class Evaluation {
         List<Integer> idList = new ArrayList<>();
         idList.add(id);
         return createHosptalComparisonHospitalsForIdsAndType(idList, type);
-    }
-
-    private String createNewHcId() {
-        return RandomStringUtils.randomAlphanumeric(15);
     }
 
     private List<HospitalComparisonHospitals> createHosptalComparisonHospitalsForIdsAndType(List<Integer> ids,
