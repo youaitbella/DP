@@ -506,7 +506,7 @@ public class ProofEdit implements Serializable {
                 _proofRegulationBaseInformation.getQuarter() + "_" +
                 _proofRegulationBaseInformation.getYear() + ".xlsx";
 
-        byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Poof_Quarter_Report",
+        byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Proof_Quarter_Report",
                 _proofRegulationBaseInformation.getId(), fileName);
 
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
