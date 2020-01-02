@@ -1,102 +1,76 @@
 <statements>
+    <!-- Psy, 01.01.2020:
+    Das Fachgebiet eines Hauses ist ein Status, bestimmt durch die letzte AEB Lieferung,
+    also unabhängig vom jeweils auszuwertenden Datenjahres
+    -->
 
     <statement id="KH_2_3_5_6_8_9">
-        select biid
-        from (
-        select ROW_NUMBER() over (partition by bi.biIk order by bi.biIk, bi.biTyp ,bi.bistatusid, bi.biSend desc) as
-        'rowNum', bi.biId
-        from psy.AEBBaseInformation bi
-        where bi.biIk = {ik}
-        and bi.biDataYear = {year}
-        and bi.biStatusId in (10,200)
-        ) a
-        where a.rowNum = 1;
+        <![CDATA[
+			select top 1 biId
+            from psy.AEBBaseInformation bi
+            where bi.biIk = {ik}
+            and bi.biDataYear = {year}
+            and bi.biStatusId = 10
+			order by bi.biDataYear desc
+        ]]>
     </statement>
 
     <statement id="KH_1_4_7">
         <![CDATA[
-            select biid
-            from (
-            select ROW_NUMBER() over (partition by bi.biIk order by bi.biIk,bi.biDataYear desc,bi.biTyp ,bi.bistatusid, bi.biSend desc) as
-            'rowNum', bi.biId
+			select top 1 biId
             from psy.AEBBaseInformation bi
             where bi.biIk = {ik}
             and bi.biDataYear <= {year}
-            and bi.biStatusId in (10,200)
-            ) a
-            where a.rowNum = 1;
+            and bi.biStatusId = 10
+			order by bi.biDataYear desc
         ]]>
     </statement>
 
     <statement id="Gruppe_2_3_8_9">
         <![CDATA[
-            declare @year int;
-            declare @psyGroupid int
-
-            set @year = {year};
-            set @psyGroupid = {psyGroupId};
-
             select biid
-            from (
-                select ROW_NUMBER() over (partition by bi.biIk order by bi.biIk, bi.biTyp ,bi.bistatusid, bi.biSend desc) as
-                'rowNum', bi.biId
-                from psy.AEBBaseInformation bi
-                where bi.biIk in (
-                    select eh.ehIk
-                    from psy.ExpectedHospital eh
-                    where eh.ehYear = @year
-                    and eh.ehPsyGroup = @psyGroupid
-                    and ehIk in (
-                        select b.ik
-                        from (
-                            select cu.cuik as 'ik', case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end as 'stateId'
-                            from CallCenterDB.dbo.ccCustomer cu
-                            where cuIsTest = 0
-                            and cuIsActive = 1
-		                    and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
-                        ) b
-                        where b.stateId in ({stateIds})
-                    )
-                )
-                and bi.biDataYear = @year
-                and bi.biStatusId in (10)  -- was 10, 200
-            ) a
-            where a.rowNum = 1
+            from psy.AEBBaseInformation bi
+            where bi.biIk in (
+				select cuIk
+				from(
+					select cuik, ehPsyGroup, ROW_NUMBER() over (partition by biIk order by biDataYear desc) as rowNum
+					from CallCenterDB.dbo.ccCustomer cu
+					join psy.ExpectedHospital on cuIk = ehIk
+					join psy.AEBBaseInformation on cuIk = biik and ehYear = biDataYear
+					where cuIsTest = 0
+					and cuIsActive = 1
+					and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
+					and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
+				) i
+				where rowNum = 1 and ehPsyGroup = {psyGroupId}
+            )
+            and bi.biDataYear = {year}
+            and bi.biStatusId = 10
         ]]>
     </statement>
 
     <statement id="Gruppe_1_7">
         <![CDATA[
-            declare @year int;
-            declare @psyGroupid int
-
-            set @year = {year};
-            set @psyGroupid = {psyGroupId};
-
             select biid
             from (
-                select ROW_NUMBER() over (partition by bi.biIk order by bi.biIk ,bi.biDataYear desc , bi.biTyp ,bi.bistatusid, bi.biSend desc) as
-                'rowNum', bi.biId
+                select ROW_NUMBER() over (partition by bi.biIk order by bi.biDataYear desc) as 'rowNum', bi.biId
                 from psy.AEBBaseInformation bi
                 where bi.biIk in (
-                    select eh.ehIk
-                    from psy.ExpectedHospital eh
-                    where eh.ehYear <= @year
-                    and eh.ehPsyGroup = @psyGroupid
-                    and ehIk in (
-                        select b.ik
-                        from (
-                            select cu.cuik as 'ik', case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end as 'stateId'
-                            from CallCenterDB.dbo.ccCustomer cu
-                            where cuIsTest = 0
-                            and cuIsActive = 1
-		                    and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
-                        ) b
-                        where b.stateId in ({stateIds})
-                    )
+					select cuIk
+					from(
+						select cuik, ehPsyGroup, ROW_NUMBER() over (partition by biIk order by biDataYear desc) as rowNum
+						from CallCenterDB.dbo.ccCustomer cu
+						join psy.ExpectedHospital on cuIk = ehIk
+						join psy.AEBBaseInformation on cuIk = biik and ehYear = biDataYear
+						where cuIsTest = 0
+						and cuIsActive = 1
+						and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
+						and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
+					) i
+					where rowNum = 1 and ehPsyGroup = {psyGroupId}
                 )
-                and bi.biDataYear <= @year
-                and bi.biStatusId in (10)
+                and bi.biDataYear <= {year}
+                and bi.biStatusId = 10
             ) a
             where a.rowNum = 1
         ]]>
@@ -104,58 +78,37 @@
 
     <statement id="Gruppe_5_6">
         <![CDATA[
-        declare @year int;
-        declare @psyGroupid int
-
-        set @year = {year};
-
-        select biid
-        from (
-            select ROW_NUMBER() over (partition by bi.biIk order by bi.biIk, bi.biTyp ,bi.bistatusid, bi.biSend desc) as
-            'rowNum', bi.biId
-            from psy.AEBBaseInformation bi
-            where bi.biIk in (
-                select b.ik
-                from (
-                    select cu.cuik as 'ik', case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end as 'stateId'
-                    from CallCenterDB.dbo.ccCustomer cu
-                    where cuIsTest = 0
-                    and cuIsActive = 1
-                    and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
-                ) b
-                where b.stateId in ({stateIds})
-           )
-            and bi.biDataYear = @year
-            and bi.biStatusId in (10)
-        ) a
-        where a.rowNum = 1
+        select bi.biId
+        from psy.AEBBaseInformation bi
+        where bi.biIk in (
+                select cu.cuik
+                from CallCenterDB.dbo.ccCustomer cu
+                where cuIsTest = 0
+                and cuIsActive = 1
+                and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
+				and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
+        )
+        and bi.biDataYear = {year}
+        and bi.biStatusId = 10
         ]]>
     </statement>
 
     <statement id="Gruppe_4">
         <![CDATA[
-            declare @year int;
-
-            set @year = {year};
-
             select biid
             from (
-                select ROW_NUMBER() over (partition by bi.biIk order by bi.biIk, bi.biDataYear desc , bi.biTyp ,bi.bistatusid, bi.biSend desc) as
-                'rowNum', bi.biId
+                select ROW_NUMBER() over (partition by bi.biIk order by bi.biDataYear desc) as rowNum, bi.biId
                 from psy.AEBBaseInformation bi
                 where bi.biIk in (
-                    select b.ik
-                    from (
-                        select cu.cuik as 'ik', case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end as 'stateId'
-                        from CallCenterDB.dbo.ccCustomer cu
-                        where cuIsTest = 0
-                        and cuIsActive = 1
-                        and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
-                    ) b
-                    where b.stateId in ({stateIds})
+                    select cu.cuik
+                    from CallCenterDB.dbo.ccCustomer cu
+                    where cuIsTest = 0
+                    and cuIsActive = 1
+                    and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
+					and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
                 )
-                and bi.biDataYear <= @year
-                and bi.biStatusId in (10)
+                and bi.biDataYear <= {year}
+                and bi.biStatusId = 10
             ) a
             where a.rowNum = 1
         ]]>
