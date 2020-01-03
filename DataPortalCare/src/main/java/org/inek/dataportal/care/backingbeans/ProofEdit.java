@@ -76,8 +76,8 @@ public class ProofEdit implements Serializable {
 
     private ProofRegulationBaseInformation _proofRegulationBaseInformation;
     private ProofRegulationBaseInformation _oldProofRegulationBaseInformation;
-    private Boolean _isReadOnly;
-    private Boolean _isExceptionFactsChangeMode = false;
+    private boolean _isReadOnly;
+    private boolean _isExceptionFactsChangeMode = false;
     private String _uploadMessage;
     private Set<Integer> _validIks;
     private Set<Integer> _validYears;
@@ -135,19 +135,19 @@ public class ProofEdit implements Serializable {
         this._validQuarters = validQuarters;
     }
 
-    public Boolean getIsReadOnly() {
+    public boolean getIsReadOnly() {
         return _isReadOnly;
     }
 
-    public void setIsReadOnly(Boolean isReadOnly) {
+    public void setIsReadOnly(boolean isReadOnly) {
         this._isReadOnly = isReadOnly;
     }
 
-    public Boolean getIsExceptionFactsChangeMode() {
+    public boolean getIsExceptionFactsChangeMode() {
         return _isExceptionFactsChangeMode;
     }
 
-    public void setIsExceptionFactsChangeMode(Boolean isExceptionFactsChangeMode) {
+    public void setIsExceptionFactsChangeMode(boolean isExceptionFactsChangeMode) {
         this._isExceptionFactsChangeMode = isExceptionFactsChangeMode;
     }
 
@@ -379,7 +379,7 @@ public class ProofEdit implements Serializable {
         setValidIks(_proofFacade.retrievePossibleIks(allowedIks));
     }
 
-    public Boolean excelExportAllowed() {
+    public boolean excelExportAllowed() {
         if (_proofRegulationBaseInformation == null || _proofRegulationBaseInformation.getStatusId() < 10) {
             return false;
         } else {
@@ -387,7 +387,15 @@ public class ProofEdit implements Serializable {
         }
     }
 
-    public Boolean changeAllowed() {
+    public boolean annualReportAllowed() {
+        if (_proofRegulationBaseInformation.getQuarter() != 4) {
+            return false;
+        }
+        // todo: if any quarter is missing: return false
+        return excelExportAllowed();
+    }
+
+    public boolean changeAllowed() {
         if (!_configFacade.readConfigBool(ConfigKey.IsCareProofChangeEnabled)) {
             return false;
         }
@@ -398,11 +406,11 @@ public class ProofEdit implements Serializable {
         }
     }
 
-    public Boolean sendAllowed() {
+    public boolean sendAllowed() {
         return _configFacade.readConfigBool(ConfigKey.IsCareProofSendEnabled);
     }
 
-    public Boolean sendAllowedForToday() {
+    public boolean sendAllowedForToday() {
         return ProofHelper.proofIsAllowedForSend(_proofRegulationBaseInformation);
     }
 
@@ -506,8 +514,20 @@ public class ProofEdit implements Serializable {
                 _proofRegulationBaseInformation.getQuarter() + "_" +
                 _proofRegulationBaseInformation.getYear() + ".xlsx";
 
-        byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Poof_Quarter_Report",
+        byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Proof_Quarter_Report",
                 _proofRegulationBaseInformation.getId(), fileName);
+
+        return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+    }
+
+    public StreamedContent exportAnnualReportAsExcel() {
+        String fileName = "Nachweis_" + _proofRegulationBaseInformation.getIk() +
+                _proofRegulationBaseInformation.getYear() + ".xlsx";
+
+        byte[] singleDocument = _reportController.getSingleDocumentByIkAndYear("PPUGV_Proof_Annual_Report",
+                _proofRegulationBaseInformation.getIk(),
+                _proofRegulationBaseInformation.getYear(), fileName);
 
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
@@ -542,7 +562,7 @@ public class ProofEdit implements Serializable {
         return _mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail());
     }
 
-    public Boolean getRequestExtensionAllowed() {
+    public boolean getRequestExtensionAllowed() {
         int ik = _proofRegulationBaseInformation.getIk();
         int year = _proofRegulationBaseInformation.getYear();
         int quarter = _proofRegulationBaseInformation.getQuarter();

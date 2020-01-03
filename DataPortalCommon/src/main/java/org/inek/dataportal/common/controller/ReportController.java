@@ -46,6 +46,16 @@ public class ReportController implements Serializable {
         }
     }
 
+    public byte[] getSingleDocumentByIkAndYear(String name, int ik, int year, String fileName) {
+        Optional<ReportTemplate> optionalTemplate = _adminFacade.findReportTemplateByName(name);
+        if (optionalTemplate.isPresent()) {
+            ReportTemplate template = _adminFacade.findReportTemplateByName(name).get();
+            return getSingleDocument(template, "" + ik + "/" + year, fileName);
+        } else {
+            return new byte[0];
+        }
+    }
+
     public ReportTemplate getReportTemplateByName(String name) {
         return _adminFacade.findReportTemplateByName(name).get();
     }
