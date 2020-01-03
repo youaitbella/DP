@@ -522,12 +522,12 @@ public class ProofEdit implements Serializable {
     }
 
     public StreamedContent exportAnnualReportAsExcel() {
-        String fileName = "Nachweis_" + _proofRegulationBaseInformation.getIk() + "_Q" +
-                _proofRegulationBaseInformation.getQuarter() + "_" +
+        String fileName = "Nachweis_" + _proofRegulationBaseInformation.getIk() +
                 _proofRegulationBaseInformation.getYear() + ".xlsx";
 
-        byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Proof_Annual_Report",
-                _proofRegulationBaseInformation.getId(), fileName);
+        byte[] singleDocument = _reportController.getSingleDocumentByIkAndYear("PPUGV_Proof_Annual_Report",
+                _proofRegulationBaseInformation.getIk(),
+                _proofRegulationBaseInformation.getYear(), fileName);
 
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
