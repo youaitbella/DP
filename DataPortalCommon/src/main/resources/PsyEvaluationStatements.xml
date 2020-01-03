@@ -20,7 +20,7 @@
 			select top 1 biId
             from psy.AEBBaseInformation bi
             where bi.biIk = {ik}
-            and bi.biDataYear <= {year}
+            and bi.biDataYear between {year} - 1 and {year}
             and bi.biStatusId = 10
 			order by bi.biDataYear desc
         ]]>
@@ -69,7 +69,7 @@
 					) i
 					where rowNum = 1 and ehPsyGroup = {psyGroupId}
                 )
-                and bi.biDataYear <= {year}
+                and bi.biDataYear between {year} - 1 and {year}
                 and bi.biStatusId = 10
             ) a
             where a.rowNum = 1
@@ -107,7 +107,7 @@
                     and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
 					and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
                 )
-                and bi.biDataYear <= {year}
+                and bi.biDataYear between {year} - 1 and {year}
                 and bi.biStatusId = 10
             ) a
             where a.rowNum = 1

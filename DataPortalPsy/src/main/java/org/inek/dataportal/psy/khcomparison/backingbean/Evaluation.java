@@ -371,10 +371,14 @@ public class Evaluation {
 
     private String determineSaveFolder() {
         String rootFolder = _config.readConfig(ConfigKey.FolderRoot);
+        return _config.readConfig(ConfigKey.KhComparisonJobSavePath).replace("{root}", removeTrailingSlashIfExists(rootFolder));
+    }
+
+    private String removeTrailingSlashIfExists(String rootFolder) {
         if ("/".equals(rootFolder.substring(rootFolder.length() - 1))) {
-            rootFolder = rootFolder.substring(0, rootFolder.length() - 1);
+            return rootFolder.substring(0, rootFolder.length() - 1);
         }
-        return _config.readConfig(ConfigKey.KhComparisonJobSavePath).replace("{root}", rootFolder);
+        return rootFolder;
     }
 
 
