@@ -115,6 +115,16 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         return quarters;
     }
 
+    public boolean hasAllQuartersSend(int ik, int year) {
+        String sql = "select 1 \n" +
+                "from care.ProofRegulationBaseInformation \n" +
+                "where prbiIk = " + ik + " \n" +
+                "and prbiYear = " + year + " \n" +
+                "and prbiStatusId = 10";
+        Query query = getEntityManager().createNativeQuery(sql);
+        return query.getResultList().size() == 4;
+    }
+
     private Set<Integer> getPossibleYears() {
         Set<Integer> years = new HashSet<>();
         years.add(2019);

@@ -388,11 +388,10 @@ public class ProofEdit implements Serializable {
     }
 
     public boolean annualReportAllowed() {
-        if (_proofRegulationBaseInformation.getQuarter() != 4) {
+        if (!excelExportAllowed()) {
             return false;
         }
-        // todo: if any quarter is missing: return false
-        return excelExportAllowed();
+        return _proofFacade.hasAllQuartersSend(_proofRegulationBaseInformation.getIk(), _proofRegulationBaseInformation.getYear());
     }
 
     public boolean changeAllowed() {

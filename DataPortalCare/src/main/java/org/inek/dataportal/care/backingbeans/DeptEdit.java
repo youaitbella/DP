@@ -213,6 +213,11 @@ public class DeptEdit implements Serializable {
     }
 
     public void save() {
+        boolean needsTransfer = _deptBaseInformation.getId() == -1;
+        save(needsTransfer);
+    }
+
+    public void save(boolean needsTransfer) {
         _deptBaseInformation.setLastChangeBy(_sessionController.getAccountId());
         _deptBaseInformation.setLastChanged(new Date());
 
@@ -222,7 +227,6 @@ public class DeptEdit implements Serializable {
                 _oldDeptbaseInformation = null;
             }
 
-            boolean needsTransfer = _deptBaseInformation.getId() == -1 || _deptBaseInformation.getStatus() == WorkflowStatus.Provided;
             _deptBaseInformation = _deptFacade.save(_deptBaseInformation);
 
             if (_deptBaseInformation.getStatus() == WorkflowStatus.Provided) {
@@ -248,7 +252,7 @@ public class DeptEdit implements Serializable {
             if (errors.isEmpty()) {
                 _deptBaseInformation.setSend(new Date());
                 _deptBaseInformation.setStatus(WorkflowStatus.Provided);
-                save();
+                save(true);
 
                 setIsReadOnly(true);
             } else {
@@ -520,7 +524,7 @@ public class DeptEdit implements Serializable {
 
     public void applyExtension() {
         _deptBaseInformation.setExtensionRequested(new Date());
-        save();
+        save(true);
         sendMail("CareDeptExtensionRequested");
     }
 

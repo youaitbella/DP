@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.common.data.KhComparison.facade;
 
 import javafx.util.Pair;
@@ -107,41 +102,6 @@ public class AEBFacade extends AbstractDataAccess {
         TypedQuery<StructureBaseInformation> query = getEntityManager().createQuery(sql, StructureBaseInformation.class);
         query.setParameter("ik", ik);
         return !query.getResultList().isEmpty();
-    }
-
-    public Optional<AEBBaseInformation> getBaseInformationForComparing(int id) {
-        String sql = "select top 1 *\n" +
-                "from psy.AEBBaseInformation a\n" +
-                "where a.biDataYear = (\n" +
-                "\tselect biDataYear\n" +
-                "\tfrom psy.AEBBaseInformation\n" +
-                "\twhere biid = " + id + "\n" +
-                ")\n" +
-                "and a.biIk = (\n" +
-                "\tselect biIk\n" +
-                "\tfrom psy.AEBBaseInformation\n" +
-                "\twhere biid = " + id + "\n" +
-                ")\n" +
-                "and a.biTyp != (\n" +
-                "\tselect biTyp\n" +
-                "\tfrom psy.AEBBaseInformation\n" +
-                "\twhere biid = " + id + "\n" +
-                ") \n" +
-                "and a.biStatusId in (10)\n" +
-                "order by a.biStatusId, a.biSend desc";
-        Query query = getEntityManager().createNativeQuery(sql, AEBBaseInformation.class);
-
-        List<AEBBaseInformation> resultList = query.getResultList();
-
-        if (resultList.size() > 1) {
-            throw new IllegalArgumentException("Error during get aeb for comparing for id: " + id);
-        }
-
-        if (resultList.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.ofNullable(resultList.get(1));
     }
 
     public boolean ikHasModelIntention(int ik) {
