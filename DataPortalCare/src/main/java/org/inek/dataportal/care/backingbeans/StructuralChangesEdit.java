@@ -13,7 +13,6 @@ import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChanges;
 import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesBaseInformation;
-import org.inek.dataportal.care.entities.StructuralChanges.StructuralChangesWards;
 import org.inek.dataportal.care.entities.StructuralChanges.WardsToChange;
 import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.care.enums.SensitiveArea;
@@ -80,7 +79,6 @@ public class StructuralChangesEdit implements Serializable {
 
     private List<DeptWard> _wards = new ArrayList<>();
     private DeptBaseInformation _deptBaseInformation;
-    private List<DeptWard> _selectedWards = new ArrayList<>();
 
     private StructuralChangesBaseInformation _structuralChangesBaseInformation;
 
@@ -149,16 +147,6 @@ public class StructuralChangesEdit implements Serializable {
                 + "|" + DateUtils.toAnsi(ward.getValidFrom());
         return key;
     }
-
-
-    public List<DeptWard> getSelectedWards() {
-        return _selectedWards;
-    }
-
-    public void setSelectedWards(List<DeptWard> selectedWards) {
-        this._selectedWards = selectedWards;
-    }
-
 
     @PostConstruct
     private void init() {
@@ -329,28 +317,6 @@ public class StructuralChangesEdit implements Serializable {
         PrimeFaces.current().scrollTo(id);
     }
 
-    public void createNewWardFromSelectedWards() {
-        if (_selectedWards.size() == 0) {
-            DialogController.showInfoDialog("Keine Station ausgewählt", "Bitte wählen Sie mindestens eine Station aus");
-            return;
-        }
-
-        StructuralChanges change = createNewChanges();
-        change.setStructuralChangesType(StructuralChangesType.COMBINE_WITH_NEW);
-        change.setWardsToChange(new WardsToChange());
-        createNewStructuralChangesWards(change);
-        _structuralChangesBaseInformation.addStructuralChanges(change);
-
-        _selectedWards.clear();
-    }
-
-    private void createNewStructuralChangesWards(StructuralChanges change) {
-        for (DeptWard selectedWard : _selectedWards) {
-            StructuralChangesWards structuralChangesWards = new StructuralChangesWards();
-            structuralChangesWards.setDeptWard(selectedWard);
-            change.addStructuralChangesWards(structuralChangesWards);
-        }
-    }
 
     private WardsToChange createNewWardsToChangeForTempClose(DeptWard ward) {
         WardsToChange wardsToChange = new WardsToChange(ward);
