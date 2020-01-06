@@ -64,7 +64,6 @@ public enum ConfigKey {
     KhComparisonJobSavePath("{root}/kh-vergleich/auswertungen"),
     KhComparisonUploadPath("{root}/documents/KH-Vergleich"),
     isKhComparisionInsuranceEnabled(false),
-    ReportHostName("vreportserver01"),
     CombitReportHostName("vreportserver01"),
     InekReportHostName("vreportserver01"),
     VzHost("localhost:8000"),

@@ -49,6 +49,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.inek.dataportal.api.helper.PortalConstants.EXCEL_EXTENSION;
 import static org.inek.dataportal.common.enums.TransferFileType.CareWardNames;
@@ -93,8 +94,12 @@ public class DeptEdit implements Serializable {
 
     private Set<Integer> _allowedP21LocationCodes = new HashSet<>();
 
-    public DeptEdit() {
+    // quick and ugly extensions by mail (todo: remove after 2020-01-10!)
+    private List<Integer> extensions = Stream.of(260611258, 260590059, 260590139, 260200035, 260591619, 260950124,
+            260833519, 260550643, 260590242, 260340568, 261110027, 260551837, 261101300, 260551154, 260960785, 260820433,
+            260510212, 260970082, 260821229, 260551165, 260940688, 260820013, 260531661).collect(Collectors.toList());
 
+    public DeptEdit() {
     }
 
     public List<AggregatedWards> getAggregatedWards() {
@@ -148,7 +153,12 @@ public class DeptEdit implements Serializable {
             loadValidIks();
 
             if (_validIks.size() == 1) {
-                _deptBaseInformation.setIk((int) _validIks.toArray()[0]);
+                int ik = (int) _validIks.toArray()[0];
+                _deptBaseInformation.setIk(ik);
+                // todo: remove after 2020-01-10
+                if (extensions.contains(ik)) {
+                    _deptBaseInformation.setExtensionRequested(DateUtils.createDate(2019, Month.DECEMBER, 31));
+                }
                 preloadDataForIk(_deptBaseInformation);
                 loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
                 loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
@@ -210,6 +220,12 @@ public class DeptEdit implements Serializable {
         preloadDataForIk(_deptBaseInformation);
         loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
         loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
+        // todo: remove after 2020-01-10
+        if (extensions.contains(_deptBaseInformation.getIk())) {
+            _deptBaseInformation.setExtensionRequested(DateUtils.createDate(2019, Month.DECEMBER, 31));
+        } else {
+            _deptBaseInformation.setExtensionRequested(DateUtils.MIN_DATE);
+        }
     }
 
     public void save() {

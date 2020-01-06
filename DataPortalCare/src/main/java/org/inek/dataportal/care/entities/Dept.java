@@ -165,13 +165,13 @@ public class Dept implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Required">
     @Column(name = "deRequired")
-    private Boolean _required;
+    private boolean _required;
 
-    public Boolean getRequired() {
+    public boolean getRequired() {
         return _required;
     }
 
-    public void setRequired(Boolean required) {
+    public void setRequired(boolean required) {
         this._required = required;
     }
     //</editor-fold>

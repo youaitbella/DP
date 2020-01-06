@@ -220,7 +220,6 @@ public class CalcHospitalList {
              ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
             for (ReportTemplate rt : reports) {
                 String path = rt.getAddress()
-                        .replace("{hostName}", _appTools.readConfig(ConfigKey.ReportHostName))
                         .replace("{hostNameInek}", _appTools.readConfig(ConfigKey.InekReportHostName))
                         .replace("{hostNameCombit}", _appTools.readConfig(ConfigKey.CombitReportHostName))
                         .replace("{0}", id + "")
