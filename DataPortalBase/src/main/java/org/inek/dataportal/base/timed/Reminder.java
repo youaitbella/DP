@@ -113,7 +113,7 @@ public class Reminder {
 
     private boolean sendReminderMail(Account account, int ik, String text, String template) {
         Map<String, String> substitutions = new HashMap<>();
-        substitutions.put("{IK}", "" + ik);
+        substitutions.put("{ik}", "" + ik);
         substitutions.put("{listOpenNUB}", "" + text);
         substitutions.put("{date}", "" + text);
         return _mailer.sendMailWithTemplate(template, substitutions, account);

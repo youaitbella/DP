@@ -551,7 +551,7 @@ public class ProofEdit implements Serializable {
         MailTemplate template = _mailer.getMailTemplate("CareProofExtension");
         MailTemplateHelper.setPlaceholderInTemplate(template, "{formalSalutation}",
                 _mailer.getFormalSalutation(_sessionController.getAccount()));
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{IK}", String.valueOf(ik));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", String.valueOf(ik));
         MailTemplateHelper.setPlaceholderInTemplate(template, "{quarter}", String.valueOf(quarter));
         MailTemplateHelper.setPlaceholderInTemplate(template, "{year}", String.valueOf(year));
         MailTemplateHelper.setPlaceholderInTemplate(template, "{date}", extensionDate.format(formatter));
