@@ -29,23 +29,32 @@
     <statement id="Gruppe_2_3_8_9">
         <![CDATA[
             select biid
-            from psy.AEBBaseInformation bi
-            where bi.biIk in (
-				select cuIk
-				from(
-					select cuik, ehPsyGroup, ROW_NUMBER() over (partition by biIk order by biDataYear desc) as rowNum
-					from CallCenterDB.dbo.ccCustomer cu
-					join psy.ExpectedHospital on cuIk = ehIk
-					join psy.AEBBaseInformation on cuIk = biik and ehYear = biDataYear
-					where cuIsTest = 0
-					and cuIsActive = 1
-					and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
-					and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
-				) i
-				where rowNum = 1 and ehPsyGroup = {psyGroupId}
-            )
-            and bi.biDataYear = {year}
-            and bi.biStatusId = 10
+            from (
+                select biid, cuik, actualPSyGroup, ROW_NUMBER() over (partition by biIk order by biDataYear desc) as rowNum
+                from CallCenterDB.dbo.ccCustomer cu
+                join (
+                    -- select actualPsyGroup as PsyGroup for all years
+                    select eh2.ehId, eh2.ehYear, eh2.ehIk, actualPSyGroup
+                    from (
+                        select ehIk, ehPsyGroup as actualPSyGroup
+                        from (
+                            select ehIk, ehPsyGroup, ROW_NUMBER() over (partition by ehik order by ehYear desc) as rown
+                            from psy.ExpectedHospital eh1
+                        ) a
+                        where a.rown = 1
+                    ) eh1
+                    join psy.ExpectedHospital eh2 on eh2.ehIk = eh1.ehik
+                ) eh on cuIk = ehIk
+                join psy.AEBBaseInformation bi on cuIk = biik and ehYear = biDataYear
+                where cuIsTest = 0
+                    and cuIsActive = 1
+                    and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
+                    and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
+                    and actualPSyGroup = {psyGroupId}
+                    and bi.biDataYear = {year}
+                    and bi.biStatusId = 10
+            ) a
+            where a.rowNum = 1
         ]]>
     </statement>
 
@@ -53,24 +62,28 @@
         <![CDATA[
             select biid
             from (
-                select ROW_NUMBER() over (partition by bi.biIk order by bi.biDataYear desc) as 'rowNum', bi.biId
-                from psy.AEBBaseInformation bi
-                where bi.biIk in (
-					select cuIk
-					from(
-						select cuik, ehPsyGroup, ROW_NUMBER() over (partition by biIk order by biDataYear desc) as rowNum
-						from CallCenterDB.dbo.ccCustomer cu
-						join psy.ExpectedHospital on cuIk = ehIk
-						join psy.AEBBaseInformation on cuIk = biik and ehYear = biDataYear
-						where cuIsTest = 0
-						and cuIsActive = 1
-						and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
-						and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
-					) i
-					where rowNum = 1 and ehPsyGroup = {psyGroupId}
-                )
-                and bi.biDataYear between {year} - 1 and {year}
-                and bi.biStatusId = 10
+                select biid, cuik, actualPSyGroup, ROW_NUMBER() over (partition by biIk order by biDataYear desc) as rowNum
+                from CallCenterDB.dbo.ccCustomer cu
+                join (
+                    select eh2.ehId, eh2.ehYear, eh2.ehIk, actualPSyGroup
+                    from (
+                        select ehIk, ehPsyGroup as actualPSyGroup
+                        from (
+                            select ehIk, ehPsyGroup, ROW_NUMBER() over (partition by ehik order by ehYear desc) as rown
+                            from psy.ExpectedHospital eh1
+                        ) a
+                        where a.rown = 1
+                    ) eh1
+                    join psy.ExpectedHospital eh2 on eh2.ehIk = eh1.ehik
+                ) eh on cuIk = ehIk
+                join psy.AEBBaseInformation bi on cuIk = biik and ehYear = biDataYear
+                where cuIsTest = 0
+                    and cuIsActive = 1
+                    and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
+                    and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
+                    and actualPSyGroup = {psyGroupId}
+                    and bi.biDataYear between {year} - 1 and {year}
+                    and bi.biStatusId = 10
             ) a
             where a.rowNum = 1
         ]]>
