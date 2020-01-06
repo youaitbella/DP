@@ -110,6 +110,9 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         }
         // sadly from new wards only the first is stored when saving structural changes :(
         for (Dept dept : deptBaseInformation.getDepts()) {
+            if (dept.getId() <= 0) {
+                persist(dept);
+            }
             for (DeptWard ward : dept.getDeptWards()) {
                 if (ward.getId() <= 0) {
                     persist(ward);

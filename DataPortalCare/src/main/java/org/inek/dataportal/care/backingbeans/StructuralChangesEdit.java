@@ -728,7 +728,6 @@ public class StructuralChangesEdit implements Serializable {
                     copyValues(changeWard, deptWard, ik);
                     deptWard.setDept(findDept(changeWard, wards.get(0)));
                     wards.add(deptWard);
-                    // todo changeWard.getSensitiveAreaId()
                 });
     }
 
@@ -746,10 +745,16 @@ public class StructuralChangesEdit implements Serializable {
         }
         String sensitiveArea = SensitiveArea.fromId(changeWard.getSensitiveAreaId()).getName();
 
-        List<Dept> allDepts = deptWard.getDept().getBaseInformation().getDepts();
+        DeptBaseInformation deptBaseInfo = deptWard.getDept().getBaseInformation();
+        List<Dept> allDepts = deptBaseInfo.getDepts();
         List<Dept> deptsWithArea = allDepts.stream().filter(d -> d.getSensitiveArea().equals(sensitiveArea)).collect(Collectors.toList());
         if (deptsWithArea.size() == 0) {
-            return allDepts.get(0);
+            Dept newDept = new Dept();
+            newDept.setBaseInformation(deptBaseInfo);
+            newDept.setDeptArea(allDepts.get(0).getDeptArea());
+            newDept.setSensitiveArea(sensitiveArea);
+            deptBaseInfo.addDept(newDept);
+            return newDept;
         }
         return deptsWithArea.stream().filter(d -> d.getDeptNumber().equals("" + changeWard.getDeptId())).findAny().orElse(deptsWithArea.get(0));
     }
