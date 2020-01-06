@@ -62,7 +62,6 @@ public class ReportController implements Serializable {
 
     private byte[] getSingleDocument(ReportTemplate template, String id, String fileName) {
         String address = template.getAddress()
-                .replace("{hostName}", _appTools.readConfig(ConfigKey.ReportHostName))
                 .replace("{hostNameInek}", _appTools.readConfig(ConfigKey.InekReportHostName))
                 .replace("{hostNameCombit}", _appTools.readConfig(ConfigKey.CombitReportHostName))
                 .replace("{0}", id);
@@ -96,7 +95,6 @@ public class ReportController implements Serializable {
 
     private void createSingleDocument(ReportTemplate template, String id, String fileName) {
         String address = template.getAddress()
-                .replace("{hostName}", _appTools.readConfig(ConfigKey.ReportHostName))
                 .replace("{hostNameInek}", _appTools.readConfig(ConfigKey.InekReportHostName))
                 .replace("{hostNameCombit}", _appTools.readConfig(ConfigKey.CombitReportHostName))
                 .replace("{0}", id);
@@ -121,7 +119,6 @@ public class ReportController implements Serializable {
     public byte[] getSingleDocument(String path) {
         try {
             String address = path
-                    .replace("{hostName}", _appTools.readConfig(ConfigKey.ReportHostName))
                     .replace("{hostNameInek}", _appTools.readConfig(ConfigKey.InekReportHostName))
                     .replace("{hostNameCombit}", _appTools.readConfig(ConfigKey.CombitReportHostName));
 
