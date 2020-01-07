@@ -358,8 +358,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (_sessionController == null) {
             return false;
         }
+
         for (InekRole role : _sessionController.getAccount().getInekRoles()) {
-            if (role.getText().equals("TE Admin")) {
+            if ("TE Admin".equals(role.getText())) {
                 return true;
             }
         }
