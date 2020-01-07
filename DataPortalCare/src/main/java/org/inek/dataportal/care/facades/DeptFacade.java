@@ -90,7 +90,19 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
                         .stream()
                         .anyMatch(year -> !existingIkYearPairs.contains(new Pair<>(ik, year))))
                 .collect(Collectors.toSet());
-        return possibleIks;
+        return retrieveMandatoryForCare(possibleIks);
+    }
+
+    private Set<Integer> retrieveMandatoryForCare(Set<Integer> possibleIks) {
+        if (possibleIks.isEmpty()) {
+            return possibleIks;
+        }
+        String sql = "select distinct bipIk from care.DeptInekPrefill where bipIk in (" +
+                possibleIks.stream().map(i -> "" + i).collect(Collectors.joining(", ")) +
+                ")";
+        Query query = getEntityManager().createNativeQuery(sql);
+        List<Integer> ikList = query.getResultList();
+        return new HashSet<>(ikList);
     }
 
     public List<Integer> getPossibleDataYears() {
