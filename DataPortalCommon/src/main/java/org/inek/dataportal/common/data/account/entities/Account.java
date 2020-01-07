@@ -368,7 +368,7 @@ public class Account implements Serializable, Person {
             name = "mapAccountInekRole", schema = "adm",
             joinColumns = @JoinColumn(name = "aiAccountId"),
             inverseJoinColumns = @JoinColumn(name = "aiInekRoleId"))
-    private List<InekRole> _inekRoles;
+    private List<InekRole> _inekRoles = new ArrayList<>();
 
     public List<InekRole> getInekRoles() {
         return _inekRoles;
