@@ -1,5 +1,28 @@
 package org.inek.dataportal.cert.backingbean;
 
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.cert.entities.EmailLog;
+import org.inek.dataportal.cert.entities.Grouper;
+import org.inek.dataportal.cert.enums.CertMailType;
+import org.inek.dataportal.cert.enums.CertStatus;
+import org.inek.dataportal.cert.facade.EmailLogFacade;
+import org.inek.dataportal.cert.facade.GrouperFacade;
+import org.inek.dataportal.cert.facade.SystemFacade;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.enums.Genders;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.mail.MailTemplateFacade;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.utils.DateUtils;
+
+import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
 import java.io.File;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -7,27 +30,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
-import javax.faces.model.SelectItem;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.OptimisticLockException;
-import org.inek.dataportal.cert.entities.EmailLog;
-import org.inek.dataportal.cert.entities.Grouper;
-import org.inek.dataportal.cert.facade.EmailLogFacade;
-import org.inek.dataportal.cert.facade.GrouperFacade;
-import org.inek.dataportal.cert.facade.SystemFacade;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.cert.enums.CertMailType;
-import org.inek.dataportal.cert.enums.CertStatus;
-import org.inek.dataportal.common.enums.Genders;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.common.mail.MailTemplateFacade;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.mail.Mailer;
 
 /**
  *
@@ -122,8 +124,7 @@ public class CertGrouperResults implements Serializable {
     }
 
     public String getFormattedDateChecked() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        return sdf.format(getDateChecked());
+        return DateUtils.toGerman(getDateChecked());
     }
 
     public String getTemplateEmailCertificate() {
@@ -271,21 +272,21 @@ public class CertGrouperResults implements Serializable {
         if (_grouper.getTestCheck1() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestCheck1());
+        return DateUtils.toGerman(_grouper.getTestCheck1());
     }
 
     public String getTest2Check() {
         if (_grouper.getTestCheck2() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestCheck2());
+        return DateUtils.toGerman(_grouper.getTestCheck2());
     }
 
     public String getTest3Check() {
         if (_grouper.getTestCheck3() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestCheck3());
+        return DateUtils.toGerman(_grouper.getTestCheck3());
     }
 
     public String getTest1Error() {
@@ -313,49 +314,49 @@ public class CertGrouperResults implements Serializable {
         if (_grouper.getTestUpload1() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestUpload1());
+        return DateUtils.toGerman(_grouper.getTestUpload1());
     }
 
     public String getTestUpload2() {
         if (_grouper.getTestUpload2() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestUpload2());
+        return DateUtils.toGerman(_grouper.getTestUpload2());
     }
 
     public String getTestUpload3() {
         if (_grouper.getTestUpload3() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getTestUpload3());
+        return DateUtils.toGerman(_grouper.getTestUpload3());
     }
 
     public String getCert1Check() {
         if (_grouper.getCertCheck1() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getCertCheck1());
+        return DateUtils.toGerman(_grouper.getCertCheck1());
     }
 
     public String getCert2Check() {
         if (_grouper.getCertCheck2() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getCertCheck2());
+        return DateUtils.toGerman(_grouper.getCertCheck2());
     }
 
     public String getCertUpload1() {
         if (_grouper.getCertUpload1() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getCertUpload1());
+        return DateUtils.toGerman(_grouper.getCertUpload1());
     }
 
     public String getCertUpload2() {
         if (_grouper.getCertUpload2() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getCertUpload2());
+        return DateUtils.toGerman(_grouper.getCertUpload2());
     }
 
     public String getCert1Error() {
@@ -376,28 +377,28 @@ public class CertGrouperResults implements Serializable {
         if (_grouper.getCertification() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getCertification());
+        return DateUtils.toGerman(_grouper.getCertification());
     }
 
     public String getDownloadSpec() {
         if (_grouper.getDownloadSpec() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getDownloadSpec());
+        return DateUtils.toGerman(_grouper.getDownloadSpec());
     }
 
     public String getDownloadTest() {
         if (_grouper.getDownloadTest() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getDownloadTest());
+        return DateUtils.toGerman(_grouper.getDownloadTest());
     }
 
     public String getDownloadCert() {
         if (_grouper.getDownloadCert() == null) {
             return "";
         }
-        return new SimpleDateFormat("dd.MM.yyyy").format(_grouper.getDownloadCert());
+        return DateUtils.toGerman(_grouper.getDownloadCert());
     }
 
     private String buildAttachementString() {
@@ -465,7 +466,7 @@ public class CertGrouperResults implements Serializable {
         body = body.replace("{company}", _accFacade.findAccount(_grouper.getAccountId()).getCompany());
         body = body.replace("{product}", _grouper.getName());
         body = body.replace("{system}", _grouper.getSystem().getDisplayName());
-        body = body.replace("{certdate}", new SimpleDateFormat("dd.MM.yyyy").format(getCertDate()));
+        body = body.replace("{certdate}", DateUtils.toGerman(getCertDate()));
         body = body.replace("{name}", _sessionController.getAccount().getFirstName() + " " + _sessionController.getAccount().getLastName());
         return body;
     }
