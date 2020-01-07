@@ -474,7 +474,7 @@ public class CertGrouperResults implements Serializable {
     private String buildEmailSalutation(String receiverEmail) {
         String receiver = receiverEmail;
         Account receiverAccount = _accFacade.findByMailOrUser(receiver);
-        String title = receiverAccount.getTitle().equals("") ? "" : " " + receiverAccount.getTitle();
+        String title = "".equals(receiverAccount.getTitle()) ? "" : " " + receiverAccount.getTitle();
         boolean isFemale = true;
         if (receiverAccount.getGender() == Genders.Male.id()) {
             isFemale = false;

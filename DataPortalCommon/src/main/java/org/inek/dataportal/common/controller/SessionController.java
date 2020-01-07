@@ -325,7 +325,7 @@ public class SessionController implements Serializable {
 
     public String obtainTargetUrl(PortalType portalType) {
         Stage stage = _appTools.isEnabled(ConfigKey.TestMode)
-                ? EnvironmentInfo.getServerName().equals("localhost") ? Stage.DEVELOPMENT : Stage.TEST
+                ? "localhost".equals(EnvironmentInfo.getServerName()) ? Stage.DEVELOPMENT : Stage.TEST
                 : Stage.PRODUCTION;
         String url = _appTools.readPortalAddress(portalType, stage);
         return url;
@@ -671,8 +671,8 @@ public class SessionController implements Serializable {
     }
 
     public boolean isInternalClient() {
-        return Utils.getClientIP().equals("127.0.0.1")
-                || Utils.getClientIP().equals("0:0:0:0:0:0:0:1")
+        return "127.0.0.1".equals(Utils.getClientIP())
+                || "0:0:0:0:0:0:0:1".equals(Utils.getClientIP())
                 || Utils.getClientIP().startsWith("192.168.0");
     }
 

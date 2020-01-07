@@ -196,9 +196,9 @@ class CI_ProofImporterTest {
         ProofImporter importer = new ProofImporter(true);
 
         Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isTrue();
-        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getComment().equals(""))).hasSize(22);
-        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getComment().equals("Kommentar mit Sonderzeichen !\"§$%&/()"))).hasSize(1);
-        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getComment().equals("Keinen Kommentar, Aber andere Anmerkungen"))).hasSize(1);
+        Assertions.assertThat(info.getProofs().stream().filter(c -> "".equals(c.getComment()))).hasSize(22);
+        Assertions.assertThat(info.getProofs().stream().filter(c -> "Kommentar mit Sonderzeichen !\"§$%&/()".equals(c.getComment()))).hasSize(1);
+        Assertions.assertThat(info.getProofs().stream().filter(c -> "Keinen Kommentar, Aber andere Anmerkungen".equals(c.getComment()))).hasSize(1);
     }
 
     @Test
@@ -221,7 +221,7 @@ class CI_ProofImporterTest {
         ProofImporter importer = new ProofImporter(false);
 
         Assertions.assertThat(importer.handleProofUpload(info, inputStream)).isTrue();
-        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getComment().equals(""))).hasSize(24);
+        Assertions.assertThat(info.getProofs().stream().filter(c -> "".equals(c.getComment()))).hasSize(24);
         Assertions.assertThat(importer.getMessage()).isNotEqualTo("");
     }
 

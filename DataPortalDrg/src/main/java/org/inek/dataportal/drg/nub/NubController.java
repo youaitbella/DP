@@ -170,7 +170,7 @@ public class NubController extends AbstractFeatureController {
                 request.setDescription(restoreBreaks(content));
                 break;
             case HasNoProcs:
-                request.setHasNoProcs(content.toLowerCase().equals("true"));
+                request.setHasNoProcs("true".equals(content.toLowerCase()));
                 break;
             case ProcCodes:
                 request.setProcs(restoreBreaks(content));

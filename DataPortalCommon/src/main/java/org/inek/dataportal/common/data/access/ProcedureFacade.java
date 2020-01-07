@@ -72,7 +72,7 @@ public class ProcedureFacade extends AbstractFacade<ProcedureInfo> {
                 searchCode = searchCode.substring(0, searchCode.length()-1);
             }
             if (searchCode.isEmpty()){continue;}
-            if (findProcedure(searchCode, firstYear, lastYear).equals("")) {
+            if ("".equals(findProcedure(searchCode, firstYear, lastYear))) {
                 invalidCodes.append(invalidCodes.length() > 0 ? ", " : "").append(searchCode);
             }
         }

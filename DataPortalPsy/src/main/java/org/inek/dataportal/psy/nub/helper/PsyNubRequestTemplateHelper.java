@@ -100,7 +100,7 @@ public class PsyNubRequestTemplateHelper implements Serializable {
                 newPsyNubRequest.getProposalData().setDescription(restoreBreaks(content));
                 break;
             case HasNoProcs:
-                newPsyNubRequest.getProposalData().setHasNoProcs(content.toLowerCase().equals("true"));
+                newPsyNubRequest.getProposalData().setHasNoProcs("true".equals(content.toLowerCase()));
                 break;
             case ProcCodes:
                 newPsyNubRequest.getProposalData().setProcs(restoreBreaks(content));

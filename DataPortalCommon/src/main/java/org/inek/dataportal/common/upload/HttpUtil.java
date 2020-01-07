@@ -1,5 +1,8 @@
 package org.inek.dataportal.common.upload;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -8,9 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 /**
  *
@@ -28,7 +28,7 @@ public class HttpUtil {
     }
 
     public boolean isMultipartRequest() {
-        return getRequest().getMethod().toLowerCase().equals("post")
+        return "post".equals(getRequest().getMethod().toLowerCase())
                 && getRequest().getContentType() != null
                 && getRequest().getContentType().toLowerCase().startsWith("multipart/");
     }

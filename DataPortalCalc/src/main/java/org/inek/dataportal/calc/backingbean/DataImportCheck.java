@@ -165,11 +165,11 @@ class DataImportCheck<T, I> implements Serializable {
 
     static <T> void tryImportBoolean(T item, String data, BiConsumer<T, Boolean> assign, String errorMsg, ErrorCounter counter) {
         try {
-            if ((data.trim().length() > 1) || (data.trim().length() == 1 && !data.trim().toLowerCase().equals("x"))) {
+            if ((data.trim().length() > 1) || (data.trim().length() == 1 && !"x".equals(data.trim().toLowerCase()))) {
                 assign.accept(item, false);
                 counter.addColumnErrorMsg(errorMsg + " ist nicht leer, x oder X : " + data);
             } else {
-                assign.accept(item, data.trim().toLowerCase().equals("x"));
+                assign.accept(item, "x".equals(data.trim().toLowerCase()));
             }
         } catch (Exception ex) {
             assign.accept(item, false);

@@ -72,7 +72,7 @@ public class DiagnosisFacade extends AbstractFacade<DiagnosisInfo> {
         StringBuilder invalidCodes = new StringBuilder();
         for (String code : codes) {
             if (code.isEmpty()){continue;}
-            if (findDiagnosis(code, firstYear, lastYear).equals("")) {
+            if ("".equals(findDiagnosis(code, firstYear, lastYear))) {
                 invalidCodes.append(invalidCodes.length() > 0 ? ", " : "").append(code);
             }
         }

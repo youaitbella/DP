@@ -109,11 +109,11 @@ public class EditNubRequest extends AbstractEditController {
             _formerRequests.clear();
             Customer c = _customerFacade.getCustomerByIK(_nubRequest.getIk());
             _nubRequest.setFormerExternalId("");
-            if (c.getName() == null || c.getName().equals("")) {
+            if (c.getName() == null || "".equals(c.getName())) {
                 if (_nubRequest.getIkName() == null || c.getName() == null) {
                     _nubRequest.setIkName("");
                 }
-                if (_nubRequest.getIkName().trim().equals("")) {
+                if ("".equals(_nubRequest.getIkName().trim())) {
                     _nubRequest.setIkName(_sessionController.getAccount().getCompany());
                 }
             } else {
