@@ -4,11 +4,12 @@
  */
 package org.inek.dataportal.common.data.access;
 
-import java.util.List;
+import org.inek.dataportal.common.data.AbstractFacade;
+import org.inek.dataportal.common.data.common.DiagnosisInfo;
+
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.common.data.common.DiagnosisInfo;
-import org.inek.dataportal.common.data.AbstractFacade;
+import java.util.List;
 
 /**
  *
@@ -38,10 +39,10 @@ public class DiagnosisFacade extends AbstractFacade<DiagnosisInfo> {
             }
             where.append(" d._searchWords like '%").append(part).append("%'");
         }
-        if (firstYear > 2000) {
+        if (firstYear > 0) {
             where.append(" and d._lastYear >= ").append(firstYear);
         }
-        if (lastYear > 2000) {
+        if (lastYear > 0) {
             where.append(" and d._firstYear <= ").append(lastYear);
         }
         // "where" is dynamically created. Since every whitespace and punctuation splits the search criteria, no SqlInjection can be introduced

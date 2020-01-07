@@ -1,10 +1,11 @@
 package org.inek.dataportal.common.data.access;
 
-import java.util.List;
+import org.inek.dataportal.common.data.AbstractFacade;
+import org.inek.dataportal.common.data.common.ProcedureInfo;
+
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.common.data.common.ProcedureInfo;
-import org.inek.dataportal.common.data.AbstractFacade;
+import java.util.List;
 
 /**
  *
@@ -34,10 +35,10 @@ public class ProcedureFacade extends AbstractFacade<ProcedureInfo> {
             }
             where.append(" p._searchWords like '%").append(part).append("%'");
         }
-        if (firstYear > 2000) {
+        if (firstYear > 0) {
             where.append(" and p._lastYear >= ").append(firstYear);
         }
-        if (lastYear > 2000) {
+        if (lastYear > 0) {
             where.append(" and p._firstYear <= ").append(lastYear);
         }
         // "where" is dynamically created. Since every whitespace and punctuation splits the search criteria, no SqlInjection can be introduced

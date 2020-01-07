@@ -1,12 +1,7 @@
 package org.inek.dataportal.common.data.common;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  *
@@ -114,7 +109,9 @@ public class ProcedureInfo implements Serializable {
 
     @Override
     public String toString() {
-        return _id + " (" + getFirstYear() + " - " + getLastYear() + ") " + _name.substring(0, 30) + (_name.length() > 30 ? "..." : "");
+        int maxLen = 30;
+        return _id + " (" + getFirstYear() + " - " + getLastYear() + ") " +
+                _name.substring(0, maxLen) + (_name.length() > maxLen ? "..." : "");
     }
 
     // </editor-fold>

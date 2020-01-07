@@ -5,13 +5,14 @@
  */
 package org.inek.dataportal.common.utils;
 
+import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
+import org.inek.dataportal.common.enums.Quality;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIInput;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
-import org.inek.dataportal.common.enums.Quality;
 
 /**
  *
@@ -21,7 +22,7 @@ import org.inek.dataportal.common.enums.Quality;
 @RequestScoped
 public class SecurePassword {
 
-    @SuppressWarnings("CyclomaticComplexity")
+    @SuppressWarnings({"CyclomaticComplexity", "MagicNumber"})
     public Quality determinePasswordQuality(String password) {
 
         boolean digit = false;
