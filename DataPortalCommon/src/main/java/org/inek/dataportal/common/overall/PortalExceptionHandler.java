@@ -94,7 +94,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         return exception instanceof NonexistentConversationException //|| exception instanceof WeldException
                 // todo: exception instanceof WeldException is fine in direct window, but does not work here.
                 // thus check for exception's name as workarround
-                || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException")
+                || "class org.jboss.weld.exceptions.WeldException".equals(exception.getClass().toString())
                 || exception instanceof FacesException && exception.getMessage() != null && exception.getMessage().
                 contains("WELD-000049:");
     }

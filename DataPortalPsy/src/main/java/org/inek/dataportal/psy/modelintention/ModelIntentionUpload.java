@@ -1,20 +1,21 @@
 package org.inek.dataportal.psy.modelintention;
 
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.common.utils.StringUtil;
+import org.inek.dataportal.common.utils.ValueLists;
+import org.inek.dataportal.psy.modelintention.entities.Cost;
+import org.inek.dataportal.psy.modelintention.entities.ModelIntentionContact;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.http.Part;
-import org.inek.dataportal.psy.modelintention.entities.Cost;
-import org.inek.dataportal.psy.modelintention.entities.ModelIntentionContact;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
-import org.inek.dataportal.common.utils.StringUtil;
-import org.inek.dataportal.common.utils.ValueLists;
 
 @Named
 @RequestScoped
@@ -134,7 +135,7 @@ public class ModelIntentionUpload {
             contact.setZip(tokens[4]);
             contact.setTown(tokens[5]);
             try {
-                contact.setRegCare(tokens[6].equals("1"));
+                contact.setRegCare("1".equals(tokens[6]));
             } catch (NumberFormatException ex) {
             }
             contact.setContactPerson(tokens[7]);

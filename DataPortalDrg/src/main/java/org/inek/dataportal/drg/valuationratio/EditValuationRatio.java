@@ -4,10 +4,23 @@
  */
 package org.inek.dataportal.drg.valuationratio;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.logging.Logger;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.drg.valuationratio.entities.ValuationRatio;
+import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioDrgCount;
+import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioMedian;
+import org.inek.dataportal.drg.valuationratio.facades.ValuationRatioFacade;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
@@ -18,23 +31,10 @@ import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.drg.valuationratio.entities.ValuationRatio;
-import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioDrgCount;
-import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioMedian;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.drg.valuationratio.facades.ValuationRatioFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.overall.AccessManager;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author muellermi
@@ -66,7 +66,7 @@ public class EditValuationRatio extends AbstractEditController {
         Object id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (id == null) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
-        } else if (id.toString().equals("new")) {
+        } else if ("new".equals(id.toString())) {
             _valuationRatio = newValuationRatio();
             ikChanged();
         } else {

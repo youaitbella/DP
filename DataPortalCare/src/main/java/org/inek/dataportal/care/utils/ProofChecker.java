@@ -25,6 +25,9 @@ public class ProofChecker {
             "Das Verhältnis Patient/Pflegekraft ist auffällig niedrig. Bitte korrigieren oder im Kommentarfeld erläutern.";
     public static final String PATIENT_PER_NURSE_HIGH =
             "Das Verhältnis Patient/Pflegekraft ist auffällig hoch. Bitte korrigieren oder im Kommentarfeld erläutern.";
+    public static final String WARD = "Station: ";
+    public static final String MONTH = " Monat: ";
+    public static final String SHIFT = " Schicht: ";
 
     public static List<String> proofIsReadyForSave(ProofRegulationBaseInformation baseInfo, int exceptionsFactsCount) {
         List<String> errorMessages = new ArrayList<>();
@@ -43,9 +46,9 @@ public class ProofChecker {
         List<String> messages = new ArrayList<>();
         for (Proof proof : baseInfo.getProofs()) {
             if (proof.getCountShift() < proof.getCountShiftNotRespected()) {
-                addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
-                        + " Monat: " + proof.getMonth().getName()
-                        + " Schicht: " + proof.getShift().getName()
+                addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+                        + MONTH + proof.getMonth().getName()
+                        + SHIFT + proof.getShift().getName()
                         + ": "
                         + MORE_FAILUERS_THAN_TOTAL_SHIFTS);
             }
@@ -58,57 +61,57 @@ public class ProofChecker {
     @SuppressWarnings("CyclomaticComplexity")
     private static void checkShiftNursePatient(List<String> messages, Proof proof) {
         if (proof.getNurse() == 0 && proof.getPatientOccupancy() > 0) {
-            addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
-                    + " Monat: " + proof.getMonth().getName()
-                    + " Schicht: " + proof.getShift().getName()
+            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+                    + MONTH + proof.getMonth().getName()
+                    + SHIFT + proof.getShift().getName()
                     + ": "
                     + NO_NURSE_BUT_PATIENT);
             return;
         }
         if (proof.getNurse() > 0 && proof.getPatientOccupancy() == 0 && "".equals(proof.getComment().trim())) {
-            addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
-                    + " Monat: " + proof.getMonth().getName()
-                    + " Schicht: " + proof.getShift().getName()
+            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+                    + MONTH + proof.getMonth().getName()
+                    + SHIFT + proof.getShift().getName()
                     + ": "
                     + NO_PATIENT_BUT_NURSE);
             return;
         }
         if (proof.getNurse() == 0 && proof.getPatientOccupancy() == 0 && proof.getCountShift() > 0) {
-            addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
-                    + " Monat: " + proof.getMonth().getName()
-                    + " Schicht: " + proof.getShift().getName()
+            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+                    + MONTH + proof.getMonth().getName()
+                    + SHIFT + proof.getShift().getName()
                     + ": "
                     + SHIFT_BUT_NURSE);
             return;
         }
         if (proof.getCountShift() == 0 && proof.getNurse() > 0) {
-            addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
-                    + " Monat: " + proof.getMonth().getName()
-                    + " Schicht: " + proof.getShift().getName()
+            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+                    + MONTH + proof.getMonth().getName()
+                    + SHIFT + proof.getShift().getName()
                     + ": "
                     + NURSE_BUT_SHIFT);
             return;
         }
         if (proof.getCountShift() == 0 && "".equals(proof.getComment().trim())) {
-            addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
-                    + " Monat: " + proof.getMonth().getName()
-                    + " Schicht: " + proof.getShift().getName()
+            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+                    + MONTH + proof.getMonth().getName()
+                    + SHIFT + proof.getShift().getName()
                     + ": "
                     + MISSING_SHIFT);
             return;
         }
         if (proof.getPatientPerNurse() < 0.5 && "".equals(proof.getComment().trim())) {
-            addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
-                    + " Monat: " + proof.getMonth().getName()
-                    + " Schicht: " + proof.getShift().getName()
+            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+                    + MONTH + proof.getMonth().getName()
+                    + SHIFT + proof.getShift().getName()
                     + ": "
                     + PATIENT_PER_NURSE_LOW);
             return;
         }
         if (proof.getPatientPerNurse() > 100. && "".equals(proof.getComment().trim())) {
-            addMessage(messages, "Station: " + proof.getProofRegulationStation().getStationName()
-                    + " Monat: " + proof.getMonth().getName()
-                    + " Schicht: " + proof.getShift().getName()
+            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+                    + MONTH + proof.getMonth().getName()
+                    + SHIFT + proof.getShift().getName()
                     + ": "
                     + PATIENT_PER_NURSE_HIGH);
         }

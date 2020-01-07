@@ -1,14 +1,20 @@
 package org.inek.dataportal.psy.modelintention;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.RemunerationTypeFacade;
+import org.inek.dataportal.common.data.common.RemunerationType;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.psy.modelintention.entities.*;
+import org.inek.dataportal.psy.modelintention.enums.Region;
+import org.inek.dataportal.psy.modelintention.enums.SelfHospitalisationType;
+import org.inek.dataportal.psy.modelintention.facades.ModelIntentionFacade;
+
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -17,24 +23,11 @@ import javax.inject.Named;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.common.RemunerationType;
-import org.inek.dataportal.psy.modelintention.entities.Cost;
-import org.inek.dataportal.psy.modelintention.entities.ModelIntention;
-import org.inek.dataportal.psy.modelintention.entities.ModelIntentionContact;
-import org.inek.dataportal.psy.modelintention.entities.Quality;
-import org.inek.dataportal.psy.modelintention.entities.Remuneration;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.psy.modelintention.enums.Region;
-import org.inek.dataportal.psy.modelintention.enums.SelfHospitalisationType;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.access.RemunerationTypeFacade;
-import org.inek.dataportal.psy.modelintention.facades.ModelIntentionFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.utils.DocumentationUtil;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -102,7 +95,7 @@ public class EditModelIntention extends AbstractEditController {
 
         if (id == null) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
-        } else if (id.toString().equals("new")) {
+        } else if ("new".equals(id.toString())) {
             if (_sessionController.isInekUser(Feature.MODEL_INTENTION)) {
                 _modelIntention = newModelIntention();
             } else {

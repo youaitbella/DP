@@ -397,7 +397,7 @@ public class Edit {
             page.setCompensationClass(1);
             page.setCaseCount(1);
             page.setCalculationDays(1);
-            page.setIsOverlyer(page.getPepp().equals("PUEL"));
+            page.setIsOverlyer("PUEL".equals(page.getPepp()));
         } else {
             page.setValuationRadioDay(0.0);
         }

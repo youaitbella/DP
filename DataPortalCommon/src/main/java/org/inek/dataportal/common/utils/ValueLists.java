@@ -1,21 +1,22 @@
 package org.inek.dataportal.common.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
-import javax.faces.model.SelectItem;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.common.data.access.CostCenterFacade;
 import org.inek.dataportal.common.data.access.CostTypeFacade;
 import org.inek.dataportal.common.data.common.CostCenter;
 import org.inek.dataportal.common.data.common.CostType;
 import org.inek.dataportal.common.enums.Genders;
 import org.inek.dataportal.common.enums.RemunSystem;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -71,10 +72,10 @@ public class ValueLists{
     public List<SelectItem> getCostCentersCDM(int remunerationDomain) {
         Stream<CostCenter> stream = _costCenters.stream();
         if (remunerationDomain == 0) {
-            stream = stream.filter(c -> c.getIsDrg() || c.getCharId().equals("OV"));
+            stream = stream.filter(c -> c.getIsDrg() || "OV".equals(c.getCharId()));
         }
         if (remunerationDomain == 1) {
-            stream = stream.filter(c -> c.getIsPsy() || c.getCharId().equals("OV"));
+            stream = stream.filter(c -> c.getIsPsy() || "OV".equals(c.getCharId()));
         }
         return stream
                 .filter(c -> c.getId() >= 1 || c.getId() == -9)

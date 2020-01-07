@@ -77,8 +77,8 @@ public class CI_AebImporterTest {
         Assertions.assertThat(baseInfo.getAebPageE3_2()).hasSize(1);
         Assertions.assertThat(baseInfo.getAebPageE3_3()).hasSize(1);
 
-        Assertions.assertThat(baseInfo.getAebPageE1_1().stream().filter(c -> c.getPepp().equals("PA01A") && c.getCompensationClass() == 7).findFirst().get().getCaseCount()).isEqualTo(0);
-        Assertions.assertThat(baseInfo.getAebPageE1_1().stream().filter(c -> c.getPepp().equals("PA01A") && c.getCompensationClass() == 7).findFirst().get().getCalculationDays()).isEqualTo(2889);
+        Assertions.assertThat(baseInfo.getAebPageE1_1().stream().filter(c -> "PA01A".equals(c.getPepp()) && c.getCompensationClass() == 7).findFirst().get().getCaseCount()).isEqualTo(0);
+        Assertions.assertThat(baseInfo.getAebPageE1_1().stream().filter(c -> "PA01A".equals(c.getPepp()) && c.getCompensationClass() == 7).findFirst().get().getCalculationDays()).isEqualTo(2889);
 
         Assertions.assertThat(baseInfo.getAebPageB1().getTotalAgreementPeriod()).isEqualTo(0);
         Assertions.assertThat(baseInfo.getAebPageB1().getChangedTotal()).isEqualTo(55453196.0);
@@ -113,8 +113,8 @@ public class CI_AebImporterTest {
         Assertions.assertThat(baseInfo.getAebPageE3_2()).hasSize(2);
         Assertions.assertThat(baseInfo.getAebPageE3_3()).hasSize(12);
 
-        Assertions.assertThat(baseInfo.getAebPageE1_1().stream().filter(c -> c.getPepp().equals("PA01A") && c.getCompensationClass() == 7).findFirst().get().getCaseCount()).isEqualTo(11);
-        Assertions.assertThat(baseInfo.getAebPageE1_1().stream().filter(c -> c.getPepp().equals("PA01A") && c.getCompensationClass() == 7).findFirst().get().getCalculationDays()).isEqualTo(688);
+        Assertions.assertThat(baseInfo.getAebPageE1_1().stream().filter(c -> "PA01A".equals(c.getPepp()) && c.getCompensationClass() == 7).findFirst().get().getCaseCount()).isEqualTo(11);
+        Assertions.assertThat(baseInfo.getAebPageE1_1().stream().filter(c -> "PA01A".equals(c.getPepp()) && c.getCompensationClass() == 7).findFirst().get().getCalculationDays()).isEqualTo(688);
 
         Assertions.assertThat(baseInfo.getAebPageB1().getTotalAgreementPeriod()).isEqualTo(25992153.0);
         Assertions.assertThat(baseInfo.getAebPageB1().getChangedTotal()).isEqualTo(27335175.0);

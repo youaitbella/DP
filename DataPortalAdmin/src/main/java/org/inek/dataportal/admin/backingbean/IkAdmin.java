@@ -34,6 +34,9 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.inek.dataportal.api.helper.PortalConstants.VAR_FEATURES;
+import static org.inek.dataportal.api.helper.PortalConstants.VAR_IK;
+
 /**
  * @author muellermi
  */
@@ -235,7 +238,7 @@ public class IkAdmin implements Serializable {
 
     private void sendIkAdminStatus() {
         Map<String, String> substitutions = new HashMap<>();
-        substitutions.put("{ik}", "" + _ik);
+        substitutions.put(VAR_IK, "" + _ik);
         String features = _account.getAdminIks()
                 .stream()
                 .filter(a -> a.getIk() == _ik)
@@ -245,7 +248,7 @@ public class IkAdmin implements Serializable {
                         .collect(Collectors.joining("\r\n")))
                 .findAny()
                 .orElse("");
-        substitutions.put("{features}", features);
+        substitutions.put(VAR_FEATURES, features);
         _mailer.sendMailWithTemplate("IK-Admin: update", substitutions, _account);
     }
     // </editor-fold>

@@ -102,9 +102,9 @@ public class ProofFillerTest {
         ProofFiller.createProofEntrysFromStations(info, stations, 2018, 1);
 
         Assertions.assertThat(info.getProofs()).hasSize(18);
-        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getProofRegulationStation().getFabName().equals("B1"))).hasSize(6);
-        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getProofRegulationStation().getFabName().equals("B2"))).hasSize(6);
-        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getProofRegulationStation().getFabName().equals("B4"))).hasSize(6);
+        Assertions.assertThat(info.getProofs().stream().filter(c -> "B1".equals(c.getProofRegulationStation().getFabName()))).hasSize(6);
+        Assertions.assertThat(info.getProofs().stream().filter(c -> "B2".equals(c.getProofRegulationStation().getFabName()))).hasSize(6);
+        Assertions.assertThat(info.getProofs().stream().filter(c -> "B4".equals(c.getProofRegulationStation().getFabName()))).hasSize(6);
     }
 
     @Test
@@ -163,9 +163,9 @@ public class ProofFillerTest {
         ProofFiller.createProofEntrysFromStations(info, stations, 2018, 1);
 
         Assertions.assertThat(info.getProofs()).hasSize(16);
-        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getProofRegulationStation().getFabName().equals("B1"))).hasSize(6);
-        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getProofRegulationStation().getFabName().equals("B2"))).hasSize(6);
-        Assertions.assertThat(info.getProofs().stream().filter(c -> c.getProofRegulationStation().getFabName().equals("B4"))).hasSize(4);
+        Assertions.assertThat(info.getProofs().stream().filter(c -> "B1".equals(c.getProofRegulationStation().getFabName()))).hasSize(6);
+        Assertions.assertThat(info.getProofs().stream().filter(c -> "B2".equals(c.getProofRegulationStation().getFabName()))).hasSize(6);
+        Assertions.assertThat(info.getProofs().stream().filter(c -> "B4".equals(c.getProofRegulationStation().getFabName()))).hasSize(4);
     }
 
     private ProofRegulationStation createNewStation(String name, String location, String fab, List<Months> months) {
