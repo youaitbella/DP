@@ -8,10 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author lautenti
@@ -217,5 +214,21 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
 
     public void addProof(Proof proof) {
         _proofs.add(proof);
+    }
+
+    public boolean addProofDocument(ProofDocument proofDocument) {
+        Optional<ProofDocument> findAny = _proofs
+                .stream()
+                .filter(d -> proofDocument.getSignature().equals(d.getSignature()))
+                .findAny();
+        if (findAny.isPresent()) {
+            ProofDocument existing = findAny.get();
+            existing.setName(proofDocument.getName());
+            existing.setContent(proofDocument.getContent());
+            return false;
+        }
+        proofDocument.setStaffProofMasterId(_id);
+        _staffProofDocument.add(staffProofDocument);
+        return true;
     }
 }

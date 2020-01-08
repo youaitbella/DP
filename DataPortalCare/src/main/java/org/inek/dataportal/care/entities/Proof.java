@@ -6,9 +6,7 @@ import org.inek.dataportal.care.enums.Shift;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author lautenti
@@ -34,6 +32,7 @@ public class Proof implements Serializable {
         this._countShiftNotRespected = proof.getCountShiftNotRespected();
         this._patientPerNurse = proof.getPatientPerNurse();
         this._countHelpeNurseChargeable = proof.getCountHelpeNurseChargeable();
+        this._proofDocument = proof.getProofDocuments();
 
         for (ProofExceptionFact exceptionFact : proof.getExceptionFact()) {
             ProofExceptionFact newExceptionFact = new ProofExceptionFact(exceptionFact);
@@ -231,6 +230,17 @@ public class Proof implements Serializable {
         this._comment = comment;
     }
     //</editor-fold>
+
+    //<editor-fold desc="Property ProofDocumentId">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "prProofDocumentId", referencedColumnName = "pdId")
+    private List<ProofDocument> _proofDocument = new Vector<>();
+
+    public List<ProofDocument> getProofDocuments() {
+        return Collections.unmodifiableList(_proofDocument);
+    }
+    //</editor-fold>
+
 
     @OneToMany(mappedBy = "_proof", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "pefProofId")

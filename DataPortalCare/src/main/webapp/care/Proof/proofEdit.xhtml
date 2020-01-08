@@ -283,6 +283,19 @@
                                           style="margin-left: 10px;"
                                           update="@(.ui-message) :form:buttons"/>
 
+                        <pf:fileUpload styleClass="inekUploader"
+                                       fileUploadListener="#{proofEdit.handleFileUpload}"
+                                       mode="advanced"
+                                       auto="true"
+                                       fileLimit="1"
+                                       fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
+                                       invalidFileMessage="Es dürfen nur PDF oder Bilddateien (JPG, JPEG, PNG, BMP, GIF ) hochgeladen werden"
+                                       allowTypes="/(\.|\/)(pdf|jpg|jpeg|png|bmp|gif)$/"
+                                       cancelLabel="Abbrechen"
+                                       uploadLabel="Datei Hochladen"
+                                       label="Unterschriebene Anlage auswählen"
+                                       update="@form" />
+
 
                         <pf:outputLabel rendered="#{not proofEdit.sendAllowedForToday() and proofEdit.proofRegulationBaseInformation.status.id lt 10}"
                                         style="padding-left: 10px"

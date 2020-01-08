@@ -41,10 +41,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -496,6 +493,37 @@ public class ProofEdit implements Serializable {
         } catch (Exception ex) {
             DialogController.showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
             LOGGER.log(Level.WARNING, "Error on upload ppugv-excel: " + ex.getMessage(), ex);
+        }
+    }
+
+    public void handleFileUpload2(FileUploadEvent event) {
+        LOGGER.log(Level.INFO, "File uploaded: " + event.getFile().getFileName());
+        putDocument(event.getFile().getFileName(), event.getFile().getContents());
+        DialogController.showInfoDialog("Upload erfolgreich",
+                "Die Datei " + event.getFile().getFileName() + " wurde erfolgreich hochgeladen");
+    }
+
+    private List<String> allowedFileExtensions() {
+        return Arrays.asList(".pdf", ".jpg", ".jpeg", ".png", ".bmp", ".gif");
+    }
+
+    public void putDocument(String fileName, byte[] content) {
+
+        int pos = fileName.lastIndexOf(".");
+        String extension = pos < 0 ? "" : fileName.toLowerCase().substring(pos);
+        if (allowedFileExtensions().contains(extension)) {
+            ProofDocument document = new ProofDocument(fileName);
+            document.setContent(content);
+            document.setSignature(_proofRegulationBaseInformation.getSignature());
+            _proofRegulationBaseInformation.addProofDocument(document);
+            save();
+            sendMailIfComplete();
+        }
+    }
+
+    private void sendMailIfComplete() {
+        if (isComplete()) {
+            sendConfirmMail();
         }
     }
 
