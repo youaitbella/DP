@@ -416,6 +416,8 @@ public class DeptEdit implements Serializable {
         _oldDeptbaseInformation.setStatus(WorkflowStatus.Retired);
 
         deleteStructuralChanges();
+        _deptBaseInformation = new DeptBaseInformation(_oldDeptbaseInformation, _sessionController.getAccountId());
+        ResetWards();
         _deptBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         setIsReadOnly(false);
     }
@@ -426,7 +428,9 @@ public class DeptEdit implements Serializable {
             _structuralChangesFacade.deleteBaseInformation(change);
         }
 
-        _deptBaseInformation = new DeptBaseInformation(_oldDeptbaseInformation, _sessionController.getAccountId());
+    }
+
+    private void ResetWards() {
         MapVersion initialVersion = new MapVersion(_sessionController.getAccountId());
         for (Dept dept : _deptBaseInformation.getDepts()) {
             List<DeptWard> deptWards = new ArrayList<>(dept.getDeptWards());
