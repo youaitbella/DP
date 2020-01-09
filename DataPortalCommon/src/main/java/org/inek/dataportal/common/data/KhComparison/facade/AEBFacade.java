@@ -269,22 +269,18 @@ public class AEBFacade extends AbstractDataAccess {
 
     public List<Integer> getAebIdsForEvaluationGroup2_3_8_9(String stateIds, int year, PsyGroup psyGroup) {
         String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_2_3_8_9");
-        sql = sql.replace("{year}", String.valueOf(year));
-        sql = sql.replace("{psyGroupId}", String.valueOf(psyGroup.getId()));
-        sql = sql.replace("{stateIds}", stateIds);
-
-        Query query = getEntityManager().createNativeQuery(sql);
-        @SuppressWarnings("unchecked")
-        List<Integer> results = query.getResultList();
-
-        return results;
+        return retrieveAebIdsForGroup(stateIds, year, psyGroup, sql);
     }
 
     public List<Integer> getAebIdsForEvaluationGroup1_7(String stateIds, int year, PsyGroup psyGroup) {
         String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_1_7");
-        sql = sql.replace("{year}", String.valueOf(year));
-        sql = sql.replace("{psyGroupId}", String.valueOf(psyGroup.getId()));
-        sql = sql.replace("{stateIds}", stateIds);
+        return retrieveAebIdsForGroup(stateIds, year, psyGroup, sql);
+    }
+
+    private List<Integer> retrieveAebIdsForGroup(String stateIds, int year, PsyGroup psyGroup, String sql) {
+        sql = sql.replace(VAR_YEAR, String.valueOf(year));
+        sql = sql.replace(VAR_PSY_GROUP_ID, String.valueOf(psyGroup.getId()));
+        sql = sql.replace(VAR_STATE_IDS, stateIds);
 
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked")
@@ -295,8 +291,8 @@ public class AEBFacade extends AbstractDataAccess {
 
     public List<Integer> getAebIdsForEvaluationGroup5_6(String stateIds, int year) {
         String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_5_6");
-        sql = sql.replace("{year}", String.valueOf(year));
-        sql = sql.replace("{stateIds}", stateIds);
+        sql = sql.replace(VAR_YEAR, String.valueOf(year));
+        sql = sql.replace(VAR_STATE_IDS, stateIds);
 
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked")
@@ -307,8 +303,8 @@ public class AEBFacade extends AbstractDataAccess {
 
     public List<Integer> getAebIdsForEvaluationGroup4(String stateIds, int year) {
         String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_4");
-        sql = sql.replace("{year}", String.valueOf(year));
-        sql = sql.replace("{stateIds}", stateIds);
+        sql = sql.replace(VAR_YEAR, String.valueOf(year));
+        sql = sql.replace(VAR_STATE_IDS, stateIds);
 
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked")
@@ -327,7 +323,7 @@ public class AEBFacade extends AbstractDataAccess {
 
     private int getAebIdForEvaluationHospital(int ik, int year, String statementName) {
         String sql = XmlReaderPsyEvaluation.getStatementById(statementName);
-        sql = sql.replace("{year}", String.valueOf(year));
+        sql = sql.replace(VAR_YEAR, String.valueOf(year));
         sql = sql.replace("{ik}", String.valueOf(ik));
 
         Query query = getEntityManager().createNativeQuery(sql);
