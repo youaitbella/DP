@@ -63,7 +63,7 @@
         <module name="ModifiedControlVariable"/>
 
 		<module name="MultipleStringLiterals">
-            <property name="allowedDuplicates" value="3"/> <!-- todo: reduce to 2 -->
+            <property name="allowedDuplicates" value="4"/> <!-- todo: reduce to 2 -->
             <property name="ignoreStringsRegexp"
                       value='(^(("")|(", ")|("\\\\r\\\\n")|("\\r\\n")|("\\n")|("UTF-8")|(".?")|("\s?.?\s?"))$)|(.*\\n")|(.*select .*)|(.*from .*)|(.*union .*)|(.*join .*)|(.*insert .*)|(.*update .*)|(.*and .*)|(.*or .*)|(.*where .*)|(.*\.png)'/>
             <property name="severity" value="error"/>

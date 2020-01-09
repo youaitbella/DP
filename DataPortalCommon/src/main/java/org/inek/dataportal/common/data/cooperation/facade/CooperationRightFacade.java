@@ -1,18 +1,22 @@
 package org.inek.dataportal.common.data.cooperation.facade;
 
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.data.AbstractFacade;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
+import org.inek.dataportal.common.enums.CooperativeRight;
+
+import javax.ejb.Schedule;
+import javax.ejb.Stateless;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Schedule;
-import javax.ejb.Stateless;
-import javax.persistence.Query;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
-import org.inek.dataportal.common.enums.CooperativeRight;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.data.AbstractFacade;
+
+import static org.inek.dataportal.api.helper.PortalConstants.ACCOUNT_ID;
+import static org.inek.dataportal.api.helper.PortalConstants.FEATURE;
 
 @Stateless
 public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
@@ -41,8 +45,8 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 + "and (cor._ownerId = :accountId or cor._partnerId = :accountId or cor._ownerId = -1 and cor._ik in :iks)";
         return getEntityManager()
                 .createQuery(query, CooperationRight.class)
-                .setParameter("accountId", account.getId())
-                .setParameter("feature", feature)
+                .setParameter(ACCOUNT_ID, account.getId())
+                .setParameter(FEATURE, feature)
                 .setParameter("iks", iks)
                 .getResultList();
     }
@@ -59,8 +63,8 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId = :accountId and cor._feature = :feature";
         return getEntityManager()
                 .createQuery(query, CooperationRight.class)
-                .setParameter("accountId", accountId)
-                .setParameter("feature", feature)
+                .setParameter(ACCOUNT_ID, accountId)
+                .setParameter(FEATURE, feature)
                 .getResultList();
     }
 
@@ -68,7 +72,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId = :accountId and cor._partnerId = :partnerId";
         return getEntityManager()
                 .createQuery(query, CooperationRight.class)
-                .setParameter("accountId", accountId)
+                .setParameter(ACCOUNT_ID, accountId)
                 .setParameter("partnerId", partnerId)
                 .getResultList();
     }
@@ -78,9 +82,9 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                 + "WHERE cor._ownerId = :accountId and cor._partnerId = :partnerId and cor._feature = :feature";
         return getEntityManager()
                 .createQuery(query, CooperationRight.class)
-                .setParameter("accountId", accountId)
+                .setParameter(ACCOUNT_ID, accountId)
                 .setParameter("partnerId", partnerId)
-                .setParameter("feature", feature)
+                .setParameter(FEATURE, feature)
                 .getResultList();
     }
 
@@ -96,8 +100,8 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         String query = "SELECT cor FROM CooperationRight cor WHERE cor._partnerId = :accountId and cor._feature = :feature";
         return getEntityManager()
                 .createQuery(query, CooperationRight.class)
-                .setParameter("accountId", accountId)
-                .setParameter("feature", feature)
+                .setParameter(ACCOUNT_ID, accountId)
+                .setParameter(FEATURE, feature)
                 .getResultList();
     }
 
@@ -113,7 +117,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
                     .setParameter("ownerId", ownerId)
                     .setParameter("partnerId", partnerId)
                     .setParameter("ik", ik)
-                    .setParameter("feature", feature)
+                    .setParameter(FEATURE, feature)
                     .getSingleResult();
         } catch (Exception e) {
             return new CooperationRight(ownerId, partnerId, ik, feature);
