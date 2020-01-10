@@ -8,6 +8,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <junit.version>5.3.2</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy.MM.dd.HHmm</maven.build.timestamp.format>
@@ -121,7 +122,7 @@
                             <dependency>
                                 <groupId>org.junit.jupiter</groupId>
                                 <artifactId>junit-jupiter-engine</artifactId>
-                                <version>5.3.2</version>
+                                <version>${junit.version}</version>
                             </dependency>
                         </dependencies>
                     </plugin>
@@ -135,7 +136,6 @@
             <id>ci</id>
             <build>
                 <plugins>
-                    <!-- temp disabled, cause vulnerability file not available
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
@@ -168,28 +168,30 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin-->
+                    </plugin>
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-checkstyle-plugin</artifactId>
                         <version>3.0.0</version>
+                        <configuration>
+                            <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                            <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+                            <configLocation>checkstyle-int-config.xml</configLocation>
+                            <sourceDirectories>
+                                <sourceDirectory>src/main/java</sourceDirectory>
+                            </sourceDirectories>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                            <failOnViolation>true</failOnViolation>
+                        </configuration>
                         <executions>
                             <execution>
+                                <id>validate</id>
+                                <phase>validate</phase>
                                 <goals>
                                     <goal>check</goal>
                                 </goals>
-                                <configuration>
-                                    <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
-                                    <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
-                                    <configLocation>checkstyle-int-config.xml</configLocation>
-                                    <sourceDirectories>
-                                        <sourceDirectory>src/main/java</sourceDirectory>
-                                    </sourceDirectories>
-                                    <consoleOutput>true</consoleOutput>
-                                    <failsOnError>true</failsOnError>
-                                    <failOnViolation>true</failOnViolation>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -258,19 +260,19 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.3.2</version>
+                <version>${junit.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
-                <version>5.3.2</version>
+                <version>${junit.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-params</artifactId>
-                <version>5.3.2</version>
+                <version>${junit.version}</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
