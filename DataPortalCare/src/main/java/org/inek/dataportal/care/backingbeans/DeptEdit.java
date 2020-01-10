@@ -157,7 +157,7 @@ public class DeptEdit implements Serializable {
                 _deptBaseInformation.setIk(ik);
                 // todo: remove after 2020-01-10
                 if (extensions.contains(ik)) {
-                    _deptBaseInformation.setExtensionRequested(DateUtils.createDate(2019, Month.DECEMBER, 31));
+                    _deptBaseInformation.setExtensionRequested(createDate(2019, Month.DECEMBER, 31));
                 }
                 preloadDataForIk(_deptBaseInformation);
                 loadP21LocationsForIk(_deptBaseInformation.getIk(), _deptBaseInformation.getYear());
@@ -222,7 +222,7 @@ public class DeptEdit implements Serializable {
         loadStationPrefillNames(_deptBaseInformation.getIk(), _deptBaseInformation.getYear() - 1);
         // todo: remove after 2020-01-10
         if (extensions.contains(_deptBaseInformation.getIk())) {
-            _deptBaseInformation.setExtensionRequested(DateUtils.createDate(2019, Month.DECEMBER, 31));
+            _deptBaseInformation.setExtensionRequested(createDate(2019, Month.DECEMBER, 31));
         } else {
             _deptBaseInformation.setExtensionRequested(DateUtils.MIN_DATE);
         }
@@ -246,7 +246,7 @@ public class DeptEdit implements Serializable {
             _deptBaseInformation = _deptFacade.save(_deptBaseInformation);
 
             if (_deptBaseInformation.getStatus() == WorkflowStatus.Provided) {
-                sendMail("Care Senden Bestätigung");
+                sendMail(isBeforeRegularEnd(new Date()) ? "Care Senden Bestätigung" : "CareSendConfirmationAfterExtendedDeadline");
             } else {
                 sendMail("Care Speicher Bestätigung");
             }
@@ -401,8 +401,8 @@ public class DeptEdit implements Serializable {
 
     private boolean isAfterEndDate() {
         Date endDate = _deptBaseInformation == null || _deptBaseInformation.getExtensionRequested().equals(DateUtils.MIN_DATE)
-                ? DateUtils.createDate(2019, Month.DECEMBER, 21)
-                : DateUtils.createDate(2020, Month.JANUARY, 11);
+                ? createDate(2019, Month.DECEMBER, 21)
+                : createDate(2020, Month.DECEMBER, 11);
         return new Date().compareTo(endDate) >= 0;
     }
 
@@ -534,8 +534,7 @@ public class DeptEdit implements Serializable {
     public boolean isExtensionAllowed() {
         return _deptBaseInformation != null
                 && _deptBaseInformation.getIk() > 0
-                && isMinDate()
-                && new Date().compareTo(DateUtils.createDate(2020, Month.JANUARY, 11)) < 0;
+                && isMinDate();
     }
 
     public boolean isMinDate() {
@@ -545,8 +544,23 @@ public class DeptEdit implements Serializable {
     public void applyExtension() {
         _deptBaseInformation.setExtensionRequested(new Date());
         save(true);
-        sendMail("CareDeptExtensionRequested");
+        sendMail(isBeforeRegularEnd(new Date()) ? "CareDeptExtensionRequested" : "CareDeptExtensionRequestedAfterExtendedDeadline");
     }
 
 
+    private boolean isBeforeRegularEnd(Date date) {
+        return date.compareTo(DateUtils.createDate(2020, Month.JANUARY, 11)) < 0;
+    }
+
+    public String getButtonExtensionText() {
+        return isBeforeRegularEnd(new Date())
+                ? "Fristverlängerung beantragen"
+                : "Datenlieferung nach Fristablauf beantragen";
+    }
+
+    public String getExtensionRequestedText() {
+        return isBeforeRegularEnd(_deptBaseInformation.getExtensionRequested())
+                ? "Fristverlängerung beantragt"
+                : "Datenlieferung nach Fristablauf beantragt";
+    }
 }
