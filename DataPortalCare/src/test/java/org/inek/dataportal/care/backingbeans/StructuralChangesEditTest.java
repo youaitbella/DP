@@ -44,7 +44,7 @@ class StructuralChangesEditTest {
         assertThat(wards.get(0).getValidFrom()).isEqualTo(DATE_1);
         assertThat(wards.get(0).getValidTo()).isEqualTo(DateUtils.addDays(DATE_2, -1));
         assertThat(wards.get(1).getValidFrom()).isEqualTo(DATE_2);
-        assertThat(wards.get(1).getValidTo()).isEqualTo(DateUtils.getMaxDate());
+        assertThat(wards.get(1).getValidTo()).isEqualTo(DateUtils.MAX_DATE);
     }
 
     @Test
@@ -114,6 +114,6 @@ class StructuralChangesEditTest {
         assertThat(wards.get(0).getValidFrom()).isEqualTo(DATE_1);
         assertThat(wards.get(0).getValidTo()).isEqualTo(DateUtils.addDays(DATE_2, -1));
         assertThat(wards.get(1).getValidFrom()).isEqualTo(DateUtils.addDays(DATE_3, 1));
-        assertThat(wards.get(1).getValidTo()).isEqualTo(DateUtils.getMaxDate());
+        assertThat(wards.get(1).getValidTo()).isEqualTo(DateUtils.MAX_DATE);
     }
 }

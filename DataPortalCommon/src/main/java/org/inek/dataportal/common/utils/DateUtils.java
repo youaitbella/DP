@@ -56,14 +56,6 @@ public class DateUtils {
         return GERMAN_FORMATTER.format(new Date());
     }
 
-    /**
-     * @deprecated replace by conctant MAX_DATE
-     */
-    @Deprecated
-    public static Date getMaxDate() {
-        return createDate(2079, Month.JANUARY, 1);
-    }
-
     public static Date createDate(int year, Month month, int day) {
         return createDate(year, month, day, 0, 0, 0);
     }
