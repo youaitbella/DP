@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.inek.dataportal.common.utils.DateUtils.getMaxDate;
+import static org.inek.dataportal.common.utils.DateUtils.MAX_DATE;
 
 public class AggregatedWards {
     private Date _validFrom;
@@ -54,7 +54,7 @@ public class AggregatedWards {
     }
 
     public Date getValidTo() {
-        return getMaxDate().equals(_validTo) ? null : _validTo;
+        return MAX_DATE.equals(_validTo) ? null : _validTo;
     }
 
     public List<DeptWard> getWards() {
