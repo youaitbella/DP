@@ -216,8 +216,16 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
         _proofs.add(proof);
     }
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "pdProofRegulationBaseInformationId", referencedColumnName = "prbiId")
+    private List<ProofDocument> _proofDocument = new Vector<>();
+
+    public List<ProofDocument> getStaffProofDocuments() {
+        return Collections.unmodifiableList(_proofDocument);
+    }
+
     public boolean addProofDocument(ProofDocument proofDocument) {
-        Optional<ProofDocument> findAny = _proofs
+        Optional<ProofDocument> findAny = _proofDocument
                 .stream()
                 .filter(d -> proofDocument.getSignature().equals(d.getSignature()))
                 .findAny();
@@ -227,8 +235,8 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
             existing.setContent(proofDocument.getContent());
             return false;
         }
-        proofDocument.setStaffProofMasterId(_id);
-        _staffProofDocument.add(staffProofDocument);
+        proofDocument._setProofRegulationBaseInformationId(_id);
+        _proofDocument.add(proofDocument);
         return true;
     }
 }

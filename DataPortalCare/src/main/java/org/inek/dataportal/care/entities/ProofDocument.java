@@ -42,17 +42,18 @@ public class ProofDocument implements Serializable, Document {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property StaffProofMasterId">
-    @Column(name = "pdProofRegulationsBaseInformationId")
-    private int _staffProofMasterId;
+    // <editor-fold defaultstate="collapsed" desc="Property ProofRegulationBaseInformationId">
+    @Column(name = "pdProofRegulationBaseInformationId")
+    private int _proofRegulationBaseInformationId;
 
-    public int getStaffProofMasterId() {
-        return _staffProofMasterId;
+    public int _getProofRegulationBaseInformationId() {
+        return _proofRegulationBaseInformationId;
     }
 
-    public void setStaffProofMasterId(int staffProofMasterId) {
-        _staffProofMasterId = staffProofMasterId;
+    public void _setProofRegulationBaseInformationId(int _proofRegulationBaseInformationId) {
+        this._proofRegulationBaseInformationId = _proofRegulationBaseInformationId;
     }
+
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Signature">
@@ -71,7 +72,7 @@ public class ProofDocument implements Serializable, Document {
     // <editor-fold defaultstate="collapsed" desc="Property Created">
     @Column(name = "pdCreated")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date _created = Calendar.getInstance().getTime();;
+    private Date _created = Calendar.getInstance().getTime();
 
     public Date getCreated() {
         return _created;
