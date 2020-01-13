@@ -31,6 +31,7 @@ public class ProofImporter {
 
 
     private static final Logger LOGGER = Logger.getLogger(ProofImporter.class.getName());
+    public static final String IMPLAUSIBLE = " ist unplausibel";
     private String _message = "";
     private int _rowCounter = 0;
     private Boolean _isCommentAllowed = false;
@@ -126,34 +127,34 @@ public class ProofImporter {
     private void checkCountShiftNotRespected(double value, Cell cell) throws InvalidValueException {
         if (value < 0 || value > 31) {
             throw new InvalidValueException("Die Anzahl Schichten, in denen die PPUG im Monat nicht eingehalten wurde in Zelle "
-                    + cell.getAddress() + " ist unplausibel");
+                    + cell.getAddress() + IMPLAUSIBLE);
         }
     }
 
     private void checkPatientOccupancy(double value, Cell cell) throws InvalidValueException {
         if (value < 0 || value > 999) {
             throw new InvalidValueException("Die Anzahl der durchschnitlichen durchschnittliche Patientenbelegung in Zelle "
-                    + cell.getAddress() + " ist unplausibel");
+                    + cell.getAddress() + IMPLAUSIBLE);
         }
     }
 
     private void checkHelpNurse(double value, Cell cell) throws InvalidValueException {
         if (value < 0 || value > 999) {
             throw new InvalidValueException("Die durchschnittliche Pflegepersonalausstattung Pflegehilfskräfte in Zelle "
-                    + cell.getAddress() + " ist unplausibel");
+                    + cell.getAddress() + IMPLAUSIBLE);
         }
     }
 
     private void checkNurse(double value, Cell cell) throws InvalidValueException {
         if (value < 0 || value > 999) {
             throw new InvalidValueException("Die durchschnittliche Pflegepersonalausstattung Pflegefachkräfte in Zelle "
-                    + cell.getAddress() + " ist unplausibel");
+                    + cell.getAddress() + IMPLAUSIBLE);
         }
     }
 
     private void checkCountShift(int value, Cell cell) throws InvalidValueException {
         if (value < 0 || value > 31) {
-            throw new InvalidValueException("Die Anzahl der Schichten in Zelle " + cell.getAddress() + " ist unplausibel");
+            throw new InvalidValueException("Die Anzahl der Schichten in Zelle " + cell.getAddress() + IMPLAUSIBLE);
         }
     }
 

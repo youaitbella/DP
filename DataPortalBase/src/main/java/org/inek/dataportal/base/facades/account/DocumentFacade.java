@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.inek.dataportal.api.helper.PortalConstants.ACCOUNT_ID;
+
 @Stateless
 public class DocumentFacade extends AbstractDataAccess {
 
@@ -69,7 +71,7 @@ public class DocumentFacade extends AbstractDataAccess {
                 + "ORDER BY ad._id DESC";
 
         Query query = getEntityManager().createQuery(jpql);
-        query.setParameter("accountId", accountId);
+        query.setParameter(ACCOUNT_ID, accountId);
         List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
@@ -92,7 +94,7 @@ public class DocumentFacade extends AbstractDataAccess {
                 + "ORDER BY ad._id DESC";
 
         TypedQuery<DocInfo> query = getEntityManager().createQuery(jpql, DocInfo.class);
-        query.setParameter("accountId", accountId);
+        query.setParameter(ACCOUNT_ID, accountId);
         return query.getResultList();
     }
 
@@ -210,7 +212,7 @@ public class DocumentFacade extends AbstractDataAccess {
         String jpql = "SELECT ad._name FROM AccountDocument ad " +
                 "WHERE ad._accountId = :accountId and ad._created > :referenceDate ORDER BY ad._id DESC";
         TypedQuery<String> query = getEntityManager().createQuery(jpql, String.class);
-        query.setParameter("accountId", accountId);
+        query.setParameter(ACCOUNT_ID, accountId);
         query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-30));
         return query.setMaxResults(5).getResultList();
     }
@@ -218,14 +220,14 @@ public class DocumentFacade extends AbstractDataAccess {
     public List<AccountDocument> findAll(int accountId) {
         String jpql = "SELECT ad FROM AccountDocument ad WHERE ad._accountId = :accountId ORDER BY ad._id DESC";
         TypedQuery<AccountDocument> query = getEntityManager().createQuery(jpql, AccountDocument.class);
-        query.setParameter("accountId", accountId);
+        query.setParameter(ACCOUNT_ID, accountId);
         return query.getResultList();
     }
 
     public long count(int accountId) {
         String jpql = "SELECT count(ad._id) FROM AccountDocument ad WHERE ad._accountId = :accountId";
         Query query = getEntityManager().createQuery(jpql, Long.class);
-        query.setParameter("accountId", accountId);
+        query.setParameter(ACCOUNT_ID, accountId);
         return (long) query.getSingleResult();
     }
 

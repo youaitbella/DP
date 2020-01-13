@@ -1,30 +1,17 @@
 package org.inek.dataportal.psy.peppproposal.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.Version;
 import org.inek.dataportal.common.data.common.ProcedureInfo;
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.Documentation;
 import org.inek.dataportal.psy.peppproposal.enums.PeppProposalCategory;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -35,6 +22,7 @@ import org.inek.dataportal.psy.peppproposal.enums.PeppProposalCategory;
 public class PeppProposal implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
+    public static final String ILLEGAL_CHARS = "[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ppId")
@@ -387,7 +375,7 @@ public class PeppProposal implements Serializable, StatusEntity {
 
     public String getProblem() {
         // replace false characters stored by former char conversion
-        return _problem.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");  
+        return _problem.replace((char) 7, '*').replaceAll(ILLEGAL_CHARS, "");
     }
 
     public void setProblem(String problem) {
@@ -395,7 +383,7 @@ public class PeppProposal implements Serializable, StatusEntity {
     }
 
     public String getSolution() {
-        return _solution.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
+        return _solution.replace((char) 7, '*').replaceAll(ILLEGAL_CHARS, "");
     }
 
     public void setSolution(String solution) {
@@ -411,7 +399,7 @@ public class PeppProposal implements Serializable, StatusEntity {
     }
 
     public String getDiags() {
-        return _diags.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
+        return _diags.replace((char) 7, '*').replaceAll(ILLEGAL_CHARS, "");
     }
 
     public void setDiags(String diags) {
@@ -427,7 +415,7 @@ public class PeppProposal implements Serializable, StatusEntity {
     }
 
     public String getProcs() {
-        return _procs.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
+        return _procs.replace((char) 7, '*').replaceAll(ILLEGAL_CHARS, "");
     }
 
     public void setProcs(String procs) {
@@ -464,7 +452,7 @@ public class PeppProposal implements Serializable, StatusEntity {
     }
 
     public String getDocumentsOffline() {
-        return _documentsOffline.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
+        return _documentsOffline.replace((char) 7, '*').replaceAll(ILLEGAL_CHARS, "");
     }
 
     public void setDocumentsOffline(String documentsOffline) {

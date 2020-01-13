@@ -41,6 +41,9 @@ public class PortalConstants {
     public static final String VAR_USERNAME = "{username}";
     public static final String VAR_LASTNAME = "{lastname}";
     public static final String VAR_TITLE = "{title}";
+    public static final String VAR_YEAR = "{year}";
+    public static final String VAR_STATE_IDS = "{stateIds}";
+    public static final String VAR_PSY_GROUP_ID = "{psyGroupId}";
 
     public static final String MESSAGE_SEPERATOR = "\r\n\r\n--------------------------------\r\n\r\n";
     public static final String END_PARAGRAPH = "\r\n\r\n";

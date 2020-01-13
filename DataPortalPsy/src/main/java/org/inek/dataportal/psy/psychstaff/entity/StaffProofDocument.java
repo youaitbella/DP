@@ -1,9 +1,7 @@
 package org.inek.dataportal.psy.psychstaff.entity;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -84,7 +82,7 @@ public class StaffProofDocument implements Serializable, Document {
     // <editor-fold defaultstate="collapsed" desc="Property Created">
     @Column(name = "spdCreated")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date _created = Calendar.getInstance().getTime();;
+    private Date _created = new Date();
     
     public Date getCreated() {
         return _created;

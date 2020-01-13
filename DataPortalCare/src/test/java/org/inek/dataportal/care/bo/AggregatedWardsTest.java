@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Month;
 
+import static org.inek.dataportal.common.utils.DateUtils.MAX_DATE;
 import static org.inek.dataportal.common.utils.DateUtils.createDate;
-import static org.inek.dataportal.common.utils.DateUtils.getMaxDate;
 
 class AggregatedWardsTest {
 
@@ -41,7 +41,7 @@ class AggregatedWardsTest {
     private DeptWard createDeptWard(String name, String deptName, int p21, int vz, String fab, int bedCount) {
         DeptWard deptWard = new DeptWard(new MapVersion());
         deptWard.setValidFrom(createDate(2020, Month.JANUARY, 1));
-        deptWard.setValidTo(getMaxDate());
+        deptWard.setValidTo(MAX_DATE);
         deptWard.setWardName(name);
         deptWard.setDeptName(deptName);
         deptWard.setLocationCodeP21(p21);

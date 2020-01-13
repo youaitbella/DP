@@ -8,9 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -143,24 +141,6 @@ public class StructuralChanges implements Serializable {
     public void setWardsToChange(WardsToChange wardsToChange) {
         wardsToChange.setStructuralChanges(this);
         this._wardsToChange = wardsToChange;
-    }
-
-
-    @OneToMany(mappedBy = "_structuralChanges", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "scwStructuralChangesId")
-    private List<StructuralChangesWards> _structuralChangesWards = new ArrayList<>();
-
-    public List<StructuralChangesWards> getStructuralChangesWards() {
-        return _structuralChangesWards;
-    }
-
-    public void setStructuralChangesWards(List<StructuralChangesWards> structuralChangesWards) {
-        this._structuralChangesWards = structuralChangesWards;
-    }
-
-    public void addStructuralChangesWards(StructuralChangesWards scw) {
-        scw.setStructuralChanges(this);
-        _structuralChangesWards.add(scw);
     }
 
     @Override

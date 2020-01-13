@@ -643,7 +643,7 @@ public class StructuralChangesEdit implements Serializable {
     private void createWardAfter(List<DeptWard> wards, WardsToChange changeWard, DeptWard lastDeptWard) {
         DeptWard newWard = new DeptWard(lastDeptWard);
         newWard.setValidFrom(changeWard.getValidFrom());
-        newWard.setValidTo(DateUtils.getMaxDate());
+        newWard.setValidTo(DateUtils.MAX_DATE);
         newWard.setBaseDeptWardId(lastDeptWard.getBaseDeptWardId());
         wards.add(newWard);
     }

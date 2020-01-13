@@ -55,6 +55,7 @@ public class AebImporter {
     private static final String ERROR_TEXT = "Import fehlgeschlagen: ";
     private static final String NO_ERROR_MESSAGES = "Keine Fehlermeldungen vorhanden";
     public static final String BLATT = "Blatt [";
+    public static final String CELL = "] Zelle: ";
 
     private int _counter = 0;
 
@@ -364,7 +365,7 @@ public class AebImporter {
 
                 String pepp = CellImportHelper.getStringFromCell(row.getCell(colStart));
                 if (!RenumerationChecker.isFormalValidPepp(pepp)) {
-                    addErrorMessage(BLATT + sheet.getSheetName() + "] Zelle: " + (i + 1) + " keine gültige PEPP.");
+                    addErrorMessage(BLATT + sheet.getSheetName() + CELL + (i + 1) + " keine gültige PEPP.");
                     continue;
                 }
                 AEBPageE1_1 page = new AEBPageE1_1();
@@ -400,7 +401,7 @@ public class AebImporter {
             try {
                 String et = CellImportHelper.getStringFromCell(row.getCell(colStart));
                 if (!RenumerationChecker.isFormalValidEt(et)) {
-                    addErrorMessage(BLATT + sheet.getSheetName() + "] Zelle: " + (i + 1) + " kein gültiges ET.");
+                    addErrorMessage(BLATT + sheet.getSheetName() + CELL + (i + 1) + " kein gültiges ET.");
                     continue;
                 }
 
@@ -433,7 +434,7 @@ public class AebImporter {
             try {
                 String ze = CellImportHelper.getStringFromCell(row.getCell(colStart));
                 if (!RenumerationChecker.isFormalValidZe(ze)) {
-                    addErrorMessage(BLATT + sheet.getSheetName() + "] Zelle: " + (i + 1) + " kein gültiges ZE.");
+                    addErrorMessage(BLATT + sheet.getSheetName() + CELL + (i + 1) + " kein gültiges ZE.");
                     continue;
                 }
 
@@ -500,7 +501,7 @@ public class AebImporter {
             try {
                 String ze = CellImportHelper.getStringFromCell(row.getCell(colStart));
                 if (!RenumerationChecker.isFormalValidZe(ze)) {
-                    addErrorMessage(BLATT + sheet.getSheetName() + "] Zelle: " + (i + 1) + " kein gültiges ZE.");
+                    addErrorMessage(BLATT + sheet.getSheetName() + CELL + (i + 1) + " kein gültiges ZE.");
                     continue;
                 }
 
@@ -547,7 +548,7 @@ public class AebImporter {
             try {
                 String pepp = CellImportHelper.getStringFromCell(row.getCell(colStart));
                 if (!RenumerationChecker.isFormalValidPepp(pepp)) {
-                    addErrorMessage(BLATT + sheet.getSheetName() + "] Zelle: " + (i + 1) + " keine gültige PEPP.");
+                    addErrorMessage(BLATT + sheet.getSheetName() + CELL + (i + 1) + " keine gültige PEPP.");
                     continue;
                 }
 

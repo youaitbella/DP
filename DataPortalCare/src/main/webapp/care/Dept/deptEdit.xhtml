@@ -155,13 +155,13 @@
                                           update="@(.ui-message) @form"/>
 
                         <pf:commandButton id="btnExtension"
-                                          value="Fristverlängerung beantragen"
+                                          value="#{deptEdit.buttonExtensionText}"
                                           rendered="#{not deptEdit.isReadOnly and deptEdit.isExtensionAllowed()}"
                                           action="#{deptEdit.applyExtension()}"
                                           update="@(.ui-message) buttons"
                                           immediate="true">
                         </pf:commandButton>
-                        <h:outputLabel value="Fristverlängerung beantragt"
+                        <h:outputLabel value="#{deptEdit.extensionRequestedText}"
                                        rendered="#{not deptEdit.isMinDate()}"/>
 
                     </div>

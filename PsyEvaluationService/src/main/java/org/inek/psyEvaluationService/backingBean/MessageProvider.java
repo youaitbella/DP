@@ -68,7 +68,7 @@ public class MessageProvider {
 
         _properties = new Properties();
         try {
-            _properties.load(new FileInputStream(rootPath + "/WEB-INF/classes/org/inek/psyEvaluationService/project.properties"));
+            _properties.load(new FileInputStream(rootPath + "/WEB-INF/classes/org/inek/DataPortal/project.properties"));
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, "Unexpected IOException whilst reading properties. Will use defaults.", e);
         }

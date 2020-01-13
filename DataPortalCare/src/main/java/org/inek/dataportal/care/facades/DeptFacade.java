@@ -101,6 +101,7 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
                 possibleIks.stream().map(i -> "" + i).collect(Collectors.joining(", ")) +
                 ")";
         Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
         List<Integer> ikList = query.getResultList();
         return new HashSet<>(ikList);
     }
@@ -219,7 +220,9 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
                 "left join CallCenterDB.dbo.ccCustomer prev on chPreviousCustomerId = prev.cuId\n" +
                 "where curr.cuIK = " + ik;
         Query query = getEntityManager().createNativeQuery(sql);
-        return query.getResultList();
+        @SuppressWarnings("unchecked")
+        List<Integer> priorIk = query.getResultList();
+        return priorIk;
     }
 
 }

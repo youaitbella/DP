@@ -221,21 +221,6 @@ public class WardsToChange implements Serializable {
     }
     //</editor-fold>
 
-
-    //<editor-fold defaultstate="collapsed" desc="Property StructuralChangesWards">
-    @OneToOne(mappedBy = "_wardsToChange")
-    private StructuralChangesWards _structuralChangesWards;
-
-    public StructuralChangesWards getStructuralChangesWards() {
-        return _structuralChangesWards;
-    }
-
-    public void setStructuralChangesWards(StructuralChangesWards structuralChangesWards) {
-        this._structuralChangesWards = structuralChangesWards;
-    }
-    //</editor-fold>
-
-
     @SuppressWarnings("checkstyle:CyclomaticComplexity")
     @Override
     public boolean equals(Object o) {
@@ -252,13 +237,12 @@ public class WardsToChange implements Serializable {
                 Objects.equals(_fab, that._fab) &&
                 Objects.equals(_validFrom, that._validFrom) &&
                 Objects.equals(_validTo, that._validTo) &&
-                Objects.equals(_structuralChanges, that._structuralChanges) &&
-                Objects.equals(_structuralChangesWards, that._structuralChangesWards);
+                Objects.equals(_structuralChanges, that._structuralChanges);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(_id, _deptId, _wardName, _deptName, _locationP21, _beds, _locationVz,
-                _fab, _validFrom, _validTo, _structuralChanges, _structuralChangesWards);
+                _fab, _validFrom, _validTo, _structuralChanges);
     }
 }
