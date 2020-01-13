@@ -555,7 +555,7 @@ public class DeptEdit implements Serializable {
     public String getButtonExtensionText() {
         return isBeforeRegularEnd(new Date())
                 ? "Fristverlängerung beantragen"
-                : "Datenlieferung nach Fristablauf beantragen";
+                : "Bearbeitung der Meldung gem. § 5 PpUG-V freischalten (nach Fristablauf)";
     }
 
     public String getExtensionRequestedText() {
