@@ -5,7 +5,6 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <!-- INTERFACE -->
     <cc:interface>
         <cc:attribute name="value"/>
         <cc:attribute name="title" default=""/>
@@ -24,7 +23,6 @@
         <cc:clientBehavior name="clientChange" targets="text" event="valueChange"/>
     </cc:interface>
     
-    <!-- IMPLEMENTATION -->
     <cc:implementation>
         <cc:editableValueHolder name="#{cc.id}" targets="text"/>
         <h:panelGroup styleClass="#{cc.attrs.styleClassComponent}">
