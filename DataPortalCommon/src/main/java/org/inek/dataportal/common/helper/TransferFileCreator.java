@@ -91,6 +91,10 @@ public class TransferFileCreator {
     }
 
     public static void createObjectTransferFile(SessionController sessionController, Object object, int ik, TransferFileType type) {
+        if (ik >= 222222220 && ik <= 222222229) {
+            // do not transfer test ik
+            return;
+        }
         File workingDir = new File(sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), sessionController.getApplicationTools().
                 readConfig(ConfigKey.FolderUpload));
         File targetDir = new File(sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), "added");
