@@ -762,6 +762,7 @@ public class StructuralChangesEdit implements Serializable {
         newWard.setLocationText(changeWard.getLocationVz());
         try {
             int locationVz = Integer.parseInt(changeWard.getLocationVz());
+            newWard.setLocationCodeVz(locationVz);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Parsing error during structural changes for ik " + ik);
         }
