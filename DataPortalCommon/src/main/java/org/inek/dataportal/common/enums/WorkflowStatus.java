@@ -68,4 +68,8 @@ public enum WorkflowStatus {
     public boolean isGreaterThen(WorkflowStatus other) {
         return getValue() > other.getValue();
     }
+
+    public boolean isGreaterOrEqual(WorkflowStatus other) {
+        return getValue() >= other.getValue();
+    }
 }
