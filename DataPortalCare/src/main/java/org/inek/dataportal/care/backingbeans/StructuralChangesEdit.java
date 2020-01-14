@@ -456,21 +456,16 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        String errMsg = "Ungültige Standortnummer nach § 293 Abs. 6 SGB V für dieses IK";
         int locationCode = CareValueChecker.extractFormalValidVzNumber("" + value);
         if (locationCode == 0) {
+            throw new ValidatorException(new FacesMessage(errMsg));
+        }
+        if (_structuralChangesBaseInformation.getIk() >= 222222220 && _structuralChangesBaseInformation.getIk() <= 222222229) {
             return;
         }
         if (!_vzUtils.locationCodeIsValidForIk(_structuralChangesBaseInformation.getIk(), locationCode)) {
-            List<Integer> iks = _deptBaseInformation != null
-                    ? _deptFacade.retrievePriorIk(_deptBaseInformation.getIk())
-                    : new ArrayList<>();
-            for (int ik : iks) {
-                if (_vzUtils.locationCodeIsValidForIk(ik, locationCode)) {
-                    return;
-                }
-            }
-            throw new ValidatorException(new FacesMessage(
-                    "In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."));
+            throw new ValidatorException(new FacesMessage(errMsg));
         }
     }
 
@@ -765,6 +760,13 @@ public class StructuralChangesEdit implements Serializable {
         newWard.setWardName(changeWard.getWardName());
         newWard.setLocationCodeP21(changeWard.getLocationP21());
         newWard.setLocationText(changeWard.getLocationVz());
+        try {
+            int locationVz = Integer.parseInt(changeWard.getLocationVz());
+            newWard.setLocationCodeVz(locationVz);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Parsing error during structural changes for ik " + ik);
+        }
+
         newWard.setBedCount(changeWard.getBeds());
     }
 

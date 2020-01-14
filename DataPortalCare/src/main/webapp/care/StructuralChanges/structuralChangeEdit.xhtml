@@ -169,7 +169,7 @@
                             <pf:column headerText="Standort nach § 21 KHEntgG">
                                 <pf:outputLabel value="#{ward.locationCodeP21}"/>
                             </pf:column>
-                            <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V">
+                            <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V">
                                 <pf:outputLabel value="#{ward.locationText}"/>
                             </pf:column>
                             <pf:column headerText="Bettenanzahl der Station">
@@ -288,16 +288,16 @@
                                                                 Style="width: calc(100% - 1em);"/>
 
                             </pf:column>
-                            <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="width: 9em;">
+                            <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V" style="width: 9em;">
                                 <inekInput:InputTextValidator value="#{baseInfo.wardsToChange.locationVz}"
                                                               Style="width: calc(100% - 1em);"
                                                               maxlength="100"
                                                               require="true"
-                                                              requiredMessage="Bitte geben Sie die Standortnummer nach § 293 Abs. 6 SGB V an oder benennen Sie den Standort möglichst präzise."
+                                                              requiredMessage="Bitte geben Sie die Standortnummer nach § 293 Abs. 6 SGB V an"
                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                               updateComponents=":change:aggregatedTable"
                                                               validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
-                                                              validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."/>
+                                                              validatorMessage="Ungültige Standortnummer nach § 293 Abs. 6 SGB V für dieses IK"/>
 
                             </pf:column>
                             <pf:column headerText="Bettenanzahl der Station" style="text-align: right; width: 6em;">
@@ -415,7 +415,7 @@
                                                                 renderElement=":change:aggregatedTable"
                                                                 Style="width: calc(100% - 1em);"/>
                             </pf:column>
-                            <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="width: 9em;">
+                            <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V" style="width: 9em;">
                                 <pf:outputLabel
                                         value="#{baseInfo.wardsToChange.deptWard.locationText}"/>
                                 <pf:separator/>
@@ -424,10 +424,10 @@
                                                               maxlength="100"
                                                               require="true"
                                                               updateComponents=":change:aggregatedTable"
-                                                              requiredMessage="Bitte geben Sie die Standortnummer nach § 293 Abs. 6 SGB V an oder benennen Sie den Standort möglichst präzise."
+                                                              requiredMessage="Bitte geben Sie die Standortnummer nach § 293 Abs. 6 SGB V an"
                                                               readonly="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                                               validatorFunction="#{structuralChangesEdit.isVZLocationCodeValid}"
-                                                              validatorMessage="In Ihrer Eingabe wurde eine Standortnummer erkannt. Sie ist jedoch für dieses IK ungültig."/>
+                                                              validatorMessage="Ungültige Standortnummer nach § 293 Abs. 6 SGB V für dieses IK"/>
 
                             </pf:column>
                             <pf:column headerText="Bettenanzahl der Station" style="text-align: right; width: 6em;">
@@ -530,7 +530,7 @@
                                 <pf:outputLabel
                                         value="#{baseInfo.wardsToChange.deptWard.locationCodeP21}"/>
                             </pf:column>
-                            <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="width: 9em;">
+                            <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V" style="width: 9em;">
                                 <pf:outputLabel
                                         value="#{baseInfo.wardsToChange.deptWard.locationText}"/>
                             </pf:column>
@@ -624,7 +624,7 @@
                                 <pf:outputLabel
                                         value="#{baseInfo.wardsToChange.deptWard.locationCodeP21}"/>
                             </pf:column>
-                            <pf:column headerText="Standort(nummer) nach § 293 Abs. 6 SGB V" style="width: 9em;">
+                            <pf:column headerText="Standortnummer nach § 293 Abs. 6 SGB V" style="width: 9em;">
                                 <pf:outputLabel
                                         value="#{baseInfo.wardsToChange.deptWard.locationText}"/>
                             </pf:column>
