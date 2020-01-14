@@ -173,7 +173,8 @@ public class StructuralChangesSummary implements Serializable {
     }
 
     public boolean isChangeAllowed(StructuralChangesBaseInformation baseInfo) {
-        return baseInfo.getStatus().getId() >= WorkflowStatus.Provided.getId();
+        return baseInfo.getStatus().isGreaterOrEqual(WorkflowStatus.Provided)
+                && baseInfo.getStatus().isLessThen(WorkflowStatus.Taken);
     }
 
     public String formatDate(Date date) {
