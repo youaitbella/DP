@@ -517,14 +517,12 @@ public class ProofEdit implements Serializable {
             document.setSignature(_proofRegulationBaseInformation.getSignature());
             _proofRegulationBaseInformation.addProofDocument(document);
             save();
-            sendMailIfComplete();
+            sendMail();
         }
     }
+    //TODO ? Implement if requested
+    private void sendMail() {
 
-    private void sendMailIfComplete() {
-        if (isComplete()) {
-            sendConfirmMail();
-        }
     }
 
     public StreamedContent downloadExcelTemplate() {
