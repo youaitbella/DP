@@ -220,7 +220,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     @JoinColumn(name = "pdProofRegulationBaseInformationId", referencedColumnName = "prbiId")
     private List<ProofDocument> _proofDocument = new Vector<>();
 
-    public List<ProofDocument> getStaffProofDocuments() {
+    public List<ProofDocument> getProofDocuments() {
         return Collections.unmodifiableList(_proofDocument);
     }
 
@@ -238,5 +238,17 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
         proofDocument._setProofRegulationBaseInformationId(_id);
         _proofDocument.add(proofDocument);
         return true;
+    }
+
+    public ProofDocument getProofDocument(String signature) {
+        return _proofDocument
+                .stream()
+                .filter(d -> signature.length() > 0 && signature.equals(d.getSignature()))
+                .findAny()
+                .orElse(new ProofDocument());
+    }
+
+    public String getProofDocumentName(String signature) {
+        return getProofDocument(signature).getName();
     }
 }

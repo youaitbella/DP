@@ -496,7 +496,7 @@ public class ProofEdit implements Serializable {
         }
     }
 
-    public void handleFileUpload2(FileUploadEvent event) {
+    public void uploadSignature(FileUploadEvent event) {
         LOGGER.log(Level.INFO, "File uploaded: " + event.getFile().getFileName());
         putDocument(event.getFile().getFileName(), event.getFile().getContents());
         DialogController.showInfoDialog("Upload erfolgreich",
@@ -600,4 +600,15 @@ public class ProofEdit implements Serializable {
         return !_proofFacade.hasExtension(ik, year, quarter);
     }
 
+    public String downloadDocument(String signature) {
+        ProofDocument doc = _proofRegulationBaseInformation.getProofDocument(signature);
+        Utils.downloadDocument(doc);
+        return "";
+    }
+
+    public Boolean isInekUser() {
+        String eMail = _sessionController.getAccount().getEmail();
+        String [] arrOfStrings = eMail.split("@");
+        return arrOfStrings[1].equals("inek-drg.de");
+    }
 }
