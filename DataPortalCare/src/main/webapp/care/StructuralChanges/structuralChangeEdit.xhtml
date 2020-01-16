@@ -742,7 +742,7 @@
 
 
                 <div class="card" style="width: 100%" id="correction"
-                     jsf:rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId eq 10
+                     jsf:rendered="#{structuralChangesEdit.isInekUser() and structuralChangesEdit.structuralChangesBaseInformation.statusId ge 10
                      or structuralChangesEdit.structuralChangesBaseInformation.statusId eq 3 and not empty structuralChangesEdit.conversations}">
 
                     <h1>Dialog mit dem InEK</h1>
