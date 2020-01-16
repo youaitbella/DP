@@ -235,7 +235,8 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
             existing.setContent(proofDocument.getContent());
             return false;
         }
-        proofDocument._setProofRegulationBaseInformationId(_id);
+        proofDocument.setIk(_ik);
+        proofDocument.setYear(_year);
         _proofDocument.add(proofDocument);
         return true;
     }

@@ -42,19 +42,31 @@ public class ProofDocument implements Serializable, Document {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property ProofRegulationBaseInformationId">
-    @Column(name = "pdProofRegulationBaseInformationId")
-    private int _proofRegulationBaseInformationId;
+    //<editor-fold desc="Property Ik">
+    @Column(name = "pdIk")
+    private int _ik;
 
-    public int _getProofRegulationBaseInformationId() {
-        return _proofRegulationBaseInformationId;
+    public int getIk() {
+        return _ik;
     }
 
-    public void _setProofRegulationBaseInformationId(int _proofRegulationBaseInformationId) {
-        this._proofRegulationBaseInformationId = _proofRegulationBaseInformationId;
+    public void setIk(int _ik) {
+        this._ik = _ik;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property Year">
+    @Column(name = "pdYear")
+    private int _year;
+
+    public int getYear() {
+        return _year;
     }
 
-    // </editor-fold>
+    public void setYear(int _year) {
+        this._year = _year;
+    }
+    //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Signature">
     @Column(name = "pdSignature")
