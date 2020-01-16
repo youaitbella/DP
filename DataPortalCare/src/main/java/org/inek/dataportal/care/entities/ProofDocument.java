@@ -46,8 +46,8 @@ public class ProofDocument implements Serializable, Document {
         return _ik;
     }
 
-    public void setIk(int _ik) {
-        this._ik = _ik;
+    public void setIk(int ik) {
+        _ik = ik;
     }
     //</editor-fold>
 
@@ -59,8 +59,8 @@ public class ProofDocument implements Serializable, Document {
         return _year;
     }
 
-    public void setYear(int _year) {
-        this._year = _year;
+    public void setYear(int year) {
+        _year = year;
     }
     //</editor-fold>
 
