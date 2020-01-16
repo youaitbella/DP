@@ -16,12 +16,14 @@
 
     <div class="inputPart">
         <span class="label">Kommentar:<sup style="font-size: 9px;">1</sup></span><br/>
-        <h:inputTextarea value="#{editCalcBasicsPepp.calcBasics.intensiveExceptionalPermission}"
+        <h:inputTextarea id="intensiveExceptionalPermission"
+                         value="#{editCalcBasicsPepp.calcBasics.intensiveExceptionalPermission}"
                          readonly="#{editCalcBasicsPepp.readOnly}"
                          styleClass="areaMiddleLow"
                          required="#{!editCalcBasicsPepp.calcBasics.bimAll}">
-        <f:ajax event="blur" render="@this :logout:remaining"/>
+        <f:ajax event="blur" render="@this :logout:remaining intensiveExceptionalPermissionMsg"/>
         </h:inputTextarea>
+        <h:message for="intensiveExceptionalPermission" styleClass="errorMessage" id="intensiveExceptionalPermissionMsg"/>
         <br/>
         
         <span class="label">

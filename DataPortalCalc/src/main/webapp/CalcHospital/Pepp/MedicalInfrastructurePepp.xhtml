@@ -41,6 +41,7 @@
                          readonly="#{editCalcBasicsPepp.readOnly}">
             <f:ajax event="blur" render="@this :logout:remaining" />
         </h:inputTextarea>
+        <h:message for="description" styleClass="errorMessage" id="descriptionMsg"/>
     </h:panelGroup>
 
     <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur"}</h2>
