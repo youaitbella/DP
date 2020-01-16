@@ -707,9 +707,14 @@
 
     <div class="inputPart">
         <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
-        <h:inputText styleClass="inputshort" value="#{editCalcBasicsPepp.calcBasics.locationCnt}" required="true" readonly="#{editCalcBasicsPepp.isReadOnly()}">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+        <h:inputText id="locationCnt"
+                     styleClass="inputshort"
+                     value="#{editCalcBasicsPepp.calcBasics.locationCnt}"
+                     required="true"
+                     readonly="#{editCalcBasicsPepp.isReadOnly()}">
+            <f:ajax event="blur" render="@this :logout:remaining locationCntMsg" />
         </h:inputText>
+        <h:message id="locationCntMsg" for="locationCnt" styleClass="errorMessage"/>
     </div>
 
     <div class="inputPart">
