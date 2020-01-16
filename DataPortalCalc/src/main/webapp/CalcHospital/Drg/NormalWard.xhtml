@@ -39,11 +39,15 @@
                 <f:facet name="header">
                     Bereich
                 </f:facet>
-                <h:inputText value="#{item.division}" styleClass="inputwide"
+                <h:inputText id="division"
+                             value="#{item.division}" styleClass="inputwide"
+                             validatorMessage="Bereichsname eingeben"
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
-                    <f:ajax render="@this :logout:remaining"/>
+                    <f:validateLength minimum="1"/>
+                    <f:ajax render="@this :logout:remaining divisionMsg"/>
                 </h:inputText>
+                <h:message id="divisionMsg" for="division" styleClass="errorMessage"/>
             </h:column>
 
             <h:column>
@@ -123,32 +127,39 @@
                 <f:facet name="header">
                     Bereich
                 </f:facet>
-                <h:inputText value="#{item.division}" styleClass="inputwide"
+                <h:inputText id="divisionfreeContact" value="#{item.division}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
+                             validatorMessage="Bereichsname eingeben"
                              required="true">
-                    <f:ajax render="@this :logout:remaining"/>
+                    <f:ajax render="@this :logout:remaining divisionfreeContactMsg"/>
+                    <f:validateLength minimum="1"/>
                 </h:inputText>
+                <h:message id="divisionfreeContactMsg" for="divisionfreeContact" styleClass="errorMessage"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     FAB-Schlüssel gemäß § 301 SGB V (4-stellig)
                 </f:facet>
-                <h:inputText value="#{item.departmentKey}" styleClass="inputwide"
+                <h:inputText id="departmentKey" value="#{item.departmentKey}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
+                             validatorMessage="FAB-Schlüssel eingeben"
                              required="true">
-                    <f:ajax render="@this :logout:remaining"/>
+                    <f:validateLength minimum="4"/>
+                    <f:ajax render="@this :logout:remaining departmentKeyMsg"/>
                 </h:inputText>
+                <h:message id="departmentKeyMsg" for="departmentKey" styleClass="errorMessage"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     Anzahl Fälle
                 </f:facet>
-                <inek:InputIntegerWithMessage value="#{item.caseCnt}" styleClass="inputwide" required="true"
+                <inek:InputIntegerWithMessage id="caseCnt" value="#{item.caseCnt}" styleClass="inputwide" required="true"
                                               readonly="#{editCalcBasicsDrg.readOnly}"
-                                              renderElement="@this :logout:remaining"/>
+                                              renderElement="@this :logout:remaining caseCntMsg"/>
             </h:column>
+            <h:message id="caseCntMsg" for="caseCnt" styleClass="errorMessage"/>
 
             <h:column>
                 <f:facet name="header">
@@ -205,27 +216,36 @@
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Fachabteilung</f:facet>
-                                    <h:inputText styleClass="inputwide" value="#{minutes.department}"
+                                    <h:inputText id="department" styleClass="inputwide" value="#{minutes.department}"
                                                  readonly="#{editCalcBasicsDrg.readOnly}"
+                                                 validatorMessage="Fachabteilung eingeben"
                                                  required="#{!item.used}">
-                                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                                        <f:validateLength minimum="1"/>
+                                        <f:ajax event="blur" render="@this :logout:remaining departmentMsg" />
                                     </h:inputText>
+                                    <h:message id="departmentMsg" for="department" styleClass="errorMessage"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">FAB-Schlüssel gemäß § 301 SGB V (4-stellig)</f:facet>
-                                    <h:inputText styleClass="inputwide" value="#{minutes.departmentKey}"
+                                    <h:inputText id="departmentKey1" styleClass="inputwide" value="#{minutes.departmentKey}"
                                                  readonly="#{editCalcBasicsDrg.readOnly}"
+                                                 validatorMessage="FAB-Schlüssel eingeben"
                                                  required="#{!item.used}">
-                                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                                        <f:validateLength minimum="4" />
+                                        <f:ajax event="blur" render="@this :logout:remaining departmentKey1Msg"/>
                                     </h:inputText>
+                                    <h:message id="departmentKey1Msg" for="departmentKey1" styleClass="errorMessage"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Alternativverfahren</f:facet>
-                                    <h:inputText styleClass="inputwide" value="#{minutes.alternative}"
+                                    <h:inputText id="alternative" styleClass="inputwide" value="#{minutes.alternative}"
                                                  readonly="#{editCalcBasicsDrg.readOnly}"
+                                                 validatorMessage="Bitte ein Alternativverfahren eingeben"
                                                  required="#{!item.used}">
-                                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                                        <f:validateLength minimum="1"/>
+                                        <f:ajax event="blur" render="@this :logout:remaining alternativeMsg"/>
                                     </h:inputText>
+                                    <h:message id="alternativeMsg" for="alternative" styleClass="errorMessage"/>
                                 </h:column>
                             </h:dataTable>
                             <h:commandLink id="addButton5" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
@@ -332,10 +352,13 @@
                         <f:facet name="header">
                             Alternativverfahren
                         </f:facet>
-                        <h:inputText styleClass="inputwide" value="#{item.alternative}"
+                        <h:inputText id="alternative1" styleClass="inputwide" value="#{item.alternative}"
+                                     required="true"
+                                     validatorMessage="Bitte Alternativverfahren eingeben"
                                      readonly="#{editCalcBasicsDrg.readOnly}">
-                            <f:ajax event="blur" render="@this :logout:remaining"/>
+                            <f:ajax event="blur" render="@this :logout:remaining alternative1Msg"/>
                         </h:inputText>
+                        <h:message id="alternative1Msg" for="alternative1" styleClass="errorMessage"/>
                     </h:column>
                 </h:dataTable>
 
@@ -537,18 +560,22 @@
                     </td>
                     <td class="colInput">
                         <inek:InputTextWithMessage value="#{x.costCenterNumber}"
+                                                   required="true"
                                                    readonly="#{editCalcBasicsDrg.readOnly}"/>
                     </td>
                     <td class="colInput">
                         <inek:InputTextWithMessage value="#{x.costCenterText}"
+                                                   required="true"
                                                    readonly="#{editCalcBasicsDrg.readOnly}"/>
                     </td>
                     <td class="colInput">
                         <inek:InputTextWithMessage value="#{x.departmentKey}"
+                                                   required="true"
                                                    readonly="#{editCalcBasicsDrg.readOnly}"/>
                     </td>
                     <td class="colInput">
                         <inek:InputTextWithMessage value="#{x.departmentAssignment}"
+                                                   required="true"
                                                    readonly="#{editCalcBasicsDrg.readOnly}"/>
                     </td>
                     <td class="colInput">
@@ -585,7 +612,7 @@
                         <h:inputText title="Max. 100 €"
                                      id="rateDoctor"
                                      value="#{(x.medicalServiceAmount != 0 and x.careDays != 0) ? (x.medicalServiceAmount / x.careDays) : ''}"
-                                     disabled="true">
+                                     disabled="false">
                             <f:convertNumber pattern="## €"/>
                         </h:inputText>
                     </td>

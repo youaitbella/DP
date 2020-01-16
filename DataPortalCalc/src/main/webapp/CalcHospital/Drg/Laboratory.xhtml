@@ -61,7 +61,9 @@
             <f:facet name="header">
                 <h:outputLabel value="Nr. Kostenstelle"/>
             </f:facet>
-            <h:inputText value="#{item.costCenterNumber}" readonly="#{editCalcBasicsDrg.readOnly}"
+            <h:inputText value="#{item.costCenterNumber}"
+                         required="true"
+                         readonly="#{editCalcBasicsDrg.readOnly}"
                          styleClass="fullWidth">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
@@ -72,7 +74,9 @@
                 <h:outputLabel value="Name Kostenstelle"/><br/>
                 <h:outputLabel value="(aussagekräftiger Name)"/>
             </f:facet>
-            <h:inputText value="#{item.costCenterText}" readonly="#{editCalcBasicsDrg.readOnly}" styleClass="fullWidth">
+            <h:inputText value="#{item.costCenterText}"
+                         required="true"
+                         readonly="#{editCalcBasicsDrg.readOnly}" styleClass="fullWidth">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
