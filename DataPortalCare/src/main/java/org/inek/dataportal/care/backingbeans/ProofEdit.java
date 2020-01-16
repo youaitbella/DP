@@ -605,10 +605,4 @@ public class ProofEdit implements Serializable {
         Utils.downloadDocument(doc);
         return "";
     }
-
-    public Boolean isInekUser() {
-        String eMail = _sessionController.getAccount().getEmail();
-        String [] arrOfStrings = eMail.split("@");
-        return arrOfStrings[1].equals("inek-drg.de");
-    }
 }
