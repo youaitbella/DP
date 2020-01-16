@@ -114,11 +114,13 @@
                         <td>
                             <inek:InputTextWithMessage id="costCenterText1" value="#{x.costCenterText}"
                                                        readonly="#{editCalcBasicsDrg.readOnly}"
+                                                       required="true"
                                                        renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:costCenterText2:text"/>
                         </td>
                         <td>
                             <inek:InputTextWithMessage id="department1" value="#{x.departmentAssignment}"
                                                        readonly="#{editCalcBasicsDrg.readOnly}"
+                                                       required="true"
                                                        renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:department2:text"/>
                         </td>
                         <td>
@@ -259,11 +261,13 @@
                         </td>
                         <td>
                             <inek:InputTextWithMessage id="costCenterText2" value="#{x.costCenterText}"
+                                                       required="true"
                                                        readonly="#{editCalcBasicsDrg.readOnly}"
                                                        renderElement="#{cc.attrs.id}:tbl-int1:#{loop.index}:costCenterText1:text"/>
                         </td>
                         <td>
                             <inek:InputTextWithMessage id="department2" value="#{x.departmentAssignment}"
+                                                       required="true"
                                                        readonly="#{editCalcBasicsDrg.readOnly}"
                                                        renderElement="#{cc.attrs.id}:tbl-int1:#{loop.index}:department1:text"/>
                         </td>
