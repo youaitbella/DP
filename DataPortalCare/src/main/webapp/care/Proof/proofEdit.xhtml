@@ -287,19 +287,19 @@
                         </div>
                         <br/>
                         <div jsf:id="fileName" class="inputPart marginTop01em"
-                             jsf:rendered="#{not empty proofEdit.proofRegulationBaseInformation.getProofDocumentName(proofEdit.proofRegulationBaseInformation.signature)
+                             jsf:rendered="#{not empty proofEdit.documentName
                                                  and proofEdit.isReadOnly
                                                  and proofEdit.annualReportAllowed()}">
                             <h:outputLabel value="Anlage:" styleClass="label element08em"/>
                             <h:commandLink
-                                    action="#{proofEdit.downloadDocument(proofEdit.proofRegulationBaseInformation.signature)}"
-                                    value="#{proofEdit.proofRegulationBaseInformation.getProofDocumentName(proofEdit.proofRegulationBaseInformation.signature)}"
+                                    action="#{proofEdit.downloadDocument()}"
+                                    value="#{proofEdit.documentName}"
                                     immediate="true">
                             </h:commandLink>
 
                         </div>
                         <br/>
-                        <pf:fileUpload fileUploadListener="#{proofEdit.uploadSignature}"
+                        <pf:fileUpload fileUploadListener="#{proofEdit.uploadDocument}"
                                        mode="advanced"
                                        auto="true"
                                        fileLimit="1"

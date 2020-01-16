@@ -8,7 +8,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author lautenti
@@ -214,42 +216,5 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
 
     public void addProof(Proof proof) {
         _proofs.add(proof);
-    }
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "pdProofRegulationBaseInformationId", referencedColumnName = "prbiId")
-    private List<ProofDocument> _proofDocument = new Vector<>();
-
-    public List<ProofDocument> getProofDocuments() {
-        return Collections.unmodifiableList(_proofDocument);
-    }
-
-    public boolean addProofDocument(ProofDocument proofDocument) {
-        Optional<ProofDocument> findAny = _proofDocument
-                .stream()
-                .filter(d -> proofDocument.getSignature().equals(d.getSignature()))
-                .findAny();
-        if (findAny.isPresent()) {
-            ProofDocument existing = findAny.get();
-            existing.setName(proofDocument.getName());
-            existing.setContent(proofDocument.getContent());
-            return false;
-        }
-        proofDocument.setIk(_ik);
-        proofDocument.setYear(_year);
-        _proofDocument.add(proofDocument);
-        return true;
-    }
-
-    public ProofDocument getProofDocument(String signature) {
-        return _proofDocument
-                .stream()
-                .filter(d -> signature.length() > 0 && signature.equals(d.getSignature()))
-                .findAny()
-                .orElse(new ProofDocument());
-    }
-
-    public String getProofDocumentName(String signature) {
-        return getProofDocument(signature).getName();
     }
 }

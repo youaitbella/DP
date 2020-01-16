@@ -1,6 +1,7 @@
 package org.inek.dataportal.care.facades;
 
 import org.inek.dataportal.care.entities.Extension;
+import org.inek.dataportal.care.entities.ProofDocument;
 import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.entities.ProofRegulationStation;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
@@ -109,7 +110,7 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         Set<Integer> quarters = new HashSet<>();
 
         for (Object quarter : objects) {
-            quarters.add((int)quarter);
+            quarters.add((int) quarter);
         }
 
         return quarters;
@@ -176,8 +177,8 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
 
         for (Object[] obj : objects) {
             SelectItem item = new SelectItem();
-            item.setValue((int)obj[0]);
-            item.setLabel((String)obj[1]);
+            item.setValue((int) obj[0]);
+            item.setLabel((String) obj[1]);
             items.add(item);
         }
 
@@ -200,5 +201,33 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
 
     public void saveExtension(Extension extension) {
         persist(extension);
+    }
+
+    public void saveProofDocument(ProofDocument document) {
+        if (document.getId() <= 0) {
+            persist(document);
+        } else {
+            merge(document);
+        }
+    }
+
+    public String findProofDocumentNameByIkAndYear(int ik, int year) {
+        String name = "ProofDocument.NameByIkAndYear";
+        TypedQuery<String> query = getEntityManager().createNamedQuery(name, String.class);
+        query.setParameter(IK, ik);
+        query.setParameter(YEAR, year);
+        try {
+            return query.getSingleResult();
+        } catch (Exception ex) {
+            return "";
+        }
+    }
+
+    public ProofDocument findProofDocumentByIkAndYear(int ik, int year) {
+        String name = "ProofDocument.DocumentByIkAndYear";
+        TypedQuery<ProofDocument> query = getEntityManager().createNamedQuery(name, ProofDocument.class);
+        query.setParameter(IK, ik);
+        query.setParameter(YEAR, year);
+        return query.getSingleResult();
     }
 }

@@ -496,35 +496,6 @@ public class ProofEdit implements Serializable {
         }
     }
 
-    public void uploadSignature(FileUploadEvent event) {
-        LOGGER.log(Level.INFO, "File uploaded: " + event.getFile().getFileName());
-        putDocument(event.getFile().getFileName(), event.getFile().getContents());
-        DialogController.showInfoDialog("Upload erfolgreich",
-                "Die Datei " + event.getFile().getFileName() + " wurde erfolgreich hochgeladen");
-    }
-
-    private List<String> allowedFileExtensions() {
-        return Arrays.asList(".pdf", ".jpg", ".jpeg", ".png", ".bmp", ".gif");
-    }
-
-    public void putDocument(String fileName, byte[] content) {
-
-        int pos = fileName.lastIndexOf(".");
-        String extension = pos < 0 ? "" : fileName.toLowerCase().substring(pos);
-        if (allowedFileExtensions().contains(extension)) {
-            ProofDocument document = new ProofDocument(fileName);
-            document.setContent(content);
-            document.setSignature(_proofRegulationBaseInformation.getSignature());
-            _proofRegulationBaseInformation.addProofDocument(document);
-            save();
-            sendMail();
-        }
-    }
-    //TODO ? Implement if requested
-    private void sendMail() {
-
-    }
-
     public StreamedContent downloadExcelTemplate() {
         byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Poof_Upload_Template",
                 _proofRegulationBaseInformation.getId(), "Upload_Vorlage");
@@ -600,9 +571,50 @@ public class ProofEdit implements Serializable {
         return !_proofFacade.hasExtension(ik, year, quarter);
     }
 
-    public String downloadDocument(String signature) {
-        ProofDocument doc = _proofRegulationBaseInformation.getProofDocument(signature);
+    public void uploadDocument(FileUploadEvent event) {
+        LOGGER.log(Level.INFO, "File uploaded: " + event.getFile().getFileName());
+        putDocument(event.getFile().getFileName(), event.getFile().getContents());
+        DialogController.showInfoDialog("Upload erfolgreich",
+                "Die Datei " + event.getFile().getFileName() + " wurde erfolgreich hochgeladen");
+    }
+
+    private List<String> allowedFileExtensions() {
+        return Arrays.asList(".pdf", ".jpg", ".jpeg", ".png", ".bmp", ".gif");
+    }
+
+    public void putDocument(String fileName, byte[] content) {
+
+        int pos = fileName.lastIndexOf(".");
+        String extension = pos < 0 ? "" : fileName.toLowerCase().substring(pos);
+        if (allowedFileExtensions().contains(extension)) {
+            ProofDocument document = new ProofDocument(fileName);
+            document.setIk(_proofRegulationBaseInformation.getIk());
+            document.setYear(_proofRegulationBaseInformation.getYear());
+            document.setContent(content);
+            _proofFacade.saveProofDocument(document);
+            documentName = fileName;
+        }
+    }
+
+    public String downloadDocument() {
+        ProofDocument doc = _proofFacade.findProofDocumentByIkAndYear(
+                _proofRegulationBaseInformation.getIk(),
+                _proofRegulationBaseInformation.getYear()
+        );
         Utils.downloadDocument(doc);
         return "";
     }
+
+    private String documentName;
+
+    public String getDocumentName() {
+        if (documentName == null) {
+            documentName = _proofFacade.findProofDocumentNameByIkAndYear(
+                    _proofRegulationBaseInformation.getIk(),
+                    _proofRegulationBaseInformation.getYear()
+            );
+        }
+        return documentName;
+    }
+
 }

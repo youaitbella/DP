@@ -3,21 +3,17 @@ package org.inek.dataportal.care.entities;
 
 import org.inek.dataportal.common.data.account.iface.Document;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 @Entity
 @Table(name = "ProofDocument", schema = "care")
-
+@NamedQueries({
+        @NamedQuery(name = "ProofDocument.NameByIkAndYear", query = "select d._name from ProofDocument d where d._ik = :ik and d._year = :year"),
+        @NamedQuery(name = "ProofDocument.DocumentByIkAndYear", query = "select d from ProofDocument d where d._ik = :ik and d._year = :year")
+})
 public class ProofDocument implements Serializable, Document {
     private static final long serialVersionUID = 1L;
 
@@ -67,19 +63,6 @@ public class ProofDocument implements Serializable, Document {
         this._year = _year;
     }
     //</editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property Signature">
-    @Column(name = "pdSignature")
-    private String _signature;
-
-    public String getSignature() {
-        return _signature;
-    }
-
-    public void setSignature(String signature) {
-        _signature = signature;
-    }
-    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Created">
     @Column(name = "pdCreated")
