@@ -72,8 +72,6 @@
                 </f:facet>
                 <h:inputText id="costCenterNumber"
                              styleClass="inputshort" value="#{item.costCenterNumber}"
-                             required="true"
-                             validatorMessage="Nummer der Kostenstelle eingeben"
                              readonly="#{editCalcBasicsDrg.readOnly}">
                     <f:ajax event="blur" render="@this :logout:remaining costCenterNumberMsg"/>
                 </h:inputText>
@@ -85,7 +83,6 @@
                     <h:outputLabel value="(aussagekräftiger Name)"/>
                 </f:facet>
                 <h:inputText value="#{item.costCenterText}"
-                             required="true"
                              readonly="#{editCalcBasicsDrg.readOnly}">
                     <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:inputText>
