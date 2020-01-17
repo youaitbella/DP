@@ -23,9 +23,11 @@ public class PortalConstants {
     public static final String EXCEL_EXTENSION = ".xlsx";
     public static final String ACCOUNT_ID = "accountId";
     public static final String IK = "ik";
+    public static final String IKS = "iks";
     public static final String FEATURE = "feature";
     public static final String STATUS = "status";
     public static final String YEAR = "year";
+    public static final String YEARS = "years";
 
     public static final String VAR_LINK = "{link}";
     public static final String VAR_FEATURE = "{feature}";

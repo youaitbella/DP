@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
 package org.inek.dataportal.common.utils;
 
 import java.text.SimpleDateFormat;
@@ -9,10 +5,6 @@ import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- *
- * @author muellermi
- */
 public class DateUtils {
 
     public static final Date MIN_DATE = createDate(1900, Month.JANUARY, 1);
@@ -72,4 +64,11 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    public static int currentYear() {
+        return Calendar.getInstance().get(Calendar.YEAR);
+    }
+
+    public static int currentMonth() {
+        return 1 + Calendar.getInstance().get(Calendar.MONTH);
+    }
 }

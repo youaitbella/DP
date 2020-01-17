@@ -1,4 +1,4 @@
-package org.inek.dataportal.care.facades;
+package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.entities.ProofDocument;
@@ -6,6 +6,7 @@ import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.entities.ProofRegulationStation;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 import static org.inek.dataportal.api.helper.PortalConstants.*;
 
@@ -35,6 +37,29 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         TypedQuery<ProofRegulationBaseInformation> query = getEntityManager().createQuery(jpql, ProofRegulationBaseInformation.class);
         query.setParameter(STATUS, status.getId());
         query.setParameter(IK, ik);
+        return query.getResultList();
+    }
+
+    public List<IkYearQuarter> retrievePossibleIkYearQuarters(Set<Integer> allowedIks) {
+        List<IkYearQuarter> all = new ArrayList<>();
+        for (Integer ik : allowedIks) {
+            for (int year : getPossibleYears()) {
+                int maxQuarter = year == DateUtils.currentYear() ? (DateUtils.currentMonth() + 2) / 3 : 4;
+                IntStream.rangeClosed(1, maxQuarter).forEach(q -> {
+                    all.add(new IkYearQuarter(ik, year, q));
+                });
+            }
+        }
+        all.removeAll(retrieveExistingInfo(allowedIks));
+        return all;
+    }
+
+    public List<IkYearQuarter> retrieveExistingInfo(Set<Integer> allowedIks) {
+        String jpql = "select new org.inek.dataportal.care.proof.IkYearQuarter(bi._ik, bi._year, bi._quarter) " +
+                "from ProofRegulationBaseInformation bi " +
+                "where bi._statusId <= 10 and bi._ik in :iks";
+        TypedQuery<IkYearQuarter> query = getEntityManager().createQuery(jpql, IkYearQuarter.class);
+        query.setParameter(IKS, allowedIks);
         return query.getResultList();
     }
 
@@ -64,15 +89,15 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
     }
 
     public Set<Integer> retrievePossibleQuarter(int ik, int year) {
-        Set<Integer> possibleQuarters = new HashSet<>();
-        possibleQuarters.add(1);
-        possibleQuarters.add(2);
-        possibleQuarters.add(3);
-        possibleQuarters.add(4);
+        // either select all 4 quarters
+        Set<Integer> possibleQuarters = IntStream.rangeClosed(1, 4).collect(HashSet::new, HashSet::add, HashSet::addAll);
+        // or determine the one and only
+//        Set<Integer> possibleQuarters = new HashSet<>();
+//        int quarter = (DateUtils.currentMonth() + 1) / 3;
+//        possibleQuarters.add(quarter == 0 ? 4 : quarter);
 
-        Set<Integer> existsQuarters = getQuartersForValidEntrys(ik, year);
-
-        possibleQuarters.removeAll(existsQuarters);
+        Set<Integer> existingQuarters = getQuartersForValidEntrys(ik, year);
+        possibleQuarters.removeAll(existingQuarters);
 
         return possibleQuarters;
     }
@@ -127,9 +152,8 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
     }
 
     private Set<Integer> getPossibleYears() {
-        Set<Integer> years = new HashSet<>();
-        years.add(2019);
-        return years;
+        int year = DateUtils.currentYear();
+        return IntStream.rangeClosed(year - 1, year).collect(HashSet::new, HashSet::add, HashSet::addAll);
     }
 
     public ProofRegulationBaseInformation save(ProofRegulationBaseInformation deptBaseInformation) {

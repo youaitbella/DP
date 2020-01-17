@@ -6,9 +6,8 @@
 package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
-import org.inek.dataportal.care.facades.ProofFacade;
+import org.inek.dataportal.care.proof.ProofFacade;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
@@ -22,7 +21,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
