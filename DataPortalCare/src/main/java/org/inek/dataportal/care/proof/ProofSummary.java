@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.care.backingbeans;
+package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
-import org.inek.dataportal.care.proof.ProofFacade;
+import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;

@@ -1,7 +1,6 @@
 package org.inek.dataportal.care.utils;
 
-import org.inek.dataportal.care.entities.Proof;
-import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
+import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 
 import java.time.LocalDate;
 import java.time.Month;

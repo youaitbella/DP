@@ -1,6 +1,6 @@
 package org.inek.dataportal.care.utils;
 
-import org.inek.dataportal.care.entities.Proof;
+import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.common.helper.MathHelper;
 
 import java.math.BigDecimal;

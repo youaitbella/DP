@@ -1,4 +1,4 @@
-package org.inek.dataportal.care.entities;
+package org.inek.dataportal.care.proof.entity;
 
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author lautenti
- */
 @Entity
 @Table(name = "ProofRegulationBaseInformation", schema = "care")
 public class ProofRegulationBaseInformation implements Serializable, StatusEntity {

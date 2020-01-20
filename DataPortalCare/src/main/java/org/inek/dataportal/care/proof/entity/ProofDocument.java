@@ -1,4 +1,4 @@
-package org.inek.dataportal.care.entities;
+package org.inek.dataportal.care.proof.entity;
 
 
 import org.inek.dataportal.common.data.account.iface.Document;

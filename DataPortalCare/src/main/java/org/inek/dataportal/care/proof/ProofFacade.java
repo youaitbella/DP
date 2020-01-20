@@ -1,9 +1,9 @@
 package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.care.entities.Extension;
-import org.inek.dataportal.care.entities.ProofDocument;
-import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
-import org.inek.dataportal.care.entities.ProofRegulationStation;
+import org.inek.dataportal.care.proof.entity.ProofDocument;
+import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
+import org.inek.dataportal.care.proof.entity.ProofRegulationStation;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.DateUtils;

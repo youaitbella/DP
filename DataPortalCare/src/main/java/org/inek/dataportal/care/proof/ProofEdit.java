@@ -1,10 +1,9 @@
-package org.inek.dataportal.care.backingbeans;
+package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.care.entities.*;
+import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.facades.BaseDataFacade;
-import org.inek.dataportal.care.proof.IkYearQuarter;
-import org.inek.dataportal.care.proof.ProofFacade;
+import org.inek.dataportal.care.proof.entity.*;
 import org.inek.dataportal.care.utils.*;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.ReportController;
