@@ -39,7 +39,7 @@
                          value="#{editCalcBasicsPepp.calcBasics.otherMethodMedInfra}"
                          required="#{editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsPepp.calcBasics.iblvMethodMedInfra == 1}"
                          readonly="#{editCalcBasicsPepp.readOnly}">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@this :logout:remaining descriptionMsg" />
         </h:inputTextarea>
         <h:message for="description" styleClass="errorMessage" id="descriptionMsg"/>
     </h:panelGroup>
