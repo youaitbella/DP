@@ -23,27 +23,27 @@
             }
         </script>
 
-        <inekDialog:ProcessDialog varName="dlgLoadingData" headerText="Daten werden geladen" />
-        <inekDialog:ProcessDialog varName="dlgImportData" headerText="Daten werden importiert" />
-        <inekDialog:ProcessDialog varName="dlgGeneratingData" headerText="Daten werden generiert" />
+        <inekDialog:ProcessDialog varName="dlgLoadingData" headerText="Daten werden geladen"/>
+        <inekDialog:ProcessDialog varName="dlgImportData" headerText="Daten werden importiert"/>
+        <inekDialog:ProcessDialog varName="dlgGeneratingData" headerText="Daten werden generiert"/>
 
         <h:form id="form" onkeypress="if( event.keyCode == 13){event.keyCode=0;}">
 
             <div style="margin-top: 10px;">
                 <pf:commandButton value="HiddenButton"
                                   style="display: none"
-                                  immediate="true" />
+                                  immediate="true"/>
 
                 <pf:commandButton value="Zurück zur Übersicht"
                                   icon="fa fa-arrow-left"
                                   action="#{proofEdit.navigateToSummary()}"
                                   onclick="PF('navigationDialog').show();"
-                                  immediate="true" />
+                                  immediate="true"/>
 
                 <pf:button target="blank"
                            value="Hilfe?"
                            icon="fa fa-info"
-                           href="https://www.g-drg.de/Pflegepersonaluntergrenzen/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ" />
+                           href="https://www.g-drg.de/Pflegepersonaluntergrenzen/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ"/>
             </div>
 
             <div class="ui-g">
@@ -55,12 +55,12 @@
                                                value="#{proofEdit.proofRegulationBaseInformation.ik}"
                                                ikList="#{proofEdit.validIks}"
                                                listener="#{proofEdit.ikChanged()}"
-                                               updateElement="form" />
+                                               updateElement="form"/>
                         </pf:panel>
 
                         <pf:panel header="Auswahl des Jahres">
                             <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                                <pf:outputLabel for="selectYear" value="Jahr:" />
+                                <pf:outputLabel for="selectYear" value="Jahr:"/>
 
                                 <pf:selectOneMenu id="selectYear"
                                                   title="Jahr"
@@ -70,18 +70,18 @@
                                     <f:selectItem
                                             rendered="#{proofEdit.proofRegulationBaseInformation.year eq 0}"
                                             itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
-                                            noSelectionOption="true" />
-                                    <f:selectItems value="#{proofEdit.validYears}" />
+                                            noSelectionOption="true"/>
+                                    <f:selectItems value="#{proofEdit.validYears}"/>
                                     <pf:ajax event="change" listener="#{proofEdit.validYearsChanged()}"
-                                             update="selectQuarter msgselectYear" />
+                                             update="selectQuarter msgselectYear"/>
                                 </pf:selectOneMenu>
                             </h:panelGrid>
-                            <pf:message for="selectYear" id="msgselectYear" />
+                            <pf:message for="selectYear" id="msgselectYear"/>
                         </pf:panel>
 
                         <pf:panel header="Quartal Auswahl">
                             <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                                <pf:outputLabel for="selectQuarter" value="Quartal:" />
+                                <pf:outputLabel for="selectQuarter" value="Quartal:"/>
 
                                 <pf:selectOneMenu id="selectQuarter"
                                                   title="Quartal"
@@ -91,19 +91,19 @@
                                     <f:selectItem
                                             rendered="#{proofEdit.proofRegulationBaseInformation.quarter eq 0}"
                                             itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
-                                            noSelectionOption="true" />
+                                            noSelectionOption="true"/>
                                     <f:selectItems value="#{proofEdit.validQuarters}" var="quarter"
-                                                   itemLabel="Quartal #{quarter}" />
+                                                   itemLabel="Quartal #{quarter}"/>
                                 </pf:selectOneMenu>
                             </h:panelGrid>
-                            <pf:message for="selectQuarter" id="msgselectQuarter" />
+                            <pf:message for="selectQuarter" id="msgselectQuarter"/>
 
                             <pf:commandButton value="Daten erfassen"
                                               onclick="PF('dlgLoadingData').show()"
                                               oncomplete="PF('dlgLoadingData').hide()"
                                               action="#{proofEdit.firstSave()}"
                                               style="margin-left: 10px;"
-                                              update="@form" />
+                                              update="@form"/>
                         </pf:panel>
 
                     </div>
@@ -111,14 +111,14 @@
                     <div class="ui-g-12" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
                         <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5"
                                      rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
-                            <pf:outputLabel value="IK:" />
-                            <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.ik}" />
-                            <pf:outputLabel value="Jahr:" />
-                            <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.year}" />
-                            <pf:outputLabel value="Quartal:" />
-                            <pf:outputLabel value="Q#{proofEdit.proofRegulationBaseInformation.quarter}" />
-                            <pf:outputLabel value="Signatur:" />
-                            <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.signature}" />
+                            <pf:outputLabel value="IK:"/>
+                            <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.ik}"/>
+                            <pf:outputLabel value="Jahr:"/>
+                            <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.year}"/>
+                            <pf:outputLabel value="Quartal:"/>
+                            <pf:outputLabel value="Q#{proofEdit.proofRegulationBaseInformation.quarter}"/>
+                            <pf:outputLabel value="Signatur:"/>
+                            <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.signature}"/>
                         </h:panelGrid>
 
                     </div>
@@ -131,7 +131,7 @@
                  jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0 and !proofEdit.isReadOnly}">
                 <div class="card" style="min-width: 800px;">
                     <div class="ui-g-12">
-                        <inekDialog:ProcessDialog varName="dlgImportData" headerText="Daten werden importiert" />
+                        <inekDialog:ProcessDialog varName="dlgImportData" headerText="Daten werden importiert"/>
 
                         <h1>Excelimport</h1>
 
@@ -139,11 +139,11 @@
                                           ajax="false"
                                           onclick="PrimeFaces.monitorDownload(start, stop);"
                                           icon="ui-icon-arrowthick-1-s">
-                            <pf:fileDownload value="#{proofEdit.downloadExcelTemplate()}" />
+                            <pf:fileDownload value="#{proofEdit.downloadExcelTemplate()}"/>
                         </pf:commandButton>
 
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
 
                         <pf:fileUpload fileUploadListener="#{proofEdit.handleFileUpload}"
                                        mode="advanced"
@@ -157,11 +157,11 @@
                                        cancelLabel="Abbrechen"
                                        uploadLabel="Datei Hochladen"
                                        label="Exceldatei auswählen"
-                                       update="@form" />
+                                       update="@form"/>
 
                         <pf:inputTextarea value="#{proofEdit.uploadMessage}"
                                           rendered="#{proofEdit.uploadMessage.length() gt 0}"
-                                          style="width: 100%" />
+                                          style="width: 100%"/>
 
                     </div>
                 </div>
@@ -199,13 +199,14 @@
                                 <p>Für die Jahresmeldung zum 30.06. des Folgejahres können Sie bei Nichteinhaltung der Pflegepersonaluntergrenzen ggf. Ausnahmetatbestände wie kurzfristige über das übliche Maß hinausgehende krankheitsbedingte Personalausfälle (§ 8 Abs. 2 Nr. 1 PpUGV), starke Erhöhung der Patientenzahl (Epidemie, Großschadensereignis, § 8 Abs. 2 Nr. 2 PpUGV) oder ggf. in der PpUG-Sanktionsvereinbarung weitere genannte Ausnahmetatbestände geltend machen. Dazu können Sie bereits unterjährig für den betroffenen pflegesensitiven Bereich eine entsprechende Eingabe hinterlegen (Ausnahmetatbestand und zusätzliche Erläuterung).</p>
                             </pf:fieldset>
                             <p>Bei Fragen konsultieren Sie bitte den Text der Rechtsverordnung sowie die auf unserer Internetseite bereitgestellte
-                            <a href="https://www.g-drg.de/Pflegepersonaluntergrenzen/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ"
-                               target="_blank">FAQ-Liste</a>. Bei darüber hinaus gehenden Fragestellungen können Sie sich gerne an das InEK wenden (per E-Mail:
-                            <a href="mailto:PPUGV-Umsetzung@inek-drg.de">PPUGV-Umsetzung@inek-drg.de</a> bzw. per Telefon: (02241) 93 82 500).</p>
+                                <a href="https://www.g-drg.de/Pflegepersonaluntergrenzen/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ"
+                                   target="_blank">FAQ-Liste</a>. Bei darüber hinaus gehenden Fragestellungen können Sie sich gerne an das InEK wenden (per E-Mail:
+                                <a href="mailto:PPUGV-Umsetzung@inek-drg.de">PPUGV-Umsetzung@inek-drg.de</a> bzw. per Telefon: (02241) 93 82 500).
+                            </p>
                         </div>
                     </div>
                     <div class="ui-g-12">
-                        <ui:include src="proof.xhtml" />
+                        <ui:include src="proof.xhtml"/>
                     </div>
                 </div>
             </div>
@@ -213,86 +214,112 @@
             <div class="ui-g" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
                 <div class="card">
                     <div class="ui-g-12" jsf:id="buttons">
-
-                        <pf:commandButton value="Datensatz ändern (inkl. Daten und neue Signatur)"
-                                          action="#{proofEdit.change()}"
-                                          rendered="#{proofEdit.changeAllowed() and not proofEdit.isExceptionFactsChangeMode}"
-                                          style="margin-left: 10px;"
-                                          update="@(.ui-message) @form" >
-                            <pf:confirm header="Daten wirklich ändern?" message="Durch diesen Vorgang wird die bestehende Signatur ungültig.
+                        <div>
+                            <pf:commandButton value="Datensatz ändern (inkl. Daten und neue Signatur)"
+                                              action="#{proofEdit.change()}"
+                                              rendered="#{proofEdit.changeAllowed() and not proofEdit.isExceptionFactsChangeMode}"
+                                              style="margin-left: 10px;"
+                                              update="@(.ui-message) @form">
+                                <pf:confirm header="Daten wirklich ändern?" message="Durch diesen Vorgang wird die bestehende Signatur ungültig.
                             Beim erneuten abschließenden Senden wird aus den Daten eine dann gültige Signatur berechnet."/>
-                        </pf:commandButton>
+                            </pf:commandButton>
 
-                        <pf:commandButton value="Quartalsmeldung exportieren (Excel)"
-                                          ajax="false"
-                                          rendered="#{proofEdit.excelExportAllowed()}"
-                                          style="margin-left: 10px;"
-                                          onclick="PrimeFaces.monitorDownload(start, stop);"
-                                          icon="ui-icon-arrowthick-1-s">
-                            <pf:fileDownload value="#{proofEdit.exportQuarterAsExcel()}" />
-                        </pf:commandButton>
+                            <pf:commandButton value="Quartalsmeldung exportieren (Excel)"
+                                              ajax="false"
+                                              rendered="#{proofEdit.excelExportAllowed()}"
+                                              style="margin-left: 10px;"
+                                              onclick="PrimeFaces.monitorDownload(start, stop);"
+                                              icon="ui-icon-arrowthick-1-s">
+                                <pf:fileDownload value="#{proofEdit.exportQuarterAsExcel()}"/>
+                            </pf:commandButton>
 
-                        <pf:commandButton value="Jahresmeldung exportieren (Excel)"
-                                          ajax="false"
-                                          rendered="#{proofEdit.annualReportAllowed()}"
-                                          style="margin-left: 10px;"
-                                          onclick="PrimeFaces.monitorDownload(start, stop);"
-                                          icon="ui-icon-arrowthick-1-s">
-                            <pf:fileDownload value="#{proofEdit.exportAnnualReportAsExcel()}"/>
-                        </pf:commandButton>
+                            <pf:commandButton value="Jahresmeldung exportieren (Excel)"
+                                              ajax="false"
+                                              rendered="#{proofEdit.annualReportAllowed()}"
+                                              style="margin-left: 10px;"
+                                              onclick="PrimeFaces.monitorDownload(start, stop);"
+                                              icon="ui-icon-arrowthick-1-s">
+                                <pf:fileDownload value="#{proofEdit.exportAnnualReportAsExcel()}"/>
+                            </pf:commandButton>
 
-                        <pf:commandButton value="Ausnahmetatbestände ändern (Sonstige Daten und Signatur bleiben erhalten)"
-                                          action="#{proofEdit.changeExceptionsFacts()}"
-                                          rendered="#{proofEdit.changeAllowed() and not proofEdit.isExceptionFactsChangeMode}"
-                                          style="margin-left: 10px;"
-                                          update="@(.ui-message) @form" />
+                            <pf:commandButton
+                                    value="Ausnahmetatbestände ändern (Sonstige Daten und Signatur bleiben erhalten)"
+                                    action="#{proofEdit.changeExceptionsFacts()}"
+                                    rendered="#{proofEdit.changeAllowed() and not proofEdit.isExceptionFactsChangeMode}"
+                                    style="margin-left: 10px;"
+                                    update="@(.ui-message) @form"/>
 
-                        <pf:commandButton value="Geänderte Ausnahmetatbestände speichern"
-                                          action="#{proofEdit.saveChangedExceptionFacts()}"
-                                          onstart="PF('dlgLoadingData').show()"
-                                          oncomplete="PF('dlgLoadingData').hide()"
-                                          rendered="#{proofEdit.isExceptionFactsChangeMode}"
-                                          style="margin-left: 10px;"
-                                          update="@(.ui-message) @form" />
+                            <pf:commandButton value="Geänderte Ausnahmetatbestände speichern"
+                                              action="#{proofEdit.saveChangedExceptionFacts()}"
+                                              onstart="PF('dlgLoadingData').show()"
+                                              oncomplete="PF('dlgLoadingData').hide()"
+                                              rendered="#{proofEdit.isExceptionFactsChangeMode}"
+                                              style="margin-left: 10px;"
+                                              update="@(.ui-message) @form"/>
 
-                        <pf:commandButton value="Speichern ohne Senden"
-                                          action="#{proofEdit.save()}"
-                                          onstart="PF('dlgLoadingData').show()"
-                                          oncomplete="PF('dlgLoadingData').hide()"
-                                          rendered="#{!proofEdit.isReadOnly}"
-                                          style="margin-left: 10px;"
-                                          update="@(.ui-message) @form" />
+                            <pf:commandButton value="Speichern ohne Senden"
+                                              action="#{proofEdit.save()}"
+                                              onstart="PF('dlgLoadingData').show()"
+                                              oncomplete="PF('dlgLoadingData').hide()"
+                                              rendered="#{!proofEdit.isReadOnly}"
+                                              style="margin-left: 10px;"
+                                              update="@(.ui-message) @form"/>
 
-                        <pf:commandButton value="Meldung abschließend ans InEK senden"
-                                          action="#{proofEdit.send()}"
-                                          onstart="PF('dlgLoadingData').show()"
-                                          oncomplete="PF('dlgLoadingData').hide()"
-                                          rendered="#{!proofEdit.isReadOnly and proofEdit.sendAllowed()}"
-                                          disabled="#{not proofEdit.sendAllowedForToday()}"
-                                          styleClass="green-button"
-                                          style="margin-left: 10px;"
-                                          icon="fa fa-arrow-right"
-                                          iconPos="right"
-                                          update="@(.ui-message) @form" />
+                            <pf:commandButton value="Meldung abschließend ans InEK senden"
+                                              action="#{proofEdit.send()}"
+                                              onstart="PF('dlgLoadingData').show()"
+                                              oncomplete="PF('dlgLoadingData').hide()"
+                                              rendered="#{!proofEdit.isReadOnly and proofEdit.sendAllowed()}"
+                                              disabled="#{not proofEdit.sendAllowedForToday()}"
+                                              styleClass="green-button"
+                                              style="margin-left: 10px;"
+                                              icon="fa fa-arrow-right"
+                                              iconPos="right"
+                                              update="@(.ui-message) @form"/>
 
-                        <pf:commandButton value="Fristverlängerung anfordern"
-                                          action="#{proofEdit.requestExtension()}"
-                                          onstart="PF('dlgLoadingData').show()"
-                                          oncomplete="PF('dlgLoadingData').hide()"
-                                          rendered="#{!proofEdit.isReadOnly and proofEdit.requestExtensionAllowed}"
-                                          style="margin-left: 10px;"
-                                          update="@(.ui-message) :form:buttons"/>
+                            <pf:commandButton value="Fristverlängerung anfordern"
+                                              action="#{proofEdit.requestExtension()}"
+                                              onstart="PF('dlgLoadingData').show()"
+                                              oncomplete="PF('dlgLoadingData').hide()"
+                                              rendered="#{!proofEdit.isReadOnly and proofEdit.requestExtensionAllowed}"
+                                              style="margin-left: 10px;"
+                                              update="@(.ui-message) :form:buttons"/>
+                        </div>
+                        <br/>
+                        <div jsf:id="fileName" class="inputPart marginTop01em"
+                             jsf:rendered="#{not empty proofEdit.documentName
+                                                 and proofEdit.isReadOnly
+                                                 and proofEdit.annualReportAllowed()}">
+                            <h:outputLabel value="Anlage:" styleClass="label element08em"/>
+                            <h:commandLink
+                                    action="#{proofEdit.downloadDocument()}"
+                                    value="#{proofEdit.documentName}"
+                                    immediate="true">
+                            </h:commandLink>
 
+                        </div>
+                        <br/>
+                        <pf:fileUpload fileUploadListener="#{proofEdit.uploadDocument}"
+                                       mode="advanced"
+                                       auto="true"
+                                       fileLimit="1"
+                                       fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
+                                       invalidFileMessage="Es dürfen nur PDF oder Bilddateien (JPG, JPEG, PNG, BMP, GIF ) hochgeladen werden"
+                                       allowTypes="/(\.|\/)(pdf|jpg|jpeg|png|bmp|gif)$/"
+                                       cancelLabel="Abbrechen"
+                                       uploadLabel="Datei Hochladen"
+                                       label="Unterschriebene Anlage auswählen"
+                                       rendered="#{proofEdit.annualReportAllowed()}"
+                                       update="@form"/>
 
-                        <pf:outputLabel rendered="#{not proofEdit.sendAllowedForToday() and proofEdit.proofRegulationBaseInformation.status.id lt 10}"
-                                        style="padding-left: 10px"
-                                        value="Die Daten können erst am Ende des Quartals ans InEK gesendet werden" />
+                        <pf:outputLabel
+                                rendered="#{not proofEdit.sendAllowedForToday() and proofEdit.proofRegulationBaseInformation.status.id lt 10}"
+                                style="padding-left: 10px"
+                                value="Die Daten können erst am Ende des Quartals ans InEK gesendet werden"/>
                     </div>
                 </div>
             </div>
         </h:form>
-
     </ui:define>
-
 </ui:composition>
 

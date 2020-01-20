@@ -1,15 +1,13 @@
 package org.inek.dataportal.care.utils;
 
 import org.assertj.core.api.Assertions;
-import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
+import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ProofHelperTest {
 

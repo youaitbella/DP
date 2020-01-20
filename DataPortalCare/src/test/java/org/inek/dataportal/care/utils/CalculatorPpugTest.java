@@ -2,7 +2,7 @@ package org.inek.dataportal.care.utils;
 
 
 import org.assertj.core.api.Assertions;
-import org.inek.dataportal.care.entities.Proof;
+import org.inek.dataportal.care.proof.entity.Proof;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

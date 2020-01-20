@@ -1,4 +1,4 @@
-package org.inek.dataportal.care.entities;
+package org.inek.dataportal.care.proof.entity;
 
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.SensitiveArea;
@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * @author lautenti
- */
 @Entity
 @Table(name = "ProofRegulationStation", schema = "care")
 @Cacheable(true)

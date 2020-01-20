@@ -1,11 +1,11 @@
 package org.inek.dataportal.care.utils;
 
 import org.apache.poi.ss.usermodel.*;
-import org.inek.dataportal.care.entities.Proof;
-import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.care.enums.Shift;
+import org.inek.dataportal.care.proof.entity.Proof;
+import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 
 import java.io.InputStream;
 import java.util.Optional;

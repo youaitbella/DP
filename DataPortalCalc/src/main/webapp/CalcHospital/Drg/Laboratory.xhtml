@@ -75,7 +75,6 @@
                 <h:outputLabel value="(aussagekräftiger Name)"/>
             </f:facet>
             <h:inputText value="#{item.costCenterText}"
-                         required="true"
                          readonly="#{editCalcBasicsDrg.readOnly}" styleClass="fullWidth">
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>

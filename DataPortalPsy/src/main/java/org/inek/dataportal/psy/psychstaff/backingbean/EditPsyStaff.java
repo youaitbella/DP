@@ -35,7 +35,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -790,8 +789,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             default:
                 return;
         }
-        DialogController.showOldAlertMessage(msg);
-        //_sessionController.alertClient(msg);
+        DialogController.showWarningDialog("Import", msg);
     }
 
     public void importExplanation(FileUploadEvent event) {
@@ -812,8 +810,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             default:
                 return;
         }
-        DialogController.showOldAlertMessage(msg);
-        //_sessionController.alertClient(msg);
+        DialogController.showWarningDialog("Import", msg);
     }
 
     public void countChanged(StaffProofEffective item, int key) {

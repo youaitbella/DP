@@ -1,4 +1,4 @@
-package org.inek.dataportal.care.entities;
+package org.inek.dataportal.care.proof.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.care.enums.Months;
@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * @author lautenti
- */
 @Entity
 @Table(name = "Proof", schema = "care")
 public class Proof implements Serializable {
