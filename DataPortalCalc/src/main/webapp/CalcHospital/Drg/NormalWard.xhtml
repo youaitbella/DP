@@ -45,7 +45,7 @@
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
                     <f:validateLength minimum="1"/>
-                    <f:ajax render="@this :logout:remaining divisionMsg"/>
+                    <f:ajax event="blur" render="@this :logout:remaining divisionMsg"/>
                 </h:inputText>
                 <h:message id="divisionMsg" for="division" styleClass="errorMessage"/>
             </h:column>
@@ -131,7 +131,7 @@
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              validatorMessage="Bereichsname eingeben"
                              required="true">
-                    <f:ajax render="@this :logout:remaining divisionfreeContactMsg"/>
+                    <f:ajax event="blur" render="@this :logout:remaining divisionfreeContactMsg"/>
                     <f:validateLength minimum="1"/>
                 </h:inputText>
                 <h:message id="divisionfreeContactMsg" for="divisionfreeContact" styleClass="errorMessage"/>

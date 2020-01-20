@@ -373,7 +373,7 @@
             <h:inputText id="location" value="#{item.location}" styleClass="inputwide"
                          readonly="#{editCalcBasicsDrg.readOnly}"
                          required="true">
-                <f:ajax render="@this :logout:remaining locationMsg"/>
+                <f:ajax event="blur" render="@this :logout:remaining locationMsg"/>
             </h:inputText>
             <h:message for="location" styleClass="errorMessage" id="locationMsg"/>
         </h:column>
