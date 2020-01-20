@@ -118,7 +118,7 @@ public class ProofSummary implements Serializable {
             return false;
         }
         Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CARE);
-        return _proofFacade.retrievePossibleIks(allowedIks).size() > 0;
+        return _proofFacade.retrievePossibleIkYearQuarters(allowedIks).size() > 0;
     }
 
     public void deleteBaseInformation(ProofRegulationBaseInformation info) {

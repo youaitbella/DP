@@ -43,7 +43,7 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
     public List<IkYearQuarter> retrievePossibleIkYearQuarters(Set<Integer> allowedIks) {
         List<IkYearQuarter> all = new ArrayList<>();
         for (Integer ik : allowedIks) {
-            for (int year : getPossibleYears()) {
+            for (int year : determinePossibleYears()) {
                 int maxQuarter = year == DateUtils.currentYear() ? (DateUtils.currentMonth() + 2) / 3 : 4;
                 IntStream.rangeClosed(1, maxQuarter).forEach(q -> {
                     all.add(new IkYearQuarter(ik, year, q));
@@ -54,6 +54,12 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         return all;
     }
 
+    private Set<Integer> determinePossibleYears() {
+        int year = DateUtils.currentYear();
+        return IntStream.rangeClosed(year - 1, year).collect(HashSet::new, HashSet::add, HashSet::addAll);
+    }
+
+
     public List<IkYearQuarter> retrieveExistingInfo(Set<Integer> allowedIks) {
         String jpql = "select new org.inek.dataportal.care.proof.IkYearQuarter(bi._ik, bi._year, bi._quarter) " +
                 "from ProofRegulationBaseInformation bi " +
@@ -61,84 +67,6 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         TypedQuery<IkYearQuarter> query = getEntityManager().createQuery(jpql, IkYearQuarter.class);
         query.setParameter(IKS, allowedIks);
         return query.getResultList();
-    }
-
-    public Set<Integer> retrievePossibleIks(Set<Integer> allowedIks) {
-        Set<Integer> possibleIks = new HashSet<>();
-        Set<Integer> possibleYears = getPossibleYears();
-
-        for (int ik : allowedIks) {
-            if (newEntryPossibleForIk(ik, possibleYears)) {
-                possibleIks.add(ik);
-            }
-        }
-
-        return possibleIks;
-    }
-
-    public Set<Integer> retrievePossibleYears(int ik) {
-        Set<Integer> possibleYearsForCreation = new HashSet<>();
-        Set<Integer> possibleYears = getPossibleYears();
-
-        for (int year : possibleYears) {
-            if (newEntryPossibleForYear(ik, year)) {
-                possibleYearsForCreation.add(year);
-            }
-        }
-        return possibleYearsForCreation;
-    }
-
-    public Set<Integer> retrievePossibleQuarter(int ik, int year) {
-        // either select all 4 quarters
-        Set<Integer> possibleQuarters = IntStream.rangeClosed(1, 4).collect(HashSet::new, HashSet::add, HashSet::addAll);
-        // or determine the one and only
-//        Set<Integer> possibleQuarters = new HashSet<>();
-//        int quarter = (DateUtils.currentMonth() + 1) / 3;
-//        possibleQuarters.add(quarter == 0 ? 4 : quarter);
-
-        Set<Integer> existingQuarters = getQuartersForValidEntrys(ik, year);
-        possibleQuarters.removeAll(existingQuarters);
-
-        return possibleQuarters;
-    }
-
-    private boolean newEntryPossibleForYear(int ik, int year) {
-        Set<Integer> quartersForValidEntrys = getQuartersForValidEntrys(ik, year);
-        return quartersForValidEntrys.size() < 4;
-    }
-
-
-    private boolean newEntryPossibleForIk(int ik, Set<Integer> possibleYears) {
-        for (int year : possibleYears) {
-            Set<Integer> quartersForValidEntrys = getQuartersForValidEntrys(ik, year);
-
-            if (quartersForValidEntrys.size() < 4) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Set<Integer> getQuartersForValidEntrys(int ik, int year) {
-        String sql = "select prbiQuarter \n" +
-                "from care.ProofRegulationBaseInformation \n" +
-                "where prbiIk = " + ik + " \n" +
-                "and prbiYear = " + year + " \n" +
-                "and prbiQuarter in (1,2,3,4) \n" +
-                "and prbiStatusId in (0, 3, 10)";
-
-        Query query = getEntityManager().createNativeQuery(sql);
-
-        @SuppressWarnings("unchecked")
-        List<Object[]> objects = query.getResultList();
-
-        Set<Integer> quarters = new HashSet<>();
-
-        for (Object quarter : objects) {
-            quarters.add((int) quarter);
-        }
-
-        return quarters;
     }
 
     public boolean hasAllQuartersSend(int ik, int year) {
@@ -149,11 +77,6 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
                 "and prbiStatusId = 10";
         Query query = getEntityManager().createNativeQuery(sql);
         return query.getResultList().size() == 4;
-    }
-
-    private Set<Integer> getPossibleYears() {
-        int year = DateUtils.currentYear();
-        return IntStream.rangeClosed(year - 1, year).collect(HashSet::new, HashSet::add, HashSet::addAll);
     }
 
     public ProofRegulationBaseInformation save(ProofRegulationBaseInformation deptBaseInformation) {
