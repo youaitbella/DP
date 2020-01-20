@@ -31,8 +31,6 @@
             <h:inputText styleClass="element15 number"
                          id="cardiologyLocationCnt"
                          value="#{editCalcBasicsDrg.calcBasics.cardiologyLocationCnt}"
-                         required="true"
-                         validatorMessage="ausserhalb des gültigen Bereichs"
                          readonly="#{editCalcBasicsDrg.readOnly}">
                 <f:validateLongRange minimum="1" maximum="9999999"/>
                 <f:ajax event="blur" render="@this :logout:remaining lblDiffcardiologyLocationCnt cardiologyLocationCntMsg"/>
@@ -54,8 +52,6 @@
             <h:inputText styleClass="element15 number"
                          id="cardiologyRoomCnt"
                          value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}"
-                         required="true"
-                         validatorMessage="ausserhalb des gültigen Bereichs"
                          readonly="#{editCalcBasicsDrg.readOnly}">
                 <f:validateLongRange minimum="1" maximum="9999999"/>
                 <f:ajax event="blur" render="@form @this lblDiffcardiologyRoomCnt :logout:remaining cardiologyRoomCntMsg"
@@ -74,8 +70,6 @@
             <h:inputText styleClass="element15 number"
                          id="cardiologyCaseCnt"
                          value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt}"
-                         required="true"
-                         validatorMessage="ausserhalb des gültigen Bereichs"
                          readonly="#{editCalcBasicsDrg.readOnly}">
                 <f:validateLongRange minimum="1" maximum="9999999"/>
                 <f:ajax event="blur" render="@this lblDiffcardiologyCaseCnt :logout:remaining cardiologyCaseCntMsg"/>

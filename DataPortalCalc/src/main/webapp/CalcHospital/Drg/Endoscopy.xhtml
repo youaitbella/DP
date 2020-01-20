@@ -29,8 +29,6 @@
             <h:outputLabel styleClass="label50" value="Anzahl Standorte"/>
             <h:inputText styleClass="element15 number" id="endoscopyLocationCnt"
                          value="#{editCalcBasicsDrg.calcBasics.endoscopyLocationCnt}"
-                         required="true"
-                         validatorMessage="ausserhalb des gültigen Bereichs"
                          readonly="#{editCalcBasicsDrg.readOnly}">
                 <f:ajax event="blur" render="@this lblDiffendoscopyLocationCnt :logout:remaining endoscopyLocationCntMsg"/>
                 <f:validateLongRange minimum="1" maximum="9999999"/>
@@ -54,8 +52,6 @@
             <h:outputLabel styleClass="label50" value="#{msg.lblEndoscopyRoomCount}"/>
             <h:inputText styleClass="element15 number" id="endoscopyRoomCnt"
                          value="#{editCalcBasicsDrg.calcBasics.endoscopyRoomCnt}"
-                         required="true"
-                         validatorMessage="ausserhalb des gültigen Bereichs"
                          readonly="#{editCalcBasicsDrg.readOnly}">
                 <f:ajax event="blur" render="@form @this lblDiffendoscopyRoomCnt :logout:remaining endoscopyRoomCntMsg"
                         listener="#{editCalcBasicsDrg.adjustAllRoomCapabilities}"/>
@@ -77,8 +73,6 @@
             <h:inputText styleClass="element15 number"
                          id="endoscopyCaseCnt"
                          value="#{editCalcBasicsDrg.calcBasics.endoscopyCaseCnt}"
-                         required="true"
-                         validatorMessage="ausserhalb des gültigen Bereichs"
                          readonly="#{editCalcBasicsDrg.readOnly}">
                 <f:ajax event="blur" render="@this lblDiffendoscopyCaseCnt :logout:remaining endoscopyCaseCnt"/>
                 <f:validateLongRange minimum="1" maximum="9999999"/>
