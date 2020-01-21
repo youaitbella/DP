@@ -294,7 +294,7 @@ public class ProofEdit implements Serializable {
                 .filter(w -> w.getLocationCodeVz() == 0)
                 .filter(w -> w.getValidFrom().compareTo(fromTo) <= 0)
                 .filter(w -> w.getValidTo().compareTo(fromDate) >= 0)
-                .map(w -> "Keine Standortnummer vorhanden für: Sensitiver Bereich: " + w.getDept().getSensitiveArea()
+                .map(w -> "Fehlende Standortnummer. Sensitiver Bereich: " + w.getDept().getSensitiveArea()
                         + ", Standort: " + w.getLocationCodeP21()
                         + ", FAB: " + w.getFab()
                         + ", Stationsname: " + w.getWardName()
