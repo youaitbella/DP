@@ -18,6 +18,7 @@ import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.utils.DateUtils;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -249,6 +250,12 @@ public class ProofEdit implements Serializable {
     }
 
     public void firstSave() {
+        // todo: separate bean for "new 2018" format (used for 2020++)?
+        if (_proofBaseInformation.getYear() >= 2020) {
+            checkForMissingLocationNumber(_proofBaseInformation.getIk(),
+                    _proofBaseInformation.getYear(),
+                    _proofBaseInformation.getQuarter());
+        }
         List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofBaseInformation.getIk(),
                 _proofBaseInformation.getYear());
         ProofFiller.createProofEntrysFromStations(_proofBaseInformation, stations,
@@ -258,6 +265,10 @@ public class ProofEdit implements Serializable {
         save();
         _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
         setReadOnly();
+    }
+
+    private void checkForMissingLocationNumber(int ik, int year, int quarter) {
+        Date fromDate = DateUtils.createDate(year, 1 + (quarter * 3), 1)
     }
 
     private void loadBaseDataManager() {
