@@ -1,8 +1,10 @@
 package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.facades.BaseDataFacade;
+import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.proof.entity.*;
 import org.inek.dataportal.care.utils.*;
 import org.inek.dataportal.common.controller.DialogController;
@@ -68,6 +70,8 @@ public class ProofEdit implements Serializable {
     private Mailer _mailer;
     @Inject
     private ReportController _reportController;
+    @Inject
+    private DeptFacade _deptFacade;
 
     private ProofRegulationBaseInformation _proofBaseInformation;
     private ProofRegulationBaseInformation _oldProofRegulationBaseInformation;
@@ -267,8 +271,35 @@ public class ProofEdit implements Serializable {
         setReadOnly();
     }
 
+
+/*
+    select deSensitiveArea, deDeptNumber, dwLocationP21, dwWardName
+    from care.DeptBaseInformation
+    join care.Dept on dbiId = deBaseInformationId
+    join care.DeptWard on deId = dwDeptId and dbiCurrentVersionId = dwVersionId
+    where dbiyear = 2018
+    and dbiStatusId = 10
+    and dbiIk = 222222222
+    and dwValidFrom <= convert(smalldatetime, '2020-03-31', 102)
+    and dwValidTo >= convert(smalldatetime, '2020-01-01', 102)
+    and dwLocationVz = 0
+*/
+
+
     private void checkForMissingLocationNumber(int ik, int year, int quarter) {
-        Date fromDate = DateUtils.createDate(year, 1 + (quarter * 3), 1)
+        Date fromDate = DateUtils.createDate(year, (quarter * 3) - 2, 1);
+        Date fromTo = DateUtils.createDate(year, quarter * 3, quarter == 1 || quarter == 4 ? 31 : 30);
+        DeptBaseInformation deptBaseInfo = _deptFacade.findDeptBaseInformationByIkAndBaseYear(ik, 2018);
+        String errorMsg = deptBaseInfo.obtainCurrentWards().stream()
+                .filter(w -> w.getLocationCodeVz() == 0)
+                .filter(w -> w.getValidFrom().compareTo(fromTo) <= 0)
+                .filter(w -> w.getValidTo().compareTo(fromDate) >= 0)
+                .map(w -> "Keine Standortnummer vorhanden für: Sensitiver Bereich: " + w.getDept().getSensitiveArea()
+                        + ", Standort: " + w.getLocationCodeP21()
+                        + ", FAB: " + w.getFab()
+                        + ", Stationsname: " + w.getWardName()
+                )
+                .collect(Collectors.joining("\\r\\n"));
     }
 
     private void loadBaseDataManager() {
