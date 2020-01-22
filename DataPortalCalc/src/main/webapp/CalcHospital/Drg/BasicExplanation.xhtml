@@ -433,7 +433,7 @@
                 <h:inputText id="type" value="#{item.type}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
-                    <f:ajax render="@this :logout:remaining typeMsg"/>
+                    <f:ajax event="blur" render="@this :logout:remaining typeMsg"/>
                 </h:inputText>
                 <h:message for="type" styleClass="errorMessage" id="typeMsg"/>
             </h:column>
@@ -505,7 +505,7 @@
                 <h:inputText value="#{item.text}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
-                    <f:ajax render="@this :logout:remaining"/>
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
 
@@ -561,7 +561,7 @@
                 <h:inputText value="#{item.remunerationKey}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
-                    <f:ajax render="@this :logout:remaining"/>
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
 

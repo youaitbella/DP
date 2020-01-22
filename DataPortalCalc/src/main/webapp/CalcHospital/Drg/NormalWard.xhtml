@@ -146,7 +146,7 @@
                              validatorMessage="FAB-Schlüssel eingeben"
                              required="true">
                     <f:validateLength minimum="4"/>
-                    <f:ajax render="@this :logout:remaining departmentKeyMsg"/>
+                    <f:ajax event="blur" render="@this :logout:remaining departmentKeyMsg"/>
                 </h:inputText>
                 <h:message id="departmentKeyMsg" for="departmentKey" styleClass="errorMessage"/>
             </h:column>
