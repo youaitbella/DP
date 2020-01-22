@@ -33,7 +33,7 @@ public class AebComparer {
     public AebComparer() {
     }
 
-    public Boolean compare(AEBBaseInformation info1, AEBBaseInformation info2) {
+    public boolean compareEuqality(AEBBaseInformation info1, AEBBaseInformation info2) {
         compareAEBPageE1_1(info1.getAebPageE1_1(), info2.getAebPageE1_1());
         compareAEBPageE1_2(info1.getAebPageE1_2(), info2.getAebPageE1_2());
         compareAEBPageE2(info1.getAebPageE2(), info2.getAebPageE2());

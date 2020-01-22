@@ -216,7 +216,8 @@ public class Edit {
         AEBBaseInformation info = _aebFacade.findAEBBaseInformation(_aebBaseInformation.getIk(),
                 _aebBaseInformation.getYear(), 0, WorkflowStatus.Provided);
         if (info != null) {
-            if (!comparer.compare(_aebBaseInformation, info)) {
+            if (!comparer.compareEuqality(_aebBaseInformation, info)) {
+                _aebFacade.storeCollision(_aebBaseInformation.getId(), info.getId());
                 setErrorMessage(comparer.getResult());
                 sendContainsDifferencesMail(_aebBaseInformation, info, comparer.getResult());
                 return true;

@@ -77,7 +77,7 @@ public class Edit {
 
     private AEBBaseInformation _aebBaseInformation;
     private Set<Integer> _validDatayears = new HashSet<>();
-    private Boolean _readOnly;
+    private boolean _readOnly;
     private String _errorMessage = "";
     private String _hintMessage = "";
 
@@ -113,11 +113,11 @@ public class Edit {
         this._errorMessage = errorMessage;
     }
 
-    public Boolean isReadOnly() {
+    public boolean isReadOnly() {
         return _readOnly;
     }
 
-    public void setReadOnly(Boolean readOnly) {
+    public void setReadOnly(boolean readOnly) {
         this._readOnly = readOnly;
     }
 
@@ -155,7 +155,7 @@ public class Edit {
         }
     }
 
-    public Boolean isChangeAllowed() {
+    public boolean isChangeAllowed() {
         if (_aebBaseInformation.getStatus() == WorkflowStatus.Provided &&
                 _accessManager.userHasWriteAccess(Feature.HC_HOSPITAL, _aebBaseInformation.getIk())) {
             if (_aebFacade.aebIdIsInAnyEvaluation(_aebBaseInformation.getId())) {
@@ -168,7 +168,7 @@ public class Edit {
         }
     }
 
-    public Boolean isSendAllowed() {
+    public boolean isSendAllowed() {
         return _aebBaseInformation.getStatus().getId() < WorkflowStatus.Provided.getId() &&
                 _accessManager.userHasWriteAccess(Feature.HC_HOSPITAL, _aebBaseInformation.getIk());
     }
@@ -196,7 +196,7 @@ public class Edit {
         save(false);
     }
 
-    private Boolean save(Boolean sendCheck) {
+    private boolean save(boolean sendCheck) {
         _errorMessage = "";
         if (!baseInfoisComplete(_aebBaseInformation)) {
             DialogController.showWarningDialog("Fehler beim Speichern",
@@ -282,7 +282,7 @@ public class Edit {
         return !_aebFacade.ikHasBedsOrPlacesForYear(ik, year);
     }
 
-    public boolean hintsExists(AEBBaseInformation info, Boolean sendCheck) {
+    public boolean hintsExists(AEBBaseInformation info, boolean sendCheck) {
         AebChecker checker = new AebChecker(_aebListItemFacade, false, sendCheck);
         if (!checker.checkAebHints(info)) {
             _hintMessage = checker.getMessage();
@@ -295,7 +295,7 @@ public class Edit {
         return _aebFacade.structureBaseInformaionAvailable(_aebBaseInformation.getIk());
     }
 
-    private boolean baseInfoIsCorrect(AEBBaseInformation info, Boolean sendCheck) {
+    private boolean baseInfoIsCorrect(AEBBaseInformation info, boolean sendCheck) {
         AebChecker checker = new AebChecker(_aebListItemFacade, false, sendCheck);
         if (!checker.checkAeb(info)) {
             _errorMessage = checker.getMessage();
@@ -304,12 +304,13 @@ public class Edit {
         return true;
     }
 
-    private Boolean aebContainsDifferences() {
+    private boolean aebContainsDifferences() {
         AebComparer comparer = new AebComparer();
         AEBBaseInformation info = _aebFacade.findAEBBaseInformation(_aebBaseInformation.getIk(),
                 _aebBaseInformation.getYear(), 1, WorkflowStatus.Provided);
         if (info != null) {
-            if (!comparer.compare(info, _aebBaseInformation)) {
+            if (!comparer.compareEuqality(info, _aebBaseInformation)) {
+                _aebFacade.storeCollision(_aebBaseInformation.getId(), info.getId());
                 setErrorMessage(comparer.getResult());
                 sendContainsDifferencesMail(_aebBaseInformation, info, comparer.getResult());
                 return true;
@@ -466,7 +467,7 @@ public class Edit {
     }
 
     private boolean baseInfoisComplete(AEBBaseInformation info) {
-        return AebCheckerHelper.baseInfoHasIkAndYear(info);
+        return info.getIk() != 0 && info.getYear() != 0;
     }
 
     private void sendSendMail(AEBBaseInformation info) {
