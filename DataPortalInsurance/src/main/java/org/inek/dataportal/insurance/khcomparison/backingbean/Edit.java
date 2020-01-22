@@ -24,7 +24,6 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.utils.DateUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -412,17 +411,6 @@ public class Edit {
 
     public boolean isPseudoPepp(String pepp) {
         return RenumerationChecker.isPseudoPepp(pepp);
-    }
-
-    public void resetAllowedToResendDate() {
-        _aebBaseInformation.setAllowedToResendUntil(DateUtils.getDateWithDayOffset(3));
-        _aebFacade.save(_aebBaseInformation);
-        DialogController.showInfoDialog("Datensatz freigegeben", "Der Datensatz wurde zur Änderung freigegeben");
-    }
-
-    public boolean isAllowedToResetResendDate() {
-        return false; // not needed / fully implemented yet
-        //return _aebBaseInformation.getStatus().equals(WorkflowStatus.Provided) && _sessionController.isInekUser(Feature.HC_HOSPITAL);
     }
 
 }
