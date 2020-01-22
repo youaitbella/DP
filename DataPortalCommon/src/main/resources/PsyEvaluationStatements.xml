@@ -6,23 +6,43 @@
 
     <statement id="KH_2_3_5_6_8_9">
         <![CDATA[
-			select top 1 biId
-            from psy.AEBBaseInformation bi
-            where bi.biIk = {ik}
-            and bi.biDataYear = {year}
-            and bi.biStatusId = 10
-			order by bi.biDataYear desc
+			select biId
+			from (
+				select biId, biDataYear, row_number() over (partition by biIk order by biDataYear desc, biTyp) prio
+				from psy.AEBBaseInformation bi
+				left join (
+					select hccAebBaseInformationId1, hccAebBaseInformationId2
+					from psy.mapHospitalComparisonConflict
+					join psy.AEBBaseInformation bi1 on bi1.biId = hccAebBaseInformationId1 and bi1.biStatusId = 10
+					join psy.AEBBaseInformation bi2 on bi2.biId = hccAebBaseInformationId2 and bi2.biStatusId = 10
+				) conflict on conflict.hccAebBaseInformationId1 = bi.biId or conflict.hccAebBaseInformationId2 = bi.biId
+				where bi.biIk = {ik}
+				and bi.biDataYear = {year}
+				and bi.biStatusId = 10
+				and conflict.hccAebBaseInformationId1 is null
+			) a
+			where prio = 1
         ]]>
     </statement>
 
     <statement id="KH_1_4_7">
         <![CDATA[
-			select top 1 biId
-            from psy.AEBBaseInformation bi
-            where bi.biIk = {ik}
-            and bi.biDataYear between {year} - 1 and {year}
-            and bi.biStatusId = 10
-			order by bi.biDataYear desc
+			select biId
+            from (
+                select biId, biIk, biDataYear, row_number() over (partition by biIk order by biDataYear desc, biTyp) prio
+                from psy.AEBBaseInformation bi
+                left join (
+                    select hccAebBaseInformationId1, hccAebBaseInformationId2
+                    from psy.mapHospitalComparisonConflict
+                    join psy.AEBBaseInformation bi1 on bi1.biId = hccAebBaseInformationId1 and bi1.biStatusId = 10
+                    join psy.AEBBaseInformation bi2 on bi2.biId = hccAebBaseInformationId2 and bi2.biStatusId = 10
+                ) conflict on conflict.hccAebBaseInformationId1 = bi.biId or conflict.hccAebBaseInformationId2 = bi.biId
+                where bi.biIk = {ik}
+                and bi.biDataYear between {year} - 1 and {year}
+                and bi.biStatusId = 10
+                and conflict.hccAebBaseInformationId1 is null
+            ) a
+            where prio = 1
         ]]>
     </statement>
 
@@ -44,16 +64,23 @@
                 -- last delivered data
                 select biId, biIk, biDataYear, biStatusId
                 from (
-                select biId, biIk, biDataYear, biStatusId, ROW_NUMBER() over (partition by biIk order by biDataYear desc) as rown
-                from psy.AEBBaseInformation bi --on bi.biIk = actPsyGroup.biIk
-                join psy.ExpectedHospital eh on eh.ehIk = bi.biIk and eh.ehYear = bi.biDataYear
-                join CallCenterDB.dbo.ccCustomer cu on cu.cuIK = ehIk
-                 where cuIsTest = 0
-                        and cuIsActive = 1
-                        and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
-                        and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
-                        and bi.biDataYear = {year}
-                        and bi.biStatusId = 10
+					select biId, biIk, biDataYear, biStatusId, ROW_NUMBER() over (partition by biIk order by biDataYear desc, biTyp) as rown
+					from psy.AEBBaseInformation bi --on bi.biIk = actPsyGroup.biIk
+					left join (
+						select hccAebBaseInformationId1, hccAebBaseInformationId2
+						from psy.mapHospitalComparisonConflict
+						join psy.AEBBaseInformation bi1 on bi1.biId = hccAebBaseInformationId1 and bi1.biStatusId = 10
+						join psy.AEBBaseInformation bi2 on bi2.biId = hccAebBaseInformationId2 and bi2.biStatusId = 10
+					) conflict on conflict.hccAebBaseInformationId1 = bi.biId or conflict.hccAebBaseInformationId2 = bi.biId
+					join psy.ExpectedHospital eh on eh.ehIk = bi.biIk and eh.ehYear = bi.biDataYear
+					join CallCenterDB.dbo.ccCustomer cu on cu.cuIK = ehIk
+					where cuIsTest = 0
+							and cuIsActive = 1
+							and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
+							and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
+							and bi.biDataYear = {year}
+							and bi.biStatusId = 10
+							and hccAebBaseInformationId1 is null
                 ) data
                 where rown = 1
             ) lastDelivered on lastDelivered.biIk = PsyGroup.biIk
@@ -80,16 +107,24 @@
                 -- last delivered data
                 select biId, biIk, biDataYear, biStatusId
                 from (
-                select biId, biIk, biDataYear, biStatusId, ROW_NUMBER() over (partition by biIk order by biDataYear desc) as rown
-                from psy.AEBBaseInformation bi --on bi.biIk = actPsyGroup.biIk
-                join psy.ExpectedHospital eh on eh.ehIk = bi.biIk and eh.ehYear = bi.biDataYear
-                join CallCenterDB.dbo.ccCustomer cu on cu.cuIK = ehIk
-                 where cuIsTest = 0
-                        and cuIsActive = 1
-                        and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
-                        and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
-                        and bi.biDataYear between {year} - 1 and {year}
-                        and bi.biStatusId = 10
+					select biId, biIk, biDataYear, biStatusId, ROW_NUMBER() over (partition by biIk order by biDataYear desc, biTyp) as rown
+					from psy.AEBBaseInformation bi --on bi.biIk = actPsyGroup.biIk
+					left join (
+						select hccAebBaseInformationId1, hccAebBaseInformationId2
+						from psy.mapHospitalComparisonConflict
+						join psy.AEBBaseInformation bi1 on bi1.biId = hccAebBaseInformationId1 and bi1.biStatusId = 10
+						join psy.AEBBaseInformation bi2 on bi2.biId = hccAebBaseInformationId2 and bi2.biStatusId = 10
+					) conflict on conflict.hccAebBaseInformationId1 = bi.biId or conflict.hccAebBaseInformationId2 = bi.biId
+					join psy.ExpectedHospital eh on eh.ehIk = bi.biIk and eh.ehYear = bi.biDataYear
+					join CallCenterDB.dbo.ccCustomer cu on cu.cuIK = ehIk
+					where cuIsTest = 0
+							and cuIsActive = 1
+							and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
+							and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
+                            and bi.biDataYear between {year} - 1 and {year}
+							and bi.biDataYear = {year}
+							and bi.biStatusId = 10
+							and hccAebBaseInformationId1 is null
                 ) data
                 where rown = 1
             ) lastDelivered on lastDelivered.biIk = PsyGroup.biIk
@@ -100,39 +135,57 @@
 
     <statement id="Gruppe_5_6">
         <![CDATA[
-        select bi.biId
-        from psy.AEBBaseInformation bi
-        where bi.biIk in (
-                select cu.cuik
-                from CallCenterDB.dbo.ccCustomer cu
-                where cuIsTest = 0
-                and cuIsActive = 1
-                and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
-				and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
-        )
-        and bi.biDataYear = {year}
-        and bi.biStatusId = 10
-        ]]>
-    </statement>
-
-    <statement id="Gruppe_4">
-        <![CDATA[
-            select biid
-            from (
-                select ROW_NUMBER() over (partition by bi.biIk order by bi.biDataYear desc) as rowNum, bi.biId
-                from psy.AEBBaseInformation bi
-                where bi.biIk in (
+			select biId
+			from (
+				select biId, biDataYear, row_number() over (partition by biIk order by biDataYear desc, biTyp) prio
+				from psy.AEBBaseInformation bi
+				left join (
+					select hccAebBaseInformationId1, hccAebBaseInformationId2
+					from psy.mapHospitalComparisonConflict
+					join psy.AEBBaseInformation bi1 on bi1.biId = hccAebBaseInformationId1 and bi1.biStatusId = 10
+					join psy.AEBBaseInformation bi2 on bi2.biId = hccAebBaseInformationId2 and bi2.biStatusId = 10
+				) conflict on conflict.hccAebBaseInformationId1 = bi.biId or conflict.hccAebBaseInformationId2 = bi.biId
+				where bi.biIk in (
                     select cu.cuik
                     from CallCenterDB.dbo.ccCustomer cu
                     where cuIsTest = 0
                     and cuIsActive = 1
                     and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
-					and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
+                    and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
+                )
+				and bi.biDataYear = {year}
+				and bi.biStatusId = 10
+				and conflict.hccAebBaseInformationId1 is null
+			) a
+			where prio = 1
+        ]]>
+    </statement>
+
+    <statement id="Gruppe_4">
+        <![CDATA[
+			select biId
+			from (
+				select biId, biDataYear, row_number() over (partition by biIk order by biDataYear desc, biTyp) prio
+				from psy.AEBBaseInformation bi
+				left join (
+					select hccAebBaseInformationId1, hccAebBaseInformationId2
+					from psy.mapHospitalComparisonConflict
+					join psy.AEBBaseInformation bi1 on bi1.biId = hccAebBaseInformationId1 and bi1.biStatusId = 10
+					join psy.AEBBaseInformation bi2 on bi2.biId = hccAebBaseInformationId2 and bi2.biStatusId = 10
+				) conflict on conflict.hccAebBaseInformationId1 = bi.biId or conflict.hccAebBaseInformationId2 = bi.biId
+				where bi.biIk in (
+                    select cu.cuik
+                    from CallCenterDB.dbo.ccCustomer cu
+                    where cuIsTest = 0
+                    and cuIsActive = 1
+                    and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
+                    and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
                 )
                 and bi.biDataYear between {year} - 1 and {year}
-                and bi.biStatusId = 10
-            ) a
-            where a.rowNum = 1
+				and bi.biStatusId = 10
+				and conflict.hccAebBaseInformationId1 is null
+			) a
+			where prio = 1
         ]]>
     </statement>
 
