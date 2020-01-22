@@ -30,12 +30,14 @@
         <h:column>
             <f:facet name="header">Bereich</f:facet>
             <h:outputLabel styleClass="label" value="#{item.serviceProvisionType.text}" rendered="#{item.serviceProvisionTypeId ge 0}"/>
-            <inek:InputTextWithMessage styleClassComponent="element100" 
+            <inek:InputTextWithMessage id="serviceProvisionTypeId"
+                                       styleClassComponent="element100"
                                        styleClass="element100" 
                                        value="#{item.domain}" 
                                        required="true"
                                        disabled="#{editCalcBasicsPepp.readOnly}"
                                        rendered="#{item.serviceProvisionTypeId lt 0}"/>
+            <h:message for="serviceProvisionTypeId" id="serviceProvisionTypeIdMsg" styleClass="errorMessage"/>
         </h:column>
 
         <h:column>
