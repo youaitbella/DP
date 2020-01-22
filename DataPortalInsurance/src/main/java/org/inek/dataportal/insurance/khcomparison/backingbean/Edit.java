@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.insurance.khcomparison.backingbean;
 
 import org.eclipse.persistence.exceptions.OptimisticLockException;
@@ -46,9 +41,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-/**
- * @author lautenti
- */
 @Named
 @FeatureScoped
 public class Edit {
@@ -102,7 +94,8 @@ public class Edit {
     }
 
     public Boolean isChangeable() {
-        return !isWriteable() && _accessManager.userHasWriteAccess(Feature.HC_INSURANCE, _aebBaseInformation.getIk());
+        return _aebBaseInformation.getStatus() == WorkflowStatus.Provided
+                && _accessManager.userHasWriteAccess(Feature.HC_INSURANCE, _aebBaseInformation.getIk());
     }
 
     public Boolean isSendEnabled() {
@@ -427,7 +420,8 @@ public class Edit {
     }
 
     public boolean isAllowedToResetResendDate() {
-        return _aebBaseInformation.getStatus().equals(WorkflowStatus.Provided) && _sessionController.isInekUser(Feature.HC_HOSPITAL);
+        return false; // not needed / fully implemented yet
+        //return _aebBaseInformation.getStatus().equals(WorkflowStatus.Provided) && _sessionController.isInekUser(Feature.HC_HOSPITAL);
     }
 
 }
