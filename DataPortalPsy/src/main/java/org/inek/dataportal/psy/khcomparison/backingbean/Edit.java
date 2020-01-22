@@ -438,18 +438,18 @@ public class Edit {
     }
 
     public void change() {
-        archivBaseinformation(_aebBaseInformation);
+        _aebBaseInformation = archiveAndCopyAEB(_aebBaseInformation);
         _aebBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
         _readOnly = false;
     }
 
-    private void archivBaseinformation(AEBBaseInformation info) {
-        AEBBaseInformation baseInfo = new AEBBaseInformation(info);
-        baseInfo.setStatus(WorkflowStatus.Retired);
-        baseInfo.setLastChanged(new Date());
-        baseInfo.setLastChangeFrom(_sessionController.getAccountId());
-        _aebFacade.save(baseInfo);
+    private AEBBaseInformation archiveAndCopyAEB(AEBBaseInformation info) {
+        info.setStatus(WorkflowStatus.Retired);
+        info.setLastChanged(new Date());
+        info.setLastChangeFrom(_sessionController.getAccountId());
+        _aebFacade.save(info);
+        return new AEBBaseInformation(info);
     }
 
     public void ikChanged() {
