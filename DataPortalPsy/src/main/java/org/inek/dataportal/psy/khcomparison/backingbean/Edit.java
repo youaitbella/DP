@@ -435,7 +435,7 @@ public class Edit {
 
     public StreamedContent downloadDocument(PsyDocument doc) {
         ByteArrayInputStream stream = new ByteArrayInputStream(doc.getContent());
-        return new DefaultStreamedContent(stream, "applikation/" + doc.getContentTyp(), doc.getName());
+        return new DefaultStreamedContent(stream, "application/" + doc.getContentTyp(), doc.getName());
     }
 
     public void change() {

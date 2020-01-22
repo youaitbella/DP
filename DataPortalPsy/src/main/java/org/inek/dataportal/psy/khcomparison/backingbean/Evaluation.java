@@ -327,7 +327,7 @@ public class Evaluation {
         try {
             byte[] bytes = Files.readAllBytes(Paths.get(jobFolder));
             ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
-            return new DefaultStreamedContent(stream, "applikation/pdf", evaluation.getHospitalComparisonJob().getEvaluationFileName());
+            return new DefaultStreamedContent(stream, "application/pdf", evaluation.getHospitalComparisonJob().getEvaluationFileName());
         } catch (Exception ex) {
             DialogController.showErrorDialog("Fehler beim herunterladen", "Die Datei konnte nicht heruntergeldaden werden. " +
                     "Bitte versuchen Sie es später nocheinmal, oder kontaktieren Sie die Datenstelle.");
