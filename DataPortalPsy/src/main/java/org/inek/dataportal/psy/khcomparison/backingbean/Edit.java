@@ -466,7 +466,7 @@ public class Edit {
     }
 
     private boolean baseInfoisComplete(AEBBaseInformation info) {
-        return AebCheckerHelper.baseInfoisComplete(info);
+        return AebCheckerHelper.baseInfoHasIkAndYear(info);
     }
 
     private void sendSendMail(AEBBaseInformation info) {

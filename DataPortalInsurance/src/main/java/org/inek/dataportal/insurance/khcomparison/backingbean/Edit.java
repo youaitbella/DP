@@ -85,20 +85,20 @@ public class Edit {
         this._errorMessage = errorMessage;
     }
 
-    public Boolean isWriteable() {
+    public boolean isWriteable() {
         return _accessManager.isWritable(Feature.HC_INSURANCE, _aebBaseInformation.getStatus(), 0, _aebBaseInformation.getIk());
     }
 
-    public Boolean isReadOnly() {
+    public boolean isReadOnly() {
         return !isWriteable();
     }
 
-    public Boolean isChangeable() {
+    public boolean isChangeable() {
         return _aebBaseInformation.getStatus() == WorkflowStatus.Provided
                 && _accessManager.userHasWriteAccess(Feature.HC_INSURANCE, _aebBaseInformation.getIk());
     }
 
-    public Boolean isSendEnabled() {
+    public boolean isSendEnabled() {
         return _accessManager.isSealedEnabled(Feature.HC_INSURANCE, _aebBaseInformation.getStatus(), 0, _aebBaseInformation.getIk());
     }
 
@@ -145,11 +145,11 @@ public class Edit {
         save(false);
     }
 
-    private Boolean save(Boolean sendCheck) {
+    private boolean save(boolean sendCheck) {
         _errorMessage = "";
-        if (!baseInfoisComplete(_aebBaseInformation)) {
+        if (!baseInfoHasIkAndYear(_aebBaseInformation)) {
             DialogController.showWarningDialog("Fehler beim Speichern",
-                    "Bitte geben Sie eine gültige IK und Datenjahr");
+                    "Bitte geben Sie mindestens eine gültige IK und Datenjahr an");
             return false;
         }
 
@@ -202,7 +202,7 @@ public class Edit {
         }
     }
 
-    private boolean baseInfoIsCorrect(AEBBaseInformation info, Boolean sendCheck) {
+    private boolean baseInfoIsCorrect(AEBBaseInformation info, boolean sendCheck) {
         AebChecker checker = new AebChecker(_aebListItemFacade, false, sendCheck);
         if (!checker.checkAeb(info)) {
             _errorMessage = checker.getMessage();
@@ -211,7 +211,7 @@ public class Edit {
         return true;
     }
 
-    private Boolean aebContainsDifferences() {
+    private boolean aebContainsDifferences() {
         AebComparer comparer = new AebComparer();
         AEBBaseInformation info = _aebFacade.findAEBBaseInformation(_aebBaseInformation.getIk(),
                 _aebBaseInformation.getYear(), 0, WorkflowStatus.Provided);
@@ -370,8 +370,8 @@ public class Edit {
 
     }
 
-    private boolean baseInfoisComplete(AEBBaseInformation info) {
-        return AebCheckerHelper.baseInfoisComplete(info);
+    private boolean baseInfoHasIkAndYear(AEBBaseInformation info) {
+        return info.getIk() != 0 && info.getYear() != 0;
     }
 
     private void sendSendMail(AEBBaseInformation info) {
