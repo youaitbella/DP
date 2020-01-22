@@ -92,9 +92,17 @@ public class Edit {
         return !isWriteable();
     }
 
-    public boolean isChangeable() {
-        return _aebBaseInformation.getStatus() == WorkflowStatus.Provided
-                && _accessManager.userHasWriteAccess(Feature.HC_INSURANCE, _aebBaseInformation.getIk());
+    public boolean isChangeAllowed() {
+        if (_aebBaseInformation.getStatus() == WorkflowStatus.Provided &&
+                _accessManager.userHasWriteAccess(Feature.HC_INSURANCE, _aebBaseInformation.getIk())) {
+            if (_aebFacade.aebIdIsInAnyEvaluation(_aebBaseInformation.getId())) {
+                return _aebBaseInformation.getAllowedToResendUntil().after(new Date());
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
     public boolean isSendEnabled() {
@@ -343,7 +351,7 @@ public class Edit {
     }
 
     public void change() {
-        archiveAndCopyAEB(_aebBaseInformation);
+        _aebBaseInformation = archiveAndCopyAEB(_aebBaseInformation);
         _aebBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
     }
