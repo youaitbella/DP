@@ -1,4 +1,4 @@
-package org.inek.dataportal.care.utils;
+package org.inek.dataportal.care.proof.util;
 
 import org.assertj.core.api.Assertions;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;

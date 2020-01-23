@@ -6,7 +6,13 @@ import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.proof.entity.*;
-import org.inek.dataportal.care.utils.*;
+import org.inek.dataportal.care.proof.util.ProofChecker;
+import org.inek.dataportal.care.proof.util.ProofFiller;
+import org.inek.dataportal.care.proof.util.ProofHelper;
+import org.inek.dataportal.care.proof.util.ProofImporter;
+import org.inek.dataportal.care.utils.BaseDataManager;
+import org.inek.dataportal.care.utils.CalculatorPpug;
+import org.inek.dataportal.care.utils.CareSignatureCreater;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -20,7 +26,6 @@ import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.utils.DateUtils;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -56,6 +61,7 @@ import static org.inek.dataportal.common.enums.TransferFileType.PPUGV;
 public class ProofEdit implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("ProofEdit");
+    public static final String DATA_INCOMPLETE = "Daten unvollständig";
     @Inject
     private SessionController _sessionController;
     @Inject
@@ -256,9 +262,12 @@ public class ProofEdit implements Serializable {
     public void firstSave() {
         // todo: separate bean for "new 2018" format (used for 2020++)?
         if (_proofBaseInformation.getYear() >= 2020) {
-            checkForMissingLocationNumber(_proofBaseInformation.getIk(),
+            int ik = _proofBaseInformation.getIk();
+            DeptBaseInformation deptBaseInfo = _deptFacade.findDeptBaseInformationByIkAndBaseYear(ik, 2018);
+            String errorMsg = ProofChecker.checkForMissingLocationNumber(deptBaseInfo.obtainCurrentWards(),
                     _proofBaseInformation.getYear(),
                     _proofBaseInformation.getQuarter());
+            DialogController.showErrorDialog(DATA_INCOMPLETE, errorMsg);
         }
         List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofBaseInformation.getIk(),
                 _proofBaseInformation.getYear());
@@ -269,22 +278,6 @@ public class ProofEdit implements Serializable {
         save();
         _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
         setReadOnly();
-    }
-
-    private void checkForMissingLocationNumber(int ik, int year, int quarter) {
-        Date fromDate = DateUtils.createDate(year, (quarter * 3) - 2, 1);
-        Date fromTo = DateUtils.createDate(year, quarter * 3, quarter == 1 || quarter == 4 ? 31 : 30);
-        DeptBaseInformation deptBaseInfo = _deptFacade.findDeptBaseInformationByIkAndBaseYear(ik, 2018);
-        String errorMsg = deptBaseInfo.obtainCurrentWards().stream()
-                .filter(w -> w.getLocationCodeVz() == 0)
-                .filter(w -> w.getValidFrom().compareTo(fromTo) <= 0)
-                .filter(w -> w.getValidTo().compareTo(fromDate) >= 0)
-                .map(w -> "Fehlende Standortnummer. Sensitiver Bereich: " + w.getDept().getSensitiveArea()
-                        + ", Standort: " + w.getLocationCodeP21()
-                        + ", FAB: " + w.getFab()
-                        + ", Stationsname: " + w.getWardName()
-                )
-                .collect(Collectors.joining("\\r\\n"));
     }
 
     private void loadBaseDataManager() {
@@ -299,7 +292,7 @@ public class ProofEdit implements Serializable {
 
         List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionsFacts.size());
         if (!errorMessages.isEmpty()) {
-            DialogController.showErrorDialog("Daten unvollständig", errorMessages.get(0));
+            DialogController.showErrorDialog(DATA_INCOMPLETE, errorMessages.get(0));
             return;
         }
 
@@ -430,7 +423,7 @@ public class ProofEdit implements Serializable {
     public void saveChangedExceptionFacts() {
         List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionsFacts.size());
         if (!errorMessages.isEmpty()) {
-            DialogController.showErrorDialog("Daten unvollständig", errorMessages.get(0));
+            DialogController.showErrorDialog(DATA_INCOMPLETE, errorMessages.get(0));
             return;
         }
 

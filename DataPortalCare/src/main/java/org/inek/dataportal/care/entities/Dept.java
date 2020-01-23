@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/**
- * @author lautenti
- */
 @Entity
 @Table(name = "Dept", schema = "care")
 public class Dept implements Serializable {

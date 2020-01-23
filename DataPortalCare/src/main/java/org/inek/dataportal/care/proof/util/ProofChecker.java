@@ -1,11 +1,15 @@
-package org.inek.dataportal.care.utils;
+package org.inek.dataportal.care.proof.util;
 
+import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.care.proof.entity.ProofExceptionFact;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProofChecker {
 
@@ -143,5 +147,21 @@ public class ProofChecker {
             }
         }
         return "";
+    }
+
+    public static String checkForMissingLocationNumber(List<DeptWard> wards, int year, int quarter) {
+        Date fromDate = DateUtils.createDate(year, (quarter * 3) - 2, 1);
+        Date fromTo = DateUtils.createDate(year, quarter * 3, quarter == 1 || quarter == 4 ? 31 : 30);
+        String errorMsg = wards.stream()
+                .filter(w -> w.getLocationCodeVz() == 0)
+                .filter(w -> w.getValidFrom().compareTo(fromTo) <= 0)
+                .filter(w -> w.getValidTo().compareTo(fromDate) >= 0)
+                .map(w -> "Fehlende Standortnummer. Sensitiver Bereich: " + w.getDept().getSensitiveArea()
+                        + ", Standort: " + w.getLocationCodeP21()
+                        + ", FAB: " + w.getFab()
+                        + ", Stationsname: " + w.getWardName()
+                )
+                .collect(Collectors.joining("\\r\\n"));
+        return errorMsg;
     }
 }
