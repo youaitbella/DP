@@ -267,9 +267,14 @@ public class ProofEdit implements Serializable {
             String errorMsg = ProofChecker.checkForMissingLocationNumber(deptBaseInfo.obtainCurrentWards(),
                     _proofBaseInformation.getYear(),
                     _proofBaseInformation.getQuarter());
-            DialogController.showErrorDialog(DATA_INCOMPLETE, errorMsg);
-            return;
+            if (!errorMsg.isEmpty()) {
+                DialogController.showErrorDialog(DATA_INCOMPLETE, errorMsg);
+                return;
+            }
+            //ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards());
         }
+
+
         List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofBaseInformation.getIk(),
                 _proofBaseInformation.getYear());
         ProofFiller.createProofEntrysFromStations(_proofBaseInformation, stations,
@@ -280,6 +285,7 @@ public class ProofEdit implements Serializable {
         _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
         setReadOnly();
     }
+
 
     private void loadBaseDataManager() {
         _baseDatamanager = new BaseDataManager(_proofBaseInformation.getYear(), _baseDataFacade);

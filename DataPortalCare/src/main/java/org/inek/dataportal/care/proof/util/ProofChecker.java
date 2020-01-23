@@ -151,10 +151,10 @@ public class ProofChecker {
 
     public static String checkForMissingLocationNumber(List<DeptWard> wards, int year, int quarter) {
         Date fromDate = DateUtils.createDate(year, (quarter * 3) - 2, 1);
-        Date fromTo = DateUtils.createDate(year, quarter * 3, quarter == 1 || quarter == 4 ? 31 : 30);
+        Date toDate = DateUtils.createDate(year, quarter * 3, quarter == 1 || quarter == 4 ? 31 : 30);
         String errorMsg = wards.stream()
                 .filter(w -> w.getLocationCodeVz() == 0)
-                .filter(w -> w.getValidFrom().compareTo(fromTo) <= 0)
+                .filter(w -> w.getValidFrom().compareTo(toDate) <= 0)
                 .filter(w -> w.getValidTo().compareTo(fromDate) >= 0)
                 .map(w -> "Fehlende Standortnummer. Sensitiver Bereich: " + w.getDept().getSensitiveArea()
                         + ", Standort: " + w.getLocationCodeP21()
