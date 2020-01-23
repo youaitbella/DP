@@ -165,7 +165,7 @@ public class ProofEdit implements Serializable {
             return;
         } else if ("new".equals(id)) {
             _proofBaseInformation = createNewBaseInformation();
-            _proofBaseInformation.setCreatedBy(_sessionController.getAccountId());
+            _proofBaseInformation.setCreatedBy(_accessManager.getSessionAccountId());
             Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CARE);
             possibleIkYearQuarters = _proofFacade.retrievePossibleIkYearQuarters(allowedIks);
         } else {
@@ -271,21 +271,6 @@ public class ProofEdit implements Serializable {
         setReadOnly();
     }
 
-
-/*
-    select deSensitiveArea, deDeptNumber, dwLocationP21, dwWardName
-    from care.DeptBaseInformation
-    join care.Dept on dbiId = deBaseInformationId
-    join care.DeptWard on deId = dwDeptId and dbiCurrentVersionId = dwVersionId
-    where dbiyear = 2018
-    and dbiStatusId = 10
-    and dbiIk = 222222222
-    and dwValidFrom <= convert(smalldatetime, '2020-03-31', 102)
-    and dwValidTo >= convert(smalldatetime, '2020-01-01', 102)
-    and dwLocationVz = 0
-*/
-
-
     private void checkForMissingLocationNumber(int ik, int year, int quarter) {
         Date fromDate = DateUtils.createDate(year, (quarter * 3) - 2, 1);
         Date fromTo = DateUtils.createDate(year, quarter * 3, quarter == 1 || quarter == 4 ? 31 : 30);
@@ -318,7 +303,7 @@ public class ProofEdit implements Serializable {
             return;
         }
 
-        _proofBaseInformation.setLastChangeBy(_sessionController.getAccountId());
+        _proofBaseInformation.setLastChangeBy(_accessManager.getSessionAccountId());
         _proofBaseInformation.setLastChanged(new Date());
 
         try {
@@ -349,14 +334,14 @@ public class ProofEdit implements Serializable {
 
 
     private void sendMail(String mailTemplateName) {
-        String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());
+        String salutation = _mailer.getFormalSalutation(_accessManager.getSessionAccount());
 
         MailTemplate template = _mailer.getMailTemplate(mailTemplateName);
         MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", Integer.toString(_proofBaseInformation.getIk()));
 
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
 
-        if (!_mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail())) {
+        if (!_mailer.sendMailTemplate(template, _accessManager.getSessionAccount().getEmail())) {
             LOGGER.log(Level.SEVERE, "Fehler beim Emailversand an " + _proofBaseInformation.getIk() + "(Care Proof)");
             _mailer.sendException(Level.SEVERE,
                     "Fehler beim Emailversand an " + _proofBaseInformation.getIk() + "(Care Proof)", new Exception());
@@ -434,7 +419,7 @@ public class ProofEdit implements Serializable {
         _proofBaseInformation.setSignature("");
         _proofBaseInformation.setSend(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)));
         _proofBaseInformation.setCreated(new Date());
-        _proofBaseInformation.setCreatedBy(_sessionController.getAccountId());
+        _proofBaseInformation.setCreatedBy(_accessManager.getSessionAccountId());
         setIsReadOnly(false);
     }
 
@@ -465,7 +450,7 @@ public class ProofEdit implements Serializable {
     private ProofRegulationBaseInformation copyBaseInformation(ProofRegulationBaseInformation baseInfo) {
         ProofRegulationBaseInformation newInfo = new ProofRegulationBaseInformation(baseInfo);
         newInfo.setStatus(WorkflowStatus.Retired);
-        newInfo.setLastChangeBy(_sessionController.getAccountId());
+        newInfo.setLastChangeBy(_accessManager.getSessionAccountId());
         newInfo.setLastChanged(new Date());
         return newInfo;
     }
@@ -551,8 +536,8 @@ public class ProofEdit implements Serializable {
         int ik = _proofBaseInformation.getIk();
         int year = _proofBaseInformation.getYear();
         int quarter = _proofBaseInformation.getQuarter();
-        Extension extension = new Extension(ik, year, quarter, _sessionController.getAccountId());
-        extension.setAccountId(_sessionController.getAccountId());
+        Extension extension = new Extension(ik, year, quarter, _accessManager.getSessionAccountId());
+        extension.setAccountId(_accessManager.getSessionAccountId());
         _proofFacade.saveExtension(extension);
         sendExtensionMail(ik, year, quarter);
     }
@@ -565,7 +550,7 @@ public class ProofEdit implements Serializable {
 
         MailTemplate template = _mailer.getMailTemplate("CareProofExtension");
         MailTemplateHelper.setPlaceholderInTemplate(template, "{formalSalutation}",
-                _mailer.getFormalSalutation(_sessionController.getAccount()));
+                _mailer.getFormalSalutation(_accessManager.getSessionAccount()));
         MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", String.valueOf(ik));
         MailTemplateHelper.setPlaceholderInTemplate(template, "{quarter}", String.valueOf(quarter));
         MailTemplateHelper.setPlaceholderInTemplate(template, "{year}", String.valueOf(year));
@@ -573,7 +558,7 @@ public class ProofEdit implements Serializable {
 
         DialogController.showInfoDialog("Erfolgreich beantragt", "Sie haben erfolgreich eine " +
                 "Fristverlängerung beantragt. Sie erhalten eine Bestätung per E-Mail.");
-        return _mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail());
+        return _mailer.sendMailTemplate(template, _accessManager.getSessionAccount().getEmail());
     }
 
     public boolean getRequestExtensionAllowed() {

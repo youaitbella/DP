@@ -67,8 +67,8 @@ public class AccessManager implements Serializable {
 
     @Inject
     public AccessManager(CooperationRightFacade cooperationRightFacade,
-            SessionController sessionController,
-            ManagedIkCache ikCache) {
+                         SessionController sessionController,
+                         ManagedIkCache ikCache) {
         _cooperationRightFacade = cooperationRightFacade;
         _sessionController = sessionController;
         _ikCache = ikCache;
@@ -78,13 +78,16 @@ public class AccessManager implements Serializable {
         return _sessionController.getAccount();
     }
 
+    public int getSessionAccountId() {
+        return _sessionController.getAccount().getId();
+    }
+
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache
      * for subsequent requests.
      *
      * @param feature
      * @param account
-     *
      * @return
      */
     private List<CooperationRight> getCooperationRights(Feature feature, Account account) {
@@ -484,5 +487,4 @@ public class AccessManager implements Serializable {
     public Boolean ikIsManaged(int ik, Feature feature) {
         return  _ikCache.isManaged(ik, feature);
     }
-
 }
