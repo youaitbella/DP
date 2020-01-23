@@ -4,7 +4,6 @@ import javafx.util.Pair;
 import org.assertj.core.api.Assertions;
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.entities.DeptWard;
-import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.common.utils.DateUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.inek.dataportal.care.testcommon.WardBuilder.createDeptWard;
 import static org.inek.dataportal.common.utils.DateUtils.createDate;
 
 
@@ -74,21 +74,6 @@ class AggregatedWardsHelperTest {
         return key;
     }
 
-    private DeptWard createDeptWard(Date validFrom, Date validTo, String name, String deptName, int p21, int vz, String fab) {
-        DeptWard station = new DeptWard(new MapVersion());
-        station.setValidFrom(validFrom);
-        station.setValidTo(validTo);
-        station.setWardName(name);
-        station.setDeptName(deptName);
-        station.setLocationCodeP21(p21);
-        station.setLocationCodeVz(vz);
-        station.setFab(fab);
-        return station;
-    }
-
-    private DeptWard createDeptWard(String name, String deptName, int p21, int vz, String fab) {
-        return createDeptWard(createDate(2019, Month.JANUARY, 1), createDate(2019, Month.DECEMBER, 31), name, deptName, p21, vz, fab);
-    }
 
     @Test
     void emptyWardsGenereateEmptyList() {

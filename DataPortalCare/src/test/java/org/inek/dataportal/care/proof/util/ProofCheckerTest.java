@@ -1,20 +1,18 @@
 package org.inek.dataportal.care.proof.util;
 
-import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptWard;
-import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.care.proof.entity.ProofExceptionFact;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.proof.entity.ProofRegulationStation;
+import org.inek.dataportal.care.testcommon.WardBuilder;
 import org.inek.dataportal.care.utils.CalculatorPpug;
 import org.inek.dataportal.common.utils.DateUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -207,34 +205,19 @@ class ProofCheckerTest {
 
     private List<DeptWard> createWards() {
         List<DeptWard> wards = new ArrayList<>();
-        DeptWard ward1 = createDeptWard(DateUtils.createDate(2018, 1, 1),
+        DeptWard ward1 = WardBuilder.createDeptWard(DateUtils.createDate(2018, 1, 1),
                 DateUtils.createDate(2050, 1, 1),
                 "Station A", "Fachabteilung 1", 1, 772548, "1300");
-        DeptWard ward2 = createDeptWard(DateUtils.createDate(2018, 1, 1),
+        DeptWard ward2 = WardBuilder.createDeptWard(DateUtils.createDate(2018, 1, 1),
                 DateUtils.createDate(2019, 12, 1),
                 "Station A", "Fachabteilung 1", 1, 0, "1300");
-        DeptWard ward3 = createDeptWard(DateUtils.createDate(2020, 1, 1),
+        DeptWard ward3 = WardBuilder.createDeptWard(DateUtils.createDate(2020, 1, 1),
                 DateUtils.createDate(2050, 1, 1),
                 "Station A", "Fachabteilung 1", 1, 772548, "1300");
         wards.add(ward1);
         wards.add(ward2);
         wards.add(ward3);
         return wards;
-    }
-
-    private DeptWard createDeptWard(Date validFrom, Date validTo, String name, String deptName, int p21, int vz, String fab) {
-        Dept dept = new Dept();
-        dept.setSensitiveArea("Intensiv");
-        DeptWard ward = new DeptWard(new MapVersion());
-        ward.setDept(dept);
-        ward.setValidFrom(validFrom);
-        ward.setValidTo(validTo);
-        ward.setWardName(name);
-        ward.setDeptName(deptName);
-        ward.setLocationCodeP21(p21);
-        ward.setLocationCodeVz(vz);
-        ward.setFab(fab);
-        return ward;
     }
 
 }
