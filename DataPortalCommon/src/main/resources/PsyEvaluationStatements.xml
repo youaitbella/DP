@@ -122,7 +122,6 @@
 							and cuik not in (select hcexIk from psy.HospitalComparisonExcludeIK)
 							and case when cu.cuPsyStateId = 255 then cu.cuStateId else cu.cuPsyStateId end in ({stateIds})
                             and bi.biDataYear between {year} - 1 and {year}
-							and bi.biDataYear = {year}
 							and bi.biStatusId = 10
 							and hccAebBaseInformationId1 is null
                 ) data
