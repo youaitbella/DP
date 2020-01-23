@@ -161,7 +161,7 @@ public class ProofChecker {
                         + ", FAB: " + w.getFab()
                         + ", Stationsname: " + w.getWardName()
                 )
-                .collect(Collectors.joining("\\r\\n"));
+                .collect(Collectors.joining("\\r\\n \\r\\n"));
         return errorMsg;
     }
 }

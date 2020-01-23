@@ -268,6 +268,7 @@ public class ProofEdit implements Serializable {
                     _proofBaseInformation.getYear(),
                     _proofBaseInformation.getQuarter());
             DialogController.showErrorDialog(DATA_INCOMPLETE, errorMsg);
+            return;
         }
         List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofBaseInformation.getIk(),
                 _proofBaseInformation.getYear());
