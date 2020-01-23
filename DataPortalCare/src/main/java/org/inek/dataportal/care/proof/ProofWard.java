@@ -1,5 +1,6 @@
 package org.inek.dataportal.care.proof;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -54,14 +55,14 @@ public class ProofWard {
     //</editor-fold>
 
     //<editor-fold desc="Property sensitiveArea">
-    private Set<Integer> sensitiveAreas = new HashSet<>();
+    private Set<String> sensitiveAreas = new HashSet<>();
 
-    public Set<Integer> getSensitiveAreas() {
-        return sensitiveAreas;
+    public Set<String> getSensitiveAreas() {
+        return Collections.unmodifiableSet(sensitiveAreas);
     }
 
-    public void setSensitiveAreas(Set<Integer> sensitiveAreas) {
-        this.sensitiveAreas = sensitiveAreas;
+    public void addSensitiveArea(String sensitiveArea) {
+        sensitiveAreas.add(sensitiveArea);
     }
     //</editor-fold>
 
@@ -69,11 +70,11 @@ public class ProofWard {
     private Set<String> depts = new HashSet<>();
 
     public Set<String> getDepts() {
-        return depts;
+        return Collections.unmodifiableSet(depts);
     }
 
-    public void setDepts(Set<String> depts) {
-        this.depts = depts;
+    public void addDept(String dept) {
+        depts.add(dept);
     }
     //</editor-fold>
 
@@ -81,11 +82,11 @@ public class ProofWard {
     private Set<String> deptNames = new HashSet<>();
 
     public Set<String> getDeptNames() {
-        return deptNames;
+        return Collections.unmodifiableSet(deptNames);
     }
 
-    public void setDeptNames(Set<String> deptNames) {
-        this.deptNames = deptNames;
+    public void addDeptName(String deptName) {
+        deptNames.add(deptName);
     }
     //</editor-fold>
 
