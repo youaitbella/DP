@@ -323,7 +323,9 @@
         <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
         <h:inputText id="locationCnt" styleClass="inputshort" value="#{editCalcBasicsDrg.calcBasics.locationCnt}"
                      readonly="#{editCalcBasicsDrg.readOnly}"
+                     validatorMessage="Fachabteilung eingeben"
                      required="true">
+            <f:validateLength minimum="1"/>
             <f:ajax event="blur" render="@form :logout:remaining locationCntMsg" listener="#{editCalcBasicsDrg.changeLocationCount}"/>
         </h:inputText>
         <h:message for="locationCnt" styleClass="errorMessage" id="locationCntMsg"/>
@@ -371,7 +373,7 @@
             <h:inputText id="location" value="#{item.location}" styleClass="inputwide"
                          readonly="#{editCalcBasicsDrg.readOnly}"
                          required="true">
-                <f:ajax render="@this :logout:remaining locationMsg"/>
+                <f:ajax event="blur" render="@this :logout:remaining locationMsg"/>
             </h:inputText>
             <h:message for="location" styleClass="errorMessage" id="locationMsg"/>
         </h:column>
@@ -383,7 +385,7 @@
             <h:inputText id="locationNo" value="#{item.locationNo}" styleClass="inputwide"
                          readonly="#{editCalcBasicsDrg.readOnly}"
                          required="true">
-                <f:ajax render="@this :logout:remaining locationNoMsg"/>
+                <f:ajax event="blur" render="@this :logout:remaining locationNoMsg"/>
             </h:inputText>
             <h:message for="locationNo" styleClass="errorMessage" id="locationNoMsg"/>
         </h:column>
@@ -431,7 +433,7 @@
                 <h:inputText id="type" value="#{item.type}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
-                    <f:ajax render="@this :logout:remaining typeMsg"/>
+                    <f:ajax event="blur" render="@this :logout:remaining typeMsg"/>
                 </h:inputText>
                 <h:message for="type" styleClass="errorMessage" id="typeMsg"/>
             </h:column>
@@ -503,7 +505,7 @@
                 <h:inputText value="#{item.text}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
-                    <f:ajax render="@this :logout:remaining"/>
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
 
@@ -559,7 +561,7 @@
                 <h:inputText value="#{item.remunerationKey}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
-                    <f:ajax render="@this :logout:remaining"/>
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
 

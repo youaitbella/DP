@@ -30,13 +30,16 @@
         <h:column>
             <f:facet name="header">Bereich</f:facet>
             <h:outputLabel styleClass="label" value="#{item.serviceProvisionType.text}" rendered="#{item.serviceProvisionTypeId ge 0}"/>
-            <inek:InputTextWithMessage styleClassComponent="element100"
+            <inek:InputTextWithMessage id="domain" styleClassComponent="element100"
                                        styleClass="element100"
                                        value="#{item.domain}"
                                        renderElement="@form"
                                        readonly="#{editCalcBasicsDrg.readOnly}"
                                        required="true"
-                                       rendered="#{item.serviceProvisionTypeId lt 0}"/>
+                                       rendered="#{item.serviceProvisionTypeId lt 0}">
+
+                <f:validateLength for="domain" minimum="1"/>
+            </inek:InputTextWithMessage>
         </h:column>
 
         <h:column>

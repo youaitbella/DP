@@ -5,25 +5,23 @@
  */
 package org.inek.dataportal.insurance.khcomparison.backingbean;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.enums.CustomerTyp;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.scope.FeatureScoped;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -105,11 +103,6 @@ public class Summary {
     }
 
     public boolean isCreateEntryAllowed() {
-        // todo: this is an insurance, reating data about in in place of a hospital (fallback)
-        // Thus creation does NOT depend on the administerd rights
-        // the insurance need to provide a list of IK which are managed by the user
-
-        // for testing purpose:
         Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.HC_INSURANCE);
         return _aebfacade.retrievePossibleIks(allowedIks, CustomerTyp.Insurance).size() > 0;
     }

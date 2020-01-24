@@ -208,7 +208,8 @@
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kost/LE ÄD vor"
                                                       title="Kostensatz Ärztlicher Dienst je Leistungseinheit vor Abgrenzung"/></f:facet>
-                <inek:InputNumberWithMessage id="resultMedPre" value="#{item.costVolumeMedStaffPre / item.serviceSum}"
+<!--                <inek:InputNumberWithMessage id="resultMedPre" value="#{item.costVolumeMedStaffPre / item.serviceSum}"-->
+                <inek:InputNumberWithMessage id="resultMedPre" value="#{item.serviceSum eq 0 ? '' : item.costVolumeMedStaffPre / item.serviceSum}"
                                              disabled="true"/>
             </h:column>
 
@@ -216,7 +217,7 @@
                 <f:facet name="header"><h:outputLabel value="Kost/LE ÄD nach"
                                                       title="Kostensatz Ärztlicher Dienst je Leistungseinheit nach Abgrenzung"/></f:facet>
                 <inek:InputNumberWithMessage id="resultMedAfter"
-                                             value="#{item.costVolumeMedStaffAfter / item.serviceSum}"
+                                             value="#{item.serviceSum eq 0 ? '' : item.costVolumeMedStaffAfter / item.serviceSum}"
                                              disabled="true"/>
             </h:column>
 
@@ -224,7 +225,7 @@
                 <f:facet name="header"><h:outputLabel value="Kost/LE PD vor"
                                                       title="Kostensatz Pflegedienst je Leistungseinheit vor Abgrenzung"/></f:facet>
                 <inek:InputNumberWithMessage id="resultCarePre"
-                                             value="#{item.costVolumeCareServicePre / item.serviceSum}"
+                                             value="#{item.serviceSum eq 0 ? '' : item.costVolumeCareServicePre / item.serviceSum}"
                                              disabled="true"/>
             </h:column>
 
@@ -232,7 +233,7 @@
                 <f:facet name="header"><h:outputLabel value="Kost/LE PD nach"
                                                       title="Kostensatz Pflegedienst je Leistungseinheit nach Abgrenzung"/></f:facet>
                 <inek:InputNumberWithMessage id="resultCareAfter"
-                                             value="#{item.costVolumeCareServiceAfter / item.serviceSum}"
+                                             value="#{item.serviceSum eq 0 ? '' : item.costVolumeCareServiceAfter / item.serviceSum}"
                                              disabled="true"/>
             </h:column>
 
@@ -240,7 +241,7 @@
                 <f:facet name="header"><h:outputLabel value="Kost/LE FD vor"
                                                       title="Kostensatz Funtionsdienst je Leistungseinheit vor Abgrenzung"/></f:facet>
                 <inek:InputNumberWithMessage id="resultFuncPre"
-                                             value="#{item.costVolumeFunctionalServicePre / item.serviceSum}"
+                                             value="#{item.serviceSum eq 0 ? '' : item.costVolumeFunctionalServicePre / item.serviceSum}"
                                              disabled="true"/>
             </h:column>
 
@@ -248,7 +249,7 @@
                 <f:facet name="header"><h:outputLabel value="Kost/LE FD nach"
                                                       title="Kostensatz Funtionsdienst je Leistungseinheit nach Abgrenzung"/></f:facet>
                 <inek:InputNumberWithMessage id="resultFuncAfter"
-                                             value="#{item.costVolumeFunctionalServiceAfter / item.serviceSum}"
+                                             value="#{item.serviceSum eq 0 ? '' : item.costVolumeFunctionalServiceAfter / item.serviceSum}"
                                              disabled="true"/>
             </h:column>
 

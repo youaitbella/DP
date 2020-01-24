@@ -29,7 +29,7 @@
                          disabled="#{cc.attrs.disabled}"
                          required="#{cc.attrs.required}"
                          requiredMessage="#{msg.msgValueNeeded}">
-                <f:ajax event="change" render="#{cc.attrs.renderElement} :logout:remaining message"/>
+                <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining message"/>
             </h:inputText>
             <h:message for="text" id="message" errorClass="errorMessage"/>
         </h:panelGroup>

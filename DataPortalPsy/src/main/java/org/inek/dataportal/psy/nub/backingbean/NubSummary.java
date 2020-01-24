@@ -13,8 +13,6 @@ import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.StreamHelper;
-import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.nub.bo.UploadedTemplate;
@@ -31,7 +29,8 @@ import org.primefaces.model.StreamedContent;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,10 +38,6 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.zip.Adler32;
-import java.util.zip.CheckedOutputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
  * @author lautenti
@@ -345,7 +340,7 @@ public class NubSummary implements Serializable {
         String fileName = "NUB_" + request.getNubIdExtern() + ".pdf";
         ByteArrayInputStream stream = new ByteArrayInputStream(
                 _reportController.getSingleDocument("NUB_PSY.pdf", request.getId(), fileName));
-        return new DefaultStreamedContent(stream, "applikation/pdf", fileName);
+        return new DefaultStreamedContent(stream, "application/pdf", fileName);
     }
 }
 
