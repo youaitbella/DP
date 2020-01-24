@@ -56,8 +56,7 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
 
     private Set<Integer> determinePossibleYears() {
         int year = DateUtils.currentYear();
-        // todo activate this: return IntStream.rangeClosed(year - 1, year).collect(HashSet::new, HashSet::add, HashSet::addAll);
-        return IntStream.rangeClosed(2019, 2019).collect(HashSet::new, HashSet::add, HashSet::addAll);
+        return IntStream.rangeClosed(year - 1, year).collect(HashSet::new, HashSet::add, HashSet::addAll);
     }
 
 
