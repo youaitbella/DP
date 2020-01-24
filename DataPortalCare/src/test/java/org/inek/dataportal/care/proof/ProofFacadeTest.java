@@ -1,6 +1,5 @@
 package org.inek.dataportal.care.proof;
 
-import org.inek.dataportal.common.utils.DateUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -26,7 +25,7 @@ public class ProofFacadeTest {
 
         List<IkYearQuarter> ikYearQuarters = facade.retrievePossibleIkYearQuarters(iks);
 
-        int countQuarters = 4 + (DateUtils.currentMonth() + 2) / 3; // 4 of prev year + current
+        int countQuarters = 4;  // todo: add for #296: + (DateUtils.currentMonth() + 2) / 3; // 4 of prev year + current
 
         assertThat(ikYearQuarters).isNotNull().isNotEmpty().hasSize(countQuarters * iks.size());
     }
