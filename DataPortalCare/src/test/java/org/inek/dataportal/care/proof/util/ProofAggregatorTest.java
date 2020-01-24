@@ -85,9 +85,32 @@ public class ProofAggregatorTest {
     public void testAggregateDeptWards3() {
 
         List<DeptWard> wards = createWards();
+        List<ProofWard> expected = new ArrayList<>();
+
+        ProofWard proofWard1 = ProofWard.builder()
+                .wardName("Station A")
+                .locationNumber(772548)
+                .from(DateUtils.createDate(2020, 2, 1))
+                .to(DateUtils.createDate(2020, 2, 31))
+                .addSensitiveArea("Intensiv")
+                .addDept("0100")
+                .addDept("3600")
+                .build();
+        expected.add(proofWard1);
+
+        ProofWard proofWard2 = ProofWard.builder()
+                .wardName("Station C")
+                .locationNumber(772548)
+                .from(DateUtils.createDate(2020, 2, 1))
+                .to(DateUtils.createDate(2020, 2, 31))
+                .addSensitiveArea("Intensiv")
+                .addSensitiveArea("Neuro")
+                .addDept("2800")
+                .addDept("2801")
+                .build();
+        expected.add(proofWard2);
 
         List<ProofWard> proofWards = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 2, 1), DateUtils.createDate(2020, 2, 29));
-        List<ProofWard> expected = new ArrayList<>();
         assertThat(proofWards).isEqualTo(expected);
     }
 
