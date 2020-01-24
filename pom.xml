@@ -46,7 +46,7 @@
     <build>
         <resources>
             <resource>
-                <scanDirectory>src/main/resources</scanDirectory>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
