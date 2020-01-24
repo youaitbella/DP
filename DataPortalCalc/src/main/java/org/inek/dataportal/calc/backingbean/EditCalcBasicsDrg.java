@@ -45,6 +45,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static org.inek.dataportal.common.enums.TransferFileType.KGL;
+
 /**
  * @author muellermi
  */
@@ -708,7 +710,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.setSealed(Calendar.getInstance().getTime());
         _calcBasics = _calcDrgFacade.saveCalcBasicsDrg(_calcBasics);
 
-        TransferFileCreator.createObjectTransferFile(_sessionController, _calcBasics, _calcBasics.getIk(), "KGL");
+        TransferFileCreator.createObjectTransferFile(_sessionController, _calcBasics, _calcBasics.getIk(), KGL);
 
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));

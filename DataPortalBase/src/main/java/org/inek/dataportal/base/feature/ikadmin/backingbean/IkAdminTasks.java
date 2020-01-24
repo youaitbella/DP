@@ -9,7 +9,6 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.common.User;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.Right;
@@ -33,14 +32,13 @@ public class IkAdminTasks implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("IkAdminTasks");
-    private final Map<String, List<AccountResponsibility>> _responsibleForIks = new HashMap<>();
     @Inject
     private SessionController _sessionController;
     @Inject
     private IkAdminFacade _ikAdminFacade;
     @Inject
     private AccountFacade _accountFacade;
-    private List<AccessRight> _accessRights;
+    private List<AccessRight> _accessRights = new ArrayList<>();
     private int _ik;
     private int _accountId;
     private Account _account;
@@ -80,15 +78,11 @@ public class IkAdminTasks implements Serializable {
     }
 
     public List<Right> getRights() {
-        return Arrays.stream(Right.values()).filter(r -> !r.name().equals("Take")).collect(Collectors.toList());
+        return Arrays.stream(Right.values()).filter(r -> !"Take".equals(r.name())).collect(Collectors.toList());
     }
 
     public List<AccessRight> getAccessRights() {
         return _accessRights;
-    }
-
-    public void setAccessRights(List<AccessRight> accessRights) {
-        this._accessRights = accessRights;
     }
 
     @PostConstruct
@@ -132,59 +126,12 @@ public class IkAdminTasks implements Serializable {
                 anyMatch(r -> r.getFeature().getIkUsage() == IkUsage.ByResponsibilityAndCorrelation);
     }
 
-    public List<AccessRight> getResponsibilities() {
-        return _accessRights
-                .stream()
-                .filter(r -> r.getRight() != Right.Deny)
-                .filter(r -> r.getFeature().getIkUsage() == IkUsage.ByResponsibilityAndCorrelation)
-                .collect(Collectors.toList());
-    }
-
-    private String buildKey(int accountId, Feature feature, int ik) {
-        return accountId + "|" + feature.name() + "|" + ik;
-    }
-
-    public List<AccountResponsibility> obtainIkList(int accountId, Feature feature) {
-        String key = buildKey(accountId, feature, _ik);
-        if (!_responsibleForIks.containsKey(key)) {
-            List<AccountResponsibility> responsibleForIks = _ikAdminFacade.
-                    obtainAccountResponsibilities(accountId, feature, _ik);
-            _responsibleForIks.put(key, responsibleForIks);
-        }
-        return _responsibleForIks.get(key);
-    }
-
-    public void deleteIk(int accountId, Feature feature, AccountResponsibility responsibility) {
-        String key = buildKey(accountId, feature, _ik);
-        _responsibleForIks.get(key).remove(responsibility);
-    }
-
-    public void addIk(int accountId, Feature feature) {
-        String key = buildKey(accountId, feature, _ik);
-        _responsibleForIks.get(key).add(new AccountResponsibility(accountId, feature, _ik, 0));
-    }
-
-    public String saveResponsibilities() {
-
-        StringBuilder errorMessages = new StringBuilder();
-
-        if (AccessRightHelper.responsibilitiesHasNotToMuchUsers(_responsibleForIks, errorMessages)) {
-            _ikAdminFacade.saveResponsibilities(_responsibleForIks);
-            DialogController.showSaveDialog();
-            return "";
-        }
-        else {
-            DialogController.showWarningDialog("Fehler beim speichern", errorMessages.toString());
-            return "";
-        }
-    }
-
     public String saveAccessRights() {
         try {
             StringBuilder errorMessages = new StringBuilder();
             if (!AccessRightHelper.accessWriteHasNotToMuchUsers(_accessRights, errorMessages)
                     || !AccessRightHelper.accessWriteHasMinOneWithAccesRigth(_accessRights, errorMessages)) {
-                DialogController.showWarningDialog("Fehler beim speichern", errorMessages.toString());
+                DialogController.showWarningDialog("Fehler beim Speichern", errorMessages.toString());
             } else {
                 for (AccessRight accessRight : _accessRights) {
                     _ikAdminFacade.saveAccessRight(accessRight);

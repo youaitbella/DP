@@ -1,18 +1,18 @@
 package org.inek.idservice;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.inek.dataportal.api.helper.PortalConstants.*;
 import static org.inek.idservice.IdManager.VALID_TIME;
-import static org.inek.dataportal.api.helper.Const.REQUEST_ID;
-import static org.inek.dataportal.api.helper.Const.REQUEST_TOKEN;
-import static org.inek.dataportal.api.helper.Const.SERVICE_PORT;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 /**
  *

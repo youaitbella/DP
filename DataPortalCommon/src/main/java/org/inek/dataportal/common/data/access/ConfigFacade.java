@@ -1,29 +1,31 @@
 package org.inek.dataportal.common.data.access;
 
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.Function;
+import org.inek.dataportal.api.enums.PortalType;
+import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.adm.Announcement;
+import org.inek.dataportal.common.data.adm.Config;
+import org.inek.dataportal.common.data.common.Conversation;
+import org.inek.dataportal.common.data.common.PortalAddress;
+import org.inek.dataportal.common.data.common.Synchronizer;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Stage;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
+
+import javax.enterprise.context.RequestScoped;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.io.File;
-import javax.enterprise.context.RequestScoped;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
-import org.inek.dataportal.common.data.adm.Config;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.adm.Announcement;
-import org.inek.dataportal.common.data.common.PortalAddress;
-import org.inek.dataportal.api.enums.PortalType;
-import org.inek.dataportal.common.enums.Stage;
-import org.inek.dataportal.common.helper.EnvironmentInfo;
 
-/**
- *
- * @author muellermi
- */
 @RequestScoped
 @Transactional
+// todo: find better name
 public class ConfigFacade extends AbstractDataAccess {
 
     private static final String FEATURE = "Feature:";
@@ -123,9 +125,40 @@ public class ConfigFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public List<String> getAllDirs(){
+    public List<String> getAllDirs() {
         String jpql = "Select c._key from Config c where c._key like 'DocumentScanDir%'";
         TypedQuery<String> query = getEntityManager().createQuery(jpql, String.class);
+        return query.getResultList();
+    }
+    private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public boolean canFirstWriteSynchronizer(String key) {
+        String fullKey = key + LocalDateTime.now().format(dateFormatter);
+        Synchronizer item = new Synchronizer(fullKey);
+        try {
+            persist(item);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    @Transactional
+    public Conversation saveConversation(Conversation conversation) {
+        if (conversation.getId() == -1) {
+            persist(conversation);
+            return conversation;
+        }
+        return merge(conversation);
+    }
+
+
+    public List<Conversation> loadConversations(Function function, Integer id) {
+        String jpql = "select c from Conversation c where c._function = :function and c._dataId = :id order by c._id";
+        TypedQuery<Conversation> query = getEntityManager().createQuery(jpql, Conversation.class);
+        query.setParameter("function", function);
+        query.setParameter("id", id);
         return query.getResultList();
     }
 }

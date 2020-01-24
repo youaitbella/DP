@@ -5,38 +5,34 @@
  */
 package org.inek.dataportal.drg.additionalcost;
 
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.helper.FeatureMessageHandler;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.helper.structures.MessageContainer;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.drg.additionalcost.entity.AdditionalCost;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import org.inek.dataportal.drg.additionalcost.facade.AdditionalCostFacade;
+
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.api.helper.FeatureMessageHandler;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.drg.additionalcost.facade.AdditionalCostFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.helper.structures.MessageContainer;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.utils.DocumentationUtil;
+import java.io.Serializable;
+import java.util.*;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  *
@@ -260,7 +256,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
         }
-        _additionalCost.setAccountId(_accessManager.getSessionAccount().getId());
+        _additionalCost.setAccountId(_accessManager.getSessionAccountId());
         _additionalCost = _additionalCostFacade.merge(_additionalCost);
         return "";
     }

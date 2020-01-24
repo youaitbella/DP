@@ -4,13 +4,14 @@
  */
 package org.inek.dataportal.common.faceletvalidators;
 
+import org.inek.dataportal.common.helper.Utils;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import org.inek.dataportal.common.helper.Utils;
 
 /**
  *
@@ -31,6 +32,7 @@ public class EmailValidator implements Validator {
     }
 
     public static boolean isValidEmail(String address) {
-        return  address.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+");
+        return address.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+")
+                || address.matches("(.*<\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+>");
     }
 }

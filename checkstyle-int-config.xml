@@ -27,6 +27,8 @@
     <module name="SuppressWarningsFilter"/>
 
     <module name="TreeWalker">
+        <property name="fileExtensions" value="java"/>
+
         <module name="JavaNCSS">
             <property name="fileMaximum" value="650"/>
             <property name="classMaximum" value="500"/>
@@ -52,6 +54,7 @@
         <module name="EmptyStatement"/>
         <module name="EqualsAvoidNull"/>
         <module name="EqualsHashCode"/>
+        <module name="StringLiteralEquality"/>
         <module name="FallThrough"/>
         <module name="MissingSwitchDefault"/>
         <module name="HiddenField">
@@ -62,9 +65,10 @@
         <module name="ModifiedControlVariable"/>
 
 		<module name="MultipleStringLiterals">
-			<property name="allowedDuplicates" value="2"/>
-			<property name="ignoreStringsRegexp" value='(^(("")|(", ")|("\\\\r\\\\n")|("\\r\\n")|("\\n")|("UTF-8")|(".?")|("\s?.?\s?"))$)|(.*select .*)|(.*from .*)|(.*union .*)|(.*join .*)|(.*insert .*)|(.*update .*)|(.*and .*)|(.*or .*)|(.*where .*)|(.*\.png)'/>
-			<property name="severity" value="warning"/>
+            <property name="allowedDuplicates" value="4"/> <!-- todo: reduce to 2 -->
+            <property name="ignoreStringsRegexp"
+                      value='(^(("")|(", ")|("\\\\r\\\\n")|("\\r\\n")|("\\n")|("UTF-8")|(".?")|("\s?.?\s?"))$)|(.*\\n")|(.*select .*)|(.*from .*)|(.*union .*)|(.*join .*)|(.*insert .*)|(.*update .*)|(.*and .*)|(.*or .*)|(.*where .*)|(.*\.png)'/>
+            <property name="severity" value="error"/>
 		</module>
 
         <module name="AbbreviationAsWordInName">
@@ -76,14 +80,14 @@
             <property name="validateOnlyOverlapping" value="true"/>
         </module>-->
 		
-		<!--
         <module name="MagicNumber">
-            <property name="ignoreNumbers" value="-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9"/>
+            <property name="ignoreNumbers"
+                      value="-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 32, 64, 127, 255, 100, 999, 1000, 2000, 100000000, 999999999"/> <!-- todo: reduce to standard -->
             <property name="ignoreAnnotation" value="true"/>
             <property name="ignoreHashCodeMethod" value="true"/>
-            <property name="constantWaiverParentToken" value="ASSIGN, ARRAY_INIT, EXPR, UNARY_PLUS, UNARY_MINUS, TYPECAST, ELIST, LITERAL_NEW, METHOD_CALL, STAR, DIV, PLUS, MINUS"/>
-			<property name="severity" value="warning"/>
-        </module> -->
+            <property name="ignoreFieldDeclaration " value="true"/>
+            <property name="severity" value="warning"/>  <!-- todo: set to error -->
+        </module>
 
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->

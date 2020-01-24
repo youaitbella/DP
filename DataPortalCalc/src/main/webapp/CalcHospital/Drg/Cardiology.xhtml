@@ -24,15 +24,20 @@
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"/>
         <h:outputLabel styleClass="label15 number" value="Abweichung"/>
 
+
         <div class="inputPart">
             <h:outputLabel styleClass="label50" value="Anzahl Standorte"/>
+            <h:panelGroup>
             <h:inputText styleClass="element15 number"
                          id="cardiologyLocationCnt"
                          value="#{editCalcBasicsDrg.calcBasics.cardiologyLocationCnt}"
                          readonly="#{editCalcBasicsDrg.readOnly}">
-                <f:ajax event="blur" render="@this lblDiffcardiologyLocationCnt :logout:remaining"/>
+                <f:validateLongRange minimum="1" maximum="9999999"/>
+                <f:ajax event="blur" render="@this :logout:remaining lblDiffcardiologyLocationCnt cardiologyLocationCntMsg"/>
                 <f:convertNumber/>
             </h:inputText>
+                <h:message id="cardiologyLocationCntMsg" for="cardiologyLocationCnt" styleClass="errorMessage"/>
+            </h:panelGroup>
             <ui:remove>
                 <!-- activate in 2020 -->
                 <h:outputLabel styleClass="label15 number"
@@ -48,10 +53,12 @@
                          id="cardiologyRoomCnt"
                          value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}"
                          readonly="#{editCalcBasicsDrg.readOnly}">
-                <f:ajax event="blur" render="@form @this lblDiffcardiologyRoomCnt :logout:remaining"
+                <f:validateLongRange minimum="1" maximum="9999999"/>
+                <f:ajax event="blur" render="@form @this lblDiffcardiologyRoomCnt :logout:remaining cardiologyRoomCntMsg"
                         listener="#{editCalcBasicsDrg.adjustAllRoomCapabilities}"/>
                 <f:convertNumber/>
             </h:inputText>
+            <h:message id="cardiologyRoomCntMsg" for="cardiologyRoomCnt" styleClass="errorMessage"/>
 
             <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyRoomCnt}"/>
             <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyRoomCnt"
@@ -64,9 +71,11 @@
                          id="cardiologyCaseCnt"
                          value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt}"
                          readonly="#{editCalcBasicsDrg.readOnly}">
-                <f:ajax event="blur" render="@this lblDiffcardiologyCaseCnt :logout:remaining"/>
+                <f:validateLongRange minimum="1" maximum="9999999"/>
+                <f:ajax event="blur" render="@this lblDiffcardiologyCaseCnt :logout:remaining cardiologyCaseCntMsg"/>
                 <f:convertNumber/>
             </h:inputText>
+            <h:message id="cardiologyCaseCntMsg" for="cardiologyCaseCnt" styleClass="errorMessage"/>
             <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}"/>
             <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyCaseCnt"
                            value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}"/>

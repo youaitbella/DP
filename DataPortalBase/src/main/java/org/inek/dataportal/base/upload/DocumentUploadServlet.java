@@ -1,6 +1,6 @@
 package org.inek.dataportal.base.upload;
 
-import org.inek.dataportal.api.helper.Const;
+import org.inek.dataportal.api.helper.PortalConstants;
 import org.inek.dataportal.base.feature.documents.DocumentUpload;
 import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
@@ -35,7 +35,7 @@ public class DocumentUploadServlet extends AbstractUploadServlet {
         try {
             initialSize = Long.parseLong(httpUtil.getRequest().getHeader("Content-Length"));
         } catch (NumberFormatException ex) {
-            initialSize = Const.BUFFER_SIZE;
+            initialSize = PortalConstants.BUFFER_SIZE;
         }
         if (initialSize > Integer.MAX_VALUE - 8) {
             return Integer.MAX_VALUE - 8;

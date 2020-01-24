@@ -321,11 +321,14 @@
 
     <div class="inputPart">
         <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
-        <h:inputText styleClass="inputshort" value="#{editCalcBasicsDrg.calcBasics.locationCnt}"
+        <h:inputText id="locationCnt" styleClass="inputshort" value="#{editCalcBasicsDrg.calcBasics.locationCnt}"
                      readonly="#{editCalcBasicsDrg.readOnly}"
+                     validatorMessage="Fachabteilung eingeben"
                      required="true">
-            <f:ajax event="blur" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.changeLocationCount}"/>
+            <f:validateLength minimum="1"/>
+            <f:ajax event="blur" render="@form :logout:remaining locationCntMsg" listener="#{editCalcBasicsDrg.changeLocationCount}"/>
         </h:inputText>
+        <h:message for="locationCnt" styleClass="errorMessage" id="locationCntMsg"/>
     </div>
 
     <div class="inputPart">
@@ -367,22 +370,24 @@
             <f:facet name="header">
                 <h:outputText value="Entlassender Standort (aussagekräftiger Name)"/><br/>
             </f:facet>
-            <h:inputText value="#{item.location}" styleClass="inputwide"
+            <h:inputText id="location" value="#{item.location}" styleClass="inputwide"
                          readonly="#{editCalcBasicsDrg.readOnly}"
                          required="true">
-                <f:ajax render="@this :logout:remaining"/>
+                <f:ajax event="blur" render="@this :logout:remaining locationMsg"/>
             </h:inputText>
+            <h:message for="location" styleClass="errorMessage" id="locationMsg"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">
                 <h:outputText value="Nummer"/>
             </f:facet>
-            <h:inputText value="#{item.locationNo}" styleClass="inputwide"
+            <h:inputText id="locationNo" value="#{item.locationNo}" styleClass="inputwide"
                          readonly="#{editCalcBasicsDrg.readOnly}"
                          required="true">
-                <f:ajax render="@this :logout:remaining"/>
+                <f:ajax event="blur" render="@this :logout:remaining locationNoMsg"/>
             </h:inputText>
+            <h:message for="locationNo" styleClass="errorMessage" id="locationNoMsg"/>
         </h:column>
 
     </h:dataTable>
@@ -425,11 +430,12 @@
                 <f:facet name="header">
                     <h:outputText value="Art der BE"/><br/>
                 </f:facet>
-                <h:inputText value="#{item.type}" styleClass="inputwide"
+                <h:inputText id="type" value="#{item.type}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
-                    <f:ajax render="@this :logout:remaining"/>
+                    <f:ajax event="blur" render="@this :logout:remaining typeMsg"/>
                 </h:inputText>
+                <h:message for="type" styleClass="errorMessage" id="typeMsg"/>
             </h:column>
 
             <h:column>
@@ -499,7 +505,7 @@
                 <h:inputText value="#{item.text}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
-                    <f:ajax render="@this :logout:remaining"/>
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
 
@@ -555,7 +561,7 @@
                 <h:inputText value="#{item.remunerationKey}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
-                    <f:ajax render="@this :logout:remaining"/>
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>
 

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.TransferFileType;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -30,6 +31,7 @@ import java.util.zip.ZipOutputStream;
 public class TransferFileCreator {
 
     protected static final Logger LOGGER = Logger.getLogger("TransferFileCreator");
+    public static final String ZIP = ".zip";
 
 
     public static String obtainInfoText(String email, String subject) {
@@ -52,8 +54,8 @@ public class TransferFileCreator {
             if (!targetDir.exists()) {
                 targetDir.mkdirs();
             }
-            
-            File zipFile = new File(workingDir, UUID.randomUUID() + ".zip");
+
+            File zipFile = new File(workingDir, UUID.randomUUID() + ZIP);
 
             Date ts = Calendar.getInstance().getTime();
             String emailInfo = "EMailInfo" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".txt";
@@ -78,7 +80,7 @@ public class TransferFileCreator {
             File file;
             do {
                 ts = Calendar.getInstance().getTime();
-                file = new File(targetDir, "Box" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ".zip");
+                file = new File(targetDir, "Box" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ZIP);
             } while (file.exists());
             zipFile.renameTo(file);
         } catch (IOException ex) {
@@ -88,22 +90,26 @@ public class TransferFileCreator {
         }
 
     }
-    
-    public static void createObjectTransferFile(SessionController sessionController, Object object, int ik, String type) {
+
+    public static void createObjectTransferFile(SessionController sessionController, Object object, int ik, TransferFileType type) {
+        if (ik >= 222222220 && ik <= 222222229) {
+            // do not transfer test ik
+            return;
+        }
         File workingDir = new File(sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), sessionController.getApplicationTools().
                 readConfig(ConfigKey.FolderUpload));
         File targetDir = new File(sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), "added");
-        File zipFile = new File(workingDir, UUID.randomUUID() + ".zip");
+        File zipFile = new File(workingDir, UUID.randomUUID() + ZIP);
         Date ts = Calendar.getInstance().getTime();
         String emailInfo = "EMailInfo" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".txt";
         try (final FileOutputStream fileOut = new FileOutputStream(zipFile);
              final CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
              final ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
             compressedOut.putNextEntry(new ZipEntry(emailInfo));
-            String content = obtainInfoText(sessionController.getAccount().getEmail(), type + "_" + ik);
+            String content = obtainInfoText(sessionController.getAccount().getEmail(), type.name() + "_" + ik);
             ByteArrayInputStream is = new ByteArrayInputStream(content.getBytes("UTF-8"));
             StreamHelper.copyStream(is, compressedOut);
-            String dataFileName = type + ik + "_" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".json";
+            String dataFileName = type.name() + ik + "_" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".json";
             compressedOut.putNextEntry(new ZipEntry(dataFileName));
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -117,7 +123,7 @@ public class TransferFileCreator {
         File file;
         do {
             ts = Calendar.getInstance().getTime();
-            file = new File(targetDir, "Box" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + "_" + ik + ".zip");
+            file = new File(targetDir, "Box" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + "_" + ik + ZIP);
         } while (file.exists());
         zipFile.renameTo(file);
     }

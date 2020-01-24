@@ -1,13 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.common.overall;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.Mailer;
+
 import javax.el.ELException;
 import javax.enterprise.context.NonexistentConversationException;
 import javax.faces.FacesException;
@@ -18,22 +17,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.helper.EnvironmentInfo;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.mail.Mailer;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- *
- * @author muellermi
- */
 public class PortalExceptionHandler extends ExceptionHandlerWrapper {
-
-    private static final String SEPERATOR = "\r\n\r\n--------------------------------\r\n\r\n";
-    private static final String END_PARAGRAPH = "\r\n\r\n";
 
     static final Logger LOGGER = Logger.getLogger(PortalExceptionHandler.class.getName());
     private final ExceptionHandler _wrapped;
@@ -81,7 +70,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             i.remove();
         }
         if (messageCollector.length() > 0) {
-            messageCollector.insert(0, collectUrlInformation());
+            messageCollector.insert(0, Utils.collectUrlInformation());
             SendExeptionMessage(messageCollector.toString());
         }
         Utils.navigate(targetPage);
@@ -105,7 +94,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         return exception instanceof NonexistentConversationException //|| exception instanceof WeldException
                 // todo: exception instanceof WeldException is fine in direct window, but does not work here.
                 // thus check for exception's name as workarround
-                || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException")
+                || "class org.jboss.weld.exceptions.WeldException".equals(exception.getClass().toString())
                 || exception instanceof FacesException && exception.getMessage() != null && exception.getMessage().
                 contains("WELD-000049:");
     }
@@ -123,7 +112,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     private String handleElException(Throwable exception, StringBuilder messageCollector, String targetPage) {
         String head = "[PortalExceptionHandler ELException] ";
         LOGGER.log(Level.SEVERE, head, exception);
-        collectException(messageCollector, head, exception);
+        messageCollector.append(ExceptionCollector.collect(head, exception));
         if (targetPage.isEmpty()) {
             targetPage = Pages.Error.RedirectURL();
         }
@@ -133,7 +122,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     private String handleFacesException(Throwable exception, StringBuilder messageCollector, String targetPage) {
         String head = "[PortalExceptionHandler FacesException] ";
         LOGGER.log(Level.SEVERE, head, exception);
-        collectException(messageCollector, head, exception);
+        messageCollector.append(ExceptionCollector.collect(head, exception));
         if (targetPage.isEmpty()) {
             if (exception.getMessage() != null && exception.getMessage().contains("javax.ejb.EJBException")) {
                 targetPage = Pages.DataError.RedirectURL();
@@ -151,51 +140,8 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             // getOutput... happens on IE, but does not affect the user
             String head = "[PortalExceptionHandler OtherException] ";
             LOGGER.log(Level.SEVERE, head, exception);
-            collectException(messageCollector, head, exception);
+            messageCollector.append(ExceptionCollector.collect(head, exception));
         }
-    }
-
-    private void collectException(StringBuilder collector, String head, Throwable exception) {
-        collectException(collector, head, exception, 0);
-    }
-
-    private void collectException(StringBuilder collector, String head, Throwable exception, int level) {
-        if (collector.length() > 0) {
-            collector.append(SEPERATOR);
-        }
-        collector.append("Level: ").append(level).append(END_PARAGRAPH);
-        collector.append(head).append(END_PARAGRAPH);
-        collector.append(exception.getMessage()).append(END_PARAGRAPH);
-        for (StackTraceElement element : exception.getStackTrace()) {
-            collector.append(element.toString()).append("\r\n");
-        }
-        Throwable cause = exception.getCause();
-        if (cause != null && level < 9) {
-            collectException(collector, head, cause, level + 1);
-        }
-    }
-
-    private StringBuilder collectUrlInformation() {
-        StringBuilder collector = new StringBuilder();
-        try {
-            FacesContext context = FacesContext.getCurrentInstance();
-            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-            String url = request.getRequestURL().toString();
-            collector.append("URL ").append(url).append(request.getQueryString()).append(END_PARAGRAPH);
-            collector.append(SEPERATOR);
-
-            String viewId = context.getViewRoot().getViewId();
-            collector.append("ViewId ").append(viewId).append(END_PARAGRAPH);
-            collector.append("ClientIP: ").append(Utils.getClientIP()).append("\r\n");
-            if (_sessionController != null && _sessionController.isLoggedIn()) {
-                collector.append("AccountId: ").append(_sessionController.getAccount()).append("\r\n");
-            }
-            collector.append(SEPERATOR);
-        } catch (Exception ex) {
-            collector.append("Exception whilst collection info ").append(ex.getMessage()).append(END_PARAGRAPH);
-            collector.append(SEPERATOR);
-        }
-        return collector;
     }
 
     private void SendExeptionMessage(String msg) {

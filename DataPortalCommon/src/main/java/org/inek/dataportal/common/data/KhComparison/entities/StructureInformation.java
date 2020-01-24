@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.common.data.converter.StructureInformationCategorieConverter;
 import org.inek.dataportal.common.enums.StructureInformationCategorie;
 
@@ -37,12 +39,19 @@ public class StructureInformation implements Serializable {
     @JoinColumn(name = "siStructureBaseInformationId")
     private StructureBaseInformation _baseInformation;
 
+    @JsonIgnore
     public StructureBaseInformation getBaseInformation() {
         return _baseInformation;
     }
 
+    @JsonIgnore
     public void setBaseInformation(StructureBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
+    }
+
+    //Using only for JSON Export
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
     }
     //</editor-fold>
 

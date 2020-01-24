@@ -4,25 +4,27 @@
  */
 package org.inek.dataportal.common.requestmanager;
 
-import java.util.UUID;
-import java.util.logging.Logger;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.helper.PortalConstants;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.AccountFeatureRequest;
+import org.inek.dataportal.common.data.account.facade.AccountFeatureRequestFacade;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.data.icmt.facade.ContactRoleFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.utils.DateUtils;
+
 import javax.ejb.Stateless;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountFeatureRequest;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.api.helper.Const;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.data.icmt.facade.ContactRoleFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFeatureRequestFacade;
-import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.utils.DateUtils;
-import static org.inek.dataportal.common.helper.Placeholder.*;
+import java.util.UUID;
+import java.util.logging.Logger;
+
+import static org.inek.dataportal.api.helper.PortalConstants.*;
 
 /**
  *
@@ -71,7 +73,7 @@ public class FeatureRequestHandler {
             return false;
         }
         String link = buildLink(featureRequest.getApprovalKey());
-        String subject = template.getSubject().replace(FEATURE, featureRequest.getFeature().getDescription());
+        String subject = template.getSubject().replace(VAR_FEATURE, featureRequest.getFeature().getDescription());
         String iks = "";
         boolean firstIK = true;
         for (int s : account.getFullIkSet()) {
@@ -84,14 +86,14 @@ public class FeatureRequestHandler {
         }
 
         String body = template.getBody()
-                .replace(LINK, link)
-                .replace(FEATURE, featureRequest.getFeature().getDescription())
-                .replace(NAME, account.getFirstName() + " " + account.getLastName())
-                .replace(EMAIL, account.getEmail())
-                .replace(ROLE, _roleFacade.find(account.getRoleId()).getText())
-                .replace(PHONE, account.getPhone())
-                .replace(COMPANY, account.getCompany())
-                .replace(IK, iks);
+                .replace(VAR_LINK, link)
+                .replace(VAR_FEATURE, featureRequest.getFeature().getDescription())
+                .replace(VAR_NAME, account.getFirstName() + " " + account.getLastName())
+                .replace(VAR_EMAIL, account.getEmail())
+                .replace(VAR_ROLE, _roleFacade.find(account.getRoleId()).getText())
+                .replace(VAR_PHONE, account.getPhone())
+                .replace(VAR_COMPANY, account.getCompany())
+                .replace(VAR_IK, iks);
         String mailAddress = _config.readConfig(ConfigKey.ManagerEmail);
         return _mailer.sendMail(mailAddress, template.getBcc(), subject, body);
 
@@ -103,7 +105,7 @@ public class FeatureRequestHandler {
         int port = externalContext.getRequestServerPort();
         String server = externalContext.getRequestServerName();
         String link = protocol
-                + server + (port == Const.HTTP_PORT || port == Const.HTTPS_PORT ? "" : ":" + port)
+                + server + (port == PortalConstants.HTTP_PORT || port == PortalConstants.HTTPS_PORT ? "" : ":" + port)
                 + "/DataPortalAdmin"
                 + Pages.FeatureApproval.URL()
                 + "?key=" + key;

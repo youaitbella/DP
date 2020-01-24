@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<map xmlns:xsi="http://www.w3.org/2001/XInclude">
+<map>
   <topicref type="topic" id="408937680032260" build="ALL" modified="2011-12-20T14:11:13.466Z" icon="0" href="Introduction">
     <caption translate="true">Einführung</caption>
     <topicref type="topic" id="415335638181027" build="ALL" modified="2013-09-16T09:19:47.954Z" icon="0" href="OverviewFeatures">
@@ -302,6 +302,21 @@
         <caption translate="true">(Fallback)Kalkulationsunterlagen</caption>
       </topicref>
     </topicref>
+    <topicref type="topic" id="437707886014929" build="ALL" modified="2019-11-01T14:30:21.488Z" icon="0" href="Datenerfassung-zum-Krankenhaus_2">
+      <caption translate="true">Auswertung zum Krankenhausvergleich</caption>
+      <topicref type="topic" id="43771543297302" build="ALL" modified="2019-11-01T14:31:43.954Z" icon="0" href="Auswertung-starten">
+        <caption translate="true">Auswertung starten</caption>
+      </topicref>
+      <topicref type="topic" id="437734059565470" build="ALL" modified="2019-11-04T15:57:44.477Z" icon="0" href="Vertragspartner-nach-_-11-BPfl">
+        <caption translate="true">Auswertung ansehen</caption>
+      </topicref>
+      <topicref type="topic" id="437705690953738" build="ALL" modified="2019-11-01T14:49:25.529Z" icon="0" href="Aufbau-der-Auswertung">
+        <caption translate="true">Aufbau der Auswertung</caption>
+      </topicref>
+      <topicref type="topic" id="43770208442251" build="ALL" modified="2019-11-01T14:56:36.352Z" icon="0" href="Zuordnung-der-Vergleichsgruppe">
+        <caption translate="true">Zuordnung der Vergleichsgruppe</caption>
+      </topicref>
+    </topicref>
     <topicref type="topic" id="433994162001251" build="ALL" modified="2019-05-24T14:04:43.576Z" icon="0" href="Structurinformationen">
       <caption translate="true">Strukturinformationen</caption>
       <topicref type="topic" id="433995960392291" build="ALL" modified="2018-10-26T10:39:47.171Z" icon="0" href="Neue-Structurinformation-anleg">
@@ -315,6 +330,42 @@
       </topicref>
       <topicref type="topic" id="433992046608393" build="ALL" modified="2018-10-26T09:54:29.695Z" icon="0" href="Ansicht-filtern">
         <caption translate="true">Ansicht filtern</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="437185555445933" build="ALL" modified="2019-09-11T11:53:33.878Z" icon="0" href="NUB_2">
+      <caption translate="true">Neue Untersuchungs- und Behandlungsmethoden (NUB-PEPP)</caption>
+      <topicref type="topic" id="437186760674594" build="ALL" modified="2019-09-11T11:54:44.942Z" icon="0" href="ListNUB_2">
+        <caption translate="true">Auflistung von Datensätzen (NUB-PEPP)</caption>
+      </topicref>
+      <topicref type="topic" id="437186353887754" build="ALL" modified="2019-09-11T11:54:15.448Z" icon="0" href="NubUserInformation_2">
+        <caption translate="true">Stammformblatt (NUB-PEPP)</caption>
+      </topicref>
+      <topicref type="topic" id="437187004781812" build="ALL" modified="2019-09-11T11:55:01.967Z" icon="0" href="nubDescription_2">
+        <caption translate="true">Beschreibung (NUB-PEPP)</caption>
+      </topicref>
+      <topicref type="topic" id="437186056173068" build="ALL" modified="2019-09-11T11:55:14.139Z" icon="0" href="nubDetails_2">
+        <caption translate="true">Methodendetails (NUB-PEPP)</caption>
+      </topicref>
+      <topicref type="topic" id="437185347217435" build="ALL" modified="2019-09-11T11:55:23.031Z" icon="0" href="nubKeyFigures_2">
+        <caption translate="true">Kennzahlen (NUB-PEPP)</caption>
+      </topicref>
+      <topicref type="topic" id="437182868175746" build="ALL" modified="2019-09-12T13:43:58.168Z" icon="0" href="nubAddCosts_2">
+        <caption translate="true">Kosten (NUB-PEPP)</caption>
+      </topicref>
+      <topicref type="topic" id="437186891129148" build="ALL" modified="2019-09-11T11:55:50.275Z" icon="0" href="Dokumente_2">
+        <caption translate="true">Dokumente (NUB-PEPP)</caption>
+      </topicref>
+      <topicref type="topic" id="437183616339109" build="ALL" modified="2019-09-11T11:55:57.350Z" icon="0" href="Templates_2">
+        <caption translate="true">Vorlagen (NUB-PEPP)</caption>
+      </topicref>
+      <topicref type="topic" id="437186880462466" build="ALL" modified="2019-09-11T11:56:09.306Z" icon="0" href="takeIntoNew_2">
+        <caption translate="true">In neue NUB übernehmen (NUB-PEPP)</caption>
+      </topicref>
+      <topicref type="topic" id="437183917008639" build="ALL" modified="2019-09-17T10:31:33.359Z" icon="0" href="Korrektur-NUB-Anfrage_2">
+        <caption translate="true">Korrektur NUB-PEPP-Anfrage (NUB-PEPP)</caption>
+      </topicref>
+      <topicref type="topic" id="437185112617658" build="ALL" modified="2019-09-11T11:56:26.307Z" icon="0" href="TransferNUB_2">
+        <caption translate="true">NUB-Anfragen übertragen (NUB-PEPP)</caption>
       </topicref>
     </topicref>
   </topicref>
@@ -364,6 +415,10 @@
       <topicref type="topic" id="433893953185218" build="ALL" modified="2018-10-16T10:43:19.622Z" icon="0" href="Hilfe">
         <caption translate="true">Hilfe</caption>
       </topicref>
+    </topicref>
+    <topicref type="topic" id="438044530819161" build="ALL" modified="2019-12-05T11:57:48.345Z" icon="0"
+              href="StructuralChanges">
+      <caption translate="true">Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)</caption>
     </topicref>
     <topicref type="topic" id="434763370436449" build="ALL" modified="2019-02-20T15:13:46.981Z" icon="0" href="Nachweisvereinbarung">
       <caption translate="true">Nachweisvereinbarung</caption>

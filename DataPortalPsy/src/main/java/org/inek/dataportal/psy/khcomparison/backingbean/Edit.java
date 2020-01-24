@@ -27,10 +27,12 @@ import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.MailTemplateHelper;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.utils.DateUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -46,6 +48,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static org.inek.dataportal.common.enums.TransferFileType.AEB;
 
 /**
  * @author lautenti
@@ -67,9 +73,11 @@ public class Edit {
     @Inject
     private Mailer _mailer;
 
+    private static final Logger LOGGER = Logger.getLogger("AEBEdit");
+
     private AEBBaseInformation _aebBaseInformation;
     private Set<Integer> _validDatayears = new HashSet<>();
-    private Boolean _readOnly;
+    private boolean _readOnly;
     private String _errorMessage = "";
     private String _hintMessage = "";
 
@@ -105,11 +113,11 @@ public class Edit {
         this._errorMessage = errorMessage;
     }
 
-    public Boolean isReadOnly() {
+    public boolean isReadOnly() {
         return _readOnly;
     }
 
-    public void setReadOnly(Boolean readOnly) {
+    public void setReadOnly(boolean readOnly) {
         this._readOnly = readOnly;
     }
 
@@ -147,12 +155,20 @@ public class Edit {
         }
     }
 
-    public Boolean isChangeAllowed() {
-        return _aebBaseInformation.getStatus() == WorkflowStatus.Provided &&
-                _accessManager.userHasWriteAccess(Feature.HC_HOSPITAL, _aebBaseInformation.getIk());
+    public boolean isChangeAllowed() {
+        if (_aebBaseInformation.getStatus() == WorkflowStatus.Provided &&
+                _accessManager.userHasWriteAccess(Feature.HC_HOSPITAL, _aebBaseInformation.getIk())) {
+            if (_aebFacade.aebIdIsInAnyEvaluation(_aebBaseInformation.getId())) {
+                return _aebBaseInformation.getAllowedToResendUntil().after(new Date());
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
-    public Boolean isSendAllowed() {
+    public boolean isSendAllowed() {
         return _aebBaseInformation.getStatus().getId() < WorkflowStatus.Provided.getId() &&
                 _accessManager.userHasWriteAccess(Feature.HC_HOSPITAL, _aebBaseInformation.getIk());
     }
@@ -180,7 +196,7 @@ public class Edit {
         save(false);
     }
 
-    private Boolean save(Boolean sendCheck) {
+    private boolean save(boolean sendCheck) {
         _errorMessage = "";
         if (!baseInfoisComplete(_aebBaseInformation)) {
             DialogController.showWarningDialog("Fehler beim Speichern",
@@ -223,6 +239,12 @@ public class Edit {
                     "Es wurden noch keine Strukturinformationen für das IK " + _aebBaseInformation.getIk() + " erfasst");
             return null;
         }
+        if (ikHasNoValidBedOrPlacesCountForYear(_aebBaseInformation.getIk(), _aebBaseInformation.getYear())) {
+            DialogController.showWarningDialog("Senden nicht möglich",
+                    "Das Gültigkeitsdatum für die Anzahl der Betten bzw. die Anzahl der Therapieplätze " +
+                            "(Strukturinformationen) liegt nach dem übermittelten Vereinbarungsjahr der AEB-Daten.");
+            return null;
+        }
         if (!ignoreHints && hintsExists(_aebBaseInformation, true)) {
             DialogController.openDialogByName("errorMessageDialog");
             return null;
@@ -240,6 +262,14 @@ public class Edit {
                         "Es wurden Unterschiede in bereits abgegeben Information für das IK "
                                 + _aebBaseInformation.getIk() + " festgestellt");
             }
+            try {
+                TransferFileCreator.createObjectTransferFile(_sessionController, _aebBaseInformation,
+                        _aebBaseInformation.getIk(), AEB);
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, "Error duringTransferFileCreation AEB: ik: " + _aebBaseInformation.getIk());
+                _mailer.sendError("Error duringTransferFileCreation AEB: ik: " + _aebBaseInformation.getIk() + " year: " +
+                        _aebBaseInformation.getYear(), ex);
+            }
             return Pages.KhComparisonSummary.URL();
         } else {
             _aebBaseInformation.setStatus(oldState);
@@ -248,7 +278,11 @@ public class Edit {
         }
     }
 
-    public boolean hintsExists(AEBBaseInformation info, Boolean sendCheck) {
+    private boolean ikHasNoValidBedOrPlacesCountForYear(int ik, int year) {
+        return !_aebFacade.ikHasBedsOrPlacesForYear(ik, year);
+    }
+
+    public boolean hintsExists(AEBBaseInformation info, boolean sendCheck) {
         AebChecker checker = new AebChecker(_aebListItemFacade, false, sendCheck);
         if (!checker.checkAebHints(info)) {
             _hintMessage = checker.getMessage();
@@ -261,7 +295,7 @@ public class Edit {
         return _aebFacade.structureBaseInformaionAvailable(_aebBaseInformation.getIk());
     }
 
-    private boolean baseInfoIsCorrect(AEBBaseInformation info, Boolean sendCheck) {
+    private boolean baseInfoIsCorrect(AEBBaseInformation info, boolean sendCheck) {
         AebChecker checker = new AebChecker(_aebListItemFacade, false, sendCheck);
         if (!checker.checkAeb(info)) {
             _errorMessage = checker.getMessage();
@@ -270,12 +304,13 @@ public class Edit {
         return true;
     }
 
-    private Boolean aebContainsDifferences() {
+    private boolean aebContainsDifferences() {
         AebComparer comparer = new AebComparer();
         AEBBaseInformation info = _aebFacade.findAEBBaseInformation(_aebBaseInformation.getIk(),
                 _aebBaseInformation.getYear(), 1, WorkflowStatus.Provided);
         if (info != null) {
-            if (!comparer.compare(info, _aebBaseInformation)) {
+            if (!comparer.compareEuqality(info, _aebBaseInformation)) {
+                _aebFacade.storeCollision(_aebBaseInformation.getId(), info.getId());
                 setErrorMessage(comparer.getResult());
                 sendContainsDifferencesMail(_aebBaseInformation, info, comparer.getResult());
                 return true;
@@ -363,7 +398,7 @@ public class Edit {
             page.setCompensationClass(1);
             page.setCaseCount(1);
             page.setCalculationDays(1);
-            page.setIsOverlyer(page.getPepp().equals("PUEL"));
+            page.setIsOverlyer("PUEL".equals(page.getPepp()));
         } else {
             page.setValuationRadioDay(0.0);
         }
@@ -400,22 +435,22 @@ public class Edit {
 
     public StreamedContent downloadDocument(PsyDocument doc) {
         ByteArrayInputStream stream = new ByteArrayInputStream(doc.getContent());
-        return new DefaultStreamedContent(stream, "applikation/" + doc.getContentTyp(), doc.getName());
+        return new DefaultStreamedContent(stream, "application/" + doc.getContentTyp(), doc.getName());
     }
 
     public void change() {
-        archivBaseinformation(_aebBaseInformation);
+        _aebBaseInformation = archiveAndCopyAEB(_aebBaseInformation);
         _aebBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
         _readOnly = false;
     }
 
-    private void archivBaseinformation(AEBBaseInformation info) {
-        AEBBaseInformation baseInfo = new AEBBaseInformation(info);
-        baseInfo.setStatus(WorkflowStatus.Retired);
-        baseInfo.setLastChanged(new Date());
-        baseInfo.setLastChangeFrom(_sessionController.getAccountId());
-        _aebFacade.save(baseInfo);
+    private AEBBaseInformation archiveAndCopyAEB(AEBBaseInformation info) {
+        info.setStatus(WorkflowStatus.Retired);
+        info.setLastChanged(new Date());
+        info.setLastChangeFrom(_sessionController.getAccountId());
+        _aebFacade.save(info);
+        return new AEBBaseInformation(info);
     }
 
     public void ikChanged() {
@@ -432,7 +467,7 @@ public class Edit {
     }
 
     private boolean baseInfoisComplete(AEBBaseInformation info) {
-        return AebCheckerHelper.baseInfoisComplete(info);
+        return info.getIk() != 0 && info.getYear() != 0;
     }
 
     private void sendSendMail(AEBBaseInformation info) {
@@ -472,5 +507,15 @@ public class Edit {
 
     public boolean isPseudoPepp(String pepp) {
         return RenumerationChecker.isPseudoPepp(pepp);
+    }
+
+    public void resetAllowedToResendDate() {
+        _aebBaseInformation.setAllowedToResendUntil(DateUtils.getDateWithDayOffset(3));
+        _aebFacade.save(_aebBaseInformation);
+        DialogController.showInfoDialog("Datensatz freigegeben", "Der Datensatz wurde zur Änderung freigegeben");
+    }
+
+    public boolean isAllowedToResetResendDate() {
+        return _aebBaseInformation.getStatus().equals(WorkflowStatus.Provided) && _sessionController.isInekUser(Feature.HC_HOSPITAL);
     }
 }

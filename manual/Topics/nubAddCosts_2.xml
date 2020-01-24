@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="rentschlerel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Mehrkosten_2</title>
+  <keywords>
+    <keyword translate="true">Mehrkosten</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kosten (NUB-PEPP)</text></para>
+    </header>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="Kosten_final.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Mehrkosten und Kosteneinsparungen der NUB-PEPP-Anfrage</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Hinweise zu ausgewählten Feldern</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Entstehen durch die Anwendung der neuen Methode Mehrkosten gegenüber dem bisher üblichen Verfahren? Wenn ja, wodurch? Bitte geben Sie die Mehrkosten getrennt nach Personal- und Sachkosten an.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie bitte möglichst genau an, welche Mehrkosten durch die neue Methode verglichen mit der(den) bisher üblichen Methode(n) entstehen. Trennen Sie Ihre Angaben soweit möglich in Personal- und Sachkosten. Machen Sie Ihre Kostenangaben bitte als Durchschnittswert in Euro - wenn möglich - pro Tag. Geben Sie bitte bei abweichenden Bezugsgrößen im entsprechenden Kommentarfeld die Bezugsgröße (z.B. pro Anwendung, pro Gabe oder pro Fall) an. Sofern Ihnen die Mehrkosten nicht bekannt sind, geben Sie einen ungefähren Wert in das erste Feld (Personal-, Sach- oder Sonstige Kosten) ein und umschreiben Sie bitte im Kommentarfeld möglichst genau den zusätzlichen Aufwand, der durch Anwendung der neuen Methode entsteht. Der zusätzliche Aufwand kann beispielsweise durch verlängerte Therapie-Zeiten, eine höhere Qualifikation des einzusetzenden Personals, zusätzliches Personal, die Dosierung des Medikaments, die Verabreichung zusätzlicher Medikamente zur Stützung des Behandlungserfolges der neuen Methode &#160;o.ä. entstehen. Sobald Sie unter Personal-, Sach- oder Sonstige Kosten einen Wert &gt; 0 EUR eingegeben haben, müssen Sie diesen im Kommentarfeld erläutern.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Personalkosten: 0,00 Euro</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sachkosten: &#160; &#160; &#160; &#160;€€€ Euro</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Kommentar:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofosbuvir wird über einen Zeitraum von 12 bis 24 Wochen in einer festen Dosis von 400 mg pro Tag mit den jeweiligen Kombinationspartnern verabreicht. Die Arzneimitteltherapie mit Sofosbuvir führt zu Mehrkosten in Höhe von €€€ Euro pro Tag. &#160;Die Mehrkosten gegenüber der bisherigen Behandlung (z.B. Medikament XY mit €€€ Euro pro Fall) belaufen sich auf insgesamt auf €€€ Euro pro Fall.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Werden durch die Anwendung der neuen Methode Kosteneinsparungen verursacht? Wenn ja, wodurch? Bitte geben Sie die Kosteneinsparungen getrennt nach Personal- und Sachkosten an.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie bitte möglichst genau an, welche Kosteneinsparungen durch die neue Methode verglichen mit der(den) bisher üblichen Methode(n) entstehen. Trennen Sie Ihre Angaben soweit möglich in Personal- und Sachkosten. Machen Sie Ihre Kostenangaben bitte als Durchschnittswert in Euro pro Anwendung. Sofern Ihnen die Kosteneinsparungen nicht bekannt sind, geben Sie bitte einen ungefähren Wert in das erste Feld (Personal-, Sach- oder Sonstige Kosten) ein und umschreiben Sie bitte im Kommentarfeld möglichst genau den Aufwand, der durch Anwendung der neuen Methode nicht mehr entsteht. Der eingesparte Aufwand kann beispielsweise durch verkürzte Therapie-Zeiten, weniger Personal, die Dosierung des Medikaments o.ä. entstehen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Welche PEPP ist (sind) am häufigsten von dieser Methode betroffen?</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Soweit Sie davon Kenntnis haben, geben Sie hier bitte die am häufigsten von der angefragten Methode betroffene(n) PEPP an. Geben Sie bitte mehrere PEPP mit Komma getrennt ein.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Warum ist diese Methode aus Ihrer Sicht derzeit im PEPP-System nicht sachgerecht abgebildet?</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Erläutern Sie bitte, warum die Methode aus Ihrer Sicht nicht sachgerecht im PEPP-System abgebildet ist. Hierbei sollte auch der Aspekt der Sachgerechtigkeit der Vergütung aus Ihrer Sicht betrachtet werden. Von Interesse ist, warum die durch das PEPP-Entgelt bzw. durch die Zusatzentgelte bestimmte Vergütung in Bezug auf die entstehenden Kosten der NUB-PEPP-Leistung nicht sachgerecht ist. Sie können Ihre Angaben auf das PEPP-System des laufenden Jahres (z.B. 2019) oder des kommenden Jahres (z.B. 2020) beziehen. Wenn sich Ihre Angaben auf beide PEPP-Systeme beziehen, beschreiben Sie bitte ggf. bestehende Unterschiede in der fehlenden Sachgerechtigkeit. Bitte vermerken Sie unbedingt, auf welches PEPP-System (z.B. Version 2020) sich Ihre Ausführungen beziehen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Behandlung mit Sofosbuvir ist gemäß aktuellem PEPP-Katalog weder über die PEPP-Entgelte noch über die im Katalog ausgewiesenen Zusatzentgelte ausreichend vergütet. </text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

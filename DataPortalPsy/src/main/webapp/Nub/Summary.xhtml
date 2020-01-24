@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1>Neue Untersuchungs- und Behandlungsmethoden</h1>
+
+
+        <pf:panel style="background-color: #eeeeee;">
+
+            <h:form>
+                <pf:dialog widgetVar="dialogProcess"
+                           header="Daten werden verarbeitet"
+                           modal="true"
+                           closable="false"
+                           resizable="false"
+                           height="80px">
+                    <div style="text-align: center; width: 100%;">
+                        <div class="inekLoader" style="text-align: center;">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                </pf:dialog>
+
+                <pf:dialog widgetVar="errorMessageDialog"
+                           header="Meldungsübersicht:"
+                           modal="true"
+                           width="60%"
+                           height="600px"
+                           closable="true"
+                           resizable="true">
+                    <div id="container" style="width: 100%; height:530px">
+                        <pf:inputTextarea value="#{nubSummary.errorMessages}"
+                                          readonly="true"
+                                          style="width: 100%; height: 400px" />
+
+                        <div id="buttons"
+                             style="position: absolute !important; bottom: 10px !important; vertical-align: bottom !important;">
+                            <pf:button styleClass="btnPsy"
+                                       value="Ok"
+                                       tabindex="0"
+                                       style="position: relative;"
+                                       onclick="PF('errorMessageDialog').hide();" />
+                        </div>
+                    </div>
+                </pf:dialog>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12">
+                        <h2>Daten in Erfassung</h2>
+                        <pf:dataTable value="#{nubSummary.listWorking}"
+                                      id="erfassungtable"
+                                      var="proposal"
+                                      styleClass="inekTablePsy"
+                                      emptyMessage="Keine Einträge vorhanden"
+                                      rows="50"
+                                      paginator="true"
+                                      rowsPerPageTemplate="25,50,100,300">
+                            <pf:column class="colIcon">
+                                <pf:selectBooleanCheckbox value="#{proposal.selected}">
+                                    <pf:ajax />
+                                </pf:selectBooleanCheckbox>
+                            </pf:column>
+                            <pf:column class="colIcon">
+                                <pf:commandLink action="#{nubSummary.deletePsyNubRequest(proposal)}"
+                                                update="erfassungtable"
+                                                process="@this">
+                                    <pf:confirm header="Wollen Sie den Eintrag wirklich löschen?"
+                                                message="Gelöschte Einträge können Sie nicht wiederherstellen. Wollen Sie den Eintrag wirklich löschen?" />
+                                    <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen"
+                                                    value="" />
+                                </pf:commandLink>
+                            </pf:column>
+
+                            <pf:column class="colIcon">
+                                <pf:commandLink ajax="false"
+                                                immediate="true">
+                                    <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Drucken" />
+                                    <pf:fileDownload value="#{nubSummary.printNubRequest(proposal)}" />
+                                </pf:commandLink>
+                            </pf:column>
+
+                            <pf:column headerText="Jahr"
+                                       filterable="true"
+                                       sortable="true"
+                                       style="width: 70px"
+                                       filterBy="#{proposal.targetYear}"
+                                       sortBy="#{proposal.targetYear}">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.targetYear}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="IK"
+                                       filterable="true"
+                                       sortable="true"
+                                       style="width: 150px"
+                                       filterBy="#{proposal.ik}"
+                                       sortBy="#{proposal.ik}">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.ik}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="Name"
+                                       filterable="true"
+                                       sortable="true"
+                                       filterBy="#{proposal.displayName4Table}"
+                                       sortBy="#{proposal.displayName4Table}"
+                                       filterMatchMode="contains">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.displayName4Table}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
+                </div>
+
+                <pf:outputLabel value="Auswahl: " />
+
+                <pf:selectOneMenu value="#{nubSummary.selectedWorkingListCommand}">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="" noSelectionOption="true" />
+                    <f:selectItem itemLabel="Senden" itemValue="send"
+                                  itemDisabled="#{not nubSummary.isCreateEntryAllowed()}" />
+                    <pf:ajax />
+                </pf:selectOneMenu>
+
+                <pf:commandButton value="Aktion ausführen"
+                                  action="#{nubSummary.executeBatchWorkingList()}"
+                                  rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                  styleClass="btnPsy"
+                                  style="margin-left: 10px;"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  update="@form"
+                                  immediate="true" />
+
+                <br />
+                <br />
+
+                <pf:commandButton value="Neue NUB anlegen"
+                                  action="#{nubSummary.psyNubEditOpen()}"
+                                  rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                  styleClass="btnPsy"
+                                  style="margin-left: 10px;"
+                                  immediate="true">
+                    <f:param name="id" value="new" />
+                </pf:commandButton>
+
+                <br />
+                <br />
+
+                <h2>NUB aus Vorlage erstellen</h2>
+                <div class="groupBox">
+                    <pf:fileUpload styleClass="inekUploader"
+                                   rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                   fileUploadListener="#{nubSummary.handleTemplateUpload}"
+                                   allowTypes="/(\.|\/)(nub)$/"
+                                   invalidFileMessage="Es dürfen nur NUB-Vorlagen hochgeladen werden"
+                                   mode="advanced"
+                                   multiple="true"
+                                   auto="true"
+                                   cancelLabel="Abbrechen"
+                                   uploadLabel="Neue NUB aus Vorlage"
+                                   label="Neue NUB aus Vorlage"
+                                   update="listTemplates" />
+
+                    <pf:dataTable id="listTemplates"
+                                  styleClass="inekTablePsy"
+                                  value="#{nubSummary.requestsFromTemplateUploads}"
+                                  emptyMessage="Noch keine Vorlagen hochgeladen"
+                                  var="template">
+
+                        <pf:column headerText="Vorlage">
+                            #{template.displayName}
+                        </pf:column>
+                    </pf:dataTable>
+
+                    <br />
+
+                    <pf:commandButton value="NUB der Liste hinzufügen"
+                                      id="newNubFromTemplatesButton"
+                                      action="#{nubSummary.createNubsFromTemplates()}"
+                                      rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                      styleClass="btnPsy"
+                                      onstart="PF('dialogProcess').show()"
+                                      oncomplete="PF('dialogProcess').hide()"
+                                      update="listTemplates erfassungtable"
+                                      immediate="true" />
+
+                </div>
+
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12">
+                        <h2>An das InEK gesendet</h2>
+
+                        <pf:dataTable value="#{nubSummary.listComplete}"
+                                      id="sendtable"
+                                      var="proposal"
+                                      styleClass="inekTablePsy"
+                                      emptyMessage="Keine Einträge vorhanden"
+                                      rows="50"
+                                      paginator="true"
+                                      rowsPerPageTemplate="25,50,100,300">
+
+                            <pf:column class="colIcon">
+                                <pf:selectBooleanCheckbox value="#{proposal.selected}">
+                                    <pf:ajax />
+                                </pf:selectBooleanCheckbox>
+                            </pf:column>
+
+                            <pf:column class="colIcon">
+                                <pf:commandLink action="#{nubSummary.retirePsyNubRequest(proposal)}"
+                                                rendered="#{proposal.status.id ne 200}"
+                                                update="sendtable"
+                                                process="@this">
+                                    <pf:confirm header="Wollen Sie den Eintrag wirklich zurückziehen??"
+                                                message="Gelöschte Einträge können Sie nicht wiederherstellen. Wollen Sie den Eintrag wirklich zurückziehen?" />
+                                    <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen"
+                                                    value="" />
+                                </pf:commandLink>
+                            </pf:column>
+
+                            <pf:column class="colIcon">
+                                <pf:commandLink ajax="false"
+                                                immediate="true">
+                                    <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Drucken" />
+                                    <pf:fileDownload value="#{nubSummary.printNubRequest(proposal)}" />
+                                </pf:commandLink>
+                            </pf:column>
+
+                            <pf:column class="colIcon">
+                                <h:graphicImage alt="löschen" name="Icon/small/#{proposal.status.icon}"
+                                                title="#{proposal.status.description}"
+                                                value="" />
+                            </pf:column>
+
+
+                            <pf:column headerText="ID"
+                                       filterable="true"
+                                       sortable="true"
+                                       filterBy="#{proposal.nubIdExtern}"
+                                       sortBy="#{proposal.nubIdExtern}">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.nubIdExtern}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="Status"
+                                       filterable="true"
+                                       sortable="true"
+                                       filterBy="#{proposal.externalStatus}"
+                                       sortBy="#{proposal.externalStatus}"
+                                       filterMatchMode="contains">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.externalStatus}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="IK"
+                                       filterable="true"
+                                       sortable="true"
+                                       filterBy="#{proposal.ik}"
+                                       sortBy="#{proposal.ik}">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.ik}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="Name"
+                                       filterable="true"
+                                       sortable="true"
+                                       filterBy="#{proposal.displayName4Table}"
+                                       sortBy="#{proposal.displayName4Table}"
+                                       filterMatchMode="contains">
+                                <h:link outcome="#{nubSummary.psyNubEditOpen()}"
+                                        value="#{proposal.displayName4Table}">
+                                    <f:param name="id" value="#{proposal.id}" />
+                                </h:link>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
+                </div>
+
+                <pf:outputLabel value="Auswahl: " />
+
+                <pf:selectOneMenu value="#{nubSummary.selectedCompleteListCommand}">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="" noSelectionOption="true" />
+                    <f:selectItem itemLabel="In neue NUB übernehmen" itemValue="createNew"
+                                  itemDisabled="#{not nubSummary.isCreateEntryAllowed()}" />
+                    <pf:ajax />
+                </pf:selectOneMenu>
+
+                <pf:commandButton value="Aktion ausführen"
+                                  action="#{nubSummary.executeBatchSendList()}"
+                                  rendered="#{nubSummary.isCreateEntryAllowed()}"
+                                  styleClass="btnPsy"
+                                  style="margin-left: 10px;"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  update="@form"
+                                  immediate="true" />
+
+
+            </h:form>
+
+        </pf:panel>
+
+    </ui:define>
+
+</ui:composition>

@@ -44,6 +44,7 @@
     <h2>Kostenstellengruppe 9 (Radiologie)</h2>
 
     <div class="container marginTop">
+        <h:message id="costCenterNumberMsg" for="costCenterNumber" styleClass="errorMessage"/>
         <h:dataTable value="#{editCalcBasicsDrg.radiologies}"
                      id="rad"
                      var="item"
@@ -69,9 +70,10 @@
                 <f:facet name="header">
                     <h:outputLabel value="Nr. Kostenstelle"/>
                 </f:facet>
-                <h:inputText styleClass="inputshort" value="#{item.costCenterNumber}"
+                <h:inputText id="costCenterNumber"
+                             styleClass="inputshort" value="#{item.costCenterNumber}"
                              readonly="#{editCalcBasicsDrg.readOnly}">
-                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                    <f:ajax event="blur" render="@this :logout:remaining costCenterNumberMsg"/>
                 </h:inputText>
             </h:column>
 
@@ -80,7 +82,8 @@
                     <h:outputLabel value="Name Kostenstelle"/><br/>
                     <h:outputLabel value="(aussagekräftiger Name)"/>
                 </f:facet>
-                <h:inputText value="#{item.costCenterText}" readonly="#{editCalcBasicsDrg.readOnly}">
+                <h:inputText value="#{item.costCenterText}"
+                             readonly="#{editCalcBasicsDrg.readOnly}">
                     <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:inputText>
             </h:column>

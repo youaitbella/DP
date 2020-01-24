@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/WEB-INF/template.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:pf="http://primefaces.org/ui">
 
 
-    <ui:define name="title">Mitteilung gem. § 5 PpUGV</ui:define>
+    <ui:define name="title">Mitteilung gem. § 5 Abs. 3 PpUGV</ui:define>
 
     <ui:define name="content">
 
@@ -17,7 +17,7 @@
             }
         </style>
 
-        <script type="text/javascript">
+        <script structuralChangesType="text/javascript">
             function start() {
                 PF('dialogProcess').show();
             }
@@ -47,46 +47,103 @@
             </div>
         </pf:dialog>
 
+
         <h:form id="form">
+            <pf:dialog widgetVar="errorMessageDialog"
+                       header="Es wurden folgende Auffälligkeiten gefunden:"
+                       modal="true"
+                       width="60%"
+                       height="600px"
+                       closable="true"
+                       resizable="true">
+                <div id="container" style="width: 100%; height:530px">
+                    <div>
+                        Bitte prüfen Sie Ihre Angaben und nehmen Sie bitte Korrekturen vor.
+                    </div>
+
+                    <br/>
+
+                    <pf:inputTextarea value="#{deptEdit.errorMessages}"
+                                      readonly="true"
+                                      style="width: 100%; height: 400px"/>
+
+                    <div id="buttons"
+                         style="position: absolute !important; bottom: 10px !important; vertical-align: bottom !important;">
+                        <pf:button value="Korrekturen vornehmen"
+                                   tabindex="0"
+                                   style="position: relative;"
+                                   onclick="PF('errorMessageDialog').hide(); return false;"/>
+                    </div>
+                </div>
+            </pf:dialog>
             <div style="margin-top: 10px;">
                 <pf:commandButton value="Zurück zur Übersicht"
                                   icon="fa fa-arrow-left"
                                   action="#{sessionController.navigate(sessionTools.pages.CareDeptSummary)}"
                                   onclick="PF('navigationDialog').show();"
-                                  immediate="true" />
+                                  immediate="true"/>
 
                 <pf:button target="blank"
                            value="Hilfe?"
                            icon="fa fa-info"
-                           href="https://www.g-drg.de/Pflegepersonaluntergrenzen/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ" />
+                           href="https://www.g-drg.de/Pflegepersonaluntergrenzen/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ"/>
             </div>
 
-            <ui:include src="deptStation.xhtml" />
+            <ui:include src="deptWard.xhtml"/>
 
-            <div class="ui-g">
+            <div class="ui-g" jsf:rendered="#{deptEdit.deptBaseInformation.ik gt 0}">
                 <div class="card">
-                    <div class="ui-g-12">
+                    <div class="ui-g-12" jsf:id="buttons">
 
                         <pf:commandButton value="Datensatz ändern"
                                           action="#{deptEdit.change()}"
                                           rendered="#{deptEdit.changeAllowed()}"
+                                          immediate="true"
                                           style="margin-left: 10px;"
-                                          update="@(.ui-message) @form" />
+                                          update="@(.ui-message) @form">
+                            <pf:confirm header="Wollen Sie den Eintrag wirklich zurückziehen?"
+                                        message="Sofern Sie bereits Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV) gemeldet haben, werden diese durch die Aktion gelöscht. Sie müssen alle Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV) erneut an das InEK übermitteln."/>
+                        </pf:commandButton>
+
+                        <pf:commandButton value="Umbenennung oder strukturelle Veränderungen"
+                                          action="#{sessionController.navigate('/care/StructuralChanges/structuralChangesSummary')}"
+                                          rendered="#{deptEdit.deptBaseInformation.status.value eq 10 and deptEdit.deptBaseInformation.year ge 2018}"
+                                          immediate="true"
+                                          style="margin-left: 10px;"/>
 
                         <pf:commandButton value="Meldung exportieren (Excel)"
                                           ajax="false"
-                                          rendered="#{deptEdit.excelExportAllowed()}"
+                                          rendered="#{deptEdit.excelExportAllowed() and deptEdit.deptBaseInformation.year eq 2017}"
                                           style="margin-left: 10px;"
                                           onclick="PrimeFaces.monitorDownload(start, stop);"
                                           icon="ui-icon-arrowthick-1-s">
-                            <pf:fileDownload value="#{deptEdit.exportAsExcel()}" />
+                            <pf:fileDownload value="#{deptEdit.exportAsExcel()}"/>
+                        </pf:commandButton>
+
+                        <pf:commandButton value="Meldung exportieren (Excel)"
+                                          ajax="false"
+                                          rendered="#{deptEdit.excelExportAllowed() and deptEdit.deptBaseInformation.year ge 2018}"
+                                          style="margin-left: 10px;"
+                                          onclick="PrimeFaces.monitorDownload(start, stop);"
+                                          icon="ui-icon-arrowthick-1-s">
+                            <pf:fileDownload value="#{deptEdit.exportAsExcel2018()}" />
+                        </pf:commandButton>
+
+                        <pf:commandButton value="Meldung (inkl. struktureller Veränderungen) exportieren (Excel)"
+                                          ajax="false"
+                                          rendered="#{deptEdit.excelExportAllowed() and deptEdit.deptBaseInformation.year ge 2018}"
+                                          style="margin-left: 10px;"
+                                          onclick="PrimeFaces.monitorDownload(start, stop);"
+                                          icon="ui-icon-arrowthick-1-s">
+                            <pf:fileDownload value="#{deptEdit.exportAsExcelWithStructuralChanges()}" />
                         </pf:commandButton>
 
                         <pf:commandButton value="Speichern ohne Senden"
                                           action="#{deptEdit.save()}"
-                                          rendered="#{!deptEdit.isReadOnly}"
+                                          rendered="#{!deptEdit.isReadOnly and deptEdit.saveAllowed()}"
                                           style="margin-left: 10px;"
-                                          update="@(.ui-message) @form" />
+                                          immediate="true"
+                                          update="@(.ui-message) @form"/>
 
                         <pf:commandButton value="Meldung abschließend ans InEK senden"
                                           action="#{deptEdit.send()}"
@@ -95,13 +152,22 @@
                                           style="margin-left: 10px;"
                                           icon="fa fa-arrow-right"
                                           iconPos="right"
-                                          update="@(.ui-message) @form" />
+                                          update="@(.ui-message) @form"/>
+
+                        <pf:commandButton id="btnExtension"
+                                          value="#{deptEdit.buttonExtensionText}"
+                                          rendered="#{not deptEdit.isReadOnly and deptEdit.isExtensionAllowed()}"
+                                          action="#{deptEdit.applyExtension()}"
+                                          update="@(.ui-message) buttons"
+                                          immediate="true">
+                        </pf:commandButton>
+                        <h:outputLabel value="#{deptEdit.extensionRequestedText}"
+                                       rendered="#{not deptEdit.isMinDate()}"/>
 
                     </div>
                 </div>
             </div>
         </h:form>
-
     </ui:define>
 
 </ui:composition>

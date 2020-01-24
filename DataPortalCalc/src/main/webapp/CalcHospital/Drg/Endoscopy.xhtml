@@ -30,9 +30,11 @@
             <h:inputText styleClass="element15 number" id="endoscopyLocationCnt"
                          value="#{editCalcBasicsDrg.calcBasics.endoscopyLocationCnt}"
                          readonly="#{editCalcBasicsDrg.readOnly}">
-                <f:ajax event="blur" render="@this lblDiffendoscopyLocationCnt :logout:remaining"/>
+                <f:ajax event="blur" render="@this lblDiffendoscopyLocationCnt :logout:remaining endoscopyLocationCntMsg"/>
+                <f:validateLongRange minimum="1" maximum="9999999"/>
                 <f:convertNumber/>
             </h:inputText>
+            <h:message id="endoscopyLocationCntMsg" for="endoscopyLocationCnt" styleClass="errorMessage"/>
             <ui:remove>
                 <!-- activate in 2020 -->
                 <h:outputLabel styleClass="label15 number"
@@ -51,11 +53,12 @@
             <h:inputText styleClass="element15 number" id="endoscopyRoomCnt"
                          value="#{editCalcBasicsDrg.calcBasics.endoscopyRoomCnt}"
                          readonly="#{editCalcBasicsDrg.readOnly}">
-                <f:ajax event="blur" render="@form @this lblDiffendoscopyRoomCnt :logout:remaining"
+                <f:ajax event="blur" render="@form @this lblDiffendoscopyRoomCnt :logout:remaining endoscopyRoomCntMsg"
                         listener="#{editCalcBasicsDrg.adjustAllRoomCapabilities}"/>
                 <f:convertNumber/>
                 <f:validateLongRange maximum="99" minimum="0"/>
             </h:inputText>
+            <h:message id="endoscopyRoomCntMsg" for="endoscopyRoomCnt" styleClass="errorMessage"/>
             <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.endoscopyRoomCnt}">
                 <f:convertNumber/>
             </h:outputLabel>
@@ -71,9 +74,11 @@
                          id="endoscopyCaseCnt"
                          value="#{editCalcBasicsDrg.calcBasics.endoscopyCaseCnt}"
                          readonly="#{editCalcBasicsDrg.readOnly}">
-                <f:ajax event="blur" render="@this lblDiffendoscopyCaseCnt :logout:remaining"/>
+                <f:ajax event="blur" render="@this lblDiffendoscopyCaseCnt :logout:remaining endoscopyCaseCnt"/>
+                <f:validateLongRange minimum="1" maximum="9999999"/>
                 <f:convertNumber/>
             </h:inputText>
+            <h:message id="endoscopyCaseCntMsg" for="endoscopyCaseCnt" styleClass="errorMessage"/>
             <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.endoscopyCaseCnt}">
                 <f:convertNumber/>
             </h:outputLabel>

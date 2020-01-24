@@ -1,16 +1,18 @@
 package org.inek.dataportal.common.mail;
 
-import java.util.HashMap;
-import java.util.Map;
-import static org.assertj.core.api.Assertions.assertThat;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.common.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.inek.dataportal.api.helper.PortalConstants.VAR_IK;
+import static org.inek.dataportal.api.helper.PortalConstants.VAR_NAME;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class MailerTest {
 
@@ -36,8 +38,8 @@ public class MailerTest {
         doReturn(true).when(mailer).sendMailFrom(anyString(), anyString(), anyString(), anyString(), anyString());
 
         Map<String, String> substitutions = new HashMap<>();
-        substitutions.put("{name}", "NAME");
-        substitutions.put("{ik}", "123456789");
+        substitutions.put(VAR_NAME, "NAME");
+        substitutions.put(VAR_IK, "123456789");
 
         User user = new User(0, 2, "", "John", "Doe", USER_EMAIL, "");
 

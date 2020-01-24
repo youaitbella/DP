@@ -10,3 +10,4 @@ echo.
 
 echo Fertig
 echo.
+pause

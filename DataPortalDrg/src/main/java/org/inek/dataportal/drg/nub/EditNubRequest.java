@@ -40,6 +40,7 @@ import javax.persistence.OptimisticLockException;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Named
 @FeatureScoped
@@ -108,11 +109,11 @@ public class EditNubRequest extends AbstractEditController {
             _formerRequests.clear();
             Customer c = _customerFacade.getCustomerByIK(_nubRequest.getIk());
             _nubRequest.setFormerExternalId("");
-            if (c.getName() == null || c.getName().equals("")) {
+            if (c.getName() == null || "".equals(c.getName())) {
                 if (_nubRequest.getIkName() == null || c.getName() == null) {
                     _nubRequest.setIkName("");
                 }
-                if (_nubRequest.getIkName().trim().equals("")) {
+                if ("".equals(_nubRequest.getIkName().trim())) {
                     _nubRequest.setIkName(_sessionController.getAccount().getCompany());
                 }
             } else {
@@ -216,6 +217,15 @@ public class EditNubRequest extends AbstractEditController {
         return _iks;
     }
 
+    public List<SelectItem> getAllowedIks() {
+        if (getIks().size() == 0) {
+            return new ArrayList<SelectItem>();
+        }
+        List<SelectItem> items = _iks.stream().map(i -> new SelectItem(i, "" + i)).collect(Collectors.toList());
+        items.add(new SelectItem(0, ""));
+        return items;
+    }
+
     public void checkPostalCode(FacesContext context, UIComponent component, Object value) {
         try {
             Integer tmp = Integer.parseInt((String) value);
@@ -294,21 +304,6 @@ public class EditNubRequest extends AbstractEditController {
         }
     }
 
-    public void formatProxyIks() {
-        String[] iks = _nubRequest.getProxyIKs().split("\\s|,|\r|\n");
-        String formatted = "";
-        for (String ik : iks) {
-            if (ik.isEmpty() || (_nubRequest.getIk() + "").equals(ik)) {
-                continue;
-            }
-            if (formatted.length() > 0) {
-                formatted += ", ";
-            }
-            formatted += ik;
-        }
-        _nubRequest.setProxyIKs(formatted);
-    }
-
     // </editor-fold>
 
     /**
@@ -358,7 +353,6 @@ public class EditNubRequest extends AbstractEditController {
 
     public String saveData(boolean showSaveMessage) {
         setModifiedInfo();
-        formatProxyIks();
         boolean isNewRequest = !isValidId(_nubRequest.getId());
         String msg = "";
         try {

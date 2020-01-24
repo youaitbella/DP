@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Zuordnung der Vergleichsgruppe</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Zuordnung der Vergleichsgruppe</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Hier finden Sie eine Übersicht der Zuordnung der Vergleichsgruppen:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="evaluation_5.png" scale="100.00%" styleclass="Image Caption"></image></para>
+  </body>
+</topic>

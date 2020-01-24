@@ -10,6 +10,7 @@ import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.mail.Mailer;
+import org.inek.psyEvaluationService.backingBean.MessageProvider;
 
 import javax.annotation.Resource;
 import javax.ejb.Timer;
@@ -19,6 +20,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -46,6 +49,8 @@ public class ScannerTimer {
     private ReportController _reportController;
     @Inject
     private Mailer _mailer;
+    @Inject
+    private MessageProvider _messageProvider;
 
     @Resource
     private TimerService _timerService;
@@ -62,7 +67,6 @@ public class ScannerTimer {
                     ex.getStackTrace().toString());
             updateJobStatus(_currentJob, PsyHosptalComparisonStatus.ERROR);
             saveJob();
-            _mailer.sendException(Level.SEVERE, ex.getMessage(), ex);
             LOGGER.log(Level.SEVERE, ex.getMessage());
             ex.printStackTrace();
         } finally {
@@ -99,7 +103,7 @@ public class ScannerTimer {
     }
 
     private void createFolderForJob() {
-        _jobSaveFile = new File(_config.readConfig(ConfigKey.KhComparisonJobSavePath) + "/" + _currentJob.getId());
+        _jobSaveFile = new File(_currentJob.getJobFolder(determineSaveFolder()));
         try {
             if (_jobSaveFile.exists()) {
                 Files.walk(_jobSaveFile.toPath())
@@ -116,25 +120,36 @@ public class ScannerTimer {
     }
 
     private void processingEvaluations() {
-        int hceId = _currentJob.getHosptalComparisonInfo().getId();
         for (HospitalComparisonEvaluation evaluation : _currentJob.getHosptalComparisonInfo().getHospitalComparisonEvaluation()) {
             logJobInfo("start evaluation [" + evaluation.getId() + "]");
             int aebIdHospital = evaluation.getHospitalComparisonHospitalsHospital().getAebBaseInformationId();
             String aebIdsGroupe = concatAebIds(evaluation.getHospitalComparisonHospitals());
-            String reportUrl = buildUrlWithParameter(hceId, aebIdHospital, aebIdsGroupe);
             String fileName = buildExcelFileName(evaluation);
+            String reportUrl = buildUrlWithParameter(evaluation.getId(), aebIdHospital, aebIdsGroupe, fileName.replace("\\", "/"));
 
             logJobInfo("request document from " + reportUrl);
-            byte[] singleDocument = _reportController.getSingleDocument(reportUrl);
 
-            try (FileOutputStream out = new FileOutputStream(fileName)) {
-                logJobInfo("write data to file " + fileName);
-                out.write(singleDocument);
-            } catch (Exception ex) {
-                throw new IllegalArgumentException("Job: " + _currentJob.getId() + " error writing file: "
-                        + fileName);
-            }
+            //TODO antwort vom server interpretieren
+            byte[] requestAnswer = _reportController.getSingleDocument(reportUrl);
+
+            waitForFile(fileName, 300);
+
             logJobInfo("end evaluation [" + evaluation.getId() + "]");
+        }
+    }
+
+    private void waitForFile(String fileName, int maxLoops) {
+        for (int i = 0; i < maxLoops; i++) {
+            if (Files.exists(Paths.get(fileName))) {
+                logJobInfo("file found " + fileName);
+                return;
+            } else {
+                try {
+                    Thread.sleep(30000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -149,11 +164,13 @@ public class ScannerTimer {
     }
 
     private void copyAccountDocumentZipToDataPortal(String zipFilePath) {
-        Path destination = Paths.get(_config.readConfig(ConfigKey.KhComparisonUploadPath));
         Path source = Paths.get(zipFilePath);
+        Path destination = Paths.get(determineUploadFolder() + "/" + source.getFileName());
 
         try {
+            logJobInfo("copy [" + source + "] to [" + destination + "]");
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+            logJobInfo("successfully copy [" + source + "] to [" + destination + "]");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -177,7 +194,7 @@ public class ScannerTimer {
 
     private void zipFiles(String zipFilePath, List<String> filesForZip) {
         try {
-            logJobInfo("try to zip files: [" + filesForZip + "]");
+            logJobInfo("try to zip files to [" + zipFilePath + "] files [" + filesForZip + "]");
             FileOutputStream fos = new FileOutputStream(zipFilePath);
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             for (String srcFile : filesForZip) {
@@ -197,7 +214,8 @@ public class ScannerTimer {
             fos.close();
             logJobInfo("end zip files");
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Job " + _currentJob.getId() + " error during zip files [" + filesForZip + "]: " + ex.getMessage());
+            throw new IllegalArgumentException("Job " + _currentJob.getId() + " error during zip file [" + zipFilePath + "] files [" +
+                    filesForZip + "]: " + ex.getMessage());
         }
     }
 
@@ -214,9 +232,7 @@ public class ScannerTimer {
     }
 
     private String buildZipFileName() {
-        String fileNamePattern = "%s_%s_Auswertungen_KH_Vergleich.zip";
-        return _jobSaveFile + "\\" + String.format(fileNamePattern, _currentJob.getHosptalComparisonInfo().getHospitalComparisonId(),
-                _currentJob.getHosptalComparisonInfo().getHospitalIk());
+        return _currentJob.getEvaluationFilePath(determineSaveFolder());
     }
 
     private String buildAccountDokZipFileName() {
@@ -237,11 +253,16 @@ public class ScannerTimer {
                 new SimpleDateFormat("ddMMyyyyHHmmss").format(Calendar.getInstance().getTime()));
     }
 
-    private String buildUrlWithParameter(int hcId, int aebIdHospital, String evaluationGroupeIds) {
+    private String buildUrlWithParameter(int hcId, int aebIdHospital, String evaluationGroupeIds, String savePath) {
         String result = _reportController.getReportTemplateByName("KH-Vergleich Auswertung").getAddress();
-        result = result.replace("{0}", String.valueOf(hcId));
-        result = result.replace("{1}", String.valueOf(aebIdHospital));
-        result = result.replace("{2}", evaluationGroupeIds);
+        try {
+            result = result.replace("{0}", String.valueOf(hcId));
+            result = result.replace("{1}", String.valueOf(aebIdHospital));
+            result = result.replace("{2}", evaluationGroupeIds);
+            result = result.replace("{3}", URLEncoder.encode(savePath, StandardCharsets.UTF_8.toString()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         return result;
     }
 
@@ -293,20 +314,38 @@ public class ScannerTimer {
     }
 
     private void logJobInfo(HospitalComparisonJob job, String message) {
-        LOGGER.log(Level.INFO, "Job [" + job.getId() + "] " + message);
+        _messageProvider.addMessage("Job [" + job.getId() + "] " + message);
     }
 
     public void startTimer() {
         ScheduleExpression expression = new ScheduleExpression();
         expression.second("*/30").minute("*").hour("*");
         _timerService.createCalendarTimer(expression);
-        LOGGER.log(Level.INFO, "Timer started");
+        _messageProvider.addMessage("Timer started");
     }
 
     public void stopTimer() {
         for (Timer allTimer : _timerService.getAllTimers()) {
             allTimer.cancel();
         }
-        LOGGER.log(Level.INFO, "Timer stopped");
+        _messageProvider.addMessage("Timer stopped");
     }
+
+    private String determineSaveFolder() {
+        String rootFolder = _config.readConfig(ConfigKey.FolderRoot);
+        if ("/".equals(rootFolder.substring(rootFolder.length() - 1))) {
+            rootFolder = rootFolder.substring(0, rootFolder.length() - 1);
+        }
+        return _config.readConfig(ConfigKey.KhComparisonJobSavePath).replace("{root}", rootFolder);
+    }
+
+    private String determineUploadFolder() {
+        String rootFolder = _config.readConfig(ConfigKey.FolderRoot);
+        if ("/".equals(rootFolder.substring(rootFolder.length() - 1))) {
+            rootFolder = rootFolder.substring(0, rootFolder.length() - 1);
+        }
+        return _config.readConfig(ConfigKey.KhComparisonUploadPath).replace("{root}", rootFolder);
+    }
+
+
 }

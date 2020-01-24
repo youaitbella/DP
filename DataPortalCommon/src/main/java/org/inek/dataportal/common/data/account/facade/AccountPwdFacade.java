@@ -1,18 +1,19 @@
 package org.inek.dataportal.common.data.account.facade;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
+import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.entities.AccountPwd;
 import org.inek.dataportal.common.data.account.entities.WeakPassword;
 import org.inek.dataportal.common.data.adm.Log;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.Crypt;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -61,8 +62,8 @@ public class AccountPwdFacade extends AbstractDataAccess {
     }
 
     private boolean isInternalClient() {
-        return Utils.getClientIP().equals("127.0.0.1")
-                || Utils.getClientIP().equals("0:0:0:0:0:0:0:1")
+        return "127.0.0.1".equals(Utils.getClientIP())
+                || "0:0:0:0:0:0:0:1".equals(Utils.getClientIP())
                 || Utils.getClientIP().startsWith("192.168.0");
     }
 

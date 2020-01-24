@@ -1,5 +1,7 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
@@ -49,12 +51,19 @@ public class AEBPageE3_1 extends AEBPage implements Serializable {
     @JoinColumn(name = "peBaseInformationId")
     private AEBBaseInformation _baseInformation;
 
+    @JsonIgnore
     public AEBBaseInformation getBaseInformation() {
         return _baseInformation;
     }
 
+    @JsonIgnore
     public void setBaseInformation(AEBBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
+    }
+
+    //Using only for JSON Export
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
     }
     //</editor-fold>
 
@@ -188,18 +197,22 @@ public class AEBPageE3_1 extends AEBPage implements Serializable {
     }
     //</editor-fold>
 
+    @JsonIgnore
     public double getSumBruttoClear() {
         return _caseCount * _renumerationValue;
     }
 
+    @JsonIgnore
     public double getSumDeduction() {
         return _dayCountDeductions * _deductionPerDay;
     }
 
+    @JsonIgnore
     public double getSumSurcharges() {
         return _dayCountSurcharges * _surchargesPerDay;
     }
 
+    @JsonIgnore
     public double getSumNetto() {
         return getSumSurcharges() + getSumDeduction() + getSumBruttoClear();
     }

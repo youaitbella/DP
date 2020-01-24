@@ -103,6 +103,7 @@ public class StructureBaseInformation implements Serializable {
         this._structureInformations = structureInformations;
     }
 
+
     public void addNewStructureInformation(StructureInformationCategorie cat) {
         StructureInformation info = new StructureInformation();
         info.setBaseInformation(this);

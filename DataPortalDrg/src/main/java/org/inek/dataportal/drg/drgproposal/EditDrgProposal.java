@@ -1,13 +1,28 @@
 package org.inek.dataportal.drg.drgproposal;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.DiagnosisFacade;
+import org.inek.dataportal.common.data.access.ProcedureFacade;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.enums.CodeType;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.StreamHelper;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.drg.controller.SessionHelper;
+import org.inek.dataportal.drg.drgproposal.entities.DrgProposal;
+import org.inek.dataportal.drg.drgproposal.entities.DrgProposalDocument;
+import org.inek.dataportal.drg.drgproposal.enums.DrgProposalCategory;
+import org.inek.dataportal.drg.drgproposal.enums.DrgProposalChangeMethod;
+import org.inek.dataportal.drg.drgproposal.facades.DrgProposalFacade;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
@@ -19,32 +34,14 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.common.ProcedureInfo;
-import org.inek.dataportal.drg.drgproposal.entities.DrgProposal;
-import org.inek.dataportal.drg.drgproposal.entities.DrgProposalDocument;
-import org.inek.dataportal.common.enums.CodeType;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.drg.drgproposal.facades.DrgProposalFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.access.DiagnosisFacade;
-import org.inek.dataportal.common.data.access.ProcedureFacade;
-import org.inek.dataportal.common.data.cooperation.facade.PortalMessageFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.helper.StreamHelper;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.services.MessageService;
-import org.inek.dataportal.common.utils.DocumentationUtil;
-import org.inek.dataportal.drg.controller.SessionHelper;
-import org.inek.dataportal.drg.drgproposal.enums.DrgProposalCategory;
-import org.inek.dataportal.drg.drgproposal.enums.DrgProposalChangeMethod;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -97,7 +94,7 @@ public class EditDrgProposal extends AbstractEditController {
         if (id == null) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
             return;
-        } else if (id.toString().equals("new")) {
+        } else if ("new".equals(id.toString())) {
             if (!_appTools.isEnabled(ConfigKey.IsDrgProposalCreateEnabled)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 // even if we navigate to a different page, JSF might access the source page (e.g. call isReadOnly

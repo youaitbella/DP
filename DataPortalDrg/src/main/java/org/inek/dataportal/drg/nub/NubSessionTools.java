@@ -46,6 +46,7 @@ public class NubSessionTools implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("NubSessionTools");
     private static final long serialVersionUID = 1L;
+    public static final String PRINT = "print";
 
     @Inject
     private NubRequestFacade _nubRequestFacade;
@@ -396,7 +397,7 @@ public class NubSessionTools implements Serializable {
                         getBcc(), subject, body);
     }
 
-    private String _editAction = "print";
+    private String _editAction = PRINT;
 
     public String getEditAction() {
         return _editAction;
@@ -406,7 +407,7 @@ public class NubSessionTools implements Serializable {
         _editAction = action;
     }
 
-    private String _viewAction = "print";
+    private String _viewAction = PRINT;
 
     public String getViewAction() {
         return _viewAction;
@@ -418,7 +419,7 @@ public class NubSessionTools implements Serializable {
 
     public List<SelectItem> getEditActions() {
         List<SelectItem> actions = new ArrayList<>();
-        actions.add(new SelectItem("print", Utils.getMessage("actionPrint")));
+        actions.add(new SelectItem(PRINT, Utils.getMessage("actionPrint")));
         if (_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             actions.add(new SelectItem("send", Utils.getMessage("actionSend")));
         }
@@ -428,7 +429,7 @@ public class NubSessionTools implements Serializable {
 
     public List<SelectItem> getViewActions() {
         List<SelectItem> actions = new ArrayList<>();
-        actions.add(new SelectItem("print", Utils.getMessage("actionPrint")));
+        actions.add(new SelectItem(PRINT, Utils.getMessage("actionPrint")));
         if (_appTools.isEnabled(ConfigKey.IsNubCreateEnabled)) {
             actions.add(new SelectItem("copy", Utils.getMessage("actionCopy")));
         }
@@ -442,7 +443,7 @@ public class NubSessionTools implements Serializable {
         _sessionController.logMessage("Batch: " + action + "; count: " + nubRequests.size());
 
         switch (action) {
-            case "print":
+            case PRINT:
                 return printRequests(nubRequests);
             case "send":
                 return sendSelected(nubRequests);

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.common.data.KhComparison.facade;
 
 import javafx.util.Pair;
@@ -27,6 +22,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static org.inek.dataportal.api.helper.PortalConstants.*;
+
 /**
  * @author lautenti
  */
@@ -46,10 +43,10 @@ public class AEBFacade extends AbstractDataAccess {
                 + "and bi._typ = :typ "
                 + "and bi._status = :status";
         TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
-        query.setParameter("ik", ik);
-        query.setParameter("year", year);
+        query.setParameter(IK, ik);
+        query.setParameter(YEAR, year);
         query.setParameter("typ", typ);
-        query.setParameter("status", status);
+        query.setParameter(STATUS, status);
         try {
             return query.getSingleResult();
         } catch (NoResultException ex) {
@@ -67,7 +64,7 @@ public class AEBFacade extends AbstractDataAccess {
     public List<AEBBaseInformation> getAllByStatus(WorkflowStatus status) {
         String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._status = :status";
         TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
-        query.setParameter("status", status);
+        query.setParameter(STATUS, status);
         return query.getResultList();
     }
 
@@ -82,8 +79,8 @@ public class AEBFacade extends AbstractDataAccess {
                 + "and bi._ik = :ik "
                 + "and bi._typ = :typ";
         TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
-        query.setParameter("status", status);
-        query.setParameter("ik", ik);
+        query.setParameter(STATUS, status);
+        query.setParameter(IK, ik);
         query.setParameter("typ", typ.id());
         return query.getResultList();
     }
@@ -96,7 +93,7 @@ public class AEBFacade extends AbstractDataAccess {
                 + "and bi._ik in :iks "
                 + "and bi._typ = :typ";
         TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
-        query.setParameter("status", status);
+        query.setParameter(STATUS, status);
         query.setParameter("iks", iks);
         query.setParameter("typ", typ.id());
         return query.getResultList();
@@ -105,34 +102,8 @@ public class AEBFacade extends AbstractDataAccess {
     public boolean structureBaseInformaionAvailable(int ik) {
         String sql = "SELECT si FROM StructureBaseInformation si WHERE si._ik = :ik";
         TypedQuery<StructureBaseInformation> query = getEntityManager().createQuery(sql, StructureBaseInformation.class);
-        query.setParameter("ik", ik);
+        query.setParameter(IK, ik);
         return !query.getResultList().isEmpty();
-    }
-
-    public Optional<AEBBaseInformation> getBaseInformationForComparing(int id) {
-        String sql = "select top 1 *\n" +
-                "from psy.AEBBaseInformation a\n" +
-                "where a.biDataYear = (\n" +
-                "\tselect biDataYear\n" +
-                "\tfrom psy.AEBBaseInformation\n" +
-                "\twhere biid = " + id + "\n" +
-                ")\n" +
-                "and a.biIk = (\n" +
-                "\tselect biIk\n" +
-                "\tfrom psy.AEBBaseInformation\n" +
-                "\twhere biid = " + id + "\n" +
-                ")\n" +
-                "and a.biTyp != (\n" +
-                "\tselect biTyp\n" +
-                "\tfrom psy.AEBBaseInformation\n" +
-                "\twhere biid = " + id + "\n" +
-                ") \n" +
-                "and a.biStatusId in (10, 200)\n" +
-                "order by a.biStatusId, a.biSend desc";
-        Query query = getEntityManager().createNativeQuery(sql, AEBBaseInformation.class);
-
-        AEBBaseInformation result = (AEBBaseInformation) query.getSingleResult();
-        return Optional.ofNullable(result);
     }
 
     public boolean ikHasModelIntention(int ik) {
@@ -149,7 +120,7 @@ public class AEBFacade extends AbstractDataAccess {
     public StructureBaseInformation getStructureBaseInformationByIk(int ik) {
         String sql = "SELECT si FROM StructureBaseInformation si WHERE si._ik = :ik";
         TypedQuery<StructureBaseInformation> query = getEntityManager().createQuery(sql, StructureBaseInformation.class);
-        query.setParameter("ik", ik);
+        query.setParameter(IK, ik);
         return query.getSingleResult();
     }
 
@@ -202,7 +173,7 @@ public class AEBFacade extends AbstractDataAccess {
     public List<Integer> getUsedDataYears(int ik) {
         String sql = "select distinct biDataYear from psy.AEBBaseInformation\n"
                 + "where biIk = " + ik + "\n"
-                + "and biStatusId in (10, 3, 200)";
+                + "and biStatusId in (10)";
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked")
         List<Integer> result = query.getResultList();
@@ -261,6 +232,17 @@ public class AEBFacade extends AbstractDataAccess {
         query.executeUpdate();
     }
 
+    public Optional<HospitalComparisonInfo> getHospitalComparisonInfoByHcId(String hcId) {
+        String jpql = "select hc from HospitalComparisonInfo hc where hc._hospitalComparisonId = :hcId";
+        TypedQuery<HospitalComparisonInfo> query = getEntityManager().createQuery(jpql, HospitalComparisonInfo.class);
+        query.setParameter("hcId", hcId);
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
+    }
+
     public List<HospitalComparisonInfo> getHosptalComparisonInfoByAccount(Account acc) {
         String jpql = "select hc from HospitalComparisonInfo hc where hc._accountId = :id";
         TypedQuery<HospitalComparisonInfo> query = getEntityManager().createQuery(jpql, HospitalComparisonInfo.class);
@@ -287,22 +269,18 @@ public class AEBFacade extends AbstractDataAccess {
 
     public List<Integer> getAebIdsForEvaluationGroup2_3_8_9(String stateIds, int year, PsyGroup psyGroup) {
         String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_2_3_8_9");
-        sql = sql.replace("{year}", String.valueOf(year));
-        sql = sql.replace("{psyGroupId}", String.valueOf(psyGroup.getId()));
-        sql = sql.replace("{stateIds}", stateIds);
-
-        Query query = getEntityManager().createNativeQuery(sql);
-        @SuppressWarnings("unchecked")
-        List<Integer> results = query.getResultList();
-
-        return results;
+        return retrieveAebIdsForGroup(stateIds, year, psyGroup, sql);
     }
 
     public List<Integer> getAebIdsForEvaluationGroup1_7(String stateIds, int year, PsyGroup psyGroup) {
         String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_1_7");
-        sql = sql.replace("{year}", String.valueOf(year));
-        sql = sql.replace("{psyGroupId}", String.valueOf(psyGroup.getId()));
-        sql = sql.replace("{stateIds}", stateIds);
+        return retrieveAebIdsForGroup(stateIds, year, psyGroup, sql);
+    }
+
+    private List<Integer> retrieveAebIdsForGroup(String stateIds, int year, PsyGroup psyGroup, String sql) {
+        sql = sql.replace(VAR_YEAR, String.valueOf(year));
+        sql = sql.replace(VAR_PSY_GROUP_ID, String.valueOf(psyGroup.getId()));
+        sql = sql.replace(VAR_STATE_IDS, stateIds);
 
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked")
@@ -313,8 +291,8 @@ public class AEBFacade extends AbstractDataAccess {
 
     public List<Integer> getAebIdsForEvaluationGroup5_6(String stateIds, int year) {
         String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_5_6");
-        sql = sql.replace("{year}", String.valueOf(year));
-        sql = sql.replace("{stateIds}", stateIds);
+        sql = sql.replace(VAR_YEAR, String.valueOf(year));
+        sql = sql.replace(VAR_STATE_IDS, stateIds);
 
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked")
@@ -325,8 +303,8 @@ public class AEBFacade extends AbstractDataAccess {
 
     public List<Integer> getAebIdsForEvaluationGroup4(String stateIds, int year) {
         String sql = XmlReaderPsyEvaluation.getStatementById("Gruppe_4");
-        sql = sql.replace("{year}", String.valueOf(year));
-        sql = sql.replace("{stateIds}", stateIds);
+        sql = sql.replace(VAR_YEAR, String.valueOf(year));
+        sql = sql.replace(VAR_STATE_IDS, stateIds);
 
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked")
@@ -345,7 +323,7 @@ public class AEBFacade extends AbstractDataAccess {
 
     private int getAebIdForEvaluationHospital(int ik, int year, String statementName) {
         String sql = XmlReaderPsyEvaluation.getStatementById(statementName);
-        sql = sql.replace("{year}", String.valueOf(year));
+        sql = sql.replace(VAR_YEAR, String.valueOf(year));
         sql = sql.replace("{ik}", String.valueOf(ik));
 
         Query query = getEntityManager().createNativeQuery(sql);
@@ -359,20 +337,11 @@ public class AEBFacade extends AbstractDataAccess {
         }
     }
 
-    public void insertNewCompatingConflict(AEBBaseInformation aebBaseInformation1, HospitalComparisonHospitals hospital) {
-        String sqlTemplate = "insert into psy.HospitalComparisonConflicts" +
-                "(hccHospitalComparisonEvaluationId, hccAebBaseInformationId1, hccAebBaseInformationId2) values(%s, %s, %s)";
-
-        String sql = String.format(sqlTemplate, hospital.getId(), hospital.getAebBaseInformationId(), aebBaseInformation1);
-
-        getEntityManager().createNativeQuery(sql).executeUpdate();
-    }
-
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public Optional<HospitalComparisonJob> getOldestNewJob() {
         String sql = "SELECT jo FROM HospitalComparisonJob jo WHERE jo._status = :status order by jo._createdDate";
         TypedQuery<HospitalComparisonJob> query = getEntityManager().createQuery(sql, HospitalComparisonJob.class);
-        query.setParameter("status", PsyHosptalComparisonStatus.NEW.name());
+        query.setParameter(STATUS, PsyHosptalComparisonStatus.NEW.name());
 
         List<HospitalComparisonJob> resultList = query.getResultList();
 
@@ -381,5 +350,66 @@ public class AEBFacade extends AbstractDataAccess {
         } else {
             return Optional.of(resultList.get(0));
         }
+    }
+
+    public List<HospitalComparisonInfo> getHosptalComparisonInfoByIks(Set<Integer> iks) {
+        if (iks.isEmpty()) {
+            return new ArrayList<>();
+        }
+        String jpql = "select hc from HospitalComparisonInfo hc where hc._hospitalIk in :ik";
+        TypedQuery<HospitalComparisonInfo> query = getEntityManager().createQuery(jpql, HospitalComparisonInfo.class);
+        query.setParameter(IK, iks);
+        return query.getResultList();
+    }
+
+    public boolean emailIsLkaForStateId(String emailDomain, int stateId) {
+        String sql = "select *\n" +
+                "from psy.lkaStateDomainMap\n" +
+                "where lstStateId = " + stateId + "\n" +
+                "and lstEmailDomain = '" + emailDomain + "'";
+
+        List resultList = getEntityManager().createNativeQuery(sql).getResultList();
+        return !resultList.isEmpty();
+    }
+
+    public List excludedIks() {
+        String sql = "select hcexIk from psy.HospitalComparisonExcludeIK";
+        return getEntityManager().createNativeQuery(sql).getResultList();
+    }
+
+    public boolean ikHasBedsOrPlacesForYear(int ik, int year) {
+        String sql = "select *\n" +
+                "from psy.StructureBaseInformation sbi\n" +
+                "join psy.StructureInformation si on si.siStructureBaseInformationId = sbi.sbiId\n" +
+                "where sbi.sbiIk = " + ik + "\n" +
+                "and year(si.siValidFrom) <= " + year + "\n" +
+                "and siStructureCategorie in ('BedCount', 'TherapyPartCount')";
+
+        List resultList = getEntityManager().createNativeQuery(sql).getResultList();
+        return !resultList.isEmpty();
+    }
+
+    public boolean aebIdIsInAnyEvaluation(int id) {
+        String sql = "select *\n" +
+                "from psy.HospitalComparisonHospitals hc\n" +
+                "where hc.hchAebBaseInformationId = " + id + "\n";
+
+        List resultList = getEntityManager().createNativeQuery(sql).getResultList();
+        return !resultList.isEmpty();
+    }
+
+    public void storeCollision(int aebId1, int aebId2) {
+        String sql = "insert into psy.mapHospitalComparisonConflict (hccAebBaseInformationId1, hccAebBaseInformationId2)\n" +
+                "select {id1}, {id2}\n" +
+                "where not exists (\n" +
+                "    select 1 from psy.mapHospitalComparisonConflict \n" +
+                "\twhere hccAebBaseInformationId1 = {id1} and hccAebBaseInformationId2 = {id2})";
+
+        String id1 = "" + (aebId1 < aebId1 ? aebId1 : aebId2);
+        String id2 = "" + (aebId1 < aebId1 ? aebId2 : aebId1);
+        sql = sql.replace("{id1}", id1)
+                .replace("{id2}", id2);
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.executeUpdate();
     }
 }

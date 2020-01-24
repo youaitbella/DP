@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:pf="http://primefaces.org/ui">
+
+
+    <ui:define name="content">
+        <h:form>
+            <h1>
+                <h:commandLink value="NUB-PEPP Anfrage"
+                               action="#{sessionController.navigate(sessionTools.pages.NubPsySummary)}"
+                               immediate="true" onclick="PF('navigationDialog').show();" />
+            </h1>
+        </h:form>
+        <h:form>
+            <pf:dialog widgetVar="dialogProcess"
+                       header="Daten werden verarbeitet"
+                       modal="true"
+                       closable="false"
+                       resizable="false"
+                       height="80px">
+                <div style="text-align: center; width: 100%;">
+                    <div class="inekLoader" style="text-align: center;">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </pf:dialog>
+
+            <pf:dialog widgetVar="errorMessageDialog"
+                       header="Meldungsübersicht:"
+                       modal="true"
+                       width="60%"
+                       height="600px"
+                       closable="true"
+                       resizable="true">
+                <div>
+                    #{nubEdit.errorMessageTitle}
+                </div>
+
+                <br />
+
+                <div id="container" style="width: 100%; height:530px">
+                    <pf:inputTextarea value="#{nubEdit.errorMessages}"
+                                      readonly="true"
+                                      style="width: 100%; height: 400px" />
+
+                    <div id="buttons"
+                         style="position: absolute !important; bottom: 10px !important; vertical-align: bottom !important;">
+                        <pf:button styleClass="btnPsy"
+                                   value="Ok"
+                                   tabindex="0"
+                                   style="position: relative;"
+                                   onclick="PF('errorMessageDialog').hide();" />
+                    </div>
+                </div>
+            </pf:dialog>
+
+            <pf:messages>
+                <pf:autoUpdate />
+            </pf:messages>
+
+            <pf:tabView styleClass="featureTabs" dynamic="true">
+                <pf:tab title="Stammformblatt">
+                    <ui:include src="NubPages/Stammformblatt.xhtml" />
+                </pf:tab>
+                <pf:tab title="Beschreibung">
+                    <ui:include src="NubPages/Beschreibung.xhtml" />
+                </pf:tab>
+                <pf:tab title="Methodendetails">
+                    <ui:include src="NubPages/Details.xhtml" />
+                </pf:tab>
+                <pf:tab title="Kennzahlen">
+                    <ui:include src="NubPages/Kennzahlen.xhtml" />
+                </pf:tab>
+                <pf:tab title="Kosten">
+                    <ui:include src="NubPages/Kosten.xhtml" />
+                </pf:tab>
+                <pf:tab title="Dokumente">
+                    <ui:include src="NubPages/Dokumente.xhtml" />
+                </pf:tab>
+            </pf:tabView>
+
+            <div class="footerInformation">
+
+                <pf:commandButton styleClass="btnPsy"
+                                  value="Speichern"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  action="#{nubEdit.save()}"
+                                  update="@(.ui-message) @form"
+                                  immediate="true"
+                                  rendered="#{nubEdit.isSaveAllowed()}" />
+
+                <pf:commandButton styleClass="btnPsy"
+                                  value="Als Vorlage herunterladen"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  action="#{nubEdit.createTemplateFromNubAndDownload()}"
+                                  ajax="false"
+                                  immediate="true"
+                                  rendered="#{nubEdit.isCreateTemplateAllowed()}" />
+
+                <pf:commandButton styleClass="btnPsy"
+                                  value="In neue NUB übernehmen"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  action="#{nubEdit.createNewNubFromNub()}"
+                                  ajax="false"
+                                  immediate="true"
+                                  rendered="#{nubEdit.isCreateNewNubFromNubAllowed()}" />
+
+                <pf:commandButton value="Ans InEK senden"
+                                  update="@(.ui-message) @form"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  action="#{nubEdit.send()}"
+                                  styleClass="btnSend arrow-right"
+                                  immediate="false"
+                                  rendered="#{nubEdit.isSendAllowed()}" />
+
+                <pf:commandButton value="Korrektur ans InEK"
+                                  update="@(.ui-message) @form"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
+                                  action="#{nubEdit.sendAsCorrection()}"
+                                  styleClass="btnSend arrow-right"
+                                  immediate="false"
+                                  rendered="#{nubEdit.isCorrectionAllowed()}" />
+            </div>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

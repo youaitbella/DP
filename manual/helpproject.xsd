@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2008 rel. 2 (http://www.altova.com) by Alexander Halser (EC Software GmbH) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XInclude" xmlns:xml="http://www.w3.org/XML/1998/namespace" elementFormDefault="unqualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xml="http://www.w3.org/XML/1998/namespace"
+		   elementFormDefault="unqualified" attributeFormDefault="unqualified">
 	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd"/>
 	<xs:element name="helpproject">
 		<xs:complexType>
@@ -1019,8 +1020,8 @@
 			<xs:element name="html-code" type="html-code.class" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attribute name="src" type="xs:string" use="required"/>
-		<xs:attribute name="width" type="pixel.type" use="required"/>
-		<xs:attribute name="height" type="pixel.type" use="required"/>
+		<xs:attribute name="width" type="pixel.type"/>
+		<xs:attribute name="height" type="pixel.type"/>
 		<xs:attribute name="scale" type="percent.type"/>
 		<xs:attribute name="align">
 			<xs:simpleType>
@@ -1036,7 +1037,10 @@
 		<xs:attribute name="styleclass" type="xs:string"/>
 		<xs:attribute name="style" type="xs:string"/>
 		<xs:attribute name="previewimage" type="xs:string"/>
+		<xs:attribute name="lightbox" type="xs:boolean"/>
 		<xs:attribute name="autostart" type="xs:boolean"/>
+		<xs:attribute name="playafter" type="xs:float"/>
+		<xs:attribute name="printcolumns" type="xs:integer"/>
 		<xs:attribute name="loop" type="xs:boolean"/>
 		<xs:attribute name="showcontrols" type="xs:boolean"/>
 		<xs:attribute name="playbutton" type="xs:boolean"/>

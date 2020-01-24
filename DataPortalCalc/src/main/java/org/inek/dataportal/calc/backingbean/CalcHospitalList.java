@@ -212,7 +212,6 @@ public class CalcHospitalList {
 
     private void exportCalcBasics(int dataYear, int ik, int id, String type) {
         List<ReportTemplate> reports = retrieveReportTemplates(type, dataYear);
-        String hostName = _appTools.readConfig(ConfigKey.ReportHostName);
 
         File zipFile = new File("Export_" + ik + ".zip");
 
@@ -221,7 +220,8 @@ public class CalcHospitalList {
              ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
             for (ReportTemplate rt : reports) {
                 String path = rt.getAddress()
-                        .replace("{hostName}", hostName)
+                        .replace("{hostNameInek}", _appTools.readConfig(ConfigKey.InekReportHostName))
+                        .replace("{hostNameCombit}", _appTools.readConfig(ConfigKey.CombitReportHostName))
                         .replace("{0}", id + "")
                         .replace("{1}", URLEncoder.
                                 encode(_appTools.retrieveHospitalInfo(ik), "UTF-8"))

@@ -5,21 +5,18 @@
  */
 package org.inek.dataportal.calc.backingbean;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import org.inek.dataportal.calc.entities.drg.*;
+import org.inek.dataportal.calc.groupinterface.Seal;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.helper.structures.MessageContainer;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Payload;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
-import org.inek.dataportal.calc.entities.drg.DrgCalcBasics;
-import org.inek.dataportal.calc.entities.drg.KGLListEndoscopyAmbulant;
-import org.inek.dataportal.calc.entities.drg.KGLListEndoscopyDifferential;
-import org.inek.dataportal.calc.entities.drg.KGLListKstTop;
-import org.inek.dataportal.calc.entities.drg.KglOpAn;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.calc.groupinterface.Seal;
-import org.inek.dataportal.common.helper.structures.MessageContainer;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -140,13 +137,13 @@ public class CalcBasicsDrgValidator {
     //<editor-fold defaultstate="collapsed" desc="checkEndosoppy">
     private static void checkEndosoppy(DrgCalcBasics calcBasics, MessageContainer message) {
         for (KGLListEndoscopyDifferential ediff : calcBasics.getEndoscopyDifferentials()) {
-            if(!ediff.getDivision().equals("") && ediff.getActivityKeyComment().equals("")) {
+            if (!"".equals(ediff.getDivision()) && "".equals(ediff.getActivityKeyComment())) {
                 applyMessageValues(message, "Bitte geben Sie für jeden Endoskopischen Bereich eine Erläuterung an", "TopicCalcEndoscopy", "");
             }
         }
         
         for (KGLListEndoscopyAmbulant ea : calcBasics.getEndoscopyAmbulant()) {
-            if((ea.getServiceKey() == 3 || ea.getServiceKey() == 4) && ea.getMiscText().equals("")) {
+            if ((ea.getServiceKey() == 3 || ea.getServiceKey() == 4) && "".equals(ea.getMiscText())) {
                 applyMessageValues(message, "Bitte geben Sie für den Leistungsschlüssel eine Erläuterung an", "TopicCalcEndoscopy", "");
             }
         }

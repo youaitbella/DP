@@ -46,13 +46,25 @@ public class ReportController implements Serializable {
         }
     }
 
+    public byte[] getSingleDocumentByIkAndYear(String name, int ik, int year, String fileName) {
+        Optional<ReportTemplate> optionalTemplate = _adminFacade.findReportTemplateByName(name);
+        if (optionalTemplate.isPresent()) {
+            ReportTemplate template = _adminFacade.findReportTemplateByName(name).get();
+            return getSingleDocument(template, "" + ik + "/" + year, fileName);
+        } else {
+            return new byte[0];
+        }
+    }
+
     public ReportTemplate getReportTemplateByName(String name) {
         return _adminFacade.findReportTemplateByName(name).get();
     }
 
-    public byte[] getSingleDocument(ReportTemplate template, String id, String fileName) {
-        String hostName = _appTools.readConfig(ConfigKey.ReportHostName);
-        String address = template.getAddress().replace("{hostName}", hostName).replace("{0}", id);
+    private byte[] getSingleDocument(ReportTemplate template, String id, String fileName) {
+        String address = template.getAddress()
+                .replace("{hostNameInek}", _appTools.readConfig(ConfigKey.InekReportHostName))
+                .replace("{hostNameCombit}", _appTools.readConfig(ConfigKey.CombitReportHostName))
+                .replace("{0}", id);
         try {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -81,9 +93,11 @@ public class ReportController implements Serializable {
                 ifPresent((ReportTemplate t) -> createSingleDocument(t, "" + id, fileName));
     }
 
-    public void createSingleDocument(ReportTemplate template, String id, String fileName) {
-        String hostName = _appTools.readConfig(ConfigKey.ReportHostName);
-        String address = template.getAddress().replace("{hostName}", hostName).replace("{0}", id);
+    private void createSingleDocument(ReportTemplate template, String id, String fileName) {
+        String address = template.getAddress()
+                .replace("{hostNameInek}", _appTools.readConfig(ConfigKey.InekReportHostName))
+                .replace("{hostNameCombit}", _appTools.readConfig(ConfigKey.CombitReportHostName))
+                .replace("{0}", id);
         try {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -104,8 +118,9 @@ public class ReportController implements Serializable {
     }
     public byte[] getSingleDocument(String path) {
         try {
-            String hostName = _appTools.readConfig(ConfigKey.ReportHostName);
-            String address = path.replace("{hostName}", hostName);
+            String address = path
+                    .replace("{hostNameInek}", _appTools.readConfig(ConfigKey.InekReportHostName))
+                    .replace("{hostNameCombit}", _appTools.readConfig(ConfigKey.CombitReportHostName));
 
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

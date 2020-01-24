@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Funktionsbeauftragter</title>
   <body>
     <header>
@@ -20,7 +21,16 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Für ein IK können mehrere Personen benannt werden. Eine Person kann für mehrere IK benannt werden.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Warning"><text styleclass="Warning" translate="true">Wird ein Funktionsbeauftragter eingerichtet, so beeinflusst dies die Sichtbarkeit aller zu diesem Institut gehörenden Daten, also auch von solchen, die bereits vorher erfasst wurden. Eventuell bestehende Einträge über kooperative Rechte der betreffenden IK-Funktions-Kombination werden gelöscht. Werden im Auftrag des Instituts alle Funktionsbeauftragten gelöscht, so richtet sich die Sichtbarkeit der Daten wieder nach den Regeln von &quot;Besitzer&quot; und &quot;Kooperation&quot;.</text></para>
+      <para styleclass="Warning">
+          <text styleclass="Warning" translate="true">Wird ein Funktionsbeauftragter eingerichtet, so beeinflusst dies
+              die Sichtbarkeit aller zu diesem Institut gehörenden Daten, also auch von solchen, die bereits vorher
+              erfasst wurden. Eventuell bestehende Einträge über kooperative Rechte der betreffenden
+              IK-Funktions-Kombination werden gelöscht. Werden im Auftrag des Instituts alle Funktionsbeauftragten
+              gelöscht, so richtet sich die Sichtbarkeit der Daten wieder nach den Regeln von &quot;Besitzer&quot; und
+              &quot;Kooperation&quot;. Funktionen, bei denen ein Funktionsbeauftragter verpflichtend ist, sind ohne
+              Funktionsbeauftragten nicht nutzbar.
+          </text>
+      </para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Sichtbarkeit von Daten ohne eindeutigen IK-Bezug bleibt von der Existenz eines Funktionsbeauftragten unberührt. Diese Daten sind weiterhin nur für den &quot;Besitzer&quot; zugänglich, oder für Personen, die vom &quot;Besitzer&quot; selbst im Rahmen einer Kooperation freigeschaltet wurden.</text></para>
     <para styleclass="Normal"></para>

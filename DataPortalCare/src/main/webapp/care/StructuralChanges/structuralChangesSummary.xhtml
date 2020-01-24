@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <ui:define name="title">Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)</ui:define>
+
+    <ui:define name="content">
+        <style>
+            .card {
+                max-width: 1280px !important;
+            }
+        </style>
+
+        <div class="ui-g" jsf:rendered="#{structuralChangesSummary.isInekUser()}">
+            <div class="card">
+                <h:form id="inek">
+                    <h1>InEK Intern</h1>
+                    <ui:remove>
+                        <div class="marginBottom">
+                            <pf:outputLabel value="Basis-Jahr: "/>
+
+                            <h:selectOneMenu value="#{structuralChangesSummary.openBaseInformations}"
+                                             id="ppugvYear">
+                                <f:selectItem itemLabel="2017" itemValue="2017"/>
+                                <f:selectItem itemLabel="2018" itemValue="2018"/>
+                                <f:ajax event="change" render="@form"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </ui:remove>
+                    <pf:dataTable id="inektable"
+                                  widgetVar="inekTableDepst"
+                                  value="#{structuralChangesSummary.listInek}"
+                                  var="structuralChanges"
+                                  emptyMessage="Keine Daten vorhanden"
+                                  rows="50"
+                                  paginator="true"
+                                  rowsPerPageTemplate="15,25,50,100"
+                                  styleClass="marginTop">
+                        <f:facet name="header">
+                            Übersicht über alle erfassten Daten
+                        </f:facet>
+                        <pf:column style="width: 20px;">
+                            <inekIcon:StatusIcon StatusId="#{structuralChanges.statusId}"/>
+                        </pf:column>
+                        <pf:column headerText="IK" filterBy="#{structuralChanges.ik}" sortable="true"
+                                   filterMatchMode="contains"
+                                   sortBy="#{structuralChanges.ik}">
+                            <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                    value="#{structuralChanges.ik}">
+                                <f:param name="id" value="#{structuralChanges.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Krankenhaus"
+                                   filterBy="#{structuralChangesSummary.retrieveHospitalName(structuralChanges.ik)}"
+                                   filterMatchMode="contains"
+                                   sortable="true"
+                                   sortBy="#{structuralChangesSummary.retrieveHospitalName(structuralChanges.ik)}">
+                            <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                    value="#{structuralChangesSummary.retrieveHospitalName(structuralChanges.ik)}">
+                                <f:param name="id" value="#{structuralChanges.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Letze Änderung" sortable="true"
+                                   sortBy="#{structuralChanges.requestedAt}">
+                            <h:outputText value="#{structuralChanges.requestedAt}">
+                                <f:convertDateTime pattern="dd.MM.yyyy"/>
+                            </h:outputText>
+                        </pf:column>
+                    </pf:dataTable>
+
+                    <pf:remoteCommand autoRun="true" oncomplete="PF('inekTableDepst').filter();"/>
+                </h:form>
+            </div>
+        </div>
+
+
+        <div class="ui-g">
+            <div class="card">
+                <h:form>
+                    <h1>Übersicht über Ihre Daten</h1>
+
+                    <div class="ui-g-12">
+                        <div style="text-align: justify; border: 1px solid #ffa727; padding: 5px;">
+                            <p>In diesem Bereich können Sie Änderungsmeldungen (Umbenennung oder strukturelle Veränderung § 5 Abs. 4 PpUGV) erstellen (Button „neue Meldung erstellen“). Diese Meldungen sind durchführbar, sobald Sie die Mitteilung gem. § 5 Abs. 3 PpUGV abschließend an das InEK übermittelt haben.</p>
+                            <p>Wenn Sie bereits eine Änderungsmeldung erstellt und gespeichert haben, wird diese in der Rubrik „In Erfassung“ aufgeführt. Haben Sie eine Änderungsmeldung an das InEK gesendet, wird Ihnen in dies in der Rubrik „An das InEK gesendet“ mit Status Ihrer Meldung aufgeführt. Nach Abschluss des Freigabeprozesses werden Sie per E-Mail darüber informiert.</p>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-lg-6">
+                        <pf:dataTable id="openTable"
+                                      value="#{structuralChangesSummary.openBaseInformations}"
+                                      var="baseinfo"
+                                      emptyMessage="Keine Einträge vorhanden">
+                            <f:facet name="header">
+                                In Erfassung
+                            </f:facet>
+                            <pf:column style="width: 20px;">
+                                <inekIcon:DeleteIcon
+                                        deleteFunction="#{structuralChangesSummary.deleteBaseInformation(baseinfo)}"
+                                        show="#{structuralChangesSummary.isDeleteAllowed(baseinfo)}"
+                                        showConfirmDialog="true"
+                                        updateElement="@form"/>
+                            </pf:column>
+                            <pf:column headerText="IK">
+                                <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                        value="#{baseinfo.ik}">
+                                    <f:param name="id" value="#{baseinfo.id}"/>
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="Krankenhaus">
+                                <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                        value="#{structuralChangesSummary.retrieveHospitalName(baseinfo.ik)}">
+                                    <f:param name="id" value="#{baseinfo.id}"/>
+                                </h:link>
+                            </pf:column>
+                        </pf:dataTable>
+
+                        <pf:commandButton value="Neue Meldung erstellen"
+                                          action="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                          rendered="#{structuralChangesSummary.isCreateEntryAllowed()}"
+                                          immediate="true"
+                                          style="margin-bottom:10px; margin-top: 10px;">
+                            <f:param name="id" value="new"/>
+                        </pf:commandButton>
+
+                    </div>
+
+                    <div class="ui-g-12 ui-lg-6">
+                        <pf:dataTable id="aktTable"
+                                      value="#{structuralChangesSummary.sendedBaseInformations}"
+                                      var="baseinfo"
+                                      emptyMessage="Keine Einträge vorhanden">
+                            <f:facet name="header">
+                                An das InEK gesendet
+                            </f:facet>
+                            <pf:column style="width: 20px;">
+                                <inekIcon:ChangeIcon
+                                        deleteFunction="#{structuralChangesSummary.changeBaseInformation(baseinfo)}"
+                                        show="#{structuralChangesSummary.isChangeAllowed(baseinfo)}"
+                                        showConfirmDialog="true"
+                                        updateElement="@form"/>
+                            </pf:column>
+                            <pf:column headerText="IK">
+                                <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                        value="#{baseinfo.ik}">
+                                    <f:param name="id" value="#{baseinfo.id}"/>
+                                </h:link>
+                            </pf:column>
+                            <pf:column headerText="Krankenhaus">
+                                <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                        value="#{structuralChangesSummary.retrieveHospitalName(baseinfo.ik)}">
+                                    <f:param name="id" value="#{baseinfo.id}"/>
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="Status">
+                                <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                        value="#{baseinfo.statusText}">
+                                    <f:param name="id" value="#{baseinfo.id}"/>
+                                </h:link>
+                            </pf:column>
+
+                            <pf:column headerText="Gesendet am">
+                                <h:link outcome="#{structuralChangesSummary.openStructuralChangesPage()}"
+                                        value="#{structuralChangesSummary.formatDate(baseinfo.requestedAt)}">
+                                    <f:param name="id" value="#{baseinfo.id}"/>
+                                </h:link>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
+
+                </h:form>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>
+

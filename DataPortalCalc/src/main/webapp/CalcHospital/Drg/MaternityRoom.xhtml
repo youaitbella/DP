@@ -39,9 +39,10 @@
                      value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours}"
                      readonly="#{editCalcBasicsDrg.readOnly}"
                      required="true">
-            <f:ajax event="blur" render="@this lblDiffDeliveryRoomHours :logout:remaining" />
+            <f:ajax event="blur" render="@this lblDiffDeliveryRoomHours :logout:remaining deliveryRoomHoursMsg" />
             <f:convertNumber/>
         </h:inputText>
+            <h:message for="deliveryRoomHours" styleClass="errorMessage" id="deliveryRoomHoursMsg"/>
             <h:outputLabel styleClass="label10 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}"/>
             <h:outputLabel styleClass="label10 number" id="lblDiffDeliveryRoomHours"
                            value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours - editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}"/>
@@ -53,8 +54,9 @@
                      value="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt}"
                      readonly="#{editCalcBasicsDrg.readOnly}"
                      required="true">
-            <f:ajax event="blur" render="@this lblDiffPreBirthHabitantCnt :maternity:txtStructure :logout:remaining" />
+            <f:ajax event="blur" render="@this lblDiffPreBirthHabitantCnt :maternity:txtStructure :logout:remaining preBirthHabitationCntMsg" />
         </h:inputText>
+            <h:message for="preBirthHabitationCnt" styleClass="errorMessage" id="preBirthHabitationCntMsg"/>
             <h:outputLabel styleClass="label10 number" id="lblPreBirthHabitantCnt"
                            value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt}"/>
             <h:outputLabel styleClass="label10 number" id="lblDiffPreBirthHabitantCnt"
@@ -67,8 +69,9 @@
                      value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}"
                      readonly="#{editCalcBasicsDrg.readOnly}"
                      required="true">
-            <f:ajax event="blur" render="@this lblDiffInstationBirthCnt :logout:remaining" />
+            <f:ajax event="blur" render="@this lblDiffInstationBirthCnt :logout:remaining instationBirthCntMsg" />
         </h:inputText>
+            <h:message for="instationBirthCnt" styleClass="errorMessage" id="instationBirthCntMsg"/>
             <h:outputLabel styleClass="label10 number"
                            value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
             <h:outputLabel styleClass="label10 number" id="lblDiffInstationBirthCnt"
@@ -102,7 +105,7 @@
                          width="100%"
                          styleClass="borderedTable borderCollapse"
                          headerClass="paddingElement smallFont"
-                         columnClasses="colIcon, col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                         columnClasses="colIcon, col25em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
                          rowClasses="row1, row2">
 
                 <h:column id="colDeleteId">
@@ -145,7 +148,7 @@
 
                 <h:column>
                     <f:facet name="header">Ärztlicher Dienst</f:facet>
-                    <inek:InputIntegerWithMessage id="partition"
+                    <inek:InputNumberWithMessage id="partition"
                                                   value="#{obstretic.medicalServiceCnt}"
                                                   styleClass="col05em number"
                                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
@@ -153,21 +156,21 @@
 
                 <h:column>
                     <f:facet name="header">Pflegedienst</f:facet>
-                    <inek:InputIntegerWithMessage value="#{obstretic.nursingServiceCnt}"
+                    <inek:InputNumberWithMessage value="#{obstretic.nursingServiceCnt}"
                                                   styleClass="col05em number"
                                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Funktionsdienst (ohne Hebammen)</f:facet>
-                    <inek:InputIntegerWithMessage value="#{obstretic.functionalServiceCnt}"
+                    <inek:InputNumberWithMessage value="#{obstretic.functionalServiceCnt}"
                                                   styleClass="col05em number"
                                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Hebammen</f:facet>
-                    <inek:InputIntegerWithMessage value="#{obstretic.midwifeCnt}"
+                    <inek:InputNumberWithMessage value="#{obstretic.midwifeCnt}"
                                                   styleClass="col05em number"
                                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
                 </h:column>
@@ -211,7 +214,7 @@
                          styleClass="borderedTable borderCollapse"
                          headerClass="paddingElement smallFont"
                          width="100%"
-                         columnClasses="col20em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
+                         columnClasses="col25em, col05 number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number, col05em number"
                          rowClasses="row1, row2">
 
                 <h:column>

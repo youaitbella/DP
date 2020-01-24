@@ -1,12 +1,32 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV) eintragen</title>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV) eintragen</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Angaben beziehen sich auf die Situation in Ihrem Krankenhaus im Datenjahr 2017. Bei Änderungen im Sinne des § 5 Abs. 4 PpUGV (ersatzloser Wegfall, Umbenennung, strukturelle Veränderungen) geben Sie diese bitte im entsprechenden Bereich am unteren Ende des Datenportals an. </text></para>
+      <para styleclass="Normal">
+          <text styleclass="Normal" translate="true">Alle Angaben beziehen sich auf die Situation in Ihrem Krankenhaus
+              im Datenjahr 2017 respektive Datenjahr 2018. Für die Eingabe der Nachweise benötigen Sie jedoch die im
+              jeweils aktuellen Jahr vorhandenen Stationen. Dazu bietet Ihnen das
+          </text>
+          <var styleclass="Normal">&lt;%TITLE%&gt;</var>
+          <text styleclass="Normal" translate="true">die Möglichkeit, Umbenennungen und strukturelle Änderungen
+              entsprechend § 5 Abs. 4 PpUGV (von 2018 bzw. 2019) zu erfassen.Da gemäß der PpUG Verordnung vom 28.10.2019
+              für den Nachweis in 2020 die Stationen gemäß 2018 zu erfassen sind, können hierzu die für 2017 erfassten
+              Stationen mit ihren strukturellen Änderungen nicht genutzt werden. Für die Stationen des Jahres 2017
+              können Sie die strukturellen Änderungen im Anschluss an die Stationserfassung (siehe unten) eingeben. Für
+              die Stationen Stand 2018 steht Ihnen ein separater
+          </text>
+          <link displaytype="text" defaultstyle="true" type="topiclink" href="StructuralChanges" styleclass="Normal"
+                translate="true">Dialog
+          </link>
+          <text styleclass="Normal" translate="true">zur Verfügung, welcher Ihnen die Auswirkung der erfassten
+              Veränderungen sofort anzeigt.
+          </text>
+      </para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><image src="care_umbenennungen.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Normal"></para>

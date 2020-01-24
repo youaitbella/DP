@@ -54,6 +54,7 @@ public class NubController extends AbstractFeatureController {
     public String createTemplate(NubRequest nubRequest) {
         StringBuilder sb = new StringBuilder();
         appendLine(sb, NubFieldKey.Version, "" + nubRequest.getTargetYear());
+        appendLine(sb, NubFieldKey.System, "DRG");
         Account account = getSessionController().getAccount();
         String helperId = encodeHelpId(account.getId());
         appendLine(sb, NubFieldKey.ID, helperId);
@@ -120,7 +121,6 @@ public class NubController extends AbstractFeatureController {
      * @param template
      * @return
      */
-    @SuppressWarnings("JavaNCSS")
     public NubRequest createNubRequest(String template) {
         NubRequest request = NubController.this.createNubRequest();
         String[] lines = template.split("[\\r\\n]+");
@@ -129,88 +129,7 @@ public class NubController extends AbstractFeatureController {
             String var = line.substring(0, pos);
             NubFieldKey key = NubFieldKey.valueOf(var);
             String content = line.substring(pos + 1);
-            switch (key) {
-                case Version:
-                    // might check version here
-                    break;
-                case ID:
-                    request.setHelperId(decodeHelpId(content));
-                    break;
-                case Helper:
-                    request.setFormFillHelper(restoreBreaks(content));
-                    break;
-                case Name:
-                    request.setName(restoreBreaks(content));
-                    break;
-                case DisplayName:
-                    request.setDisplayName(restoreBreaks(content));
-                    break;
-                case AltName:
-                    request.setAltName(restoreBreaks(content));
-                    break;
-                case Description:
-                    request.setDescription(restoreBreaks(content));
-                    break;
-                case HasNoProcs:
-                    request.setHasNoProcs(content.toLowerCase().equals("true"));
-                    break;
-                case ProcCodes:
-                    request.setProcs(restoreBreaks(content));
-                    break;
-                case Procedures:
-                    request.setProcedures(restoreBreaks(content));
-                    break;
-                case MedicalDevice:
-                    request.setMedicalDevice(getByteValue(content));
-                    break;
-                case RiscClass:
-                    request.setRiscClass(getByteValue(content));
-                    break;
-                case RiscClassComment:
-                    request.setRiscClassComment(restoreBreaks(content));
-                    break;
-                case TradeName:
-                    request.setTradeName(restoreBreaks(content));
-                    break;
-                case CeMark:
-                    request.setCeMark(restoreBreaks(content));
-                    break;
-                case Indication:
-                    request.setIndication(restoreBreaks(content));
-                    break;
-                case Replacement:
-                    request.setReplacement(restoreBreaks(content));
-                    break;
-                case WhatsNew:
-                    request.setWhatsNew(restoreBreaks(content));
-                    break;
-                case Los:
-                    request.setLos(restoreBreaks(content));
-                    break;
-                case InGermanySince:
-                    request.setInGermanySince(restoreBreaks(content));
-                    break;
-                case MedApproved:
-                    request.setMedApproved(restoreBreaks(content));
-                    break;
-                case HospitalCount:
-                    request.setHospitalCount(restoreBreaks(content));
-                    break;
-                case HigherCosts:
-                    request.setAddCosts(restoreBreaks(content));
-                    break;
-                case DRGs:
-                    request.setDrgs(restoreBreaks(content));
-                    break;
-                case WhyNotRepresented:
-                    request.setWhyNotRepresented(restoreBreaks(content));
-                    break;
-                case RequestedEarlierOther:
-                    request.setRequestedEarlierOther(Boolean.parseBoolean(content));
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unknown Key [NUB]: + " + key);
-            }
+            distributeField(request, key, content);
         }
         if (request.getHelperId() == request.getAccountId()) {
             // no entry for own template
@@ -219,6 +138,97 @@ public class NubController extends AbstractFeatureController {
         request.setCreatedBy(getSessionController().getAccountId());
         request.setLastChangedBy(getSessionController().getAccountId());
         return request;
+    }
+
+    @SuppressWarnings("JavaNCSS")
+    private void distributeField(NubRequest request, NubFieldKey key, String content) {
+        switch (key) {
+            case Version:
+                // might check version here
+                break;
+            case System:
+                if (!"DRG".equals(content)) {
+                    throw new IllegalArgumentException("Unexpected system: " + content);
+                }
+                break;
+            case ID:
+                request.setHelperId(decodeHelpId(content));
+                break;
+            case Helper:
+                request.setFormFillHelper(restoreBreaks(content));
+                break;
+            case Name:
+                request.setName(restoreBreaks(content));
+                break;
+            case DisplayName:
+                request.setDisplayName(restoreBreaks(content));
+                break;
+            case AltName:
+                request.setAltName(restoreBreaks(content));
+                break;
+            case Description:
+                request.setDescription(restoreBreaks(content));
+                break;
+            case HasNoProcs:
+                request.setHasNoProcs("true".equals(content.toLowerCase()));
+                break;
+            case ProcCodes:
+                request.setProcs(restoreBreaks(content));
+                break;
+            case Procedures:
+                request.setProcedures(restoreBreaks(content));
+                break;
+            case MedicalDevice:
+                request.setMedicalDevice(getByteValue(content));
+                break;
+            case RiscClass:
+                request.setRiscClass(getByteValue(content));
+                break;
+            case RiscClassComment:
+                request.setRiscClassComment(restoreBreaks(content));
+                break;
+            case TradeName:
+                request.setTradeName(restoreBreaks(content));
+                break;
+            case CeMark:
+                request.setCeMark(restoreBreaks(content));
+                break;
+            case Indication:
+                request.setIndication(restoreBreaks(content));
+                break;
+            case Replacement:
+                request.setReplacement(restoreBreaks(content));
+                break;
+            case WhatsNew:
+                request.setWhatsNew(restoreBreaks(content));
+                break;
+            case Los:
+                request.setLos(restoreBreaks(content));
+                break;
+            case InGermanySince:
+                request.setInGermanySince(restoreBreaks(content));
+                break;
+            case MedApproved:
+                request.setMedApproved(restoreBreaks(content));
+                break;
+            case HospitalCount:
+                request.setHospitalCount(restoreBreaks(content));
+                break;
+            case HigherCosts:
+                request.setAddCosts(restoreBreaks(content));
+                break;
+            case DRGs:
+                request.setDrgs(restoreBreaks(content));
+                break;
+            case WhyNotRepresented:
+                request.setWhyNotRepresented(restoreBreaks(content));
+                break;
+            case RequestedEarlierOther:
+                request.setRequestedEarlierOther(Boolean.parseBoolean(content));
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown Key [NUB]: + " + key);
+        }
     }
 
     private String restoreBreaks(String text) {

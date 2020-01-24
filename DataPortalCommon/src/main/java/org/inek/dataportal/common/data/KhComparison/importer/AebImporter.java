@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 public class AebImporter {
 
     public static final Logger LOGGER = Logger.getLogger(AebImporter.class.getName());
+    public static final String START_SHEET = "Start Sheet ";
 
     private static final String PAGE_E1_1 = "E1.1 V";
     private static final String PAGE_E1_2 = "E1.2 V";
@@ -53,6 +54,8 @@ public class AebImporter {
 
     private static final String ERROR_TEXT = "Import fehlgeschlagen: ";
     private static final String NO_ERROR_MESSAGES = "Keine Fehlermeldungen vorhanden";
+    public static final String BLATT = "Blatt [";
+    public static final String CELL = "] Zelle: ";
 
     private int _counter = 0;
 
@@ -84,25 +87,25 @@ public class AebImporter {
             }
             for (Sheet s : workbook) {
                 if (s.getSheetName().contains(PAGE_E1_1)) {
-                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_E1_1);
+                    LOGGER.log(Level.INFO, START_SHEET + PAGE_E1_1);
                     importPageE1_1(s, info);
                 } else if (s.getSheetName().contains(PAGE_E1_2)) {
-                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_E1_2);
+                    LOGGER.log(Level.INFO, START_SHEET + PAGE_E1_2);
                     importPageE1_2(s, info);
                 } else if (s.getSheetName().contains(PAGE_E2)) {
-                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_E2);
+                    LOGGER.log(Level.INFO, START_SHEET + PAGE_E2);
                     importPageE2(s, info);
                 } else if (s.getSheetName().contains(PAGE_E3_1)) {
-                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_E3_1);
+                    LOGGER.log(Level.INFO, START_SHEET + PAGE_E3_1);
                     importPageE3_1(s, info);
                 } else if (s.getSheetName().contains(PAGE_E3_2)) {
-                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_E3_2);
+                    LOGGER.log(Level.INFO, START_SHEET + PAGE_E3_2);
                     importPageE3_2(s, info);
                 } else if (s.getSheetName().contains(PAGE_E3_3)) {
-                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_E3_3);
+                    LOGGER.log(Level.INFO, START_SHEET + PAGE_E3_3);
                     importPageE3_3(s, info);
                 } else if (s.getSheetName().contains(PAGE_B1)) {
-                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_B1);
+                    LOGGER.log(Level.INFO, START_SHEET + PAGE_B1);
                     importPageB1(s, info);
                 }
             }
@@ -185,7 +188,7 @@ public class AebImporter {
         if (!availaibleSheetNames.containsAll(neededSheetsNames)) {
             neededSheetsNames.removeAll(availaibleSheetNames);
             for (String sheetName : neededSheetsNames) {
-                addErrorMessage("Blatt [" + sheetName + "] konnte nicht gefunden werden.");
+                addErrorMessage(BLATT + sheetName + "] konnte nicht gefunden werden.");
             }
         }
 
@@ -194,8 +197,9 @@ public class AebImporter {
 
     private void createPageNotInCorrectFormMessag(String page) {
         LOGGER.log(Level.INFO, "Page: " + page + " not correct");
-        addErrorMessage(ERROR_TEXT + "Blatt [" + page + "] ist nicht im richtigen Format. Bitte benutzen Sie die Vorlage.");
+        addErrorMessage(ERROR_TEXT + BLATT + page + "] ist nicht im richtigen Format. Bitte benutzen Sie die Vorlage.");
     }
+
 
     private boolean isPageB1InCorrectFormat(Sheet sheet, int neededRows) {
         CellAddress adressWithValue = getAdressWithValue(sheet, "lfd", 0, 0);
@@ -361,7 +365,7 @@ public class AebImporter {
 
                 String pepp = CellImportHelper.getStringFromCell(row.getCell(colStart));
                 if (!RenumerationChecker.isFormalValidPepp(pepp)) {
-                    addErrorMessage("Blatt [" + sheet.getSheetName() + "] Zelle: " + (i + 1) + " keine gültige PEPP.");
+                    addErrorMessage(BLATT + sheet.getSheetName() + CELL + (i + 1) + " keine gültige PEPP.");
                     continue;
                 }
                 AEBPageE1_1 page = new AEBPageE1_1();
@@ -397,7 +401,7 @@ public class AebImporter {
             try {
                 String et = CellImportHelper.getStringFromCell(row.getCell(colStart));
                 if (!RenumerationChecker.isFormalValidEt(et)) {
-                    addErrorMessage("Blatt [" + sheet.getSheetName() + "] Zelle: " + (i + 1) + " kein gültiges ET.");
+                    addErrorMessage(BLATT + sheet.getSheetName() + CELL + (i + 1) + " kein gültiges ET.");
                     continue;
                 }
 
@@ -430,7 +434,7 @@ public class AebImporter {
             try {
                 String ze = CellImportHelper.getStringFromCell(row.getCell(colStart));
                 if (!RenumerationChecker.isFormalValidZe(ze)) {
-                    addErrorMessage("Blatt [" + sheet.getSheetName() + "] Zelle: " + (i + 1) + " kein gültiges ZE.");
+                    addErrorMessage(BLATT + sheet.getSheetName() + CELL + (i + 1) + " kein gültiges ZE.");
                     continue;
                 }
 
@@ -497,7 +501,7 @@ public class AebImporter {
             try {
                 String ze = CellImportHelper.getStringFromCell(row.getCell(colStart));
                 if (!RenumerationChecker.isFormalValidZe(ze)) {
-                    addErrorMessage("Blatt [" + sheet.getSheetName() + "] Zelle: " + (i + 1) + " kein gültiges ZE.");
+                    addErrorMessage(BLATT + sheet.getSheetName() + CELL + (i + 1) + " kein gültiges ZE.");
                     continue;
                 }
 
@@ -544,7 +548,7 @@ public class AebImporter {
             try {
                 String pepp = CellImportHelper.getStringFromCell(row.getCell(colStart));
                 if (!RenumerationChecker.isFormalValidPepp(pepp)) {
-                    addErrorMessage("Blatt [" + sheet.getSheetName() + "] Zelle: " + (i + 1) + " keine gültige PEPP.");
+                    addErrorMessage(BLATT + sheet.getSheetName() + CELL + (i + 1) + " keine gültige PEPP.");
                     continue;
                 }
 
@@ -619,14 +623,14 @@ public class AebImporter {
 
     private void handleImporterException(Exception ex) {
         if (ex instanceof FormulaInCellException) {
-            addErrorMessage("Blatt [" + ((FormulaInCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: ["
+            addErrorMessage(BLATT + ((FormulaInCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: ["
                     + ((FormulaInCellException) ex).getCell().getAddress() + "] Formeln sind nicht erlaubt.");
         } else if (ex instanceof StringInNumericCellException) {
-            addErrorMessage("Blatt [" + ((StringInNumericCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: ["
+            addErrorMessage(BLATT + ((StringInNumericCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: ["
                     + ((StringInNumericCellException) ex).getCell().getAddress() + "] Text in Zahlenspalte gefunden.");
         }
         else if (ex instanceof ValueToLongCellException) {
-            addErrorMessage("Blatt [" + ((ValueToLongCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: ["
+            addErrorMessage(BLATT + ((ValueToLongCellException) ex).getCell().getSheet().getSheetName() + "] Zelle: ["
                     + ((ValueToLongCellException) ex).getCell().getAddress() + "] Text zu lang. Erlaubte Länge: "
                     + ((ValueToLongCellException) ex).getMaxAllowedLength());
         }

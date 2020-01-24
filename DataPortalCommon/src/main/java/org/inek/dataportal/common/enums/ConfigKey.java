@@ -8,7 +8,10 @@ public enum ConfigKey {
     TestMode(false),
     IsNubCreateEnabled(false),
     IsNubSendEnabled(false),
+    IsPsyNubCreateEnabled(false),
+    IsPsyNubSendEnabled(false),
     RemindNubSeal(false),
+    RemindNubPeppSeal(true),
     IsCareCreateEnabled(false),
     IsCareSendEnabled(false),
     IsCareChangeEnabled(false),
@@ -58,10 +61,14 @@ public enum ConfigKey {
     DocumentSetRead(false),
     CertCompareOnUpload(true),
     IkAdminEnable(true),
-    KhComparisonJobSavePath("//vFileserver01/company$/EDV/Datenportal/kh-vergleich/auswertungen"),
-    KhComparisonUploadPath("//vFileserver01/company$/EDV/Datenportal/documents/KH-Vergleich"),
+    KhComparisonJobSavePath("{root}/kh-vergleich/auswertungen"),
+    KhComparisonUploadPath("{root}/documents/KH-Vergleich"),
     isKhComparisionInsuranceEnabled(false),
-    ReportHostName("vreportserver01");
+    CombitReportHostName("vreportserver01"),
+    InekReportHostName("vreportserver01"),
+    VzHost("localhost:8000"),
+    VzRestCheckVzNumber("https://{vzHost}/api/intern/v1.0/LocationIdExists?hospital_ik={ik}&location_identifier={vzNumber}"),
+    CareStructuralChangesEnable(true);
     //
     private final Object _defaultValue;
 

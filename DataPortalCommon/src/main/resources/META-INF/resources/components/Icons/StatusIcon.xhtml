@@ -11,8 +11,11 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <i jsf:rendered="#{cc.attrs.StatusId eq 3}" class="fa fa-pencil" title="Daten in Bearbeitung"> </i>
+        <i jsf:rendered="#{cc.attrs.StatusId eq 0}" class="fa fa-pencil-square-o" title="Daten in Erfassung"> </i>
+        <i jsf:rendered="#{cc.attrs.StatusId eq 3}" class="fa fa-pencil" title="Daten in Korrektur"> </i>
         <i jsf:rendered="#{cc.attrs.StatusId eq 10}" class="fa fa-check" style="color: green;" title="Ans InEK gesendet"> </i>
+        <i jsf:rendered="#{cc.attrs.StatusId eq 20}" class="fa fa-check-circle" style="color: green;"
+           title="Akzeptiert"> </i>
         <i jsf:rendered="#{cc.attrs.StatusId eq 200}" class="fa fa-times" style="color: red;" title="Daten zurückgezogen"> </i>
     </cc:implementation>
 </html>

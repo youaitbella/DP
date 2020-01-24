@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="rentschlerel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Mehrkosten</title>
   <keywords>
     <keyword translate="true">Mehrkosten</keyword>
@@ -21,9 +21,9 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie bitte möglichst genau an, welche Mehrkosten durch die neue Methode verglichen mit der(den) bisher üblichen Methode(n) entstehen. Trennen Sie Ihre Angaben soweit möglich in Personal- und Sachkosten. Machen Sie Ihre Kostenangaben bitte als Durchschnittswert in Euro pro Anwendung. Sofern Ihnen die Mehrkosten nicht bekannt sind, umschreiben Sie bitte möglichst genau den zusätzlichen Aufwand, der durch Anwendung der neuen Methode entsteht. Der zusätzliche Aufwand kann beispielsweise durch verlängerte OP-Zeiten, eine höhere Qualifikation des einzusetzenden Personals, zusätzliches Personal, die Dosierung des Medikaments, die Verabreichung zusätzlicher Medikamente zur Stützung des Behandlungserfolges der neuen Methode, Implantatkosten o.ä. entstehen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel 1:</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Eine Dosierung von 60 µg/kg/Tag i.v. 3 Tage vor und nach Chemotherapie - außer an Tagen mit Chemotherapie - ergibt bei einem Patienten mit beispielsweise 75 kg Körpergewicht pro Gabe: €€€ Euro. Aufsummiert auf einen Fall ergeben sich damit Kosten von €€€ Euro pro typischem stationären Aufenthalt.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofosbuvir wird über einen Zeitraum von 12 bis 24 Wochen in einer festen Dosis von 400 mg pro Tag mit den jeweiligen Kombinationspartnern verabreicht. Die Arzneimitteltherapie mit Sofosbuvir führt zu Mehrkosten in Höhe von €€€ Euro pro Tag. Personalkosten: Durch die orale Therapieform sind die zusätzlichen Personalkosten vernachlässigbar.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Mehrkosten gegenüber der bisherigen Behandlung (z.B. Medikament XY mit €€€ Euro pro Fall) belaufen sich bei in Körpergewicht, Dauer bzw. Höhe der Gaben usw. vergleichbaren Patienten insgesamt auf €€€ Euro pro Fall.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Mehrkosten gegenüber der bisherigen Behandlung (z.B. Medikament XY mit €€€ Euro pro Fall) belaufen sich auf insgesamt auf €€€ Euro pro Fall.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel 2:</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Eine konventionelle Herzklappe kostet ca. €€€ Euro. Bei der endovaskulären Aortenklappe entstehen durch das Implantat Mehrkosten von ca. €€€ Euro. </text></para>
@@ -37,7 +37,7 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Erläutern Sie bitte, warum die Methode aus Ihrer Sicht nicht sachgerecht im G-DRG-System abgebildet ist. Hierbei sollte auch der Aspekt der Sachgerechtigkeit der Vergütung aus Ihrer Sicht betrachtet werden. Von Interesse ist, warum die durch die DRG-Fallpauschale bzw. durch die Zusatzentgelte bestimmte Vergütung in Bezug auf die entstehenden Kosten der NUB-Leistung nicht sachgerecht ist. Sie können Ihre Angaben auf das G-DRG-System 2013 und/oder 2014 beziehen. Wenn sich Ihre Angaben auf beide G-DRG-Systeme beziehen, beschreiben Sie bitte ggf. bestehende Unterschiede in der fehlenden Sachgerechtigkeit. Bitte vermerken Sie unbedingt, auf welches G-DRG-System (z.B. Version 2014) sich Ihre Ausführungen beziehen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel 1:</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Behandlung mit Palifermin wurde erst im Jahr 2005 in der EU zugelassen. Entsprechend konnten keinerlei Kosten- und Leistungsinformationen bei der Ermittlung des G-DRG-Fallpauschalen-Kataloges 2007 bzw. 2008 berücksichtigt werden. Die Kosten des für die neue Methode zu verwendenden Präparates sind erheblich und können die mit der DRG-Fallpauschale verbundenen Erlöse übersteigen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Behandlung mit </text><text styleclass="Normal" translate="true">Sofosbuvir</text><text styleclass="Normal" translate="true"> ist gemäß aktuellem DRG-Katalog weder über die DRG-Fallpauschalen noch über die im Katalog ausgewiesenen Zusatzentgelte ausreichend vergütet.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel 2:</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Das Verfahren des endovaskulären Aortenklappenersatzes ist derzeit in der DRG XXX mit mittleren Kosten in Höhe von €€€ Euro abgebildet. Die Implantatkosten betragen €€€ Euro. Die Behandlung von Patienten mit einem endovaskulären Aortenklappenersatz wurde erst im Jahr 2007 CE-zertifiziert. Entsprechend konnten Kosten- und Leistungsinformationen bei der Ermittlung des G-DRG-Fallpauschalen-Kataloges 2007 bzw. 2008 noch nicht berücksichtigt werden.</text></para>

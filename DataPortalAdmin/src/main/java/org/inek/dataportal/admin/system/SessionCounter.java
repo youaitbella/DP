@@ -1,14 +1,15 @@
 package org.inek.dataportal.admin.system;
 
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
+
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,6 +17,10 @@ import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
  */
 // todo: This session counter only counts within the local app. 
 // After creating independent apps, we need to collect data from every app and send it to a central place
+// possible solution:
+// table: server, app, count
+// reset on app start
+// increment and decrement here
 @WebListener
 public class SessionCounter implements HttpSessionListener {
 

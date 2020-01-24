@@ -1,13 +1,7 @@
 package org.inek.dataportal.common.data.KhComparison.checker;
 
-import org.inek.dataportal.common.data.KhComparison.entities.AEBPageB1;
-import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_3;
-import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_2;
-import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE1_2;
-import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE1_1;
-import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
-import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE2;
-import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_1;
+import org.inek.dataportal.common.data.KhComparison.entities.*;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -19,6 +13,12 @@ import java.util.NoSuchElementException;
 public class AebComparer {
 
     private static final double TOLERANCE_PERCENT = 5.0;
+    public static final String MISSING_PEPP = ": Element nicht vorhanden: PEPP: ";
+    public static final String MISSING_ET = ": Element nicht vorhanden: ET: ";
+    public static final String MISSING_ZE = ": Element nicht vorhanden: Ze: ";
+    public static final String MISSING_REIMBURSEMENT = ": Element nicht vorhanden: Entgeld: ";
+    public static final String MISSING_ADDITIONAL_FEE = ": Element nicht vorhanden: Zusatzentgeld: ";
+    public static final String DIFF_INSURANCE = ": Unterschied von KK: ";
 
     private String _result = "";
 
@@ -33,7 +33,7 @@ public class AebComparer {
     public AebComparer() {
     }
 
-    public Boolean compare(AEBBaseInformation info1, AEBBaseInformation info2) {
+    public boolean compareEuqality(AEBBaseInformation info1, AEBBaseInformation info2) {
         compareAEBPageE1_1(info1.getAebPageE1_1(), info2.getAebPageE1_1());
         compareAEBPageE1_2(info1.getAebPageE1_2(), info2.getAebPageE1_2());
         compareAEBPageE2(info1.getAebPageE2(), info2.getAebPageE2());
@@ -59,7 +59,7 @@ public class AebComparer {
                 compareInt(page.getCaseCount(), page2.getCaseCount(), pageTitel + " - Spalte 3 - " + page.getPepp() + "-" + page.getCompensationClass());
                 compareInt(page.getCalculationDays(), page2.getCalculationDays(), pageTitel + " - Spalte 4 - " + page.getPepp() + "-" + page.getCompensationClass());
             } catch (NoSuchElementException ex) {
-                addMessage(pageTitel + ": Element nicht vorhanden: PEPP: " + page.getPepp()
+                addMessage(pageTitel + MISSING_PEPP + page.getPepp()
                         + " | " + page.getCompensationClass());
             }
         }
@@ -72,7 +72,7 @@ public class AebComparer {
                         .findFirst()
                         .get();
             } catch (NoSuchElementException ex) {
-                addMessage(pageTitel + ": Element nicht vorhanden: PEPP: " + page.getPepp()
+                addMessage(pageTitel + MISSING_PEPP + page.getPepp()
                         + " | " + page.getCompensationClass());
             }
         }
@@ -90,7 +90,7 @@ public class AebComparer {
 
                 compareInt(page.getCalculationDays(), page2.getCalculationDays(), pageTitel + " - Spalte 2 - " + page.getEt());
             } catch (NoSuchElementException ex) {
-                addMessage(pageTitel + ": Element nicht vorhanden: ET: " + page.getEt());
+                addMessage(pageTitel + MISSING_ET + page.getEt());
             }
         }
 
@@ -101,7 +101,7 @@ public class AebComparer {
                         .findFirst()
                         .get();
             } catch (NoSuchElementException ex) {
-                addMessage(pageTitel + ": Element nicht vorhanden: ET: " + page.getEt());
+                addMessage(pageTitel + MISSING_ET + page.getEt());
             }
         }
     }
@@ -117,7 +117,7 @@ public class AebComparer {
                         .get();
                 compareInt(page.getZeCount(), page2.getZeCount(), pageTitel + " - Spalte 2 - " + page.getZe());
             } catch (NoSuchElementException ex) {
-                addMessage(pageTitel + ": Element nicht vorhanden: Ze: " + page.getZe());
+                addMessage(pageTitel + MISSING_ZE + page.getZe());
             }
         }
 
@@ -128,7 +128,7 @@ public class AebComparer {
                         .findFirst()
                         .get();
             } catch (NoSuchElementException ex) {
-                addMessage(pageTitel + ": Element nicht vorhanden: Ze: " + page.getZe());
+                addMessage(pageTitel + MISSING_ZE + page.getZe());
             }
         }
     }
@@ -152,7 +152,7 @@ public class AebComparer {
                 compareInt(page.getDayCountSurcharges(), page2.getDayCountSurcharges(), pageTitel + " - Spalte 11 - " + page.getRenumeration() + " - " + page.getRenumerationKey());
                 compareDouble(page.getSurchargesPerDay(), page2.getSurchargesPerDay(), pageTitel + " - Spalte 12 - " + page.getRenumeration() + " - " + page.getRenumerationKey());
             } catch (NoSuchElementException ex) {
-                addMessage(pageTitel + ": Element nicht vorhanden: Entgeld: " + page.getRenumeration() + " - " + page.getRenumerationKey());
+                addMessage(pageTitel + MISSING_REIMBURSEMENT + page.getRenumeration() + " - " + page.getRenumerationKey());
             }
         }
 
@@ -164,7 +164,7 @@ public class AebComparer {
                         .findFirst()
                         .get();
             } catch (NoSuchElementException ex) {
-                addMessage(pageTitel + ": Element nicht vorhanden: Entgeld: " + page.getRenumeration() + " - " + page.getRenumerationKey());
+                addMessage(pageTitel + MISSING_REIMBURSEMENT + page.getRenumeration() + " - " + page.getRenumerationKey());
             }
         }
     }
@@ -183,7 +183,7 @@ public class AebComparer {
                 compareInt(page.getCount(), page2.getCount(), pageTitel + " - Spalte 4 - " + page.getZe() + " - " + page.getRenumerationKey() + " - " + page.getOps());
                 compareDouble(page.getRenumerationValue(), page2.getRenumerationValue(), pageTitel + " - Spalte 5 - " + page.getZe() + " - " + page.getRenumerationKey() + " - " + page.getOps());
             } catch (NoSuchElementException ex) {
-                addMessage(pageTitel + ": Element nicht vorhanden: Zusatzentgeld: " + page.getZe() + " - " + page.getRenumerationKey() + " - " + page.getOps());
+                addMessage(pageTitel + MISSING_ADDITIONAL_FEE + page.getZe() + " - " + page.getRenumerationKey() + " - " + page.getOps());
             }
         }
 
@@ -196,7 +196,7 @@ public class AebComparer {
                         .findFirst()
                         .get();
             } catch (NoSuchElementException ex) {
-                addMessage(pageTitel + ": Element nicht vorhanden: Zusatzentgeld: " + page.getZe() + " - " + page.getRenumerationKey() + " - " + page.getOps());
+                addMessage(pageTitel + MISSING_ADDITIONAL_FEE + page.getZe() + " - " + page.getRenumerationKey() + " - " + page.getOps());
             }
         }
     }
@@ -215,7 +215,7 @@ public class AebComparer {
                 compareInt(page.getDays(), page2.getDays(), pageTitel + " - Spalte 4 - " + page.getRenumeration() + " - " + page.getRenumerationKey());
                 compareDouble(page.getRenumerationValue(), page2.getRenumerationValue(), pageTitel + " - Spalte 5 - " + page.getRenumeration() + " - " + page.getRenumerationKey());
             } catch (NoSuchElementException ex) {
-                addMessage(pageTitel + ": Element nicht vorhanden: Entgeld: " + page.getRenumeration() + " - " + page.getRenumerationKey());
+                addMessage(pageTitel + MISSING_REIMBURSEMENT + page.getRenumeration() + " - " + page.getRenumerationKey());
             }
         }
 
@@ -227,7 +227,7 @@ public class AebComparer {
                         .findFirst()
                         .get();
             } catch (NoSuchElementException ex) {
-                addMessage(pageTitel + ": Element nicht vorhanden: Entgeld: " + page.getRenumeration() + " - " + page.getRenumerationKey());
+                addMessage(pageTitel + MISSING_REIMBURSEMENT + page.getRenumeration() + " - " + page.getRenumerationKey());
             }
         }
     }
@@ -251,20 +251,20 @@ public class AebComparer {
     private void compareInt(int value1, int value2, String page) {
         double reductionRate = Math.abs(100 * ((value1 - value2) / (double)value2));
         if (reductionRate > TOLERANCE_PERCENT) {
-            addMessage(page + ": Unterschied von KK: " + value1 + " zu KH: " + value2);
+            addMessage(page + DIFF_INSURANCE + value1 + " zu KH: " + value2);
         }
     }
 
     private void compareDouble(double value1, double value2, String page) {
         double reductionRate = Math.abs(100 * ((value1 - value2) / (double)value2));
         if (reductionRate > TOLERANCE_PERCENT) {
-            addMessage(page + ": Unterschied von KK: " + Math.round(100.0 * value1) / 100.0 + " zu KH: " + Math.round(100.0 * value2) / 100.0);
+            addMessage(page + DIFF_INSURANCE + Math.round(100.0 * value1) / 100.0 + " zu KH: " + Math.round(100.0 * value2) / 100.0);
         }
     }
 
     private void compareString(String value1, String value2, String page) {
         if (!value1.toUpperCase().equals(value2.toUpperCase())) {
-            addMessage(page + ": Unterschied von KK: " + value1 + " - KH: " + value2);
+            addMessage(page + DIFF_INSURANCE + value1 + " - KH: " + value2);
         }
     }
 

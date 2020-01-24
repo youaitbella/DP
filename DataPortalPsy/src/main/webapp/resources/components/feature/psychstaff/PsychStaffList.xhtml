@@ -4,7 +4,7 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+>
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -33,7 +33,7 @@
                     </f:facet>
                     <h:commandLink action="#{psychStaffList.delete(item.id)}" immediate="true"
                                    onclick="#{psychStaffList.getConfirmMessage(item.id)}"
-                                   rendered="#{cc.attrs.allowDelete}">
+                                   rendered="#{cc.attrs.allowDelete and psychStaffList.isDeleteAllowed(item)}">
                         <h:graphicImage alt="löschen" name="Icon/small/#{item.status.value le 9 ? 'delete.png' : 'cross.png'}"
                                         title="#{item.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
                     </h:commandLink>

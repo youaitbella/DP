@@ -169,7 +169,7 @@
       </config-group>
       <config-value name="make3include">HTML</config-value>
       <config-value name="make3status">*</config-value>
-      <config-value name="imageshortcuts">delete.png;</config-value>
+      <config-value name="imageshortcuts">delete.png;NUB_Vorlage_fehlerhaft.PNG;NUB_NF_Vorjahresanfrage.PNG;</config-value>
     </config-group>
     <config-group name="user">
       <config-group name="muellermi">

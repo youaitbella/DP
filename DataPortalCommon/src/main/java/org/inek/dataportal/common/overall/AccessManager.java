@@ -30,8 +30,8 @@ import java.util.stream.Stream;
  * Is the data in a writeable state?
  * Is the user allowed to send teh data=
  * and much more.
- * 
- * Beside the maintenace functions which store the rights, 
+ *
+ * Beside the maintenance functions which store the rights,
  * the AccessManager is the only class allowed to handle rights.
  * 
  * ik is mandatory for the data:
@@ -67,8 +67,8 @@ public class AccessManager implements Serializable {
 
     @Inject
     public AccessManager(CooperationRightFacade cooperationRightFacade,
-            SessionController sessionController,
-            ManagedIkCache ikCache) {
+                         SessionController sessionController,
+                         ManagedIkCache ikCache) {
         _cooperationRightFacade = cooperationRightFacade;
         _sessionController = sessionController;
         _ikCache = ikCache;
@@ -78,13 +78,16 @@ public class AccessManager implements Serializable {
         return _sessionController.getAccount();
     }
 
+    public int getSessionAccountId() {
+        return _sessionController.getAccount().getId();
+    }
+
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache
      * for subsequent requests.
      *
      * @param feature
      * @param account
-     *
      * @return
      */
     private List<CooperationRight> getCooperationRights(Feature feature, Account account) {
@@ -267,7 +270,7 @@ public class AccessManager implements Serializable {
             return isUnmanagedAccessible(ownerAccountId, feature, ik, checkCooperativeRight);
         }
 
-        return userHasAccess(feature, ik, checkAccessRight);
+        return userHasAccessForUserIk(feature, ik, checkAccessRight);
     }
 
     private boolean isResponsibleAccessible(Feature feature, int dataIk, Predicate<AccessRight> check) {
@@ -280,7 +283,7 @@ public class AccessManager implements Serializable {
     private boolean isCorrelationAccessible(Feature feature, int ik, Predicate<AccessRight> check) {
         int userIk = _ikCache.retrieveUserIkFromCorrelation(feature, ik);
         if (_sessionController.getAccount().getFullIkSet().contains(userIk)) {
-            return userHasAccess(feature, userIk, check);
+            return userHasAccessForUserIk(feature, userIk, check);
         } else {
             return false;
         }
@@ -294,18 +297,28 @@ public class AccessManager implements Serializable {
         return check.test(right);
     }
 
-    public Boolean userHasReadAccess(Feature feature, int ik) {
+    public boolean userHasReadAccess(Feature feature, int ik) {
         return userHasAccess(feature, ik, AccessRight::canRead);
     }
 
-    public Boolean userHasWriteAccess(Feature feature, int ik) {
+    public boolean userHasWriteAccess(Feature feature, int ik) {
         return userHasAccess(feature, ik, AccessRight::canWrite);
     }
 
-    private Boolean userHasAccess(Feature feature, int ik, Predicate<AccessRight> check) {
+    private boolean userHasAccess(Feature feature, int ik, Predicate<AccessRight> check) {
+        if (feature.getIkUsage() == IkUsage.ByResponsibilityAndCorrelation) {
+            return isCorrelationAccessible(feature, ik, check);
+        }
+        if (feature.getIkUsage() == IkUsage.ByResposibility) {
+            return isResponsibleAccessible(feature, ik, check);
+        }
+        return userHasAccessForUserIk(feature, ik, check);
+    }
+
+    private boolean userHasAccessForUserIk(Feature feature, int userIk, Predicate<AccessRight> check) {
         return _sessionController.getAccount().getAccessRights()
                 .stream()
-                .anyMatch(r -> r.getIk() == ik && r.getFeature() == feature && check.test(r));
+                .anyMatch(r -> r.getIk() == userIk && r.getFeature() == feature && check.test(r));
     }
 
     /**
@@ -441,7 +454,7 @@ public class AccessManager implements Serializable {
         return retrieveEffectiveIks(feature, iks);
     }
 
-    public Boolean isCreateAllowed(Feature feature) {
+    public boolean isCreateAllowed(Feature feature) {
         if (feature.getIkReference() == IkReference.None) {
             return true;
         }
@@ -481,4 +494,7 @@ public class AccessManager implements Serializable {
         return retrieveIkSet(feature, r -> !r.getRight().canCreate());
     }
 
+    public boolean ikIsManaged(int ik, Feature feature) {
+        return _ikCache.isManaged(ik, feature);
+    }
 }

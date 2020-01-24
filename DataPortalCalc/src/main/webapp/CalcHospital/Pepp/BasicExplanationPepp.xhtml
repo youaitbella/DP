@@ -707,9 +707,14 @@
 
     <div class="inputPart">
         <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
-        <h:inputText styleClass="inputshort" value="#{editCalcBasicsPepp.calcBasics.locationCnt}" required="true" readonly="#{editCalcBasicsPepp.isReadOnly()}">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+        <h:inputText id="locationCnt"
+                     styleClass="inputshort"
+                     value="#{editCalcBasicsPepp.calcBasics.locationCnt}"
+                     required="true"
+                     readonly="#{editCalcBasicsPepp.isReadOnly()}">
+            <f:ajax event="blur" render="@this :logout:remaining locationCntMsg" />
         </h:inputText>
+        <h:message id="locationCntMsg" for="locationCnt" styleClass="errorMessage"/>
     </div>
 
     <div class="inputPart">
@@ -745,7 +750,7 @@
                     <h:outputText value="(aussagekräftiger Name)" />
                 </f:facet>
                 <h:inputText value="#{item.location}" styleClass="inputwide" required="true" readonly="#{editCalcBasicsPepp.isReadOnly()}">
-                    <f:ajax render="@this :logout:remaining" />
+                    <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>
             </h:column>
 
@@ -754,7 +759,7 @@
                     <h:outputText value="Nummer" />
                 </f:facet>
                 <h:inputText value="#{item.locationNo}" styleClass="inputwide" required="true" readonly="#{editCalcBasicsPepp.isReadOnly()}">
-                    <f:ajax render="@this :logout:remaining" />
+                    <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText>
             </h:column>
 

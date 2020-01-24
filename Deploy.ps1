@@ -56,7 +56,7 @@ function getMode {
 }
 
 function getApp { 
-    [String[]] $AvailibleApps = "Alle", "Base", "Admin", "Calc", "Cert", "Drg", "Insurance", "Psy", "Care"
+    [String[]] $AvailibleApps = "Alle", "Base", "Admin", "Calc", "Care", "Cert", "Drg", "Insurance", "Psy"
 
     return $AvailibleApps | Out-GridView -PassThru -Title "App auswählen"
 }
@@ -139,7 +139,7 @@ function setDPHomeDir() {
 
 [String[]] $TestServer = "vdataportal03","vdataportal04"
 [String[]] $ProdServer = "vDataportal01","vDataportal02"
-[String[]] $AllApps = "Base", "Admin", "Calc", "Cert", "Drg", "Insurance", "Psy", "Care"
+[String[]] $AllApps = "Base", "Admin", "Calc", "Care", "Cert", "Drg", "Insurance", "Psy"
 
 # Start Programm
 

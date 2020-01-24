@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.common.data.converter.WorkflowStatusConverter;
 import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -204,16 +206,24 @@ public class AEBBaseInformation implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
+    @JsonIgnore
     @Column(name = "biStatusId")
     @Convert(converter = WorkflowStatusConverter.class)
     private  WorkflowStatus _status = WorkflowStatus.Unknown;
 
+    @JsonIgnore
     public WorkflowStatus getStatus() {
         return _status;
     }
 
+    @JsonIgnore
     public void setStatus(WorkflowStatus status) {
         _status = status;
+    }
+
+    //Using only for JSON Export
+    public int getStatusId() {
+        return _status.getId();
     }
     //</editor-fold>
 
@@ -225,6 +235,7 @@ public class AEBBaseInformation implements Serializable {
         return _typ;
     }
 
+    @JsonIgnore
     public CustomerTyp getHospitalType() {
         return CustomerTyp.valueById(_typ);
     }
@@ -232,6 +243,24 @@ public class AEBBaseInformation implements Serializable {
     public void setTyp(int typ) {
         this._typ = typ;
     }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property Last Change">
+    @JsonIgnore
+    @Column(name = "biAllowedToResendUntil")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _allowedToResendUntil = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));;
+
+    @JsonIgnore
+    public Date getAllowedToResendUntil() {
+        return _allowedToResendUntil;
+    }
+
+    @JsonIgnore
+    public void setAllowedToResendUntil(Date allowedToResendUntil) {
+        this._allowedToResendUntil = allowedToResendUntil;
+    }
+
     //</editor-fold>
 
     @OneToOne(mappedBy = "_baseInformation", cascade = CascadeType.ALL)

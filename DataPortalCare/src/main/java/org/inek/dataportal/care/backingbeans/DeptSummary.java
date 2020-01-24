@@ -5,16 +5,6 @@
  */
 package org.inek.dataportal.care.backingbeans;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.facades.DeptFacade;
@@ -23,9 +13,22 @@ import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.TransferFileType;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
+
+import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -46,32 +49,29 @@ public class DeptSummary implements Serializable {
     @Inject
     private ConfigFacade _configFacade;
 
-    private List<listItem> _listComplete = new ArrayList<>();
-    private List<listItem> _listWorking = new ArrayList<>();
-    private List<listItem> _listInek = new ArrayList<>();
+    private List<DeptItem> _listComplete = new ArrayList<>();
+    private List<DeptItem> _listWorking = new ArrayList<>();
+    private List<DeptItem> _listInek = new ArrayList<>();
+    private int _baseYear = 2018;
 
-    public List<listItem> getListComplete() {
+    public List<DeptItem> getListComplete() {
         return _listComplete;
     }
 
-    public void setListComplete(List<listItem> listComplete) {
+    public void setListComplete(List<DeptItem> listComplete) {
         this._listComplete = listComplete;
     }
 
-    public List<listItem> getListWorking() {
+    public List<DeptItem> getListWorking() {
         return _listWorking;
     }
 
-    public void setListWorking(List<listItem> listWorking) {
+    public void setListWorking(List<DeptItem> listWorking) {
         this._listWorking = listWorking;
     }
 
-    public List<listItem> getListInek() {
+    public List<DeptItem> getListInek() {
         return _listInek;
-    }
-
-    public void setListInek(List<listItem> listInek) {
-        this._listInek = listInek;
     }
 
     @PostConstruct
@@ -102,10 +102,20 @@ public class DeptSummary implements Serializable {
         }
     }
 
+    public int getBaseYear() {
+        return _baseYear;
+    }
+
+    public void setBaseYear(int baseYear) {
+        this._baseYear = baseYear;
+        setInekList();
+    }
+
     private void setInekList() {
         _listInek.clear();
-        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.Provided)));
-        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.CorrectionRequested)));
+        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.Provided, _baseYear)));
+        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.CorrectionRequested, _baseYear)));
+        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.New, _baseYear)));
     }
 
     public String careDeptStationOpen() {
@@ -121,6 +131,9 @@ public class DeptSummary implements Serializable {
     }
 
     public void deleteBaseInformation(DeptBaseInformation info) {
+        info.setStatus(WorkflowStatus.Retired);
+        TransferFileCreator.createObjectTransferFile(_sessionController, info,
+                info.getIk(), TransferFileType.CareWardNames);
         _deptFacade.deleteBaseInformation(info);
         setWorkingList();
     }
@@ -138,28 +151,28 @@ public class DeptSummary implements Serializable {
         return _sessionController.isInekUser(Feature.CARE);
     }
 
-    public List<listItem> createListItems(List<DeptBaseInformation> baseInfos) {
-        List<listItem> listItems = new ArrayList<>();
+    public List<DeptItem> createListItems(List<DeptBaseInformation> baseInfos) {
+        List<DeptItem> DeptItems = new ArrayList<>();
 
         for (DeptBaseInformation info : baseInfos) {
-            listItem item = new listItem();
+            DeptItem item = new DeptItem();
             item.setId(info.getId());
             item.setIk(info.getIk());
             item.setHospitalName(_applicationTools.retrieveHospitalInfo(info.getIk()));
             item.setLastChangeDate(info.getLastChanged());
             item.setStatusId(info.getStatusId());
             item.setBaseInfo(info);
-            listItems.add(item);
+            DeptItems.add(item);
         }
 
-        return listItems;
+        return DeptItems;
     }
 
     public String retrieveHospitalName(int ik) {
         return _applicationTools.retrieveHospitalInfo(ik);
     }
 
-    public class listItem implements Serializable {
+    public class DeptItem implements Serializable {
 
         private int _id;
         private int _ik;
@@ -168,11 +181,11 @@ public class DeptSummary implements Serializable {
         private Date _lastChangeDate;
         private DeptBaseInformation _baseInfo;
 
-        public listItem() {
+        public DeptItem() {
 
         }
 
-        public listItem(int id, int ik, int statusId, String hospitalName, Date lastChangeDate) {
+        public DeptItem(int id, int ik, int statusId, String hospitalName, Date lastChangeDate) {
             this._id = id;
             this._ik = ik;
             this._statusId = statusId;

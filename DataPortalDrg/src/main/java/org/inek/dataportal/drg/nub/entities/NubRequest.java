@@ -22,6 +22,7 @@ import javax.persistence.Version;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.nub.NubValueFormatter;
 import org.inek.dataportal.common.utils.Documentation;
 
 /**
@@ -855,7 +856,7 @@ public class NubRequest implements Serializable, StatusEntity {
     }
 
     public void setProcs(String procs) {
-        _procs = procs;
+        _procs = NubValueFormatter.formatValuesForDatabase(procs);
     }
 
     public String getDrgs() {
@@ -879,7 +880,7 @@ public class NubRequest implements Serializable, StatusEntity {
     }
 
     public void setProxyIKs(String proxyIKs) {
-        _proxyIKs = proxyIKs;
+        _proxyIKs = NubValueFormatter.formatValuesForDatabase(proxyIKs);
     }
 
     public Date getDateOfReview() {

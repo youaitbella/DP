@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:pf="http://primefaces.org/ui">
+
+<!-- INTERFACE -->
+<cc:interface>
+    <cc:attribute name="deleteFunction" method-signature="void f(javax.faces.context.FacesContext,
+                      javax.faces.component.UIComponent,
+                      java.lang.Object)"/>
+    <cc:attribute name="show" default="true"/>
+    <cc:attribute name="showConfirmDialog" default="false"/>
+    <cc:attribute name="updateElement"/>
+</cc:interface>
+
+<!-- IMPLEMENTATION -->
+<cc:implementation>
+    <div onclick="changeDialogColor('delete')">
+        <pf:commandLink action="#{cc.attrs.deleteFunction}"
+                        update="#{cc.attrs.updateElement}"
+                        process="@this"
+                        rendered="#{cc.attrs.show}">
+            <i class="fa fa-trash" style="color: red;"/>
+            <pf:confirm rendered="#{cc.attrs.showConfirmDialog}"
+                        header="Wollen Sie den Eintrag wirklich zurückziehen?"
+                        message="Ihre Daten werden in den Bearbeitungszustand zurückgesetzt. Diese müssen Sie nach der Bearbeitung erneut an das InEK senden. Wollen Sie den Eintrag wirklich zurückziehen?"/>
+        </pf:commandLink>
+    </div>
+</cc:implementation>
+</html>

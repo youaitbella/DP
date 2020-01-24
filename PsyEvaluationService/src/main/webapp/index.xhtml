@@ -2,22 +2,33 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-<head>
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <meta http-equiv="refresh" content="15"/>
     <title>PsyEvaluationService</title>
-</head>
-<body>
-<h:form>
-    <h1>Kommt noch</h1>
+    <f:metadata>
+        <f:viewParam name="systemId" id="systemId" value="#{flash.systemId}"/>
+    </f:metadata>
 
-    <h:commandButton actionListener="#{evaluationServiceBean.switchScannerEnable()}"
-                     value="#{evaluationServiceBean.scanEnable ? 'Service stoppen' : 'Service starten'}" />
+</h:head>
+<h:body>
+    <h2>InEK PsyEvaluationService v#{messageProvider.version} on #{messageProvider.hostInfo}</h2>
 
-    <h:commandButton actionListener="#{evaluationServiceBean.start()}"
-                     value="Programm starten" />
+    <hr/>
+    <h:form>
+        <h:commandButton actionListener="#{evaluationServiceBean.start()}"
+                         value="Service starten"/>
 
-    <h:commandButton actionListener="#{evaluationServiceBean.end()}"
-                     value="Programm beenden" />
-</h:form>
-</body>
+        <h:commandButton actionListener="#{evaluationServiceBean.end()}"
+                         value="Service beenden"/>
+    </h:form>
+    <br/>
+
+    <h3>Messages:</h3>
+    <h:dataTable value="#{messageProvider.messages}" var="message">
+        <h:column>
+            <h:outputLabel value="#{message}"/>
+        </h:column>
+    </h:dataTable>
+</h:body>
 </html>

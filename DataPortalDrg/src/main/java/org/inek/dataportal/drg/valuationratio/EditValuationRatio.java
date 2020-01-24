@@ -4,10 +4,23 @@
  */
 package org.inek.dataportal.drg.valuationratio;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.logging.Logger;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.drg.valuationratio.entities.ValuationRatio;
+import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioDrgCount;
+import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioMedian;
+import org.inek.dataportal.drg.valuationratio.facades.ValuationRatioFacade;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
@@ -18,26 +31,12 @@ import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.ValidationException;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.drg.valuationratio.entities.ValuationRatio;
-import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioDrgCount;
-import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioMedian;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.drg.valuationratio.facades.ValuationRatioFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.overall.AccessManager;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
- *
  * @author muellermi
  */
 @Named
@@ -57,15 +56,17 @@ public class EditValuationRatio extends AbstractEditController {
     private ValuationRatioFacade _valuationRatioFacade;
     @Inject
     private SessionController _sessionController;
-    @Inject private ApplicationTools _appTools;
-    @Inject private AccessManager _accessManager;
+    @Inject
+    private ApplicationTools _appTools;
+    @Inject
+    private AccessManager _accessManager;
 
     @PostConstruct
     private void init() {
         Object id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (id == null) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
-        } else if (id.toString().equals("new")) {
+        } else if ("new".equals(id.toString())) {
             _valuationRatio = newValuationRatio();
             ikChanged();
         } else {
@@ -132,26 +133,26 @@ public class EditValuationRatio extends AbstractEditController {
         if (value == null) {
             return;
         }
-        int val = (int) value;
-        if (!checkRange(drg, val)) {
+        int userInput = (int) value;
+        if (!checkRange(drg, userInput)) {
             throw new ValidatorException(
                     new FacesMessage(
                             drg + ": Die Fallzahl weicht zu stark von den gemäß §21 KHEntG übermittelten Daten ab. "
-                            + "Eine Korrektur ist lediglich im Rahmen +/- 5% möglich. "
-                            + "Bei stärkeren Abweichungen ist eine Klärung mit dem InEK erforderlich (E-Mail). "
-                            + "Bitte beachten Sie: "
-                            + "Gemäß Vereinbarung ist die Fallzahl der Datenlieferung gemäß §21 KHEntG entscheidend, "
-                            + "auch wenn die Zahl der abgerechneten Fälle davon abweichen kann."));
+                                    + "Eine Korrektur ist lediglich im Rahmen +/- 5% möglich. "
+                                    + "Bei stärkeren Abweichungen ist eine Klärung mit dem InEK erforderlich (E-Mail). "
+                                    + "Bitte beachten Sie: "
+                                    + "Gemäß Vereinbarung ist die Fallzahl der Datenlieferung gemäß §21 KHEntG entscheidend, "
+                                    + "auch wenn die Zahl der abgerechneten Fälle davon abweichen kann."));
         }
     }
 
-    private boolean checkRange(String drg, int val) {
+    private boolean checkRange(String drg, int userInput) {
         ValuationRatioDrgCount caseCount = _valuationRatioFacade.
                 findValuationRatioDrgCount(_valuationRatio.getIk(), _valuationRatio.getDataYear(),
                         drg);
-        int minCount = (int) (caseCount.getCount() * 0.95);
-        int maxCount = (int) (caseCount.getCount() * 1.05);
-        return val <= maxCount && val >= minCount;
+        int median = obtainMedian(drg).getMedian();
+
+        return ValuationRatioHelper.userInputIsAllowed(userInput, median, caseCount.getCount());
     }
 
     private ValuationRatio _valuationRatio;
@@ -243,9 +244,9 @@ public class EditValuationRatio extends AbstractEditController {
     }
 
     public boolean hasError() {
-        return _validationErrorI68d 
-                || _validationErrorI68e 
-                || !checkRange("I68D", _valuationRatio.getI68d()) 
+        return _validationErrorI68d
+                || _validationErrorI68e
+                || !checkRange("I68D", _valuationRatio.getI68d())
                 || !checkRange("I68E", _valuationRatio.getI68e());
     }
 
@@ -269,12 +270,13 @@ public class EditValuationRatio extends AbstractEditController {
                     .replace("{formalSalutation}", getFormalSalutation())
                     .replace("{year}", "" + _valuationRatio.getDataYear())
                     .replace("{ik}", "" + _valuationRatio.getIk())
-                    .replace("{drgs}", buildDrgString());
+                    .replace("{drgOnList}", _valuationRatio.DrgOnList(true))
+                    .replace("{drgNotOnList}", _valuationRatio.DrgOnList(false));
             template.setBody(body);
             String subject = template.getSubject()
                     .replace("{year}", "" + _valuationRatio.getDataYear())
-                    .replace("{ik}", "" + _valuationRatio.getIk())
-                    .replace("{drgs}", buildDrgString());
+                    .replace("{ik}", "" + _valuationRatio.getIk());
+                    //.replace("{drgs}", buildDrgString());
             template.setSubject(subject);
             mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail());
             _sessionController.alertClient("Gezielte Absenkung wurde erfolgreich eingereicht.");
@@ -296,23 +298,7 @@ public class EditValuationRatio extends AbstractEditController {
         return salutation;
     }
 
-    private String buildDrgString() {
-        String drgs = "";
-        if (_valuationRatio.getI68dList()) {
-            drgs += "I68D";
-        }
-        if (_valuationRatio.getI68eList()) {
-            if (_valuationRatio.getI68dList()) {
-                drgs += ", I68E";
-            } else {
-                drgs += "I68E";
-            }
-        }
-        if (drgs.length() == 0) {
-            drgs = "<keine>";
-        }
-        return drgs;
-    }
+
 
     public enum DrgRangeState {
         Valid,

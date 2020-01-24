@@ -1,7 +1,6 @@
 package org.inek.dataportal.common.enums;
 
 /**
- *
  * @author muellermi
  */
 public enum Pages {
@@ -31,6 +30,9 @@ public enum Pages {
     NubEditPage4("/NUB/NubEditPage4"),
     NubEditPageDocuments("/NUB/NubEditPageDocuments"),
     NubMethodInfo("/NUB/NubMethodInfo"),
+    //
+    NubPsySummary("/Nub/Summary"),
+    NubPsyEdit("/Nub/Edit"),
     //
     PartDropBox("/DropBox/PartDropBox"),
     ListDropBox("/DropBox/ListDropBox"),
@@ -151,6 +153,8 @@ public enum Pages {
     CareDeptEdit("/care/Dept/deptEdit"),
     CareProofSummary("/care/Proof/proofSummary"),
     CareProofEdit("/care/Proof/proofEdit"),
+    CareStructuralChangesSummary("/care/StructuralChanges/structuralChangesSummary"),
+    CareStructuralChangesEdit("/care/StructuralChanges/structuralChangeEdit"),
     //
     PartAgency("/Agency/PartAgency"),
     //
@@ -222,6 +226,8 @@ public enum Pages {
     PartIkAdmin("/IkAdmin/PartIkAdmin"),
     IkAdminList("/IkAdmin/fragment/IkList"),
     IkAdminTasks("/IkAdmin/IkAdminTasks"),
+    IkAdminRightManagement("/IkAdmin/rightManagement"),
+    IkAdminResponsibilityManagement("/IkAdmin/responsibilityManagement"),
     //
     RequestSummary("/RequestSystem/RequestSummary"),
     PartRequest("/RequestSystem/PartRequest"),

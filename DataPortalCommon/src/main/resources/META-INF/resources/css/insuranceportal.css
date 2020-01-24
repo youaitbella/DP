@@ -936,7 +936,7 @@ col08 {
   width: 16em;
 }
 .col20em {
-  width: 25em;
+  width: 20em;
 }
 .col25em {
   width: 25em;
@@ -975,6 +975,10 @@ col08 {
 }
 .col30 {
   width: 30%;
+}
+.col30TopAlign {
+  width: 30%;
+  vertical-align: top;
 }
 .col45 {
   width: 45%;

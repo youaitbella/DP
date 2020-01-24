@@ -59,7 +59,13 @@ public enum Feature {
     PSYCH_STAFF_INSURANCE(24, "Psych-PV Signaturprüfung (Funktion für Krankenkasse)",
             ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No, 255),
     CARE_INSURANCE_SIGNATURE_CHECK(25, "PPUGV-Nachweisvereinbarung Signaturprüfung (Funktion für Krankenkasse)",
-            ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No, 255);
+            ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No, 255),
+    NUB_PSY(26, "(PEPP) Neue Untersuchungs- und Behandlungsmethoden",
+            ManagedBy.InekOrIkAdmin, PortalType.PSY, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No,
+            255),
+    HOSPITAL_EVALUATION(27, "Krankenhausvergleich Auswertung", ManagedBy.None, PortalType.PSY, IkReference.None,
+            IkUsage.Unknown, Selectable.Yes, Shareable.No,
+            255);
 
     private final int _id;
     private final String _description;
@@ -122,6 +128,9 @@ public enum Feature {
      */
     @Deprecated
     public boolean getNeedsApproval() {
+        if (this == NUB || this == NUB_PSY) {
+            return false;
+        }
         return _managedBy == ManagedBy.InekOrIkAdmin;
     }
 

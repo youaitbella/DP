@@ -8,45 +8,41 @@ package org.inek.dataportal.calc.backingbean;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.calc.entities.sop.CalcContact;
+import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
+import org.inek.dataportal.calc.facades.CalcSopFacade;
+import org.inek.dataportal.calc.facades.IcmtUpdater;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.adm.InekRole;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.helper.structures.MessageContainer;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.inek.dataportal.common.controller.DialogController;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.adm.InekRole;
-import org.inek.dataportal.calc.entities.sop.CalcContact;
-import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.calc.facades.CalcSopFacade;
-import org.inek.dataportal.calc.facades.IcmtUpdater;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.helper.structures.MessageContainer;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.utils.DocumentationUtil;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -359,8 +355,12 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     public boolean isInInekRole() {
         // todo: move to a central place, using a more general concept
+        if (_sessionController == null) {
+            return false;
+        }
+
         for (InekRole role : _sessionController.getAccount().getInekRoles()) {
-            if (role.getText().equals("TE Admin")) {
+            if ("TE Admin".equals(role.getText())) {
                 return true;
             }
         }

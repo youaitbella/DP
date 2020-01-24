@@ -1,11 +1,6 @@
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
-//../Licenses/license-default.txt
 package org.inek.dataportal.common.mail;
 
-import org.inek.dataportal.api.helper.Const;
+import org.inek.dataportal.api.helper.PortalConstants;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.entities.*;
 import org.inek.dataportal.common.data.account.iface.Person;
@@ -36,10 +31,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static org.inek.dataportal.common.helper.Placeholder.*;
+import static org.inek.dataportal.api.helper.PortalConstants.*;
 
 /**
- *
  * @author muellermi
  */
 @Singleton
@@ -66,7 +60,6 @@ public class Mailer implements Serializable {
     }
 
     /**
-     *
      * @param from
      * @param recipient one or more addresses, separated by semicolon
      * @param cc        none, one or more addresses, separated by semicolon
@@ -74,11 +67,10 @@ public class Mailer implements Serializable {
      * @param subject
      * @param body
      * @param files
-     *
      * @return
      */
     public boolean sendMailFrom(String from, String recipient, String cc, String bcc, String subject, String body,
-            String... files) {
+                                String... files) {
         if (recipient.toLowerCase().endsWith(".test")) {
             // this is just to mock a successful mail
             return true;
@@ -95,7 +87,7 @@ public class Mailer implements Serializable {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.setSender(new InternetAddress(from));
-            if (_config.readConfigBool(ConfigKey.TestMode) && !_config.getDatabaseName().equals("DataPortal")) {
+            if (_config.readConfigBool(ConfigKey.TestMode) && !"DataPortal".equals(_config.getDatabaseName())) {
                 addReceipients(message, "dataportaldev@inek-drg.de", Message.RecipientType.TO);
                 body = createTestBody(recipient, cc, bcc) + body;
                 subject = "!!! Testserver !!!  " + subject;
@@ -165,7 +157,7 @@ public class Mailer implements Serializable {
     public String getFormalSalutation(Person person) {
         String salutation = person.getGender() == 1 ? Utils.getMessage("formalSalutationFemale") : Utils.
                 getMessage("formalSalutationMale");
-        salutation = salutation.replace(TITLE, person.getTitle()).replace(LASTNAME, person.getLastName()).
+        salutation = salutation.replace(VAR_TITLE, person.getTitle()).replace(VAR_LASTNAME, person.getLastName()).
                 replace("  ", " ");
         return salutation;
     }
@@ -182,7 +174,9 @@ public class Mailer implements Serializable {
             return false;
         }
         String subject = template.getSubject();
-        String body = template.getBody().replace(FORMAL_SALUTATION, getFormalSalutation(receiver));
+        String body = template.getBody()
+                .replace(VAR_SALUTATION, getFormalSalutation(receiver))
+                .replace("{salutation}", getFormalSalutation(receiver)); // todo remove after adopting false templates
         for (String param : substitutions.keySet()) {
             String value = substitutions.get(param);
             subject = subject.replace(param, value);
@@ -201,10 +195,10 @@ public class Mailer implements Serializable {
         String link = buildAppUrl() + "/Login/Activate.xhtml?key="
                 + accountRequest.getActivationKey() + "&user=" + codedUser;
         String body = template.getBody()
-                .replace(FORMAL_SALUTATION, salutation)
-                .replace(LINK, link)
-                .replace(USERNAME, accountRequest.getUser())
-                .replace(ACTIVATIONKEY, accountRequest.getActivationKey());
+                .replace(VAR_SALUTATION, salutation)
+                .replace(VAR_LINK, link)
+                .replace(VAR_USERNAME, accountRequest.getUser())
+                .replace(VAR_ACTIVATIONKEY, accountRequest.getActivationKey());
         return sendMail(accountRequest.getEmail(), template.getBcc(), template.getSubject(), body);
     }
 
@@ -214,7 +208,7 @@ public class Mailer implements Serializable {
         int port = externalContext.getRequestServerPort();
         String server = externalContext.getRequestServerName();
         String contextPath = externalContext.getRequestContextPath();
-        return protocol + server + (port == Const.HTTP_PORT || port == Const.HTTPS_PORT ? "" : ":" + port) + contextPath;
+        return protocol + server + (port == PortalConstants.HTTP_PORT || port == PortalConstants.HTTPS_PORT ? "" : ":" + port) + contextPath;
     }
 
     public boolean sendReRegisterMail(Account account) {
@@ -224,7 +218,7 @@ public class Mailer implements Serializable {
         }
         String salutation = getFormalSalutation(account);
         String body = template.getBody()
-                .replace(FORMAL_SALUTATION, salutation);
+                .replace(VAR_SALUTATION, salutation);
         return sendMail(account.getEmail(), template.getBcc(), template.getSubject(), body);
     }
 
@@ -237,9 +231,9 @@ public class Mailer implements Serializable {
                 + changeMail.getActivationKey() + "&mail=" + changeMail.getMail();
         String body = template.getBody()
                 //.replace("{formalSalutation}", salutation)
-                .replace(LINK, link)
-                .replace(EMAIL, changeMail.getMail())
-                .replace(ACTIVATIONKEY, changeMail.getActivationKey());
+                .replace(VAR_LINK, link)
+                .replace(VAR_EMAIL, changeMail.getMail())
+                .replace(VAR_ACTIVATIONKEY, changeMail.getActivationKey());
         return sendMail(changeMail.getMail(), template.getBcc(), template.getSubject(), body);
     }
 
@@ -254,10 +248,10 @@ public class Mailer implements Serializable {
                 + pwdRequest.getActivationKey() + "&mail=" + account.getEmail();
 
         String body = template.getBody()
-                .replace(FORMAL_SALUTATION, salutation)
-                .replace(LINK, link)
-                .replace(EMAIL, account.getEmail())
-                .replace(ACTIVATIONKEY, pwdRequest.getActivationKey());
+                .replace(VAR_SALUTATION, salutation)
+                .replace(VAR_LINK, link)
+                .replace(VAR_EMAIL, account.getEmail())
+                .replace(VAR_ACTIVATIONKEY, pwdRequest.getActivationKey());
         return sendMail(account.getEmail(), template.getBcc(), template.getSubject(), body);
 
     }
@@ -271,8 +265,8 @@ public class Mailer implements Serializable {
         String salutation = getFormalSalutation(account);
         String subject = template.getSubject().replace("{feature}", featureRequest.getFeature().getDescription());
         String body = template.getBody()
-                .replace(FORMAL_SALUTATION, salutation)
-                .replace(FEATURE, featureRequest.getFeature().getDescription());
+                .replace(VAR_SALUTATION, salutation)
+                .replace(VAR_FEATURE, featureRequest.getFeature().getDescription());
         return sendMail(account.getEmail(), template.getBcc(), subject, body);
     }
 

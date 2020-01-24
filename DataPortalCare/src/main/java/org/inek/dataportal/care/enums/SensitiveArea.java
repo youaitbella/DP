@@ -1,15 +1,19 @@
 package org.inek.dataportal.care.enums;
 
 public enum SensitiveArea {
-    INTENSIVMEDIZIN(1, "Intensivmedizin"),
-    GERIATRIE(2, "Geriatrie"),
-    HERZCHIRUGIE(3, "Herzchirurgie"),
-    UNFALLCHIRUGIE(4, "Unfallchirurgie"),
-    KARDIOLOGIE(5, "Kardiologie"),
-    NEUROLOGIE(6, "Neurologie");
+    INVALID(-1, "---", false),
+    INTENSIVMEDIZIN(1, "Intensivmedizin", false),
+    GERIATRIE(2, "Geriatrie", true),
+    HERZCHIRUGIE(3, "Herzchirurgie", true),
+    UNFALLCHIRUGIE(4, "Unfallchirurgie", true),
+    KARDIOLOGIE(5, "Kardiologie", true),
+    NEUROLOGIE(6, "Neurologie", true),
+    NEURO_STROKE(7, "Neurologische Schlaganfalleinheit", false),
+    NEURO_FRUH(8, "Neurologische Frührehabilitation", false);
 
     private int _id;
     private String _name;
+    private boolean _fabRequired;
 
     public int getId() {
         return _id;
@@ -19,26 +23,31 @@ public enum SensitiveArea {
         return _name;
     }
 
-    SensitiveArea(int id, String name) {
-        _id = id;
-        _name = name;
+    public boolean isFabRequired() {
+        return _fabRequired;
     }
 
-    public static SensitiveArea getById(int id) {
+    SensitiveArea(int id, String name, boolean fabRequired) {
+        _id = id;
+        _name = name;
+        _fabRequired = fabRequired;
+    }
+
+    public static SensitiveArea fromId(int id) {
         for (SensitiveArea sArea : SensitiveArea.values()) {
             if (sArea.getId() == id) {
                 return sArea;
             }
         }
-        return null;
+        return SensitiveArea.INVALID;
     }
 
-    public static  SensitiveArea getByName(String name) {
+    public static SensitiveArea fromName(String name) {
         for (SensitiveArea sArea : SensitiveArea.values()) {
             if (sArea.getName().toUpperCase().equals(name.toUpperCase())) {
                 return sArea;
             }
         }
-        return null;
+        return SensitiveArea.INVALID;
     }
 }

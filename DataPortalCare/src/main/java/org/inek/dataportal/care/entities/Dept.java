@@ -1,14 +1,16 @@
 package org.inek.dataportal.care.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.inek.dataportal.care.entities.version.MapVersion;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-/**
- * @author lautenti
- */
 @Entity
 @Table(name = "Dept", schema = "care")
 public class Dept implements Serializable {
@@ -18,18 +20,19 @@ public class Dept implements Serializable {
     public Dept() {
     }
 
-
     public Dept(Dept dept) {
-        this._deptArea = dept.getDeptArea();
-        this._deptName = dept.getDeptName();
-        this._deptNumber = dept.getDeptNumber();
-        this._sensitiveArea = dept.getSensitiveArea();
-        this._required = dept.getRequired();
+        _deptArea = dept.getDeptArea();
+        _deptName = dept.getDeptName();
+        _deptNumber = dept.getDeptNumber();
+        _sensitiveArea = dept.getSensitiveArea();
+        _required = dept.getRequired();
+        _seeDeptAreaId = dept.getSeeDeptAreaId();
+        _location = dept.getLocation();
+        _required = dept.getRequired();
 
-        for (DeptStation station : dept.getDeptStations()) {
-            DeptStation newStation = new DeptStation(station);
-            newStation.setDept(this);
-            addDeptStation(newStation);
+        for (DeptWard ward : dept.getDeptWards()) {
+            DeptWard deptWard = new DeptWard(ward);
+            addDeptWard(deptWard);
         }
 
         for (DeptStationsAfterTargetYear afterTargetYearStation : dept.getDeptsAftertargetYear()) {
@@ -39,18 +42,17 @@ public class Dept implements Serializable {
         }
     }
 
-
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "deId")
-    private Integer _id;
+    private Integer _id = -1;
 
     public int getId() {
         return _id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         _id = id;
     }
     // </editor-fold>
@@ -58,10 +60,17 @@ public class Dept implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="BaseInformation">
     @ManyToOne
     @JoinColumn(name = "deBaseInformationId")
+    @JsonIgnore
     private DeptBaseInformation _baseInformation;
 
+    @JsonIgnore
     public DeptBaseInformation getBaseInformation() {
         return _baseInformation;
+    }
+
+    // for Json only - do not delete
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
     }
 
     public void setBaseInformation(DeptBaseInformation baseInformation) {
@@ -84,7 +93,7 @@ public class Dept implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept SensitiveArea">
     @Column(name = "deSensitiveArea")
-    private String _sensitiveArea;
+    private String _sensitiveArea = "";
 
     public String getSensitiveArea() {
         return _sensitiveArea;
@@ -108,6 +117,25 @@ public class Dept implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Number">
+    @Column(name = "deLocationP21")
+    private String _location = "";
+
+    public String getLocation() {
+        return _location;
+    }
+
+    public void setLocation(String location) {
+        this._location = location;
+    }
+
+    @JsonIgnore
+    public String getLocationForDisplay() {
+        return "Standort " + _location;
+    }
+
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property Dept Area Id">
     @Column(name = "deDeptAreaId")
     private int _deptArea;
@@ -121,50 +149,83 @@ public class Dept implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property See Dept Area Id">
+    @Column(name = "deSeeDeptAreaId")
+    private int _seeDeptAreaId;
+
+    public int getSeeDeptAreaId() {
+        return _seeDeptAreaId;
+    }
+
+    public void setSeeDeptAreaId(int deptArea) {
+        this._seeDeptAreaId = deptArea;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property Dept Required">
     @Column(name = "deRequired")
-    private Boolean _required;
+    private boolean _required;
 
-    public Boolean getRequired() {
+    public boolean getRequired() {
         return _required;
     }
 
-    public void setRequired(Boolean required) {
+    public void setRequired(boolean required) {
         this._required = required;
     }
     //</editor-fold>
 
     @OneToMany(mappedBy = "_dept", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "desDeptId")
-    private List<DeptStation> _deptStations = new ArrayList<>();
+    @JoinColumn(name = "dwDeptId", referencedColumnName = "deId")
+    private List<DeptWard> _deptWards = new ArrayList<>();
 
-    public List<DeptStation> getDeptStations() {
-        return _deptStations;
+    public List<DeptWard> getDeptWards() {
+        return _deptWards;
     }
 
-    public void setDeptStations(List<DeptStation> deptStations) {
-        this._deptStations = deptStations;
+    public List<DeptWard> getInitDeptWards() {
+        return _deptWards.stream().filter(DeptWard::getIsInitial).collect(Collectors.toList());
     }
 
-    public void addNewDeptStation() {
-        DeptStation deptStation = new DeptStation();
-        deptStation.setDept(this);
-        deptStation.setDeptName(_deptName);
-        _deptStations.add(deptStation);
+    public void setDeptWards(List<DeptWard> deptWards) {
+        this._deptWards = deptWards;
     }
 
-    private void addDeptStation(DeptStation station) {
-        _deptStations.add(station);
+    public void addNewInitialDeptWard(MapVersion version, Date validFrom, Date validTo) {
+        addDeptWard(version, validFrom, validTo, true);
     }
 
-    public void removeDeptStation(DeptStation deptStation) {
-        _deptStations.remove(deptStation);
+    public DeptWard addNewDeptWard(MapVersion version, Date validFrom, Date validTo) {
+        return addDeptWard(version, validFrom, validTo, false);
+    }
+
+    private DeptWard addDeptWard(MapVersion version, Date validFrom, Date validTo, boolean isInitial) {
+        DeptWard deptWard = new DeptWard(version);
+        deptWard.setDept(this);
+        deptWard.setDeptName(_deptName);
+        deptWard.setFab(_deptNumber);
+        deptWard.setValidFrom(validFrom);
+        deptWard.setValidTo(validTo);
+        deptWard.setIsInitial(isInitial);
+        _deptWards.add(deptWard);
+        return deptWard;
+    }
+
+    public void addDeptWard(DeptWard ward) {
+        ward.setDept(this);
+        _deptWards.add(ward);
+    }
+
+    public void removeDeptStation(DeptWard deptWard) {
+        _deptWards.remove(deptWard);
     }
 
     @OneToMany(mappedBy = "_dept", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dsDeptId")
+    @JsonIgnore
     private List<DeptStationsAfterTargetYear> _deptsAftertargetYear = new ArrayList<>();
 
+    @JsonIgnore
     public List<DeptStationsAfterTargetYear> getDeptsAftertargetYear() {
         return _deptsAftertargetYear;
     }

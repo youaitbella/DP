@@ -13,6 +13,8 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.*;
 
+import static org.inek.dataportal.api.helper.PortalConstants.*;
+
 @RequestScoped
 @Transactional
 public class IkAdminFacade extends AbstractDataAccess {
@@ -20,14 +22,14 @@ public class IkAdminFacade extends AbstractDataAccess {
     public List<AccessRight> findAccessRights(int ik) {
         String name = "AccessRight.findByIk";
         TypedQuery<AccessRight> query = getEntityManager().createNamedQuery(name, AccessRight.class);
-        query.setParameter("ik", ik);
+        query.setParameter(IK, ik);
         return query.getResultList();
     }
 
     public List<AccessRight> findAccessRights(int ik, List<Feature> features) {
         String name = "AccessRight.findByIk+Feature";
         TypedQuery<AccessRight> query = getEntityManager().createNamedQuery(name, AccessRight.class);
-        query.setParameter("ik", ik);
+        query.setParameter(IK, ik);
         query.setParameter("features", features);
         return query.getResultList();
     }
@@ -35,9 +37,9 @@ public class IkAdminFacade extends AbstractDataAccess {
     public AccessRight readAccessRight(AccessRight accessRight) {
         String name = "AccessRight.findByRight";
         TypedQuery<AccessRight> query = getEntityManager().createNamedQuery(name, AccessRight.class);
-        query.setParameter("ik", accessRight.getIk());
-        query.setParameter("feature", accessRight.getFeature());
-        query.setParameter("accountId", accessRight.getAccountId());
+        query.setParameter(IK, accessRight.getIk());
+        query.setParameter(FEATURE, accessRight.getFeature());
+        query.setParameter(ACCOUNT_ID, accessRight.getAccountId());
         return query.getSingleResult();
     }
 
@@ -71,17 +73,17 @@ public class IkAdminFacade extends AbstractDataAccess {
     public List<AccessRight> findAccessRightsByAccountAndFeature(Account account, Feature feature) {
         String jpql = "select ar from AccessRight ar where ar._accountId = :accountId and ar._feature = :feature";
         TypedQuery<AccessRight> query = getEntityManager().createQuery(jpql, AccessRight.class);
-        query.setParameter("accountId", account.getId());
-        query.setParameter("feature", feature);
+        query.setParameter(ACCOUNT_ID, account.getId());
+        query.setParameter(FEATURE, feature);
         return query.getResultList();
     }
 
     public List<AccessRight> findAccessRightsByAccountIkAndFeature(Account account, int ik, Feature feature) {
         String jpql = "select ar from AccessRight ar where ar._accountId = :accountId and ar._ik = :ik and ar._feature = :feature";
         TypedQuery<AccessRight> query = getEntityManager().createQuery(jpql, AccessRight.class);
-        query.setParameter("accountId", account.getId());
-        query.setParameter("ik", ik);
-        query.setParameter("feature", feature);
+        query.setParameter(ACCOUNT_ID, account.getId());
+        query.setParameter(IK, ik);
+        query.setParameter(FEATURE, feature);
         return query.getResultList();
     }
 
@@ -101,8 +103,8 @@ public class IkAdminFacade extends AbstractDataAccess {
     public void removeRights(int accountId, int ik) {
         String jpql = "DELETE FROM AccessRight ar where ar._accountId = :accountId and ar._ik = :ik";
         Query query = getEntityManager().createQuery(jpql, AccessRight.class);
-        query.setParameter("accountId", accountId);
-        query.setParameter("ik", ik);
+        query.setParameter(ACCOUNT_ID, accountId);
+        query.setParameter(IK, ik);
         query.executeUpdate();
     }
 
@@ -126,7 +128,7 @@ public class IkAdminFacade extends AbstractDataAccess {
     public List<IkAdmin> findIkAdminsForIk(int ik) {
         String jpql = "select ia from IkAdmin ia where ia._ik = :ik";
         TypedQuery<IkAdmin> query = getEntityManager().createQuery(jpql, IkAdmin.class);
-        query.setParameter("ik", ik);
+        query.setParameter(IK, ik);
         return query.getResultList();
     }
 
@@ -159,8 +161,8 @@ public class IkAdminFacade extends AbstractDataAccess {
     public List<AccountResponsibility> obtainAccountResponsibilities(int accountId, Feature feature, int userIk) {
         String name = "AccountResponsibility.findByAccountId+Feature+UserIk";
         TypedQuery<AccountResponsibility> query = getEntityManager().createNamedQuery(name, AccountResponsibility.class);
-        query.setParameter("accountId", accountId);
-        query.setParameter("feature", feature);
+        query.setParameter(ACCOUNT_ID, accountId);
+        query.setParameter(FEATURE, feature);
         query.setParameter("userIk", userIk);
         return query.getResultList();
     }
@@ -180,8 +182,8 @@ public class IkAdminFacade extends AbstractDataAccess {
         String jpql = "delete from AccountResponsibility ar "
                 + "where ar._accountId = :accountId and ar._feature = :feature and ar._userIk = :userIk";
         Query query = getEntityManager().createQuery(jpql, AccountResponsibility.class);
-        query.setParameter("accountId", accountId);
-        query.setParameter("feature", feature);
+        query.setParameter(ACCOUNT_ID, accountId);
+        query.setParameter(FEATURE, feature);
         query.setParameter("userIk", userIk);
         query.executeUpdate();
     }

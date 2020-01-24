@@ -90,7 +90,7 @@ public class NubRequestFacade extends AbstractDataAccessWithActionLog {
                                                   WorkflowStatus statusLow, WorkflowStatus statusHigh,
                                                   String filter, SqlOrder order) {
         String jql = "SELECT new org.inek.dataportal.common.helper.structures.ProposalInfo("
-                + "p._id, p._name, p._displayName, p._targetYear, p._status, p._ik ) "
+                + "p._id, p._name, p._displayName, p._targetYear, p._status, p._ik, p._externalState ) "
                 + "FROM NubRequest p "
                 + "WHERE p._status >= :statusLow and p._status <= :statusHigh "
                 + (accountId >= 0 ? "and p._accountId = :accountId " : "")
@@ -160,28 +160,6 @@ public class NubRequestFacade extends AbstractDataAccessWithActionLog {
             query.setParameter("iks", managedIks);
         }
         return query.getResultList();
-    }
-
-    public Map<Integer, Integer> countOpenPerIk() {
-        return NubRequestFacade.this.countOpenPerIk(1 + Calendar.getInstance().get(Calendar.YEAR));
-    }
-
-    public Map<Integer, Integer> countOpenPerIk(int targetYear) {
-        String jpql = "SELECT p._accountId, COUNT(p) "
-                + "FROM NubRequest p JOIN Account a "
-                + "WHERE p._accountId = a._id and a._customerTypeId = 5 "
-                + "    and p._status < 10 and p._targetYear = :targetYear GROUP BY p._accountId";
-        Query query = getEntityManager().createQuery(jpql);
-        query.setParameter("targetYear", targetYear);
-        List data = query.getResultList();
-        Map<Integer, Integer> result = new HashMap<>();
-        for (Object x : data) {
-            Object[] info = (Object[]) x;
-            int accountId = (int) info[0];
-            int count = (int) (long) info[1];
-            result.put(accountId, count);
-        }
-        return result;
     }
 
     public List<NubRequest> find(List<Integer> requestIds) {

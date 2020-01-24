@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.math3.util.MathUtils;
 import org.inek.dataportal.common.helper.MathHelper;
 
@@ -50,10 +51,16 @@ public class AEBPageB1 implements Serializable {
     @JoinColumn(name = "pbBaseInformationId")
     private AEBBaseInformation _baseInformation;
 
+    @JsonIgnore
     public AEBBaseInformation getBaseInformation() {
         return _baseInformation;
     }
+    //Using only for JSON Export
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
+    }
 
+    @JsonIgnore
     public void setBaseInformation(AEBBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
     }
@@ -150,10 +157,12 @@ public class AEBPageB1 implements Serializable {
     }
     //</editor-fold>
 
+    @JsonIgnore
     private double round(double value) {
         return MathHelper.round(value, 2);
     }
 
+    @JsonIgnore
     private double round4(double value) {
         return MathHelper.round(value, 4);
     }

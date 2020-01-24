@@ -172,13 +172,13 @@ public class Account implements Serializable, Person {
     @Column(name = "acMessageCopy")
     private boolean _messageCopy = true;
 
-    @Column(name = "acNubInformationMail")
-    private boolean _nubInformationMail = true;
+    @Column(name = "acNubInformationMail") // todo: rename column
+    private boolean _reminderMail = true;
 
     //<editor-fold defaultstate="collapsed" desc="Property IkAdminDisclaimer">
     @Column(name = "acIkAdminDisclaimer")
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date _ikAdminDisclaimer = getDefalutDate();
+    private Date _ikAdminDisclaimer = getDefaultDate();
 
     public Date getIkAdminDisclaimer() {
         return _ikAdminDisclaimer;
@@ -189,11 +189,11 @@ public class Account implements Serializable, Person {
     }
 
     public boolean isDisclaimerConfirmed() {
-        return _ikAdminDisclaimer.after(getDefalutDate());
+        return _ikAdminDisclaimer.after(getDefaultDate());
     }
     //</editor-fold>
 
-    private Date getDefalutDate() {
+    private Date getDefaultDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2000);
         calendar.set(Calendar.DAY_OF_YEAR, 1);
@@ -201,12 +201,12 @@ public class Account implements Serializable, Person {
         return defaultDate;
     }
 
-    public boolean isNubInformationMail() {
-        return _nubInformationMail;
+    public boolean isReminderMail() {
+        return _reminderMail;
     }
 
-    public void setNubInformationMail(boolean nubInformationMail) {
-        _nubInformationMail = nubInformationMail;
+    public void setReminderMail(boolean reminderMail) {
+        _reminderMail = reminderMail;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property DropBoxHoldTime">
@@ -335,7 +335,6 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
-
     // <editor-fold defaultstate="collapsed" desc="Property Responsibilities">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, orphanRemoval = true)
     @JoinColumn(name = "arAccountId", referencedColumnName = "acId", insertable = false, updatable = false)
@@ -369,7 +368,7 @@ public class Account implements Serializable, Person {
             name = "mapAccountInekRole", schema = "adm",
             joinColumns = @JoinColumn(name = "aiAccountId"),
             inverseJoinColumns = @JoinColumn(name = "aiInekRoleId"))
-    private List<InekRole> _inekRoles;
+    private List<InekRole> _inekRoles = new ArrayList<>();
 
     public List<InekRole> getInekRoles() {
         return _inekRoles;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -11,48 +11,48 @@
     <title>DocumentScanner</title>
 </h:head>
 <h:body>
-<h:form id="Form">
-    <h1>Basisverzeichnis: #{documentScannerBean.baseDir}</h1>
+    <h:form id="Form">
+        <h1>Basisverzeichnis: #{documentScannerBean.baseDir}</h1>
 
-    <h1 style="background-color: #{documentScannerBean.documentScanStatus ? 'green' :
+        <h1 style="background-color: #{documentScannerBean.documentScanStatus ? 'green' :
     'red'}">Aktueller Status von DocumentenScan Scanning: #{documentScannerBean.documentScanStatus}</h1>
 
-    <h:commandButton actionListener="#{documentScannerBean.switchDocumentScanner()}"
-                     value="Status ändern" />
+        <h:commandButton actionListener="#{documentScannerBean.switchDocumentScanner()}"
+                         value="Status ändern"/>
 
-<div jsf:id="table">
-    <h:dataTable var ="dir" value="#{documentScannerBean.loadDir}" id="scannedDocuments">
-        <h:column>
-            <div style="background-color:#{dir.scanDir ? 'green' : 'red'}" jsf:id="directoryString">
-                <h:outputText value="#{dir.dir}"/>
-            </div>
-        </h:column>
-        <h:column>
-            <h:selectBooleanCheckbox value ="#{dir.scanDir}" id ="chkScanDir" >
-                <f:ajax render="directoryString" event="change"/>
-            </h:selectBooleanCheckbox>
-        </h:column>
-    </h:dataTable>
-</div>
+        <div jsf:id="table">
+            <h:dataTable var="dir" value="#{documentScannerBean.loadDir}" id="scannedDocuments">
+                <h:column>
+                    <div style="background-color:#{dir.scanDir ? 'green' : 'red'}" jsf:id="directoryString">
+                        <h:outputText value="#{dir.dir}"/>
+                    </div>
+                </h:column>
+                <h:column>
+                    <h:selectBooleanCheckbox value="#{dir.scanDir}" id="chkScanDir">
+                        <f:ajax render="directoryString" event="change"/>
+                    </h:selectBooleanCheckbox>
+                </h:column>
+            </h:dataTable>
+        </div>
 
-    <h1>#{documentScannerBean.documentScanStatus}</h1>
+        <h1>#{documentScannerBean.documentScanStatus}</h1>
 
-    <h1 style="background-color: #{documentScannerBean.removingOldDocumentsStatus ? 'green' : 'red'}">Aktueller Status vom löschen alter Dokumente: #{documentScannerBean.removingOldDocumentsStatus}</h1>
+        <h1 style="background-color: #{documentScannerBean.removingOldDocumentsStatus ? 'green' : 'red'}">Aktueller Status vom löschen alter Dokumente: #{documentScannerBean.removingOldDocumentsStatus}</h1>
 
-    <h:commandButton actionListener="#{documentScannerBean.switchRemovingOldDocuments()}"
-                     value="Status ändern" />
+        <h:commandButton actionListener="#{documentScannerBean.switchRemovingOldDocuments()}"
+                         value="Status ändern"/>
 
-    <h1 style="background-color: #{documentScannerBean.removingOldWaitingDocumentsStatus ? 'green' : 'red'}">Aktueller Status vom löschen alter WatingDokumente: #{documentScannerBean.removingOldWaitingDocumentsStatus}</h1>
+        <h1 style="background-color: #{documentScannerBean.removingOldWaitingDocumentsStatus ? 'green' : 'red'}">Aktueller Status vom löschen alter WatingDokumente: #{documentScannerBean.removingOldWaitingDocumentsStatus}</h1>
 
-    <h:commandButton actionListener="#{documentScannerBean.switchRemovingOldWaitingDocuments()}"
-                     value="Status ändern" />
+        <h:commandButton actionListener="#{documentScannerBean.switchRemovingOldWaitingDocuments()}"
+                         value="Status ändern"/>
 
-    <br/>
-    <br/>
+        <br/>
+        <br/>
 
-    <h:commandButton actionListener="#{documentScannerBean.sendTestErrorMail()}"
-                     value="Test Error senden" />
+        <h:commandButton actionListener="#{documentScannerBean.sendTestErrorMail()}"
+                         value="Test Error senden"/>
 
-</h:form>
+    </h:form>
 </h:body>
 </html>
