@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/feature/calc"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h2>Übersicht externes Personal</h2>
+    <inek:LabeledCheckbox label="Das Krankenhaus hat Ärzte_Pflegekräfte_Funktionsdienst als externes Personal beschäftigt:"
+                          styleClassLabel="label40">
+    </inek:LabeledCheckbox>
+    <div class="inputPart">
+        <h:outputLabel styleClass="label50" value="Im Krankenhaus eingesetztes Fremdpersonal im Ärztlichen Dienst:"/>
+        <h:dataTable value=""
+                     id="externalMedStaffId"
+                     styleClass="borderedTable borderCollapse"
+                     headerClass="smallFont paddingElement"
+                     tableStyle="table-layout: auto"
+                     rowClasses="row1, row2"
+                     columnClasses="colIcon, col1, col2, col3, col4, col5">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Bereich/Station"/>
+                </f:facet>
+                <h:inputText><f:ajax/></h:inputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
+                <h:inputText><f:ajax/></h:inputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kostenvolumen"/></f:facet>
+                <h:inputText><f:ajax/></h:inputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
+                <h:inputText><f:ajax/></h:inputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
+                <h:inputText><f:ajax/></h:inputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
+                <h:inputText><f:ajax/></h:inputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
+                <h:inputText><f:ajax/></h:inputText>
+            </h:column>
+
+        </h:dataTable>
+    </div>
+
+</ui:composition>

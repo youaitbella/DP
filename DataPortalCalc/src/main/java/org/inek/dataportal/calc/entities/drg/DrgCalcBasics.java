@@ -1549,6 +1549,40 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
+
+    /*
+    @Column(name = "biHasExternalMedicalStaff")
+    @Documentation(name = "Das Krankenhaus hat Ärzte_Pflegekräfte_Funktionsdienst als externes Personal beschäftigt")
+    private boolean _hasExternalMedicalStaff;
+
+    public boolean hasExternalMedicalStaff() {
+        return _hasExternalMedicalStaff;
+    }
+
+    public void setHasMedicalStaff(boolean _hasExternalMedicalStaff) {
+        this._hasExternalMedicalStaff = _hasExternalMedicalStaff;
+    }
+
+    @Column(name = "biCountVKExternalMedicalStaff")
+    @Documentation(name = "")
+    private int _countVKExternalMedicalStaff;
+
+    public int get_countVKMedicalStaff() {
+        return _countVKExternalMedicalStaff;
+    }
+
+    public void set_countVKExternalMedicalStaff(int _countVKExternalMedicalStaff) {
+        this._countVKExternalMedicalStaff = _countVKExternalMedicalStaff;
+    }
+    */
+
+
+
+
+
+
+
+
     @Override
     public int hashCode() {
         return _id;
