@@ -165,7 +165,7 @@ public class Evaluation {
 
         } else {
             DialogController.showInfoDialog("Keine Auswertung möglich", "Es konnte keine Vergleichsgruppe gebildet " +
-                    "werden. Bitte versuchen Sie es später nocheinmal.");
+                    "werden. Bitte versuchen Sie es später noch einmal.");
         }
     }
 
@@ -330,7 +330,7 @@ public class Evaluation {
             return new DefaultStreamedContent(stream, "application/pdf", evaluation.getHospitalComparisonJob().getEvaluationFileName());
         } catch (Exception ex) {
             DialogController.showErrorDialog("Fehler beim herunterladen", "Die Datei konnte nicht heruntergeldaden werden. " +
-                    "Bitte versuchen Sie es später nocheinmal, oder kontaktieren Sie die Datenstelle.");
+                    "Bitte versuchen Sie es später noch einmal, oder kontaktieren Sie die Datenstelle.");
             LOGGER.log(Level.SEVERE, ex.getMessage(), ex.getStackTrace());
             return null;
         }
@@ -349,7 +349,7 @@ public class Evaluation {
         HospitalComparisonInfo info = hospitalComparisonInfo.get();
         if (info.getHospitalComparisonJob().getStatus() != PsyHosptalComparisonStatus.DONE) {
             DialogController.showInfoDialog("Auswertung in Arbeit", "Die angeforderte Auswertung befindet sich noch in " +
-                    "der erstellung. Bitte versuchen Sie es später nocheinmal.");
+                    "der erstellung. Bitte versuchen Sie es später noch einmal.");
             return "";
         }
         if (userIsAllowedForDownloadIEvaluation(info)) {
