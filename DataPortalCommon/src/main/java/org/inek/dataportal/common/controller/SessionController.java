@@ -252,10 +252,11 @@ public class SessionController implements Serializable {
             if (_account != null) {
                 accountId = _account.getId();
             }
-            Log log = new Log(accountId, sessionId, msg);
+            String logMsg = msg + "; targetServer=" + EnvironmentInfo.getLocalServerName();
+            Log log = new Log(accountId, sessionId, logMsg);
             _logFacade.saveLog(log);
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Failed during strore log: {0}", ex.getMessage());
+            LOGGER.log(Level.SEVERE, "Failed during store log: {0}", ex.getMessage());
         }
     }
 
@@ -404,8 +405,7 @@ public class SessionController implements Serializable {
 
     private String obtainConnectionInfo() {
         return Utils.getClientIP()
-                + "; UserAgent=" + Utils.getUserAgent()
-                + "; targetServer=" + EnvironmentInfo.getLocalServerName();
+                + "; UserAgent=" + Utils.getUserAgent();
     }
 
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType, String screenResolution) {

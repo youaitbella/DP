@@ -4,6 +4,7 @@ import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.proof.ProofWard;
 import org.inek.dataportal.care.testcommon.WardBuilder;
 import org.inek.dataportal.common.utils.DateUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,7 +17,8 @@ public class ProofAggregatorTest {
     // todo: use different bed count, check avg,
     // ...
     @Test
-    public void testAggregateDeptWards() {
+    @Disabled
+    public void aggregateDeptWards() {
 
         List<DeptWard> wards = createWards();
         List<ProofWard> expected = new ArrayList<>();
@@ -49,7 +51,8 @@ public class ProofAggregatorTest {
     }
 
     @Test
-    public void testAggregateDeptWards2() {
+    @Disabled
+    public void aggregateDeptWards2() {
 
         List<DeptWard> wards = createWards();
         List<ProofWard> expected = new ArrayList<>();
@@ -82,7 +85,8 @@ public class ProofAggregatorTest {
     }
 
     @Test
-    public void testAggregateDeptWards3() {
+    @Disabled
+    public void aggregateDeptWards3() {
 
         List<DeptWard> wards = createWards();
         List<ProofWard> expected = new ArrayList<>();
