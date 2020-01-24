@@ -6,6 +6,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ProofWard {
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    private ProofWard(Builder builder) {
+        setFrom(builder.from);
+        setTo(builder.to);
+        setLocationNumber(builder.locationNumber);
+        setWardName(builder.wardName);
+        sensitiveAreas = builder.sensitiveAreas;
+        depts = builder.depts;
+        deptNames = builder.deptNames;
+        setBeds(builder.beds);
+    }
+
     //<editor-fold desc="Property Date From">
     private Date from;
 
@@ -101,5 +116,66 @@ public class ProofWard {
         this.beds = beds;
     }
     //</editor-fold>
+
+    //<editor-fold desc="Builder">
+    public static final class Builder {
+        private Date from;
+        private Date to;
+        private int locationNumber;
+        private String wardName;
+        private Set<String> sensitiveAreas = new HashSet<>();
+        private Set<String> depts = new HashSet<>();
+        private Set<String> deptNames = new HashSet<>();
+        private int beds;
+
+        public Builder() {
+        }
+
+        public Builder from(Date val) {
+            from = val;
+            return this;
+        }
+
+        public Builder to(Date val) {
+            to = val;
+            return this;
+        }
+
+        public Builder locationNumber(int val) {
+            locationNumber = val;
+            return this;
+        }
+
+        public Builder wardName(String val) {
+            wardName = val;
+            return this;
+        }
+
+        public Builder addSensitiveArea(String val) {
+            sensitiveAreas.add(val);
+            return this;
+        }
+
+        public Builder addDept(String val) {
+            depts.add(val);
+            return this;
+        }
+
+        public Builder addDeptName(String val) {
+            deptNames.add(val);
+            return this;
+        }
+
+        public Builder beds(int val) {
+            beds = val;
+            return this;
+        }
+
+        public ProofWard build() {
+            return new ProofWard(this);
+        }
+    }
+    //</editor-fold>
+
 
 }

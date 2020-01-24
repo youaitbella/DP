@@ -16,9 +16,9 @@ public class WardBuilder {
     private Date validTo = DateUtils.MAX_DATE;
     private String wardName = "";
     private String deptName = "";
-    private int p21;
-    private int vz;
-    private String fab = "";
+    private int locationP21;
+    private int locationNumber;
+    private String dept = "";
     private String sensitiveArea = "";
 
     public WardBuilder(String wardName) {
@@ -40,18 +40,18 @@ public class WardBuilder {
         return this;
     }
 
-    public WardBuilder p21(int p21) {
-        this.p21 = p21;
+    public WardBuilder locationP21(int locationP21) {
+        this.locationP21 = locationP21;
         return this;
     }
 
-    public WardBuilder vz(int vz) {
-        this.vz = vz;
+    public WardBuilder locationNumber(int locationNumber) {
+        this.locationNumber = locationNumber;
         return this;
     }
 
-    public WardBuilder fab(String fab) {
-        this.fab = fab;
+    public WardBuilder dept(String dept) {
+        this.dept = dept;
         return this;
     }
 
@@ -61,7 +61,7 @@ public class WardBuilder {
     }
 
     public DeptWard create() {
-        return createDeptWard(validFrom, validTo, wardName, deptName, p21, vz, fab, sensitiveArea);
+        return createDeptWard(validFrom, validTo, wardName, deptName, locationP21, locationNumber, dept, sensitiveArea);
     }
 
     public static DeptWard createDeptWard(String name, String deptName, int p21, int vz, String fab) {
