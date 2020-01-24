@@ -4,7 +4,6 @@ import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.proof.ProofWard;
 import org.inek.dataportal.care.testcommon.WardBuilder;
 import org.inek.dataportal.common.utils.DateUtils;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ public class ProofAggregatorTest {
     // todo: use different bed count, check avg,
     // ...
     @Test
-    @Disabled
     public void aggregateDeptWards() {
 
         List<DeptWard> wards = createWards();
@@ -41,6 +39,8 @@ public class ProofAggregatorTest {
                 .to(DateUtils.createDate(2019, 12, 31))
                 .addSensitiveArea("Intensiv")
                 .addDept("3600")
+                .addSensitiveArea("Neuro")
+                .addDept("2800")
                 .build();
         expected.add(proofWard2);
 
@@ -51,7 +51,6 @@ public class ProofAggregatorTest {
     }
 
     @Test
-    @Disabled
     public void aggregateDeptWards2() {
 
         List<DeptWard> wards = createWards();
@@ -85,7 +84,6 @@ public class ProofAggregatorTest {
     }
 
     @Test
-    @Disabled
     public void aggregateDeptWards3() {
 
         List<DeptWard> wards = createWards();
@@ -106,13 +104,23 @@ public class ProofAggregatorTest {
                 .wardName("Station C")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2020, 2, 1))
-                .to(DateUtils.createDate(2020, 2, 31))
+                .to(DateUtils.createDate(2020, 2, 14))
+                .addSensitiveArea("Intensiv")
+                .addDept("2801")
+                .build();
+        expected.add(proofWard2);
+
+        ProofWard proofWard3 = ProofWard.builder()
+                .wardName("Station C")
+                .locationNumber(772548)
+                .from(DateUtils.createDate(2020, 2, 15))
+                .to(DateUtils.createDate(2020, 2, 29))
                 .addSensitiveArea("Intensiv")
                 .addSensitiveArea("Neuro")
                 .addDept("2800")
                 .addDept("2801")
                 .build();
-        expected.add(proofWard2);
+        expected.add(proofWard3);
 
         List<ProofWard> proofWards = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 2, 1), DateUtils.createDate(2020, 2, 29));
         assertThat(proofWards).isEqualTo(expected);

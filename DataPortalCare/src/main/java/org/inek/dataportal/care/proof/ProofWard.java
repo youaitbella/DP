@@ -1,9 +1,6 @@
 package org.inek.dataportal.care.proof;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public final class ProofWard {
     public static Builder builder() {
@@ -116,6 +113,27 @@ public final class ProofWard {
         this.beds = beds;
     }
     //</editor-fold>
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProofWard proofWard = (ProofWard) o;
+        return locationNumber == proofWard.locationNumber &&
+                beds == proofWard.beds &&
+                from.equals(proofWard.from) &&
+                to.equals(proofWard.to) &&
+                wardName.equals(proofWard.wardName) &&
+                sensitiveAreas.equals(proofWard.sensitiveAreas) &&
+                depts.equals(proofWard.depts) &&
+                deptNames.equals(proofWard.deptNames);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(from, to, locationNumber, wardName, sensitiveAreas, depts, deptNames, beds);
+    }
 
     //<editor-fold desc="Builder">
     public static final class Builder {
