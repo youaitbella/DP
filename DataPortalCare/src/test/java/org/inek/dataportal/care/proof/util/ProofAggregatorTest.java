@@ -13,6 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProofAggregatorTest {
 
+    // todo: use different bed count, check avg,
+    // ...
     @Test
     public void testAggregateDeptWards() {
 

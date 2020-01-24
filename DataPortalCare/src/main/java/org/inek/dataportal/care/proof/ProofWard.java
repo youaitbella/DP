@@ -128,7 +128,7 @@ public class ProofWard {
         private Set<String> deptNames = new HashSet<>();
         private int beds;
 
-        public Builder() {
+        private Builder() {
         }
 
         public Builder from(Date val) {
@@ -176,6 +176,5 @@ public class ProofWard {
         }
     }
     //</editor-fold>
-
 
 }
