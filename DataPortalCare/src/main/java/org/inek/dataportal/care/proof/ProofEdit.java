@@ -1,9 +1,9 @@
-package org.inek.dataportal.care.backingbeans;
+package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.care.entities.*;
+import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.facades.BaseDataFacade;
-import org.inek.dataportal.care.facades.ProofFacade;
+import org.inek.dataportal.care.proof.entity.*;
 import org.inek.dataportal.care.utils.*;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.ReportController;
@@ -48,9 +48,6 @@ import java.util.stream.Collectors;
 
 import static org.inek.dataportal.common.enums.TransferFileType.PPUGV;
 
-/**
- * @author lautenti
- */
 @Named
 @ViewScoped
 public class ProofEdit implements Serializable {
@@ -71,14 +68,11 @@ public class ProofEdit implements Serializable {
     @Inject
     private ReportController _reportController;
 
-    private ProofRegulationBaseInformation _proofRegulationBaseInformation;
+    private ProofRegulationBaseInformation _proofBaseInformation;
     private ProofRegulationBaseInformation _oldProofRegulationBaseInformation;
     private boolean _isReadOnly;
     private boolean _isExceptionFactsChangeMode = false;
     private String _uploadMessage;
-    private Set<Integer> _validIks;
-    private Set<Integer> _validYears;
-    private Set<Integer> _validQuarters;
     private List<ProofExceptionFact> _exceptionsFacts = new ArrayList<>();
     private BaseDataManager _baseDatamanager;
     private List<SelectItem> _listExceptionsFacts = new ArrayList<>();
@@ -109,27 +103,19 @@ public class ProofEdit implements Serializable {
     }
 
     public Set<Integer> getValidIks() {
-        return _validIks;
-    }
-
-    public void setValidIks(Set<Integer> validIks) {
-        this._validIks = validIks;
+        return possibleIkYearQuarters.stream().map(i -> i.getIk()).collect(Collectors.toSet());
     }
 
     public Set<Integer> getValidYears() {
-        return _validYears;
-    }
-
-    public void setValidYears(Set<Integer> validYears) {
-        this._validYears = validYears;
+        return possibleIkYearQuarters.stream()
+                .filter(i -> i.getIk() == _proofBaseInformation.getIk())
+                .map(i -> i.getYear()).collect(Collectors.toSet());
     }
 
     public Set<Integer> getValidQuarters() {
-        return _validQuarters;
-    }
-
-    public void setValidQuarters(Set<Integer> validQuarters) {
-        this._validQuarters = validQuarters;
+        return possibleIkYearQuarters.stream()
+                .filter(i -> i.getIk() == _proofBaseInformation.getIk() && i.getYear() == _proofBaseInformation.getYear())
+                .map(i -> i.getQuarter()).collect(Collectors.toSet());
     }
 
     public boolean getIsReadOnly() {
@@ -149,11 +135,11 @@ public class ProofEdit implements Serializable {
     }
 
     public ProofRegulationBaseInformation getProofRegulationBaseInformation() {
-        return _proofRegulationBaseInformation;
+        return _proofBaseInformation;
     }
 
     public void setProofRegulationBaseInformation(ProofRegulationBaseInformation proofRegulationBaseInformation) {
-        this._proofRegulationBaseInformation = proofRegulationBaseInformation;
+        this._proofBaseInformation = proofRegulationBaseInformation;
     }
 
     public List<SortMeta> getPreSortOrder() {
@@ -164,6 +150,8 @@ public class ProofEdit implements Serializable {
         this._preSortOrder = preSortOrder;
     }
 
+    private List<IkYearQuarter> possibleIkYearQuarters = Collections.emptyList();
+
     @PostConstruct
     private void init() {
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
@@ -171,20 +159,20 @@ public class ProofEdit implements Serializable {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
             return;
         } else if ("new".equals(id)) {
-            _proofRegulationBaseInformation = createNewBaseInformation();
-            _proofRegulationBaseInformation.setCreatedBy(_sessionController.getAccountId());
-
-            loadValidIks();
+            _proofBaseInformation = createNewBaseInformation();
+            _proofBaseInformation.setCreatedBy(_sessionController.getAccountId());
+            Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CARE);
+            possibleIkYearQuarters = _proofFacade.retrievePossibleIkYearQuarters(allowedIks);
         } else {
-            _proofRegulationBaseInformation = _proofFacade.findBaseInformation(Integer.parseInt(id));
-            if (!isAccessAllowed(_proofRegulationBaseInformation)) {
+            _proofBaseInformation = _proofFacade.findBaseInformation(Integer.parseInt(id));
+            if (!isAccessAllowed(_proofBaseInformation)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
             loadBaseDataManager();
             loadExceptionsFactsList();
-            fillExceptionsFactsList(_proofRegulationBaseInformation);
-            _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
+            fillExceptionsFactsList(_proofBaseInformation);
+            _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
         }
         setReadOnly();
         buildSortOrder();
@@ -212,7 +200,7 @@ public class ProofEdit implements Serializable {
     }
 
     private void loadExceptionsFactsList() {
-        _listExceptionsFacts = _proofFacade.getExceptionsFactsForYear(_proofRegulationBaseInformation.getYear());
+        _listExceptionsFacts = _proofFacade.getExceptionsFactsForYear(_proofBaseInformation.getYear());
     }
 
     private void fillExceptionsFactsList(ProofRegulationBaseInformation info) {
@@ -234,11 +222,11 @@ public class ProofEdit implements Serializable {
             setIsReadOnly(true);
             return;
         }
-        if (_proofRegulationBaseInformation != null) {
+        if (_proofBaseInformation != null) {
             setIsReadOnly(_accessManager.isReadOnly(Feature.CARE,
-                    _proofRegulationBaseInformation.getStatus(),
+                    _proofBaseInformation.getStatus(),
                     Integer.MIN_VALUE,
-                    _proofRegulationBaseInformation.getIk()));
+                    _proofBaseInformation.getIk()));
         }
     }
 
@@ -252,64 +240,57 @@ public class ProofEdit implements Serializable {
     }
 
     public void ikChanged() {
-        loadValidYears(_proofRegulationBaseInformation.getIk());
+        _proofBaseInformation.setYear(0);
+        validYearsChanged();
     }
 
     public void validYearsChanged() {
-        loadValidQuarter(_proofRegulationBaseInformation.getIk(), _proofRegulationBaseInformation.getYear());
-    }
-
-    private void loadValidQuarter(int ik, int year) {
-        _validQuarters = _proofFacade.retrievePossibleQuarter(ik, year);
-    }
-
-    private void loadValidYears(int ik) {
-        _validYears = _proofFacade.retrievePossibleYears(ik);
+        _proofBaseInformation.setQuarter(0);
     }
 
     public void firstSave() {
-        List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofRegulationBaseInformation.getIk(),
-                _proofRegulationBaseInformation.getYear());
-        ProofFiller.createProofEntrysFromStations(_proofRegulationBaseInformation, stations,
-                _proofRegulationBaseInformation.getYear(), _proofRegulationBaseInformation.getQuarter());
+        List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofBaseInformation.getIk(),
+                _proofBaseInformation.getYear());
+        ProofFiller.createProofEntrysFromStations(_proofBaseInformation, stations,
+                _proofBaseInformation.getYear(), _proofBaseInformation.getQuarter());
         loadBaseDataManager();
         loadExceptionsFactsList();
         save();
-        _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
+        _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
         setReadOnly();
     }
 
     private void loadBaseDataManager() {
-        _baseDatamanager = new BaseDataManager(_proofRegulationBaseInformation.getYear(), _baseDataFacade);
+        _baseDatamanager = new BaseDataManager(_proofBaseInformation.getYear(), _baseDataFacade);
     }
 
     public void save() {
-        for (Proof proof : _proofRegulationBaseInformation.getProofs()) {
+        for (Proof proof : _proofBaseInformation.getProofs()) {
             calculateCountHelpeNurseChargeable(proof);
             calculatePatientPerNurse(proof);
         }
 
-        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofRegulationBaseInformation, _listExceptionsFacts.size());
+        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionsFacts.size());
         if (!errorMessages.isEmpty()) {
             DialogController.showErrorDialog("Daten unvollständig", errorMessages.get(0));
             return;
         }
 
-        _proofRegulationBaseInformation.setLastChangeBy(_sessionController.getAccountId());
-        _proofRegulationBaseInformation.setLastChanged(new Date());
+        _proofBaseInformation.setLastChangeBy(_sessionController.getAccountId());
+        _proofBaseInformation.setLastChanged(new Date());
 
         try {
             if (_oldProofRegulationBaseInformation != null &&
-                    (_proofRegulationBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested ||
-                            _proofRegulationBaseInformation.getStatus() == WorkflowStatus.Provided)) {
+                    (_proofBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested ||
+                            _proofBaseInformation.getStatus() == WorkflowStatus.Provided)) {
                 _proofFacade.save(_oldProofRegulationBaseInformation);
             }
 
-            _proofRegulationBaseInformation = _proofFacade.save(_proofRegulationBaseInformation);
-            _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
+            _proofBaseInformation = _proofFacade.save(_proofBaseInformation);
+            _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
 
 
-            if (_proofRegulationBaseInformation.getStatus() == WorkflowStatus.Provided) {
+            if (_proofBaseInformation.getStatus() == WorkflowStatus.Provided) {
                 sendMail("Care Proof Senden Bestätigung");
                 DialogController.showSendDialog();
             } else {
@@ -317,7 +298,7 @@ public class ProofEdit implements Serializable {
                 DialogController.showSaveDialog();
             }
         } catch (EJBException ex) {
-            LOGGER.log(Level.INFO, "Fehler beim speichern PPUGV (" + _proofRegulationBaseInformation.getIk() + "): " +
+            LOGGER.log(Level.INFO, "Fehler beim speichern PPUGV (" + _proofBaseInformation.getIk() + "): " +
                     "Eintrag wurde von jemanden anderen geändert");
             DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
                     + "Bitte laden Sie die Meldung neu. Die Daten wurden bereits von einem anderen Benutzer geändert.");
@@ -329,24 +310,24 @@ public class ProofEdit implements Serializable {
         String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());
 
         MailTemplate template = _mailer.getMailTemplate(mailTemplateName);
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", Integer.toString(_proofRegulationBaseInformation.getIk()));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", Integer.toString(_proofBaseInformation.getIk()));
 
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
 
         if (!_mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail())) {
-            LOGGER.log(Level.SEVERE, "Fehler beim Emailversand an " + _proofRegulationBaseInformation.getIk() + "(Care Proof)");
+            LOGGER.log(Level.SEVERE, "Fehler beim Emailversand an " + _proofBaseInformation.getIk() + "(Care Proof)");
             _mailer.sendException(Level.SEVERE,
-                    "Fehler beim Emailversand an " + _proofRegulationBaseInformation.getIk() + "(Care Proof)", new Exception());
+                    "Fehler beim Emailversand an " + _proofBaseInformation.getIk() + "(Care Proof)", new Exception());
         }
     }
 
     public void send() {
-        for (Proof proof : _proofRegulationBaseInformation.getProofs()) {
+        for (Proof proof : _proofBaseInformation.getProofs()) {
             calculateCountHelpeNurseChargeable(proof);
             calculatePatientPerNurse(proof);
         }
 
-        List<String> errorMessages = ProofChecker.proofIsReadyForSend(_proofRegulationBaseInformation, _listExceptionsFacts.size());
+        List<String> errorMessages = ProofChecker.proofIsReadyForSend(_proofBaseInformation, _listExceptionsFacts.size());
 
         if (!errorMessages.isEmpty()) {
             for (String message : errorMessages) {
@@ -356,31 +337,26 @@ public class ProofEdit implements Serializable {
         }
 
 
-        _proofRegulationBaseInformation.setSend(new Date());
-        _proofRegulationBaseInformation.setStatus(WorkflowStatus.Provided);
-        _proofRegulationBaseInformation.setSignature(CareSignatureCreater.createPvSignature(_proofRegulationBaseInformation));
+        _proofBaseInformation.setSend(new Date());
+        _proofBaseInformation.setStatus(WorkflowStatus.Provided);
+        _proofBaseInformation.setSignature(CareSignatureCreater.createPvSignature(_proofBaseInformation));
         save();
         try {
-            TransferFileCreator.createObjectTransferFile(_sessionController, _proofRegulationBaseInformation,
-                    _proofRegulationBaseInformation.getIk(), PPUGV);
+            TransferFileCreator.createObjectTransferFile(_sessionController, _proofBaseInformation,
+                    _proofBaseInformation.getIk(), PPUGV);
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Error duringTransferFileCreation PPUG: ik: " + _proofRegulationBaseInformation.getIk());
-            _mailer.sendError("Error duringTransferFileCreation PPUG: ik: " + _proofRegulationBaseInformation.getIk() + " year: " +
-                    _proofRegulationBaseInformation.getYear() + " quarter: " + _proofRegulationBaseInformation.getQuarter(), ex);
+            LOGGER.log(Level.SEVERE, "Error duringTransferFileCreation PPUG: ik: " + _proofBaseInformation.getIk());
+            _mailer.sendError("Error duringTransferFileCreation PPUG: ik: " + _proofBaseInformation.getIk() + " year: " +
+                    _proofBaseInformation.getYear() + " quarter: " + _proofBaseInformation.getQuarter(), ex);
         }
         setIsReadOnly(true);
     }
 
-    private void loadValidIks() {
-        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CARE);
-        setValidIks(_proofFacade.retrievePossibleIks(allowedIks));
-    }
-
     public boolean excelExportAllowed() {
-        if (_proofRegulationBaseInformation == null || _proofRegulationBaseInformation.getStatusId() < 10) {
+        if (_proofBaseInformation == null || _proofBaseInformation.getStatusId() < 10) {
             return false;
         } else {
-            return _accessManager.userHasReadAccess(Feature.CARE, _proofRegulationBaseInformation.getIk());
+            return _accessManager.userHasReadAccess(Feature.CARE, _proofBaseInformation.getIk());
         }
     }
 
@@ -388,17 +364,17 @@ public class ProofEdit implements Serializable {
         if (!excelExportAllowed()) {
             return false;
         }
-        return _proofFacade.hasAllQuartersSend(_proofRegulationBaseInformation.getIk(), _proofRegulationBaseInformation.getYear());
+        return _proofFacade.hasAllQuartersSend(_proofBaseInformation.getIk(), _proofBaseInformation.getYear());
     }
 
     public boolean changeAllowed() {
         if (!_configFacade.readConfigBool(ConfigKey.IsCareProofChangeEnabled)) {
             return false;
         }
-        if (_proofRegulationBaseInformation == null || _proofRegulationBaseInformation.getStatusId() < 10) {
+        if (_proofBaseInformation == null || _proofBaseInformation.getStatusId() < 10) {
             return false;
         } else {
-            return _accessManager.userHasWriteAccess(Feature.CARE, _proofRegulationBaseInformation.getIk());
+            return _accessManager.userHasWriteAccess(Feature.CARE, _proofBaseInformation.getIk());
         }
     }
 
@@ -407,16 +383,16 @@ public class ProofEdit implements Serializable {
     }
 
     public boolean sendAllowedForToday() {
-        return ProofHelper.proofIsAllowedForSend(_proofRegulationBaseInformation);
+        return ProofHelper.proofIsAllowedForSend(_proofBaseInformation);
     }
 
     public void change() {
-        _oldProofRegulationBaseInformation = copyBaseInformation(_proofRegulationBaseInformation);
-        _proofRegulationBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
-        _proofRegulationBaseInformation.setSignature("");
-        _proofRegulationBaseInformation.setSend(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)));
-        _proofRegulationBaseInformation.setCreated(new Date());
-        _proofRegulationBaseInformation.setCreatedBy(_sessionController.getAccountId());
+        _oldProofRegulationBaseInformation = copyBaseInformation(_proofBaseInformation);
+        _proofBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
+        _proofBaseInformation.setSignature("");
+        _proofBaseInformation.setSend(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+        _proofBaseInformation.setCreated(new Date());
+        _proofBaseInformation.setCreatedBy(_sessionController.getAccountId());
         setIsReadOnly(false);
     }
 
@@ -425,15 +401,15 @@ public class ProofEdit implements Serializable {
     }
 
     public void saveChangedExceptionFacts() {
-        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofRegulationBaseInformation, _listExceptionsFacts.size());
+        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionsFacts.size());
         if (!errorMessages.isEmpty()) {
             DialogController.showErrorDialog("Daten unvollständig", errorMessages.get(0));
             return;
         }
 
         try {
-            _proofRegulationBaseInformation = _proofFacade.save(_proofRegulationBaseInformation);
-            _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
+            _proofBaseInformation = _proofFacade.save(_proofBaseInformation);
+            _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
             setIsExceptionFactsChangeMode(false);
             DialogController.showSaveDialog();
         } catch (Exception ex) {
@@ -479,7 +455,7 @@ public class ProofEdit implements Serializable {
     }
 
     public List<Proof> getProofsForExceptionFact() {
-        return _proofRegulationBaseInformation.getProofs().stream()
+        return _proofBaseInformation.getProofs().stream()
                 .filter(c -> c.getPatientPerNurse() > c.getPpug() || c.getCountShiftNotRespected() > 0)
                 .filter(c -> c.getExceptionFact().size() < _listExceptionsFacts.size())
                 .collect(Collectors.toList());
@@ -488,7 +464,7 @@ public class ProofEdit implements Serializable {
     public void handleFileUpload(FileUploadEvent event) {
         try {
             ProofImporter importer = new ProofImporter(true);
-            importer.handleProofUpload(_proofRegulationBaseInformation, event.getFile().getInputstream());
+            importer.handleProofUpload(_proofBaseInformation, event.getFile().getInputstream());
             setUploadMessage(importer.getMessage());
         } catch (Exception ex) {
             DialogController.showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
@@ -498,7 +474,7 @@ public class ProofEdit implements Serializable {
 
     public StreamedContent downloadExcelTemplate() {
         byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Poof_Upload_Template",
-                _proofRegulationBaseInformation.getId(), "Upload_Vorlage");
+                _proofBaseInformation.getId(), "Upload_Vorlage");
 
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Upload_Vorlage.xlsx");
@@ -506,33 +482,33 @@ public class ProofEdit implements Serializable {
     }
 
     public StreamedContent exportQuarterAsExcel() {
-        String fileName = "Nachweis_" + _proofRegulationBaseInformation.getIk() + "_Q" +
-                _proofRegulationBaseInformation.getQuarter() + "_" +
-                _proofRegulationBaseInformation.getYear() + ".xlsx";
+        String fileName = "Nachweis_" + _proofBaseInformation.getIk() + "_Q" +
+                _proofBaseInformation.getQuarter() + "_" +
+                _proofBaseInformation.getYear() + ".xlsx";
 
         byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Proof_Quarter_Report",
-                _proofRegulationBaseInformation.getId(), fileName);
+                _proofBaseInformation.getId(), fileName);
 
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
     }
 
     public StreamedContent exportAnnualReportAsExcel() {
-        String fileName = "Nachweis_" + _proofRegulationBaseInformation.getIk() +
-                _proofRegulationBaseInformation.getYear() + ".xlsx";
+        String fileName = "Nachweis_" + _proofBaseInformation.getIk() +
+                _proofBaseInformation.getYear() + ".xlsx";
 
         byte[] singleDocument = _reportController.getSingleDocumentByIkAndYear("PPUGV_Proof_Annual_Report",
-                _proofRegulationBaseInformation.getIk(),
-                _proofRegulationBaseInformation.getYear(), fileName);
+                _proofBaseInformation.getIk(),
+                _proofBaseInformation.getYear(), fileName);
 
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
     }
 
     public void requestExtension() {
-        int ik = _proofRegulationBaseInformation.getIk();
-        int year = _proofRegulationBaseInformation.getYear();
-        int quarter = _proofRegulationBaseInformation.getQuarter();
+        int ik = _proofBaseInformation.getIk();
+        int year = _proofBaseInformation.getYear();
+        int quarter = _proofBaseInformation.getQuarter();
         Extension extension = new Extension(ik, year, quarter, _sessionController.getAccountId());
         extension.setAccountId(_sessionController.getAccountId());
         _proofFacade.saveExtension(extension);
@@ -559,9 +535,9 @@ public class ProofEdit implements Serializable {
     }
 
     public boolean getRequestExtensionAllowed() {
-        int ik = _proofRegulationBaseInformation.getIk();
-        int year = _proofRegulationBaseInformation.getYear();
-        int quarter = _proofRegulationBaseInformation.getQuarter();
+        int ik = _proofBaseInformation.getIk();
+        int year = _proofBaseInformation.getYear();
+        int quarter = _proofBaseInformation.getQuarter();
         int extensionYear = year + (quarter == 4 ? 1 : 0);
         int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
         LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 15);
@@ -588,8 +564,8 @@ public class ProofEdit implements Serializable {
         String extension = pos < 0 ? "" : fileName.toLowerCase().substring(pos);
         if (allowedFileExtensions().contains(extension)) {
             ProofDocument document = new ProofDocument(fileName);
-            document.setIk(_proofRegulationBaseInformation.getIk());
-            document.setYear(_proofRegulationBaseInformation.getYear());
+            document.setIk(_proofBaseInformation.getIk());
+            document.setYear(_proofBaseInformation.getYear());
             document.setContent(content);
             _proofFacade.saveProofDocument(document);
             documentName = fileName;
@@ -598,8 +574,8 @@ public class ProofEdit implements Serializable {
 
     public String downloadDocument() {
         ProofDocument doc = _proofFacade.findProofDocumentByIkAndYear(
-                _proofRegulationBaseInformation.getIk(),
-                _proofRegulationBaseInformation.getYear()
+                _proofBaseInformation.getIk(),
+                _proofBaseInformation.getYear()
         );
         Utils.downloadDocument(doc);
         return "";
@@ -610,8 +586,8 @@ public class ProofEdit implements Serializable {
     public String getDocumentName() {
         if (documentName == null) {
             documentName = _proofFacade.findProofDocumentNameByIkAndYear(
-                    _proofRegulationBaseInformation.getIk(),
-                    _proofRegulationBaseInformation.getYear()
+                    _proofBaseInformation.getIk(),
+                    _proofBaseInformation.getYear()
             );
         }
         return documentName;

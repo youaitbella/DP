@@ -1,4 +1,4 @@
-package org.inek.dataportal.care.entities;
+package org.inek.dataportal.care.proof.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -6,9 +6,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * @author lautenti
- */
 @Entity
 @Table(name = "ProofExceptionFact", schema = "care")
 public class ProofExceptionFact implements Serializable {

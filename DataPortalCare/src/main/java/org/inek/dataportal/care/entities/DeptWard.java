@@ -29,18 +29,19 @@ public class DeptWard implements Serializable {
     }
 
     public DeptWard(DeptWard other) {
-        this._dept = other._dept;
-        this._wardName = other._wardName;
-        this._locationCodeP21 = other._locationCodeP21;
-        this._locationCodeVz = other._locationCodeVz;
-        this._locationText = other._locationText;
-        this._deptName = other._deptName;
-        this._fab = other._fab;
-        this._validFrom = other._validFrom;
-        this._validTo = other._validTo;
-        this._isInitial = other._isInitial;
-        this._mapVersion = other._mapVersion;
-        this._bedCount = other._bedCount;
+        _dept = other._dept;
+        _wardName = other._wardName;
+        _locationCodeP21 = other._locationCodeP21;
+        _locationCodeVz = other._locationCodeVz;
+        _locationText = other._locationText;
+        _deptName = other._deptName;
+        _fab = other._fab;
+        _validFrom = other._validFrom;
+        _validTo = other._validTo;
+        _isInitial = other._isInitial;
+        _mapVersion = other._mapVersion;
+        _bedCount = other._bedCount;
+        _location2017 = other._location2017;
     }
 
 

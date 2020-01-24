@@ -1,4 +1,4 @@
-package org.inek.dataportal.care.entities;
+package org.inek.dataportal.care.proof.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.care.enums.Months;
@@ -6,9 +6,6 @@ import org.inek.dataportal.care.enums.Months;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * @author lautenti
- */
 @Entity
 @Table(name = "MapProofRegulationStationMonth", schema = "care")
 @Cacheable(true)

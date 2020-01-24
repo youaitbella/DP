@@ -24,12 +24,14 @@ public class Dept implements Serializable {
     }
 
     public Dept(Dept dept) {
-        this._deptArea = dept.getDeptArea();
-        this._deptName = dept.getDeptName();
-        this._deptNumber = dept.getDeptNumber();
-        this._sensitiveArea = dept.getSensitiveArea();
-        this._required = dept.getRequired();
-        this._seeDeptAreaId = dept.getSeeDeptAreaId();
+        _deptArea = dept.getDeptArea();
+        _deptName = dept.getDeptName();
+        _deptNumber = dept.getDeptNumber();
+        _sensitiveArea = dept.getSensitiveArea();
+        _required = dept.getRequired();
+        _seeDeptAreaId = dept.getSeeDeptAreaId();
+        _location = dept.getLocation();
+        _required = dept.getRequired();
 
         for (DeptWard ward : dept.getDeptWards()) {
             DeptWard deptWard = new DeptWard(ward);

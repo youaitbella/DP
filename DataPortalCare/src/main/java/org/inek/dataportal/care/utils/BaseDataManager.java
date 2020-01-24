@@ -1,13 +1,11 @@
 package org.inek.dataportal.care.utils;
 
 import org.inek.dataportal.care.entities.BaseData;
-import org.inek.dataportal.care.entities.Proof;
 import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.facades.BaseDataFacade;
+import org.inek.dataportal.care.proof.entity.Proof;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
