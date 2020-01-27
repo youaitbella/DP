@@ -12,10 +12,287 @@
     <inek:LabeledCheckbox label="Das Krankenhaus hat Ärzte_Pflegekräfte_Funktionsdienst als externes Personal beschäftigt:"
                           styleClassLabel="label40">
     </inek:LabeledCheckbox>
+<!--    Ärztlichen Dienst-->
     <div class="inputPart">
-        <h:outputLabel styleClass="label50" value="Im Krankenhaus eingesetztes Fremdpersonal im Ärztlichen Dienst:"/>
+<!--        <h:outputLabel styleClass="label50" value="Im Krankenhaus eingesetztes Fremdpersonal im Ärztlichen Dienst:"/>-->
+        <h2>Im Krankenhaus eingesetztes Fremdpersonal im Ärztlichen Dienst:</h2>
         <h:dataTable value=""
                      id="externalMedStaffId"
+                     styleClass="borderedTable borderCollapse"
+                     headerClass="smallFont paddingElement"
+                     tableStyle="table-layout: auto"
+                     rowClasses="row1, row2"
+                     columnClasses="colIcon, col1, col2, col3, col4, col5">
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
+                <inek:InputTextWithMessage id="division"
+                                           required="true"
+                                           value=""
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="fullWidth">
+                </inek:InputTextWithMessage>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
+                <inek:InputIntegerWithMessage value="" readonly="#{editCalcBasicsDrg.readOnly}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kostenvolumen"/></f:facet>
+                <inek:InputNumberWithMessage id="costVolumExternalMedStaff" styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
+                <inek:InputNumberWithMessage id="costVKMedStaff" styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
+                <inek:InputNumberWithMessage id="costStGrExternalMedStaff" styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
+                <inek:InputNumberWithMessage id="costArtGrExternalMedStaff" styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
+                <inek:InputTextWithMessage id="explanationField"
+                                           required="true"
+                                           value=""
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="fullWidth">
+                </inek:InputTextWithMessage>
+            </h:column>
+
+        </h:dataTable>
+    </div>
+
+<!--    Pflegedienst-->
+<!--    Pflegefachkräfte-->
+    <div class="inputPart">
+        <h2>Im Krankenhaus eingesetztes Fremdpersonal im Pflegedienst:</h2>
+        <h:outputLabel styleClass="label50" value="Pflegefachkräfte"/>
+        <h:dataTable value=""
+                     id="careStaffId"
+                     styleClass="borderedTable borderCollapse"
+                     headerClass="smallFont paddingElement"
+                     tableStyle="table-layout: auto"
+                     rowClasses="row1, row2"
+                     columnClasses="colIcon, col1, col2, col3, col4, col5">
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
+                <inek:InputTextWithMessage id="division"
+                                           required="true"
+                                           value=""
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="fullWidth">
+                </inek:InputTextWithMessage>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
+                <inek:InputIntegerWithMessage value="#{item.caseCount}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kostenvolumen, welches gem. §6a Abs. 2 KHEntgG zur Ermittlung des Pflegebudgets berücksichtigt werden darf:"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kostenvolumen, welches nicht gem. §6a Abs. 2 KHEntgG im Pflegebudget berücksichtigt werden darf:"/>
+                    <h:graphicImage alt="" name="Icon/small/information.png" height="12"
+                                    title="Bitte geben Sie hier das Kostenvolumen an, welches über den tarifvertraglich vereinbarten Arbeitsentgelt des Pflegepersonals mit direktem Beschäftigsverhältnis hinausgeht (z.B. Vermittlungsentgelte).
+                                            Bitte beachten Sie in diesem Zusammenhang die Hinweise zur Kalkulation 2020."/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
+                <inek:InputTextWithMessage id="explanationField"
+                                           required="true"
+                                           value=""
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="fullWidth">
+                </inek:InputTextWithMessage>
+            </h:column>
+
+        </h:dataTable>
+    </div>
+
+<!--    Pflegehilfskräfte-->
+    <div class="inputPart">
+        <h:outputLabel styleClass="label50" value="Pflegehilfskräfte"/>
+        <h:dataTable value=""
+                     id="nursingAssistantsId"
+                     styleClass="borderedTable borderCollapse"
+                     headerClass="smallFont paddingElement"
+                     tableStyle="table-layout: auto"
+                     rowClasses="row1, row2"
+                     columnClasses="colIcon, col1, col2, col3, col4, col5">
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
+                <inek:InputTextWithMessage id="division"
+                                           required="true"
+                                           value=""
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="fullWidth">
+                </inek:InputTextWithMessage>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
+                <inek:InputIntegerWithMessage value="#{item.caseCount}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kostenvolumen, welches gem. §6a Abs. 2 KHEntgG zur Ermittlung des Pflegebudgets berücksichtigt werden darf:"/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kostenvolumen, welches nicht gem. §6a Abs. 2 KHEntgG im Pflegebudget berücksichtigt werden darf:"/>
+                    <h:graphicImage alt="" name="Icon/small/information.png" height="12"
+                                    title="Bitte geben Sie hier das Kostenvolumen an, welches über den tarifvertraglich vereinbarten Arbeitsentgelt des Pflegepersonals mit direktem Beschäftigsverhältnis hinausgeht (z.B. Vermittlungsentgelte).
+                                            Bitte beachten Sie in diesem Zusammenhang die Hinweise zur Kalkulation 2020."/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
+                <inek:InputTextWithMessage id="explanationField"
+                                           required="true"
+                                           value=""
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="fullWidth">
+                </inek:InputTextWithMessage>
+            </h:column>
+
+        </h:dataTable>
+    </div>
+    <!--    Sonstige Pflegekräfte-->
+    <div class="inputPart">
+        <h:outputLabel styleClass="label50" value="Sonstige Pflegekräfte"/>
+        <h:dataTable value=""
+                     id="OthercareStaffId"
+                     styleClass="borderedTable borderCollapse"
+                     headerClass="smallFont paddingElement"
+                     tableStyle="table-layout: auto"
+                     rowClasses="row1, row2"
+                     columnClasses="colIcon, col1, col2, col3, col4, col5">
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
+                <inek:InputTextWithMessage id="division"
+                                           required="true"
+                                           value=""
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="fullWidth">
+                </inek:InputTextWithMessage>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
+                <inek:InputIntegerWithMessage value="#{item.caseCount}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kostenvolumen, welches gem. §6a Abs. 2 KHEntgG zur Ermittlung des Pflegebudgets berücksichtigt werden darf:"/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kostenvolumen, welches nicht gem. §6a Abs. 2 KHEntgG im Pflegebudget berücksichtigt werden darf:"/>
+                    <h:graphicImage alt="" name="Icon/small/information.png" height="12"
+                                    title="Bitte geben Sie hier das Kostenvolumen an, welches über den tarifvertraglich vereinbarten Arbeitsentgelt des Pflegepersonals mit direktem Beschäftigsverhältnis hinausgeht (z.B. Vermittlungsentgelte).
+                                            Bitte beachten Sie in diesem Zusammenhang die Hinweise zur Kalkulation 2020."/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
+                <inek:InputTextWithMessage required="true"
+                                           value=""
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="fullWidth">
+                </inek:InputTextWithMessage>
+            </h:column>
+
+        </h:dataTable>
+    </div>
+
+    <!--    Fremdpersonal im med. techn. Dienst/ Funktionsdienst: -->
+    <div class="inputPart">
+        <h2>Im Krankenhaus eingesetztes Fremdpersonal im med. techn. Dienst/ Funktionsdienst:</h2>
+        <h:dataTable value=""
+                     id="externalNursingId"
                      styleClass="borderedTable borderCollapse"
                      headerClass="smallFont paddingElement"
                      tableStyle="table-layout: auto"
@@ -25,31 +302,57 @@
                 <f:facet name="header">
                     <h:outputLabel value="Bereich/Station"/>
                 </f:facet>
-                <h:inputText><f:ajax/></h:inputText>
+                <inek:InputTextWithMessage id="division"
+                                           required="true"
+                                           value=""
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="fullWidth">
+                </inek:InputTextWithMessage>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
-                <h:inputText><f:ajax/></h:inputText>
+                <inek:InputIntegerWithMessage value="#{item.caseCount}" readonly="#{editCalcBasicsDrg.readOnly}"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kostenvolumen"/></f:facet>
-                <h:inputText><f:ajax/></h:inputText>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
-                <h:inputText><f:ajax/></h:inputText>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
-                <h:inputText><f:ajax/></h:inputText>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
-                <h:inputText><f:ajax/></h:inputText>
+                <inek:InputNumberWithMessage styleClass="element100" value=""
+                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Berufsgruppe des med. techn. Dienst/ Funktionsdienst"/></f:facet>
+                <inek:InputTextWithMessage required="true"
+                                           value=""
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="fullWidth">
+                </inek:InputTextWithMessage>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
-                <h:inputText><f:ajax/></h:inputText>
+                <inek:InputTextWithMessage id="explanationField"
+                                           required="true"
+                                           value=""
+                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           styleClass="fullWidth">
+                </inek:InputTextWithMessage>
             </h:column>
 
         </h:dataTable>
