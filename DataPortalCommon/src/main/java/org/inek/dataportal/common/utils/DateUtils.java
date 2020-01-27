@@ -5,6 +5,8 @@ import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.inek.dataportal.api.helper.PortalConstants.MILLISECONDS_PER_DAY;
+
 public class DateUtils {
 
     public static final Date MIN_DATE = createDate(1900, Month.JANUARY, 1);
@@ -74,5 +76,10 @@ public class DateUtils {
 
     public static int currentMonth() {
         return 1 + Calendar.getInstance().get(Calendar.MONTH);
+    }
+
+    public static int diffDays(Date from, Date to) {
+        long diff = to.getTime() - from.getTime();
+        return (int) (diff / MILLISECONDS_PER_DAY);
     }
 }

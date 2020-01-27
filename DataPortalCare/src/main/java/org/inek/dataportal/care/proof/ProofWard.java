@@ -1,6 +1,12 @@
 package org.inek.dataportal.care.proof;
 
-import java.util.*;
+import org.inek.dataportal.common.utils.DateUtils;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public final class ProofWard {
     public static Builder builder() {
@@ -69,8 +75,11 @@ public final class ProofWard {
     //<editor-fold desc="Property sensitiveArea">
     private Set<String> sensitiveAreas = new HashSet<>();
 
-    public Set<String> getSensitiveAreas() {
-        return Collections.unmodifiableSet(sensitiveAreas);
+    public String sensitiveAreas() {
+        return sensitiveAreas.stream()
+                .distinct()
+                .sorted(String::compareTo)
+                .collect(Collectors.joining(", "));
     }
 
     public void addSensitiveArea(String sensitiveArea) {
@@ -81,8 +90,11 @@ public final class ProofWard {
     //<editor-fold desc="Property depts">
     private Set<String> depts = new HashSet<>();
 
-    public Set<String> getDepts() {
-        return Collections.unmodifiableSet(depts);
+    public String depts() {
+        return depts.stream()
+                .distinct()
+                .sorted(String::compareTo)
+                .collect(Collectors.joining(", "));
     }
 
     public void addDept(String dept) {
@@ -93,8 +105,11 @@ public final class ProofWard {
     //<editor-fold desc="Property deptNames">
     private Set<String> deptNames = new HashSet<>();
 
-    public Set<String> getDeptNames() {
-        return Collections.unmodifiableSet(deptNames);
+    public String deptNames() {
+        return deptNames.stream()
+                .distinct()
+                .sorted(String::compareTo)
+                .collect(Collectors.joining(", "));
     }
 
     public void addDeptName(String deptName) {
@@ -103,17 +118,28 @@ public final class ProofWard {
     //</editor-fold>
 
     //<editor-fold desc="Property beds">
-    private int beds;
+    private int daybeds;
 
-    public int getBeds() {
-        return beds;
+    public double getBeds() {
+        return ((double) daybeds) / DateUtils.diffDays(from, to);
     }
 
     public void setBeds(int beds) {
-        this.beds = beds;
+        daybeds = beds * DateUtils.diffDays(from, to);
     }
     //</editor-fold>
 
+    public void merge(ProofWard other) {
+        if (!DateUtils.addDays(to, 1).equals(other.from)) {
+            throw new IllegalArgumentException("Merge ranges need to be continuous");
+        }
+        if (!sensitiveAreas.equals(other.sensitiveAreas)) {
+            throw new IllegalArgumentException("Sensitive areas need to be equal");
+        }
+        daybeds += other.daybeds;
+        depts.addAll(other.depts);
+        deptNames.addAll(other.deptNames);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -121,7 +147,7 @@ public final class ProofWard {
         if (o == null || getClass() != o.getClass()) return false;
         ProofWard proofWard = (ProofWard) o;
         return locationNumber == proofWard.locationNumber &&
-                beds == proofWard.beds &&
+                daybeds == proofWard.daybeds &&
                 from.equals(proofWard.from) &&
                 to.equals(proofWard.to) &&
                 wardName.equals(proofWard.wardName) &&
@@ -132,7 +158,7 @@ public final class ProofWard {
 
     @Override
     public int hashCode() {
-        return Objects.hash(from, to, locationNumber, wardName, sensitiveAreas, depts, deptNames, beds);
+        return Objects.hash(from, to, locationNumber, wardName, sensitiveAreas, depts, deptNames, daybeds);
     }
 
     //<editor-fold desc="Builder">
