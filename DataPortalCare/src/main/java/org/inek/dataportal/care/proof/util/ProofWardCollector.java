@@ -76,9 +76,10 @@ public class ProofWardCollector {
                 .build();
 
         for (int i = 1; i < deptWards.size(); i++) {
-            proofWard.addSensitiveArea(ward.getDept().getSensitiveArea());
-            proofWard.addDept(ward.getFab());
-            proofWard.addDeptName(ward.getDeptName());
+            DeptWard deptWard = deptWards.get(i);
+            proofWard.addSensitiveArea(deptWard.getDept().getSensitiveArea());
+            proofWard.addDept(deptWard.getFab());
+            proofWard.addDeptName(deptWard.getDeptName());
         }
         return proofWard;
     }

@@ -139,6 +139,7 @@ public final class ProofWard {
         daybeds += other.daybeds;
         depts.addAll(other.depts);
         deptNames.addAll(other.deptNames);
+        to = other.to;
     }
 
     @Override

@@ -48,8 +48,6 @@ public class ProofAggregatorTest {
 
         List<ProofWard> proofWards = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2019, 12, 1), DateUtils.createDate(2019, 12, 31));
         assertThat(proofWards).containsAll(expected);
-        //assertThat(proofWards).isEqualTo(expected);
-
     }
 
     @Test
@@ -66,6 +64,7 @@ public class ProofAggregatorTest {
                 .addSensitiveArea("Intensiv")
                 .addDept("0100")
                 .addDept("3600")
+                .addDeptName("x")
                 .build();
         expected.add(proofWard1);
 
@@ -77,12 +76,13 @@ public class ProofAggregatorTest {
                 .addSensitiveArea("Neuro")
                 .addDept("2800")
                 .addDept("2801")
+                .addDeptName("x")
                 .build();
         expected.add(proofWard2);
 
         List<ProofWard> proofWards = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 1, 1), DateUtils.createDate(2020, 1, 31));
 
-        assertThat(proofWards).isEqualTo(expected);
+        assertThat(proofWards).containsAll(expected);
     }
 
     @Test
@@ -95,24 +95,37 @@ public class ProofAggregatorTest {
                 .wardName("Station A")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2020, 2, 1))
-                .to(DateUtils.createDate(2020, 2, 31))
+                .to(DateUtils.createDate(2020, 2, 29))
                 .addSensitiveArea("Intensiv")
                 .addDept("0100")
                 .addDept("3600")
+                .addDeptName("x")
                 .build();
         expected.add(proofWard1);
 
         ProofWard proofWard2 = ProofWard.builder()
+                .wardName("Station B")
+                .locationNumber(772548)
+                .from(DateUtils.createDate(2020, 2, 1))
+                .to(DateUtils.createDate(2020, 2, 29))
+                .addSensitiveArea("Neuro")
+                .addDept("2801")
+                .addDeptName("x")
+                .build();
+        expected.add(proofWard2);
+
+        ProofWard proofWard3 = ProofWard.builder()
                 .wardName("Station C")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2020, 2, 1))
                 .to(DateUtils.createDate(2020, 2, 14))
                 .addSensitiveArea("Intensiv")
                 .addDept("2801")
+                .addDeptName("x")
                 .build();
-        expected.add(proofWard2);
+        expected.add(proofWard3);
 
-        ProofWard proofWard3 = ProofWard.builder()
+        ProofWard proofWard4 = ProofWard.builder()
                 .wardName("Station C")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2020, 2, 15))
@@ -121,11 +134,12 @@ public class ProofAggregatorTest {
                 .addSensitiveArea("Neuro")
                 .addDept("2800")
                 .addDept("2801")
+                .addDeptName("x")
                 .build();
-        expected.add(proofWard3);
+        expected.add(proofWard4);
 
         List<ProofWard> proofWards = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 2, 1), DateUtils.createDate(2020, 2, 29));
-        assertThat(proofWards).isEqualTo(expected);
+        assertThat(proofWards).containsAll(expected);
     }
 
     private List<DeptWard> createWards() {
