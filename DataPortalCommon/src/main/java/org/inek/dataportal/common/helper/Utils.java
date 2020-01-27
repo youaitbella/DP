@@ -13,6 +13,10 @@ import org.inek.dataportal.common.utils.Helper;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
+import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.CDI;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -150,6 +154,13 @@ public class Utils {
         ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, "#{" + name + "}", type);
         //return (T) valueExpression.getValue(elContext);
         return type.cast(valueExpression.getValue(elContext));
+    }
+
+    public static <T> T getCdiBean(Class<T> type) {
+        BeanManager bm = CDI.current().getBeanManager();
+        Bean<T> bean = (Bean<T>) bm.getBeans(type).iterator().next();
+        CreationalContext<T> ctx = bm.createCreationalContext(bean);
+        return type.cast(bm.getReference(bean, type, ctx));
     }
 
     public static StringBuilder collectUrlInformation() {
