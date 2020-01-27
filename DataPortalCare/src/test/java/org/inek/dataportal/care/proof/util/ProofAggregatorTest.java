@@ -13,8 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProofAggregatorTest {
 
-    // todo: use different bed count, check avg,
-    // ...
     @Test
     public void aggregateDeptWards() {
 
@@ -122,6 +120,7 @@ public class ProofAggregatorTest {
                 .addSensitiveArea("Intensiv")
                 .addDept("2801")
                 .addDeptName("x")
+                .beds(10)
                 .build();
         expected.add(proofWard3);
 
@@ -135,6 +134,7 @@ public class ProofAggregatorTest {
                 .addDept("2800")
                 .addDept("2801")
                 .addDeptName("x")
+                .beds(10)
                 .build();
         expected.add(proofWard4);
 
@@ -142,8 +142,31 @@ public class ProofAggregatorTest {
         assertThat(proofWards).containsAll(expected);
     }
 
+    @Test
+    public void aggregateDeptWardsReturnsAverageBeds() {
+
+        List<DeptWard> wards = createWards();
+
+        ProofWard proofWard1 = ProofWard.builder()
+                .wardName("Station D")
+                .locationNumber(772548)
+                .from(DateUtils.createDate(2020, 4, 1))
+                .to(DateUtils.createDate(2020, 4, 30))
+                .addSensitiveArea("Neuro")
+                .addDept("2800")
+                .addDept("2801")
+                .addDeptName("x")
+                .beds(11)
+                .build();
+
+
+        List<ProofWard> proofWards = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 4, 1), DateUtils.createDate(2020, 4, 30));
+        assertThat(proofWards).contains(proofWard1);
+    }
+
     private List<DeptWard> createWards() {
         List<DeptWard> wards = new ArrayList<>();
+
         DeptWard deptWard1 = new WardBuilder("Station A").locationNumber(772548).sensitiveArea("Intensiv").dept("0100").deptName("x").create();
         wards.add(deptWard1);
 
@@ -163,12 +186,21 @@ public class ProofAggregatorTest {
         wards.add(deptWard5);
 
         DeptWard deptWard6 = new WardBuilder("Station C").locationNumber(772548).sensitiveArea("Neuro").dept("2800").deptName("x")
-                .validFrom(DateUtils.createDate(2020, 2, 15)).create();
+                .validFrom(DateUtils.createDate(2020, 2, 15)).bedCount(10).create();
         wards.add(deptWard6);
 
         DeptWard deptWard7 = new WardBuilder("Station C").locationNumber(772548).sensitiveArea("Intensiv").dept("2801").deptName("x")
-                .validFrom(DateUtils.createDate(2020, 2, 1)).create();
+                .validFrom(DateUtils.createDate(2020, 2, 1)).bedCount(10).create();
         wards.add(deptWard7);
+
+        DeptWard deptWard8 = new WardBuilder("Station D").locationNumber(772548).sensitiveArea("Neuro").dept("2800").deptName("x")
+                .validFrom(DateUtils.createDate(2020, 4, 1))
+                .validTo(DateUtils.createDate(2020, 4, 15)).bedCount(10).create();
+        wards.add(deptWard8);
+
+        DeptWard deptWard9 = new WardBuilder("Station D").locationNumber(772548).sensitiveArea("Neuro").dept("2801").deptName("x")
+                .validFrom(DateUtils.createDate(2020, 4, 16)).bedCount(12).create();
+        wards.add(deptWard9);
 
         return wards;
     }

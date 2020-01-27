@@ -80,6 +80,6 @@ public class DateUtils {
 
     public static int diffDays(Date from, Date to) {
         long diff = to.getTime() - from.getTime();
-        return (int) (diff / MILLISECONDS_PER_DAY);
+        return 1 + (int) (diff / MILLISECONDS_PER_DAY);
     }
 }

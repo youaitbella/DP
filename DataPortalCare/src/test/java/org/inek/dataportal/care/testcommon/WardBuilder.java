@@ -20,6 +20,7 @@ public class WardBuilder {
     private int locationNumber;
     private String dept = "";
     private String sensitiveArea = "";
+    private int bedCount;
 
     public WardBuilder(String wardName) {
         this.wardName = wardName;
@@ -60,8 +61,13 @@ public class WardBuilder {
         return this;
     }
 
+    public WardBuilder bedCount(int bedCount) {
+        this.bedCount = bedCount;
+        return this;
+    }
+
     public DeptWard create() {
-        return createDeptWard(validFrom, validTo, wardName, deptName, locationP21, locationNumber, dept, sensitiveArea);
+        return createDeptWard(validFrom, validTo, wardName, deptName, locationP21, locationNumber, dept, sensitiveArea, bedCount);
     }
 
     public static DeptWard createDeptWard(String name, String deptName, int p21, int vz, String fab) {
@@ -69,10 +75,10 @@ public class WardBuilder {
     }
 
     public static DeptWard createDeptWard(Date validFrom, Date validTo, String name, String deptName, int p21, int vz, String fab) {
-        return createDeptWard(validFrom, validTo, name, deptName, p21, vz, fab, "Intensiv");
+        return createDeptWard(validFrom, validTo, name, deptName, p21, vz, fab, "Intensiv", 0);
     }
 
-    public static DeptWard createDeptWard(Date validFrom, Date validTo, String wardName, String deptName, int p21, int vz, String fab, String sensitiveArea) {
+    public static DeptWard createDeptWard(Date validFrom, Date validTo, String wardName, String deptName, int p21, int vz, String fab, String sensitiveArea, int bedCount) {
         Dept dept = new Dept();
         dept.setSensitiveArea(sensitiveArea);
         DeptWard ward = new DeptWard(new MapVersion());
@@ -84,6 +90,7 @@ public class WardBuilder {
         ward.setLocationCodeP21(p21);
         ward.setLocationCodeVz(vz);
         ward.setFab(fab);
+        ward.setBedCount(bedCount);
         return ward;
     }
 
