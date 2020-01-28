@@ -17,7 +17,7 @@ public class SensitiveDomain {
         return id;
     }
 
-    public void setId(Integer val) {
+    public void setId(int val) {
         id = val;
     }
     // </editor-fold>
