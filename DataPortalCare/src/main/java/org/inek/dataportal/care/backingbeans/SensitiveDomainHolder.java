@@ -23,7 +23,6 @@ public class SensitiveDomainHolder extends AbstractDataAccess {
         }
     }
 
-
     public String fromId(int id) {
         return sensitiveDomains.get(id).getName();
     }

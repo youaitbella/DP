@@ -164,6 +164,16 @@ public class ProofAggregatorTest {
         assertThat(proofWards).contains(proofWard1);
     }
 
+    @Test
+    public void aggregateDeptWardsReturnsAverageBeds2() {
+
+        List<DeptWard> wards = createWards();
+
+        List<ProofWard> proofWards = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 6, 1), DateUtils.createDate(2020, 6, 30));
+        double beds = proofWards.stream().filter(w -> w.getWardName().equals("Station E")).findFirst().orElseThrow(() -> new IllegalArgumentException("not found")).getBeds();
+        assertThat(beds).isEqualTo(12.5);
+    }
+
     private List<DeptWard> createWards() {
         List<DeptWard> wards = new ArrayList<>();
 
@@ -201,6 +211,15 @@ public class ProofAggregatorTest {
         DeptWard deptWard9 = new WardBuilder("Station D").locationNumber(772548).sensitiveArea("Neuro").dept("2801").deptName("x")
                 .validFrom(DateUtils.createDate(2020, 4, 16)).bedCount(12).create();
         wards.add(deptWard9);
+
+        DeptWard deptWard10 = new WardBuilder("Station E").locationNumber(772548).sensitiveArea("Neuro").dept("2800").deptName("x")
+                .validFrom(DateUtils.createDate(2020, 6, 1))
+                .validTo(DateUtils.createDate(2020, 6, 15)).bedCount(10).create();
+        wards.add(deptWard10);
+
+        DeptWard deptWard11 = new WardBuilder("Station E").locationNumber(772548).sensitiveArea("Neuro").dept("2801").deptName("x")
+                .validFrom(DateUtils.createDate(2020, 6, 16)).bedCount(15).create();
+        wards.add(deptWard11);
 
         return wards;
     }
