@@ -75,18 +75,18 @@
             <pf:column id="stationNameId"
                        headerText="Station"
                        sortable="true"
-                       sortBy="#{proof.proofRegulationStation.stationName}"
+                       sortBy="#{proof.proofWard.name}"
                        filterable="true"
-                       filterBy="#{proof.proofRegulationStation.stationName}">
-                <pf:outputLabel value="#{proof.proofRegulationStation.stationName}" />
+                       filterBy="#{proof.proofWard.name}">
+                <pf:outputLabel value="#{proof.proofWard.name}"/>
             </pf:column>
             <pf:column id="locationId"
                        headerText="Standort"
                        sortable="true"
-                       sortBy="#{proof.proofRegulationStation.locationCode}"
+                       sortBy="#{proof.proofWard.locationText}"
                        filterable="true"
-                       filterBy="#{proof.proofRegulationStation.locationCode}">
-                <pf:outputLabel value="#{proof.proofRegulationStation.locationCode}" />
+                       filterBy="#{proof.proofWard.locationText}">
+                <pf:outputLabel value="#{proof.proofWard.locationText}"/>
             </pf:column>
             <pf:column id="monthId"
                        headerText="Monat"

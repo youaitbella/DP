@@ -34,7 +34,7 @@ public class ProofRegulationStation implements Serializable {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property prsSensitiveAreaIds">
+    //<editor-fold defaultstate="collapsed" desc="Property prsSensitiveAreaId">
     @Column(name = "prsSensitiveAreaId")
     private int _sensitiveAreaId;
 

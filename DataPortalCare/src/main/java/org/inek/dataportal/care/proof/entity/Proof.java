@@ -70,9 +70,25 @@ public class Proof implements Serializable {
         this._proofRegulationStation = proofRegulationStation;
     }
 
-    //Using only for JSON Export
+    //Using only for JSON Export and to distinguish between old and new format
     public int getProofRegulationStationId() {
         return _proofRegulationStation.getId();
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="ProofWard">
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "prProofWardId")
+    private ProofWard _proofWard;
+
+    @JsonIgnore
+    public ProofWard getProofWard() {
+        return _proofWard;
+    }
+
+    public void setProofWard(ProofWard proofWard) {
+        this._proofWard = proofWard;
     }
     //</editor-fold>
 
