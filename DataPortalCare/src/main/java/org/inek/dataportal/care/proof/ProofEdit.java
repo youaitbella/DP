@@ -30,6 +30,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.utils.DateUtils;
+import org.inek.dataportal.common.utils.FromToDate;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -275,22 +276,11 @@ public class ProofEdit implements Serializable {
             return;
         }
 
+//       Date toDate = DateUtils.createDate(year, quarter * 3, quarter == 1 || quarter == 4 ? 31 : 30);
 
-        ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards());
-
-
-        for (int month = 1; month <= 12; month++) {
-
-            Date fromDate = DateUtils.createDate(year, month, 1);
-
-            if (month % 2 == 0) {
-                if (month == 2) {
-                    Date toDate = DateUtils.createDate(year, month, 28);
-                }
-                Date toDate = DateUtils.createDate(year, month, 30);
-            } else {
-                Date toDate = DateUtils.createDate(year, month, 31);
-            }
+        for (int month = quarter * 3 - 2; month <= quarter * 3; month++) {
+            FromToDate dates = DateUtils.firstAndLastDayOfMonth(year, month);
+            ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), dates.from(), dates.to());
         }
 
 /*
