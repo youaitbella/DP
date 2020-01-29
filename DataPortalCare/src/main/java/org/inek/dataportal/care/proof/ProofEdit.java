@@ -264,23 +264,34 @@ public class ProofEdit implements Serializable {
     }
 
     public void firstSave() {
+        int year = _proofBaseInformation.getYear();
+        int quarter = _proofBaseInformation.getQuarter();
         int ik = _proofBaseInformation.getIk();
+
         DeptBaseInformation deptBaseInfo = _deptFacade.findDeptBaseInformationByIkAndBaseYear(ik, 2018);
-        String errorMsg = ProofChecker.checkForMissingLocationNumber(deptBaseInfo.obtainCurrentWards(),
-                _proofBaseInformation.getYear(),
-                _proofBaseInformation.getQuarter());
+        String errorMsg = ProofChecker.checkForMissingLocationNumber(deptBaseInfo.obtainCurrentWards(), year, quarter);
         if (!errorMsg.isEmpty()) {
             DialogController.showErrorDialog(DATA_INCOMPLETE, errorMsg);
             return;
         }
 
-        Date fromDate = DateUtils.createDate(year, (quarter * 3) - 2, 1);
-        Date toDate = DateUtils.createDate(year, quarter * 3, quarter == 1 || quarter == 4 ? 31 : 30);
 
         ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards());
 
 
+        for (int month = 1; month <= 12; month++) {
 
+            Date fromDate = DateUtils.createDate(year, month, 1);
+
+            if (month % 2 == 0) {
+                if (month == 2) {
+                    Date toDate = DateUtils.createDate(year, month, 28);
+                }
+                Date toDate = DateUtils.createDate(year, month, 30);
+            } else {
+                Date toDate = DateUtils.createDate(year, month, 31);
+            }
+        }
 
 /*
         List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofBaseInformation.getIk(),
