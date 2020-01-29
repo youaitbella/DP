@@ -13,11 +13,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author lautenti
  */
 public class AebChecker {
+    private static final Logger LOGGER = Logger.getLogger("AebChecker");
 
     private static final String MESSAGE_NOT_IN_CATALOG_PEPP = "%s: Pepp [%s] Vergütungsklasse [%s] Bewertungsrelation [%s] ist nicht im " +
             "Katalog %s oder im Katalog %s vorhanden";
@@ -82,7 +85,15 @@ public class AebChecker {
         allowedMaxValues.put("7", 90000);
 
         for (PersonalAgreed personalAgreed : info.getPersonalAgreed()) {
-            Integer allowedMaxValue = allowedMaxValues.get(personalAgreed.getOccupationalCategory().getNumber());
+            Integer allowedMaxValue = null;
+            try {
+                allowedMaxValue = allowedMaxValues.get(personalAgreed.getOccupationalCategory().getNumber());
+            } catch (Exception ex) {
+                if (personalAgreed.getOccupationalCategory() == null) {
+                    LOGGER.log(Level.SEVERE, "Non initialized OccupationalCategory");
+                }
+                LOGGER.log(Level.SEVERE, ex.getMessage());
+            }
 
             if (allowedMaxValue != null) {
                 if (personalAgreed.getAverageCost() > allowedMaxValue) {
