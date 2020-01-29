@@ -5,9 +5,12 @@ import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.DeptFacade;
-import org.inek.dataportal.care.proof.entity.*;
+import org.inek.dataportal.care.proof.entity.Proof;
+import org.inek.dataportal.care.proof.entity.ProofDocument;
+import org.inek.dataportal.care.proof.entity.ProofExceptionFact;
+import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
+import org.inek.dataportal.care.proof.util.ProofAggregator;
 import org.inek.dataportal.care.proof.util.ProofChecker;
-import org.inek.dataportal.care.proof.util.ProofFiller;
 import org.inek.dataportal.care.proof.util.ProofHelper;
 import org.inek.dataportal.care.proof.util.ProofImporter;
 import org.inek.dataportal.care.utils.BaseDataManager;
@@ -26,6 +29,7 @@ import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.utils.DateUtils;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -260,21 +264,25 @@ public class ProofEdit implements Serializable {
     }
 
     public void firstSave() {
-        // todo: separate bean for "new 2018" format (used for 2020++)?
-        if (_proofBaseInformation.getYear() >= 2020) {
-            int ik = _proofBaseInformation.getIk();
-            DeptBaseInformation deptBaseInfo = _deptFacade.findDeptBaseInformationByIkAndBaseYear(ik, 2018);
-            String errorMsg = ProofChecker.checkForMissingLocationNumber(deptBaseInfo.obtainCurrentWards(),
-                    _proofBaseInformation.getYear(),
-                    _proofBaseInformation.getQuarter());
-            if (!errorMsg.isEmpty()) {
-                DialogController.showErrorDialog(DATA_INCOMPLETE, errorMsg);
-                return;
-            }
-            //ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards());
+        int ik = _proofBaseInformation.getIk();
+        DeptBaseInformation deptBaseInfo = _deptFacade.findDeptBaseInformationByIkAndBaseYear(ik, 2018);
+        String errorMsg = ProofChecker.checkForMissingLocationNumber(deptBaseInfo.obtainCurrentWards(),
+                _proofBaseInformation.getYear(),
+                _proofBaseInformation.getQuarter());
+        if (!errorMsg.isEmpty()) {
+            DialogController.showErrorDialog(DATA_INCOMPLETE, errorMsg);
+            return;
         }
 
+        Date fromDate = DateUtils.createDate(year, (quarter * 3) - 2, 1);
+        Date toDate = DateUtils.createDate(year, quarter * 3, quarter == 1 || quarter == 4 ? 31 : 30);
 
+        ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards());
+
+
+
+
+/*
         List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofBaseInformation.getIk(),
                 _proofBaseInformation.getYear());
         ProofFiller.createProofEntrysFromStations(_proofBaseInformation, stations,
@@ -284,6 +292,7 @@ public class ProofEdit implements Serializable {
         save();
         _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
         setReadOnly();
+*/
     }
 
 
