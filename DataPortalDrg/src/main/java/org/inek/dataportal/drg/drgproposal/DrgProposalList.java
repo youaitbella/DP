@@ -1,25 +1,30 @@
 package org.inek.dataportal.drg.drgproposal;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.drg.drgproposal.entities.DrgProposal;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.drg.drgproposal.facades.DrgProposalFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.MailTemplateFacade;
 import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.drg.drgproposal.entities.DrgProposal;
+import org.inek.dataportal.drg.drgproposal.facades.DrgProposalFacade;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Named
 @RequestScoped
 public class DrgProposalList {
+
+    private static final Logger LOGGER = Logger.getLogger("DrgProposalList");
 
     @Inject
     private DrgProposalFacade _drgProposalFacade;
@@ -62,6 +67,10 @@ public class DrgProposalList {
 
     public String printDrgProposal(int proposalId) {
         DrgProposal drgProposal = _drgProposalFacade.find(proposalId);
+        if (drgProposal == null) {
+            LOGGER.log(Level.WARNING, "No DRG proposal found for id: " + proposalId);
+            return "";
+        }
         String headLine = Utils.getMessage("nameDRG_PROPOSAL") + " " + drgProposal.getExternalId();
         Utils.getFlash().put("headLine", headLine);
         Utils.getFlash().put("targetPage", Pages.DrgProposalSummary.URL());

@@ -41,17 +41,20 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
     }
 
     public List<IkYearQuarter> retrievePossibleIkYearQuarters(Set<Integer> allowedIks) {
-        List<IkYearQuarter> all = new ArrayList<>();
+        List<IkYearQuarter> ikYearQuarters = new ArrayList<>();
+        if (allowedIks.size() == 0) {
+            return ikYearQuarters;
+        }
         for (Integer ik : allowedIks) {
             for (int year : determinePossibleYears()) {
                 int maxQuarter = year == DateUtils.currentYear() ? (DateUtils.currentMonth() + 2) / 3 : 4;
                 IntStream.rangeClosed(1, maxQuarter).forEach(q -> {
-                    all.add(new IkYearQuarter(ik, year, q));
+                    ikYearQuarters.add(new IkYearQuarter(ik, year, q));
                 });
             }
         }
-        all.removeAll(retrieveExistingInfo(allowedIks));
-        return all;
+        ikYearQuarters.removeAll(retrieveExistingInfo(allowedIks));
+        return ikYearQuarters;
     }
 
     private Set<Integer> determinePossibleYears() {

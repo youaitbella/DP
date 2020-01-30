@@ -38,7 +38,7 @@
 
     <div>
         <pf:dataTable id="proofTable"
-                      value="#{proofEdit.proofRegulationBaseInformation.proofs}"
+                      value="#{proofEdit.proofs}"
                       rows="50"
                       paginator="true"
                       rowsPerPageTemplate="25,50,100,300"
@@ -46,6 +46,7 @@
                       emptyMessage="Keine Einträge vorhanden"
                       sortMode="multiple" sortBy="#{proofEdit.preSortOrder}"
                       var="proof">
+            <!-- todo?  value="# {proofEdit.proofRegulationBaseInformation.proofs}"-->
 
             <pf:column id="psAreaId"
                        headerText="pflegesensitiver Bereich"

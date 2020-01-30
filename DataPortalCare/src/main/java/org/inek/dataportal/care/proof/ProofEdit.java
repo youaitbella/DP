@@ -620,4 +620,8 @@ public class ProofEdit implements Serializable {
         return documentName;
     }
 
+    public List<Proof> getProofs() {
+        // display data in old format
+        return _proofBaseInformation.getProofs().stream().filter(p -> p.getProofRegulationStationId() > 0).collect(Collectors.toList());
+    }
 }
