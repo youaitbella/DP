@@ -36,7 +36,12 @@
                                 <f:param name="id" value="#{baseInformation.id}" />
                             </h:link>
                         </pf:column>
-                        <pf:column headerText="Krankenhaus" sortable="true" sortBy="#{baseInformation.hospitalName}" filterable="true" filterBy="#{baseInformation.hospitalName}">
+                        <pf:column headerText="Krankenhaus"
+                                   sortable="true"
+                                   sortBy="#{baseInformation.hospitalName}"
+                                   filterMatchMode="contains"
+                                   filterable="true"
+                                   filterBy="#{baseInformation.hospitalName}">
                             <h:link outcome="#{proofSummary.careProofStationOpen()}"
                                     value="#{baseInformation.hospitalName}">
                                 <f:param name="id" value="#{baseInformation.id}" />
