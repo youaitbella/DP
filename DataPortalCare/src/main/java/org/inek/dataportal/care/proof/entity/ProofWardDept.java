@@ -8,32 +8,37 @@ import java.util.Objects;
 @Table(name = "ProofWardDept", schema = "care")
 public class ProofWardDept {
 
+    public ProofWardDept() {
+    }
+
+    public ProofWardDept(ProofWard proofWard) {
+        this.proofWard = proofWard;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pwdId")
-    private Integer id;
+    private Integer id = -1;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property ProofWardId">
-    @Column(name = "pwdProofWardId")
-    private int pwid;
+    @ManyToOne
+    @JoinColumn(name = "pwdProofWardId")
+    private ProofWard proofWard;
 
-    public int getPwid() {
-        return pwid;
+    public ProofWard getProofWard() {
+        return proofWard;
     }
 
-    public void setPwid(int pwid) {
-        this.pwid = pwid;
-    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property ValidFrom">
@@ -81,7 +86,7 @@ public class ProofWardDept {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProofWardDept proofWardDept = (ProofWardDept) o;
-        return pwid == proofWardDept.pwid &&
+        return proofWard == proofWardDept.proofWard &&
                 id.equals(proofWardDept.id) &&
                 validFrom.equals(proofWardDept.validFrom) &&
                 deptNumbers.equals(proofWardDept.deptNumbers) &&
@@ -90,6 +95,6 @@ public class ProofWardDept {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, pwid, validFrom, deptNumbers, deptNames);
+        return Objects.hash(id, proofWard, validFrom, deptNumbers, deptNames);
     }
 }
