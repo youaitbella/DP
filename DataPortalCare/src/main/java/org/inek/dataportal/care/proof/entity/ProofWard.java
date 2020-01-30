@@ -87,6 +87,7 @@ public class ProofWard {
     }
 
     public ProofWardDept validProofWardDept(Date date){
+
         return proofWardDepts.stream()
                 .sorted((p1, p2) -> p2.getValidFrom().compareTo(p1.getValidFrom()))
                 .filter(p -> p.getValidFrom().compareTo(date) <= 0)

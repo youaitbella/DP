@@ -634,4 +634,8 @@ public class ProofEdit implements Serializable {
         // display data in old format
         return _proofBaseInformation.getProofs().stream().filter(p -> p.getProofRegulationStationId() == 0).collect(Collectors.toList());
     }
+
+    public Date determineStartDate (Proof proof){
+        return DateUtils.firstAndLastDayOfMonth(_proofBaseInformation.getYear(), proof.getMonth().getId()).from();
+    }
 }

@@ -59,23 +59,26 @@
             <pf:column id="fabNumberId"
                        headerText="FAB Schlüssel"
                        sortable="true"
-                       sortBy="#{proof.proofRegulationStation.fabNumber}"
+                       sortBy="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNumbers}"
+                       filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.proofRegulationStation.fabNumber}">
-                <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber}" />
+                       filterBy="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNumbers}">
+                <pf:outputLabel value="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNumbers}" />
             </pf:column>
             <pf:column id="fabId"
                        headerText="Fachabteilung"
                        sortable="true"
-                       sortBy="#{proof.proofRegulationStation.fabName}"
+                       sortBy="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNames}"
+                       filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.proofRegulationStation.fabName}">
-                <pf:outputLabel value="#{proof.proofRegulationStation.fabName}" />
+                       filterBy="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNames}">
+                <pf:outputLabel value="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNames}" />
             </pf:column>
             <pf:column id="stationNameId"
                        headerText="Station"
                        sortable="true"
                        sortBy="#{proof.proofWard.name}"
+                       filterMatchMode="contains"
                        filterable="true"
                        filterBy="#{proof.proofWard.name}">
                 <pf:outputLabel value="#{proof.proofWard.name}"/>
@@ -84,6 +87,7 @@
                        headerText="Standort"
                        sortable="true"
                        sortBy="#{proof.proofWard.locationText}"
+                       filterMatchMode="contains"
                        filterable="true"
                        filterBy="#{proof.proofWard.locationText}">
                 <pf:outputLabel value="#{proof.proofWard.locationText}"/>
