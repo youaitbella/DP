@@ -268,6 +268,8 @@ public class ProofEdit implements Serializable {
         int year = _proofBaseInformation.getYear();
         int quarter = _proofBaseInformation.getQuarter();
         int ik = _proofBaseInformation.getIk();
+        List<ProofWard> proofWards = new ArrayList<>();
+
 
         DeptBaseInformation deptBaseInfo = _deptFacade.findDeptBaseInformationByIkAndBaseYear(ik, 2018);
         String errorMsg = ProofChecker.checkForMissingLocationNumber(deptBaseInfo.obtainCurrentWards(), year, quarter);
@@ -276,15 +278,13 @@ public class ProofEdit implements Serializable {
             return;
         }
 
-//       Date toDate = DateUtils.createDate(year, quarter * 3, quarter == 1 || quarter == 4 ? 31 : 30);
-
         for (int month = quarter * 3 - 2; month <= quarter * 3; month++) {
             FromToDate dates = DateUtils.firstAndLastDayOfMonth(year, month);
-            ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), dates.from(), dates.to());
+            proofWards.addAll(ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), dates.from(), dates.to()));
         }
 
-/*
-        List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofBaseInformation.getIk(),
+        // todo
+/*        List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofBaseInformation.getIk(),
                 _proofBaseInformation.getYear());
         ProofFiller.createProofEntrysFromStations(_proofBaseInformation, stations,
                 _proofBaseInformation.getYear(), _proofBaseInformation.getQuarter());
@@ -292,8 +292,7 @@ public class ProofEdit implements Serializable {
         loadExceptionsFactsList();
         save();
         _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
-        setReadOnly();
-*/
+        setReadOnly();*/
     }
 
 
