@@ -26,7 +26,7 @@ public class ProofFacadeTest {
 
         List<IkYearQuarter> ikYearQuarters = facade.retrievePossibleIkYearQuarters(iks);
 
-        int countQuarters = 4 + (DateUtils.currentMonth() + 2) / 3; // 4 of prev year + current
+        int countQuarters = 4;// + (DateUtils.currentMonth() + 2) / 3; // 4 of prev year + current
 
         assertThat(ikYearQuarters).isNotNull().isNotEmpty().hasSize(countQuarters * iks.size());
     }

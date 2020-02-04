@@ -59,7 +59,8 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
 
     private Set<Integer> determinePossibleYears() {
         int year = DateUtils.currentYear();
-        return IntStream.rangeClosed(year - 1, year).collect(HashSet::new, HashSet::add, HashSet::addAll);
+        // todo activate currentyear when care proof input is possible
+        return IntStream.rangeClosed(year - 1, year - 1).collect(HashSet::new, HashSet::add, HashSet::addAll);
     }
 
 
