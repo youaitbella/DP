@@ -39,6 +39,7 @@
     <div>
         <pf:dataTable id="proofTable"
                       value="#{proofEdit.proofs}"
+                      widgetVar="dataTableAutoFilter"
                       rows="50"
                       paginator="true"
                       rowsPerPageTemplate="25,50,100,300"
@@ -212,6 +213,8 @@
             </pf:column>
 
         </pf:dataTable>
+<!--  The following tag is needed for sorting is working correct. Without filtering first, sorting is not working. -->
+        <pf:remoteCommand autoRun="true" oncomplete="PF('dataTableAutoFilter').filter();" />
     </div>
     <br />
 
