@@ -1,8 +1,9 @@
 package org.inek.dataportal.care.proof.entity;
 
+import org.inek.dataportal.care.entities.SensitiveDomain;
+
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "ProofWardDept", schema = "care")
@@ -80,6 +81,25 @@ public class ProofWardDept {
     }
     //</editor-fold>
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name="mapProofWardDetailSensitiveDomain",
+            schema = "care",
+            joinColumns=@JoinColumn(name="proofWardDeptId", referencedColumnName="pwdId"),
+            inverseJoinColumns=@JoinColumn(name="sensitiveDomainId", referencedColumnName="sdId"))
+    private List<SensitiveDomain> sensitiveDomains = new ArrayList<>();
+
+    private void addSensitiveDomain(SensitiveDomain sensitiveDomain) {
+        sensitiveDomains.add(sensitiveDomain);
+    }
+
+    public List<SensitiveDomain> getSensitiveDomains() {
+        return Collections.unmodifiableList(sensitiveDomains);
+    }
+
+    public void setSensitiveDomains(List<SensitiveDomain> sensitiveDomains) {
+        this.sensitiveDomains = sensitiveDomains;
+    }
 
     @Override
     public boolean equals(Object o) {

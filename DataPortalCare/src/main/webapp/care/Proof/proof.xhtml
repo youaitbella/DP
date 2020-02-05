@@ -51,10 +51,10 @@
             <pf:column id="psAreaId"
                        headerText="pflegesensitiver Bereich"
                        sortable="true"
-                       sortBy="#{proof.proofRegulationStation.sensitiveArea.name}"
+                       sortBy="#{proof.proofWard.proofWardDepts.get(0).sensitiveDomains.get(0).name}"
                        filterable="true"
-                       filterBy="#{proof.proofRegulationStation.sensitiveArea.name}">
-                <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name}" />
+                       filterBy="#{proof.proofWard.proofWardDepts.get(0).sensitiveDomains.get(0).name}">
+                <pf:outputLabel value="#{proof.proofWard.proofWardDepts.get(0).sensitiveDomains.get(0).name}" />
             </pf:column>
             <pf:column id="fabNumberId"
                        headerText="FAB Schlüssel"
@@ -137,7 +137,6 @@
                     <pf:ajax event="change"
                              update="patientPerNurseId countHelpeNurseChargeableId"
                              immediate="true" />
-                    <pf:focus />
                 </pf:inputNumber>
                 <pf:message for="proofNurseId" />
             </pf:column>
@@ -155,7 +154,6 @@
                     <pf:ajax event="change"
                              update="patientPerNurseId countHelpeNurseChargeableId"
                              immediate="true" />
-                    <pf:focus />
                 </pf:inputNumber>
                 <pf:message for="proofHelpNurseId" />
             </pf:column>
@@ -173,7 +171,6 @@
                     <pf:ajax event="change"
                              update="patientPerNurseId countHelpeNurseChargeableId"
                              immediate="true" />
-                    <pf:focus />
                 </pf:inputNumber>
                 <pf:message for="proofPatientOccupancy" />
             </pf:column>
@@ -187,7 +184,6 @@
                                 readonly="#{proofEdit.isReadOnly}">
                     <pf:ajax event="change"
                              immediate="true" />
-                    <pf:focus />
                 </pf:inputNumber>
             </pf:column>
             <pf:column headerText="rechnerische Anzahl Patienten je Pflegekraft" style="text-align: right;">
