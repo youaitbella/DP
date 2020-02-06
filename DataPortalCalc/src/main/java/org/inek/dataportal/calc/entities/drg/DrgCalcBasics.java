@@ -1483,6 +1483,19 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="endoscopy">
+    @Column(name = "biExternalStaff")
+    private boolean _externalStaff;
+
+    public boolean isExternalStaff() {
+        return _externalStaff;
+    }
+
+    public void setExternalStaff(boolean externalStaff) {
+        this._externalStaff = externalStaff;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property List specialUnits">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "suBaseInformationId", referencedColumnName = "biID")
@@ -1549,10 +1562,25 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
+/*
+    //<editor-fold defaultstate="collapsed" desc="_hasDescMedicalInfra">
+    @Transient
+    private boolean _hasDescMedicalInfra = false;
 
-    /*
-    @Column(name = "biHasExternalMedicalStaff")
-    @Documentation(name = "Das Krankenhaus hat Ärzte_Pflegekräfte_Funktionsdienst als externes Personal beschäftigt")
+    public boolean isDescMedicalInfra() {
+        return _hasDescMedicalInfra;
+    }
+
+    public void setDescMedicalInfra(boolean hasDesc) {
+        this._hasDescMedicalInfra = hasDesc;
+    }
+    //</editor-fold>
+  */
+
+
+//    @Column(name = "biHasExternalMedicalStaff")
+//    @Documentation(name = "Das Krankenhaus hat Ärzte_Pflegekräfte_Funktionsdienst als externes Personal beschäftigt")
+    @Transient
     private boolean _hasExternalMedicalStaff;
 
     public boolean hasExternalMedicalStaff() {
@@ -1562,7 +1590,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void setHasMedicalStaff(boolean _hasExternalMedicalStaff) {
         this._hasExternalMedicalStaff = _hasExternalMedicalStaff;
     }
-
+/*
     @Column(name = "biCountVKExternalMedicalStaff")
     @Documentation(name = "")
     private int _countVKExternalMedicalStaff;
@@ -1574,8 +1602,23 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void set_countVKExternalMedicalStaff(int _countVKExternalMedicalStaff) {
         this._countVKExternalMedicalStaff = _countVKExternalMedicalStaff;
     }
-    */
+*/
 
+    //<editor-fold defaultstate="collapsed" desc="Property List ExternalMedStaff">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "emsBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLListExternalMedStaff", rank = 4050)
+    private List<KGLListExternalMedStaff> _externalMedStaffs = new Vector<>();
+
+    public List<KGLListExternalMedStaff> getExternalMedStaffs() {
+        return _externalMedStaffs;
+    }
+
+    public void setExternalMedStaffs(List<KGLListExternalMedStaff> _externalMedStaffs) {
+        this._externalMedStaffs = _externalMedStaffs;
+    }
+
+    //</editor-fold>
 
 
 

@@ -10,76 +10,87 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
     <h2>Übersicht externes Personal</h2>
     <inek:LabeledCheckbox label="Das Krankenhaus hat Ärzte_Pflegekräfte_Funktionsdienst als externes Personal beschäftigt:"
-                          styleClassLabel="label40">
+                          styleClassLabel="label40"
+                          value="#{editCalcBasicsDrg.calcBasics.externalStaff}"
+                          renderElement="@form :script"
+                          readonly="#{editCalcBasicsDrg.readOnly}"
+                          listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.externalStaff)}">
     </inek:LabeledCheckbox>
 <!--    Ärztlichen Dienst-->
     <div class="inputPart">
 <!--        <h:outputLabel styleClass="label50" value="Im Krankenhaus eingesetztes Fremdpersonal im Ärztlichen Dienst:"/>-->
         <h2>Im Krankenhaus eingesetztes Fremdpersonal im Ärztlichen Dienst:</h2>
-        <h:dataTable value=""
+        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.externalMedStaffs}"
                      id="externalMedStaffId"
+                     var="externalMedStaff"
                      styleClass="borderedTable borderCollapse"
                      headerClass="smallFont paddingElement"
                      tableStyle="table-layout: auto"
                      rowClasses="row1, row2"
                      columnClasses="colIcon, col1, col2, col3, col4, col5">
             <h:column>
+                <h:commandLink action="#{editCalcBasicsDrg.deleteExternalMedStaff(externalMedStaff)}"
+                               rendered="true"
+                               immediate="true" styleClass="colIcon">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                    value=""
+                                    rendered="#{!editCalcBasicsDrg.readOnly}"/>
+                    <cb:confirmDelete/>
+                </h:commandLink>
+            </h:column>
+            <h:column>
                 <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                 <inek:InputTextWithMessage id="division"
-                                           required="true"
-                                           value=""
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
-                                           styleClass="fullWidth">
+                             required="true"
+                             value="#{externalMedStaff.divisionMedStaff}"
+                             styleClass="fullWidth"
+                             readonly="#{editCalcBasicsDrg.readOnly}">
                 </inek:InputTextWithMessage>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
-                <inek:InputIntegerWithMessage value="" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                <inek:InputNumberWithMessage  id="countMedStaff"
+                              value="#{externalMedStaff.count}" />
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kostenvolumen"/></f:facet>
-                <inek:InputNumberWithMessage id="costVolumExternalMedStaff" styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
-                                             pattern="##,###.00"/>
+                <inek:InputNumberWithMessage id="costVolumeMedStaff" styleClass="element100" value="#{externalMedStaff.costVolume}"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
-                <inek:InputNumberWithMessage id="costVKMedStaff" styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
-                                             pattern="##,###.00"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{externalMedStaff.costPerFullTime}"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
-                <inek:InputNumberWithMessage id="costStGrExternalMedStaff" styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
-                                             pattern="##,###.00"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{externalMedStaff.costKoStGr}"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
-                <inek:InputNumberWithMessage id="costArtGrExternalMedStaff" styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
-                                             pattern="##,###.00"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{externalMedStaff.costKoArtGr}"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
-                <inek:InputTextWithMessage id="explanationField"
-                                           required="true"
-                                           value=""
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                <inek:InputTextWithMessage required="true"
+                                           value="#{externalMedStaff.explanationField}"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>
 
         </h:dataTable>
     </div>
+    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                   rendered="#{!editCalcBasicsDrg.readOnly}">
+        <f:ajax event="click" render="externalMedStaffId :logout:remaining"
+                listener="#{editCalcBasicsDrg.addexternalMedStaff()}"/>
+    </h:commandLink>
 
 <!--    Pflegedienst-->
 <!--    Pflegefachkräfte-->
     <div class="inputPart">
         <h2>Im Krankenhaus eingesetztes Fremdpersonal im Pflegedienst:</h2>
         <h:outputLabel styleClass="label50" value="Pflegefachkräfte"/>
-        <h:dataTable value=""
-                     id="careStaffId"
+        <h:dataTable id="externalNursingStaffId"
+                     value=""
                      styleClass="borderedTable borderCollapse"
                      headerClass="smallFont paddingElement"
                      tableStyle="table-layout: auto"
@@ -90,20 +101,18 @@
                 <inek:InputTextWithMessage id="division"
                                            required="true"
                                            value=""
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
-                <inek:InputIntegerWithMessage value="#{item.caseCount}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                <inek:InputIntegerWithMessage value="#{item.caseCount}" />
             </h:column>
             <h:column>
                 <f:facet name="header">
                     <h:outputLabel value="Kostenvolumen, welches gem. §6a Abs. 2 KHEntgG zur Ermittlung des Pflegebudgets berücksichtigt werden darf:"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
@@ -114,25 +123,21 @@
                                             Bitte beachten Sie in diesem Zusammenhang die Hinweise zur Kalkulation 2020."/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
@@ -140,7 +145,6 @@
                 <inek:InputTextWithMessage id="explanationField"
                                            required="true"
                                            value=""
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>
@@ -163,18 +167,17 @@
                 <inek:InputTextWithMessage id="division"
                                            required="true"
                                            value=""
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
-                <inek:InputIntegerWithMessage value="#{item.caseCount}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                <inek:InputIntegerWithMessage value="" readonly="false"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kostenvolumen, welches gem. §6a Abs. 2 KHEntgG zur Ermittlung des Pflegebudgets berücksichtigt werden darf:"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="false"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
@@ -185,25 +188,25 @@
                                             Bitte beachten Sie in diesem Zusammenhang die Hinweise zur Kalkulation 2020."/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
@@ -211,7 +214,7 @@
                 <inek:InputTextWithMessage id="explanationField"
                                            required="true"
                                            value=""
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           readonly="true"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>
@@ -233,18 +236,18 @@
                 <inek:InputTextWithMessage id="division"
                                            required="true"
                                            value=""
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
-                                           styleClass="fullWidth">
-                </inek:InputTextWithMessage>
+                                           readonly="true"
+                                           styleClass="fullWidth"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
-                <inek:InputIntegerWithMessage value="#{item.caseCount}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                <inek:InputIntegerWithMessage value=""
+                                              readonly="true"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kostenvolumen, welches gem. §6a Abs. 2 KHEntgG zur Ermittlung des Pflegebudgets berücksichtigt werden darf:"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
@@ -255,32 +258,32 @@
                                             Bitte beachten Sie in diesem Zusammenhang die Hinweise zur Kalkulation 2020."/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
                 <inek:InputTextWithMessage required="true"
                                            value=""
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           readonly="true"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>
@@ -305,43 +308,42 @@
                 <inek:InputTextWithMessage id="division"
                                            required="true"
                                            value=""
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
-                <inek:InputIntegerWithMessage value="#{item.caseCount}" readonly="#{editCalcBasicsDrg.readOnly}"/>
+                <inek:InputIntegerWithMessage/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kostenvolumen"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value=""
-                                             readonly="#{cc.attrs.backingBean.readOnly}"
+                                             readonly="true"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Berufsgruppe des med. techn. Dienst/ Funktionsdienst"/></f:facet>
                 <inek:InputTextWithMessage required="true"
                                            value=""
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           readonly="true"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>
@@ -350,7 +352,7 @@
                 <inek:InputTextWithMessage id="explanationField"
                                            required="true"
                                            value=""
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
+                                           readonly="true"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>

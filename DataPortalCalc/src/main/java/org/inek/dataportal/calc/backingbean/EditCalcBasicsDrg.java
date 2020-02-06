@@ -337,6 +337,20 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getIntensivStrokes().add(item);
     }
 
+    public List<KGLListExternalMedStaff> addexternalMedStaff() {
+        List<KGLListExternalMedStaff> result = _calcBasics.getExternalMedStaffs();
+        KGLListExternalMedStaff item = new KGLListExternalMedStaff();
+        item.set_baseInformationId(_calcBasics.getId());
+        result.add(item);
+        return result;
+    }
+
+
+    public void deleteExternalMedStaff(KGLListExternalMedStaff externalMedStaff) {
+        List<KGLListExternalMedStaff> result = _calcBasics.getExternalMedStaffs();
+        result.remove(externalMedStaff);
+    }
+
     public void deleteIntensivStrokeItems(int intensiveType) {
         _calcBasics.getIntensivStrokes().removeIf(i -> i.getIntensiveType() == intensiveType);
     }
