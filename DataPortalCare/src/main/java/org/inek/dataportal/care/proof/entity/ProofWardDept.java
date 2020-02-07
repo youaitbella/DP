@@ -4,6 +4,7 @@ import org.inek.dataportal.care.entities.SensitiveDomain;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "ProofWardDept", schema = "care")
@@ -99,6 +100,10 @@ public class ProofWardDept {
 
     public void setSensitiveDomains(List<SensitiveDomain> sensitiveDomains) {
         this.sensitiveDomains = sensitiveDomains;
+    }
+
+    public String obtainSensitiveDomainNames() {
+        return sensitiveDomains.stream().map(SensitiveDomain::getName).collect(Collectors.joining(", "));
     }
 
     @Override

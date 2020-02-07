@@ -17,11 +17,11 @@
             <pf:repeat value="#{proofEdit.proofsForExceptionFact}" var="proof">
                 <div class="ui-g">
                     <div class="ui-g-10">
-                        <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name} - " />
-                        <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber} - " />
-                        <pf:outputLabel value="#{proof.proofRegulationStation.fabName} - " />
-                        <pf:outputLabel value="#{proof.proofRegulationStation.stationName} - " />
-                        <pf:outputLabel value="#{proof.proofRegulationStation.locationCode} - " />
+                        <pf:outputLabel value="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).obtainSensitiveDomainNames()} - " />
+                        <pf:outputLabel value="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNumbers} - " />
+                        <pf:outputLabel value="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNames} - " />
+                        <pf:outputLabel value="#{proof.proofWard.name} - " />
+                        <pf:outputLabel value="#{proof.proofWard.locationText} - " />
                         <pf:outputLabel value="#{proof.month.name} - " />
                         <pf:outputLabel value="#{proof.shift.name}" />
                     </div>
@@ -52,10 +52,11 @@
             <pf:column id="psAreaId"
                        headerText="pflegesensitiver Bereich"
                        sortable="true"
-                       sortBy="#{proof.proofWard.proofWardDepts.get(0).sensitiveDomains.get(0).name}"
+                       sortBy="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).obtainSensitiveDomainNames()}"
+                       filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.proofWard.proofWardDepts.get(0).sensitiveDomains.get(0).name}">
-                <pf:outputLabel value="#{proof.proofWard.proofWardDepts.get(0).sensitiveDomains.get(0).name}" />
+                       filterBy="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).obtainSensitiveDomainNames()}">
+                <pf:outputLabel value="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).obtainSensitiveDomainNames()}" />
             </pf:column>
             <pf:column id="fabNumberId"
                        headerText="FAB Schlüssel"

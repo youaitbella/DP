@@ -491,7 +491,7 @@ public class ProofEdit implements Serializable {
     }
 
     public List<Proof> getProofsForExceptionFact() {
-        return _proofBaseInformation.getProofs().stream()
+        return _proofBaseInformation.getProofs().stream().filter(p -> p.getProofRegulationStationId() == 0)
                 .filter(c -> c.getPatientPerNurse() > c.getPpug() || c.getCountShiftNotRespected() > 0)
                 .filter(c -> c.getExceptionFact().size() < _listExceptionsFacts.size())
                 .collect(Collectors.toList());
