@@ -68,7 +68,7 @@ public class KGLListExternalMedStaff implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Kosten je VK">
+    // <editor-fold defaultstate="collapsed" desc="Kosten je VK -- toremove">
     @Column(name = "emsCostPerFullTime")
     private double _costPerFullTimeMedStaff;
 
@@ -109,7 +109,7 @@ public class KGLListExternalMedStaff implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Erläuterungsfeld">
     @Column(name = "emsExplanationField")
-    private String _explanationField;
+    private String _explanationField="";
 
     public String getExplanationField() {
         return _explanationField;

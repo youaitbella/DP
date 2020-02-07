@@ -1620,6 +1620,21 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property List ExternalNursingStaff">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ensBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLListExternalNursingStaff", rank = 4050)
+    private List<KGLListExternalNursingStaff> _externalNursingStaffs = new Vector<>();
+
+    public List<KGLListExternalNursingStaff> get_externalNursingStaffs() {
+        return _externalNursingStaffs;
+    }
+
+    public void set_externalNursingStaffs(List<KGLListExternalNursingStaff> _externalNursingStaffs) {
+        this._externalNursingStaffs = _externalNursingStaffs;
+    }
+    //</editor-fold>
+
 
 
 

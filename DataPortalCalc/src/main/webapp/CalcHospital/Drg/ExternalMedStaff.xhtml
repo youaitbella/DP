@@ -12,7 +12,7 @@
     <inek:LabeledCheckbox label="Das Krankenhaus hat Ärzte_Pflegekräfte_Funktionsdienst als externes Personal beschäftigt:"
                           styleClassLabel="label40"
                           value="#{editCalcBasicsDrg.calcBasics.externalStaff}"
-                          renderElement="@form :script"
+                          renderElement="@form externalMedStaffId :script"
                           readonly="#{editCalcBasicsDrg.readOnly}"
                           listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.externalStaff)}">
     </inek:LabeledCheckbox>
@@ -26,7 +26,7 @@
                      styleClass="borderedTable borderCollapse"
                      headerClass="smallFont paddingElement"
                      tableStyle="table-layout: auto"
-                     rowClasses="row1, row2"
+                     rowClasses="row1, row2" rendered="#{editCalcBasicsDrg.calcBasics.externalStaff}"
                      columnClasses="colIcon, col1, col2, col3, col4, col5">
             <h:column>
                 <h:commandLink action="#{editCalcBasicsDrg.deleteExternalMedStaff(externalMedStaff)}"
@@ -54,11 +54,16 @@
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kostenvolumen"/></f:facet>
-                <inek:InputNumberWithMessage id="costVolumeMedStaff" styleClass="element100" value="#{externalMedStaff.costVolume}"/>
+                <inek:InputNumberWithMessage id="costVolumeMedStaff"
+                                             renderElement="#{component.clientId.substring(0, component.clientId.indexOf('costVolumeMedStaff'))}costPerFullTime:text"
+                                             styleClass="element100" value="#{externalMedStaff.costVolume}"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{externalMedStaff.costPerFullTime}"/>
+<!--                {externalMedStaff.costPerFullTime}-->
+                <inek:InputNumberWithMessage id="costPerFullTime" styleClass="element100"
+                                             disabled="true"
+                                             value="#{externalMedStaff.count eq 0 ? '' : externalMedStaff.costVolume / externalMedStaff.count}"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
@@ -90,29 +95,42 @@
         <h2>Im Krankenhaus eingesetztes Fremdpersonal im Pflegedienst:</h2>
         <h:outputLabel styleClass="label50" value="Pflegefachkräfte"/>
         <h:dataTable id="externalNursingStaffId"
-                     value=""
+                     value="#{editCalcBasicsDrg.calcBasics._externalNursingStaffs}" var="externalNursingStaff"
                      styleClass="borderedTable borderCollapse"
                      headerClass="smallFont paddingElement"
                      tableStyle="table-layout: auto"
                      rowClasses="row1, row2"
                      columnClasses="colIcon, col1, col2, col3, col4, col5">
             <h:column>
+                <h:commandLink action="#{editCalcBasicsDrg.deleteExternalMedStaff(externalNursingStaff)}"
+                               rendered="true"
+                               immediate="true" styleClass="colIcon">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                    value=""
+                                    rendered="#{!editCalcBasicsDrg.readOnly}"/>
+                    <cb:confirmDelete/>
+                </h:commandLink>
+            </h:column>
+            <h:column>
                 <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                 <inek:InputTextWithMessage id="division"
                                            required="true"
-                                           value=""
+                                           value="#{externalNursingStaff.divisionNursingStaff}"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
-                <inek:InputIntegerWithMessage value="#{item.caseCount}" />
+                <inek:InputIntegerWithMessage id="countNursingStaff"
+                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('countNursingStaff'))}costPerFullTimeNursingStaff:text"
+                                              value="#{externalNursingStaff.countNursingStaff}" />
             </h:column>
             <h:column>
                 <f:facet name="header">
                     <h:outputLabel value="Kostenvolumen, welches gem. §6a Abs. 2 KHEntgG zur Ermittlung des Pflegebudgets berücksichtigt werden darf:"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value=""
+                <inek:InputNumberWithMessage styleClass="element100"
+                                             value="#{externalNursingStaff.consideredCostVolumeNursingStaff}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
@@ -122,35 +140,45 @@
                                     title="Bitte geben Sie hier das Kostenvolumen an, welches über den tarifvertraglich vereinbarten Arbeitsentgelt des Pflegepersonals mit direktem Beschäftigsverhältnis hinausgeht (z.B. Vermittlungsentgelte).
                                             Bitte beachten Sie in diesem Zusammenhang die Hinweise zur Kalkulation 2020."/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value=""
+                <inek:InputNumberWithMessage styleClass="element100"
+                                             value="#{externalNursingStaff.notConsideredCostVolumeNursingStaff}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value=""
+                <inek:InputNumberWithMessage id="costPerFullTimeNursingStaff" styleClass="element100"
+                                             disabled="true"
+                                             value="#{externalNursingStaff.countNursingStaff eq 0 ? '' : externalNursingStaff.consideredCostVolumeNursingStaff + externalNursingStaff.notConsideredCostVolumeNursingStaff / externalNursingStaff.countNursingStaff}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value=""
+                <inek:InputNumberWithMessage styleClass="element100"
+                                             value="#{externalNursingStaff.costStGrNursingStaff}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value=""
+                <inek:InputNumberWithMessage styleClass="element100"
+                                             value="#{externalNursingStaff.costKoArtGrNursingStaff}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
                 <inek:InputTextWithMessage id="explanationField"
                                            required="true"
-                                           value=""
+                                           value="#{externalNursingStaff.explanationFieldNursingStaff}"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>
 
         </h:dataTable>
     </div>
+    <h:commandLink id="addButton1" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                   rendered="#{!editCalcBasicsDrg.readOnly}">
+        <f:ajax event="click" render="externalNursingStaffId :logout:remaining"
+                listener="#{editCalcBasicsDrg.addexternalNursingStaff}"/>
+    </h:commandLink>
 
 <!--    Pflegehilfskräfte-->
     <div class="inputPart">
