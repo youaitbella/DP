@@ -333,18 +333,17 @@ public class ScannerTimer {
 
     private String determineSaveFolder() {
         String rootFolder = _config.readConfig(ConfigKey.FolderRoot);
-        if ("/".equals(rootFolder.substring(rootFolder.length() - 1))) {
-            rootFolder = rootFolder.substring(0, rootFolder.length() - 1);
-        }
-        return _config.readConfig(ConfigKey.KhComparisonJobSavePath).replace("{root}", rootFolder);
+        return _config.readConfig(ConfigKey.KhComparisonJobSavePath).replace("{root}", removeTrailingSlash(rootFolder));
+    }
+
+    private String removeTrailingSlash(String rootFolder) {
+        int lastCharIsSlash = ("/".equals(rootFolder.substring(rootFolder.length() - 1)) ? 1 : 0);
+        return rootFolder.substring(0, rootFolder.length() - lastCharIsSlash);
     }
 
     private String determineUploadFolder() {
         String rootFolder = _config.readConfig(ConfigKey.FolderRoot);
-        if ("/".equals(rootFolder.substring(rootFolder.length() - 1))) {
-            rootFolder = rootFolder.substring(0, rootFolder.length() - 1);
-        }
-        return _config.readConfig(ConfigKey.KhComparisonUploadPath).replace("{root}", rootFolder);
+        return _config.readConfig(ConfigKey.KhComparisonUploadPath).replace("{root}", removeTrailingSlash(rootFolder));
     }
 
 
