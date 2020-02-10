@@ -12,6 +12,7 @@ import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * @author lautenti
  */
-@Stateless
+@ApplicationScoped
 public class BaseDataFacade extends AbstractDataAccess {
 
     public List<BaseData> getAllBaseData() {
