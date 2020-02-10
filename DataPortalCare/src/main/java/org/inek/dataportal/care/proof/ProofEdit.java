@@ -13,7 +13,6 @@ import org.inek.dataportal.care.proof.util.ProofAggregator;
 import org.inek.dataportal.care.proof.util.ProofChecker;
 import org.inek.dataportal.care.proof.util.ProofHelper;
 import org.inek.dataportal.care.proof.util.ProofImporter;
-import org.inek.dataportal.care.utils.BaseDataManager;
 import org.inek.dataportal.care.utils.CalculatorPpug;
 import org.inek.dataportal.care.utils.CareSignatureCreater;
 import org.inek.dataportal.common.controller.DialogController;
@@ -67,6 +66,8 @@ public class ProofEdit implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("ProofEdit");
     public static final String DATA_INCOMPLETE = "Daten unvollständig";
+
+    //todo: reduce injections and change from field to constructor injection
     @Inject
     private SessionController _sessionController;
     @Inject
@@ -90,7 +91,6 @@ public class ProofEdit implements Serializable {
     private boolean _isExceptionFactsChangeMode = false;
     private String _uploadMessage;
     private List<ProofExceptionFact> _exceptionsFacts = new ArrayList<>();
-    private BaseDataManager _baseDatamanager;
     private List<SelectItem> _listExceptionsFacts = new ArrayList<>();
     private List<SortMeta> _preSortOrder = new ArrayList<>();
 
@@ -185,10 +185,9 @@ public class ProofEdit implements Serializable {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
-            loadBaseDataManager();
             loadExceptionsFactsList();
             fillExceptionsFactsList(_proofBaseInformation);
-            _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
+            _baseDataFacade.fillBaseDataToProofs(_proofBaseInformation.getProofs());
         }
         setReadOnly();
         buildSortOrder();
@@ -296,10 +295,6 @@ public class ProofEdit implements Serializable {
     }
 
 
-    private void loadBaseDataManager() {
-        _baseDatamanager = new BaseDataManager(_proofBaseInformation.getYear(), _baseDataFacade);
-    }
-
     public void save() {
         for (Proof proof : _proofBaseInformation.getProofs()) {
             calculateCountHelpeNurseChargeable(proof);
@@ -323,7 +318,7 @@ public class ProofEdit implements Serializable {
             }
 
             _proofBaseInformation = _proofFacade.save(_proofBaseInformation);
-            _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
+            _baseDataFacade.fillBaseDataToProofs(_proofBaseInformation.getProofs());
 
 
             if (_proofBaseInformation.getStatus() == WorkflowStatus.Provided) {
@@ -445,7 +440,7 @@ public class ProofEdit implements Serializable {
 
         try {
             _proofBaseInformation = _proofFacade.save(_proofBaseInformation);
-            _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
+            _baseDataFacade.fillBaseDataToProofs(_proofBaseInformation.getProofs());
             setIsExceptionFactsChangeMode(false);
             DialogController.showSaveDialog();
         } catch (Exception ex) {
