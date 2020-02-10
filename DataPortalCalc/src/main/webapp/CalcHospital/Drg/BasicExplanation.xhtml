@@ -502,11 +502,12 @@
                     <h:outputText value="Zentrums- bzw. Schwerpunktbezeichnung"/><br/>
                     <h:outputText value="(aussagekräftiger Name)"/>
                 </f:facet>
-                <h:inputText value="#{item.text}" styleClass="inputwide"
+                <h:inputText id="name" value="#{item.text}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
-                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                    <f:ajax event="blur" render="@this :logout:remaining nameMsg"/>
                 </h:inputText>
+                <h:message for="name" styleClass="errorMessage" id="nameMsg"/>
             </h:column>
 
             <h:column>
@@ -558,11 +559,12 @@
                 <f:facet name="header">
                     <h:outputText value="Entgeltschlüssel"/>
                 </f:facet>
-                <h:inputText value="#{item.remunerationKey}" styleClass="inputwide"
+                <h:inputText id="remunerationKey" value="#{item.remunerationKey}" styleClass="inputwide"
                              readonly="#{editCalcBasicsDrg.readOnly}"
                              required="true">
-                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                    <f:ajax event="blur" render="@this :logout:remaining remunerationKeyMsg"/>
                 </h:inputText>
+                <h:message for="remunerationKey" styleClass="errorMessage" id="remunerationKeyMsg"/>
             </h:column>
 
         </h:dataTable>

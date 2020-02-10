@@ -18,6 +18,7 @@ import org.inek.dataportal.common.mail.MailTemplateFacade;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.requestmanager.FeatureRequestHandler;
 import org.inek.dataportal.common.utils.Crypt;
+import org.inek.dataportal.common.utils.DateUtils;
 import org.inek.dataportal.common.utils.ObjectUtil;
 import org.inek.dataportal.common.utils.StringUtil;
 
@@ -500,7 +501,7 @@ public class AccountFacade extends AbstractDataAccess {
         if (emails.isEmpty()) {
             return;
         }
-        int year = 2018;
+        int year = DateUtils.currentMonth() == 1 ? DateUtils.currentYear() : DateUtils.currentYear() - 1;
         String sql = "select lower(coMail), "
                 + "IIF(coIsDrg = 1, 'DRG ', '') + IIF(coIsPsy = 1, 'PSY ', '') + IIF(coIsInv = 1, 'INV ', '') "
                 + "+ IIF(coIsTpg = 1, 'TPG ', '') + IIF(coIsObd = 1, 'OBD ', '') + IIF(coIsConsultant = 1, 'Berater', '')\n"
