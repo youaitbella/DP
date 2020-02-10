@@ -1,7 +1,10 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.db.type.Request;
+import org.assertj.db.type.Source;
 import org.eclipse.persistence.internal.jpa.EntityManagerFactoryProvider;
+import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -45,6 +48,13 @@ class InekComparisonJobTest {
         transaction.commit();
         Assertions.assertThat(inekComparisonJob.getId()).isNotEqualTo(0);
 
+        AEBFacade aebFacade = new AEBFacade(entityManager);
+        transaction.begin();
+        aebFacade.generateInekComparisonHospitals(inekComparisonJob);
+        transaction.commit();
+        Request request = new Request(
+                new Source("jdbc:sqlserver://vdatabase01:1433;databaseName=DataPortalDev;integratedSecurity=true","", ""),
+                "select count(1) as anz from psy.InekComparisonHospital where ichInekComparisonJobId = " + inekComparisonJob.getId());
+        org.assertj.db.api.Assertions.assertThat(request).row(0).column(0).value().isGreaterThan(100);
     }
-
 }
