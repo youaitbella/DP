@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
 
@@ -52,15 +53,30 @@ public class InekComparisonJob implements Serializable {
     @JoinColumn(name = "icjAccountId")
     private Account account;
 
-//	[icjId] [int] IDENTITY(1,1) NOT NULL,
-//	[icjVersion] [int] NOT NULL,
-//	[icjStatus] [varchar](20) NOT NULL,
-//	[icjCreatedAt] [datetime] NOT NULL,
-//	[icjStartWorking] [datetime] NOT NULL,
-//	[icjEndWorking] [datetime] NOT NULL,
-//	[icjDataYear] [int] NOT NULL,
-//	[icjAebUpTo] varchar(20) NOT NULL,
-    //<editor-fold defaultstate="collapsed" desc="Property hcsCreatedAt">
+    public InekComparisonJob() {
+    }
+
+    public InekComparisonJob(Account account, int inekDataYear, String inekAebSendDateUpToConsider) {
+        this.account = account;
+        dataYear = inekDataYear;
+        aebUpTo = inekAebSendDateUpToConsider;
+    }
+
+    public static boolean checkAebToConsider(String inekAebSendDateUpToConsider) {
+        try {
+            LocalDate.parse(inekAebSendDateUpToConsider, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Expected Format (yyyy-MM-dd) not given: " + inekAebSendDateUpToConsider);
+        }
+        return true;
+    }
+
+    public static boolean checkDataYear(int inekDataYear) {
+        if (inekDataYear < 2018 || inekDataYear > LocalDate.now().getYear()) {
+            throw new IllegalArgumentException("DataYear only allowed for range 2018 to " + LocalDate.now().getYear() + " inclusive");
+        }
+        return true;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Properties">
 
