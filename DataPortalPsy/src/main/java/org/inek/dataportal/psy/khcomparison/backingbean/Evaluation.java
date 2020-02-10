@@ -56,6 +56,9 @@ public class Evaluation {
     private int _selectedIk = 0;
     private int _selectedAgreementYear = 0;
 
+    private int inekDataYear = 2018;
+    private String inekAebSendDateUpToConsider="2020-01-17";
+
     private String _hospitalComparisonId = "";
 
     private List<HospitalComparisonInfo> _listEvaluations = new ArrayList<>();
@@ -76,6 +79,22 @@ public class Evaluation {
 
     public void setSelectedAgreementYear(int selectedAgreementYear) {
         this._selectedAgreementYear = selectedAgreementYear;
+    }
+
+    public int getInekDataYear() {
+        return inekDataYear;
+    }
+
+    public void setInekDataYear(int inekDataYear) {
+        this.inekDataYear = inekDataYear;
+    }
+
+    public String getInekAebSendDateUpToConsider() {
+        return inekAebSendDateUpToConsider;
+    }
+
+    public void setInekAebSendDateUpToConsider(String inekAebSendDateUpToConsider) {
+        this.inekAebSendDateUpToConsider = inekAebSendDateUpToConsider;
     }
 
     public List<HospitalComparisonInfo> getListEvaluations() {
@@ -169,8 +188,43 @@ public class Evaluation {
         }
     }
 
+    public void startInekEvaluation() {
+        LOGGER.severe("starting startInekEvaluation");
+        if (!isReadyForInekEvaluation()) {
+            DialogController.showErrorDialog("Daten unvollständig", "Bitte wählen das Datenjahr und bis zu welchem Datum AEBs berücksichtigt werden sollen.");
+            LOGGER.severe("end startInekEvaluation due to missing values");
+            return;
+        }
+        generateInekComparisonJob();
+            LOGGER.severe("start calculation to be implemented");
+            DialogController.showInfoDialog("Keine Auswertung möglich", "noch nicht implementiert.");
+            LOGGER.severe("end startInekEvaluation normaly");
+//        Customer customer = _customerFacade.getCustomerByIK(_selectedIk);
+//        if (createHospitalComparisonInfo(customer)) {
+//            DialogController.showInfoDialog("Auswertung gestartet", "Ihre Auswertung wird gerade bearbeitet. " +
+//                    "Dies kann einige Minuten dauern. Bitte haben Sie etwas Geduld. " +
+//                    "Sobald die Datei fertig erstellt ist, wird diese Ihnen im Datenportal zur Verfügung gestellt. " +
+//                    "Sie erhalten dann eine Benachrichtigung per Mail.");
+//            setEvaluationsList();
+//
+//        } else {
+//            DialogController.showInfoDialog("Keine Auswertung möglich", "Es konnte keine Vergleichsgruppe gebildet " +
+//                    "werden. Bitte versuchen Sie es später noch einmal.");
+//        }
+    }
+
+    private void generateInekComparisonJob() {
+        // generate InekComparisonJob
+        // generate comparisonHospitals for all countries
+    }
+
     private boolean isReadyForEvaluation() {
         return _selectedIk > 0 && _selectedAgreementYear > 0;
+    }
+
+    private boolean isReadyForInekEvaluation() {
+        // todo: check the date in inekAebSendDateUpToConsider for correct format and valid date
+        return inekDataYear >= 2018 && inekAebSendDateUpToConsider.startsWith("20");
     }
 
     private boolean createHospitalComparisonInfo(Customer cus) {
