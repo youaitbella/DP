@@ -249,7 +249,7 @@ public class AEBBaseInformation implements Serializable {
     @JsonIgnore
     @Column(name = "biAllowedToResendUntil")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _allowedToResendUntil = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));;
+    private Date _allowedToResendUntil = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
     @JsonIgnore
     public Date getAllowedToResendUntil() {
