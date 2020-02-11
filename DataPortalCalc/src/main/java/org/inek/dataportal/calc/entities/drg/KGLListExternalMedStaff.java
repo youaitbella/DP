@@ -68,19 +68,6 @@ public class KGLListExternalMedStaff implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Kosten je VK -- toremove">
-    @Column(name = "emsCostPerFullTime")
-    private double _costPerFullTimeMedStaff;
-
-    public double getCostPerFullTime() {
-        return _costPerFullTimeMedStaff;
-    }
-
-    public void setCostPerFullTime(double costPerFullTime) {
-        this._costPerFullTimeMedStaff = costPerFullTime;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="KoStGr">
     @Column(name = "emsKoStGr")
     private double _costStGr;
@@ -128,7 +115,7 @@ public class KGLListExternalMedStaff implements Serializable {
         return _baseInformationId;
     }
 
-    public void set_baseInformationId(int _baseInformationId) {
+    public void setBaseInformationId(int _baseInformationId) {
         this._baseInformationId = _baseInformationId;
     }
     // </editor-fold>
@@ -148,7 +135,6 @@ public class KGLListExternalMedStaff implements Serializable {
         return getId() == that.getId() &&
                 Double.compare(that.getCount(), getCount()) == 0 &&
                 Double.compare(that.getCostVolume(), getCostVolume()) == 0 &&
-                Double.compare(that.getCostPerFullTime(), getCostPerFullTime()) == 0 &&
                 Double.compare(that.getCostKoStGr(), getCostKoStGr()) == 0 &&
                 Double.compare(that.getCostKoArtGr(), getCostKoArtGr()) == 0 &&
                 get_baseInformationId() == that.get_baseInformationId() &&
@@ -158,7 +144,8 @@ public class KGLListExternalMedStaff implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDivisionMedStaff(), getCount(), getCostVolume(), getCostPerFullTime(), getCostKoStGr(), getCostKoArtGr(), getExplanationField(), get_baseInformationId());
+        return Objects.hash(getId(), getDivisionMedStaff(), getCount(), getCostVolume(), getCostKoStGr(), getCostKoArtGr(),
+                getExplanationField(), get_baseInformationId());
     }
 
     @Override

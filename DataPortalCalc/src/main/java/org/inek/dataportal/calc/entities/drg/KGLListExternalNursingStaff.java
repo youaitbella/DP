@@ -85,19 +85,6 @@ public class KGLListExternalNursingStaff implements Serializable {
 
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Kosten je VK">
-    @Column(name = "ensCostPerFullTime")
-    private double _costPerFullTimeNursingStaff;
-
-    public double getCostPerFullTimeNursingStaff() {
-        return _costPerFullTimeNursingStaff;
-    }
-
-    public void setCostPerFullTimeNursingStaff(double costPerFullTimeNursingStaff) {
-        this._costPerFullTimeNursingStaff = costPerFullTimeNursingStaff;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="KoStGr">
     @Column(name = "ensKoStGr")
     private double _costStGrNursingStaff;
@@ -144,11 +131,11 @@ public class KGLListExternalNursingStaff implements Serializable {
     @Column(name = "ensBaseInformationId")
     private int _baseInformationIdNursingStaff;
 
-    public int get_baseInformationIdNursingStaff() {
+    public int getBaseInformationIdNursingStaff() {
         return _baseInformationIdNursingStaff;
     }
 
-    public void set_baseInformationIdNursingStaff(int _baseInformationIdNursingStaff) {
+    public void setBaseInformationId(int _baseInformationIdNursingStaff) {
         this._baseInformationIdNursingStaff = _baseInformationIdNursingStaff;
     }
     // </editor-fold>
@@ -170,17 +157,18 @@ public class KGLListExternalNursingStaff implements Serializable {
                 Double.compare(that._countNursingStaff, _countNursingStaff) == 0 &&
                 Double.compare(that.getConsideredCostVolumeNursingStaff(), getConsideredCostVolumeNursingStaff()) == 0 &&
                 Double.compare(that._notConsideredCostVolumeNursingStaff, _notConsideredCostVolumeNursingStaff) == 0 &&
-                Double.compare(that._costPerFullTimeNursingStaff, _costPerFullTimeNursingStaff) == 0 &&
                 Double.compare(that._costStGrNursingStaff, _costStGrNursingStaff) == 0 &&
                 Double.compare(that._costKoArtGrNursingStaff, _costKoArtGrNursingStaff) == 0 &&
-                get_baseInformationIdNursingStaff() == that.get_baseInformationIdNursingStaff() &&
+                getBaseInformationIdNursingStaff() == that.getBaseInformationIdNursingStaff() &&
                 Objects.equals(_divisionNursingStaff, that._divisionNursingStaff) &&
                 Objects.equals(_explanationFieldNursingStaff, that._explanationFieldNursingStaff);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionNursingStaff, _countNursingStaff, getConsideredCostVolumeNursingStaff(), _notConsideredCostVolumeNursingStaff, _costPerFullTimeNursingStaff, _costStGrNursingStaff, _costKoArtGrNursingStaff, _explanationFieldNursingStaff, get_baseInformationIdNursingStaff());
+        return Objects.hash(_id, _divisionNursingStaff, _countNursingStaff, getConsideredCostVolumeNursingStaff(),
+                _notConsideredCostVolumeNursingStaff, _costStGrNursingStaff, _costKoArtGrNursingStaff, _explanationFieldNursingStaff,
+                getBaseInformationIdNursingStaff());
     }
 
     @Override

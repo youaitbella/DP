@@ -337,19 +337,38 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getIntensivStrokes().add(item);
     }
 
-    public List<KGLListExternalMedStaff> addexternalMedStaff() {
+    public void addExternalMedStaff() {
         List<KGLListExternalMedStaff> result = _calcBasics.getExternalMedStaffs();
         KGLListExternalMedStaff item = new KGLListExternalMedStaff();
-        item.set_baseInformationId(_calcBasics.getId());
+        item.setBaseInformationId(_calcBasics.getId());
         result.add(item);
-        return result;
     }
-    public List<KGLListExternalNursingStaff> addexternalNursingStaff() {
-        List<KGLListExternalNursingStaff> result = _calcBasics.get_externalNursingStaffs();
+    public void addExternalNursingStaff() {
+        List<KGLListExternalNursingStaff> result = _calcBasics.getExternalNursingStaffs();
         KGLListExternalNursingStaff item = new KGLListExternalNursingStaff();
-        item.set_baseInformationIdNursingStaff(_calcBasics.getId());
+        item.setBaseInformationId(_calcBasics.getId());
         result.add(item);
-        return result;
+    }
+
+    public void addExternalNursingAssistantStaff() {
+        List<KGLListExternalNursingAssistantStaff> result = _calcBasics.getExternalNursingAssistantStaffs();
+        KGLListExternalNursingAssistantStaff item = new KGLListExternalNursingAssistantStaff();
+        item.setBaseInformationId(_calcBasics.getId());
+        result.add(item);
+    }
+
+    public void addExternalCareStaffOther() {
+        List<KGLListExternalCareStaffOther> result = _calcBasics.getExternalCareStaffOthers();
+        KGLListExternalCareStaffOther item = new KGLListExternalCareStaffOther();
+        item.setBaseInformationId(_calcBasics.getId());
+        result.add(item);
+    }
+
+    public void addexternalTechFunctService() {
+        List<KGLListExternalTechFunctService> result = _calcBasics.getExternalTechFunctServices();
+        KGLListExternalTechFunctService item = new KGLListExternalTechFunctService();
+        item.setBaseInformationId(_calcBasics.getId());
+        result.add(item);
     }
 
 
@@ -358,9 +377,24 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         result.remove(externalMedStaff);
     }
 
-    public void deleteExternalNursingStaff(KGLListExternalNursingStaff externalNursingStaff) {
-        List<KGLListExternalNursingStaff> result = _calcBasics.get_externalNursingStaffs();
-        result.remove(externalNursingStaff);
+    public void deleteExternalNursingMedStaff(KGLListExternalNursingStaff externalNursingMedStaff) {
+        List<KGLListExternalNursingStaff> result = _calcBasics.getExternalNursingStaffs();
+        result.remove(externalNursingMedStaff);
+    }
+
+    public void deleteExternalNursingAssistantStaff(KGLListExternalNursingAssistantStaff externalNursingAssistantStaff) {
+        List<KGLListExternalNursingAssistantStaff> result = _calcBasics.getExternalNursingAssistantStaffs();
+        result.remove(externalNursingAssistantStaff);
+    }
+
+    public void deleteExternalCareStaffOther(KGLListExternalCareStaffOther externalCareStaffOther) {
+        List<KGLListExternalCareStaffOther> result = _calcBasics.getExternalCareStaffOthers();
+        result.remove(externalCareStaffOther);
+    }
+
+    public void deleteExternalTechFunctService(KGLListExternalTechFunctService externalTechFunctService) {
+        List<KGLListExternalTechFunctService> result = _calcBasics.getExternalTechFunctServices();
+        result.remove(externalTechFunctService);
     }
 
     public void deleteIntensivStrokeItems(int intensiveType) {
