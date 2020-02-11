@@ -317,4 +317,8 @@ public class Proof implements Serializable {
         return Objects.hash(_proofRegulationStation, _baseInformation, _shift, _month, _countShift, _nurse, _helpeNurse, _patientOccupancy,
                 _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable);
     }
+
+    public Double getNewPpug() {
+        return 10.0;
+    }
 }

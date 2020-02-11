@@ -188,9 +188,10 @@
                              immediate="true" />
                 </pf:inputNumber>
             </pf:column>
+
             <pf:column headerText="rechnerische Anzahl Patienten je Pflegekraft" style="text-align: right;">
                 <h:outputLabel id="patientPerNurseId"
-                               style="#{proofEdit.calculatePatientPerNurse(proof) gt proof.ppug ? 'color: red;' : proof.nurse gt proof.patientOccupancy ? 'background-color: yellow;' : ''} "
+                               style="#{proofEdit.hasToManyPatient(proof) ? 'color: red;' : proof.nurse gt proof.patientOccupancy ? 'background-color: yellow;' : ''} "
                                value="#{proofEdit.calculatePatientPerNurse(proof)}">
                     <f:convertNumber groupingUsed="true"
                                      minFractionDigits="2"
@@ -198,6 +199,17 @@
                                      locale="de_DE" />
                 </h:outputLabel>
             </pf:column>
+
+            <pf:column headerText="Grenzwert" style="text-align: right;" rendered="#{sessionController.isInekUser('CARE')}">
+                <h:outputLabel id="limitId"
+                               value="#{proofEdit.calculatePatientPerNurse(proof)}">
+                    <f:convertNumber groupingUsed="true"
+                                     minFractionDigits="2"
+                                     maxFractionDigits="2"
+                                     locale="de_DE" />
+                </h:outputLabel>
+            </pf:column>
+
             <pf:column headerText="Anzahl Pflegehilfskräfte anrechenbar für PPUG" style="text-align: right;">
                 <h:outputLabel id="countHelpeNurseChargeableId"
                                value="#{proofEdit.calculateCountHelpeNurseChargeable(proof)}">

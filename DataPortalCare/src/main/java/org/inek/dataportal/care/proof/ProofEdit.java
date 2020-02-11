@@ -3,6 +3,7 @@ package org.inek.dataportal.care.proof;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.Extension;
+import org.inek.dataportal.care.entities.SensitiveDomain;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.proof.entity.Proof;
@@ -468,6 +469,12 @@ public class ProofEdit implements Serializable {
         return proof.getPatientPerNurse();
     }
 
+    public boolean hasToManyPatient (Proof proof) {
+        List<SensitiveDomain> sensitiveDomains = proof.getProofWard().validProofWardDept(determineStartDate(proof)).getSensitiveDomains();
+        int year = _proofBaseInformation.getYear();
+        return calculatePatientPerNurse(proof) > _baseDataFacade.determineBaseData(year, sensitiveDomains, proof.getShift()).getPpug();
+    }
+
     public double calculateCountHelpeNurseChargeable(Proof proof) {
         CalculatorPpug.calculateAll(proof);
         return proof.getCountHelpeNurseChargeable();
@@ -631,5 +638,11 @@ public class ProofEdit implements Serializable {
 
     public Date determineStartDate (Proof proof){
         return DateUtils.firstAndLastDayOfMonth(_proofBaseInformation.getYear(), proof.getMonth().getId()).from();
+    }
+
+    public double evaluatePatientPerNurse(Proof proof) {
+        proof.getNurse();
+        proof.getPatientOccupancy();
+        return 3.0;
     }
 }
