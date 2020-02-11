@@ -100,7 +100,7 @@
                           readonly="#{editCalcBasicsDrg.readOnly}"
                           listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.externalNursingMedStaff)}">
     </inek:LabeledCheckbox>
-    <div class="inputPart">
+    <div class="container marginTop">
         <h:dataTable id="externalNursingMedStaffId"
                      value="#{editCalcBasicsDrg.calcBasics.externalNursingStaffs}" var="externalNursingMedStaff"
                      styleClass="borderedTable borderCollapse"
@@ -122,66 +122,110 @@
                 <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                 <inek:InputTextWithMessage id="division"
                                            required="true"
-                                           value="#{externalNursingStaff.divisionNursingStaff}"
+                                           value="#{externalNursingMedStaff.divisionNursingStaff}"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>
             <h:column>
-                <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
-                <inek:InputIntegerWithMessage id="countNursingStaff"
-                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('countNursingStaff'))}costPerFullTimeNursingStaff:text"
-                                              value="#{externalNursingStaff.countNursingStaff}" />
+                <f:facet name="header">
+                    <h:outputLabel value="Durchschnittliche tariflich vereinbarte Jahresarbeitszeit [in Std.]
+                                          einer direkt angestellten Pflegefachkraft"/>
+                </f:facet>
+                <inek:InputIntegerWithMessage id="agreedAverageWorkingHoursNursingStaffId"
+                                              value="#{externalNursingMedStaff.agreedAverageWorkingHoursNursingStaff}" />
             </h:column>
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Kostenvolumen, welches gem. §6a Abs. 2 KHEntgG zur Ermittlung des Pflegebudgets berücksichtigt werden darf:"/>
+                    <h:outputLabel value="Durchschnittliche tarifliche Netto Jahresarbeitszeit [in Std.]
+                                          (nach Abzug von Fehltagen) (i) einer direkt angestellten Pflegefachkraft"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
-                                             value="#{externalNursingStaff.consideredCostVolumeNursingStaff}"
+                                             value="#{externalNursingMedStaff.netAverageWorkingHoursNursingStaff}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Kostenvolumen, welches nicht gem. §6a Abs. 2 KHEntgG im Pflegebudget berücksichtigt werden darf:"/>
-                    <h:graphicImage alt="" name="Icon/small/information.png" height="12"
-                                    title="Bitte geben Sie hier das Kostenvolumen an, welches über den tarifvertraglich vereinbarten Arbeitsentgelt des Pflegepersonals mit direktem Beschäftigsverhältnis hinausgeht (z.B. Vermittlungsentgelte).
-                                            Bitte beachten Sie in diesem Zusammenhang die Hinweise zur Kalkulation 2020."/>
+                    <h:outputLabel value="Errechnete Anzahl VK (Arbeitsleistung des Fremdpersonals/Tarifliche Netto Jahresarbeitszeit)"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
-                                             value="#{externalNursingStaff.notConsideredCostVolumeNursingStaff}"
+                                             value="#{externalNursingMedStaff.calculatedCountNursingStaff}"
+                                             pattern="##,###.00"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Durchschnittliche jährliche Arbeitgeberkosten einer tariflich angestellten Pflegefachkraft"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100"
+                                             value="#{externalNursingMedStaff.averageAnnualEmployerCostsNursingStaff}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
-                <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
-                <inek:InputNumberWithMessage id="costPerFullTimeNursingStaff" styleClass="element100"
-                                             disabled="true"
-                                             value="#{externalNursingStaff.countNursingStaff eq 0 ? '' : externalNursingStaff.consideredCostVolumeNursingStaff + externalNursingStaff.notConsideredCostVolumeNursingStaff / externalNursingStaff.countNursingStaff}"
+                <f:facet name="header">
+                    <h:outputLabel value="Rechnungsbetrag der Arbeitnehmerüberlassung für Pflegefachkräfte:"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100"
+                                             value="#{externalNursingMedStaff.amountTemporaryEmploymentNursingStaff}"
                                              pattern="##,###.00"/>
             </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:"/>
+                </f:facet>
+                <h:inputText  readonly="true" styleClass="element100"
+                                             value="#{externalNursingMedStaff.calculatedCountNursingStaff * externalNursingMedStaff.averageAnnualEmployerCostsNursingStaff}"
+                                             pattern="##,###.00"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Kostenvolumen oberhalb der Begrenzung nach § 6a Abs. 2 KHEntgG:"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100"
+                                             value="#{externalNursingMedStaff.amountTemporaryEmploymentNursingStaff - (externalNursingMedStaff.calculatedCountNursingStaff * externalNursingMedStaff.averageAnnualEmployerCostsNursingStaff)}"
+                                             pattern="##,###.00"/>
+            </h:column>
+
+
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
-                                             value="#{externalNursingStaff.costStGrNursingStaff}"
+                                             value="#{externalNursingMedStaff.costStGrNursingStaff}"
                                              pattern="##,###.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
-                                             value="#{externalNursingStaff.costKoArtGrNursingStaff}"
+                                             value="#{externalNursingMedStaff.costKoArtGrNursingStaff}"
                                              pattern="##,###.00"/>
             </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Wird das Fremdpersonal ausschließlich für die 'Pflege am Bett' eingesetzt? (ja/nein)"/></f:facet>
+                <inek:Checkbox value="#{externalNursingMedStaff.exclusivelyCareAtBedNursingStaff}"
+                               styleClass="element100"
+                               readonly="#{editCalcBasicsDrg.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
+                welches nicht für die 'Pflege am Bett' eingesetzt wird und geben Sie im Erläuterungsfeld den entsprechenden Bereich(z.B. Funktionslabor) an."/></f:facet>
+                <inek:InputNumberWithMessage styleClass="element100"
+                                             value="#{externalNursingMedStaff.partOfCostVolumeBedNursingStaff}"
+                                             pattern="##,###.00"/>
+            </h:column>
+
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
                 <inek:InputTextWithMessage id="explanationField"
                                            required="true"
-                                           value="#{externalNursingStaff.explanationFieldNursingStaff}"
+                                           value="#{externalNursingMedStaff.explanationFieldNursingStaff}"
                                            styleClass="fullWidth">
                 </inek:InputTextWithMessage>
             </h:column>
 
         </h:dataTable>
     </div>
-    <h:commandLink id="addButton1" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+    <h:commandLink id="addButtonExternalNursingMedStaff" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                    rendered="#{!editCalcBasicsDrg.readOnly}">
         <f:ajax event="click" render="externalNursingMedStaffId :logout:remaining"
                 listener="#{editCalcBasicsDrg.addExternalNursingStaff}"/>
