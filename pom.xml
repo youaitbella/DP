@@ -250,12 +250,12 @@
                 <scope>provided</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-                <version>2.6.4</version>
-                <scope>provided</scope>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.eclipse.persistence</groupId>-->
+<!--                <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>-->
+<!--                <version>2.6.4</version>-->
+<!--                <scope>provided</scope>-->
+<!--            </dependency>-->
 
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
