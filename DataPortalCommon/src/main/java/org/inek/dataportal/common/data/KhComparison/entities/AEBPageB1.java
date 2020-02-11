@@ -1,7 +1,7 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.commons.math3.util.MathUtils;
+//import org.apache.commons.math3.util.MathUtils;
 import org.inek.dataportal.common.helper.MathHelper;
 
 import java.io.Serializable;
