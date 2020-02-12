@@ -83,9 +83,9 @@ public class DateUtils {
         return 1 + (int) (diff / MILLISECONDS_PER_DAY);
     }
 
-    public static FromToDate firstAndLastDayOfMonth(int year, int month) {
+    public static Period firstAndLastDayOfMonth(int year, int month) {
         Date fromDate = createDate(year, month, 1);
-        Date toDate = addDays(createDate(year + month/12, (month+1)%12, 1), -1);
-        return new FromToDate(fromDate, toDate);
+        Date toDate = addDays(createDate(year + month / 12, (month + 1) % 12, 1), -1);
+        return new Period(fromDate, toDate);
     }
 }

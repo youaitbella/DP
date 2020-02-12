@@ -3,14 +3,14 @@ package org.inek.dataportal.common.utils;
 import java.util.Date;
 import java.util.Objects;
 
-public class FromToDate {
+public class Period {
     private final Date from;
     private final Date to;
 
-public FromToDate (Date from, Date to){
-    this.from = from;
-    this.to = to;
-}
+    public Period(Date from, Date to) {
+        this.from = from;
+        this.to = to;
+    }
 
     public Date from() {
         return from;
@@ -24,7 +24,7 @@ public FromToDate (Date from, Date to){
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FromToDate that = (FromToDate) o;
+        Period that = (Period) o;
         return from.equals(that.from) &&
                 to.equals(that.to);
     }

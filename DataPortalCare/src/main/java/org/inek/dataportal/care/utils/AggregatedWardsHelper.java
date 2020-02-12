@@ -1,6 +1,5 @@
 package org.inek.dataportal.care.utils;
 
-import javafx.util.Pair;
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.common.controller.SessionController;
@@ -10,7 +9,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.ExceptionCollector;
 import org.inek.dataportal.common.utils.DateUtils;
-import org.inek.dataportal.common.utils.FromToDate;
+import org.inek.dataportal.common.utils.Period;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,12 +45,12 @@ public class AggregatedWardsHelper {
                     fromDates.add(toDate);
                 });
 
-                List<FromToDate> fromToDates = new ArrayList<>();
+                List<Period> periods = new ArrayList<>();
                 fromDates.stream().sorted(Date::compareTo).forEachOrdered(from -> {
                     toDates.stream().filter(toDate -> toDate.compareTo(from) >= 0).sorted(Date::compareTo).findFirst()
-                            .ifPresent(toDate -> fromToDates.add(new FromToDate(from, toDate)));
+                            .ifPresent(toDate -> periods.add(new Period(from, toDate)));
                 });
-                for (FromToDate dates : fromToDates) {
+                for (Period dates : periods) {
                     deptWards.stream()
                             .filter(deptWard -> deptWard.getValidFrom().compareTo(dates.from()) <= 0
                                     && deptWard.getValidTo().compareTo(dates.to()) >= 0)
