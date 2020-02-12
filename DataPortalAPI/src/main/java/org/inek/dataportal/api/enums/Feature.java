@@ -65,6 +65,9 @@ public enum Feature {
             255),
     HOSPITAL_EVALUATION(27, "Krankenhausvergleich Auswertung", ManagedBy.None, PortalType.PSY, IkReference.None,
             IkUsage.Unknown, Selectable.Yes, Shareable.No,
+            255),
+    OMBUDSMAN(28, "Schlichtungsstelle Kodierfragen", ManagedBy.IkAdminOnly, PortalType.COMMON, IkReference.None,
+              IkUsage.Unknown, Selectable.No, Shareable.No,
             255);
 
     private final int _id;
