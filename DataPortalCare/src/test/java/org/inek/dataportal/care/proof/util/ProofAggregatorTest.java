@@ -1,7 +1,7 @@
 package org.inek.dataportal.care.proof.util;
 
 import org.inek.dataportal.care.entities.DeptWard;
-import org.inek.dataportal.care.proof.ProofWard;
+import org.inek.dataportal.care.proof.ProofWardInfo;
 import org.inek.dataportal.care.testcommon.WardBuilder;
 import org.inek.dataportal.common.utils.DateUtils;
 import org.junit.jupiter.api.Test;
@@ -17,9 +17,9 @@ public class ProofAggregatorTest {
     public void aggregateDeptWards() {
 
         List<DeptWard> wards = createWards();
-        List<ProofWard> expected = new ArrayList<>();
+        List<ProofWardInfo> expected = new ArrayList<>();
 
-        ProofWard proofWard1 = ProofWard.builder()
+        ProofWardInfo proofWardInfo1 = ProofWardInfo.builder()
                 .wardName("Station A")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2019, 12, 1))
@@ -29,9 +29,9 @@ public class ProofAggregatorTest {
                 .addDept("3600")
                 .addDeptName("x")
                 .build();
-        expected.add(proofWard1);
+        expected.add(proofWardInfo1);
 
-        ProofWard proofWard2 = ProofWard.builder()
+        ProofWardInfo proofWardInfo2 = ProofWardInfo.builder()
                 .wardName("Station B")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2019, 12, 1))
@@ -42,19 +42,19 @@ public class ProofAggregatorTest {
                 .addDept("2800")
                 .addDeptName("x")
                 .build();
-        expected.add(proofWard2);
+        expected.add(proofWardInfo2);
 
-        List<ProofWard> proofWards = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2019, 12, 1), DateUtils.createDate(2019, 12, 31));
-        assertThat(proofWards).containsAll(expected);
+        List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2019, 12, 1), DateUtils.createDate(2019, 12, 31));
+        assertThat(proofWardInfos).containsAll(expected);
     }
 
     @Test
     public void aggregateDeptWards2() {
 
         List<DeptWard> wards = createWards();
-        List<ProofWard> expected = new ArrayList<>();
+        List<ProofWardInfo> expected = new ArrayList<>();
 
-        ProofWard proofWard1 = ProofWard.builder()
+        ProofWardInfo proofWardInfo1 = ProofWardInfo.builder()
                 .wardName("Station A")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2020, 1, 1))
@@ -64,9 +64,9 @@ public class ProofAggregatorTest {
                 .addDept("3600")
                 .addDeptName("x")
                 .build();
-        expected.add(proofWard1);
+        expected.add(proofWardInfo1);
 
-        ProofWard proofWard2 = ProofWard.builder()
+        ProofWardInfo proofWardInfo2 = ProofWardInfo.builder()
                 .wardName("Station B")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2020, 1, 1))
@@ -76,20 +76,20 @@ public class ProofAggregatorTest {
                 .addDept("2801")
                 .addDeptName("x")
                 .build();
-        expected.add(proofWard2);
+        expected.add(proofWardInfo2);
 
-        List<ProofWard> proofWards = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 1, 1), DateUtils.createDate(2020, 1, 31));
+        List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 1, 1), DateUtils.createDate(2020, 1, 31));
 
-        assertThat(proofWards).containsAll(expected);
+        assertThat(proofWardInfos).containsAll(expected);
     }
 
     @Test
     public void aggregateDeptWards3() {
 
         List<DeptWard> wards = createWards();
-        List<ProofWard> expected = new ArrayList<>();
+        List<ProofWardInfo> expected = new ArrayList<>();
 
-        ProofWard proofWard1 = ProofWard.builder()
+        ProofWardInfo proofWardInfo1 = ProofWardInfo.builder()
                 .wardName("Station A")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2020, 2, 1))
@@ -99,9 +99,9 @@ public class ProofAggregatorTest {
                 .addDept("3600")
                 .addDeptName("x")
                 .build();
-        expected.add(proofWard1);
+        expected.add(proofWardInfo1);
 
-        ProofWard proofWard2 = ProofWard.builder()
+        ProofWardInfo proofWardInfo2 = ProofWardInfo.builder()
                 .wardName("Station B")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2020, 2, 1))
@@ -110,9 +110,9 @@ public class ProofAggregatorTest {
                 .addDept("2801")
                 .addDeptName("x")
                 .build();
-        expected.add(proofWard2);
+        expected.add(proofWardInfo2);
 
-        ProofWard proofWard3 = ProofWard.builder()
+        ProofWardInfo proofWardInfo3 = ProofWardInfo.builder()
                 .wardName("Station C")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2020, 2, 1))
@@ -122,9 +122,9 @@ public class ProofAggregatorTest {
                 .addDeptName("x")
                 .beds(10)
                 .build();
-        expected.add(proofWard3);
+        expected.add(proofWardInfo3);
 
-        ProofWard proofWard4 = ProofWard.builder()
+        ProofWardInfo proofWardInfo4 = ProofWardInfo.builder()
                 .wardName("Station C")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2020, 2, 15))
@@ -136,10 +136,10 @@ public class ProofAggregatorTest {
                 .addDeptName("x")
                 .beds(10)
                 .build();
-        expected.add(proofWard4);
+        expected.add(proofWardInfo4);
 
-        List<ProofWard> proofWards = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 2, 1), DateUtils.createDate(2020, 2, 29));
-        assertThat(proofWards).containsAll(expected);
+        List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 2, 1), DateUtils.createDate(2020, 2, 29));
+        assertThat(proofWardInfos).containsAll(expected);
     }
 
     @Test
@@ -147,7 +147,7 @@ public class ProofAggregatorTest {
 
         List<DeptWard> wards = createWards();
 
-        ProofWard proofWard1 = ProofWard.builder()
+        ProofWardInfo proofWardInfo1 = ProofWardInfo.builder()
                 .wardName("Station D")
                 .locationNumber(772548)
                 .from(DateUtils.createDate(2020, 4, 1))
@@ -160,8 +160,8 @@ public class ProofAggregatorTest {
                 .build();
 
 
-        List<ProofWard> proofWards = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 4, 1), DateUtils.createDate(2020, 4, 30));
-        assertThat(proofWards).contains(proofWard1);
+        List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 4, 1), DateUtils.createDate(2020, 4, 30));
+        assertThat(proofWardInfos).contains(proofWardInfo1);
     }
 
     @Test
@@ -169,8 +169,8 @@ public class ProofAggregatorTest {
 
         List<DeptWard> wards = createWards();
 
-        List<ProofWard> proofWards = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 6, 1), DateUtils.createDate(2020, 6, 30));
-        double beds = proofWards.stream().filter(w -> w.getWardName().equals("Station E")).findFirst().orElseThrow(() -> new IllegalArgumentException("not found")).getBeds();
+        List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(wards, DateUtils.createDate(2020, 6, 1), DateUtils.createDate(2020, 6, 30));
+        double beds = proofWardInfos.stream().filter(w -> w.getWardName().equals("Station E")).findFirst().orElseThrow(() -> new IllegalArgumentException("not found")).getBeds();
         assertThat(beds).isEqualTo(12.5);
     }
 

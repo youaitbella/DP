@@ -19,6 +19,10 @@ public class Proof implements Serializable {
     public Proof() {
     }
 
+    public Proof(ProofRegulationBaseInformation baseInformation) {
+        this._baseInformation = baseInformation;
+    }
+
 
     public Proof(Proof proof) {
         this._proofRegulationStation = proof.getProofRegulationStation();

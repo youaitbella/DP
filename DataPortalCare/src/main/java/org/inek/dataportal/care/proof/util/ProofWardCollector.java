@@ -2,7 +2,7 @@ package org.inek.dataportal.care.proof.util;
 
 import javafx.util.Pair;
 import org.inek.dataportal.care.entities.DeptWard;
-import org.inek.dataportal.care.proof.ProofWard;
+import org.inek.dataportal.care.proof.ProofWardInfo;
 import org.inek.dataportal.common.utils.DateUtils;
 
 import java.util.*;
@@ -41,10 +41,10 @@ public class ProofWardCollector {
                 .collect(Collectors.joining(", "));
     }
 
-    public List<ProofWard> obtainProofWards() {
-        List<ProofWard> proofWards = new ArrayList<>();
+    public List<ProofWardInfo> obtainProofWards() {
+        List<ProofWardInfo> proofWardInfos = new ArrayList<>();
         if (wards.size() == 0) {
-            return proofWards;
+            return proofWardInfos;
         }
 
         List<Pair<Date, Date>> periods = obtainPeriods();
@@ -58,13 +58,13 @@ public class ProofWardCollector {
 */
     }
 
-    private ProofWard obtainProofWard() {
+    private ProofWardInfo obtainProofWard() {
         return createProofWard(wards);
     }
 
-    private ProofWard createProofWard(List<DeptWard> deptWards) {
+    private ProofWardInfo createProofWard(List<DeptWard> deptWards) {
         DeptWard ward = deptWards.get(0);
-        ProofWard proofWard = ProofWard.builder()
+        ProofWardInfo proofWardInfo = ProofWardInfo.builder()
                 .wardName(ward.getWardName())
                 .locationNumber(ward.getLocationCodeVz())
                 .from(ward.getValidFrom())
@@ -77,15 +77,15 @@ public class ProofWardCollector {
 
         for (int i = 1; i < deptWards.size(); i++) {
             DeptWard deptWard = deptWards.get(i);
-            proofWard.addSensitiveArea(deptWard.getDept().getSensitiveArea());
-            proofWard.addDept(deptWard.getFab());
-            proofWard.addDeptName(deptWard.getDeptName());
+            proofWardInfo.addSensitiveArea(deptWard.getDept().getSensitiveArea());
+            proofWardInfo.addDept(deptWard.getFab());
+            proofWardInfo.addDeptName(deptWard.getDeptName());
         }
-        return proofWard;
+        return proofWardInfo;
     }
 
-    private List<ProofWard> obtainProofWards(List<Pair<Date, Date>> periods) {
-        List<ProofWard> proofWards = new ArrayList<>();
+    private List<ProofWardInfo> obtainProofWards(List<Pair<Date, Date>> periods) {
+        List<ProofWardInfo> proofWardInfos = new ArrayList<>();
         periods.stream().forEach(p -> {
             Date periodFrom = p.getKey();
             Date periodTo = p.getValue();
@@ -96,23 +96,23 @@ public class ProofWardCollector {
                     .forEach(ward -> {
                         collector.addDeptWard(ward);
                     });
-            proofWards.add(collector.obtainProofWard());
+            proofWardInfos.add(collector.obtainProofWard());
         });
 
-        List<ProofWard> mergedProofWards = new ArrayList<>();
-        ProofWard mergedProofWard = null;
-        for (ProofWard proofWard : proofWards) {
-            if (mergedProofWard == null) {
-                mergedProofWard = proofWard;
-            } else if (mergedProofWard.sensitiveAreas().equals(proofWard.sensitiveAreas())) {
-                mergedProofWard.merge(proofWard);
+        List<ProofWardInfo> mergedProofWardInfos = new ArrayList<>();
+        ProofWardInfo mergedProofWardInfo = null;
+        for (ProofWardInfo proofWardInfo : proofWardInfos) {
+            if (mergedProofWardInfo == null) {
+                mergedProofWardInfo = proofWardInfo;
+            } else if (mergedProofWardInfo.sensitiveAreas().equals(proofWardInfo.sensitiveAreas())) {
+                mergedProofWardInfo.merge(proofWardInfo);
             } else {
-                mergedProofWards.add(mergedProofWard);
-                mergedProofWard = proofWard;
+                mergedProofWardInfos.add(mergedProofWardInfo);
+                mergedProofWardInfo = proofWardInfo;
             }
         }
-        mergedProofWards.add(mergedProofWard);
-        return mergedProofWards;
+        mergedProofWardInfos.add(mergedProofWardInfo);
+        return mergedProofWardInfos;
     }
 
     private List<Pair<Date, Date>> obtainPeriods() {

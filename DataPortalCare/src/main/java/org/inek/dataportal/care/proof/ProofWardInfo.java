@@ -8,12 +8,12 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public final class ProofWard {
+public final class ProofWardInfo {
     public static Builder builder() {
         return new Builder();
     }
 
-    private ProofWard(Builder builder) {
+    private ProofWardInfo(Builder builder) {
         setFrom(builder.from);
         setTo(builder.to);
         setLocationNumber(builder.locationNumber);
@@ -129,7 +129,7 @@ public final class ProofWard {
     }
     //</editor-fold>
 
-    public void merge(ProofWard other) {
+    public void merge(ProofWardInfo other) {
         if (!DateUtils.addDays(to, 1).equals(other.from)) {
             throw new IllegalArgumentException("Merge ranges need to be continuous");
         }
@@ -146,15 +146,15 @@ public final class ProofWard {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProofWard proofWard = (ProofWard) o;
-        return locationNumber == proofWard.locationNumber &&
-                daybeds == proofWard.daybeds &&
-                from.equals(proofWard.from) &&
-                to.equals(proofWard.to) &&
-                wardName.equals(proofWard.wardName) &&
-                sensitiveAreas.equals(proofWard.sensitiveAreas) &&
-                depts.equals(proofWard.depts) &&
-                deptNames.equals(proofWard.deptNames);
+        ProofWardInfo proofWardInfo = (ProofWardInfo) o;
+        return locationNumber == proofWardInfo.locationNumber &&
+                daybeds == proofWardInfo.daybeds &&
+                from.equals(proofWardInfo.from) &&
+                to.equals(proofWardInfo.to) &&
+                wardName.equals(proofWardInfo.wardName) &&
+                sensitiveAreas.equals(proofWardInfo.sensitiveAreas) &&
+                depts.equals(proofWardInfo.depts) &&
+                deptNames.equals(proofWardInfo.deptNames);
     }
 
     @Override
@@ -216,8 +216,8 @@ public final class ProofWard {
             return this;
         }
 
-        public ProofWard build() {
-            return new ProofWard(this);
+        public ProofWardInfo build() {
+            return new ProofWardInfo(this);
         }
     }
     //</editor-fold>

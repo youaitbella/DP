@@ -4,6 +4,8 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.entities.SensitiveDomain;
+import org.inek.dataportal.care.enums.Months;
+import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.proof.entity.Proof;
@@ -268,7 +270,6 @@ public class ProofEdit implements Serializable {
         int year = _proofBaseInformation.getYear();
         int quarter = _proofBaseInformation.getQuarter();
         int ik = _proofBaseInformation.getIk();
-        List<ProofWard> proofWards = new ArrayList<>();
 
 
         DeptBaseInformation deptBaseInfo = _deptFacade.findDeptBaseInformationByIkAndBaseYear(ik, 2018);
@@ -279,20 +280,25 @@ public class ProofEdit implements Serializable {
         }
 
         for (int month = quarter * 3 - 2; month <= quarter * 3; month++) {
-            FromToDate dates = DateUtils.firstAndLastDayOfMonth(year, month);
-            proofWards.addAll(ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), dates.from(), dates.to()));
+            FromToDate period = DateUtils.firstAndLastDayOfMonth(year, month);
+            List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), period.from(), period.to());
+            for (ProofWardInfo proofWardInfo : proofWardInfos) {
+                for (Shift shift : Shift.values()) {
+                    _proofBaseInformation.addProof(fillProof(new Proof(_proofBaseInformation), proofWardInfo, month, shift));
+                }
+            }
         }
-
-        // todo
-/*        List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofBaseInformation.getIk(),
-                _proofBaseInformation.getYear());
-        ProofFiller.createProofEntrysFromStations(_proofBaseInformation, stations,
-                _proofBaseInformation.getYear(), _proofBaseInformation.getQuarter());
-        loadBaseDataManager();
         loadExceptionsFactsList();
         save();
-        _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
-        setReadOnly();*/
+        setReadOnly();
+    }
+
+    private Proof fillProof(Proof proof, ProofWardInfo proofWardInfo, int month, Shift shift) {
+        proof.setMonth(Months.getById(month));
+        proof.setShift(shift);
+        //proof.setProofWard(proofWard);
+
+        return proof;
     }
 
 

@@ -8,8 +8,8 @@ truncate table care.mapProofWardDeptSensitiveDomain
 delete care.proofWardDept
 DBCC CHECKIDENT ([care.proofWardDept], reseed, 1)
 
-delete care.proofWard where pwId > 0
-DBCC CHECKIDENT ([care.proofWard], reseed, 1)
+delete care.proofWardInfo where pwId > 0
+DBCC CHECKIDENT ([care.proofWardInfo], reseed, 1)
 
 */
 
@@ -28,8 +28,9 @@ from (
 	from (
 		select pwId, prsmMonth, prsSensitiveAreaId, dbo.ConcatenateSort(prsFabNumber) as depts, dbo.ConcatenateSort(prsFabName) as deptNames
 		from care.ProofRegulationStation
-		join care.MapProofRegulationStationMonth on prsId = prsmProofRegulationStationId
-		join care.proofWard on prsIk = pwIk and prsLocationCode = pwLocationText and prsStationName = pwName
+                 join care.MapProofRegulationStationMonth on prsId = prsmProofRegulationStationId
+                 join care.proofWardInfo
+                      on prsIk = pwIk and prsLocationCode = pwLocationText and prsStationName = pwName
 		group by pwId, prsmMonth, prsSensitiveAreaId
 	) base
 	group by pwId, prsSensitiveAreaId, depts, deptNames
@@ -43,8 +44,9 @@ from (
 	from (
 		select pwId, prsmMonth, prsSensitiveAreaId, dbo.ConcatenateSort(prsFabNumber) as depts, dbo.ConcatenateSort(prsFabName) as deptNames
 		from care.ProofRegulationStation
-		join care.MapProofRegulationStationMonth on prsId = prsmProofRegulationStationId
-		join care.proofWard on prsIk = pwIk and prsLocationCode = pwLocationText and prsStationName = pwName
+                 join care.MapProofRegulationStationMonth on prsId = prsmProofRegulationStationId
+                 join care.proofWardInfo
+                      on prsIk = pwIk and prsLocationCode = pwLocationText and prsStationName = pwName
 		group by pwId, prsmMonth, prsSensitiveAreaId
 	) base
 	group by pwId, prsSensitiveAreaId, depts, deptNames
