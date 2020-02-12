@@ -8,10 +8,7 @@ import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.DeptFacade;
-import org.inek.dataportal.care.proof.entity.Proof;
-import org.inek.dataportal.care.proof.entity.ProofDocument;
-import org.inek.dataportal.care.proof.entity.ProofExceptionFact;
-import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
+import org.inek.dataportal.care.proof.entity.*;
 import org.inek.dataportal.care.proof.util.ProofAggregator;
 import org.inek.dataportal.care.proof.util.ProofChecker;
 import org.inek.dataportal.care.proof.util.ProofHelper;
@@ -279,12 +276,13 @@ public class ProofEdit implements Serializable {
             return;
         }
 
+        //todo: refact nested loops
         for (int month = quarter * 3 - 2; month <= quarter * 3; month++) {
             Period period = DateUtils.firstAndLastDayOfMonth(year, month);
             List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), period.from(), period.to());
             for (ProofWardInfo proofWardInfo : proofWardInfos) {
                 for (Shift shift : Shift.values()) {
-                    _proofBaseInformation.addProof(fillProof(new Proof(_proofBaseInformation), proofWardInfo, month, shift));
+                    _proofBaseInformation.addProof(fillProof(new Proof(_proofBaseInformation), proofWardInfo, month, shift, _proofFacade));
                 }
             }
         }
@@ -293,13 +291,16 @@ public class ProofEdit implements Serializable {
         setReadOnly();
     }
 
-    private Proof fillProof(Proof proof, ProofWardInfo proofWardInfo, int month, Shift shift) {
+    private Proof fillProof(Proof proof, ProofWardInfo proofWardInfo, int month, Shift shift, ProofFacade proofFacade) {
         proof.setMonth(Months.getById(month));
         proof.setShift(shift);
         proof.setBeds(proofWardInfo.getBeds());
         int diffDays = DateUtils.diffDays(proofWardInfo.getFrom(), proofWardInfo.getTo());
         proof.setMaxShiftCount(diffDays);
-        //proof.setProofWard(proofWard);
+        int ik = proof.getBaseInformation().getIk();
+        ProofWard proofWard = proofFacade.findProofWard(ik, proofWardInfo.getLocationNumber(), proofWardInfo.getWardName());
+        // todo: add depts etc.
+        proof.setProofWard(proofWard);
 
         return proof;
     }
