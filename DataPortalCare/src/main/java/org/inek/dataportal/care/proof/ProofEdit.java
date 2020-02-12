@@ -32,7 +32,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.utils.DateUtils;
-import org.inek.dataportal.common.utils.FromToDate;
+import org.inek.dataportal.common.utils.Period;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -280,7 +280,7 @@ public class ProofEdit implements Serializable {
         }
 
         for (int month = quarter * 3 - 2; month <= quarter * 3; month++) {
-            FromToDate period = DateUtils.firstAndLastDayOfMonth(year, month);
+            Period period = DateUtils.firstAndLastDayOfMonth(year, month);
             List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), period.from(), period.to());
             for (ProofWardInfo proofWardInfo : proofWardInfos) {
                 for (Shift shift : Shift.values()) {
@@ -296,6 +296,9 @@ public class ProofEdit implements Serializable {
     private Proof fillProof(Proof proof, ProofWardInfo proofWardInfo, int month, Shift shift) {
         proof.setMonth(Months.getById(month));
         proof.setShift(shift);
+        proof.setBeds(proofWardInfo.getBeds());
+        int diffDays = DateUtils.diffDays(proofWardInfo.getFrom(), proofWardInfo.getTo());
+        proof.setMaxShiftCount(diffDays);
         //proof.setProofWard(proofWard);
 
         return proof;
