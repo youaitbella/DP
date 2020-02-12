@@ -84,10 +84,10 @@ public class ProofWardDept {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name="mapProofWardDetailSensitiveDomain",
+            name = "mapProofWardDeptSensitiveDomain",
             schema = "care",
-            joinColumns=@JoinColumn(name="proofWardDeptId", referencedColumnName="pwdId"),
-            inverseJoinColumns=@JoinColumn(name="sensitiveDomainId", referencedColumnName="sdId"))
+            joinColumns = @JoinColumn(name = "proofWardDeptId", referencedColumnName = "pwdId"),
+            inverseJoinColumns = @JoinColumn(name = "sensitiveDomainId", referencedColumnName = "sdId"))
     private List<SensitiveDomain> sensitiveDomains = new ArrayList<>();
 
     private void addSensitiveDomain(SensitiveDomain sensitiveDomain) {

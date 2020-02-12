@@ -3,7 +3,7 @@ use DataPortalDev
 /*
 delete care.proof where prProofRegulationStationId = 0
 
-truncate table care.mapProofWardDetailSensitiveDomain
+truncate table care.mapProofWardDeptSensitiveDomain
 
 delete care.proofWardDept
 DBCC CHECKIDENT ([care.proofWardDept], reseed, 1)
@@ -36,7 +36,7 @@ from (
 ) d
 group by pwId, depts, deptNames, validFrom
 
---insert into care.mapProofWardDetailSensitiveDomain (proofWardDeptId, sensitiveDomainId)
+--insert into care.mapProofWardDeptSensitiveDomain (proofWardDeptId, sensitiveDomainId)
 select pwdId, prsSensitiveAreaId
 from (
 	select pwId, prsSensitiveAreaId, depts, deptNames, convert(smalldatetime, '2019-' + cast(min(prsmMonth) as varchar) +'-01', 102) as validFrom
@@ -59,5 +59,5 @@ join care.ProofRegulationStation on prProofRegulationStationId = prsId
 join care.ProofWard  on prsIk = pwIk and prsLocationCode = pwLocationText and prsStationName = pwName
 where prProofRegulationStationId > 0 
 --group by prProofRegulationBaseInformationId, pwId, prMonth, prShift // eigentlich sollten die Daten auf dieser Ebene eindeutig sein, sind sie aber nicht.
--- durch die eindeutige Gruppierung ergeben sich zusätzliche Datensätze. Lieber ein paar zuviel, als fehlende Info
+-- durch die eindeutige Gruppierung ergeben sich zusï¿½tzliche Datensï¿½tze. Lieber ein paar zuviel, als fehlende Info
 group by prProofRegulationBaseInformationId, pwId, prMonth, prShift, prBeds, prMaxShiftCount, prCountShift, prNurse, prHelpeNurse, prPatientOccupancy, prCountShiftNotRespected,  prComment
