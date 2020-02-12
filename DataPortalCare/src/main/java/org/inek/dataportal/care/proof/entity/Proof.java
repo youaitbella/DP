@@ -25,9 +25,12 @@ public class Proof implements Serializable {
 
 
     public Proof(Proof proof) {
-        this._proofRegulationStation = proof.getProofRegulationStation();
+        // old: this._proofRegulationStation = proof.getProofRegulationStation();
+        this._proofWard = proof.getProofWard();
         this._shift = proof.getShift().getId();
         this._month = proof.getMonth().getId();
+        this.beds = proof.getBeds()
+        this.maxShiftCount = proof.getMaxShiftCount();
         this._countShift = proof.getCountShift();
         this._nurse = proof.getNurse();
         this._helpeNurse = proof.getHelpNurse();
