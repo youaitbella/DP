@@ -59,6 +59,28 @@ public class Proof implements Serializable {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="BaseInformation">
+    @ManyToOne
+    @JoinColumn(name = "prProofRegulationBaseInformationId")
+    @JsonIgnore
+    private ProofRegulationBaseInformation _baseInformation;
+
+    @JsonIgnore
+    public ProofRegulationBaseInformation getBaseInformation() {
+        return _baseInformation;
+    }
+
+    @JsonIgnore
+    public void setBaseInformation(ProofRegulationBaseInformation baseInformation) {
+        this._baseInformation = baseInformation;
+    }
+
+    //Using only for JSON Export
+    public int getBaseInformationId() {
+        return _baseInformation.getId();
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Proof Station">
     @JsonIgnore
     @ManyToOne
@@ -96,26 +118,18 @@ public class Proof implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="BaseInformation">
-    @ManyToOne
-    @JoinColumn(name = "prProofRegulationBaseInformationId")
-    @JsonIgnore
-    private ProofRegulationBaseInformation _baseInformation;
+    //<editor-fold defaultstate="collapsed" desc="Property Month">
+    @Column(name = "prMonth")
+    private int _month;
 
-    @JsonIgnore
-    public ProofRegulationBaseInformation getBaseInformation() {
-        return _baseInformation;
+    public Months getMonth() {
+        return Months.getById(_month);
     }
 
-    @JsonIgnore
-    public void setBaseInformation(ProofRegulationBaseInformation baseInformation) {
-        this._baseInformation = baseInformation;
+    public void setMonth(Months month) {
+        this._month = month.getId();
     }
 
-    //Using only for JSON Export
-    public int getBaseInformationId() {
-        return _baseInformation.getId();
-    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Shift">
@@ -131,18 +145,30 @@ public class Proof implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Month">
-    @Column(name = "prMonth")
-    private int _month;
+    //<editor-fold desc="Property Beds">
+    @Column(name = "prBeds")
+    private double beds;
 
-    public Months getMonth() {
-        return Months.getById(_month);
+    public double getBeds() {
+        return beds;
     }
 
-    public void setMonth(Months month) {
-        this._month = month.getId();
+    public void setBeds(double beds) {
+        this.beds = beds;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property MaxShiftCount">
+    @Column(name = "prMaxShiftCount")
+    private int maxShiftCount;
+
+    public int getMaxShiftCount() {
+        return maxShiftCount;
     }
 
+    public void setMaxShiftCount(int maxShiftCount) {
+        this.maxShiftCount = maxShiftCount;
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property CountShift">
