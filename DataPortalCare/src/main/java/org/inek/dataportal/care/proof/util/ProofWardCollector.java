@@ -1,9 +1,9 @@
 package org.inek.dataportal.care.proof.util;
 
-import javafx.util.Pair;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.proof.ProofWardInfo;
 import org.inek.dataportal.common.utils.DateUtils;
+import org.inek.dataportal.common.utils.Period;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -48,7 +48,7 @@ public class ProofWardCollector {
             return proofWardInfos;
         }
 
-        List<Pair<Date, Date>> periods = obtainPeriods();
+        List<Period> periods = obtainPeriods();
         return obtainProofWards(periods);
 /*
         if (periods.size() > 1) {
@@ -85,15 +85,13 @@ public class ProofWardCollector {
         return proofWardInfo;
     }
 
-    private List<ProofWardInfo> obtainProofWards(List<Pair<Date, Date>> periods) {
+    private List<ProofWardInfo> obtainProofWards(List<Period> periods) {
         List<ProofWardInfo> proofWardInfos = new ArrayList<>();
         periods.stream().forEach(p -> {
-            Date periodFrom = p.getKey();
-            Date periodTo = p.getValue();
-            ProofWardCollector collector = new ProofWardCollector(periodFrom, periodTo);
+            ProofWardCollector collector = new ProofWardCollector(p.from(), p.to());
             wards.stream()
-                    .filter(w -> w.getValidFrom().compareTo(periodTo) <= 0)
-                    .filter(w -> w.getValidTo().compareTo(periodFrom) >= 0)
+                    .filter(w -> w.getValidFrom().compareTo(p.to()) <= 0)
+                    .filter(w -> w.getValidTo().compareTo(p.from()) >= 0)
                     .forEach(ward -> {
                         collector.addDeptWard(ward);
                     });
@@ -116,7 +114,7 @@ public class ProofWardCollector {
         return mergedProofWardInfos;
     }
 
-    private List<Pair<Date, Date>> obtainPeriods() {
+    private List<Period> obtainPeriods() {
         Set<Date> fromDates = new HashSet<>();
         Set<Date> toDates = new HashSet<>();
         wards.stream().forEach(w -> {
@@ -130,10 +128,10 @@ public class ProofWardCollector {
             }
         });
 
-        List<Pair<Date, Date>> periods = new ArrayList<>();
+        List<Period> periods = new ArrayList<>();
         fromDates.stream().sorted(Date::compareTo).forEachOrdered(from -> {
             toDates.stream().filter(toDate -> toDate.compareTo(from) >= 0).sorted(Date::compareTo).findFirst()
-                    .ifPresent(toDate -> periods.add(new Pair<>(from, toDate)));
+                    .ifPresent(toDate -> periods.add(new Period(from, toDate)));
         });
         return periods;
     }

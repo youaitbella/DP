@@ -29,7 +29,7 @@ public class Proof implements Serializable {
         this._proofWard = proof.getProofWard();
         this._shift = proof.getShift().getId();
         this._month = proof.getMonth().getId();
-        this.beds = proof.getBeds()
+        this.beds = proof.getBeds();
         this.maxShiftCount = proof.getMaxShiftCount();
         this._countShift = proof.getCountShift();
         this._nurse = proof.getNurse();
