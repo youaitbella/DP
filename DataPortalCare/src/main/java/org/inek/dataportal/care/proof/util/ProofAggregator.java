@@ -13,7 +13,7 @@ public class ProofAggregator {
                 .filter(w -> w.getValidFrom().compareTo(validTo) <= 0)
                 .filter(w -> w.getValidTo().compareTo(validFrom) >= 0)
                 .forEach(ward -> {
-                    String key = ward.getWardName() + "|" + ward.getLocationCodeVz();
+                    String key = ward.getWardName().toLowerCase().replace(" ", "") + "|" + ward.getLocationCodeVz();
                     ProofWardCollector collector = wardCollectors.computeIfAbsent(key, (i) -> new ProofWardCollector(validFrom, validTo));
                     collector.addDeptWard(ward);
                     wardCollectors.put(key, collector);

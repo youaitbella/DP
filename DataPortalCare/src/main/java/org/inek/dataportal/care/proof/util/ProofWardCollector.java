@@ -27,7 +27,8 @@ public class ProofWardCollector {
         ward.setValidFrom(deptWard.getValidFrom().compareTo(validFrom) > 0 ? deptWard.getValidFrom() : validFrom);
         ward.setValidTo(deptWard.getValidTo().compareTo(validTo) < 0 ? deptWard.getValidTo() : validTo);
         if (wards.size() > 0
-                && !wards.get(0).getWardName().equals(deptWard.getWardName())
+                && !wards.get(0).getWardName().toLowerCase().replace(" ", "")
+                .equals(deptWard.getWardName().toLowerCase().replace(" ", ""))
                 && wards.get(0).getLocationCodeVz() != deptWard.getLocationCodeVz()) {
             throw new IllegalArgumentException("Ward names and locations have to be equal");
         }
@@ -65,7 +66,7 @@ public class ProofWardCollector {
     private ProofWardInfo createProofWard(List<DeptWard> deptWards) {
         DeptWard ward = deptWards.get(0);
         ProofWardInfo proofWardInfo = ProofWardInfo.builder()
-                .wardName(ward.getWardName())
+                .wardName(ward.getWardName().trim().replace("  ", " "))
                 .locationNumber(ward.getLocationCodeVz())
                 .from(ward.getValidFrom())
                 .to(ward.getValidTo())
