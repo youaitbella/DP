@@ -33,7 +33,7 @@ with sensitiveRanking(sensitiveDomainId, seq) as (
       and 2019 between d.pbdValidFrom and d.pbdValidTo
       and 2019 between n.pbdValidFrom and n.pbdValidTo
 )
--- insert into care.proof (prProofRegulationBaseInformationId, prProofRegulationStationId, prProofWardId, prValidFrom, prValidTo, prMonth, prDeptNumbers, prDeptNames, prSensitiveAreas, prSensitiveDomainId, prShift, prBeds, prCountShift, prNurse, prHelpeNurse, prPatientOccupancy, prCountShiftNotRespected, prPatientPerNurse, prCountHelpeNurseChargeable, prComment)
+-- insert into care.proof (prProofRegulationBaseInformationId, prProofRegulationStationId, prProofWardId, prValidFrom, prValidTo, prMonth, prDeptNumbers, prDeptNames, prSensitiveDomains, prSensitiveDomainId, prShift, prBeds, prCountShift, prNurse, prHelpeNurse, prPatientOccupancy, prCountShiftNotRespected, prPatientPerNurse, prCountHelpeNurseChargeable, prComment)
 select prProofRegulationBaseInformationId,
        0,
        pwId,
