@@ -69,7 +69,7 @@ public class WardsToChange implements Serializable {
     }
 
     public void setWardName(String wardName) {
-        this._wardName = wardName;
+        this._wardName = wardName.trim().replace("  ", " ");
     }
     //</editor-fold>
 
@@ -82,7 +82,7 @@ public class WardsToChange implements Serializable {
     }
 
     public void setDeptName(String deptName) {
-        this._deptName = deptName;
+        this._deptName = deptName.trim().replace("  ", " ");
     }
     //</editor-fold>
 
