@@ -156,9 +156,10 @@ public class Utils {
         return type.cast(valueExpression.getValue(elContext));
     }
 
+
     public static <T> T getCdiBean(Class<T> type) {
         BeanManager bm = CDI.current().getBeanManager();
-        Bean<T> bean = (Bean<T>) bm.getBeans(type).iterator().next();
+        @SuppressWarnings("unchecked") Bean<T> bean = (Bean<T>) bm.getBeans(type).iterator().next();
         CreationalContext<T> ctx = bm.createCreationalContext(bean);
         return type.cast(bm.getReference(bean, type, ctx));
     }
