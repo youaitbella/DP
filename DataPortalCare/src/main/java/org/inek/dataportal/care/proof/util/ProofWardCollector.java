@@ -4,6 +4,7 @@ import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.proof.ProofWardInfo;
 import org.inek.dataportal.common.utils.DateUtils;
 import org.inek.dataportal.common.utils.Period;
+import org.inek.dataportal.common.utils.StringUtil;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -66,7 +67,7 @@ public class ProofWardCollector {
     private ProofWardInfo createProofWard(List<DeptWard> deptWards) {
         DeptWard ward = deptWards.get(0);
         ProofWardInfo proofWardInfo = ProofWardInfo.builder()
-                .wardName(ward.getWardName().trim().replace("  ", " "))
+                .wardName(StringUtil.normalizeName(ward.getWardName()))
                 .locationNumber(ward.getLocationCodeVz())
                 .from(ward.getValidFrom())
                 .to(ward.getValidTo())
@@ -92,9 +93,7 @@ public class ProofWardCollector {
             wards.stream()
                     .filter(w -> w.getValidFrom().compareTo(p.to()) <= 0)
                     .filter(w -> w.getValidTo().compareTo(p.from()) >= 0)
-                    .forEach(ward -> {
-                        collector.addDeptWard(ward);
-                    });
+                    .forEach(collector::addDeptWard);
             proofWardInfos.add(collector.obtainProofWard());
         });
 

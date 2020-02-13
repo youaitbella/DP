@@ -108,4 +108,19 @@ public class StringUtil {
         return "'" + sqlFfilter + "'";
     }
 
+    /**
+     * Normalizing a name strips leading an trailing spaces and reduces multiple continuous space to one space
+     *
+     * @param name
+     * @return nomalizedName
+     */
+    public static String normalizeName(String name) {
+        String nomalizedName = name.trim();
+        String priorName = "";
+        while (!priorName.equals(nomalizedName)) {
+            priorName = nomalizedName;
+            nomalizedName = priorName.replace("  ", " ");
+        }
+        return nomalizedName;
+    }
 }
