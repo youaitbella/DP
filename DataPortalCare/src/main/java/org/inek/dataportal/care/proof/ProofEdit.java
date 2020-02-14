@@ -1,6 +1,7 @@
 package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.care.entities.BaseData;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.enums.Months;
@@ -56,6 +57,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.inek.dataportal.common.enums.TransferFileType.PPUGV;
 
@@ -470,7 +472,7 @@ public class ProofEdit implements Serializable {
     }
 
     public double calculatePatientPerNurse(Proof proof) {
-        CalculatorPpug.calculateAll(proof);
+        CalculatorPpug.calculateAll(proof,  1 - obtainPart(proof));
         return proof.getPatientPerNurse();
     }
 
@@ -483,8 +485,13 @@ public class ProofEdit implements Serializable {
         return _baseDataFacade.obtainPatientLimit(year, proof.getSignificantSensitiveDomain(), proof.getShift());
     }
 
+    private double obtainPart(Proof proof) {
+        int year = proof.getBaseInformation().getYear();
+        return _baseDataFacade.obtainPart(year, proof.getSignificantSensitiveDomain(), proof.getShift());
+    }
+
     public double calculateCountHelpeNurseChargeable(Proof proof) {
-        CalculatorPpug.calculateAll(proof);
+        CalculatorPpug.calculateAll(proof, 1 - obtainPart(proof));
         return proof.getCountHelpeNurseChargeable();
     }
 
@@ -646,11 +653,5 @@ public class ProofEdit implements Serializable {
 
     public Date determineStartDate (Proof proof){
         return DateUtils.firstAndLastDayOfMonth(_proofBaseInformation.getYear(), proof.getMonth().getId()).from();
-    }
-
-    public double evaluatePatientPerNurse(Proof proof) {
-        proof.getNurse();
-        proof.getPatientOccupancy();
-        return 3.0;
     }
 }

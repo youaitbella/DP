@@ -17,9 +17,9 @@
             <pf:repeat value="#{proofEdit.proofsForExceptionFact}" var="proof">
                 <div class="ui-g">
                     <div class="ui-g-10">
-                        <pf:outputLabel value="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).obtainSensitiveDomainNames()} - " />
-                        <pf:outputLabel value="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNumbers} - " />
-                        <pf:outputLabel value="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNames} - " />
+                        <pf:outputLabel value="#{proof.significantSensitiveDomain} - " />
+                        <pf:outputLabel value="#{proof.deptNumbers} - " />
+                        <pf:outputLabel value="#{proof.deptNames} - " />
                         <pf:outputLabel value="#{proof.proofWard.name} - " />
                         <pf:outputLabel value="#{proof.proofWard.locationText} - " />
                         <pf:outputLabel value="#{proof.month.name} - " />
@@ -52,29 +52,29 @@
             <pf:column id="psAreaId"
                        headerText="pflegesensitiver Bereich"
                        sortable="true"
-                       sortBy="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).obtainSensitiveDomainNames()}"
+                       sortBy="#{proof.significantSensitiveDomain}"
                        filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).obtainSensitiveDomainNames()}">
-                <pf:outputLabel value="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).obtainSensitiveDomainNames()}" />
+                       filterBy="#{proof.significantSensitiveDomain}">
+                <pf:outputLabel value="#{proof.significantSensitiveDomain}" />
             </pf:column>
             <pf:column id="fabNumberId"
                        headerText="FAB Schlüssel"
                        sortable="true"
-                       sortBy="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNumbers}"
+                       sortBy="#{proof.deptNumbers}"
                        filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNumbers}">
-                <pf:outputLabel value="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNumbers}" />
+                       filterBy="#{proof.deptNumbers}">
+                <pf:outputLabel value="#{proof.deptNumbers}" />
             </pf:column>
             <pf:column id="fabId"
                        headerText="Fachabteilung"
                        sortable="true"
-                       sortBy="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNames}"
+                       sortBy="#{proof.deptNames}"
                        filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNames}">
-                <pf:outputLabel value="#{proof.proofWard.validProofWardDept(proofEdit.determineStartDate(proof)).deptNames}" />
+                       filterBy="#{proof.deptNames}">
+                <pf:outputLabel value="#{proof.deptNames}" />
             </pf:column>
             <pf:column id="stationNameId"
                        headerText="Station"
