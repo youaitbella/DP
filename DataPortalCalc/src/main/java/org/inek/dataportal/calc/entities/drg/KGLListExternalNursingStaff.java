@@ -69,7 +69,7 @@ public class KGLListExternalNursingStaff implements Serializable {
     public void setNetAverageWorkingHoursNursingStaff(double netAverageWorkingHoursNursingStaff) {
         this._netAverageWorkingHoursNursingStaff = netAverageWorkingHoursNursingStaff;
     }
-// </editor-fold>
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Errechnete Anzahl VK(Arbeitsleistung des Fremdpersonals/Tarifliche Netto Jahresarbeitszeit)">
     @Column(name = "ensCalculatedCountNursingStaff")

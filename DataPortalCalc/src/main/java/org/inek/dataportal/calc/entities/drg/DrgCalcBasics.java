@@ -1615,48 +1615,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-/*
-    //<editor-fold defaultstate="collapsed" desc="_hasDescMedicalInfra">
-    @Transient
-    private boolean _hasDescMedicalInfra = false;
-
-    public boolean isDescMedicalInfra() {
-        return _hasDescMedicalInfra;
-    }
-
-    public void setDescMedicalInfra(boolean hasDesc) {
-        this._hasDescMedicalInfra = hasDesc;
-    }
-    //</editor-fold>
-  */
-
-
-//    @Column(name = "biHasExternalMedicalStaff")
-//    @Documentation(name = "Das Krankenhaus hat Ärzte_Pflegekräfte_Funktionsdienst als externes Personal beschäftigt")
-    @Transient
-    private boolean _hasExternalMedicalStaff;
-
-    public boolean hasExternalMedicalStaff() {
-        return _hasExternalMedicalStaff;
-    }
-
-    public void setHasMedicalStaff(boolean _hasExternalMedicalStaff) {
-        this._hasExternalMedicalStaff = _hasExternalMedicalStaff;
-    }
-/*
-    @Column(name = "biCountVKExternalMedicalStaff")
-    @Documentation(name = "")
-    private int _countVKExternalMedicalStaff;
-
-    public int get_countVKMedicalStaff() {
-        return _countVKExternalMedicalStaff;
-    }
-
-    public void set_countVKExternalMedicalStaff(int _countVKExternalMedicalStaff) {
-        this._countVKExternalMedicalStaff = _countVKExternalMedicalStaff;
-    }
-*/
-
     //<editor-fold defaultstate="collapsed" desc="Property List ExternalMedStaff">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "emsBaseInformationId", referencedColumnName = "biID")
@@ -1732,12 +1690,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         this._externalTechFunctServices = externalTechFunctServices;
     }
     //</editor-fold>
-
-
-
-
-
-
 
     @Override
     public int hashCode() {

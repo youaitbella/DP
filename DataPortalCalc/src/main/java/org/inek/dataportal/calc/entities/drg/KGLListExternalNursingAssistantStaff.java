@@ -27,103 +27,162 @@ public class KGLListExternalNursingAssistantStaff implements Serializable {
     }
     // </editor-fold>
 
-
-
     // <editor-fold defaultstate="collapsed" desc="Bereich/Station">
     @Column(name = "enaDivision")
     @Documentation(name = "Bereich", rank = 10)
-    private String _divisionNursingAssistant ="";
+    private String _divisionNursingAssistantStaff="";
 
-    public String getDivisionNursingAssistant() {
-        return _divisionNursingAssistant;
+    public String getDivisionNursingAssistantStaff() {
+        return _divisionNursingAssistantStaff;
     }
 
-    public void setDivisionNursingAssistant(String divisionNursingAssistant) {
-        this._divisionNursingAssistant = divisionNursingAssistant;
+    public void setDivisionNursingAssistantStaff(String divisionNursingAssistantStaff) {
+        this._divisionNursingAssistantStaff = divisionNursingAssistantStaff;
     }
-
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Anzahl VK">
-    @Column(name = "enaCount")
-    private double _countNursingAssistant;
-
-    public double getCountNursingAssistant() {
-        return _countNursingAssistant;
-    }
-
-    public void setCountNursingAssistant(double countNursingAssistant) {
-        this._countNursingAssistant = countNursingAssistant;
-    }
-
 // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Kostenvolumen,
-    // welches gem. §6a Abs. 2 KHEntgG zur Ermittlung des Pflegebudgets berücksichtigt werden darf:">
-    @Column(name = "enaConsideredCostVolume")
-    private double _consideredCostVolumeNursingAssistant;
+    // <editor-fold defaultstate="collapsed" desc="Durchschnittliche tariflich vereinbarte
+    //Jahresarbeitszeit [in Std.] einer direkt angestellten Pflegefachkraft ">
+    @Column(name = "enaAgreedAverageWorkingHoursNursingAssistantStaff")
+    private double _agreedAverageWorkingHoursNursingAssistantStaff;
 
-    public double getConsideredCostVolumeNursingAssistant() {
-        return _consideredCostVolumeNursingAssistant;
+    public double getAgreedAverageWorkingHoursNursingAssistantStaff() {
+        return _agreedAverageWorkingHoursNursingAssistantStaff;
     }
 
-    public void setConsideredCostVolumeNursingAssistant(double consideredCostVolumeNursingAssistant) {
-        this._consideredCostVolumeNursingAssistant = consideredCostVolumeNursingAssistant;
-    }
-
-    // </editor-fold>
-    //
-    // <editor-fold defaultstate="collapsed" desc="Kostenvolumen,
-    // welches nicht gem. §6a Abs. 2 KHEntgG im Pflegebudget berücksichtigt werden darf (i):">
-    @Column(name = "enaNotConsideredCostVolume")
-    private double _notConsideredCostVolumeNursingAssistant;
-
-    public double getNotConsideredCostVolumeNursingAssistant() {
-        return _notConsideredCostVolumeNursingAssistant;
-    }
-
-    public void setNotConsideredCostVolumeNursingAssistant(double notConsideredCostVolumeNursingAssistant) {
-        this._notConsideredCostVolumeNursingAssistant = notConsideredCostVolumeNursingAssistant;
+    public void setAgreedAverageWorkingHoursNursingAssistantStaff(double agreedAverageWorkingHoursNursingAssistantStaff) {
+        this._agreedAverageWorkingHoursNursingAssistantStaff = agreedAverageWorkingHoursNursingAssistantStaff;
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Durchschnittliche tarifliche Netto Jahresarbeitszeit [in Std.]
+    //(nach Abzug von Fehltagen) (i) einer direkt angestellten Pflegefachkraft">
+    @Column(name = "enaNetAverageWorkingHoursNursingAssistantStaff")
+    private double _netAverageWorkingHoursNursingAssistantStaff;
+
+    public double getNetAverageWorkingHoursNursingAssistantStaff() {
+        return _netAverageWorkingHoursNursingAssistantStaff;
+    }
+
+    public void setNetAverageWorkingHoursNursingAssistantStaff(double netAverageWorkingHoursNursingAssistantStaff) {
+        this._netAverageWorkingHoursNursingAssistantStaff = netAverageWorkingHoursNursingAssistantStaff;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Errechnete Anzahl VK(Arbeitsleistung des Fremdpersonals/Tarifliche Netto Jahresarbeitszeit)">
+    @Column(name = "enaCalculatedCountNursingAssistantStaff")
+    private double _calculatedCountNursingAssistantStaff;
+
+    public double getCalculatedCountNursingAssistantStaff() {
+        return _calculatedCountNursingAssistantStaff;
+    }
+
+    public void setCalculatedCountNursingAssistantStaff(double calculatedCountNursingAssistantStaff) {
+        this._calculatedCountNursingAssistantStaff = calculatedCountNursingAssistantStaff;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Durchschnittliche jährliche Arbeitgeberkosten einer tariflich angestellten Pflegefachkraft">
+    @Column(name = "enaAverageAnnualEmployerCostsNursingAssistantStaff")
+    private double _averageAnnualEmployerCostsNursingAssistantStaff;
+
+    public double getAverageAnnualEmployerCostsNursingAssistantStaff() {
+        return _averageAnnualEmployerCostsNursingAssistantStaff;
+    }
+
+    public void setAverageAnnualEmployerCostsNursingAssistantStaff(double averageAnnualEmployerCostsNursingAssistantStaff) {
+        this._averageAnnualEmployerCostsNursingAssistantStaff = averageAnnualEmployerCostsNursingAssistantStaff;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Rechnungsbetrag der Arbeitnehmerüberlassung für Pflegefachkräfte:">
+    @Column(name ="enaAmountTemporaryEmploymentNursingAssistantStaff")
+    private double _amountTemporaryEmploymentNursingAssistantStaff;
+
+    public double getAmountTemporaryEmploymentNursingAssistantStaff() {
+        return _amountTemporaryEmploymentNursingAssistantStaff;
+    }
+
+    public void setAmountTemporaryEmploymentNursingAssistantStaff(double amountTemporaryEmploymentNursingAssistantStaff) {
+        this._amountTemporaryEmploymentNursingAssistantStaff = amountTemporaryEmploymentNursingAssistantStaff;
+    }
+    // </editor-fold>
+
+//    // <editor-fold defaultstate="collapsed" desc="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:">
+//    @Column(name ="enaCostVolumeUpToLimitNursingAssistantStaff")
+//    private double _costVolumeUpToLimitNursingAssistantStaff;
+//
+//    // </editor-fold>
+//
+//    // <editor-fold defaultstate="collapsed" desc="Kostenvolumen oberhalb der Begrenzung nach § 6a Abs. 2 KHEntgG:">
+//    @Column(name ="enaCostVolumeAboveLimitNursingAssistantStaff")
+//    private double _costVolumeAboveLimitNursingAssistantStaff;
+//
+//    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="KoStGr">
     @Column(name = "enaKoStGr")
-    private double _costKoStGrNursingAssistant;
+    private double _costStGrNursingAssistantStaff;
 
-    public double getCostKoStGrNursingAssistant() {
-        return _costKoStGrNursingAssistant;
+    public double getCostStGrNursingAssistantStaff() {
+        return _costStGrNursingAssistantStaff;
     }
 
-    public void setCostKoStGrNursingAssistant(double costKoStGrNursingAssistant) {
-        this._costKoStGrNursingAssistant = costKoStGrNursingAssistant;
+    public void setCostStGrNursingAssistantStaff(double costStGrNursingAssistantStaff) {
+        this._costStGrNursingAssistantStaff = costStGrNursingAssistantStaff;
     }
-// </editor-fold>
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="KoArtGr">
     @Column(name = "enaKoArtGr")
-    private double _costKoArtGrNursingAssistant;
+    private double _costKoArtGrNursingAssistantStaff;
 
-    public double getCostKoArtGrNursingAssistant() {
-        return _costKoArtGrNursingAssistant;
+    public double getCostKoArtGrNursingAssistantStaff() {
+        return _costKoArtGrNursingAssistantStaff;
     }
 
-    public void setCostKoArtGrNursingAssistant(double costKoArtGrNursingAssistant) {
-        this._costKoArtGrNursingAssistant = costKoArtGrNursingAssistant;
+    public void setCostKoArtGrNursingAssistantStaff(double costKoArtGrNursingAssistantStaff) {
+        this._costKoArtGrNursingAssistantStaff = costKoArtGrNursingAssistantStaff;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Wird das Fremdpersonal ausschließlich für die "Pflege am Bett" eingesetzt? (ja/nein)">
+    @Column(name ="enaExclusivelyCareAtBedNursingAssistantStaff")
+    private boolean _exclusivelyCareAtBedNursingAssistantStaff;
+
+    public boolean isExclusivelyCareAtBedNursingAssistantStaff() {
+        return _exclusivelyCareAtBedNursingAssistantStaff;
+    }
+
+    public void setExclusivelyCareAtBedNursingAssistantStaff(boolean exclusivelyCareAtBedNursingAssistantStaff) {
+        this._exclusivelyCareAtBedNursingAssistantStaff = exclusivelyCareAtBedNursingAssistantStaff;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="[Bei "Nein" in Spalte [K], Pflichtfeld] Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
+    //welches nicht für die  "Pflege am Bett" eingesetzt wird und geben Sie im Erläuterungsfeld den entsprechenden Bereich (z.B. Funktionslabor) an.">
+    @Column(name ="enaPartOfCostVolumeBedNursingAssistantStaff")
+    private double _partOfCostVolumeBedNursingAssistantStaff;
+
+    public double getPartOfCostVolumeBedNursingAssistantStaff() {
+        return _partOfCostVolumeBedNursingAssistantStaff;
+    }
+
+    public void setPartOfCostVolumeBedNursingAssistantStaff(double partOfCostVolumeBedNursingAssistantStaff) {
+        this._partOfCostVolumeBedNursingAssistantStaff = partOfCostVolumeBedNursingAssistantStaff;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Erläuterungsfeld">
-    @Column(name = "enaExplanationField")
-    private String _explanationFieldNursingAssistant ="";
+    @Column(name = "enaExplanationFieldAssistant")
+    private String _explanationFieldNursingAssistantStaff="";
 
-    public String getExplanationFieldNursingAssistant() {
-        return _explanationFieldNursingAssistant;
+    public String getExplanationFieldNursingAssistantStaff() {
+        return _explanationFieldNursingAssistantStaff;
     }
 
-    public void setExplanationFieldNursingAssistant(String explanationFieldNursingAssistant) {
-        this._explanationFieldNursingAssistant = explanationFieldNursingAssistant;
+    public void setExplanationFieldNursingAssistantStaff(String explanationFieldNursingAssistantStaff) {
+        this._explanationFieldNursingAssistantStaff = explanationFieldNursingAssistantStaff;
     }
     // </editor-fold>
 
@@ -131,7 +190,7 @@ public class KGLListExternalNursingAssistantStaff implements Serializable {
     @Column(name = "enaBaseInformationId")
     private int _baseInformationId;
 
-    public int get_baseInformationId() {
+    public int getBaseInformationId() {
         return _baseInformationId;
     }
 
@@ -154,21 +213,23 @@ public class KGLListExternalNursingAssistantStaff implements Serializable {
         if (!(o instanceof KGLListExternalNursingAssistantStaff)) return false;
         KGLListExternalNursingAssistantStaff that = (KGLListExternalNursingAssistantStaff) o;
         return _id == that._id &&
-                Double.compare(that._countNursingAssistant, _countNursingAssistant) == 0 &&
-                Double.compare(that._consideredCostVolumeNursingAssistant, _consideredCostVolumeNursingAssistant) == 0 &&
-                Double.compare(that._notConsideredCostVolumeNursingAssistant, _notConsideredCostVolumeNursingAssistant) == 0 &&
-                Double.compare(that._costKoStGrNursingAssistant, _costKoStGrNursingAssistant) == 0 &&
-                Double.compare(that._costKoArtGrNursingAssistant, _costKoArtGrNursingAssistant) == 0 &&
-                get_baseInformationId() == that.get_baseInformationId() &&
-                Objects.equals(_divisionNursingAssistant, that._divisionNursingAssistant) &&
-                Objects.equals(_explanationFieldNursingAssistant, that._explanationFieldNursingAssistant);
+                Double.compare(that._agreedAverageWorkingHoursNursingAssistantStaff, _agreedAverageWorkingHoursNursingAssistantStaff) == 0 &&
+                Double.compare(that.getNetAverageWorkingHoursNursingAssistantStaff(), getNetAverageWorkingHoursNursingAssistantStaff()) == 0 &&
+                Double.compare(that._calculatedCountNursingAssistantStaff, _calculatedCountNursingAssistantStaff) == 0 &&
+                Double.compare(that.getAverageAnnualEmployerCostsNursingAssistantStaff(), getAverageAnnualEmployerCostsNursingAssistantStaff()) == 0 &&
+                Double.compare(that._amountTemporaryEmploymentNursingAssistantStaff, _amountTemporaryEmploymentNursingAssistantStaff) == 0 &&
+                Double.compare(that._costStGrNursingAssistantStaff, _costStGrNursingAssistantStaff) == 0 &&
+                Double.compare(that._costKoArtGrNursingAssistantStaff, _costKoArtGrNursingAssistantStaff) == 0 &&
+                _exclusivelyCareAtBedNursingAssistantStaff == that._exclusivelyCareAtBedNursingAssistantStaff &&
+                Double.compare(that._partOfCostVolumeBedNursingAssistantStaff, _partOfCostVolumeBedNursingAssistantStaff) == 0 &&
+                _baseInformationId == that._baseInformationId &&
+                Objects.equals(_divisionNursingAssistantStaff, that._divisionNursingAssistantStaff) &&
+                Objects.equals(_explanationFieldNursingAssistantStaff, that._explanationFieldNursingAssistantStaff);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionNursingAssistant, _countNursingAssistant, _consideredCostVolumeNursingAssistant,
-                _notConsideredCostVolumeNursingAssistant, _costKoStGrNursingAssistant, _costKoArtGrNursingAssistant
-                , _explanationFieldNursingAssistant, get_baseInformationId());
+        return Objects.hash(_id, _divisionNursingAssistantStaff, _agreedAverageWorkingHoursNursingAssistantStaff, getNetAverageWorkingHoursNursingAssistantStaff(), _calculatedCountNursingAssistantStaff, getAverageAnnualEmployerCostsNursingAssistantStaff(), _amountTemporaryEmploymentNursingAssistantStaff, _costStGrNursingAssistantStaff, _costKoArtGrNursingAssistantStaff, _exclusivelyCareAtBedNursingAssistantStaff, _partOfCostVolumeBedNursingAssistantStaff, _explanationFieldNursingAssistantStaff, _baseInformationId);
     }
 
     @Override

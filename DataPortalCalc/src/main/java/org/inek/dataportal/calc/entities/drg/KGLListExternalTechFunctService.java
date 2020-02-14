@@ -5,6 +5,7 @@ import org.inek.dataportal.common.utils.Documentation;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "KGLListExternalTechFunctService", schema = "calc")
@@ -93,16 +94,29 @@ public class KGLListExternalTechFunctService implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="KoArtGr">
+    @Column(name = "etfsOccupationalGroup")
+    private int _occupationalGroup;
+
+    public int getOccupationalGroup() {
+        return _occupationalGroup;
+    }
+
+    public void setOccupationalGroup(int occupationalGroup) {
+        this._occupationalGroup = occupationalGroup;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Erläuterungsfeld">
     @Column(name = "etfsExplanationField")
     private String _explanationFieldTechFunctService="";
 
-    public String get_explanationFieldTechFunctService() {
+    public String getExplanationFieldTechFunctService() {
         return _explanationFieldTechFunctService;
     }
 
-    public void set_explanationFieldTechFunctService(String _explanationFieldTechFunctService) {
-        this._explanationFieldTechFunctService = _explanationFieldTechFunctService;
+    public void setExplanationFieldTechFunctService(String explanationFieldTechFunctService) {
+        this._explanationFieldTechFunctService = explanationFieldTechFunctService;
     }
     // </editor-fold>
 
@@ -119,6 +133,27 @@ public class KGLListExternalTechFunctService implements Serializable {
     }
     // </editor-fold>
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof KGLListExternalTechFunctService)) return false;
+        KGLListExternalTechFunctService that = (KGLListExternalTechFunctService) o;
+        return _id == that._id &&
+                Double.compare(that._countTechFunctService, _countTechFunctService) == 0 &&
+                Double.compare(that._costVolumeTechFunctService, _costVolumeTechFunctService) == 0 &&
+                Double.compare(that._costStGrTechFunctService, _costStGrTechFunctService) == 0 &&
+                Double.compare(that._costKoArtGrTechFunctService, _costKoArtGrTechFunctService) == 0 &&
+                getOccupationalGroup() == that.getOccupationalGroup() &&
+                get_baseInformationId() == that.get_baseInformationId() &&
+                Objects.equals(_divisionTechFunctService, that._divisionTechFunctService) &&
+                Objects.equals(getExplanationFieldTechFunctService(), that.getExplanationFieldTechFunctService());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_id, _divisionTechFunctService, _countTechFunctService, _costVolumeTechFunctService, _costStGrTechFunctService, _costKoArtGrTechFunctService, getOccupationalGroup(), getExplanationFieldTechFunctService(), get_baseInformationId());
+    }
 
     @Override
     public String toString() {
