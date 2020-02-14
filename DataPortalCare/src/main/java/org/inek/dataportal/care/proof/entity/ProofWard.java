@@ -1,7 +1,7 @@
 package org.inek.dataportal.care.proof.entity;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "ProofWard", schema = "care")
@@ -73,26 +73,6 @@ public class ProofWard {
         name = val;
     }
     //</editor-fold>
-
-    @OneToMany(mappedBy = "proofWard", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "pwdProofWardId")
-    private List<ProofWardDept> proofWardDepts = new ArrayList<>();
-
-    public void addProofWardDept(ProofWardDept proofWardDept) {
-        proofWardDepts.add(proofWardDept);
-    }
-
-    public List<ProofWardDept> getProofWardDepts(){
-        return Collections.unmodifiableList(proofWardDepts);
-    }
-
-    public ProofWardDept validProofWardDept(Date date){
-
-        return proofWardDepts.stream()
-                .sorted((p1, p2) -> p2.getValidFrom().compareTo(p1.getValidFrom()))
-                .filter(p -> p.getValidFrom().compareTo(date) <= 0)
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("No proof ward found"));
-    }
 
     @Override
     public boolean equals(Object o) {
