@@ -49,7 +49,7 @@ public class BaseDataFacade extends AbstractDataAccess {
     public double obtainPatientLimit(int year, SensitiveDomain sensitiveDomain, Shift shift) {
         ensureBaseData(year);
         return _baseData.get(year).stream()
-                .filter(c -> c.getSensitiveDomain() == sensitiveDomain)
+                .filter(c -> c.getSensitiveDomain().equals(sensitiveDomain))
                 .filter(c -> c.getShift() == shift)
                 .findAny().orElseThrow(() -> new IllegalArgumentException("Unknown sensitive domain / shift"))
                 .getPpug();
@@ -58,7 +58,7 @@ public class BaseDataFacade extends AbstractDataAccess {
     public double obtainPart(int year, SensitiveDomain sensitiveDomain, Shift shift) {
         ensureBaseData(year);
         return _baseData.get(year).stream()
-                .filter(c -> c.getSensitiveDomain() == sensitiveDomain)
+                .filter(c -> c.getSensitiveDomain().equals(sensitiveDomain))
                 .filter(c -> c.getShift() == shift)
                 .findAny().orElseThrow(() -> new IllegalArgumentException("Unknown sensitive domain / shift"))
                 .getPart();
