@@ -6,8 +6,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/feature/calc"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+>
     <h1>Übersicht externes Personal</h1>
 
 <!--    Ärztlichen Dienst-->
@@ -137,8 +136,14 @@
             </h:column>
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Durchschnittliche tarifliche Netto Jahresarbeitszeit [in Std.]
-                                          (nach Abzug von Fehltagen) (i) einer direkt angestellten Pflegefachkraft"/>
+                    <h:outputLabel
+                            value="Durchschnittliche tarifliche Netto Jahresarbeitszeit [in Std.] (nach Abzug von Fehltagen) "/>
+                    <h:graphicImage alt=""
+                                    name="Icon/small/information.png"
+                                    title="Bei dem Abzug der Fehltage bzw. Fehlstunden sind Überstunden und Bereitschaftsdienste nicht in die Berechnung einzubeziehen.
+                                        Zusätzlich sind Zeiten, die für das Krankenhaus keine Personalkosten verursacht haben (Arbeitsunfähigkeit außerhalb der Lohnfortzahlung,
+                                        unbezahlter Urlaub, Mutterschutz) ebenso nicht in die Berechnung einzubeziehen."/>
+                    <h:outputLabel value="einer direkt angestellten Pflegefachkraft"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalNursingMedStaff.netAverageWorkingHoursNursingStaff}"
@@ -288,7 +293,13 @@
             <h:column>
                 <f:facet name="header">
                     <h:outputLabel value="Durchschnittliche tarifliche Netto Jahresarbeitszeit [in Std.]
-                                          (nach Abzug von Fehltagen) (i) einer direkt angestellten Pflegefachkraft"/>
+                                          (nach Abzug von Fehltagen) "/>
+                    <h:graphicImage alt=""
+                                    name="Icon/small/information.png"
+                                    title="Bei dem Abzug der Fehltage bzw. Fehlstunden sind Überstunden und Bereitschaftsdienste nicht in die Berechnung einzubeziehen.
+                                        Zusätzlich sind Zeiten, die für das Krankenhaus keine Personalkosten verursacht haben (Arbeitsunfähigkeit außerhalb der Lohnfortzahlung,
+                                        unbezahlter Urlaub, Mutterschutz) ebenso nicht in die Berechnung einzubeziehen."/>
+                    <h:outputLabel value="einer direkt angestellten Pflegefachkraft"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalNursingAssistantMedStaff.netAverageWorkingHoursNursingAssistantStaff}"
@@ -438,8 +449,14 @@
             </h:column>
             <h:column>
                 <f:facet name="header">
-                    <h:outputLabel value="Durchschnittliche tarifliche Netto Jahresarbeitszeit [in Std.] (nach Abzug von Fehltagen)
-                                          (i) von sonstigen direkt angestellten Pflegefachkraft"/>
+                    <h:outputLabel
+                            value="Durchschnittliche tarifliche Netto Jahresarbeitszeit [in Std.] (nach Abzug von Fehltagen)"/>
+                    <h:graphicImage alt=""
+                                    name="Icon/small/information.png"
+                                    title="Bei dem Abzug der Fehltage bzw. Fehlstunden sind Überstunden und Bereitschaftsdienste nicht in die Berechnung einzubeziehen.
+                                        Zusätzlich sind Zeiten, die für das Krankenhaus keine Personalkosten verursacht haben (Arbeitsunfähigkeit außerhalb der Lohnfortzahlung,
+                                        unbezahlter Urlaub, Mutterschutz) ebenso nicht in die Berechnung einzubeziehen."/>
+                    <h:outputLabel value="von sonstigen direkt angestellten Pflegefachkraft"/>
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalCareStaffOther.netAverageWorkingHours}"
