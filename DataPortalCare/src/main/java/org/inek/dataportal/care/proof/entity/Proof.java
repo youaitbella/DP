@@ -7,6 +7,7 @@ import org.inek.dataportal.care.enums.Shift;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,14 +52,14 @@ public class Proof implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prId")
-    private Integer _id;
+    private Integer id;
 
     public int getId() {
-        return _id == null ? -1 : _id;
+        return id == null ? -1 : id;
     }
 
     public void setId(Integer id) {
-        _id = id;
+        this.id = id;
     }
     // </editor-fold>
 
@@ -121,6 +122,34 @@ public class Proof implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold desc="Property ValidFrom">
+    @Column(name = "prValidFrom")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ValidFrom;
+
+    public Date getValidFrom() {
+        return ValidFrom;
+    }
+
+    public void setValidFrom(Date validFrom) {
+        ValidFrom = validFrom;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property ValidTo">
+    @Column(name = "prValidTo")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ValidTo;
+
+    public Date getValidTo() {
+        return ValidTo;
+    }
+
+    public void setValidTo(Date validTo) {
+        ValidTo = validTo;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property Month">
     @Column(name = "prMonth")
     private int _month;
@@ -134,6 +163,58 @@ public class Proof implements Serializable {
     }
 
     //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property DeptNumbers">
+    @Column(name = "prDeptNumbers")
+    private String deptNumbers = "";
+
+    public String getDeptNumbers() {
+        return deptNumbers;
+    }
+
+    public void setDeptNumbers(String deptNumbers) {
+        this.deptNumbers = deptNumbers;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property DeptNames">
+    @Column(name = "prDeptNames")
+    private String deptNames = "";
+
+    public String getDeptNames() {
+        return deptNames;
+    }
+
+    public void setDeptNames(String deptNames) {
+        this.deptNames = deptNames;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property SensitiveDomains">
+    @Column(name = "prSensitiveDomains")
+    private String sensitiveDomains = "";
+
+    public String getSensitiveDomains() {
+        return sensitiveDomains;
+    }
+
+    public void setSensitiveDomains(String sensitiveDomains) {
+        this.sensitiveDomains = sensitiveDomains;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property SignificantSensitiveDomainId">
+    @Column(name = "prSignificantSensitiveDomainId")
+    private int significantSensitiveDomainId;
+
+    public int getSignificantSensitiveDomainId() {
+        return significantSensitiveDomainId;
+    }
+
+    public void setSignificantSensitiveDomainId(int significantSensitiveDomainId) {
+        this.significantSensitiveDomainId = significantSensitiveDomainId;
+    }
+    // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Shift">
     @Column(name = "prShift")
@@ -158,19 +239,6 @@ public class Proof implements Serializable {
 
     public void setBeds(double beds) {
         this.beds = beds;
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Property MaxShiftCount">
-    @Column(name = "prMaxShiftCount")
-    private int maxShiftCount;
-
-    public int getMaxShiftCount() {
-        return maxShiftCount;
-    }
-
-    public void setMaxShiftCount(int maxShiftCount) {
-        this.maxShiftCount = maxShiftCount;
     }
     //</editor-fold>
 
@@ -278,6 +346,7 @@ public class Proof implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold desc="Property ExceptionFacts">
     @OneToMany(mappedBy = "_proof", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "pefProofId")
     private List<ProofExceptionFact> _proofExceptionFact = new ArrayList<>();
@@ -297,43 +366,17 @@ public class Proof implements Serializable {
     public void removeExceptionFact(ProofExceptionFact fact) {
         _proofExceptionFact.remove(fact);
     }
+    //</editor-fold>
 
-    @Transient
-    @JsonIgnore
-    private double _ppug;
-
-    @Transient
-    @JsonIgnore
-    private double _part;
-
-    @JsonIgnore
-    public double getPpug() {
-        return _ppug;
-    }
-
-    @JsonIgnore
-    public void setPpug(double ppug) {
-        this._ppug = ppug;
-    }
-
-    @JsonIgnore
-    public double getPart() {
-        return _part;
-    }
-
-    @JsonIgnore
-    public void setPart(double part) {
-        this._part = part;
-    }
-
-    @SuppressWarnings("CyclomaticComplexity")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Proof proof = (Proof) o;
-        return _shift == proof._shift &&
-                _month == proof._month &&
+        return _month == proof._month &&
+                significantSensitiveDomainId == proof.significantSensitiveDomainId &&
+                _shift == proof._shift &&
+                Double.compare(proof.beds, beds) == 0 &&
                 _countShift == proof._countShift &&
                 Double.compare(proof._nurse, _nurse) == 0 &&
                 Double.compare(proof._helpeNurse, _helpeNurse) == 0 &&
@@ -341,17 +384,22 @@ public class Proof implements Serializable {
                 Double.compare(proof._countShiftNotRespected, _countShiftNotRespected) == 0 &&
                 Double.compare(proof._patientPerNurse, _patientPerNurse) == 0 &&
                 Double.compare(proof._countHelpeNurseChargeable, _countHelpeNurseChargeable) == 0 &&
-                Objects.equals(_proofRegulationStation, proof._proofRegulationStation) &&
-                Objects.equals(_baseInformation, proof._baseInformation);
+                id.equals(proof.id) &&
+                _baseInformation.equals(proof._baseInformation) &&
+                _proofRegulationStation.equals(proof._proofRegulationStation) &&
+                _proofWard.equals(proof._proofWard) &&
+                ValidFrom.equals(proof.ValidFrom) &&
+                ValidTo.equals(proof.ValidTo) &&
+                deptNumbers.equals(proof.deptNumbers) &&
+                deptNames.equals(proof.deptNames) &&
+                sensitiveDomains.equals(proof.sensitiveDomains) &&
+                _comment.equals(proof._comment) &&
+                _proofExceptionFact.equals(proof._proofExceptionFact);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_proofRegulationStation, _baseInformation, _shift, _month, _countShift, _nurse, _helpeNurse, _patientOccupancy,
-                _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable);
+        return Objects.hash(id, _baseInformation, _proofRegulationStation, _proofWard, ValidFrom, ValidTo, _month, deptNumbers, deptNames, sensitiveDomains, significantSensitiveDomainId, _shift, beds, _countShift, _nurse, _helpeNurse, _patientOccupancy, _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable, _comment, _proofExceptionFact);
     }
 
-    public Double getNewPpug() {
-        return 10.0;
-    }
 }
