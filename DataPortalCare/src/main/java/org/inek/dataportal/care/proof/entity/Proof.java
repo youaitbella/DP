@@ -1,6 +1,7 @@
 package org.inek.dataportal.care.proof.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.inek.dataportal.care.entities.SensitiveDomain;
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
 
@@ -31,7 +32,6 @@ public class Proof implements Serializable {
         this._shift = proof.getShift().getId();
         this._month = proof.getMonth().getId();
         this.beds = proof.getBeds();
-        this.maxShiftCount = proof.getMaxShiftCount();
         this._countShift = proof.getCountShift();
         this._nurse = proof.getNurse();
         this._helpeNurse = proof.getHelpNurse();
@@ -203,16 +203,17 @@ public class Proof implements Serializable {
     }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property SignificantSensitiveDomainId">
-    @Column(name = "prSignificantSensitiveDomainId")
-    private int significantSensitiveDomainId;
+    // <editor-fold defaultstate="collapsed" desc="Property SignificantSensitiveDomain">
+    @ManyToOne
+    @JoinColumn(name = "prSignificantSensitiveDomainId")
+    private SensitiveDomain significantSensitiveDomain;
 
-    public int getSignificantSensitiveDomainId() {
-        return significantSensitiveDomainId;
+    public SensitiveDomain getSignificantSensitiveDomain() {
+        return significantSensitiveDomain;
     }
 
-    public void setSignificantSensitiveDomainId(int significantSensitiveDomainId) {
-        this.significantSensitiveDomainId = significantSensitiveDomainId;
+    public void setSignificantSensitiveDomain(SensitiveDomain significantSensitiveDomain) {
+        this.significantSensitiveDomain = significantSensitiveDomain;
     }
     // </editor-fold>
 
@@ -374,7 +375,7 @@ public class Proof implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Proof proof = (Proof) o;
         return _month == proof._month &&
-                significantSensitiveDomainId == proof.significantSensitiveDomainId &&
+                significantSensitiveDomain.getId() == proof.significantSensitiveDomain.getId() &&
                 _shift == proof._shift &&
                 Double.compare(proof.beds, beds) == 0 &&
                 _countShift == proof._countShift &&
@@ -399,7 +400,7 @@ public class Proof implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, _baseInformation, _proofRegulationStation, _proofWard, ValidFrom, ValidTo, _month, deptNumbers, deptNames, sensitiveDomains, significantSensitiveDomainId, _shift, beds, _countShift, _nurse, _helpeNurse, _patientOccupancy, _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable, _comment, _proofExceptionFact);
+        return Objects.hash(id, _baseInformation, _proofRegulationStation, _proofWard, ValidFrom, ValidTo, _month, deptNumbers, deptNames, sensitiveDomains, significantSensitiveDomain, _shift, beds, _countShift, _nurse, _helpeNurse, _patientOccupancy, _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable, _comment, _proofExceptionFact);
     }
 
 }

@@ -3,7 +3,6 @@ package org.inek.dataportal.care.proof;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.Extension;
-import org.inek.dataportal.care.entities.SensitiveDomain;
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.facades.BaseDataFacade;
@@ -187,7 +186,6 @@ public class ProofEdit implements Serializable {
             }
             loadExceptionsFactsList();
             fillExceptionsFactsList(_proofBaseInformation);
-            _baseDataFacade.fillBaseDataToProofs(_proofBaseInformation.getProofs());
         }
         setReadOnly();
         buildSortOrder();
@@ -296,7 +294,6 @@ public class ProofEdit implements Serializable {
         proof.setShift(shift);
         proof.setBeds(proofWardInfo.getBeds());
         int diffDays = DateUtils.diffDays(proofWardInfo.getFrom(), proofWardInfo.getTo());
-        proof.setMaxShiftCount(diffDays);
         int ik = proof.getBaseInformation().getIk();
         ProofWard proofWard = proofFacade.findProofWard(ik, proofWardInfo.getLocationNumber(), proofWardInfo.getWardName());
         // todo: add depts etc.
@@ -329,7 +326,6 @@ public class ProofEdit implements Serializable {
             }
 
             _proofBaseInformation = _proofFacade.save(_proofBaseInformation);
-            _baseDataFacade.fillBaseDataToProofs(_proofBaseInformation.getProofs());
 
 
             if (_proofBaseInformation.getStatus() == WorkflowStatus.Provided) {
@@ -451,7 +447,6 @@ public class ProofEdit implements Serializable {
 
         try {
             _proofBaseInformation = _proofFacade.save(_proofBaseInformation);
-            _baseDataFacade.fillBaseDataToProofs(_proofBaseInformation.getProofs());
             setIsExceptionFactsChangeMode(false);
             DialogController.showSaveDialog();
         } catch (Exception ex) {
@@ -479,10 +474,13 @@ public class ProofEdit implements Serializable {
         return proof.getPatientPerNurse();
     }
 
-    public boolean hasToManyPatient (Proof proof) {
-        List<SensitiveDomain> sensitiveDomains = proof.getProofWard().validProofWardDept(determineStartDate(proof)).getSensitiveDomains();
-        int year = _proofBaseInformation.getYear();
-        return calculatePatientPerNurse(proof) > _baseDataFacade.determineBaseData(year, sensitiveDomains, proof.getShift()).getPpug();
+    public boolean hasToManyPatient(Proof proof) {
+        return calculatePatientPerNurse(proof) > obtainLimit(proof);
+    }
+
+    private double obtainLimit(Proof proof) {
+        int year = proof.getBaseInformation().getYear();
+        return _baseDataFacade.obtainPatientLimit(year, proof.getSignificantSensitiveDomain(), proof.getShift());
     }
 
     public double calculateCountHelpeNurseChargeable(Proof proof) {
@@ -504,8 +502,8 @@ public class ProofEdit implements Serializable {
 
     public List<Proof> getProofsForExceptionFact() {
         return _proofBaseInformation.getProofs().stream().filter(p -> p.getProofRegulationStationId() == 0)
-                .filter(c -> c.getPatientPerNurse() > c.getPpug() || c.getCountShiftNotRespected() > 0)
-                .filter(c -> c.getExceptionFact().size() < _listExceptionsFacts.size())
+                .filter(proof -> proof.getPatientPerNurse() > obtainLimit(proof) || proof.getCountShiftNotRespected() > 0)
+                .filter(proof -> proof.getExceptionFact().size() < _listExceptionsFacts.size())
                 .collect(Collectors.toList());
     }
 

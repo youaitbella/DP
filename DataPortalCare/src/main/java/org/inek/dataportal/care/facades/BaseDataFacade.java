@@ -7,17 +7,16 @@ package org.inek.dataportal.care.facades;
 
 import org.inek.dataportal.care.entities.BaseData;
 import org.inek.dataportal.care.entities.SensitiveDomain;
-import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.proof.PpugInfo;
-import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.TypedQuery;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author lautenti
@@ -47,43 +46,22 @@ public class BaseDataFacade extends AbstractDataAccess {
         _baseData.put(year, getAllBaseDataByYear(year));
     }
 
-    public double getPpugBySensitivAreaAndShift(int year, SensitiveDomain sensitiveDomain, Shift shift) {
-        List<BaseData> baseDatas = getBaseData(year, sensitiveDomain, shift);
-
-        if (baseDatas.size() > 1 || baseDatas.size() < 1) {
-            return -1;
-        }
-
-        return baseDatas.get(0).getPpug();
-    }
-
-    public double getPartBySensitivAreaAndShift(int year, SensitiveDomain sensitiveDomain, Shift shift) {
-        List<BaseData> baseDatas = getBaseData(year, sensitiveDomain, shift);
-
-        if (baseDatas.size() > 1 || baseDatas.size() < 1) {
-            return -1;
-        }
-
-        return baseDatas.get(0).getPart();
-    }
-
-    private List<BaseData> getBaseData(int year, SensitiveDomain sensitivArea, Shift shift) {
+    public double obtainPatientLimit(int year, SensitiveDomain sensitiveDomain, Shift shift) {
         ensureBaseData(year);
         return _baseData.get(year).stream()
-                .filter(c -> c.getSensitiveDomain() == sensitivArea)
+                .filter(c -> c.getSensitiveDomain() == sensitiveDomain)
                 .filter(c -> c.getShift() == shift)
-                .collect(Collectors.toList());
+                .findAny().orElseThrow(() -> new IllegalArgumentException("Unknown sensitive domain / shift"))
+                .getPpug();
     }
 
-    public void fillBaseDataToProofs(List<Proof> proofs) {
-        for (Proof pr : proofs) {
-            // todo fillBaseDataToProof(pr);
-        }
-    }
-
-    private void fillBaseDataToProof(Proof proof) {
-//        proof.setPpug(getPpugBySensitivAreaAndShift(proof.getProofRegulationStation().getSensitiveArea(), proof.getShift()));
-//        proof.setPart(getPartBySensitivAreaAndShift(proof.getProofRegulationStation().getSensitiveArea(), proof.getShift()));
+    public double obtainPart(int year, SensitiveDomain sensitiveDomain, Shift shift) {
+        ensureBaseData(year);
+        return _baseData.get(year).stream()
+                .filter(c -> c.getSensitiveDomain() == sensitiveDomain)
+                .filter(c -> c.getShift() == shift)
+                .findAny().orElseThrow(() -> new IllegalArgumentException("Unknown sensitive domain / shift"))
+                .getPart();
     }
 
     public PpugInfo determineBaseData(final int year, final List<SensitiveDomain> sensitiveDomains, final Shift shift) {
