@@ -139,8 +139,9 @@ class ProofCheckerTest {
         baseInfo.getProofs().get(1).setCountShift(1);
         baseInfo.getProofs().get(1).setPatientOccupancy(101);
         baseInfo.getProofs().get(1).setNurse(1);
-        CalculatorPpug.calculateAll(baseInfo.getProofs().get(1));
+        CalculatorPpug.calculateAll(baseInfo.getProofs().get(1), 1d);
         List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
+        System.out.println("Errormessage: " + messages);
         assertThat(messages)
                 .hasSize(1)
                 .containsOnly("Station: Station H2 Monat: Januar Schicht: Nacht: " + PATIENT_PER_NURSE_HIGH);
@@ -156,7 +157,7 @@ class ProofCheckerTest {
         baseInfo.getProofs().get(1).setCountShift(1);
         baseInfo.getProofs().get(1).setPatientOccupancy(1);
         baseInfo.getProofs().get(1).setNurse(10);
-        CalculatorPpug.calculateAll(baseInfo.getProofs().get(1));
+        CalculatorPpug.calculateAll(baseInfo.getProofs().get(1), 1d);
         List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
         assertThat(messages)
                 .hasSize(1)

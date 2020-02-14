@@ -26,11 +26,11 @@ public class CalculatorPpug {
             return;
         }
 
-        BigDecimal v = decNurse.divide(decPart, RoundingMode.HALF_UP);
+        BigDecimal maxAllowed = decNurse.divide(decPart, RoundingMode.HALF_UP);
 
-        BigDecimal min = v.min(decHelpNurse.add(decNurse));
+        BigDecimal totalStaff = maxAllowed.min(decHelpNurse.add(decNurse));
 
-        double result = decPatientOccupancy.divide(min, RoundingMode.HALF_UP).doubleValue();
+        double result = decPatientOccupancy.divide(totalStaff, RoundingMode.HALF_UP).doubleValue();
         proof.setPatientPerNurse(MathHelper.round(result, 2));
     }
 
