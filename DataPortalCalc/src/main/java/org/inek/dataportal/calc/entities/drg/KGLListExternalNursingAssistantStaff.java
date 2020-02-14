@@ -108,18 +108,6 @@ public class KGLListExternalNursingAssistantStaff implements Serializable {
     }
     // </editor-fold>
 
-//    // <editor-fold defaultstate="collapsed" desc="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:">
-//    @Column(name ="enaCostVolumeUpToLimitNursingAssistantStaff")
-//    private double _costVolumeUpToLimitNursingAssistantStaff;
-//
-//    // </editor-fold>
-//
-//    // <editor-fold defaultstate="collapsed" desc="Kostenvolumen oberhalb der Begrenzung nach § 6a Abs. 2 KHEntgG:">
-//    @Column(name ="enaCostVolumeAboveLimitNursingAssistantStaff")
-//    private double _costVolumeAboveLimitNursingAssistantStaff;
-//
-//    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="KoStGr">
     @Column(name = "enaKoStGr")
     private double _costStGrNursingAssistantStaff;
@@ -146,7 +134,7 @@ public class KGLListExternalNursingAssistantStaff implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Wird das Fremdpersonal ausschließlich für die "Pflege am Bett" eingesetzt? (ja/nein)">
+    // <editor-fold defaultstate="collapsed" desc="Wird das Fremdpersonal ausschließlich für die "Pflege am Bett" eingesetzt?">
     @Column(name ="enaExclusivelyCareAtBedNursingAssistantStaff")
     private boolean _exclusivelyCareAtBedNursingAssistantStaff;
 
@@ -159,7 +147,7 @@ public class KGLListExternalNursingAssistantStaff implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="[Bei "Nein" in Spalte [K], Pflichtfeld] Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
+    // <editor-fold defaultstate="collapsed" desc="Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
     //welches nicht für die  "Pflege am Bett" eingesetzt wird und geben Sie im Erläuterungsfeld den entsprechenden Bereich (z.B. Funktionslabor) an.">
     @Column(name ="enaPartOfCostVolumeBedNursingAssistantStaff")
     private double _partOfCostVolumeBedNursingAssistantStaff;
@@ -186,7 +174,7 @@ public class KGLListExternalNursingAssistantStaff implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="_baseInformationId">
+    // <editor-fold defaultstate="collapsed" desc="baseInformationId">
     @Column(name = "enaBaseInformationId")
     private int _baseInformationId;
 
@@ -198,7 +186,6 @@ public class KGLListExternalNursingAssistantStaff implements Serializable {
         this._baseInformationId = _baseInformationId;
     }
     // </editor-fold>
-
 
     public KGLListExternalNursingAssistantStaff() {
     }

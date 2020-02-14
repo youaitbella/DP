@@ -110,32 +110,6 @@ public class KGLListExternalNursingStaff implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:">
-    @Column(name ="ensCostVolumeUpToLimitNursingStaff")
-    private double _costVolumeUpToLimitNursingStaff;
-
-    public double getCostVolumeUpToLimitNursingStaff() {
-        return _costVolumeUpToLimitNursingStaff;
-    }
-
-    public void setCostVolumeUpToLimitNursingStaff(double costVolumeUpToLimitNursingStaff) {
-        this._costVolumeUpToLimitNursingStaff = costVolumeUpToLimitNursingStaff;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Kostenvolumen oberhalb der Begrenzung nach § 6a Abs. 2 KHEntgG:">
-    @Column(name ="ensCostVolumeAboveLimitNursingStaff")
-    private double _costVolumeAboveLimitNursingStaff;
-
-    public double getCostVolumeAboveLimitNursingStaff() {
-        return _costVolumeAboveLimitNursingStaff;
-    }
-
-    public void setCostVolumeAboveLimitNursingStaff(double costVolumeAboveLimitNursingStaff) {
-        this._costVolumeAboveLimitNursingStaff = costVolumeAboveLimitNursingStaff;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="KoStGr">
     @Column(name = "ensKoStGr")
     private double _costStGrNursingStaff;
@@ -163,7 +137,7 @@ public class KGLListExternalNursingStaff implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Wird das Fremdpersonal ausschließlich für die "Pflege am Bett" eingesetzt? (ja/nein)">
+    // <editor-fold defaultstate="collapsed" desc="Wird das Fremdpersonal ausschließlich für die "Pflege am Bett" eingesetzt?">
     @Column(name ="ensExclusivelyCareAtBedNursingStaff")
     private boolean _exclusivelyCareAtBedNursingStaff;
 
@@ -176,7 +150,7 @@ public class KGLListExternalNursingStaff implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="[Bei "Nein" in Spalte [K], Pflichtfeld] Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
+    // <editor-fold defaultstate="collapsed" desc="Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
     //welches nicht für die  "Pflege am Bett" eingesetzt wird und geben Sie im Erläuterungsfeld den entsprechenden Bereich (z.B. Funktionslabor) an.">
     @Column(name ="ensPartOfCostVolumeBedNursingStaff")
     private double _partOfCostVolumeBedNursingStaff;
@@ -189,7 +163,6 @@ public class KGLListExternalNursingStaff implements Serializable {
         this._partOfCostVolumeBedNursingStaff = partOfCostVolumeBedNursingStaff;
     }
     // </editor-fold>
-
 
     // <editor-fold defaultstate="collapsed" desc="Erläuterungsfeld">
     @Column(name = "ensExplanationField")
@@ -205,7 +178,7 @@ public class KGLListExternalNursingStaff implements Serializable {
 
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="_baseInformationId">
+    // <editor-fold defaultstate="collapsed" desc="baseInformationId">
     @Column(name = "ensBaseInformationId")
     private int _baseInformationIdNursingStaff;
 
@@ -217,7 +190,6 @@ public class KGLListExternalNursingStaff implements Serializable {
         this._baseInformationIdNursingStaff = _baseInformationIdNursingStaff;
     }
     // </editor-fold>
-
 
     public KGLListExternalNursingStaff() {
     }
@@ -237,8 +209,6 @@ public class KGLListExternalNursingStaff implements Serializable {
                 Double.compare(that.getCalculatedCountNursingStaff(), getCalculatedCountNursingStaff()) == 0 &&
                 Double.compare(that.getAverageAnnualEmployerCostsNursingStaff(), getAverageAnnualEmployerCostsNursingStaff()) == 0 &&
                 Double.compare(that.getAmountTemporaryEmploymentNursingStaff(), getAmountTemporaryEmploymentNursingStaff()) == 0 &&
-                Double.compare(that.getCostVolumeUpToLimitNursingStaff(), getCostVolumeUpToLimitNursingStaff()) == 0 &&
-                Double.compare(that.getCostVolumeAboveLimitNursingStaff(), getCostVolumeAboveLimitNursingStaff()) == 0 &&
                 Double.compare(that._costStGrNursingStaff, _costStGrNursingStaff) == 0 &&
                 Double.compare(that._costKoArtGrNursingStaff, _costKoArtGrNursingStaff) == 0 &&
                 isExclusivelyCareAtBedNursingStaff() == that.isExclusivelyCareAtBedNursingStaff() &&
@@ -250,7 +220,7 @@ public class KGLListExternalNursingStaff implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionNursingStaff, getAgreedAverageWorkingHoursNursingStaff(), getNetAverageWorkingHoursNursingStaff(), getCalculatedCountNursingStaff(), getAverageAnnualEmployerCostsNursingStaff(), getAmountTemporaryEmploymentNursingStaff(), getCostVolumeUpToLimitNursingStaff(), getCostVolumeAboveLimitNursingStaff(), _costStGrNursingStaff, _costKoArtGrNursingStaff, isExclusivelyCareAtBedNursingStaff(), getPartOfCostVolumeBedNursingStaff(), _explanationFieldNursingStaff, _baseInformationIdNursingStaff);
+        return Objects.hash(_id, _divisionNursingStaff, getAgreedAverageWorkingHoursNursingStaff(), getNetAverageWorkingHoursNursingStaff(), getCalculatedCountNursingStaff(), getAverageAnnualEmployerCostsNursingStaff(), getAmountTemporaryEmploymentNursingStaff(), _costStGrNursingStaff, _costKoArtGrNursingStaff, isExclusivelyCareAtBedNursingStaff(), getPartOfCostVolumeBedNursingStaff(), _explanationFieldNursingStaff, _baseInformationIdNursingStaff);
     }
 
     @Override

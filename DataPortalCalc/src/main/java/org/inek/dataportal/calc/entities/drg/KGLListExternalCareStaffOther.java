@@ -56,7 +56,7 @@ public class KGLListExternalCareStaffOther implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Durchschnittliche tarifliche Netto Jahresarbeitszeit [in Std.]
-    //(nach Abzug von Fehltagen) (i) einer direkt angestellten Pflegefachkraft">
+    // (nach Abzug von Fehltagen) (i) einer direkt angestellten Pflegefachkraft">
     @Column(name = "ecsoNetAverageWorkingHours")
     private double _netAverageWorkingHours;
 
@@ -108,21 +108,6 @@ public class KGLListExternalCareStaffOther implements Serializable {
     }
     // </editor-fold>
 
-//    // <editor-fold defaultstate="collapsed" desc="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:">
-//    @Column(name ="ecsoCostVolumeUpToLimit")
-//    private double _costVolumeUpToLimit;
-//
-//    // </editor-fold>
-//
-//    // <editor-fold defaultstate="collapsed" desc="Kostenvolumen oberhalb der Begrenzung nach § 6a Abs. 2 KHEntgG:">
-//    @Column(name ="ecsoCostVolumeAboveLimit")
-//    private double _costVolumeAboveLimit;
-//
-//    // </editor-fold>
-
-
-
-
     // <editor-fold defaultstate="collapsed" desc="KoStGr">
     @Column(name = "ecsoKoStGr")
     private double _costKoStGr;
@@ -149,7 +134,7 @@ public class KGLListExternalCareStaffOther implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Wird das Fremdpersonal ausschließlich für die "Pflege am Bett" eingesetzt? (ja/nein)">
+    // <editor-fold defaultstate="collapsed" desc="Wird das Fremdpersonal ausschließlich für die "Pflege am Bett" eingesetzt?">
     @Column(name ="ecsoExclusivelyCareAtBed")
     private boolean _exclusivelyCareAtBed;
 
@@ -162,7 +147,7 @@ public class KGLListExternalCareStaffOther implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="[Bei "Nein" in Spalte [K], Pflichtfeld] Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
+    // <editor-fold defaultstate="collapsed" desc="Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
     //welches nicht für die  "Pflege am Bett" eingesetzt wird und geben Sie im Erläuterungsfeld den entsprechenden Bereich (z.B. Funktionslabor) an.">
     @Column(name ="ecsoPartOfCostVolumeBed")
     private double _partOfCostVolumeBed;
@@ -189,11 +174,11 @@ public class KGLListExternalCareStaffOther implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="_baseInformationId">
+    // <editor-fold defaultstate="collapsed" desc="baseInformationId">
     @Column(name = "ecsoBaseInformationId")
     private int _baseInformationId;
 
-    public int get_baseInformationId() {
+    public int getBaseInformationId() {
         return _baseInformationId;
     }
 
@@ -225,14 +210,14 @@ public class KGLListExternalCareStaffOther implements Serializable {
                 Double.compare(that.getCostKoArtGr(), getCostKoArtGr()) == 0 &&
                 _exclusivelyCareAtBed == that._exclusivelyCareAtBed &&
                 Double.compare(that.getPartOfCostVolumeBed(), getPartOfCostVolumeBed()) == 0 &&
-                get_baseInformationId() == that.get_baseInformationId() &&
+                getBaseInformationId() == that.getBaseInformationId() &&
                 Objects.equals(_division, that._division) &&
                 Objects.equals(_explanationField, that._explanationField);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _division, _agreedAverageWorkingHours, _netAverageWorkingHours, _calculatedCount, _averageAnnualEmployerCosts, _amountTemporaryEmployment, _costKoStGr, getCostKoArtGr(), _exclusivelyCareAtBed, getPartOfCostVolumeBed(), _explanationField, get_baseInformationId());
+        return Objects.hash(_id, _division, _agreedAverageWorkingHours, _netAverageWorkingHours, _calculatedCount, _averageAnnualEmployerCosts, _amountTemporaryEmployment, _costKoStGr, getCostKoArtGr(), _exclusivelyCareAtBed, getPartOfCostVolumeBed(), _explanationField, getBaseInformationId());
     }
 
     @Override

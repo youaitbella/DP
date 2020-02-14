@@ -120,11 +120,11 @@ public class KGLListExternalTechFunctService implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="_baseInformationId">
+    // <editor-fold defaultstate="collapsed" desc="baseInformationId">
     @Column(name = "etfsBaseInformationId")
     private int _baseInformationId;
 
-    public int get_baseInformationId() {
+    public int getBaseInformationId() {
         return _baseInformationId;
     }
 
@@ -132,7 +132,6 @@ public class KGLListExternalTechFunctService implements Serializable {
         this._baseInformationId = _baseInformationId;
     }
     // </editor-fold>
-
 
     @Override
     public boolean equals(Object o) {
@@ -145,14 +144,14 @@ public class KGLListExternalTechFunctService implements Serializable {
                 Double.compare(that._costStGrTechFunctService, _costStGrTechFunctService) == 0 &&
                 Double.compare(that._costKoArtGrTechFunctService, _costKoArtGrTechFunctService) == 0 &&
                 getOccupationalGroup() == that.getOccupationalGroup() &&
-                get_baseInformationId() == that.get_baseInformationId() &&
+                getBaseInformationId() == that.getBaseInformationId() &&
                 Objects.equals(_divisionTechFunctService, that._divisionTechFunctService) &&
                 Objects.equals(getExplanationFieldTechFunctService(), that.getExplanationFieldTechFunctService());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionTechFunctService, _countTechFunctService, _costVolumeTechFunctService, _costStGrTechFunctService, _costKoArtGrTechFunctService, getOccupationalGroup(), getExplanationFieldTechFunctService(), get_baseInformationId());
+        return Objects.hash(_id, _divisionTechFunctService, _countTechFunctService, _costVolumeTechFunctService, _costStGrTechFunctService, _costKoArtGrTechFunctService, getOccupationalGroup(), getExplanationFieldTechFunctService(), getBaseInformationId());
     }
 
     @Override

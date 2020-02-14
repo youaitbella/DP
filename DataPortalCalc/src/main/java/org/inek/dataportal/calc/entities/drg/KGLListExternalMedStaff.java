@@ -107,11 +107,11 @@ public class KGLListExternalMedStaff implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="_baseInformationId">
+    // <editor-fold defaultstate="collapsed" desc="baseInformationId">
     @Column(name = "emsBaseInformationId")
     private int _baseInformationId;
 
-    public int get_baseInformationId() {
+    public int getBaseInformationId() {
         return _baseInformationId;
     }
 
@@ -137,7 +137,7 @@ public class KGLListExternalMedStaff implements Serializable {
                 Double.compare(that.getCostVolume(), getCostVolume()) == 0 &&
                 Double.compare(that.getCostKoStGr(), getCostKoStGr()) == 0 &&
                 Double.compare(that.getCostKoArtGr(), getCostKoArtGr()) == 0 &&
-                get_baseInformationId() == that.get_baseInformationId() &&
+                getBaseInformationId() == that.getBaseInformationId() &&
                 Objects.equals(getDivisionMedStaff(), that.getDivisionMedStaff()) &&
                 Objects.equals(getExplanationField(), that.getExplanationField());
     }
@@ -145,7 +145,7 @@ public class KGLListExternalMedStaff implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getDivisionMedStaff(), getCount(), getCostVolume(), getCostKoStGr(), getCostKoArtGr(),
-                getExplanationField(), get_baseInformationId());
+                getExplanationField(), getBaseInformationId());
     }
 
     @Override
