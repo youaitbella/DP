@@ -3,11 +3,6 @@ use DataPortalDev
 /*
 delete care.proof where prProofRegulationStationId = 0
 
-truncate table care.mapProofWardDeptSensitiveDomain
-
-delete care.proofWardDept
-DBCC CHECKIDENT ([care.proofWardDept], reseed, 1)
-
 delete care.proofWard where pwId > 0
 DBCC CHECKIDENT ([care.proofWard], reseed, 1)
 
