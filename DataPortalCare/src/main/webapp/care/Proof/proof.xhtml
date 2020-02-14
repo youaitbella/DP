@@ -17,7 +17,7 @@
             <pf:repeat value="#{proofEdit.proofsForExceptionFact}" var="proof">
                 <div class="ui-g">
                     <div class="ui-g-10">
-                        <pf:outputLabel value="#{proof.significantSensitiveDomain} - " />
+                        <pf:outputLabel value="#{proof.significantSensitiveDomain.name} - "/>
                         <pf:outputLabel value="#{proof.deptNumbers} - " />
                         <pf:outputLabel value="#{proof.deptNames} - " />
                         <pf:outputLabel value="#{proof.proofWard.name} - " />
@@ -52,11 +52,11 @@
             <pf:column id="psAreaId"
                        headerText="pflegesensitiver Bereich"
                        sortable="true"
-                       sortBy="#{proof.significantSensitiveDomain}"
+                       sortBy="#{proof.sensitiveDomains}"
                        filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.significantSensitiveDomain}">
-                <pf:outputLabel value="#{proof.significantSensitiveDomain}" />
+                       filterBy="#{proof.sensitiveDomains}">
+                <pf:outputLabel value="#{proof.sensitiveDomains}"/>
             </pf:column>
             <pf:column id="fabNumberId"
                        headerText="FAB Schlüssel"
@@ -202,11 +202,11 @@
 
             <pf:column headerText="Grenzwert" style="text-align: right;" rendered="#{sessionController.isInekUser('CARE')}">
                 <h:outputLabel id="limitId"
-                               value="#{proofEdit.calculatePatientPerNurse(proof)}">
+                               value="#{proofEdit.obtainLimit(proof)}">
                     <f:convertNumber groupingUsed="true"
                                      minFractionDigits="2"
                                      maxFractionDigits="2"
-                                     locale="de_DE" />
+                                     locale="de_DE"/>
                 </h:outputLabel>
             </pf:column>
 

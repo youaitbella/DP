@@ -1,7 +1,6 @@
 package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.care.entities.BaseData;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.enums.Months;
@@ -57,7 +56,6 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.inek.dataportal.common.enums.TransferFileType.PPUGV;
 
@@ -480,7 +478,7 @@ public class ProofEdit implements Serializable {
         return calculatePatientPerNurse(proof) > obtainLimit(proof);
     }
 
-    private double obtainLimit(Proof proof) {
+    public double obtainLimit(Proof proof) {
         int year = proof.getBaseInformation().getYear();
         return _baseDataFacade.obtainPatientLimit(year, proof.getSignificantSensitiveDomain(), proof.getShift());
     }

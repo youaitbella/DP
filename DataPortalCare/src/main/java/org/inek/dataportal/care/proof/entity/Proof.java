@@ -27,10 +27,16 @@ public class Proof implements Serializable {
 
 
     public Proof(Proof proof) {
-        // old: this._proofRegulationStation = proof.getProofRegulationStation();
+        this._proofRegulationStation = proof.getProofRegulationStation();  // former usage
         this._proofWard = proof.getProofWard();
         this._shift = proof.getShift().getId();
+        this.validFrom = proof.validFrom;
+        this.validTo = proof.validTo;
         this._month = proof.getMonth().getId();
+        this.deptNumbers = proof.deptNumbers;
+        this.deptNames = proof.deptNames;
+        this.sensitiveDomains = proof.sensitiveDomains;
+        this.significantSensitiveDomain = proof.significantSensitiveDomain;
         this.beds = proof.getBeds();
         this._countShift = proof.getCountShift();
         this._nurse = proof.getNurse();
@@ -125,28 +131,28 @@ public class Proof implements Serializable {
     //<editor-fold desc="Property ValidFrom">
     @Column(name = "prValidFrom")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date ValidFrom;
+    private Date validFrom;
 
     public Date getValidFrom() {
-        return ValidFrom;
+        return validFrom;
     }
 
     public void setValidFrom(Date validFrom) {
-        ValidFrom = validFrom;
+        this.validFrom = validFrom;
     }
     //</editor-fold>
 
     //<editor-fold desc="Property ValidTo">
     @Column(name = "prValidTo")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date ValidTo;
+    private Date validTo;
 
     public Date getValidTo() {
-        return ValidTo;
+        return validTo;
     }
 
     public void setValidTo(Date validTo) {
-        ValidTo = validTo;
+        this.validTo = validTo;
     }
     //</editor-fold>
 
@@ -369,13 +375,13 @@ public class Proof implements Serializable {
     }
     //</editor-fold>
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Proof proof = (Proof) o;
         return _month == proof._month &&
-                significantSensitiveDomain.getId() == proof.significantSensitiveDomain.getId() &&
                 _shift == proof._shift &&
                 Double.compare(proof.beds, beds) == 0 &&
                 _countShift == proof._countShift &&
@@ -389,18 +395,21 @@ public class Proof implements Serializable {
                 _baseInformation.equals(proof._baseInformation) &&
                 _proofRegulationStation.equals(proof._proofRegulationStation) &&
                 _proofWard.equals(proof._proofWard) &&
-                ValidFrom.equals(proof.ValidFrom) &&
-                ValidTo.equals(proof.ValidTo) &&
+                validFrom.equals(proof.validFrom) &&
+                validTo.equals(proof.validTo) &&
                 deptNumbers.equals(proof.deptNumbers) &&
                 deptNames.equals(proof.deptNames) &&
                 sensitiveDomains.equals(proof.sensitiveDomains) &&
+                significantSensitiveDomain.equals(proof.significantSensitiveDomain) &&
                 _comment.equals(proof._comment) &&
                 _proofExceptionFact.equals(proof._proofExceptionFact);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, _baseInformation, _proofRegulationStation, _proofWard, ValidFrom, ValidTo, _month, deptNumbers, deptNames, sensitiveDomains, significantSensitiveDomain, _shift, beds, _countShift, _nurse, _helpeNurse, _patientOccupancy, _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable, _comment, _proofExceptionFact);
+        return Objects.hash(id, _baseInformation, _proofRegulationStation, _proofWard, validFrom, validTo, _month,
+                deptNumbers, deptNames, sensitiveDomains, significantSensitiveDomain, _shift, beds, _countShift, _nurse,
+                _helpeNurse, _patientOccupancy, _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable,
+                _comment, _proofExceptionFact);
     }
-
 }
