@@ -147,7 +147,7 @@
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalNursingMedStaff.netAverageWorkingHoursNursingStaff}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -156,7 +156,7 @@
                 <inek:InputNumberWithMessage id="calculatedCountNursingStaff" styleClass="element100"
                                              value="#{externalNursingMedStaff.calculatedCountNursingStaff}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('calculatedCountNursingStaff'))}CostVolumeUpToLimit:text"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -165,7 +165,7 @@
                 <inek:InputNumberWithMessage id="averageAnnualEmployerCostsNursingStaff" styleClass="element100"
                                              value="#{externalNursingMedStaff.averageAnnualEmployerCostsNursingStaff}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('averageAnnualEmployerCostsNursingStaff'))}CostVolumeUpToLimit:text"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -175,7 +175,7 @@
                                              styleClass="element100"
                                              value="#{externalNursingMedStaff.amountTemporaryEmploymentNursingStaff}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountTemporaryEmploymentNursingStaff'))}CostVolumeAboveLimit:text"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -186,7 +186,7 @@
                                               value="#{externalNursingMedStaff.calculatedCountNursingStaff * externalNursingMedStaff.averageAnnualEmployerCostsNursingStaff}"
                                               renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimit'))}CostVolumeAboveLimit:text"
                                               disabled="true"
-                                              pattern="##,###.00"/>
+                                              pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -196,19 +196,19 @@
                                              styleClass="element100"
                                              value="#{externalNursingMedStaff.amountTemporaryEmploymentNursingStaff - (externalNursingMedStaff.calculatedCountNursingStaff * externalNursingMedStaff.averageAnnualEmployerCostsNursingStaff)}"
                                              disabled="true"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalNursingMedStaff.costStGrNursingStaff}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalNursingMedStaff.costKoArtGrNursingStaff}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -227,7 +227,7 @@
                 <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingStaffId" styleClass="element100"
                                              value="#{externalNursingMedStaff.partOfCostVolumeBedNursingStaff}"
                                              required="#{externalNursingMedStaff.exclusivelyCareAtBedNursingStaff}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
@@ -303,7 +303,7 @@
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalNursingAssistantMedStaff.netAverageWorkingHoursNursingAssistantStaff}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -312,7 +312,7 @@
                 <inek:InputNumberWithMessage id="calculatedCountNursingAssistantStaff" styleClass="element100"
                                              value="#{externalNursingAssistantMedStaff.calculatedCountNursingAssistantStaff}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('calculatedCountNursingAssistantStaff'))}CostVolumeUpToLimitAssistant:text"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
 
             <h:column>
@@ -322,7 +322,7 @@
                 <inek:InputNumberWithMessage id="averageAnnualEmployerCostsNursingAssistantStaff" styleClass="element100"
                                              value="#{externalNursingAssistantMedStaff.averageAnnualEmployerCostsNursingAssistantStaff}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('averageAnnualEmployerCostsNursingAssistantStaff'))}CostVolumeUpToLimitAssistant:text"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -332,7 +332,7 @@
                                              styleClass="element100"
                                              value="#{externalNursingAssistantMedStaff.amountTemporaryEmploymentNursingAssistantStaff}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountTemporaryEmploymentAssistantNursingStaff'))}CostVolumeAboveLimitAssistant:text"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -343,7 +343,7 @@
                                               value="#{externalNursingAssistantMedStaff.calculatedCountNursingAssistantStaff * externalNursingAssistantMedStaff.averageAnnualEmployerCostsNursingAssistantStaff}"
                                               renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimitAssistant'))}CostVolumeAboveLimitAssistant:text"
                                               disabled="true"
-                                              pattern="##,###.00"/>
+                                              pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -353,7 +353,7 @@
                                              styleClass="element100"
                                              value="#{externalNursingAssistantMedStaff.amountTemporaryEmploymentNursingAssistantStaff - (externalNursingAssistantMedStaff.calculatedCountNursingAssistantStaff * externalNursingAssistantMedStaff.averageAnnualEmployerCostsNursingAssistantStaff)}"
                                              disabled="true"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
 
 
@@ -361,13 +361,13 @@
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalNursingAssistantMedStaff.costStGrNursingAssistantStaff}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalNursingAssistantMedStaff.costKoArtGrNursingAssistantStaff}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
 
             <h:column>
@@ -383,7 +383,7 @@
                 <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingAssistantStaff" styleClass="element100"
                                              value="#{externalNursingAssistantMedStaff.partOfCostVolumeBedNursingAssistantStaff}"
                                              required="#{externalNursingAssistantMedStaff.exclusivelyCareAtBedNursingAssistantStaff}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
 
             <h:column>
@@ -460,7 +460,7 @@
                 </f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalCareStaffOther.netAverageWorkingHours}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -470,7 +470,7 @@
                                              styleClass="element100"
                                              value="#{externalCareStaffOther.calculatedCount}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('calculatedCountOther'))}CostVolumeUpToLimitOther:text"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -479,7 +479,7 @@
                 <inek:InputNumberWithMessage id="averageAnnualEmployerCostsOther" styleClass="element100"
                                              value="#{externalCareStaffOther.averageAnnualEmployerCosts}"
                                              renderElement="#{component.clientId.substring(0, component.clientId.indexOf('averageAnnualEmployerCostsOther'))}CostVolumeUpToLimitOther:text"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -488,7 +488,7 @@
                 <inek:InputNumberWithMessage id="amountTemporaryEmploymentAssistantNursingStaff"
                                              styleClass="element100"
                                              value="#{externalCareStaffOther.amountTemporaryEmployment}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -499,7 +499,7 @@
                                               value="#{externalCareStaffOther.calculatedCount * externalCareStaffOther.averageAnnualEmployerCosts}"
                                               renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimitOther'))}CostVolumeUpToLimitOther:text"
                                               disabled="true"
-                                              pattern="##,###.00"/>
+                                              pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -509,19 +509,19 @@
                                              styleClass="element100"
                                              value="#{externalCareStaffOther.amountTemporaryEmployment - (externalCareStaffOther.calculatedCount * externalCareStaffOther.averageAnnualEmployerCosts)}"
                                              disabled="true"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalCareStaffOther.costKoStGr}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalCareStaffOther.costKoArtGr}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -541,7 +541,7 @@
                 <inek:InputNumberWithMessage id="exclusivelyCareAtBedStaffOthe" styleClass="element100"
                                              value="#{externalCareStaffOther.partOfCostVolumeBed}"
                                              required="#{externalCareStaffOther.exclusivelyCareAtBed}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
@@ -606,26 +606,26 @@
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kostenvolumen"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100" value="#{externalTechFunctService.costVolumeTechFunctService}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalTechFunctService.countTechFunctService !=0 ? externalTechFunctService.costVolumeTechFunctService / externalTechFunctService.countTechFunctService : ''}"
                                              readonly="true"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalTechFunctService.costStGrTechFunctService}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                 <inek:InputNumberWithMessage styleClass="element100"
                                              value="#{externalTechFunctService.costKoArtGrTechFunctService}"
-                                             pattern="##,###.00"/>
+                                             pattern="##,##0.00"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Berufsgruppe des med. techn. Dienst/ Funktionsdienst"/></f:facet>
