@@ -1498,14 +1498,14 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="externalMedStaff">
     @Column(name = "biExternalNursingMedStaff")
-    private boolean _externalNursingMedStaff;
+    private boolean _externalNursingStaff;
 
-    public boolean isExternalNursingMedStaff() {
-        return _externalNursingMedStaff;
+    public boolean isExternalNursingStaff() {
+        return _externalNursingStaff;
     }
 
-    public void setExternalNursingMedStaff(boolean externalNursingMedStaff) {
-        this._externalNursingMedStaff = externalNursingMedStaff;
+    public void setExternalNursingStaff(boolean externalNursingStaff) {
+        this._externalNursingStaff = externalNursingStaff;
     }
     //</editor-fold>
 

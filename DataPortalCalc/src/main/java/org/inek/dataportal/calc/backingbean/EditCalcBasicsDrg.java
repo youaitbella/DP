@@ -3,6 +3,7 @@ package org.inek.dataportal.calc.backingbean;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.calc.entities.drg.*;
 import org.inek.dataportal.calc.entities.psy.KglPkmsAlternative;
+import org.inek.dataportal.calc.enums.ExternalStaffType;
 import org.inek.dataportal.calc.facades.CalcDrgFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -343,10 +344,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         item.setBaseInformationId(_calcBasics.getId());
         result.add(item);
     }
-    public void addExternalNursingStaff() {
+    public void addExternalNursingStaff(int type) {
         List<KGLListExternalNursingStaff> result = _calcBasics.getExternalNursingStaffs();
         KGLListExternalNursingStaff item = new KGLListExternalNursingStaff();
         item.setBaseInformationId(_calcBasics.getId());
+        item.setExternalStaffType(type);
         result.add(item);
     }
 
@@ -1145,5 +1147,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 .stream()
                 .map(i -> new SelectItem(i.getId(), i.getName()))
                 .collect(Collectors.toList());
+    }
+
+    public List<KGLListExternalNursingStaff> obtainExternalStaff(ExternalStaffType externalStaffType) {
+
+        return _calcBasics.getExternalNursingStaffs().stream().filter(ns -> ns.getExternalStaffType() == externalStaffType.getId() ).collect(Collectors.toList());
     }
 }
