@@ -183,7 +183,18 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         return query.getSingleResult();
     }
 
-    public ProofWard findProofWard(int ik, int locationNumber, String wardName) {
-        return new ProofWard(); //todo
+    public ProofWard retrieveOrCreateProofWard(int ik, int locationNumber, String name) {
+        String jpql = "select p from ProofWard p where p.ik = :ik and p.locationNumber = :locationNumber and p.name = :name";
+        TypedQuery<ProofWard> query = getEntityManager().createQuery(jpql, ProofWard.class);
+        query.setParameter("ik", ik);
+        query.setParameter("locationNumber", locationNumber);
+        query.setParameter("name", name);
+        try {
+            return query.getSingleResult();
+        } catch (Exception ex) {
+            ProofWard proofWard = new ProofWard(ik, locationNumber, name);
+            persist(proofWard);
+            return proofWard;
+        }
     }
 }

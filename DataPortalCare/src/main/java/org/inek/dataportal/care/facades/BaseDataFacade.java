@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.care.facades;
 
+import javafx.util.Pair;
 import org.inek.dataportal.care.entities.BaseData;
 import org.inek.dataportal.care.entities.SensitiveDomain;
 import org.inek.dataportal.care.enums.Shift;
@@ -13,10 +14,7 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.TypedQuery;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author lautenti
@@ -73,5 +71,28 @@ public class BaseDataFacade extends AbstractDataAccess {
                 .map(baseData -> new PpugInfo(baseData.getPpug(), baseData.getPart()))
                 .findFirst()
                 .orElse(new PpugInfo(0d, 0d));
+    }
+
+    public SensitiveDomain determineSignificantDomain(final int year, final List<String> sensitiveDomains) {
+        ensureBaseData(year);
+        List<Pair<BaseData, BaseData>> pairs = new ArrayList<>();
+        _baseData.get(year).stream()
+                .filter(baseData -> sensitiveDomains.contains(baseData.getSensitiveDomain().getName()))
+                .filter(baseData -> baseData.getShift() == Shift.DAY)
+                .forEach(baseDataDay -> {
+                    BaseData baseDataNight = _baseData.get(year).stream()
+                            .filter(baseData -> baseData.getSensitiveDomain().equals(baseDataDay.getSensitiveDomain()))
+                            .filter(baseData -> baseData.getShift() == Shift.NIGHT)
+                            .findAny()
+                            .get();
+                    pairs.add(new Pair<>(baseDataDay, baseDataNight));
+                });
+
+        return pairs.stream().sorted(
+                Comparator.<Pair<BaseData, BaseData>>comparingDouble(p -> p.getKey().getPpug())
+                        .thenComparingDouble(p -> p.getValue().getPpug())
+                        .thenComparingDouble(p -> p.getKey().getPart())
+                        .thenComparingDouble(p -> p.getValue().getPart()))
+                .findFirst().get().getKey().getSensitiveDomain();
     }
 }

@@ -79,7 +79,7 @@ public class ProofWardCollector {
 
         for (int i = 1; i < deptWards.size(); i++) {
             DeptWard deptWard = deptWards.get(i);
-            proofWardInfo.addSensitiveArea(deptWard.getDept().getSensitiveArea());
+            proofWardInfo.addSensitiveDomain(deptWard.getDept().getSensitiveArea());
             proofWardInfo.addDept(deptWard.getFab());
             proofWardInfo.addDeptName(deptWard.getDeptName());
         }
@@ -102,7 +102,7 @@ public class ProofWardCollector {
         for (ProofWardInfo proofWardInfo : proofWardInfos) {
             if (mergedProofWardInfo == null) {
                 mergedProofWardInfo = proofWardInfo;
-            } else if (mergedProofWardInfo.sensitiveAreas().equals(proofWardInfo.sensitiveAreas())) {
+            } else if (mergedProofWardInfo.sensitiveDomains().equals(proofWardInfo.sensitiveDomains())) {
                 mergedProofWardInfo.merge(proofWardInfo);
             } else {
                 mergedProofWardInfos.add(mergedProofWardInfo);

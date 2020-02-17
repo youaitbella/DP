@@ -3,6 +3,7 @@ package org.inek.dataportal.care.proof;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.Extension;
+import org.inek.dataportal.care.entities.SensitiveDomain;
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.facades.BaseDataFacade;
@@ -295,10 +296,17 @@ public class ProofEdit implements Serializable {
         proof.setBeds(proofWardInfo.getBeds());
         int diffDays = DateUtils.diffDays(proofWardInfo.getFrom(), proofWardInfo.getTo());
         int ik = proof.getBaseInformation().getIk();
-        ProofWard proofWard = proofFacade.findProofWard(ik, proofWardInfo.getLocationNumber(), proofWardInfo.getWardName());
-        // todo: add depts etc.
+        ProofWard proofWard = proofFacade.retrieveOrCreateProofWard(ik, proofWardInfo.getLocationNumber(), proofWardInfo.getWardName());
         proof.setProofWard(proofWard);
-
+        proof.setValidFrom(proofWardInfo.getFrom());
+        proof.setValidTo(proofWardInfo.getTo());
+        proof.setCountShift(1 + diffDays);
+        proof.setDeptNumbers(proofWardInfo.depts());
+        proof.setDeptNames(proofWardInfo.deptNames());
+        proof.setSensitiveDomains(proofWardInfo.sensitiveDomains());
+        int year = proof.getBaseInformation().getYear();
+        SensitiveDomain sensitiveDomain = _baseDataFacade.determineSignificantDomain(year, proofWardInfo.sensitiveDomainSet());
+        proof.setSignificantSensitiveDomain(sensitiveDomain);
         return proof;
     }
 

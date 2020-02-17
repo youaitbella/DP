@@ -6,6 +6,14 @@ import java.util.Objects;
 @Entity
 @Table(name = "ProofWard", schema = "care")
 public class ProofWard {
+    public ProofWard() {
+    }
+
+    public ProofWard(int ik, int locationNumber, String name) {
+        this.ik = ik;
+        this.locationNumber = locationNumber;
+        this.name = name;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -50,7 +58,7 @@ public class ProofWard {
 
     //<editor-fold desc="Property LocationText">
     @Column(name = "pwLocationText")
-    private String locationText;
+    private String locationText = "";
 
     public String getLocationText() {
         return locationText;
@@ -74,6 +82,7 @@ public class ProofWard {
     }
     //</editor-fold>
 
+    //<editor-fold desc="equals / hashCode">
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,4 +99,5 @@ public class ProofWard {
     public int hashCode() {
         return Objects.hash(id, ik, locationNumber, locationText, name);
     }
+    //</editor-fold>
 }
