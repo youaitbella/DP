@@ -244,9 +244,19 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 }
             } else {
                 statement.setDrgCalc(domain.contains("DRG"));
-                statement.setMultiyearDrg(Integer.parseInt(drgMultiyear));
+                int drgMulti = Integer.parseInt(drgMultiyear);
+                if (drgMulti < 4 || drgMulti > 5) {
+                    // theses former values are not supported anymore
+                    drgMulti = 0;
+                }
+                statement.setMultiyearDrg(drgMulti);
                 statement.setPsyCalc(domain.contains("PSY"));
-                statement.setMultiyearPsy(Integer.parseInt(psyMultiyear));
+                int psyMulti = Integer.parseInt(psyMultiyear);
+                if (psyMulti < 4 || psyMulti > 5) {
+                    // theses former values are not supported anymore
+                    psyMulti = 0;
+                }
+                statement.setMultiyearPsy(psyMulti);
                 statement.setInvCalc(domain.contains("INV"));
                 statement.setTpgCalc(domain.contains("TPG"));
                 statement.setObdCalc(domain.contains("OBD"));
