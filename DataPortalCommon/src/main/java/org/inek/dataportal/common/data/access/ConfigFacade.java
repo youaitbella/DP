@@ -23,9 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author muellermi
- */
 @RequestScoped
 @Transactional
 // todo: find better name
@@ -128,6 +125,11 @@ public class ConfigFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    public List<String> getAllDirs() {
+        String jpql = "Select c._key from Config c where c._key like 'DocumentScanDir%'";
+        TypedQuery<String> query = getEntityManager().createQuery(jpql, String.class);
+        return query.getResultList();
+    }
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)

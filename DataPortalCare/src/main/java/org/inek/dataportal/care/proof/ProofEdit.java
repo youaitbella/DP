@@ -1,10 +1,18 @@
 package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.facades.BaseDataFacade;
+import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.proof.entity.*;
-import org.inek.dataportal.care.utils.*;
+import org.inek.dataportal.care.proof.util.ProofChecker;
+import org.inek.dataportal.care.proof.util.ProofFiller;
+import org.inek.dataportal.care.proof.util.ProofHelper;
+import org.inek.dataportal.care.proof.util.ProofImporter;
+import org.inek.dataportal.care.utils.BaseDataManager;
+import org.inek.dataportal.care.utils.CalculatorPpug;
+import org.inek.dataportal.care.utils.CareSignatureCreater;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -53,6 +61,7 @@ import static org.inek.dataportal.common.enums.TransferFileType.PPUGV;
 public class ProofEdit implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("ProofEdit");
+    public static final String DATA_INCOMPLETE = "Daten unvollständig";
     @Inject
     private SessionController _sessionController;
     @Inject
@@ -67,6 +76,8 @@ public class ProofEdit implements Serializable {
     private Mailer _mailer;
     @Inject
     private ReportController _reportController;
+    @Inject
+    private DeptFacade _deptFacade;
 
     private ProofRegulationBaseInformation _proofBaseInformation;
     private ProofRegulationBaseInformation _oldProofRegulationBaseInformation;
@@ -160,7 +171,7 @@ public class ProofEdit implements Serializable {
             return;
         } else if ("new".equals(id)) {
             _proofBaseInformation = createNewBaseInformation();
-            _proofBaseInformation.setCreatedBy(_sessionController.getAccountId());
+            _proofBaseInformation.setCreatedBy(_accessManager.getSessionAccountId());
             Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CARE);
             possibleIkYearQuarters = _proofFacade.retrievePossibleIkYearQuarters(allowedIks);
         } else {
@@ -249,6 +260,21 @@ public class ProofEdit implements Serializable {
     }
 
     public void firstSave() {
+        // todo: separate bean for "new 2018" format (used for 2020++)?
+        if (_proofBaseInformation.getYear() >= 2020) {
+            int ik = _proofBaseInformation.getIk();
+            DeptBaseInformation deptBaseInfo = _deptFacade.findDeptBaseInformationByIkAndBaseYear(ik, 2018);
+            String errorMsg = ProofChecker.checkForMissingLocationNumber(deptBaseInfo.obtainCurrentWards(),
+                    _proofBaseInformation.getYear(),
+                    _proofBaseInformation.getQuarter());
+            if (!errorMsg.isEmpty()) {
+                DialogController.showErrorDialog(DATA_INCOMPLETE, errorMsg);
+                return;
+            }
+            //ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards());
+        }
+
+
         List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofBaseInformation.getIk(),
                 _proofBaseInformation.getYear());
         ProofFiller.createProofEntrysFromStations(_proofBaseInformation, stations,
@@ -259,6 +285,7 @@ public class ProofEdit implements Serializable {
         _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
         setReadOnly();
     }
+
 
     private void loadBaseDataManager() {
         _baseDatamanager = new BaseDataManager(_proofBaseInformation.getYear(), _baseDataFacade);
@@ -272,11 +299,11 @@ public class ProofEdit implements Serializable {
 
         List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionsFacts.size());
         if (!errorMessages.isEmpty()) {
-            DialogController.showErrorDialog("Daten unvollständig", errorMessages.get(0));
+            DialogController.showErrorDialog(DATA_INCOMPLETE, errorMessages.get(0));
             return;
         }
 
-        _proofBaseInformation.setLastChangeBy(_sessionController.getAccountId());
+        _proofBaseInformation.setLastChangeBy(_accessManager.getSessionAccountId());
         _proofBaseInformation.setLastChanged(new Date());
 
         try {
@@ -307,14 +334,14 @@ public class ProofEdit implements Serializable {
 
 
     private void sendMail(String mailTemplateName) {
-        String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());
+        String salutation = _mailer.getFormalSalutation(_accessManager.getSessionAccount());
 
         MailTemplate template = _mailer.getMailTemplate(mailTemplateName);
         MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", Integer.toString(_proofBaseInformation.getIk()));
 
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
 
-        if (!_mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail())) {
+        if (!_mailer.sendMailTemplate(template, _accessManager.getSessionAccount().getEmail())) {
             LOGGER.log(Level.SEVERE, "Fehler beim Emailversand an " + _proofBaseInformation.getIk() + "(Care Proof)");
             _mailer.sendException(Level.SEVERE,
                     "Fehler beim Emailversand an " + _proofBaseInformation.getIk() + "(Care Proof)", new Exception());
@@ -392,7 +419,7 @@ public class ProofEdit implements Serializable {
         _proofBaseInformation.setSignature("");
         _proofBaseInformation.setSend(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)));
         _proofBaseInformation.setCreated(new Date());
-        _proofBaseInformation.setCreatedBy(_sessionController.getAccountId());
+        _proofBaseInformation.setCreatedBy(_accessManager.getSessionAccountId());
         setIsReadOnly(false);
     }
 
@@ -403,7 +430,7 @@ public class ProofEdit implements Serializable {
     public void saveChangedExceptionFacts() {
         List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionsFacts.size());
         if (!errorMessages.isEmpty()) {
-            DialogController.showErrorDialog("Daten unvollständig", errorMessages.get(0));
+            DialogController.showErrorDialog(DATA_INCOMPLETE, errorMessages.get(0));
             return;
         }
 
@@ -423,7 +450,7 @@ public class ProofEdit implements Serializable {
     private ProofRegulationBaseInformation copyBaseInformation(ProofRegulationBaseInformation baseInfo) {
         ProofRegulationBaseInformation newInfo = new ProofRegulationBaseInformation(baseInfo);
         newInfo.setStatus(WorkflowStatus.Retired);
-        newInfo.setLastChangeBy(_sessionController.getAccountId());
+        newInfo.setLastChangeBy(_accessManager.getSessionAccountId());
         newInfo.setLastChanged(new Date());
         return newInfo;
     }
@@ -509,8 +536,8 @@ public class ProofEdit implements Serializable {
         int ik = _proofBaseInformation.getIk();
         int year = _proofBaseInformation.getYear();
         int quarter = _proofBaseInformation.getQuarter();
-        Extension extension = new Extension(ik, year, quarter, _sessionController.getAccountId());
-        extension.setAccountId(_sessionController.getAccountId());
+        Extension extension = new Extension(ik, year, quarter, _accessManager.getSessionAccountId());
+        extension.setAccountId(_accessManager.getSessionAccountId());
         _proofFacade.saveExtension(extension);
         sendExtensionMail(ik, year, quarter);
     }
@@ -523,7 +550,7 @@ public class ProofEdit implements Serializable {
 
         MailTemplate template = _mailer.getMailTemplate("CareProofExtension");
         MailTemplateHelper.setPlaceholderInTemplate(template, "{formalSalutation}",
-                _mailer.getFormalSalutation(_sessionController.getAccount()));
+                _mailer.getFormalSalutation(_accessManager.getSessionAccount()));
         MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", String.valueOf(ik));
         MailTemplateHelper.setPlaceholderInTemplate(template, "{quarter}", String.valueOf(quarter));
         MailTemplateHelper.setPlaceholderInTemplate(template, "{year}", String.valueOf(year));
@@ -531,7 +558,7 @@ public class ProofEdit implements Serializable {
 
         DialogController.showInfoDialog("Erfolgreich beantragt", "Sie haben erfolgreich eine " +
                 "Fristverlängerung beantragt. Sie erhalten eine Bestätung per E-Mail.");
-        return _mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail());
+        return _mailer.sendMailTemplate(template, _accessManager.getSessionAccount().getEmail());
     }
 
     public boolean getRequestExtensionAllowed() {
@@ -593,4 +620,8 @@ public class ProofEdit implements Serializable {
         return documentName;
     }
 
+    public List<Proof> getProofs() {
+        // display data in old format
+        return _proofBaseInformation.getProofs().stream().filter(p -> p.getProofRegulationStationId() > 0).collect(Collectors.toList());
+    }
 }

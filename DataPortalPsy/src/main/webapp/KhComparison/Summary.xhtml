@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
@@ -12,44 +12,45 @@
         <pf:panel style="background-color: #eeeeee;">
 
             <h:form>
-            <div class="ui-g ui-fluid" jsf:rendered="#{sessionController.isInekUser('HC_HOSPITAL')}">
-                <div class="ui-g-12">
-                    <h2>Übersicht InEK</h2>
-                    <pf:dataTable id="inekTable"
-                                  value="#{summary.listInek}"
-                                  rows="50"
-                                  paginator="true"
-                                  rowsPerPageTemplate="25,50,100,300"
-                                  var="listEntry"
-                                  emptyMessage="Keine Einträge vorhanden"
-                                  tableStyleClass="inekTablePsy">
-                        <pf:column headerText="IK" filterable="true" filterBy="#{listEntry.ik}" sortable="true"
-                                   sortBy="#{listEntry.ik}">
-                            <h:link outcome="#{summary.khComparisonOpen(listEntry.page)}"
-                                    value="#{listEntry.ik}">
-                                <f:param name="id" value="#{listEntry.id}" />
-                            </h:link>
-                        </pf:column>
-                        <pf:column headerText="Vereinbarungsjahr">
-                            <h:link outcome="#{summary.khComparisonOpen(listEntry.page)}"
-                                    value="#{listEntry.year}">
-                                <f:param name="id" value="#{listEntry.id}" />
-                            </h:link>
-                        </pf:column>
-                        <pf:column headerText="Gesendet am">
-                            <h:outputText value="#{listEntry.sendAt}">
-                                <f:convertDateTime pattern="dd.MM.yyyy" />
-                            </h:outputText>
-                        </pf:column>
-                        <pf:column headerText="Herkunft">
-                            <h:link outcome="#{summary.khComparisonOpen(listEntry.page)}"
-                                    value="#{listEntry.type}">
-                                <f:param name="id" value="#{listEntry.id}" />
-                            </h:link>
-                        </pf:column>
-                    </pf:dataTable>
+                <div class="ui-g ui-fluid" jsf:rendered="#{sessionController.isInekUser('HC_HOSPITAL')}">
+                    <div class="ui-g-12">
+                        <h2>Übersicht InEK</h2>
+                        <pf:dataTable id="inekTable"
+                                      value="#{summary.listInek}"
+                                      rows="50"
+                                      paginator="true"
+                                      rowsPerPageTemplate="25,50,100,300"
+                                      var="listEntry"
+                                      emptyMessage="Keine Einträge vorhanden"
+                                      tableStyleClass="inekTablePsy">
+                            <pf:column headerText="IK" filterable="true" filterBy="#{listEntry.ik}" sortable="true"
+                                       sortBy="#{listEntry.ik}">
+                                <h:link outcome="#{summary.khComparisonOpen(listEntry.page)}"
+                                        value="#{listEntry.ik}">
+                                    <f:param name="id" value="#{listEntry.id}"/>
+                                </h:link>
+                            </pf:column>
+                            <pf:column headerText="Vereinbarungsjahr">
+                                <h:link outcome="#{summary.khComparisonOpen(listEntry.page)}"
+                                        value="#{listEntry.year}">
+                                    <f:param name="id" value="#{listEntry.id}"/>
+                                </h:link>
+                            </pf:column>
+                            <pf:column headerText="Gesendet am">
+                                <h:outputText value="#{listEntry.sendAt}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy"/>
+                                </h:outputText>
+                            </pf:column>
+                            <pf:column headerText="Herkunft">
+                                <h:link outcome="#{summary.khComparisonOpen(listEntry.page)}"
+                                        value="#{listEntry.type}">
+                                    <f:param name="id" value="#{listEntry.id}"/>
+                                </h:link>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
                 </div>
-            </div>
+
                 <div class="ui-g ui-fluid">
                     <div class="ui-g-6">
                         <h2>Daten in Erfassung</h2>
@@ -64,25 +65,26 @@
                                                 process="@this"
                                                 rendered="#{summary.isDeleteAllowed(baseInformation.ik)}">
                                     <pf:confirm header="Wollen Sie den Eintrag wirklich löschen?"
-                                                message="Gelöschte Einträge können Sie nicht wiederherstellen. Wollen Sie den Eintrag wirklich löschen?" />
+                                                message="Gelöschte Einträge können Sie nicht wiederherstellen. Wollen Sie den Eintrag wirklich löschen?"/>
                                     <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen"
-                                                    value="" />
+                                                    value=""/>
                                 </pf:commandLink>
                             </pf:column>
                             <pf:column headerText="IK">
                                 <h:link outcome="#{summary.khComparisonOpen()}"
                                         value="#{baseInformation.ik}">
-                                    <f:param name="id" value="#{baseInformation.id}" />
+                                    <f:param name="id" value="#{baseInformation.id}"/>
                                 </h:link>
                             </pf:column>
                             <pf:column headerText="Vereinbarungsjahr">
                                 <h:link outcome="#{summary.khComparisonOpen()}"
                                         value="#{baseInformation.year}">
-                                    <f:param name="id" value="#{baseInformation.id}" />
+                                    <f:param name="id" value="#{baseInformation.id}"/>
                                 </h:link>
                             </pf:column>
                         </pf:dataTable>
                     </div>
+
                     <div class="ui-g-6">
                         <h2>An das InEK gesendet</h2>
                         <pf:dataTable value="#{summary.listComplete}"
@@ -92,13 +94,13 @@
                             <pf:column headerText="IK">
                                 <h:link outcome="#{summary.khComparisonOpen()}"
                                         value="#{baseInformation.ik}">
-                                    <f:param name="id" value="#{baseInformation.id}" />
+                                    <f:param name="id" value="#{baseInformation.id}"/>
                                 </h:link>
                             </pf:column>
                             <pf:column headerText="Vereinbarungsjahr">
                                 <h:link outcome="#{summary.khComparisonOpen()}"
                                         value="#{baseInformation.year}">
-                                    <f:param name="id" value="#{baseInformation.id}" />
+                                    <f:param name="id" value="#{baseInformation.id}"/>
                                 </h:link>
                             </pf:column>
                         </pf:dataTable>
@@ -110,7 +112,7 @@
                                   rendered="#{summary.isCreateEntryAllowed()}"
                                   styleClass="btnPsy"
                                   immediate="true">
-                    <f:param name="id" value="new" />
+                    <f:param name="id" value="new"/>
                 </pf:commandButton>
             </h:form>
 
@@ -124,13 +126,13 @@
                         <pf:column headerText="IK">
                             <h:link outcome="#{summary.structureBaseInformationOpen()}"
                                     value="#{structureBaseInformation.ik}">
-                                <f:param name="id" value="#{structureBaseInformation.id}" />
+                                <f:param name="id" value="#{structureBaseInformation.id}"/>
                             </h:link>
                         </pf:column>
                         <pf:column headerText="Bezeichnung">
                             <h:link outcome="#{summary.structureBaseInformationOpen()}"
                                     value="#{applicationTools.retrieveHospitalInfo(structureBaseInformation.ik)}">
-                                <f:param name="id" value="#{structureBaseInformation.id}" />
+                                <f:param name="id" value="#{structureBaseInformation.id}"/>
                             </h:link>
                         </pf:column>
                     </pf:dataTable>
@@ -140,7 +142,7 @@
             <pf:commandButton value="Neue Strukturinformation erstellen"
                               action="#{summary.structureBaseInformationOpen()}"
                               rendered="#{summary.isCreateStructureBaseInformationAllowed()}"
-                              styleClass="btnPsy" />
+                              styleClass="btnPsy"/>
 
         </pf:panel>
 

@@ -76,7 +76,7 @@
                             <goal>copy</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <outputDirectory>${project.build.scanDirectory}</outputDirectory>
                             <stripVersion>true</stripVersion>
                             <silent>true</silent>
                             <artifactItems>
@@ -107,11 +107,11 @@
                     <executable>java</executable>
                     <arguments>
                         <argument>-jar</argument>
-                        <argument>${project.build.directory}/payara-micro.jar</argument>
+                        <argument>${project.build.scanDirectory}/payara-micro.jar</argument>
                         <argument>--deploy</argument>
-                        <argument>${project.build.directory}/${project.build.finalName}.war</argument>
+                        <argument>${project.build.scanDirectory}/${project.build.finalName}.war</argument>
                         <argument>--outputUberJar</argument>
-                        <argument>${project.build.directory}/${project.build.finalName}.jar</argument>
+                        <argument>${project.build.scanDirectory}/${project.build.finalName}.jar</argument>
                         <argument>--port</argument>
                         <argument>9999</argument>
                     </arguments>

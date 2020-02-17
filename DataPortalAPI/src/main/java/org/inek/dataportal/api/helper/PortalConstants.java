@@ -1,9 +1,5 @@
 package org.inek.dataportal.api.helper;
 
-/**
- *
- * @author muellermi
- */
 public class PortalConstants {
 
     public static final int HTTP_PORT = 80;

@@ -1,17 +1,22 @@
-package org.inek.dataportal.care.utils;
+package org.inek.dataportal.care.proof.util;
 
-import org.assertj.core.api.Assertions;
+import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.care.proof.entity.ProofExceptionFact;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.proof.entity.ProofRegulationStation;
+import org.inek.dataportal.care.testcommon.WardBuilder;
+import org.inek.dataportal.care.utils.CalculatorPpug;
+import org.inek.dataportal.common.utils.DateUtils;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.inek.dataportal.care.utils.ProofChecker.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.inek.dataportal.care.proof.util.ProofChecker.*;
 
 class ProofCheckerTest {
 
@@ -37,17 +42,17 @@ class ProofCheckerTest {
         baseInfo.addProof(proof1);
         baseInfo.addProof(proof2);
 
-        Assertions.assertThat(ProofChecker.proofIsReadyForSave(baseInfo, 2)).isEmpty();
+        assertThat(ProofChecker.proofIsReadyForSave(baseInfo, 2)).isEmpty();
 
         proof1.addExceptionFact(fact2);
 
-        Assertions.assertThat(ProofChecker.proofIsReadyForSave(baseInfo, 2))
+        assertThat(ProofChecker.proofIsReadyForSave(baseInfo, 2))
                 .hasSize(1)
                 .containsOnly("Für eine oder mehrere Stationen sind zuviele Ausnahmetatbestände angegeben");
 
         proof1.removeExceptionFact(fact3);
 
-        Assertions.assertThat(ProofChecker.proofIsReadyForSave(baseInfo, 2))
+        assertThat(ProofChecker.proofIsReadyForSave(baseInfo, 2))
                 .hasSize(1)
                 .containsOnly("Für eine oder mehrere Stationen sind doppelte Ausnahmetatbestände angegeben");
     }
@@ -56,7 +61,7 @@ class ProofCheckerTest {
     void proofIsReadyForSendTestReturns_MISSING_SHIFT_IfAllDataIsMissing() {
         ProofRegulationBaseInformation baseInfo = createBaseInfo();
         List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
-        Assertions.assertThat(messages)
+        assertThat(messages)
                 .hasSize(2)
                 .contains("Station: Station H1 Monat: Januar Schicht: Tag: " + MISSING_SHIFT)
                 .contains("Station: Station H2 Monat: Januar Schicht: Nacht: " + MISSING_SHIFT);
@@ -67,7 +72,7 @@ class ProofCheckerTest {
         ProofRegulationBaseInformation baseInfo = createBaseInfo();
         baseInfo.getProofs().get(0).setComment("closed");
         List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
-        Assertions.assertThat(messages)
+        assertThat(messages)
                 .hasSize(1)
                 .containsOnly("Station: Station H2 Monat: Januar Schicht: Nacht: " + MISSING_SHIFT);
     }
@@ -78,7 +83,7 @@ class ProofCheckerTest {
         baseInfo.getProofs().get(0).setPatientOccupancy(10);
         baseInfo.getProofs().get(1).setNurse(10);
         List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
-        Assertions.assertThat(messages)
+        assertThat(messages)
                 .hasSize(2)
                 .contains("Station: Station H1 Monat: Januar Schicht: Tag: " + NO_NURSE_BUT_PATIENT)
                 .contains("Station: Station H2 Monat: Januar Schicht: Nacht: " + NO_PATIENT_BUT_NURSE);
@@ -93,7 +98,7 @@ class ProofCheckerTest {
         baseInfo.getProofs().get(1).setCountShiftNotRespected(10);
         baseInfo.getProofs().get(1).setCountShift(5);
         List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
-        Assertions.assertThat(messages)
+        assertThat(messages)
                 .hasSize(4)
                 .contains("Station: Station H1 Monat: Januar Schicht: Tag: " + NO_NURSE_BUT_PATIENT)
                 .contains("Station: Station H1 Monat: Januar Schicht: Tag: " + MORE_FAILUERS_THAN_TOTAL_SHIFTS)
@@ -107,7 +112,7 @@ class ProofCheckerTest {
         baseInfo.getProofs().get(0).setComment("closed");
         baseInfo.getProofs().get(1).setCountShift(5);
         List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
-        Assertions.assertThat(messages)
+        assertThat(messages)
                 .hasSize(1)
                 .containsOnly("Station: Station H2 Monat: Januar Schicht: Nacht: " + SHIFT_BUT_NURSE);
     }
@@ -119,7 +124,7 @@ class ProofCheckerTest {
         baseInfo.getProofs().get(1).setPatientOccupancy(8);
         baseInfo.getProofs().get(1).setNurse(8);
         List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
-        Assertions.assertThat(messages)
+        assertThat(messages)
                 .hasSize(1)
                 .containsOnly("Station: Station H2 Monat: Januar Schicht: Nacht: " + NURSE_BUT_SHIFT);
     }
@@ -136,7 +141,7 @@ class ProofCheckerTest {
         baseInfo.getProofs().get(1).setNurse(1);
         CalculatorPpug.calculateAll(baseInfo.getProofs().get(1));
         List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
-        Assertions.assertThat(messages)
+        assertThat(messages)
                 .hasSize(1)
                 .containsOnly("Station: Station H2 Monat: Januar Schicht: Nacht: " + PATIENT_PER_NURSE_HIGH);
     }
@@ -153,7 +158,7 @@ class ProofCheckerTest {
         baseInfo.getProofs().get(1).setNurse(10);
         CalculatorPpug.calculateAll(baseInfo.getProofs().get(1));
         List<String> messages = ProofChecker.proofIsReadyForSend(baseInfo, 0);
-        Assertions.assertThat(messages)
+        assertThat(messages)
                 .hasSize(1)
                 .containsOnly("Station: Station H2 Monat: Januar Schicht: Nacht: " + PATIENT_PER_NURSE_LOW);
     }
@@ -183,4 +188,36 @@ class ProofCheckerTest {
         baseInfo.addProof(proof2);
         return baseInfo;
     }
+
+    @Test
+    public void checkForMissingLocationNumberReturnsErrorIfAWardWithoutNumberExists() {
+        List<DeptWard> wards = createWards();
+        String msg = checkForMissingLocationNumber(wards, 2019, 1);
+        assertThat(msg).isNotEmpty();
+    }
+
+    @Test
+    public void checkForMissingLocationNumberReturnsEmptyIfAllWardsContainNumber() {
+        List<DeptWard> wards = createWards();
+        String msg = checkForMissingLocationNumber(wards, 2020, 1);
+        assertThat(msg).isEmpty();
+    }
+
+    private List<DeptWard> createWards() {
+        List<DeptWard> wards = new ArrayList<>();
+        DeptWard ward1 = WardBuilder.createDeptWard(DateUtils.createDate(2018, 1, 1),
+                DateUtils.createDate(2050, 1, 1),
+                "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        DeptWard ward2 = WardBuilder.createDeptWard(DateUtils.createDate(2018, 1, 1),
+                DateUtils.createDate(2019, 12, 1),
+                "Station A", "Fachabteilung 1", 1, 0, "1300");
+        DeptWard ward3 = WardBuilder.createDeptWard(DateUtils.createDate(2020, 1, 1),
+                DateUtils.createDate(2050, 1, 1),
+                "Station A", "Fachabteilung 1", 1, 772548, "1300");
+        wards.add(ward1);
+        wards.add(ward2);
+        wards.add(ward3);
+        return wards;
+    }
+
 }

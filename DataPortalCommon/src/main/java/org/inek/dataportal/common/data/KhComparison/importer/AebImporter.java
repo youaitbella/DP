@@ -516,8 +516,8 @@ public class AebImporter {
                 page.setRenumerationKey(renumerationKeyFromCell);
 
                 String opsFromCell = CellImportHelper.getStringFromCell(row.getCell(colStart + 2));
-                if (opsFromCell.length() > 20) {
-                    throw new ValueToLongCellException(row.getCell(colStart + 2), 20);
+                if (opsFromCell.length() > 30) {
+                    throw new ValueToLongCellException(row.getCell(colStart + 2), 30);
                 }
 
                 page.setOps(opsFromCell);

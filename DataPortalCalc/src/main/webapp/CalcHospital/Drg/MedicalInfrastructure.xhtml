@@ -38,8 +38,9 @@
                          value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}"
                          readonly="#{editCalcBasicsDrg.readOnly}"
                          required="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@this :logout:remaining descriptionMsg" />
         </h:inputTextarea>
+        <h:message for="description" styleClass="errorMessage" id="descriptionMsg"/>
     </h:panelGroup>    
 
     <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur"}</h2>  

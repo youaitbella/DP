@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.care.utils;
+package org.inek.dataportal.care.proof.util;
 
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;

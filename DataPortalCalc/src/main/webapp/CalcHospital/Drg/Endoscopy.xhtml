@@ -150,7 +150,7 @@
                                      required="#{data.division.length() != 0}"
                                      readonly="#{editCalcBasicsDrg.readOnly}"
                                      requiredMessage="#{msg.msgValueNeeded}">
-                        <f:ajax event="blur" render="@this msgActivityKeyComment :logout:remaining"/>
+                        <f:ajax event="blur" render="@this :logout:remaining msgActivityKeyComment"/>
                     </h:inputTextarea>
                     <h:message for="activityKeyComment" id="msgActivityKeyComment" errorClass="errorMessage"/>
                 </h:column>

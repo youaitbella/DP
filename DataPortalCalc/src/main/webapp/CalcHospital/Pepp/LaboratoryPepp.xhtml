@@ -54,8 +54,9 @@
                 <f:selectItem itemLabel="#{msg.lblServiceDocEBM}" itemValue="#{3}" />
                 <f:selectItem itemLabel="#{msg.lblServiceDocGOA}" itemValue="#{4}" />
                 <f:selectItem itemLabel="#{msg.lblServiceDocOther}" itemValue="#{5}" />
-                <f:ajax event="change" render="@form :logout:remaining servicDocType" />
+                <f:ajax event="blur" render="@form :logout:remaining servicDocType" />
             </h:selectOneMenu>
+            <h:message for="servicDocType" id="servicDocTypeMsg" styleClass="errorMessage"/>
 
         </h:column>
 

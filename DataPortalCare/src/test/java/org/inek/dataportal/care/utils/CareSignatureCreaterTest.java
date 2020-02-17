@@ -5,6 +5,7 @@ import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.proof.entity.ProofRegulationStation;
+import org.inek.dataportal.care.proof.util.ProofFiller;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

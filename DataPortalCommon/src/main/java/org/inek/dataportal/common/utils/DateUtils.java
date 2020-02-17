@@ -49,13 +49,17 @@ public class DateUtils {
     }
 
     public static Date createDate(int year, Month month, int day) {
+        return createDate(year, month.getValue(), day, 0, 0, 0);
+    }
+
+    public static Date createDate(int year, int month, int day) {
         return createDate(year, month, day, 0, 0, 0);
     }
 
-    private static Date createDate(int year, Month month, int day, int hour, int minute, int second) {
+    private static Date createDate(int year, int month, int day, int hour, int minute, int second) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month.getValue() - 1);
+        calendar.set(Calendar.MONTH, month - 1);
         calendar.set(Calendar.DAY_OF_MONTH, day);
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);

@@ -5,10 +5,13 @@
  */
 package org.inek.dataportal.calc.tree;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.calc.entities.CalcHospitalInfo;
@@ -18,6 +21,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.utils.DateUtils;
 
 /**
  *
@@ -131,4 +135,11 @@ public final class SummaryData {
 
         return agents;
     }
+
+    public List<SelectItem> getDataYears() {
+        List<SelectItem> items = new ArrayList<>();
+        IntStream.range(2015, DateUtils.currentYear()).forEach(y -> items.add(new SelectItem(y, "Datenjahr " + y)));
+        return items;
+    }
+
 }

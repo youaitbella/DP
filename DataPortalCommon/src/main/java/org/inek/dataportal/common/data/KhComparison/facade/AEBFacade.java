@@ -381,7 +381,7 @@ public class AEBFacade extends AbstractDataAccess {
         String sql = "select *\n" +
                 "from psy.StructureBaseInformation sbi\n" +
                 "join psy.StructureInformation si on si.siStructureBaseInformationId = sbi.sbiId\n" +
-                "where sbi.sbiIk = " + ik +"\n" +
+                "where sbi.sbiIk = " + ik + "\n" +
                 "and year(si.siValidFrom) <= " + year + "\n" +
                 "and siStructureCategorie in ('BedCount', 'TherapyPartCount')";
 
@@ -392,9 +392,24 @@ public class AEBFacade extends AbstractDataAccess {
     public boolean aebIdIsInAnyEvaluation(int id) {
         String sql = "select *\n" +
                 "from psy.HospitalComparisonHospitals hc\n" +
-                "where hc.hchAebBaseInformationId = " + id +"\n";
+                "where hc.hchAebBaseInformationId = " + id + "\n";
 
         List resultList = getEntityManager().createNativeQuery(sql).getResultList();
         return !resultList.isEmpty();
+    }
+
+    public void storeCollision(int aebId1, int aebId2) {
+        String sql = "insert into psy.mapHospitalComparisonConflict (hccAebBaseInformationId1, hccAebBaseInformationId2)\n" +
+                "select {id1}, {id2}\n" +
+                "where not exists (\n" +
+                "    select 1 from psy.mapHospitalComparisonConflict \n" +
+                "\twhere hccAebBaseInformationId1 = {id1} and hccAebBaseInformationId2 = {id2})";
+
+        String id1 = "" + (aebId1 < aebId1 ? aebId1 : aebId2);
+        String id2 = "" + (aebId1 < aebId1 ? aebId2 : aebId1);
+        sql = sql.replace("{id1}", id1)
+                .replace("{id2}", id2);
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.executeUpdate();
     }
 }

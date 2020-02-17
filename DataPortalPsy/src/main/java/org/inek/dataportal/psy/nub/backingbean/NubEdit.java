@@ -301,7 +301,7 @@ public class NubEdit {
 
     public StreamedContent downloadDocument(PsyNubRequestDocument doc) {
         ByteArrayInputStream stream = new ByteArrayInputStream(doc.getContent());
-        return new DefaultStreamedContent(stream, "applikation/" + doc.getContentTyp(), doc.getName());
+        return new DefaultStreamedContent(stream, "application/" + doc.getContentTyp(), doc.getName());
     }
 
     public void checkProxyIKs(FacesContext context, UIComponent component, Object value) {
