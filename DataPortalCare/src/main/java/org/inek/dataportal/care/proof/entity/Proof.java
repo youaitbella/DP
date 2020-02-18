@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.care.entities.SensitiveDomain;
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -411,5 +412,9 @@ public class Proof implements Serializable {
                 deptNumbers, deptNames, sensitiveDomains, significantSensitiveDomain, _shift, beds, _countShift, _nurse,
                 _helpeNurse, _patientOccupancy, _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable,
                 _comment, _proofExceptionFact);
+    }
+
+    public int duration() {
+        return DateUtils.duration(validFrom, validTo);
     }
 }

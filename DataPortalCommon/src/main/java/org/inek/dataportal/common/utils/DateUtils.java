@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static org.inek.dataportal.api.helper.PortalConstants.MILLISECONDS_PER_DAY;
+import static org.inek.dataportal.api.helper.PortalConstants.MILLISECONDS_PER_HOUR;
 
 public class DateUtils {
 
@@ -79,7 +80,7 @@ public class DateUtils {
     }
 
     public static int diffDays(Date from, Date to) {
-        long diff = to.getTime() - from.getTime();
+        long diff = to.getTime() - from.getTime() + MILLISECONDS_PER_HOUR; // add one hour due to summertime switch
         return (int) (diff / MILLISECONDS_PER_DAY);
 
     }
