@@ -82,7 +82,6 @@ public class DateUtils {
     public static int diffDays(Date from, Date to) {
         long diff = to.getTime() - from.getTime() + MILLISECONDS_PER_HOUR; // add one hour due to summertime switch
         return (int) (diff / MILLISECONDS_PER_DAY);
-
     }
 
     public static int duration(Date from, Date to) {
