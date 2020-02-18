@@ -254,12 +254,28 @@ public class ProofEdit implements Serializable {
     }
 
     public void ikChanged() {
-        _proofBaseInformation.setYear(0);
+        // todo? we kept the former ikYearQuarter - but: now, there is only one year/quarter possible
+        // thus we might simplify the whole logic and remove possibleIkYearQuarters as well as their selection
+        List<IkYearQuarter> ikYearQuarters = possibleIkYearQuarters
+                .stream().filter(d -> d.getIk() == _proofBaseInformation.getIk())
+                .collect(Collectors.toList());
+        if (ikYearQuarters.size() == 1) {
+            _proofBaseInformation.setYear(ikYearQuarters.get(0).getYear());
+        } else {
+            _proofBaseInformation.setYear(0);
+        }
         validYearsChanged();
     }
 
     public void validYearsChanged() {
-        _proofBaseInformation.setQuarter(0);
+        List<IkYearQuarter> ikYearQuarters = possibleIkYearQuarters.stream()
+                .filter(d -> d.getIk() == _proofBaseInformation.getIk())
+                .collect(Collectors.toList());
+        if (ikYearQuarters.size() == 1) {
+            _proofBaseInformation.setQuarter(ikYearQuarters.get(0).getQuarter());
+        } else {
+            _proofBaseInformation.setQuarter(0);
+        }
     }
 
     public void firstSave() {
@@ -479,7 +495,7 @@ public class ProofEdit implements Serializable {
     }
 
     public double calculatePatientPerNurse(Proof proof) {
-        CalculatorPpug.calculateAll(proof,  1 - obtainPart(proof));
+        CalculatorPpug.calculateAll(proof, 1 - obtainPart(proof));
         return proof.getPatientPerNurse();
     }
 
@@ -659,7 +675,7 @@ public class ProofEdit implements Serializable {
         return _proofBaseInformation.getProofs().stream().filter(p -> p.getProofRegulationStationId() == 0).collect(Collectors.toList());
     }
 
-    public Date determineStartDate (Proof proof){
+    public Date determineStartDate(Proof proof) {
         return DateUtils.firstAndLastDayOfMonth(_proofBaseInformation.getYear(), proof.getMonth().getId()).from();
     }
 }
