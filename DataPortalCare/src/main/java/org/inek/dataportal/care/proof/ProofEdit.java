@@ -294,13 +294,14 @@ public class ProofEdit implements Serializable {
         proof.setMonth(Months.getById(month));
         proof.setShift(shift);
         proof.setBeds(proofWardInfo.getBeds());
-        int diffDays = DateUtils.diffDays(proofWardInfo.getFrom(), proofWardInfo.getTo());
+        int duration = DateUtils.duration(proofWardInfo.getFrom(), proofWardInfo.getTo());
         int ik = proof.getBaseInformation().getIk();
+        proof.setProofRegulationStation(proofFacade.obtainEmptyStation());
         ProofWard proofWard = proofFacade.retrieveOrCreateProofWard(ik, proofWardInfo.getLocationNumber(), proofWardInfo.getWardName());
         proof.setProofWard(proofWard);
         proof.setValidFrom(proofWardInfo.getFrom());
         proof.setValidTo(proofWardInfo.getTo());
-        proof.setCountShift(1 + diffDays);
+        proof.setCountShift(duration);
         proof.setDeptNumbers(proofWardInfo.depts());
         proof.setDeptNames(proofWardInfo.deptNames());
         proof.setSensitiveDomains(proofWardInfo.sensitiveDomains());
@@ -344,7 +345,7 @@ public class ProofEdit implements Serializable {
                 DialogController.showSaveDialog();
             }
         } catch (EJBException ex) {
-            LOGGER.log(Level.INFO, "Fehler beim speichern PPUGV (" + _proofBaseInformation.getIk() + "): " +
+            LOGGER.log(Level.WARNING, "Fehler beim speichern PPUGV (" + _proofBaseInformation.getIk() + "): " +
                     "Eintrag wurde von jemanden anderen geändert");
             DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
                     + "Bitte laden Sie die Meldung neu. Die Daten wurden bereits von einem anderen Benutzer geändert.");
@@ -514,10 +515,11 @@ public class ProofEdit implements Serializable {
     }
 
     public List<Proof> getProofsForExceptionFact() {
-        return _proofBaseInformation.getProofs().stream().filter(p -> p.getProofRegulationStationId() == 0)
-                .filter(proof -> proof.getPatientPerNurse() > obtainLimit(proof) || proof.getCountShiftNotRespected() > 0)
-                .filter(proof -> proof.getExceptionFact().size() < _listExceptionsFacts.size())
-                .collect(Collectors.toList());
+        return new ArrayList<>();
+//        return _proofBaseInformation.getProofs().stream().filter(p -> p.getProofRegulationStationId() == 0)
+//                .filter(proof -> proof.getPatientPerNurse() > obtainLimit(proof) || proof.getCountShiftNotRespected() > 0)
+//                .filter(proof -> proof.getExceptionFact().size() < _listExceptionsFacts.size())
+//                .collect(Collectors.toList());
     }
 
     public void handleFileUpload(FileUploadEvent event) {

@@ -19,10 +19,6 @@ public class ProofWardCollector {
         this.validTo = validTo;
     }
 
-    public int duration() {
-        return DateUtils.diffDays(validFrom, validTo);
-    }
-
     public void addDeptWard(DeptWard deptWard) {
         DeptWard ward = new DeptWard(deptWard);
         ward.setValidFrom(deptWard.getValidFrom().compareTo(validFrom) > 0 ? deptWard.getValidFrom() : validFrom);

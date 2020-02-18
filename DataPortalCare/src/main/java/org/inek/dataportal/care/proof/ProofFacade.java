@@ -25,6 +25,12 @@ import static org.inek.dataportal.api.helper.PortalConstants.*;
 public class ProofFacade extends AbstractDataAccessWithActionLog {
 
 
+    public ProofRegulationStation obtainEmptyStation() {
+        String jpql = "SELECT s FROM ProofRegulationStation  s WHERE s._id = 0";
+        TypedQuery<ProofRegulationStation> query = getEntityManager().createQuery(jpql, ProofRegulationStation.class);
+        return query.getSingleResult();
+    }
+
     public ProofRegulationBaseInformation findBaseInformation(int id) {
         String jpql = "SELECT bi FROM ProofRegulationBaseInformation bi WHERE bi._id = :id";
         TypedQuery<ProofRegulationBaseInformation> query = getEntityManager().createQuery(jpql, ProofRegulationBaseInformation.class);

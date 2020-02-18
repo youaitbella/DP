@@ -80,7 +80,12 @@ public class DateUtils {
 
     public static int diffDays(Date from, Date to) {
         long diff = to.getTime() - from.getTime();
-        return 1 + (int) (diff / MILLISECONDS_PER_DAY);
+        return (int) (diff / MILLISECONDS_PER_DAY);
+
+    }
+
+    public static int duration(Date from, Date to) {
+        return 1 + diffDays(from, to);
     }
 
     public static Period firstAndLastDayOfMonth(int year, int month) {

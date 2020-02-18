@@ -122,11 +122,11 @@ public final class ProofWardInfo {
     private int daybeds;
 
     public double getBeds() {
-        return ((double) daybeds) / DateUtils.diffDays(from, to);
+        return ((double) daybeds) / DateUtils.duration(from, to);
     }
 
     public void setBeds(int beds) {
-        daybeds = beds * DateUtils.diffDays(from, to);
+        daybeds = beds * DateUtils.duration(from, to);
     }
     //</editor-fold>
 
