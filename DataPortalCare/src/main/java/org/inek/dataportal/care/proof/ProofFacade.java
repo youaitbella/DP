@@ -14,10 +14,8 @@ import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 import static org.inek.dataportal.api.helper.PortalConstants.*;
 
@@ -52,22 +50,15 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         if (allowedIks.size() == 0) {
             return ikYearQuarters;
         }
+
+        int year = DateUtils.currentYear() - (DateUtils.currentMonth() == 1 ? 1 : 0);
+        int quarter = DateUtils.currentMonth() == 1 ? 4 : (DateUtils.currentMonth() + 1) / 3;
+
         for (Integer ik : allowedIks) {
-            for (int year : determinePossibleYears()) {
-                int maxQuarter = year == DateUtils.currentYear() ? (DateUtils.currentMonth() + 2) / 3 : 4;
-                IntStream.rangeClosed(1, maxQuarter).forEach(q -> {
-                    ikYearQuarters.add(new IkYearQuarter(ik, year, q));
-                });
-            }
+            ikYearQuarters.add(new IkYearQuarter(ik, year, quarter));
         }
         ikYearQuarters.removeAll(retrieveExistingInfo(allowedIks));
         return ikYearQuarters;
-    }
-
-    private Set<Integer> determinePossibleYears() {
-        int year = DateUtils.currentYear();
-        // todo activate currentyear when care proof input is possible
-        return IntStream.rangeClosed(year - 1, year).collect(HashSet::new, HashSet::add, HashSet::addAll);
     }
 
 
