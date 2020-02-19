@@ -59,7 +59,6 @@
                         </pf:panel>
 
                         <pf:panel header="Auswahl des Jahres">
-                            <h4>Hier können Sie demnächst Ihre Quartalsmeldungen für das Jahr 2020 anlegen. Wir werden Sie auf unserer Homepage unter „Aktuelles“ darüber informieren, sobald dies möglich ist.</h4>
                             <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                                 <pf:outputLabel for="selectYear" value="Jahr:"/>
 
@@ -309,7 +308,7 @@
                                        allowTypes="/(\.|\/)(pdf|jpg|jpeg|png|bmp|gif)$/"
                                        cancelLabel="Abbrechen"
                                        uploadLabel="Datei Hochladen"
-                                       label="Unterschriebene Anlage auswählen"
+                                       label="bestätigte Jahresmeldung hochladen (gem. § 5 Abs. 4 PpUG-Nachweis-Vereinbarung)"
                                        rendered="#{proofEdit.annualReportAllowed()}"
                                        update="@form"/>
 

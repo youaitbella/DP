@@ -156,12 +156,20 @@ public class ProofChecker {
                 .filter(w -> w.getLocationCodeVz() == 0)
                 .filter(w -> w.getValidFrom().compareTo(toDate) <= 0)
                 .filter(w -> w.getValidTo().compareTo(fromDate) >= 0)
-                .map(w -> "Fehlende Standortnummer. Sensitiver Bereich: " + w.getDept().getSensitiveArea()
-                        + ", Standort: " + w.getLocationCodeP21()
+                .map(w -> "Ungültige Standortnummer. Sensitiver Bereich: " + w.getDept().getSensitiveArea()
+                        + ", Standort: " + w.getLocationText()
                         + ", FAB: " + w.getFab()
                         + ", Stationsname: " + w.getWardName()
                 )
                 .collect(Collectors.joining("\\r\\n \\r\\n"));
+        if (!errorMsg.isEmpty()) {
+            errorMsg = "Sie haben in Ihrer Meldung nach § 5 Abs. 3 und 4 PpUGV noch mindestens eine ungültige " +
+                    "Standortnummer (Format: 77xxxx000) eingetragen. " +
+                    "Die gültige Standortnummer ist über den Menüpunkt „Umbenennung oder " +
+                    "strukturelle Veränderung (§ 5 Abs. 4 PpUGV)“ einzutragen, " +
+                    "bevor Sie eine Quartalsmeldung anlegen können."
+                    + "\\r\\n \\r\\n" + errorMsg;
+        }
         return errorMsg;
     }
 }
