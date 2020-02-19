@@ -1483,7 +1483,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="externalMedStaff">
+    //<editor-fold defaultstate="collapsed" desc="ExternalMedStaff">
     @Column(name = "biExternalMedStaff")
     private boolean _externalMedStaff;
 
@@ -1496,7 +1496,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="externalMedStaff">
+    //<editor-fold defaultstate="collapsed" desc="ExternalNursingMedStaff">
     @Column(name = "biExternalNursingMedStaff")
     private boolean _externalNursingStaff;
 
@@ -1509,7 +1509,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="externalMedStaff">
+    // <editor-fold defaultstate="collapsed" desc="ExternalNursingAssistantStaff">
     @Column(name = "biExternalNursingAssistantStaff")
     private boolean _externalNursingAssistantStaff;
 
@@ -1522,7 +1522,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="externalMedStaff">
+    // <editor-fold defaultstate="collapsed" desc="ExternalcareStaffOther">
     @Column(name = "biExternalcareStaffOther")
     private boolean _externalcareStaffOther;
 
@@ -1535,7 +1535,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="externalMedStaff">
+    // <editor-fold defaultstate="collapsed" desc="ExternalTechFunctService">
     @Column(name = "biExternalTechFunctService")
     private boolean _externalTechFunctService;
 
@@ -1628,7 +1628,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void setExternalMedStaffs(List<KGLListExternalMedStaff> _externalMedStaffs) {
         this._externalMedStaffs = _externalMedStaffs;
     }
-
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List ExternalNursingStaff">

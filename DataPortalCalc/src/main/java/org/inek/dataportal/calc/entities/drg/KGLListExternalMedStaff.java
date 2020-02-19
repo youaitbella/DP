@@ -31,7 +31,7 @@ public class KGLListExternalMedStaff implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Bereich/Station">
     @Column(name = "emsDivision")
     @Documentation(name = "Bereich", rank = 10)
-    private String _divisionMedStaff="";
+    private String _divisionMedStaff = "";
 
     public String getDivisionMedStaff() {
         return _divisionMedStaff;
@@ -96,7 +96,7 @@ public class KGLListExternalMedStaff implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Erläuterungsfeld">
     @Column(name = "emsExplanationField")
-    private String _explanationField="";
+    private String _explanationField = "";
 
     public String getExplanationField() {
         return _explanationField;
@@ -151,6 +151,6 @@ public class KGLListExternalMedStaff implements Serializable {
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListExternalMedStaff[emsId" +
-                 _id + ']';
+                _id + ']';
     }
 }
