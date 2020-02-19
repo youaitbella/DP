@@ -344,27 +344,27 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         item.setBaseInformationId(_calcBasics.getId());
         result.add(item);
     }
-    public void addExternalNursingStaff(int type) {
+    public void addExternalNursingStaff(String externalStaff) {
         List<KGLListExternalNursingStaff> result = _calcBasics.getExternalNursingStaffs();
         KGLListExternalNursingStaff item = new KGLListExternalNursingStaff();
         item.setBaseInformationId(_calcBasics.getId());
-        item.setExternalStaffType(type);
+        item.setExternalStaffType(ExternalStaffType.getByName(externalStaff).getId() );
         result.add(item);
     }
 
-    public void addExternalNursingAssistantStaff() {
-        List<KGLListExternalNursingAssistantStaff> result = _calcBasics.getExternalNursingAssistantStaffs();
-        KGLListExternalNursingAssistantStaff item = new KGLListExternalNursingAssistantStaff();
-        item.setBaseInformationId(_calcBasics.getId());
-        result.add(item);
-    }
+//    public void addExternalNursingAssistantStaff() {
+//        List<KGLListExternalNursingAssistantStaff> result = _calcBasics.getExternalNursingAssistantStaffs();
+//        KGLListExternalNursingAssistantStaff item = new KGLListExternalNursingAssistantStaff();
+//        item.setBaseInformationId(_calcBasics.getId());
+//        result.add(item);
+//    }
 
-    public void addExternalCareStaffOther() {
-        List<KGLListExternalCareStaffOther> result = _calcBasics.getExternalCareStaffOthers();
-        KGLListExternalCareStaffOther item = new KGLListExternalCareStaffOther();
-        item.setBaseInformationId(_calcBasics.getId());
-        result.add(item);
-    }
+//    public void addExternalCareStaffOther() {
+//        List<KGLListExternalCareStaffOther> result = _calcBasics.getExternalCareStaffOthers();
+//        KGLListExternalCareStaffOther item = new KGLListExternalCareStaffOther();
+//        item.setBaseInformationId(_calcBasics.getId());
+//        result.add(item);
+//    }
 
     public void addexternalTechFunctService() {
         List<KGLListExternalTechFunctService> result = _calcBasics.getExternalTechFunctServices();
@@ -382,16 +382,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void deleteExternalNursingMedStaff(KGLListExternalNursingStaff externalNursingMedStaff) {
         List<KGLListExternalNursingStaff> result = _calcBasics.getExternalNursingStaffs();
         result.remove(externalNursingMedStaff);
-    }
-
-    public void deleteExternalNursingAssistantStaff(KGLListExternalNursingAssistantStaff externalNursingAssistantStaff) {
-        List<KGLListExternalNursingAssistantStaff> result = _calcBasics.getExternalNursingAssistantStaffs();
-        result.remove(externalNursingAssistantStaff);
-    }
-
-    public void deleteExternalCareStaffOther(KGLListExternalCareStaffOther externalCareStaffOther) {
-        List<KGLListExternalCareStaffOther> result = _calcBasics.getExternalCareStaffOthers();
-        result.remove(externalCareStaffOther);
     }
 
     public void deleteExternalTechFunctService(KGLListExternalTechFunctService externalTechFunctService) {
@@ -1149,8 +1139,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 .collect(Collectors.toList());
     }
 
-    public List<KGLListExternalNursingStaff> obtainExternalStaff(ExternalStaffType externalStaffType) {
-
-        return _calcBasics.getExternalNursingStaffs().stream().filter(ns -> ns.getExternalStaffType() == externalStaffType.getId() ).collect(Collectors.toList());
+    public List<KGLListExternalNursingStaff> obtainExternalStaff(String externalStaff) {
+        return _calcBasics.getExternalNursingStaffs().stream().filter(ns -> ns.getExternalStaffType() == ExternalStaffType.getByName(externalStaff).getId() ).collect(Collectors.toList());
     }
 }

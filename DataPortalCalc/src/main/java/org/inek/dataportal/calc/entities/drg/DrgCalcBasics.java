@@ -1647,36 +1647,36 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List ExternalNursingAssistantStaff">
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "enaBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "KGLListExternalNursingAssistantStaff", rank = 4050)
-    private List<KGLListExternalNursingAssistantStaff> _externalNursingAssistantStaffs = new Vector<>();
-
-    public List<KGLListExternalNursingAssistantStaff> getExternalNursingAssistantStaffs() {
-        return _externalNursingAssistantStaffs;
-    }
-
-    public void setExternalNursingAssistantStaffs(List<KGLListExternalNursingAssistantStaff> externalNursingAssistantStaffs) {
-        this._externalNursingAssistantStaffs = externalNursingAssistantStaffs;
-    }
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "enaBaseInformationId", referencedColumnName = "biID")
+//    @Documentation(name = "KGLListExternalNursingAssistantStaff", rank = 4050)
+//    private List<KGLListExternalNursingAssistantStaff> _externalNursingAssistantStaffs = new Vector<>();
+//
+//    public List<KGLListExternalNursingAssistantStaff> getExternalNursingAssistantStaffs() {
+//        return _externalNursingAssistantStaffs;
+//    }
+//
+//    public void setExternalNursingAssistantStaffs(List<KGLListExternalNursingAssistantStaff> externalNursingAssistantStaffs) {
+//        this._externalNursingAssistantStaffs = externalNursingAssistantStaffs;
+//    }
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List ExternalNursingAssistantStaff">
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ecsoBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "KGLListExternalCareStaffOther", rank = 4050)
-    private List<KGLListExternalCareStaffOther> _externalCareStaffOthers = new Vector<>();
-
-    public List<KGLListExternalCareStaffOther> getExternalCareStaffOthers() {
-        return _externalCareStaffOthers;
-    }
-
-    public void setExternalCareStaffOthers(List<KGLListExternalCareStaffOther> externalCareStaffOthers) {
-        this._externalCareStaffOthers = externalCareStaffOthers;
-    }
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "ecsoBaseInformationId", referencedColumnName = "biID")
+//    @Documentation(name = "KGLListExternalCareStaffOther", rank = 4050)
+//    private List<KGLListExternalCareStaffOther> _externalCareStaffOthers = new Vector<>();
+//
+//    public List<KGLListExternalCareStaffOther> getExternalCareStaffOthers() {
+//        return _externalCareStaffOthers;
+//    }
+//
+//    public void setExternalCareStaffOthers(List<KGLListExternalCareStaffOther> externalCareStaffOthers) {
+//        this._externalCareStaffOthers = externalCareStaffOthers;
+//    }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property List ExternalNursingAssistantStaff">
+    // <editor-fold defaultstate="collapsed" desc="Property List KGLListExternalTechFunctService">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "etfsBaseInformationId", referencedColumnName = "biID")
     @Documentation(name = "KGLListExternalTechFunctService", rank = 4050)

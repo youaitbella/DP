@@ -1,9 +1,9 @@
 package org.inek.dataportal.calc.enums;
 
 public enum ExternalStaffType {
-    NURSINSTAFF(1, "NursingStaff"),
-    ASSISTANTNURSINSTAFF(2,"AssistantNursingStaff"),
-    OTHERNURSINSTAFF(3,"OtherNursingStaff");
+    NURSING(1, "NURSING"),
+    ASSISTANTNURSING(2,"ASSISTANTNURSING"),
+    OTHERNURSING(3,"OTHERNURSING");
 
     private int _id;
     String _name;
