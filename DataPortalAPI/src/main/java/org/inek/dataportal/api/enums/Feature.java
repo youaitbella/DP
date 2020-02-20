@@ -67,7 +67,7 @@ public enum Feature {
             IkUsage.Unknown, Selectable.Yes, Shareable.No, 255),
     OMBUDSMAN(28, "Schlichtungsstelle Kodierfragen", ManagedBy.IkAdminOnly, PortalType.COMMON, IkReference.None,
             IkUsage.Unknown, Selectable.No, Shareable.No, 255),
-    APPROVAL(10, "Rückmeldungbestätigung", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No,
+    APPROVAL(29, "Rückmeldungbestätigung", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No,
             255);
 
     private final int _id;
