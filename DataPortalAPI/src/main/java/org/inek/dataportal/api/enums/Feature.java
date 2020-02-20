@@ -64,10 +64,10 @@ public enum Feature {
             ManagedBy.InekOrIkAdmin, PortalType.PSY, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No,
             255),
     HOSPITAL_EVALUATION(27, "Krankenhausvergleich Auswertung", ManagedBy.None, PortalType.PSY, IkReference.None,
-            IkUsage.Unknown, Selectable.Yes, Shareable.No,
-            255),
+            IkUsage.Unknown, Selectable.Yes, Shareable.No, 255),
     OMBUDSMAN(28, "Schlichtungsstelle Kodierfragen", ManagedBy.IkAdminOnly, PortalType.COMMON, IkReference.None,
-              IkUsage.Unknown, Selectable.No, Shareable.No,
+            IkUsage.Unknown, Selectable.No, Shareable.No, 255),
+    APPROVAL(10, "Rückmeldungbestätigung", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No,
             255);
 
     private final int _id;
