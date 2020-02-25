@@ -50,7 +50,7 @@ public class ProofChecker {
         List<String> messages = new ArrayList<>();
         for (Proof proof : baseInfo.getProofs()) {
             if (proof.getCountShift() < proof.getCountShiftNotRespected()) {
-                addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+                addMessage(messages, WARD + proof.getProofWard().getName()
                         + MONTH + proof.getMonth().getName()
                         + SHIFT + proof.getShift().getName()
                         + ": "
@@ -65,7 +65,7 @@ public class ProofChecker {
     @SuppressWarnings("CyclomaticComplexity")
     private static void checkShiftNursePatient(List<String> messages, Proof proof) {
         if (proof.getNurse() == 0 && proof.getPatientOccupancy() > 0) {
-            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+            addMessage(messages, WARD + proof.getProofWard().getName()
                     + MONTH + proof.getMonth().getName()
                     + SHIFT + proof.getShift().getName()
                     + ": "
@@ -73,7 +73,7 @@ public class ProofChecker {
             return;
         }
         if (proof.getNurse() > 0 && proof.getPatientOccupancy() == 0 && "".equals(proof.getComment().trim())) {
-            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+            addMessage(messages, WARD + proof.getProofWard().getName()
                     + MONTH + proof.getMonth().getName()
                     + SHIFT + proof.getShift().getName()
                     + ": "
@@ -81,7 +81,7 @@ public class ProofChecker {
             return;
         }
         if (proof.getNurse() == 0 && proof.getPatientOccupancy() == 0 && proof.getCountShift() > 0) {
-            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+            addMessage(messages, WARD + proof.getProofWard().getName()
                     + MONTH + proof.getMonth().getName()
                     + SHIFT + proof.getShift().getName()
                     + ": "
@@ -89,7 +89,7 @@ public class ProofChecker {
             return;
         }
         if (proof.getCountShift() == 0 && proof.getNurse() > 0) {
-            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+            addMessage(messages, WARD + proof.getProofWard().getName()
                     + MONTH + proof.getMonth().getName()
                     + SHIFT + proof.getShift().getName()
                     + ": "
@@ -97,7 +97,7 @@ public class ProofChecker {
             return;
         }
         if (proof.getCountShift() == 0 && "".equals(proof.getComment().trim())) {
-            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+            addMessage(messages, WARD + proof.getProofWard().getName()
                     + MONTH + proof.getMonth().getName()
                     + SHIFT + proof.getShift().getName()
                     + ": "
@@ -105,7 +105,7 @@ public class ProofChecker {
             return;
         }
         if (proof.getPatientPerNurse() < 0.5 && "".equals(proof.getComment().trim())) {
-            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+            addMessage(messages, WARD + proof.getProofWard().getName()
                     + MONTH + proof.getMonth().getName()
                     + SHIFT + proof.getShift().getName()
                     + ": "
@@ -113,7 +113,7 @@ public class ProofChecker {
             return;
         }
         if (proof.getPatientPerNurse() > 100. && "".equals(proof.getComment().trim())) {
-            addMessage(messages, WARD + proof.getProofRegulationStation().getStationName()
+            addMessage(messages, WARD + proof.getProofWard().getName()
                     + MONTH + proof.getMonth().getName()
                     + SHIFT + proof.getShift().getName()
                     + ": "

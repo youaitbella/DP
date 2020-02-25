@@ -65,6 +65,7 @@ public class ProofWardCollector {
         ProofWardInfo proofWardInfo = ProofWardInfo.builder()
                 .wardName(StringUtil.normalizeName(ward.getWardName()))
                 .locationNumber(ward.getLocationCodeVz())
+                .locationP21("" + ward.getLocationCodeP21())
                 .from(ward.getValidFrom())
                 .to(ward.getValidTo())
                 .addSensitiveArea(ward.getDept().getSensitiveArea())

@@ -14,6 +14,7 @@ public final class ProofWardInfo {
         setFrom(builder.from);
         setTo(builder.to);
         setLocationNumber(builder.locationNumber);
+        setLocationP21(builder.locationP21);
         setWardName(builder.wardName);
         sensitiveDomains = builder.sensitiveAreas;
         depts = builder.depts;
@@ -56,6 +57,19 @@ public final class ProofWardInfo {
         this.locationNumber = locationNumber;
     }
     //</editor-fold>
+
+    //<editor-fold desc="Property locationP21">
+    private String locationP21;
+
+    public String getLocationP21() {
+        return locationP21;
+    }
+
+    public void setLocationP21(String locationP21) {
+        this.locationP21 = locationP21;
+    }
+    //</editor-fold>
+
 
     //<editor-fold desc="Property wardName">
     private String wardName;
@@ -168,6 +182,7 @@ public final class ProofWardInfo {
         private Date from;
         private Date to;
         private int locationNumber;
+        private String locationP21;
         private String wardName;
         private Set<String> sensitiveAreas = new HashSet<>();
         private Set<String> depts = new HashSet<>();
@@ -189,6 +204,11 @@ public final class ProofWardInfo {
 
         public Builder locationNumber(int val) {
             locationNumber = val;
+            return this;
+        }
+
+        public Builder locationP21(String val) {
+            locationP21 = val;
             return this;
         }
 

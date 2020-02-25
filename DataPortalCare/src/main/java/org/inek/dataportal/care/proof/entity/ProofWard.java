@@ -56,16 +56,16 @@ public class ProofWard {
     }
     // </editor-fold>
 
-    //<editor-fold desc="Property LocationText">
-    @Column(name = "pwLocationText")
-    private String locationText = "";
+    //<editor-fold desc="Property LocationP21">
+    @Column(name = "pwLocationP21")
+    private String locationP21 = "";
 
-    public String getLocationText() {
-        return locationText;
+    public String getLocationP21() {
+        return locationP21;
     }
 
-    public void setLocationText(String val) {
-        locationText = val;
+    public void setLocationP21(String val) {
+        locationP21 = val;
     }
     //</editor-fold>
 
@@ -91,13 +91,13 @@ public class ProofWard {
         return ik == proofWard.ik &&
                 locationNumber == proofWard.locationNumber &&
                 id.equals(proofWard.id) &&
-                locationText.equals(proofWard.locationText) &&
+                locationP21.equals(proofWard.locationP21) &&
                 name.equals(proofWard.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ik, locationNumber, locationText, name);
+        return Objects.hash(id, ik, locationNumber, locationP21, name);
     }
     //</editor-fold>
 }

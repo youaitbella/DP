@@ -162,11 +162,13 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         return query.getSingleResult();
     }
 
-    public ProofWard retrieveOrCreateProofWard(int ik, int locationNumber, String name) {
-        String jpql = "select p from ProofWard p where p.ik = :ik and p.locationNumber = :locationNumber and p.name = :name";
+    public ProofWard retrieveOrCreateProofWard(int ik, int locationNumber, String locationP21, String name) {
+        String jpql = "select p from ProofWard p where p.ik = :ik and p.locationNumber = :locationNumber " +
+                "and p.locationP21 = :locationP21 and p.name = :name";
         TypedQuery<ProofWard> query = getEntityManager().createQuery(jpql, ProofWard.class);
         query.setParameter("ik", ik);
         query.setParameter("locationNumber", locationNumber);
+        query.setParameter("locationP21", locationP21);
         query.setParameter("name", name);
         try {
             return query.getSingleResult();

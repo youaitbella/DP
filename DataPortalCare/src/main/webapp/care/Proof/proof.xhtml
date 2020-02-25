@@ -21,7 +21,7 @@
                         <pf:outputLabel value="#{proof.deptNumbers} - " />
                         <pf:outputLabel value="#{proof.deptNames} - " />
                         <pf:outputLabel value="#{proof.proofWard.name} - " />
-                        <pf:outputLabel value="#{proof.proofWard.locationText} - " />
+                        <pf:outputLabel value="#{proof.proofWard.locationP21} - "/>
                         <pf:outputLabel value="#{proof.month.name} - " />
                         <pf:outputLabel value="#{proof.shift.name}" />
                     </div>
@@ -92,11 +92,11 @@
             <pf:column id="locationId"
                        headerText="Standort"
                        sortable="true"
-                       sortBy="#{proof.proofWard.locationText}"
+                       sortBy="#{proof.proofWard.locationP21}"
                        filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.proofWard.locationText}">
-                <pf:outputLabel value="#{proof.proofWard.locationText}"/>
+                       filterBy="#{proof.proofWard.locationP21}">
+                <pf:outputLabel value="#{proof.proofWard.locationP21}"/>
             </pf:column>
 
             <pf:column id="monthId"

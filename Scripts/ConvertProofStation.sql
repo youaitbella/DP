@@ -11,7 +11,7 @@ DBCC CHECKIDENT ([care.proofWard], reseed, 1)
 */
 
 
---insert into care.ProofWard (pwIk, pwLocationNumber, pwLocationText, pwName)
+--insert into care.ProofWard (pwIk, pwLocationNumber, pwLocationP21, pwName)
 select prsIk, 0, prsLocationCode, max(replace(prsStationName, '  ', ' '))
 from care.ProofRegulationStation
 where prsIk > 0

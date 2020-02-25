@@ -22,11 +22,11 @@ public class CareSignatureCreater {
         String data = "";
         data = proofs.stream()
                 .map((proof) -> ""
-                        + proof.getProofRegulationStation().getSensitiveArea().getId() + "^"
-                        + proof.getProofRegulationStation().getFabNumber() + "^"
-                        + proof.getProofRegulationStation().getFabName() + "^"
-                        + proof.getProofRegulationStation().getStationName() + "^"
-                        + proof.getProofRegulationStation().getLocationCode() + "^"
+                        + proof.getSignificantSensitiveDomain().getId() + "^"
+                        + proof.getDeptNumbers() + "^"
+                        + proof.getDeptNames() + "^"
+                        + proof.getProofWard().getName() + "^"
+                        + proof.getProofWard().getLocationP21() + "^"
                         + proof.getMonth().getId() + "^"
                         + proof.getShift().getId() + "^"
                         + proof.getCountShift() + "^"

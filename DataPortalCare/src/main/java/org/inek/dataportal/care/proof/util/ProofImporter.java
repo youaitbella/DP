@@ -1,9 +1,6 @@
 package org.inek.dataportal.care.proof.util;
 
 import org.apache.poi.ss.usermodel.*;
-import org.inek.dataportal.care.enums.Months;
-import org.inek.dataportal.care.enums.SensitiveArea;
-import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 
@@ -158,10 +155,12 @@ public class ProofImporter {
         }
     }
 
-    private Optional<Proof>  getProofFromRow(ProofRegulationBaseInformation info, Row row) {
+    private Optional<Proof> getProofFromRow(ProofRegulationBaseInformation info, Row row) {
         if (row == null || row.getCell(CELL_SENSITIVEAREA) == null) {
             return Optional.empty();
         }
+/*
+todo: adopt to new structure
         Optional<Proof> first = info.getProofs().stream()
                 .filter(c -> c.getProofRegulationStation().getSensitiveArea() ==
                         SensitiveArea.fromName(getStringFromCell(row.getCell(CELL_SENSITIVEAREA))))
@@ -173,6 +172,9 @@ public class ProofImporter {
                 .filter(c -> c.getShift() == Shift.getByName(getStringFromCell(row.getCell(CELL_SHIFT))))
                 .findFirst();
         return first;
+*/
+        assert false;
+        return Optional.empty();
     }
 
     private String getLocationFromCell(Cell cell) {
@@ -208,15 +210,13 @@ public class ProofImporter {
     private String getCommentFromCell(Cell cell) {
         if (cell == null) {
             return "";
-        }
-        else {
+        } else {
             String stringFromCell = getStringFromCell(cell);
             if (!"".equals(stringFromCell) && !_isCommentAllowed) {
                 LOGGER.log(Level.INFO, "Using comment is not allowed for ik. Adress:" + cell.getAddress());
                 addMessage("Kommentarspalte ist nur für Bundeswehkrankenhäuser. Wert an Position " + cell.getAddress() + " wird ignoriert");
                 return "";
-            }
-            else {
+            } else {
                 return stringFromCell;
             }
         }
@@ -231,12 +231,12 @@ public class ProofImporter {
 
         int maxRow = workbook.getSheetAt(0).getLastRowNum();
 
-        for (int i = 0 ; i < maxRow ; i++) {
+        for (int i = 0; i < maxRow; i++) {
             if (workbook.getSheetAt(0).getRow(i) == null) {
                 continue;
             }
             if (workbook.getSheetAt(0).getRow(i).getLastCellNum() < 12) {
-                addMessage("Nicht genug Spalten in Zeile " + (i +1));
+                addMessage("Nicht genug Spalten in Zeile " + (i + 1));
             }
         }
 
@@ -273,9 +273,8 @@ public class ProofImporter {
 
                 double numberValue = Double.parseDouble(cellValue);
 
-                return (int)numberValue;
-            }
-            catch (Exception ex2){
+                return (int) numberValue;
+            } catch (Exception ex2) {
                 LOGGER.log(Level.WARNING, "Error getting Int from : " + cell.getAddress());
                 throw new InvalidValueException("Wert in Zelle " + cell.getAddress() + " konnte nicht als gültige Ganzzahl erkannt werden");
             }
@@ -299,8 +298,7 @@ public class ProofImporter {
                     return Math.round(numberValue * 100d) / 100d;
                 }
                 return numberValue;
-            }
-            catch (Exception ex2){
+            } catch (Exception ex2) {
                 LOGGER.log(Level.WARNING, "Error getting Double from : " + cell.getAddress());
                 throw new InvalidValueException("Wert in Zelle " + cell.getAddress() + " konnte nicht als gültige Dezimalzahl erkannt werden");
             }
