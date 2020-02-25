@@ -240,6 +240,9 @@ public enum Pages {
     RequestEditRelevance("/RequestSystem/RequestEditRelevance"),
     RequestEditDocuments("/RequestSystem/RequestEditDocuments"),
     //
+    PartApproval("/Approval/PartApproval"),
+    Approval("/Approval/Approval"),
+    //
     DocumentsSummary("/Documents/DocumentsSummary"),
     DocumentUploadFromInek("/Documents/UploadFromInek"),
     DocumentsApproval("/Documents/Approval"),
