@@ -31,7 +31,7 @@ update care.Proof set prProofWardId = pwId,
                      prSignificantSensitiveDomainId = sdId
 from care.Proof
         join care.ProofRegulationStation on prProofRegulationStationId = prsId
-        join care.ProofWard on prsIk = pwIk and prsLocationCode = pwLocationText and
+        join care.ProofWard on prsIk = pwIk and prsLocationCode = pwLocationP21 and
                                lower(replace(prsStationName, ' ', '')) = lower(replace(pwName, ' ', ''))
         join care.listSensitiveDomain on prsSensitiveAreaId = sdId
 where prProofRegulationStationId > 0 and prsYear = 2019
