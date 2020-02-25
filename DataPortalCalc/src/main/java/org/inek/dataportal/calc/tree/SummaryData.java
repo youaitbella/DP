@@ -142,4 +142,8 @@ public final class SummaryData {
         return items;
     }
 
+    public int getCurrentDataYear(){
+        return DateUtils.currentYear();
+    }
+
 }

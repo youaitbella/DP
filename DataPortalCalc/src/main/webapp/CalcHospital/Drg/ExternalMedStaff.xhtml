@@ -411,7 +411,8 @@
 
             </h:dataTable>
         </div>
-        <h:commandLink id="addButton2" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+        <h:commandLink id="addButton2" styleClass="addButton inputPart"
+                       value="#{msg.btnAddEntry}"
                        rendered="#{!editCalcBasicsDrg.readOnly}">
             <f:ajax event="click" render="externalNursingAssistantStaffId :logout:remaining"
                     listener="#{editCalcBasicsDrg.addExternalNursingStaff('ASSISTANTNURSING')}"/>
