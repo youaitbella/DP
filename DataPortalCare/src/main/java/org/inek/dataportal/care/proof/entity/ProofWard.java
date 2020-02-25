@@ -9,9 +9,10 @@ public class ProofWard {
     public ProofWard() {
     }
 
-    public ProofWard(int ik, int locationNumber, String name) {
+    public ProofWard(int ik, int locationNumber, String locationP21, String name) {
         this.ik = ik;
         this.locationNumber = locationNumber;
+        this.locationP21 = locationP21;
         this.name = name;
     }
 

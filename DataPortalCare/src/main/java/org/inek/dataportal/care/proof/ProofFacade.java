@@ -173,7 +173,7 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         try {
             return query.getSingleResult();
         } catch (Exception ex) {
-            ProofWard proofWard = new ProofWard(ik, locationNumber, name);
+            ProofWard proofWard = new ProofWard(ik, locationNumber, locationP21, name);
             persist(proofWard);
             return proofWard;
         }
