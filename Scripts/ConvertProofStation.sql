@@ -61,3 +61,52 @@ where prProofRegulationStationId > 0
 -- durch die eindeutige Gruppierung ergeben sich zusätzliche Datensätze. Lieber ein paar zuviel, als fehlende Info
 group by prProofRegulationBaseInformationId, pwId, prMonth, prShift, prBeds, prCountShift, prNurse, prHelpeNurse,
          prPatientOccupancy, prCountShiftNotRespected, prComment
+/*
+-- variant 1: create new entry for each existing entry
+-- insert into care.proof (prProofRegulationBaseInformationId, prProofRegulationStationId, prProofWardId, prValidFrom, prValidTo, prMonth, prDeptNumbers, prDeptNames, prSensitiveDomains, prSignificantSensitiveDomainId, prShift, prBeds, prCountShift, prNurse, prHelpeNurse, prPatientOccupancy, prCountShiftNotRespected, prPatientPerNurse, prCountHelpeNurseChargeable, prComment)
+select prProofRegulationBaseInformationId,
+       0,
+       pwId,
+       CONVERT(smalldatetime, '2019-' + CONVERT(varchar, prMonth) + '-01', 102)                                  as ValidFrom,
+       CONVERT(smalldatetime, EOMONTH(CONVERT(smalldatetime, '2019-' + CONVERT(varchar, prMonth) + '-01',
+                                                             102)))                                              as ValidTo,
+       prMonth,
+       prsFabNumber,
+       prsFabName,
+       sdName,
+       sdId,
+       prShift,
+       prBeds,
+       prCountShift,
+       prNurse,
+       prHelpeNurse,
+       prPatientOccupancy,
+       prCountShiftNotRespected,
+       prPatientPerNurse,
+       prCountHelpeNurseChargeable,
+       prComment
+from care.Proof
+         join care.ProofRegulationStation on prProofRegulationStationId = prsId
+         join care.ProofWard on prsIk = pwIk and prsLocationCode = pwLocationText and
+                                lower(replace(prsStationName, ' ', '')) = lower(replace(pwName, ' ', ''))
+         join care.listSensitiveDomain on prsSensitiveAreaId = sdId
+where prProofRegulationStationId > 0 and prsYear = 2019
+ */
+
+ /*
+-- variant 2: update existing entries
+update care.Proof set prProofWardId = pwId,
+                      prValidFrom = CONVERT(smalldatetime, '2019-' + CONVERT(varchar, prMonth) + '-01', 102),
+                      prValidTo = CONVERT(smalldatetime, EOMONTH(CONVERT(smalldatetime, '2019-' + CONVERT(varchar, prMonth) + '-01', 102))),
+                      prDeptNumbers = prsFabNumber,
+                      prDeptNames = prsFabName,
+                      prSensitiveDomains = sdName,
+                      prSignificantSensitiveDomainId = sdId
+from care.Proof
+         join care.ProofRegulationStation on prProofRegulationStationId = prsId
+         join care.ProofWard on prsIk = pwIk and prsLocationCode = pwLocationText and
+                                lower(replace(prsStationName, ' ', '')) = lower(replace(pwName, ' ', ''))
+         join care.listSensitiveDomain on prsSensitiveAreaId = sdId
+where prProofRegulationStationId > 0 and prsYear = 2019
+
+ */
