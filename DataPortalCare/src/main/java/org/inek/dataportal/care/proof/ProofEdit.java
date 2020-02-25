@@ -312,7 +312,6 @@ public class ProofEdit implements Serializable {
         proof.setBeds(proofWardInfo.getBeds());
         int duration = DateUtils.duration(proofWardInfo.getFrom(), proofWardInfo.getTo());
         int ik = proof.getBaseInformation().getIk();
-        proof.setProofRegulationStation(proofFacade.obtainEmptyStation());
         ProofWard proofWard = proofFacade.retrieveOrCreateProofWard(ik, proofWardInfo.getLocationNumber(), proofWardInfo.getWardName());
         proof.setProofWard(proofWard);
         proof.setValidFrom(proofWardInfo.getFrom());
@@ -672,10 +671,7 @@ public class ProofEdit implements Serializable {
 
     public List<Proof> getProofs() {
         // display data in old format
-        return _proofBaseInformation.getProofs().stream().filter(p -> p.getProofRegulationStationId() == 0).collect(Collectors.toList());
+        return _proofBaseInformation.getProofs();
     }
 
-    public Date determineStartDate(Proof proof) {
-        return DateUtils.firstAndLastDayOfMonth(_proofBaseInformation.getYear(), proof.getMonth().getId()).from();
-    }
 }

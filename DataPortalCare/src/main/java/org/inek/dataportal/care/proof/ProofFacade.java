@@ -3,7 +3,6 @@ package org.inek.dataportal.care.proof;
 import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.proof.entity.ProofDocument;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
-import org.inek.dataportal.care.proof.entity.ProofRegulationStation;
 import org.inek.dataportal.care.proof.entity.ProofWard;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -22,12 +21,6 @@ import static org.inek.dataportal.api.helper.PortalConstants.*;
 @Stateless
 public class ProofFacade extends AbstractDataAccessWithActionLog {
 
-
-    public ProofRegulationStation obtainEmptyStation() {
-        String jpql = "SELECT s FROM ProofRegulationStation  s WHERE s._id = 0";
-        TypedQuery<ProofRegulationStation> query = getEntityManager().createQuery(jpql, ProofRegulationStation.class);
-        return query.getSingleResult();
-    }
 
     public ProofRegulationBaseInformation findBaseInformation(int id) {
         String jpql = "SELECT bi FROM ProofRegulationBaseInformation bi WHERE bi._id = :id";
@@ -97,17 +90,6 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         String jpql = "SELECT bi FROM ProofRegulationBaseInformation bi WHERE bi._statusId = :status ";
         TypedQuery<ProofRegulationBaseInformation> query = getEntityManager().createQuery(jpql, ProofRegulationBaseInformation.class);
         query.setParameter(STATUS, status.getId());
-        return query.getResultList();
-    }
-
-    public List<ProofRegulationStation> getStationsForProof(int ik, int year) {
-        String jpql = "SELECT ds " +
-                "FROM ProofRegulationStation ds " +
-                "WHERE ds._ik = :ik " +
-                "AND ds._year = :year";
-        TypedQuery<ProofRegulationStation> query = getEntityManager().createQuery(jpql, ProofRegulationStation.class);
-        query.setParameter(IK, ik);
-        query.setParameter(YEAR, year);
         return query.getResultList();
     }
 

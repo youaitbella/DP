@@ -28,7 +28,6 @@ public class Proof implements Serializable {
 
 
     public Proof(Proof proof) {
-        this._proofRegulationStation = proof.getProofRegulationStation();  // former usage
         this._proofWard = proof.getProofWard();
         this._shift = proof.getShift().getId();
         this.validFrom = proof.validFrom;
@@ -89,27 +88,6 @@ public class Proof implements Serializable {
     //Using only for JSON Export
     public int getBaseInformationId() {
         return _baseInformation.getId();
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Proof Station">
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "prProofRegulationStationId")
-    private ProofRegulationStation _proofRegulationStation;
-
-    @JsonIgnore
-    public ProofRegulationStation getProofRegulationStation() {
-        return _proofRegulationStation;
-    }
-
-    public void setProofRegulationStation(ProofRegulationStation proofRegulationStation) {
-        this._proofRegulationStation = proofRegulationStation;
-    }
-
-    //Using only for JSON Export and to distinguish between old and new format
-    public int getProofRegulationStationId() {
-        return _proofRegulationStation.getId();
     }
     //</editor-fold>
 
@@ -394,7 +372,6 @@ public class Proof implements Serializable {
                 Double.compare(proof._countHelpeNurseChargeable, _countHelpeNurseChargeable) == 0 &&
                 id.equals(proof.id) &&
                 _baseInformation.equals(proof._baseInformation) &&
-                _proofRegulationStation.equals(proof._proofRegulationStation) &&
                 _proofWard.equals(proof._proofWard) &&
                 validFrom.equals(proof.validFrom) &&
                 validTo.equals(proof.validTo) &&
@@ -408,7 +385,7 @@ public class Proof implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, _baseInformation, _proofRegulationStation, _proofWard, validFrom, validTo, _month,
+        return Objects.hash(id, _baseInformation, _proofWard, validFrom, validTo, _month,
                 deptNumbers, deptNames, sensitiveDomains, significantSensitiveDomain, _shift, beds, _countShift, _nurse,
                 _helpeNurse, _patientOccupancy, _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable,
                 _comment, _proofExceptionFact);
