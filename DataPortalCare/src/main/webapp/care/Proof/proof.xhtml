@@ -45,11 +45,12 @@
                       rowsPerPageTemplate="25,50,100,300"
                       tableStyle="table-layout: auto"
                       emptyMessage="Keine Einträge vorhanden"
+                      sortMode="multiple"
                       var="proof">
             <!-- todo?  value="# {proofEdit.proofRegulationBaseInformation.proofs}"-->
 
             <pf:column id="psAreaId"
-                       headerText="pflegesensitiver Bereich #{proof.baseInformation.year ge 2020 ? 'im Krankenhaus gem. § 3 PpUGV' : ''} "
+                       headerText="pflegesensitiver Bereich #{proof.baseInformation.year ge 2020 ? 'im Krankenhaus gem. § 3 PpUGV' : ''}"
                        sortable="true"
                        sortBy="#{proof.sensitiveDomains}"
                        filterMatchMode="contains"
@@ -89,7 +90,7 @@
             </pf:column>
 
             <pf:column id="locationP21Id"
-                       headerText="Standort (nach § 21 KHEntgG)"
+                       headerText="Standort #{proof.baseInformation.year ge 2020 ? '(nach § 21 KHEntgG)' : ''}"
                        sortable="true"
                        sortBy="#{proof.proofWard.locationP21}"
                        filterMatchMode="contains"
@@ -152,7 +153,21 @@
                                 readonly="#{proofEdit.isReadOnly}"
                                 style="width: 100%;">
                     <pf:ajax event="change"
-                             immediate="true" />
+                             immediate="true"/>
+                </pf:inputNumber>
+            </pf:column>
+
+            <pf:column headerText="Anzahl Belegungstage (Summe)" rendered="#{proof.baseInformation.year ge 2020}">
+                <pf:inputNumber required="true"
+                                requiredMessage="Bitte Summe der Belegungstage angeben"
+                                value="#{proof.occupancyDays}"
+                                inputStyle="text-align: right; width: 96%;"
+                                decimalPlaces="0"
+                                minValue="0"
+                                readonly="#{proofEdit.isReadOnly}"
+                                style="width: 100%;">
+                    <pf:ajax event="change"
+                             immediate="true"/>
                 </pf:inputNumber>
             </pf:column>
 
@@ -251,10 +266,10 @@
                                      locale="de_DE" />
                 </h:outputLabel>
             </pf:column>
-            <pf:column headerText="Kommentar">
+            <pf:column headerText="Anmerkung">
                 <pf:inputTextarea value="#{proof.comment}"
                                   Style="width: 96%;"
-                                  readonly="#{proofEdit.isReadOnly}" />
+                                  readonly="#{proofEdit.isReadOnly}"/>
             </pf:column>
 
 

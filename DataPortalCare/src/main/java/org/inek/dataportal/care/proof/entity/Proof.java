@@ -39,6 +39,7 @@ public class Proof implements Serializable {
         this.significantSensitiveDomain = proof.significantSensitiveDomain;
         this.beds = proof.getBeds();
         this._countShift = proof.getCountShift();
+        this._occupancyDays = proof.getOccupancyDays();
         this._nurse = proof.getNurse();
         this._helpeNurse = proof.getHelpNurse();
         this._patientOccupancy = proof.getPatientOccupancy();
@@ -241,6 +242,19 @@ public class Proof implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property OccupancyDays">
+    @Column(name = "prOccupancyDays")
+    private int _occupancyDays;
+
+    public int getOccupancyDays() {
+        return _occupancyDays;
+    }
+
+    public void setOccupancyDays(int occupancyDays) {
+        this._occupancyDays = occupancyDays;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property Nurse">
     @Column(name = "prNurse")
     private double _nurse;
@@ -364,6 +378,7 @@ public class Proof implements Serializable {
                 _shift == proof._shift &&
                 Double.compare(proof.beds, beds) == 0 &&
                 _countShift == proof._countShift &&
+                _occupancyDays == proof._occupancyDays &&
                 Double.compare(proof._nurse, _nurse) == 0 &&
                 Double.compare(proof._helpeNurse, _helpeNurse) == 0 &&
                 Double.compare(proof._patientOccupancy, _patientOccupancy) == 0 &&
@@ -386,7 +401,7 @@ public class Proof implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, _baseInformation, _proofWard, validFrom, validTo, _month,
-                deptNumbers, deptNames, sensitiveDomains, significantSensitiveDomain, _shift, beds, _countShift, _nurse,
+                deptNumbers, deptNames, sensitiveDomains, significantSensitiveDomain, _shift, beds, _countShift, _occupancyDays, _nurse,
                 _helpeNurse, _patientOccupancy, _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable,
                 _comment, _proofExceptionFact);
     }
