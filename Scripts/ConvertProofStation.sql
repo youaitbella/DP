@@ -23,7 +23,6 @@ group by prsIk, prsLocationCode, lower(replace(prsStationName, ' ', ''))
 /*
 -- update existing entries
 update care.Proof set prProofWardId = pwId,
-                     prProofRegulationStationId = 0,
                      prValidFrom = CONVERT(smalldatetime, '2019-' + CONVERT(varchar, prMonth) + '-01', 102),
                      prValidTo = CONVERT(smalldatetime, EOMONTH(CONVERT(smalldatetime, '2019-' + CONVERT(varchar, prMonth) + '-01', 102))),
                      prDeptNumbers = prsFabNumber,
@@ -36,4 +35,10 @@ from care.Proof
                                lower(replace(prsStationName, ' ', '')) = lower(replace(pwName, ' ', ''))
         join care.listSensitiveDomain on prsSensitiveAreaId = sdId
 where prProofRegulationStationId > 0 and prsYear = 2019
+
+
+drop table care.MapProofRegulationStationMonth
+-- delete col prProofRegulationStationId
+drop table care.ProofRegulationStation
+
 */
