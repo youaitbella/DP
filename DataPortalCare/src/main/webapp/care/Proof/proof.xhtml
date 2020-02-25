@@ -50,7 +50,7 @@
             <!-- todo?  value="# {proofEdit.proofRegulationBaseInformation.proofs}"-->
 
             <pf:column id="psAreaId"
-                       headerText="pflegesensitiver Bereich #{proof.baseInformation.year ge 2020 ? 'im Krankenhaus gem. § 3 PpUGV' : ''}"
+                       headerText="pflegesensitiver Bereich #{proofEdit.proofRegulationBaseInformation.year ge 2020 ? 'im Krankenhaus gem. § 3 PpUGV' : ''}"
                        sortable="true"
                        sortBy="#{proof.sensitiveDomains}"
                        filterMatchMode="contains"
@@ -60,7 +60,7 @@
             </pf:column>
 
             <pf:column id="fabNumberId"
-                       headerText="#{proof.baseInformation.year ge 2020 ? 'Fachabteilungs-schlüssel nach den Daten nach § 21 KHEntgG': 'FAB Schlüssel'}"
+                       headerText="#{proofEdit.proofRegulationBaseInformation.year ge 2020 ? 'Fachabteilungs-schlüssel nach den Daten nach § 21 KHEntgG': 'FAB Schlüssel'}"
                        sortable="true"
                        sortBy="#{proof.deptNumbers}"
                        filterMatchMode="contains"
@@ -90,7 +90,7 @@
             </pf:column>
 
             <pf:column id="locationP21Id"
-                       headerText="Standort #{proof.baseInformation.year ge 2020 ? '(nach § 21 KHEntgG)' : ''}"
+                       headerText="Standort #{proofEdit.proofRegulationBaseInformation.year ge 2020 ? '(nach § 21 KHEntgG)' : ''}"
                        sortable="true"
                        sortBy="#{proof.proofWard.locationP21}"
                        filterMatchMode="contains"
@@ -106,7 +106,7 @@
                        filterMatchMode="contains"
                        filterable="true"
                        filterBy="#{proof.proofWard.locationNumber}"
-                       rendered="#{proof.baseInformation.year ge 2020}">
+                       rendered="#{proofEdit.proofRegulationBaseInformation.year ge 2020}">
                 <pf:outputLabel value="#{proof.proofWard.locationNumber}"/>
             </pf:column>
 
@@ -128,9 +128,11 @@
                 <pf:outputLabel value="#{proof.shift.name}"/>
             </pf:column>
 
-            <pf:column headerText="Anzahl aufgestellte Betten" rendered="#{proof.baseInformation.year ge 2020}">
+            <pf:column headerText="Anzahl aufgestellte Betten"
+                       rendered="#{proofEdit.proofRegulationBaseInformation.year ge 2020}">
                 <pf:inputNumber required="true"
                                 requiredMessage="Bitte die Anzahl der aufgestellten Betten (Durchschnitt) angeben"
+                                title="Bitte die Anzahl der aufgestellten Betten (Durchschnitt) angeben"
                                 value="#{proof.beds}"
                                 inputStyle="text-align: right; width: 96%;"
                                 decimalPlaces="2"
@@ -145,6 +147,7 @@
             <pf:column headerText="Anzahl Schichten (Summe)">
                 <pf:inputNumber required="true"
                                 requiredMessage="Bitte die Anzahl der Schichten angeben"
+                                title="Bitte die Anzahl der Schichten angeben"
                                 value="#{proof.countShift}"
                                 inputStyle="text-align: right; width: 96%;"
                                 decimalPlaces="0"
@@ -157,9 +160,11 @@
                 </pf:inputNumber>
             </pf:column>
 
-            <pf:column headerText="Anzahl Belegungstage (Summe)" rendered="#{proof.baseInformation.year ge 2020}">
+            <pf:column headerText="Anzahl Belegungstage (Summe)"
+                       rendered="#{proofEdit.proofRegulationBaseInformation.year ge 2020}">
                 <pf:inputNumber required="true"
                                 requiredMessage="Bitte Summe der Belegungstage angeben"
+                                title="Bitte Summe der Belegungstage angeben"
                                 value="#{proof.occupancyDays}"
                                 inputStyle="text-align: right; width: 96%;"
                                 decimalPlaces="0"
@@ -180,6 +185,7 @@
                                 maxValue="999"
                                 required="true"
                                 requiredMessage="Bitte geben Sie einen Wert ein"
+                                title="Bitte geben Sie die durchschnittliche Pflegepersonalausstattung an Pflegefachkräften ein"
                                 inputStyle="width: 100%; text-align: right"
                                 readonly="#{proofEdit.isReadOnly}">
                     <pf:ajax event="change"
@@ -198,6 +204,7 @@
                                 maxValue="999"
                                 required="true"
                                 requiredMessage="Bitte geben Sie einen Wert ein"
+                                title="Bitte geben Sie die durchschnittliche Pflegepersonalausstattung an Pflegehilfskräfte ein"
                                 inputStyle="width: 100%; text-align: right"
                                 readonly="#{proofEdit.isReadOnly}">
                     <pf:ajax event="change"
@@ -215,6 +222,7 @@
                                 maxValue="999"
                                 required="true"
                                 requiredMessage="Bitte geben Sie einen Wert ein"
+                                title="Bitte geben Sie die durchschnittliche Patientenbelegung ein"
                                 inputStyle="width: 100%; text-align: right"
                                 readonly="#{proofEdit.isReadOnly}">
                     <pf:ajax event="change"
@@ -230,6 +238,7 @@
                                 maxValue="31"
                                 require="true"
                                 requiredMessage="Bitte geben Sie einen Wert ein"
+                                title="Bitte geben Sie die Anzahl Schichten ein, in denen die PPUG im Monat nicht eingehalten wurde"
                                 readonly="#{proofEdit.isReadOnly}">
                     <pf:ajax event="change"
                              immediate="true" />
@@ -269,7 +278,8 @@
             <pf:column headerText="Anmerkung">
                 <pf:inputTextarea value="#{proof.comment}"
                                   Style="width: 96%;"
-                                  readonly="#{proofEdit.isReadOnly}"/>
+                                  readonly="#{proofEdit.isReadOnly}"
+                                  title="Sofern Sie Anmerkungen haben, geben Sie diese bitte hier ein"/>
             </pf:column>
 
 
