@@ -312,7 +312,7 @@ public class ProofEdit implements Serializable {
         proof.setBeds(proofWardInfo.getBeds());
         int duration = DateUtils.duration(proofWardInfo.getFrom(), proofWardInfo.getTo());
         int ik = proof.getBaseInformation().getIk();
-        ProofWard proofWard = proofFacade.retrieveOrCreateProofWard(ik, proofWardInfo.getLocationNumber(), proofWardInfo.getLocationNumber(), proofWardInfo.getWardName());
+        ProofWard proofWard = proofFacade.retrieveOrCreateProofWard(ik, proofWardInfo.getLocationNumber(), proofWardInfo.getLocationP21(), proofWardInfo.getWardName());
         proof.setProofWard(proofWard);
         proof.setValidFrom(proofWardInfo.getFrom());
         proof.setValidTo(proofWardInfo.getTo());
