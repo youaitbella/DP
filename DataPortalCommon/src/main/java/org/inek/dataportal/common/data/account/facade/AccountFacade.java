@@ -501,7 +501,7 @@ public class AccountFacade extends AbstractDataAccess {
         if (emails.isEmpty()) {
             return;
         }
-        int year = DateUtils.currentMonth() == 1 ? DateUtils.currentYear() : DateUtils.currentYear() - 1;
+        int year = DateUtils.currentMonth() == 1 ? DateUtils.currentYear() - 2 : DateUtils.currentYear() - 1;
         String sql = "select lower(coMail), "
                 + "IIF(coIsDrg = 1, 'DRG ', '') + IIF(coIsPsy = 1, 'PSY ', '') + IIF(coIsInv = 1, 'INV ', '') "
                 + "+ IIF(coIsTpg = 1, 'TPG ', '') + IIF(coIsObd = 1, 'OBD ', '') + IIF(coIsConsultant = 1, 'Berater', '')\n"

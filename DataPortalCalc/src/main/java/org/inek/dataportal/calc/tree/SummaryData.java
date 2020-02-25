@@ -5,15 +5,6 @@
  */
 package org.inek.dataportal.calc.tree;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import javax.annotation.PostConstruct;
-import javax.faces.model.SelectItem;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.calc.entities.CalcHospitalInfo;
 import org.inek.dataportal.calc.enums.CalcInfoType;
 import org.inek.dataportal.calc.facades.CalcFacade;
@@ -23,8 +14,17 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.utils.DateUtils;
 
+import javax.annotation.PostConstruct;
+import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 /**
- *
  * @author lautenti
  */
 @Named
@@ -36,7 +36,7 @@ public final class SummaryData {
     @Inject
     private SessionController sessionController;
 
-    private int selectedtDataYear = 2018;
+    private int selectedtDataYear = DateUtils.currentMonth() == 1 ? DateUtils.currentYear() - 2 : DateUtils.currentYear() - 1;
     private List<CalcHospitalInfo> allKg;
     private List<CalcHospitalInfo> allTe;
     private List<CalcHospitalInfo> allKvm;
