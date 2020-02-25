@@ -205,6 +205,8 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
 
     @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "prProofRegulationBaseInformationId")
+    //@OrderBy(value = "significantSensitiveDomain, deptNumbers, deptNames, _proofWard.locationP21, _proofWard.locationNumber, _proofWard.name, _month, _shift")
+    @OrderBy(value = "significantSensitiveDomain, deptNumbers, deptNames, _proofWard, _month, _shift")
     private List<Proof> _proofs = new ArrayList<>();
 
     public List<Proof> getProofs() {
@@ -214,4 +216,5 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     public void addProof(Proof proof) {
         _proofs.add(proof);
     }
+
 }
