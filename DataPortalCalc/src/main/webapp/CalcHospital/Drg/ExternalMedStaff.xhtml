@@ -10,7 +10,7 @@
     <h1>Übersicht externes Personal</h1>
 
     <!--    Ärztlichen Dienst-->
-    <div class="inputPart">
+    <div class="container marginTop">
         <h2>Im Krankenhaus eingesetztes Fremdpersonal im Ärztlichen Dienst:</h2>
         <inek:LabeledCheckbox label="Das Krankenhaus hat Ärzte als externes Personal beschäftigt:"
                               styleClassLabel="label40"
@@ -67,11 +67,26 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
-                    <inek:InputNumberWithMessage styleClass="element100" value="#{externalMedStaff.costKoStGr}"/>
+                    <h:selectOneMenu id="MedStaffCostKoStGrId" value="#{externalMedStaff.costKoStGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false)}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"
+                                       itemValue="#{cc.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
-                    <inek:InputNumberWithMessage styleClass="element100" value="#{externalMedStaff.costKoArtGr}"/>
+                    <h:selectOneMenu id="MedStaffCostKoArtGrId" value="#{externalMedStaff.costKoArtGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                    <f:selectItems value="#{valueLists.getCostTypes(false)}"
+                                   var="ct"
+                                   itemLabel="#{ct.label}"
+                                   itemValue="#{ct.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
@@ -204,15 +219,25 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
-                    <inek:InputNumberWithMessage styleClass="element100"
-                                                 value="#{externalNursingStaff.costStGrNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                    <h:selectOneMenu id="NursingStaffCostKoStGrId"
+                                     value="#{externalNursingStaff.costKoStGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false)}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"/>
+                    </h:selectOneMenu>
+
+
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
-                    <inek:InputNumberWithMessage styleClass="element100"
-                                                 value="#{externalNursingStaff.costKoArtGrNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                    <h:selectOneMenu id="NursingStaffCostKoArtGrId"
+                                     value="#{externalNursingStaff.costKoArtGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostTypes(false)}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -371,15 +396,23 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
-                    <inek:InputNumberWithMessage styleClass="element100"
-                                                 value="#{externalNursingAssistantMedStaff.costStGrNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                    <h:selectOneMenu id="externalNursingAssistantMedStaffId"
+                                     value="#{externalNursingAssistantMedStaff.costKoStGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false)}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
-                    <inek:InputNumberWithMessage styleClass="element100"
-                                                 value="#{externalNursingAssistantMedStaff.costKoArtGrNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                    <h:selectOneMenu id="externalNursingAssistantId"
+                                     value="#{externalNursingAssistantMedStaff.costKoArtGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostTypes(false)}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel
@@ -532,15 +565,23 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
-                    <inek:InputNumberWithMessage styleClass="element100"
-                                                 value="#{externalCareStaffOther.costStGrNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                    <h:selectOneMenu id="externalCareStaffOtherCostStrGrId"
+                                     value="#{externalCareStaffOther.costKoStGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false)}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
-                    <inek:InputNumberWithMessage styleClass="element100"
-                                                 value="#{externalCareStaffOther.costKoArtGrNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                    <h:selectOneMenu id="externalCareStaffOtherCostArtGrId"
+                                     value="#{externalCareStaffOther.costKoArtGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostTypes(false)}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -643,15 +684,23 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
-                    <inek:InputNumberWithMessage styleClass="element100"
-                                                 value="#{externalTechFunctService.costStGrTechFunctService}"
-                                                 pattern="##,##0.00"/>
+                    <h:selectOneMenu id="externalTechFunctServiceCostStrGrId"
+                                     value="#{externalTechFunctService.costKoStGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false)}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
-                    <inek:InputNumberWithMessage styleClass="element100"
-                                                 value="#{externalTechFunctService.costKoArtGrTechFunctService}"
-                                                 pattern="##,##0.00"/>
+                    <h:selectOneMenu id="externalTechFunctServiceCostArtGrId"
+                                     value="#{externalTechFunctService.costKoArtGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostTypes(false)}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Berufsgruppe des med. techn. Dienst/ Funktionsdienst"/></f:facet>

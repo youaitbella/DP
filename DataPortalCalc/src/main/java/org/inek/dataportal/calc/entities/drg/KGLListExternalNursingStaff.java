@@ -1,5 +1,8 @@
 package org.inek.dataportal.calc.entities.drg;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.inek.dataportal.common.data.common.CostCenter;
+import org.inek.dataportal.common.data.common.CostType;
 import org.inek.dataportal.common.utils.Documentation;
 
 import javax.persistence.*;
@@ -121,28 +124,27 @@ public class KGLListExternalNursingStaff implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="KoStGr">
     @Column(name = "ensKoStGr")
-    private double _costStGrNursingStaff;
+    private int _costStGr;
 
-    public double getCostStGrNursingStaff() {
-        return _costStGrNursingStaff;
+    public int getCostKoStGr() {
+        return _costStGr;
     }
 
-    public void setCostStGrNursingStaff(double costStGrNursingStaff) {
-        this._costStGrNursingStaff = costStGrNursingStaff;
+    public void setCostKoStGr(int costKoStGr) {
+        this._costStGr = costKoStGr;
     }
-
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="KoArtGr">
     @Column(name = "ensKoArtGr")
-    private double _costKoArtGrNursingStaff;
+    private int _costArtGr;
 
-    public double getCostKoArtGrNursingStaff() {
-        return _costKoArtGrNursingStaff;
+    public int getCostKoArtGr() {
+        return _costArtGr;
     }
 
-    public void setCostKoArtGrNursingStaff(double costKoArtGrNursingStaff) {
-        this._costKoArtGrNursingStaff = costKoArtGrNursingStaff;
+    public void setCostKoArtGr(int costKoArtGr) {
+        this._costArtGr = costKoArtGr;
     }
     // </editor-fold>
 
@@ -218,18 +220,18 @@ public class KGLListExternalNursingStaff implements Serializable {
                 Double.compare(that._calculatedCountNursingStaff, _calculatedCountNursingStaff) == 0 &&
                 Double.compare(that._averageAnnualEmployerCostsNursingStaff, _averageAnnualEmployerCostsNursingStaff) == 0 &&
                 Double.compare(that._amountTemporaryEmploymentNursingStaff, _amountTemporaryEmploymentNursingStaff) == 0 &&
-                Double.compare(that._costStGrNursingStaff, _costStGrNursingStaff) == 0 &&
-                Double.compare(that._costKoArtGrNursingStaff, _costKoArtGrNursingStaff) == 0 &&
                 _exclusivelyCareAtBedNursingStaff == that._exclusivelyCareAtBedNursingStaff &&
                 Double.compare(that._partOfCostVolumeBedNursingStaff, _partOfCostVolumeBedNursingStaff) == 0 &&
                 _baseInformationIdNursingStaff == that._baseInformationIdNursingStaff &&
                 Objects.equals(_divisionNursingStaff, that._divisionNursingStaff) &&
+                Objects.equals(_costStGr, that._costStGr) &&
+                Objects.equals(_costArtGr, that._costArtGr) &&
                 Objects.equals(_explanationFieldNursingStaff, that._explanationFieldNursingStaff);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionNursingStaff, _externalStaffType, _agreedAverageWorkingHoursNursingStaff, _netAverageWorkingHoursNursingStaff, _calculatedCountNursingStaff, _averageAnnualEmployerCostsNursingStaff, _amountTemporaryEmploymentNursingStaff, _costStGrNursingStaff, _costKoArtGrNursingStaff, _exclusivelyCareAtBedNursingStaff, _partOfCostVolumeBedNursingStaff, _explanationFieldNursingStaff, _baseInformationIdNursingStaff);
+        return Objects.hash(_id, _divisionNursingStaff, _externalStaffType, _agreedAverageWorkingHoursNursingStaff, _netAverageWorkingHoursNursingStaff, _calculatedCountNursingStaff, _averageAnnualEmployerCostsNursingStaff, _amountTemporaryEmploymentNursingStaff, _costStGr, _costArtGr, _exclusivelyCareAtBedNursingStaff, _partOfCostVolumeBedNursingStaff, _explanationFieldNursingStaff, _baseInformationIdNursingStaff);
     }
 
     @Override

@@ -70,26 +70,26 @@ public class KGLListExternalMedStaff implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="KoStGr">
     @Column(name = "emsKoStGr")
-    private double _costStGr;
+    private int _costStGr;
 
-    public double getCostKoStGr() {
+    public int getCostKoStGr() {
         return _costStGr;
     }
 
-    public void setCostKoStGr(double costKoStGr) {
+    public void setCostKoStGr(int costKoStGr) {
         this._costStGr = costKoStGr;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="KoArtGr">
     @Column(name = "emsKoArtGr")
-    private double _costKoArtGr;
+    private int _costKoArtGr;
 
-    public double getCostKoArtGr() {
+    public int getCostKoArtGr() {
         return _costKoArtGr;
     }
 
-    public void setCostKoArtGr(double costKoArtGr) {
+    public void setCostKoArtGr(int costKoArtGr) {
         this._costKoArtGr = costKoArtGr;
     }
     // </editor-fold>
@@ -132,20 +132,19 @@ public class KGLListExternalMedStaff implements Serializable {
         if (this == o) return true;
         if (!(o instanceof KGLListExternalMedStaff)) return false;
         KGLListExternalMedStaff that = (KGLListExternalMedStaff) o;
-        return getId() == that.getId() &&
-                Double.compare(that.getCount(), getCount()) == 0 &&
-                Double.compare(that.getCostVolume(), getCostVolume()) == 0 &&
-                Double.compare(that.getCostKoStGr(), getCostKoStGr()) == 0 &&
-                Double.compare(that.getCostKoArtGr(), getCostKoArtGr()) == 0 &&
-                getBaseInformationId() == that.getBaseInformationId() &&
-                Objects.equals(getDivisionMedStaff(), that.getDivisionMedStaff()) &&
-                Objects.equals(getExplanationField(), that.getExplanationField());
+        return _id == that._id &&
+                Double.compare(that._countMedStaff, _countMedStaff) == 0 &&
+                Double.compare(that._costVolumeMedStaff, _costVolumeMedStaff) == 0 &&
+                _costStGr == that._costStGr &&
+                _costKoArtGr == that._costKoArtGr &&
+                _baseInformationId == that._baseInformationId &&
+                Objects.equals(_divisionMedStaff, that._divisionMedStaff) &&
+                Objects.equals(_explanationField, that._explanationField);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDivisionMedStaff(), getCount(), getCostVolume(), getCostKoStGr(), getCostKoArtGr(),
-                getExplanationField(), getBaseInformationId());
+        return Objects.hash(_id, _divisionMedStaff, _countMedStaff, _costVolumeMedStaff, _costStGr, _costKoArtGr, _explanationField, _baseInformationId);
     }
 
     @Override

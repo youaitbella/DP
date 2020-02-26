@@ -70,27 +70,27 @@ public class KGLListExternalTechFunctService implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="KoStGr">
     @Column(name = "etfsKoStGr")
-    private double _costStGrTechFunctService;
+    private int _costStGr;
 
-    public double getCostStGrTechFunctService() {
-        return _costStGrTechFunctService;
+    public int getCostKoStGr() {
+        return _costStGr;
     }
 
-    public void setCostStGrTechFunctService(double costStGrTechFunctService) {
-        this._costStGrTechFunctService = costStGrTechFunctService;
+    public void setCostKoStGr(int costKoStGr) {
+        this._costStGr = costKoStGr;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="KoArtGr">
     @Column(name = "etfsKoArtGr")
-    private double _costKoArtGrTechFunctService;
+    private int _costKoArtGr;
 
-    public double getCostKoArtGrTechFunctService() {
-        return _costKoArtGrTechFunctService;
+    public int getCostKoArtGr() {
+        return _costKoArtGr;
     }
 
-    public void setCostKoArtGrTechFunctService(double costKoArtGrTechFunctService) {
-        this._costKoArtGrTechFunctService = costKoArtGrTechFunctService;
+    public void setCostKoArtGr(int costKoArtGr) {
+        this._costKoArtGr = costKoArtGr;
     }
     // </editor-fold>
 
@@ -133,6 +133,7 @@ public class KGLListExternalTechFunctService implements Serializable {
     }
     // </editor-fold>
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -141,17 +142,17 @@ public class KGLListExternalTechFunctService implements Serializable {
         return _id == that._id &&
                 Double.compare(that._countTechFunctService, _countTechFunctService) == 0 &&
                 Double.compare(that._costVolumeTechFunctService, _costVolumeTechFunctService) == 0 &&
-                Double.compare(that._costStGrTechFunctService, _costStGrTechFunctService) == 0 &&
-                Double.compare(that._costKoArtGrTechFunctService, _costKoArtGrTechFunctService) == 0 &&
-                getOccupationalGroup() == that.getOccupationalGroup() &&
-                getBaseInformationId() == that.getBaseInformationId() &&
+                _occupationalGroup == that._occupationalGroup &&
+                _baseInformationId == that._baseInformationId &&
                 Objects.equals(_divisionTechFunctService, that._divisionTechFunctService) &&
-                Objects.equals(getExplanationFieldTechFunctService(), that.getExplanationFieldTechFunctService());
+                Objects.equals(_costStGr, that._costStGr) &&
+                Objects.equals(_costKoArtGr, that._costKoArtGr) &&
+                Objects.equals(_explanationFieldTechFunctService, that._explanationFieldTechFunctService);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionTechFunctService, _countTechFunctService, _costVolumeTechFunctService, _costStGrTechFunctService, _costKoArtGrTechFunctService, getOccupationalGroup(), getExplanationFieldTechFunctService(), getBaseInformationId());
+        return Objects.hash(_id, _divisionTechFunctService, _countTechFunctService, _costVolumeTechFunctService, _costStGr, _costKoArtGr, _occupationalGroup, _explanationFieldTechFunctService, _baseInformationId);
     }
 
     @Override
