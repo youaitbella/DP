@@ -182,7 +182,7 @@ public class DeptEdit implements Serializable {
     }
 
     private void loadStationPrefillNames(int ik, int year) {
-        _stationPrefillNames = _deptFacade.findStationNamesForPrefill(ik, year);
+        _stationPrefillNames = _deptFacade.findWardNamesForPrefill(ik, year);
     }
 
     private void setReadOnly() {

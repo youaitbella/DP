@@ -52,11 +52,11 @@
             <pf:column id="psAreaId"
                        headerText="pflegesensitiver Bereich #{proofEdit.proofRegulationBaseInformation.year ge 2020 ? 'im Krankenhaus gem. § 3 PpUGV' : ''}"
                        sortable="true"
-                       sortBy="#{proof.sensitiveDomains}"
+                       sortBy="#{proof.significantSensitiveDomain.name}"
                        filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.sensitiveDomains}">
-                <pf:outputLabel value="#{proof.sensitiveDomains}"/>
+                       filterBy="#{proof.significantSensitiveDomain.name}">
+                <pf:outputLabel value="#{proof.significantSensitiveDomain.name}"/>
             </pf:column>
 
             <pf:column id="fabNumberId"
@@ -308,24 +308,24 @@
         </pf:column>
 
         <pf:column headerText="pflegesensitiver Bereich" sortable="true"
-                   sortBy="#{exceptionFact.proof.proofRegulationStation.sensitiveArea.name}">
-            <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.sensitiveArea.name}" />
+                   sortBy="#{exceptionFact.proof.significantSensitiveDomain.name}">
+            <pf:outputLabel value="#{exceptionFact.proof.significantSensitiveDomain.name}"/>
         </pf:column>
         <pf:column headerText="FAB Schlüssel" sortable="true"
-                   sortBy="#{exceptionFact.proof.proofRegulationStation.fabNumber}">
-            <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.fabNumber}" />
+                   sortBy="#{exceptionFact.proof.deptNumbers}">
+            <pf:outputLabel value="#{exceptionFact.proof.deptNumbers}"/>
         </pf:column>
         <pf:column headerText="Fachabteilung" sortable="true"
-                   sortBy="#{exceptionFact.proof.proofRegulationStation.fabName}">
-            <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.fabName}" />
+                   sortBy="#{exceptionFact.proof.deptNames}">
+            <pf:outputLabel value="#{exceptionFact.proof.deptNames}"/>
         </pf:column>
         <pf:column headerText="Station" sortable="true"
-                   sortBy="#{exceptionFact.proof.proofRegulationStation.stationName}">
-            <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.stationName}" />
+                   sortBy="#{exceptionFact.proof.proofWard.name}">
+            <pf:outputLabel value="#{exceptionFact.proof.proofWard.name}"/>
         </pf:column>
         <pf:column headerText="Standort" sortable="true"
-                   sortBy="#{exceptionFact.proof.proofRegulationStation.locationCode}">
-            <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.locationCode}" />
+                   sortBy="#{exceptionFact.proof.proofWard.locationP1}">
+            <pf:outputLabel value="#{exceptionFact.proof.proofWard.locationP1}"/>
         </pf:column>
         <pf:column headerText="Monat" sortable="true" sortBy="#{exceptionFact.proof.month.name}">
             <pf:outputLabel value="#{exceptionFact.proof.month.name}" />
