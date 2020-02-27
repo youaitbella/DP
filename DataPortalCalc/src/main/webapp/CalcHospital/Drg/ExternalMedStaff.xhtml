@@ -69,7 +69,7 @@
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="MedStaffCostKoStGrId" value="#{externalMedStaff.costKoStGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false)}"
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
                                        var="cc"
                                        itemLabel="#{cc.label}"
                                        itemValue="#{cc.value}"/>
@@ -81,7 +81,7 @@
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="MedStaffCostKoArtGrId" value="#{externalMedStaff.costKoArtGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                    <f:selectItems value="#{valueLists.getCostTypes(false)}"
+                    <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
                                    var="ct"
                                    itemLabel="#{ct.label}"
                                    itemValue="#{ct.value}"/>
@@ -222,7 +222,7 @@
                     <h:selectOneMenu id="NursingStaffCostKoStGrId"
                                      value="#{externalNursingStaff.costKoStGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false)}"
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
                                        var="cc"
                                        itemLabel="#{cc.label}"/>
                     </h:selectOneMenu>
@@ -234,7 +234,7 @@
                     <h:selectOneMenu id="NursingStaffCostKoArtGrId"
                                      value="#{externalNursingStaff.costKoArtGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostTypes(false)}"
+                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
                                        var="cc"
                                        itemLabel="#{cc.label}"/>
                     </h:selectOneMenu>
@@ -254,7 +254,7 @@
                     <f:facet name="header">
                         <h:outputLabel value="Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
                                           welches nicht für die 'Pflege am Bett' eingesetzt wird und geben Sie im
-                                          Erläuterungsfeld den entsprechenden Bereich(z.B. Funktionslabor) an."/>
+                                          Erläuterungsfeld den entsprechenden Bereich(z.B. Funktionslabor) an." />
                     </f:facet>
                     <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingStaffId" styleClass="element100"
                                                  value="#{externalNursingStaff.partOfCostVolumeBedNursingStaff}"
@@ -399,7 +399,7 @@
                     <h:selectOneMenu id="externalNursingAssistantMedStaffId"
                                      value="#{externalNursingAssistantMedStaff.costKoStGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false)}"
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
                                        var="cc"
                                        itemLabel="#{cc.label}"/>
                     </h:selectOneMenu>
@@ -409,7 +409,7 @@
                     <h:selectOneMenu id="externalNursingAssistantId"
                                      value="#{externalNursingAssistantMedStaff.costKoArtGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostTypes(false)}"
+                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
                                        var="cc"
                                        itemLabel="#{cc.label}"/>
                     </h:selectOneMenu>
@@ -568,7 +568,7 @@
                     <h:selectOneMenu id="externalCareStaffOtherCostStrGrId"
                                      value="#{externalCareStaffOther.costKoStGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false)}"
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
                                        var="cc"
                                        itemLabel="#{cc.label}"/>
                     </h:selectOneMenu>
@@ -578,7 +578,7 @@
                     <h:selectOneMenu id="externalCareStaffOtherCostArtGrId"
                                      value="#{externalCareStaffOther.costKoArtGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostTypes(false)}"
+                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
                                        var="cc"
                                        itemLabel="#{cc.label}"/>
                     </h:selectOneMenu>
@@ -687,7 +687,7 @@
                     <h:selectOneMenu id="externalTechFunctServiceCostStrGrId"
                                      value="#{externalTechFunctService.costKoStGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false)}"
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
                                        var="cc"
                                        itemLabel="#{cc.label}"/>
                     </h:selectOneMenu>
@@ -697,15 +697,16 @@
                     <h:selectOneMenu id="externalTechFunctServiceCostArtGrId"
                                      value="#{externalTechFunctService.costKoArtGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostTypes(false)}"
+                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
                                        var="cc"
                                        itemLabel="#{cc.label}"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="Berufsgruppe des med. techn. Dienst/ Funktionsdienst"/></f:facet>
+                    <f:facet name="header"><h:outputLabel value="Berufsgruppe des med. techn.
+                                                                 Dienst/ Funktionsdienst"/></f:facet>
                     <h:selectOneMenu id="occupationalGroup"
-                                     value="#{externalTechFunctService.occupationalGroup}">
+                                     value="#{externalTechFunctService.occupationalGroup}" >
                         <f:selectItem itemLabel="med. techn. Dienst" itemValue="#{1}"/>
                         <f:selectItem itemLabel="med. techn. Funktionsdienst" itemValue="#{2}"/>
                     </h:selectOneMenu>
