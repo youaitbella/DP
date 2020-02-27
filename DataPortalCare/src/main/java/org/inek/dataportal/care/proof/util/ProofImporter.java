@@ -1,6 +1,8 @@
 package org.inek.dataportal.care.proof.util;
 
 import org.apache.poi.ss.usermodel.*;
+import org.inek.dataportal.care.enums.Months;
+import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 
@@ -31,7 +33,7 @@ public class ProofImporter {
     public static final String IMPLAUSIBLE = " ist unplausibel";
     private String _message = "";
     private int _rowCounter = 0;
-    private Boolean _isCommentAllowed = false;
+    private boolean _isCommentAllowed = false;
 
     public ProofImporter(boolean isCommentAllowed) {
         _isCommentAllowed = isCommentAllowed;
@@ -45,11 +47,11 @@ public class ProofImporter {
         this._message = message;
     }
 
-    public Boolean handleProofUpload(ProofRegulationBaseInformation info, InputStream input) {
+    public boolean handleProofUpload(ProofRegulationBaseInformation info, InputStream input) {
         return startImport(info, input);
     }
 
-    private Boolean startImport(ProofRegulationBaseInformation info, InputStream file) {
+    private boolean startImport(ProofRegulationBaseInformation info, InputStream file) {
         LOGGER.log(Level.INFO, "Start Proof import: " + info.getIk() + " " + info.getYear());
 
         try (Workbook workbook = WorkbookFactory.create(file)) {
@@ -159,22 +161,16 @@ public class ProofImporter {
         if (row == null || row.getCell(CELL_SENSITIVEAREA) == null) {
             return Optional.empty();
         }
-/*
-todo: adopt to new structure
         Optional<Proof> first = info.getProofs().stream()
-                .filter(c -> c.getProofRegulationStation().getSensitiveArea() ==
-                        SensitiveArea.fromName(getStringFromCell(row.getCell(CELL_SENSITIVEAREA))))
-                .filter(c -> c.getProofRegulationStation().getFabNumber().equals(getFabNumberFromCell(row.getCell(CELL_FABNUMBER))))
-                .filter(c -> c.getProofRegulationStation().getFabName().equals(getStringFromCell(row.getCell(CELL_FABNAME))))
-                .filter(c -> c.getProofRegulationStation().getStationName().equals(getStringFromCell(row.getCell(CELL_STATIONNAME))))
-                .filter(c -> c.getProofRegulationStation().getLocationCode().equals(getLocationFromCell(row.getCell(CELL_LOCATION_CODE))))
-                .filter(c -> c.getMonth() == Months.getByName(getStringFromCell(row.getCell(CELL_MONTH))))
-                .filter(c -> c.getShift() == Shift.getByName(getStringFromCell(row.getCell(CELL_SHIFT))))
+                .filter(p -> p.getSignificantSensitiveDomain().getName().equalsIgnoreCase(getStringFromCell(row.getCell(CELL_SENSITIVEAREA))))
+                .filter(p -> p.getDeptNumbers().equals(getFabNumberFromCell(row.getCell(CELL_FABNUMBER))))
+                .filter(p -> p.getDeptNames().equals(getStringFromCell(row.getCell(CELL_FABNAME))))
+                .filter(p -> p.getProofWard().getName().equals(getStringFromCell(row.getCell(CELL_STATIONNAME))))
+                .filter(p -> p.getProofWard().getLocationP21().equals(getLocationFromCell(row.getCell(CELL_LOCATION_CODE))))
+                .filter(p -> p.getMonth() == Months.getByName(getStringFromCell(row.getCell(CELL_MONTH))))
+                .filter(p -> p.getShift() == Shift.getByName(getStringFromCell(row.getCell(CELL_SHIFT))))
                 .findFirst();
         return first;
-*/
-        assert false;
-        return Optional.empty();
     }
 
     private String getLocationFromCell(Cell cell) {
@@ -256,9 +252,13 @@ todo: adopt to new structure
             }
             return value;
         } catch (Exception ex) {
-            addMessage("Wert konnte nicht eingelesen werden. Zelle: " + cell.getAddress());
-            LOGGER.log(Level.WARNING, "Error getting String from : " + cell.getAddress());
-            return "";
+            try {
+                return "" + cell.getNumericCellValue();
+            } catch (Exception ex2) {
+                addMessage("Wert konnte nicht eingelesen werden. Zelle: " + cell.getAddress());
+                LOGGER.log(Level.WARNING, "Error getting String from : " + cell.getAddress());
+                return "";
+            }
         }
     }
 
@@ -281,7 +281,7 @@ todo: adopt to new structure
         }
     }
 
-    private double getDoubleFromCell(Cell cell, Boolean round) throws InvalidValueException {
+    private double getDoubleFromCell(Cell cell, boolean round) throws InvalidValueException {
         try {
             double numericCellValue = cell.getNumericCellValue();
             if (round) {
