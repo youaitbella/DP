@@ -513,8 +513,9 @@ public class ProofEdit implements Serializable {
     }
 
     public StreamedContent downloadExcelTemplate() {
+        String path = _proofBaseInformation.getId() + "/" + _proofBaseInformation.getYear();
         byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Poof_Upload_Template",
-                _proofBaseInformation.getId(), "Upload_Vorlage");
+                path, "Upload_Vorlage");
 
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Upload_Vorlage.xlsx");
