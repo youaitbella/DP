@@ -9,10 +9,7 @@ import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.proof.entity.*;
-import org.inek.dataportal.care.proof.util.ProofAggregator;
-import org.inek.dataportal.care.proof.util.ProofChecker;
-import org.inek.dataportal.care.proof.util.ProofHelper;
-import org.inek.dataportal.care.proof.util.ProofImporter;
+import org.inek.dataportal.care.proof.util.*;
 import org.inek.dataportal.care.utils.CalculatorPpug;
 import org.inek.dataportal.care.utils.CareSignatureCreater;
 import org.inek.dataportal.common.controller.DialogController;
@@ -503,7 +500,7 @@ public class ProofEdit implements Serializable {
 
     public void handleFileUpload(FileUploadEvent event) {
         try {
-            ProofImporter importer = new ProofImporter(true);
+            ProofImporter importer = _proofBaseInformation.getYear() == 2019 ? new ProofImporter2019(true) : new ProofImporter2020(true);
             importer.handleProofUpload(_proofBaseInformation, event.getFile().getInputstream());
             setUploadMessage(importer.getMessage());
         } catch (Exception ex) {
