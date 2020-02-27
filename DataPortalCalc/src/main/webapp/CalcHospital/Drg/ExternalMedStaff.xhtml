@@ -224,10 +224,10 @@
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
                                        var="cc"
-                                       itemLabel="#{cc.label}"/>
+                                       itemLabel="#{cc.label}"
+                                       itemValue="#{cc.value}"/>
+                        <f:ajax/>
                     </h:selectOneMenu>
-
-
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
@@ -235,8 +235,10 @@
                                      value="#{externalNursingStaff.costKoArtGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"/>
+                                       var="ct"
+                                       itemLabel="#{ct.label}"
+                                       itemValue="#{ct.value}"/>
+                        <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -401,7 +403,9 @@
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
                                        var="cc"
-                                       itemLabel="#{cc.label}"/>
+                                       itemLabel="#{cc.label}"
+                                       itemValue="#{cc.value}"/>
+                        <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -410,8 +414,10 @@
                                      value="#{externalNursingAssistantMedStaff.costKoArtGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"/>
+                                       var="ct"
+                                       itemLabel="#{ct.label}"
+                                       itemValue="#{ct.value}"/>
+                        <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -570,7 +576,9 @@
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
                                        var="cc"
-                                       itemLabel="#{cc.label}"/>
+                                       itemLabel="#{cc.label}"
+                                       itemValue="#{cc.value}"/>
+                        <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -579,8 +587,10 @@
                                      value="#{externalCareStaffOther.costKoArtGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"/>
+                                       var="ct"
+                                       itemLabel="#{ct.label}"
+                                       itemValue="#{ct.value}"/>
+                        <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -689,7 +699,9 @@
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
                                        var="cc"
-                                       itemLabel="#{cc.label}"/>
+                                       itemLabel="#{cc.label}"
+                                       itemValue="#{cc.value}"/>
+                        <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -698,8 +710,10 @@
                                      value="#{externalTechFunctService.costKoArtGr}" style="width:100px">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"/>
+                                       var="ct"
+                                       itemLabel="#{ct.label}"
+                                       itemValue="#{ct.value}"/>
+                        <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>

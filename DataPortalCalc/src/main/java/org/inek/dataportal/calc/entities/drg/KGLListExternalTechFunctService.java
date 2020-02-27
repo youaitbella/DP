@@ -142,11 +142,11 @@ public class KGLListExternalTechFunctService implements Serializable {
         return _id == that._id &&
                 Double.compare(that._countTechFunctService, _countTechFunctService) == 0 &&
                 Double.compare(that._costVolumeTechFunctService, _costVolumeTechFunctService) == 0 &&
+                _costStGr == that._costStGr &&
+                _costKoArtGr == that._costKoArtGr &&
                 _occupationalGroup == that._occupationalGroup &&
                 _baseInformationId == that._baseInformationId &&
                 Objects.equals(_divisionTechFunctService, that._divisionTechFunctService) &&
-                Objects.equals(_costStGr, that._costStGr) &&
-                Objects.equals(_costKoArtGr, that._costKoArtGr) &&
                 Objects.equals(_explanationFieldTechFunctService, that._explanationFieldTechFunctService);
     }
 

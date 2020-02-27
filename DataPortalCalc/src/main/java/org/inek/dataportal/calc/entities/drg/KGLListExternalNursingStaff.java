@@ -220,12 +220,12 @@ public class KGLListExternalNursingStaff implements Serializable {
                 Double.compare(that._calculatedCountNursingStaff, _calculatedCountNursingStaff) == 0 &&
                 Double.compare(that._averageAnnualEmployerCostsNursingStaff, _averageAnnualEmployerCostsNursingStaff) == 0 &&
                 Double.compare(that._amountTemporaryEmploymentNursingStaff, _amountTemporaryEmploymentNursingStaff) == 0 &&
+                _costStGr == that._costStGr &&
+                _costArtGr == that._costArtGr &&
                 _exclusivelyCareAtBedNursingStaff == that._exclusivelyCareAtBedNursingStaff &&
                 Double.compare(that._partOfCostVolumeBedNursingStaff, _partOfCostVolumeBedNursingStaff) == 0 &&
                 _baseInformationIdNursingStaff == that._baseInformationIdNursingStaff &&
                 Objects.equals(_divisionNursingStaff, that._divisionNursingStaff) &&
-                Objects.equals(_costStGr, that._costStGr) &&
-                Objects.equals(_costArtGr, that._costArtGr) &&
                 Objects.equals(_explanationFieldNursingStaff, that._explanationFieldNursingStaff);
     }
 
