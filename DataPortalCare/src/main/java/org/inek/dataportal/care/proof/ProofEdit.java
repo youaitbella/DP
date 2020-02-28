@@ -491,11 +491,10 @@ public class ProofEdit implements Serializable {
     }
 
     public List<Proof> getProofsForExceptionFact() {
-        return new ArrayList<>();
-//        return _proofBaseInformation.getProofs().stream().filter(p -> p.getProofRegulationStationId() == 0)
-//                .filter(proof -> proof.getPatientPerNurse() > obtainLimit(proof) || proof.getCountShiftNotRespected() > 0)
-//                .filter(proof -> proof.getExceptionFact().size() < _listExceptionsFacts.size())
-//                .collect(Collectors.toList());
+        return _proofBaseInformation.getProofs().stream()
+                .filter(proof -> proof.getPatientPerNurse() > obtainLimit(proof) || proof.getCountShiftNotRespected() > 0)
+                .filter(proof -> proof.getExceptionFact().size() < _listExceptionsFacts.size())
+                .collect(Collectors.toList());
     }
 
     public void handleFileUpload(FileUploadEvent event) {
