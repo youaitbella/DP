@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.data.KhComparison.facade;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import javafx.util.Pair;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.KhComparison.entities.*;
@@ -216,6 +217,15 @@ public class AEBFacade extends AbstractDataAccess {
     }
 
     @Transactional
+    public InekComparisonJob saveInekComparison(InekComparisonJob info) {
+        if (info.getId() == 0) {
+            persist(info);
+            return info;
+        }
+        return merge(info);
+    }
+
+    @Transactional
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public HospitalComparisonJob save(HospitalComparisonJob job) {
         return merge(job);
@@ -352,6 +362,21 @@ public class AEBFacade extends AbstractDataAccess {
         query.setParameter(STATUS, PsyHosptalComparisonStatus.NEW.name());
 
         List<HospitalComparisonJob> resultList = query.getResultList();
+
+        if (resultList.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(resultList.get(0));
+        }
+    }
+
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public Optional<InekComparisonJob> getOldestNewInekJob() {
+        String sql = "SELECT jo FROM InekComparisonJob jo WHERE jo.status = :status order by jo.createdDate";
+        TypedQuery<InekComparisonJob> query = getEntityManager().createQuery(sql, InekComparisonJob.class);
+        query.setParameter(STATUS, PsyHosptalComparisonStatus.NEW.name());
+
+        List<InekComparisonJob> resultList = query.getResultList();
 
         if (resultList.isEmpty()) {
             return Optional.empty();
