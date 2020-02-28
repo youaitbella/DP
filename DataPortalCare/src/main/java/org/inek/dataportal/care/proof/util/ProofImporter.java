@@ -76,16 +76,21 @@ public abstract class ProofImporter {
 
     protected abstract void checkProofIsValid(Proof proof, Row row) throws InvalidValueException;
 
-    protected void checkCountShiftNotRespected(double value, Cell cell) throws InvalidValueException {
+    protected void checkCountBeds(double value, Cell cell, Proof proof) throws InvalidValueException {
+    }
+
+    protected void checkCountShift(int value, Cell cell, Proof proof) throws InvalidValueException {
         if (value < 0 || value > 31) {
-            throw new InvalidValueException("Die Anzahl Schichten, in denen die PPUG im Monat nicht eingehalten wurde in Zelle "
-                    + cell.getAddress() + IMPLAUSIBLE);
+            throw new InvalidValueException("Die Anzahl der Schichten in Zelle " + cell.getAddress() + IMPLAUSIBLE);
         }
     }
 
-    protected void checkPatientOccupancy(double value, Cell cell) throws InvalidValueException {
+    protected void checkOccupancyDays(int value, Cell cell, Proof proof) throws InvalidValueException {
+    }
+
+    protected void checkNurse(double value, Cell cell) throws InvalidValueException {
         if (value < 0 || value > 999) {
-            throw new InvalidValueException("Die Anzahl der durchschnitlichen durchschnittliche Patientenbelegung in Zelle "
+            throw new InvalidValueException("Die durchschnittliche Pflegepersonalausstattung Pflegefachkräfte in Zelle "
                     + cell.getAddress() + IMPLAUSIBLE);
         }
     }
@@ -97,37 +102,23 @@ public abstract class ProofImporter {
         }
     }
 
-    protected void checkNurse(double value, Cell cell) throws InvalidValueException {
+    protected void checkPatientOccupancy(double value, Cell cell) throws InvalidValueException {
         if (value < 0 || value > 999) {
-            throw new InvalidValueException("Die durchschnittliche Pflegepersonalausstattung Pflegefachkräfte in Zelle "
+            throw new InvalidValueException("Die Anzahl der durchschnitlichen durchschnittliche Patientenbelegung in Zelle "
                     + cell.getAddress() + IMPLAUSIBLE);
         }
     }
 
-    protected void checkCountShift(int value, Cell cell) throws InvalidValueException {
+    protected void checkCountShiftNotRespected(double value, Cell cell, Proof proof) throws InvalidValueException {
         if (value < 0 || value > 31) {
-            throw new InvalidValueException("Die Anzahl der Schichten in Zelle " + cell.getAddress() + IMPLAUSIBLE);
+            throw new InvalidValueException("Die Anzahl Schichten, in denen die PPUG im Monat nicht eingehalten wurde in Zelle "
+                    + cell.getAddress() + IMPLAUSIBLE);
         }
     }
 
     protected abstract Optional<Proof> getProofFromRow(ProofRegulationBaseInformation info, Row row);
 
     protected String getLocationFromCell(Cell cell) {
-        if (cell == null) {
-            return "";
-        }
-        try {
-            int valueInt = (int) cell.getNumericCellValue();
-            if (valueInt == 0) {
-                return "";
-            }
-            return String.valueOf(valueInt);
-        } catch (Exception ex) {
-            return cell.getStringCellValue();
-        }
-    }
-
-    protected String getFabNumberFromCell(Cell cell) {
         if (cell == null) {
             return "";
         }

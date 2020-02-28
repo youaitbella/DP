@@ -59,11 +59,11 @@ public class ProofImporter2019 extends ProofImporter {
 
     @Override
     protected void checkProofIsValid(Proof proof, Row row) throws InvalidValueException {
-        checkCountShift(proof.getCountShift(), row.getCell(CELL_COUNT_SHIFT));
+        checkCountShift(proof.getCountShift(), row.getCell(CELL_COUNT_SHIFT), proof);
         checkNurse(proof.getNurse(), row.getCell(CELL_NURSE));
         checkHelpNurse(proof.getHelpNurse(), row.getCell(CELL_HELPNURSE));
         checkPatientOccupancy(proof.getPatientOccupancy(), row.getCell(CELL_PATIENT_OCCUPANCY));
-        checkCountShiftNotRespected(proof.getCountShiftNotRespected(), row.getCell(CELL_COUNT_SHIFT_NOT_RESPECTED));
+        checkCountShiftNotRespected(proof.getCountShiftNotRespected(), row.getCell(CELL_COUNT_SHIFT_NOT_RESPECTED), proof);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class ProofImporter2019 extends ProofImporter {
         }
         Optional<Proof> first = info.getProofs().stream()
                 .filter(p -> p.getSignificantSensitiveDomain().getName().equalsIgnoreCase(getStringFromCell(row.getCell(CELL_SENSITIVEAREA))))
-                .filter(p -> p.getDeptNumbers().equals(getFabNumberFromCell(row.getCell(CELL_FABNUMBER))))
+                .filter(p -> p.getDeptNumbers().equals(getStringFromCell(row.getCell(CELL_FABNUMBER))))
                 .filter(p -> p.getDeptNames().equals(getStringFromCell(row.getCell(CELL_FABNAME))))
                 .filter(p -> p.getProofWard().getName().equals(getStringFromCell(row.getCell(CELL_STATIONNAME))))
                 .filter(p -> p.getProofWard().getLocationP21().equals(getLocationFromCell(row.getCell(CELL_LOCATION_CODE))))
