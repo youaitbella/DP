@@ -13,6 +13,7 @@ import org.inek.dataportal.common.utils.XmlReaderPsyEvaluation;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -29,6 +30,13 @@ import static org.inek.dataportal.api.helper.PortalConstants.*;
  */
 @Stateless
 public class AEBFacade extends AbstractDataAccess {
+
+    public AEBFacade() {
+    }
+
+    public AEBFacade(EntityManager em) {
+        super(em);
+    }
 
     public AEBBaseInformation findAEBBaseInformation(int id) {
         String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._id = :id";
@@ -410,6 +418,50 @@ public class AEBFacade extends AbstractDataAccess {
         sql = sql.replace("{id1}", id1)
                 .replace("{id2}", id2);
         Query query = getEntityManager().createNativeQuery(sql);
+        query.executeUpdate();
+    }
+
+    public InekComparisonJob newInekComparisonJob(Account account, int inekDataYear, String inekAebSendDateUpToConsider) {
+        InekComparisonJob.checkDataYear(inekDataYear);
+        InekComparisonJob.checkAebToConsider(inekAebSendDateUpToConsider);
+        return new InekComparisonJob(account, inekDataYear, inekAebSendDateUpToConsider);
+    }
+
+    public void generateInekComparisonHospitals(InekComparisonJob inekComparisonJob) {
+        String nativeSql = "insert into psy.InekComparisonHospital(ichInekComparisonJobId, ichStateId, ichAebBaseInformationId)\n" +
+                "select icjid, bl, biid\n" +
+                "from (\n" +
+                "\tselect icjid, bl, biid, max(nInBl) over (partition by bl order by nInBl desc) maxNinBl\n" +
+                "\tfrom (\n" +
+                "\t\tselect icjid, bl, biid, row_number() over (partition by bl order by biid) as nInBl \n" +
+                "\t\tfrom (values \n" +
+                "\t\t\t(1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15), (16), (0)\n" +
+                "\t\t) bundesland(bl)\n" +
+                "\t\tjoin psy.InekComparisonJob icj on 1=1\n" +
+                "\t\tjoin (\n" +
+                "\t\t\tselect biId, biIk, biDataYear, biTyp, biSend, row_number() over (partition by biik, biDatayear order by biik, biDatayear desc, bityp) nr\n" +
+                "\t\t\tfrom psy.AEBBaseInformation bi\n" +
+                "\t\t\twhere biStatusId = 10\n" +
+                "\t\t) bi on bi.biDataYear = icj.icjDataYear and datediff(day, biSend, icjAebUpTo) >= 0 and nr = 1\n" +
+                "\t\tjoin CallCenterDB.[dbo].[ccCustomer] on cuik=biIk and cuIsActive=1 and cuIsTest=0\n" +
+                "\t\tleft join (\n" +
+                "\t\t\tselect hccAebBaseInformationId1, hccAebBaseInformationId2 \n" +
+                "\t\t\tfrom [psy].[mapHospitalComparisonConflict]\n" +
+                "\t\t\tjoin psy.AEBBaseInformation aeb1 on aeb1.biid=hccAebBaseInformationId1 and aeb1.biStatusId=10\n" +
+                "\t\t\tjoin psy.AEBBaseInformation aeb2 on aeb2.biid=hccAebBaseInformationId2 and aeb2.biStatusId=10\n" +
+                "\t\t) a on a.hccAebBaseInformationId1=bi.biId or a.hccAebBaseInformationId2=bi.biId\n" +
+                "\t\tleft join psy.HospitalComparisonExcludeIK hce on hcexIk=biIk\n" +
+                "\t\twhere icjId = ${icjId} and a.hccAebBaseInformationId1 is null and hce.hcexIk is null\n" +
+                "\t\t\tand (\n" +
+                "\t\t\t\tcase when cuPsyStateId not in (0, 255) then cuPsyStateId else cuStateId end = bl\n" +
+                "\t\t\t\tor bl = 0\n" +
+                "\t\t\t)\n" +
+                "\t) proBl\n" +
+                ") bl\n" +
+                "where maxNinBl > 3\n";
+
+        String hospitalsToCreate = nativeSql.replace("${icjId}", String.valueOf(inekComparisonJob.getId()));
+        Query query = getEntityManager().createNativeQuery(hospitalsToCreate);
         query.executeUpdate();
     }
 }

@@ -64,7 +64,7 @@ public class DocumentScannerBean implements Serializable {
         loadDir = initLoadDir();
     }
 
-    private List<ScanDirectory> loadDir = new ArrayList();
+    private List<ScanDirectory> loadDir = new ArrayList<>();
 
     public void setLoadDir(List<ScanDirectory> loadDir) {
         this.loadDir = loadDir;
@@ -75,7 +75,7 @@ public class DocumentScannerBean implements Serializable {
 
     public List<ScanDirectory> initLoadDir() {
 
-        List<ScanDirectory> loadDirectory = new ArrayList();
+        List<ScanDirectory> loadDirectory = new ArrayList<>();
         for (String dir : _config.getAllDirs()) {
             String[] splittedDir = dir.split(":");
             ScanDirectory scanDirectory = new ScanDirectory();
