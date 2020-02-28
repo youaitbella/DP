@@ -120,6 +120,19 @@ public class KGLListExternalTechFunctService implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="DataYear">
+    @Column(name = "etfsDataYear")
+    private int _dataYear;
+
+    public int getDataYear() {
+        return _dataYear;
+    }
+
+    public void setDataYear(int dataYear) {
+        this._dataYear = dataYear;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="baseInformationId">
     @Column(name = "etfsBaseInformationId")
     private int _baseInformationId;
@@ -145,6 +158,7 @@ public class KGLListExternalTechFunctService implements Serializable {
                 _costStGr == that._costStGr &&
                 _costKoArtGr == that._costKoArtGr &&
                 _occupationalGroup == that._occupationalGroup &&
+                _dataYear == that._dataYear &&
                 _baseInformationId == that._baseInformationId &&
                 Objects.equals(_divisionTechFunctService, that._divisionTechFunctService) &&
                 Objects.equals(_explanationFieldTechFunctService, that._explanationFieldTechFunctService);
@@ -152,7 +166,7 @@ public class KGLListExternalTechFunctService implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionTechFunctService, _countTechFunctService, _costVolumeTechFunctService, _costStGr, _costKoArtGr, _occupationalGroup, _explanationFieldTechFunctService, _baseInformationId);
+        return Objects.hash(_id, _divisionTechFunctService, _countTechFunctService, _costVolumeTechFunctService, _costStGr, _costKoArtGr, _occupationalGroup, _explanationFieldTechFunctService, _dataYear, _baseInformationId);
     }
 
     @Override

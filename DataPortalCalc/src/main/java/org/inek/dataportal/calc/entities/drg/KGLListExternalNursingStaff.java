@@ -188,6 +188,18 @@ public class KGLListExternalNursingStaff implements Serializable {
 
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="DataYear">
+    @Column(name = "ensDataYear")
+    private int _dataYear;
+
+    public int getDataYear() {
+        return _dataYear;
+    }
+
+    public void setDataYear(int dataYear) {
+        this._dataYear = dataYear;
+    }
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="BaseInformationId">
     @Column(name = "ensBaseInformationId")
     private int _baseInformationIdNursingStaff;
@@ -224,6 +236,7 @@ public class KGLListExternalNursingStaff implements Serializable {
                 _costArtGr == that._costArtGr &&
                 _exclusivelyCareAtBedNursingStaff == that._exclusivelyCareAtBedNursingStaff &&
                 Double.compare(that._partOfCostVolumeBedNursingStaff, _partOfCostVolumeBedNursingStaff) == 0 &&
+                _dataYear == that._dataYear &&
                 _baseInformationIdNursingStaff == that._baseInformationIdNursingStaff &&
                 Objects.equals(_divisionNursingStaff, that._divisionNursingStaff) &&
                 Objects.equals(_explanationFieldNursingStaff, that._explanationFieldNursingStaff);
@@ -231,7 +244,7 @@ public class KGLListExternalNursingStaff implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionNursingStaff, _externalStaffType, _agreedAverageWorkingHoursNursingStaff, _netAverageWorkingHoursNursingStaff, _calculatedCountNursingStaff, _averageAnnualEmployerCostsNursingStaff, _amountTemporaryEmploymentNursingStaff, _costStGr, _costArtGr, _exclusivelyCareAtBedNursingStaff, _partOfCostVolumeBedNursingStaff, _explanationFieldNursingStaff, _baseInformationIdNursingStaff);
+        return Objects.hash(_id, _divisionNursingStaff, _externalStaffType, _agreedAverageWorkingHoursNursingStaff, _netAverageWorkingHoursNursingStaff, _calculatedCountNursingStaff, _averageAnnualEmployerCostsNursingStaff, _amountTemporaryEmploymentNursingStaff, _costStGr, _costArtGr, _exclusivelyCareAtBedNursingStaff, _partOfCostVolumeBedNursingStaff, _explanationFieldNursingStaff, _dataYear, _baseInformationIdNursingStaff);
     }
 
     @Override

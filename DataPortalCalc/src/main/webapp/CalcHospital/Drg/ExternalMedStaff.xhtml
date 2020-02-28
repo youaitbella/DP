@@ -39,6 +39,18 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
+                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <h:selectOneMenu id="medStaffId"
+                                     value="#{externalMedStaff.dataYear}" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
+                                       var="year"
+                                       itemLabel="#{year.label}"
+                                       itemValue="#{year.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
                     <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                     <inek:InputTextWithMessage id="division"
                                                required="true"
@@ -136,6 +148,19 @@
                                         rendered="#{!editCalcBasicsDrg.readOnly}"/>
                         <cb:confirmDelete/>
                     </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <h:selectOneMenu id="NursingId"
+                                     value="#{externalNursingStaff.dataYear}" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
+                                       var="year"
+                                       itemLabel="#{year.label}"
+                                       itemValue="#{year.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
@@ -314,6 +339,18 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
+                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <h:selectOneMenu id="NursingAssistantId"
+                                     value="#{externalNursingAssistantMedStaff.dataYear}" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
+                                       var="year"
+                                       itemLabel="#{year.label}"
+                                       itemValue="#{year.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
                     <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                     <inek:InputTextWithMessage id="division"
                                                required="true"
@@ -488,6 +525,19 @@
                                         rendered="#{!editCalcBasicsDrg.readOnly}"/>
                         <cb:confirmDelete/>
                     </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <h:selectOneMenu id="CareStaffOtherId"
+                                     value="#{externalCareStaffOther.dataYear}" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
+                                       var="year"
+                                       itemLabel="#{year.label}"
+                                       itemValue="#{year.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
@@ -665,6 +715,18 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
+                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <h:selectOneMenu id="TechFunctServiceId"
+                                     value="#{externalTechFunctService.dataYear}" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
+                                       var="year"
+                                       itemLabel="#{year.label}"
+                                       itemValue="#{year.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
                     <f:facet name="header">
                         <h:outputLabel value="Bereich/Station"/>
                     </f:facet>
@@ -721,8 +783,12 @@
                                                                  Dienst/ Funktionsdienst"/></f:facet>
                     <h:selectOneMenu id="occupationalGroup"
                                      value="#{externalTechFunctService.occupationalGroup}" >
-                        <f:selectItem itemLabel="med. techn. Dienst" itemValue="#{1}"/>
-                        <f:selectItem itemLabel="med. techn. Funktionsdienst" itemValue="#{2}"/>
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.occupationalGroups}"
+                                       var="oc"
+                                       itemLabel="#{oc.label}"
+                                       itemValue="#{oc.value}"/>
+                        <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>

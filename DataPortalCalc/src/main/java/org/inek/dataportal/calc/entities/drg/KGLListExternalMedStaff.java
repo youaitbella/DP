@@ -107,6 +107,19 @@ public class KGLListExternalMedStaff implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="DataYear">
+    @Column(name = "emsDataYear")
+    private int _dataYear;
+
+    public int getDataYear() {
+        return _dataYear;
+    }
+
+    public void setDataYear(int dataYear) {
+        this._dataYear = dataYear;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="baseInformationId">
     @Column(name = "emsBaseInformationId")
     private int _baseInformationId;
@@ -137,6 +150,7 @@ public class KGLListExternalMedStaff implements Serializable {
                 Double.compare(that._costVolumeMedStaff, _costVolumeMedStaff) == 0 &&
                 _costStGr == that._costStGr &&
                 _costKoArtGr == that._costKoArtGr &&
+                _dataYear == that._dataYear &&
                 _baseInformationId == that._baseInformationId &&
                 Objects.equals(_divisionMedStaff, that._divisionMedStaff) &&
                 Objects.equals(_explanationField, that._explanationField);
@@ -144,7 +158,7 @@ public class KGLListExternalMedStaff implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionMedStaff, _countMedStaff, _costVolumeMedStaff, _costStGr, _costKoArtGr, _explanationField, _baseInformationId);
+        return Objects.hash(_id, _divisionMedStaff, _countMedStaff, _costVolumeMedStaff, _costStGr, _costKoArtGr, _explanationField, _dataYear, _baseInformationId);
     }
 
     @Override
