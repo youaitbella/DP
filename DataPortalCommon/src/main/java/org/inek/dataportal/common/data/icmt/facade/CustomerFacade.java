@@ -6,6 +6,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,6 +23,12 @@ import org.inek.dataportal.common.data.icmt.entities.Customer;
 @Transactional
 @Named
 public class CustomerFacade extends AbstractDataAccess {
+    public CustomerFacade() {
+    }
+
+    public CustomerFacade(EntityManager em) {
+        super(em);
+    }
 
     public Customer getCustomerByIK(int ik) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
