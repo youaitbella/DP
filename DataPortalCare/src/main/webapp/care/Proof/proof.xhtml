@@ -38,7 +38,7 @@
 
     <div>
         <pf:dataTable id="proofTable"
-                      value="#{proofEdit.proofs}"
+                      value="#{proofEdit.proofRegulationBaseInformation.proofs}"
                       widgetVar="dataTableAutoFilter"
                       rows="50"
                       paginator="true"
@@ -343,7 +343,7 @@
                 <f:selectItem
                         itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                         noSelectionOption="true" />
-                <f:selectItems value="#{proofEdit.listExceptionsFacts}" />
+                <f:selectItems value="#{proofEdit.listExceptionFacts}"/>
                 <pf:ajax event="change" update="selectExeptionMessage" />
             </pf:selectOneMenu>
             <pf:message id="selectExeptionMessage" for="selectExeption" />

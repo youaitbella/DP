@@ -83,14 +83,14 @@ public class ProofEdit implements Serializable {
     private boolean _isExceptionFactsChangeMode = false;
     private String _uploadMessage;
     private List<ProofExceptionFact> _exceptionsFacts = new ArrayList<>();
-    private List<SelectItem> _listExceptionsFacts = new ArrayList<>();
+    private List<SelectItem> _listExceptionFacts = new ArrayList<>();
 
-    public List<SelectItem> getListExceptionsFacts() {
-        return _listExceptionsFacts;
+    public List<SelectItem> getListExceptionFacts() {
+        return _listExceptionFacts;
     }
 
-    public void setListExceptionsFacts(List<SelectItem> listExceptionsFacts) {
-        this._listExceptionsFacts = listExceptionsFacts;
+    public void setListExceptionFacts(List<SelectItem> listExceptionsFacts) {
+        this._listExceptionFacts = listExceptionsFacts;
     }
 
     public String getUploadMessage() {
@@ -175,7 +175,7 @@ public class ProofEdit implements Serializable {
     }
 
     private void loadExceptionsFactsList() {
-        _listExceptionsFacts = _proofFacade.getExceptionsFactsForYear(_proofBaseInformation.getYear());
+        _listExceptionFacts = _proofFacade.getExceptionsFactsForYear(_proofBaseInformation.getYear());
     }
 
     private void fillExceptionsFactsList(ProofRegulationBaseInformation info) {
@@ -294,7 +294,7 @@ public class ProofEdit implements Serializable {
             calculatePatientPerNurse(proof);
         }
 
-        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionsFacts.size());
+        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionFacts.size());
         if (!errorMessages.isEmpty()) {
             DialogController.showErrorDialog(DATA_INCOMPLETE, errorMessages.get(0));
             return;
@@ -350,7 +350,7 @@ public class ProofEdit implements Serializable {
             calculatePatientPerNurse(proof);
         }
 
-        List<String> errorMessages = ProofChecker.proofIsReadyForSend(_proofBaseInformation, _listExceptionsFacts.size());
+        List<String> errorMessages = ProofChecker.proofIsReadyForSend(_proofBaseInformation, _listExceptionFacts.size());
 
         if (!errorMessages.isEmpty()) {
             for (String message : errorMessages) {
@@ -424,7 +424,7 @@ public class ProofEdit implements Serializable {
     }
 
     public void saveChangedExceptionFacts() {
-        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionsFacts.size());
+        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionFacts.size());
         if (!errorMessages.isEmpty()) {
             DialogController.showErrorDialog(DATA_INCOMPLETE, errorMessages.get(0));
             return;
@@ -479,8 +479,7 @@ public class ProofEdit implements Serializable {
     }
 
     public void addNewException(Proof proof) {
-        ProofExceptionFact exceptionFact = new ProofExceptionFact();
-        exceptionFact.setProof(proof);
+        ProofExceptionFact exceptionFact = new ProofExceptionFact(proof);
         proof.addExceptionFact(exceptionFact);
         _exceptionsFacts.add(exceptionFact);
     }
@@ -493,7 +492,7 @@ public class ProofEdit implements Serializable {
     public List<Proof> getProofsForExceptionFact() {
         return _proofBaseInformation.getProofs().stream()
                 .filter(proof -> proof.getPatientPerNurse() > obtainLimit(proof) || proof.getCountShiftNotRespected() > 0)
-                .filter(proof -> proof.getExceptionFact().size() < _listExceptionsFacts.size())
+                .filter(proof -> proof.getExceptionFact().size() < _listExceptionFacts.size())
                 .collect(Collectors.toList());
     }
 
@@ -629,11 +628,6 @@ public class ProofEdit implements Serializable {
             );
         }
         return documentName;
-    }
-
-    public List<Proof> getProofs() {
-        // display data in old format
-        return _proofBaseInformation.getProofs();
     }
 
 }
