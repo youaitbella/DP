@@ -60,6 +60,9 @@ public class ScannerTimer {
     private HospitalComparisonJob _currentJob;
     private File _jobSaveFile;
 
+    public ScannerTimer() {
+    }
+
     @Inject
     public ScannerTimer(AEBFacade _aebFacade, ConfigFacade _config, ReportController _reportController, Mailer _mailer, MessageProvider _messageProvider) {
         this._aebFacade = _aebFacade;
@@ -76,13 +79,12 @@ public class ScannerTimer {
             oldestNewJob.ifPresent(this::startProcessingJob);
             Optional<InekComparisonJob> oldestNewInekJob = _aebFacade.getOldestNewInekJob();
             oldestNewInekJob.ifPresent(this::startProcessingInekJob);
-//        } catch (Exception ex) {
+        } catch (Exception ex) {
 //            _mailer.sendMail("PortalAdmin@inek-drg.de", "PsyEvaluationService error: " + ex.getMessage(),
 //                    ex.getStackTrace().toString());
 //            updateJobStatus(_currentJob, PsyHosptalComparisonStatus.ERROR);
 //            saveJob();
-//            LOGGER.log(Level.SEVERE, ex.getMessage());
-//            ex.printStackTrace();
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         } finally {
             _currentJob = null;
             _jobSaveFile = null;

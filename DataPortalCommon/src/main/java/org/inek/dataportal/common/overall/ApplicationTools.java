@@ -46,6 +46,9 @@ public class ApplicationTools {
     //@Inject
     private CustomerFacade _customerFacade;
 
+    public ApplicationTools() {
+    }
+
     @Inject
     public ApplicationTools(ConfigFacade _config, InfoDataFacade _info, CustomerFacade _customerFacade) {
         this._config = _config;
