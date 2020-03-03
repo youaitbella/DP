@@ -62,6 +62,7 @@
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
                     <inek:InputNumberWithMessage id="countMedStaff"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('countMedStaff'))}costPerFullTime:text"
                                                  value="#{externalMedStaff.count}"/>
                 </h:column>
                 <h:column>
@@ -149,7 +150,6 @@
                         <cb:confirmDelete/>
                     </h:commandLink>
                 </h:column>
-
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
                     <h:selectOneMenu id="NursingId"
@@ -526,7 +526,6 @@
                         <cb:confirmDelete/>
                     </h:commandLink>
                 </h:column>
-
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
                     <h:selectOneMenu id="CareStaffOtherId"
@@ -572,7 +571,7 @@
                 <h:column>
                     <f:facet name="header">
                         <h:outputLabel
-                                value="errechnete Anzahl VK (Arbeitsleistung des Fremdpersonals/Tarifliche Netto Jahresarbeitszeit)"/>
+                                value="Errechnete Anzahl VK (Arbeitsleistung des Fremdpersonals/Tarifliche Netto Jahresarbeitszeit)"/>
                     </f:facet>
                     <inek:InputNumberWithMessage id="calculatedCountOther"
                                                  styleClass="element100"
@@ -594,6 +593,7 @@
                         <h:outputLabel value="Rechnungsbetrag der Arbeitnehmerüberlassung für sonstige Pflegekräfte:"/>
                     </f:facet>
                     <inek:InputNumberWithMessage id="amountTemporaryEmploymentAssistantNursingStaff"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountTemporaryEmploymentAssistantNursingStaff'))}CostVolumeAboveLimitAssistant:text"
                                                  styleClass="element100"
                                                  value="#{externalCareStaffOther.amountTemporaryEmploymentNursingStaff}"
                                                  pattern="##,##0.00"/>
@@ -605,7 +605,7 @@
                     <inek:InputNumberWithMessage id="CostVolumeUpToLimitOther"
                                                  styleClass="element100"
                                                  value="#{externalCareStaffOther.calculatedCountNursingStaff * externalCareStaffOther.averageAnnualEmployerCostsNursingStaff}"
-                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimitOther'))}CostVolumeUpToLimitOther:text"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimitOther'))}CostVolumeAboveLimitAssistant:text"
                                                  disabled="true"
                                                  pattern="##,##0.00"/>
                 </h:column>
@@ -738,18 +738,20 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
-                    <inek:InputIntegerWithMessage styleClass="element100"
+                    <inek:InputIntegerWithMessage id="countTechFunctService" styleClass="element100"
+                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('countTechFunctService'))}costPerVK:text"
                                                   value="#{externalTechFunctService.countTechFunctService}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Kostenvolumen"/></f:facet>
-                    <inek:InputNumberWithMessage styleClass="element100"
+                    <inek:InputNumberWithMessage id="costVolumeTechFunctService" styleClass="element100"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('costVolumeTechFunctService'))}costPerVK:text"
                                                  value="#{externalTechFunctService.costVolumeTechFunctService}"
                                                  pattern="##,##0.00"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
-                    <inek:InputNumberWithMessage styleClass="element100"
+                    <inek:InputNumberWithMessage id="costPerVK" styleClass="element100"
                                                  value="#{externalTechFunctService.countTechFunctService !=0 ? externalTechFunctService.costVolumeTechFunctService / externalTechFunctService.countTechFunctService : ''}"
                                                  readonly="true"
                                                  pattern="##,##0.00"/>
