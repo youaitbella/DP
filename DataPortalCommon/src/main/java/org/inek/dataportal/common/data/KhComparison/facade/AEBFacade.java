@@ -465,7 +465,8 @@ public class AEBFacade extends AbstractDataAccess {
                 "\t\t) bundesland(bl)\n" +
                 "\t\tjoin psy.InekComparisonJob icj on 1=1\n" +
                 "\t\tjoin (\n" +
-                "\t\t\tselect biId, biIk, biDataYear, biTyp, biSend, row_number() over (partition by biik, biDatayear order by biik, biDatayear desc, bityp) nr\n" +
+                "\t\t\tselect biId, biIk, biDataYear, biTyp, biSend, row_number() " +
+                " over (partition by biik, biDatayear order by biik, biDatayear desc, bityp) nr\n" +
                 "\t\t\tfrom psy.AEBBaseInformation bi\n" +
                 "\t\t\twhere biStatusId = 10\n" +
                 "\t\t) bi on bi.biDataYear = icj.icjDataYear and datediff(day, biSend, icjAebUpTo) >= 0 and nr = 1\n" +
