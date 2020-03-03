@@ -43,6 +43,7 @@ import static org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalCompa
 public class ScannerTimer {
 
     private static final Logger LOGGER = Logger.getLogger(ScannerTimer.class.toString());
+    public static final String DOUBLE_BACKSLASH = "\\";
 
     private AEBFacade _aebFacade;
     private ConfigFacade _config;
@@ -59,7 +60,8 @@ public class ScannerTimer {
     }
 
     @Inject
-    public ScannerTimer(AEBFacade _aebFacade, ConfigFacade _config, ReportController _reportController, Mailer _mailer, MessageProvider _messageProvider) {
+    public ScannerTimer(AEBFacade _aebFacade, ConfigFacade _config, ReportController _reportController,
+                        Mailer _mailer, MessageProvider _messageProvider) {
         this._aebFacade = _aebFacade;
         this._config = _config;
         this._reportController = _reportController;
@@ -171,7 +173,7 @@ public class ScannerTimer {
             int aebIdHospital = evaluation.getHospitalComparisonHospitalsHospital().getAebBaseInformationId();
             String aebIdsGroupe = concatAebIds(evaluation.getHospitalComparisonHospitals());
             String fileName = buildExcelFileName(evaluation);
-            String reportUrl = buildUrlWithParameter(evaluation.getId(), aebIdHospital, aebIdsGroupe, fileName.replace("\\", "/"));
+            String reportUrl = buildUrlWithParameter(evaluation.getId(), aebIdHospital, aebIdsGroupe, fileName.replace(DOUBLE_BACKSLASH, "/"));
 
             logJobInfo("request document from " + reportUrl);
 
@@ -187,7 +189,7 @@ public class ScannerTimer {
     private void processingInekEvaluations(InekComparisonJob job) {
         logJobInfo(job, "start InEK Evaluation ");
         String fileName = determineInekCompareSaveFolder();
-        String reportUrl = buildInekVergleichUrlWithParameter(job.getId(), fileName.replace("\\", "/"));
+        String reportUrl = buildInekVergleichUrlWithParameter(job.getId(), fileName.replace(DOUBLE_BACKSLASH, "/"));
 
         logJobInfo(job, "request document from " + reportUrl);
 
@@ -322,19 +324,19 @@ public class ScannerTimer {
 
     private String buildAccountDokZipFileName() {
         String fileNamePattern = "KH-Vergleich_%s_%s.zip";
-        return _jobSaveFile + "\\" + String.format(fileNamePattern, _currentJob.getHosptalComparisonInfo().getHospitalIk(),
+        return _jobSaveFile + DOUBLE_BACKSLASH + String.format(fileNamePattern, _currentJob.getHosptalComparisonInfo().getHospitalIk(),
                 new SimpleDateFormat("ddMMyyyyHHmmss").format(Calendar.getInstance().getTime()));
     }
 
     private String buildExcelFileName(HospitalComparisonEvaluation evaluation) {
         String fileNamePattern = "%s_%s_PSY-KH_Vergleich_Auswertung.xlsx";
-        return _jobSaveFile + "\\" + String.format(fileNamePattern, evaluation.getHospitalComparisonInfo().getHospitalIk(),
+        return _jobSaveFile + DOUBLE_BACKSLASH + String.format(fileNamePattern, evaluation.getHospitalComparisonInfo().getHospitalIk(),
                 evaluation.getEvalutationHcId());
     }
 
     private String buildDocumentInfoFileName() {
         String fileNamePattern = "DocInfo_%s_%s.DataportalDocumentInfo";
-        return _jobSaveFile + "\\" + String.format(fileNamePattern, _currentJob.getId(),
+        return _jobSaveFile + DOUBLE_BACKSLASH + String.format(fileNamePattern, _currentJob.getId(),
                 new SimpleDateFormat("ddMMyyyyHHmmss").format(Calendar.getInstance().getTime()));
     }
 
