@@ -44,15 +44,10 @@ public class ScannerTimer {
 
     private static final Logger LOGGER = Logger.getLogger(ScannerTimer.class.toString());
 
-    //@Inject
     private AEBFacade _aebFacade;
-    //@Inject
     private ConfigFacade _config;
-    //@Inject
     private ReportController _reportController;
-    //@Inject
     private Mailer _mailer;
-    //@Inject
     private MessageProvider _messageProvider;
 
     @Resource
