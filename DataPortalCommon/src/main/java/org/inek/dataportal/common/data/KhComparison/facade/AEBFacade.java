@@ -1,6 +1,5 @@
 package org.inek.dataportal.common.data.KhComparison.facade;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import javafx.util.Pair;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.KhComparison.entities.*;
@@ -449,7 +448,9 @@ public class AEBFacade extends AbstractDataAccess {
     public InekComparisonJob newInekComparisonJob(Account account, int inekDataYear, String inekAebSendDateUpToConsider) {
         InekComparisonJob.checkDataYear(inekDataYear);
         InekComparisonJob.checkAebToConsider(inekAebSendDateUpToConsider);
-        return new InekComparisonJob(account, inekDataYear, inekAebSendDateUpToConsider);
+        InekComparisonJob inekComparisonJob = new InekComparisonJob(account, inekDataYear, inekAebSendDateUpToConsider);
+        getEntityManager().persist(inekComparisonJob);
+        return inekComparisonJob;
     }
 
     public void generateInekComparisonHospitals(InekComparisonJob inekComparisonJob) {
