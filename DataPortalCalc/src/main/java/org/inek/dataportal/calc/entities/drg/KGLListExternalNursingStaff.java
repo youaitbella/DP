@@ -217,6 +217,7 @@ public class KGLListExternalNursingStaff implements Serializable {
     }
 
     @Override
+    @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof KGLListExternalNursingStaff)) return false;
