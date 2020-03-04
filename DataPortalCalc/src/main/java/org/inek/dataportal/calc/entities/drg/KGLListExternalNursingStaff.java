@@ -1,10 +1,5 @@
 package org.inek.dataportal.calc.entities.drg;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.inek.dataportal.common.data.common.CostCenter;
-import org.inek.dataportal.common.data.common.CostType;
-import org.inek.dataportal.common.utils.Documentation;
-
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
@@ -52,8 +47,8 @@ public class KGLListExternalNursingStaff implements Serializable {
         return _externalStaffType;
     }
 
-    public void setExternalStaffType(int _externalStaffType) {
-        this._externalStaffType = _externalStaffType;
+    public void setExternalStaffType(int externalStaffType) {
+        this._externalStaffType = externalStaffType;
     }
     // </editor-fold>
 
@@ -199,6 +194,7 @@ public class KGLListExternalNursingStaff implements Serializable {
     public void setDataYear(int dataYear) {
         this._dataYear = dataYear;
     }
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="BaseInformationId">
     @Column(name = "ensBaseInformationId")
@@ -208,16 +204,16 @@ public class KGLListExternalNursingStaff implements Serializable {
         return _baseInformationIdNursingStaff;
     }
 
-    public void setBaseInformationId(int _baseInformationIdNursingStaff) {
-        this._baseInformationIdNursingStaff = _baseInformationIdNursingStaff;
+    public void setBaseInformationId(int baseInformationIdNursingStaff) {
+        this._baseInformationIdNursingStaff = baseInformationIdNursingStaff;
     }
     // </editor-fold>
 
     public KGLListExternalNursingStaff() {
     }
 
-    public KGLListExternalNursingStaff(int _baseInformationIdNursingStaff) {
-        this._baseInformationIdNursingStaff = _baseInformationIdNursingStaff;
+    public KGLListExternalNursingStaff(int baseInformationIdNursingStaff) {
+        this._baseInformationIdNursingStaff = baseInformationIdNursingStaff;
     }
 
     @Override
@@ -244,7 +240,10 @@ public class KGLListExternalNursingStaff implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionNursingStaff, _externalStaffType, _agreedAverageWorkingHoursNursingStaff, _netAverageWorkingHoursNursingStaff, _calculatedCountNursingStaff, _averageAnnualEmployerCostsNursingStaff, _amountTemporaryEmploymentNursingStaff, _costStGr, _costArtGr, _exclusivelyCareAtBedNursingStaff, _partOfCostVolumeBedNursingStaff, _explanationFieldNursingStaff, _dataYear, _baseInformationIdNursingStaff);
+        return Objects.hash(_id, _divisionNursingStaff, _externalStaffType, _agreedAverageWorkingHoursNursingStaff,
+                _netAverageWorkingHoursNursingStaff, _calculatedCountNursingStaff, _averageAnnualEmployerCostsNursingStaff,
+                _amountTemporaryEmploymentNursingStaff, _costStGr, _costArtGr, _exclusivelyCareAtBedNursingStaff,
+                _partOfCostVolumeBedNursingStaff, _explanationFieldNursingStaff, _dataYear, _baseInformationIdNursingStaff);
     }
 
     @Override
