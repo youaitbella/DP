@@ -62,6 +62,7 @@ public enum ConfigKey {
     CertCompareOnUpload(true),
     IkAdminEnable(true),
     KhComparisonJobSavePath("{root}/kh-vergleich/auswertungen"),
+    InekComparisonJobSavePath("{root}/inek-vergleich/auswertungen"),
     KhComparisonUploadPath("{root}/documents/KH-Vergleich"),
     isKhComparisionInsuranceEnabled(false),
     CombitReportHostName("vreportserver01"),

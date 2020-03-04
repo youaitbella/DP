@@ -216,6 +216,15 @@ public class AEBFacade extends AbstractDataAccess {
     }
 
     @Transactional
+    public InekComparisonJob saveInekComparison(InekComparisonJob info) {
+        if (info.getId() == 0) {
+            persist(info);
+            return info;
+        }
+        return merge(info);
+    }
+
+    @Transactional
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public HospitalComparisonJob save(HospitalComparisonJob job) {
         return merge(job);
@@ -360,6 +369,21 @@ public class AEBFacade extends AbstractDataAccess {
         }
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public Optional<InekComparisonJob> getOldestNewInekJob() {
+        String sql = "SELECT jo FROM InekComparisonJob jo WHERE jo.status = :status order by jo.createdDate";
+        TypedQuery<InekComparisonJob> query = getEntityManager().createQuery(sql, InekComparisonJob.class);
+        query.setParameter(STATUS, PsyHosptalComparisonStatus.NEW.name());
+
+        List<InekComparisonJob> resultList = query.getResultList();
+
+        if (resultList.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(resultList.get(0));
+        }
+    }
+
     public List<HospitalComparisonInfo> getHosptalComparisonInfoByIks(Set<Integer> iks) {
         if (iks.isEmpty()) {
             return new ArrayList<>();
@@ -424,7 +448,9 @@ public class AEBFacade extends AbstractDataAccess {
     public InekComparisonJob newInekComparisonJob(Account account, int inekDataYear, String inekAebSendDateUpToConsider) {
         InekComparisonJob.checkDataYear(inekDataYear);
         InekComparisonJob.checkAebToConsider(inekAebSendDateUpToConsider);
-        return new InekComparisonJob(account, inekDataYear, inekAebSendDateUpToConsider);
+        InekComparisonJob inekComparisonJob = new InekComparisonJob(account, inekDataYear, inekAebSendDateUpToConsider);
+        getEntityManager().persist(inekComparisonJob);
+        return inekComparisonJob;
     }
 
     public void generateInekComparisonHospitals(InekComparisonJob inekComparisonJob) {
@@ -439,7 +465,8 @@ public class AEBFacade extends AbstractDataAccess {
                 "\t\t) bundesland(bl)\n" +
                 "\t\tjoin psy.InekComparisonJob icj on 1=1\n" +
                 "\t\tjoin (\n" +
-                "\t\t\tselect biId, biIk, biDataYear, biTyp, biSend, row_number() over (partition by biik, biDatayear order by biik, biDatayear desc, bityp) nr\n" +
+                "\t\t\tselect biId, biIk, biDataYear, biTyp, biSend, row_number() " +
+                " over (partition by biik, biDatayear order by biik, biDatayear desc, bityp) nr\n" +
                 "\t\t\tfrom psy.AEBBaseInformation bi\n" +
                 "\t\t\twhere biStatusId = 10\n" +
                 "\t\t) bi on bi.biDataYear = icj.icjDataYear and datediff(day, biSend, icjAebUpTo) >= 0 and nr = 1\n" +

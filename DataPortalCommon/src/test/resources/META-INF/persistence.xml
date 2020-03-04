@@ -52,9 +52,9 @@
         <class>org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility</class>
         <class>org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature</class>
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://vdatabase01:1433;databaseName=DataPortalDev;integratedSecurity=true"/>
-            <property name="javax.persistence.jdbc.user" value=""/>
-            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://vdatabase01:1433;databaseName=DataPortalDev"/>
+            <property name="javax.persistence.jdbc.user" value="dataportal"/>
+            <property name="javax.persistence.jdbc.password" value="Et haett noch immer jot jejange!"/>
             <property name="eclipselink.ddl-generation.output-mode" value="both"/>
             <property name="eclipselink.jpa.uppercase-column-names" value="true"/>
             <property name="eclipselink.cache.shared.default" value="false"/>

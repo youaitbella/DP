@@ -11,6 +11,7 @@ import org.inek.dataportal.common.data.common.ListWorkflowStatus;
 import org.inek.dataportal.common.data.common.TrashMail;
 
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -23,6 +24,12 @@ import java.util.List;
  */
 @Stateless
 public class InfoDataFacade extends AbstractDataAccess {
+    public InfoDataFacade() {
+    }
+
+    public InfoDataFacade(EntityManager em) {
+        super(em);
+    }
 
     public boolean isTrashMailDomain(String domain) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();

@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.data.KhComparison.entities;
 
+import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonStatus;
 import org.inek.dataportal.common.data.account.entities.Account;
 
 import javax.persistence.*;
@@ -29,7 +30,10 @@ public class InekComparisonJob implements Serializable {
 
     @Column(name = "icjVersion")
     @Version
-    private int version;
+    private int version; // needed for JPA to use optimistic locking
+
+    @Column(name = "icjStatus")
+    private String status = PsyHosptalComparisonStatus.NEW.name();
 
     @Column(name = "icjCreatedAt", insertable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -88,6 +92,14 @@ public class InekComparisonJob implements Serializable {
 //        this._id = _id;
 //    }
 
+    public PsyHosptalComparisonStatus getStatus() {
+        return PsyHosptalComparisonStatus.valueOf(status);
+    }
+
+    public void setStatus(PsyHosptalComparisonStatus status) {
+        this.status = status.name();
+    }
+
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -104,12 +116,20 @@ public class InekComparisonJob implements Serializable {
         this.startWorking = startWorking;
     }
 
+    public void setStartWorkingToNow() {
+        this.startWorking = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC));
+    }
+
     public Date getEndWorking() {
         return endWorking;
     }
 
     public void setEndWorking(Date endWorking) {
         this.endWorking = endWorking;
+    }
+
+    public void setEndWorkingToNow() {
+        this.endWorking = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC));
     }
 
     public int getDataYear() {
@@ -156,4 +176,23 @@ public class InekComparisonJob implements Serializable {
     public int hashCode() {
         return id != 0 ? Objects.hash(id) : Objects.hash(createdDate, startWorking, endWorking, dataYear, aebUpTo, account);
     }
+
+    public String getJobFolder(String baseDir) {
+        return baseDir + "/" + id;
+    }
+
+    public String obtainFileName() {
+        //Psych-Krankenhausvergleich_zum_TT.MM.JJJJ_Deutschland_JJMMTT.xlsx
+        //Psych-Krankenhausvergleich_zum_TT.MM.JJJJ__[Bundesland1-16]_JJMMTT.xlsx
+        String calcDate = resolveCalcDate();
+        return "Psych-Krankenhausvergleich_zum_" + aebUpTo
+                + "_erstellt_"
+                + calcDate;
+    }
+
+    private String resolveCalcDate() {
+        LocalDate localDate = LocalDate.now();
+        return localDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+    }
+
 }
