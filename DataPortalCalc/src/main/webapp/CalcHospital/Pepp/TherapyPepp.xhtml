@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
+<html>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
@@ -58,6 +59,13 @@
         }
 
     </style>
+
+    <div>
+        Werden ab dem DJ2019 weiterhin Therapieeinheiten für folgende Bereiche erfasst:
+        <inek:LabeledCheckbox label="Einzeltherapie Pflegedienst (OPS2018: 9-649.7): "/>
+        <inek:LabeledCheckbox label="Gruppentherapie Pflegedienst (OPS2018 9-649.8): "/>
+        <inek:LabeledCheckbox label="Gruppentherapie Spezialtherapeuten (OPS2018 9-649.6): "/>
+    </div>
 
     <div style="overflow-x: scroll;">
         <table id="tbl">
@@ -164,3 +172,4 @@
 
 </ui:composition>
 
+</html>
