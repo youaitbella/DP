@@ -39,12 +39,22 @@ public class ApplicationTools {
     private static final Logger LOGGER = Logger.getLogger("ApplicationTools");
     private final Map<Integer, CustomerInfo> _customerInfo = new ConcurrentHashMap<>();
     private Properties _properties;
-    @Inject
+    //@Inject
     private ConfigFacade _config;
-    @Inject
+    //@Inject
     private InfoDataFacade _info;
-    @Inject
+    //@Inject
     private CustomerFacade _customerFacade;
+
+    public ApplicationTools() {
+    }
+
+    @Inject
+    public ApplicationTools(ConfigFacade _config, InfoDataFacade _info, CustomerFacade _customerFacade) {
+        this._config = _config;
+        this._info = _info;
+        this._customerFacade = _customerFacade;
+    }
 
     @PostConstruct
     private void init() {

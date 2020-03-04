@@ -27,10 +27,16 @@ public class ReportController implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("ReportController");
     private static final long serialVersionUID = 1L;
-    @Inject
+    //@Inject
     private AdminFacade _adminFacade;
-    @Inject
+    //@Inject
     private ApplicationTools _appTools;
+
+    @Inject
+    public ReportController(AdminFacade _adminFacade, ApplicationTools _appTools) {
+        this._adminFacade = _adminFacade;
+        this._appTools = _appTools;
+    }
 
     public boolean reportTemplateExists(String name) {
         return _adminFacade.findReportTemplateByName(name).isPresent();

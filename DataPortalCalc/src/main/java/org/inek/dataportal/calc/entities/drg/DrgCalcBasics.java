@@ -1483,6 +1483,72 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="ExternalMedStaff">
+    @Column(name = "biExternalMedStaff")
+    private boolean _externalMedStaff;
+
+    public boolean isExternalMedStaff() {
+        return _externalMedStaff;
+    }
+
+    public void setExternalMedStaff(boolean externalMedStaff) {
+        this._externalMedStaff = externalMedStaff;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="ExternalNursingMedStaff">
+    @Column(name = "biExternalNursingMedStaff")
+    private boolean _externalNursingStaff;
+
+    public boolean isExternalNursingStaff() {
+        return _externalNursingStaff;
+    }
+
+    public void setExternalNursingStaff(boolean externalNursingStaff) {
+        this._externalNursingStaff = externalNursingStaff;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ExternalNursingAssistantStaff">
+    @Column(name = "biExternalNursingAssistantStaff")
+    private boolean _externalNursingAssistantStaff;
+
+    public boolean isExternalNursingAssistantStaff() {
+        return _externalNursingAssistantStaff;
+    }
+
+    public void setExternalNursingAssistantStaff(boolean externalNursingAssistantStaff) {
+        this._externalNursingAssistantStaff = externalNursingAssistantStaff;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ExternalcareStaffOther">
+    @Column(name = "biExternalcareStaffOther")
+    private boolean _externalcareStaffOther;
+
+    public boolean isExternalCareStaffOther() {
+        return _externalcareStaffOther;
+    }
+
+    public void setExternalCareStaffOther(boolean externalCareStaffOther) {
+        this._externalcareStaffOther = externalCareStaffOther;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ExternalTechFunctService">
+    @Column(name = "biExternalTechFunctService")
+    private boolean _externalTechFunctService;
+
+    public boolean isExternalTechFunctService() {
+        return _externalTechFunctService;
+    }
+
+    public void setExternalTechFunctService(boolean externalTechFunctService) {
+        this._externalTechFunctService = externalTechFunctService;
+    }
+
+//</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property List specialUnits">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "suBaseInformationId", referencedColumnName = "biID")
@@ -1546,6 +1612,51 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     public void deleteRoomCapability(KglRoomCapability roomCapability) {
         _kglRoomCapability.remove(roomCapability);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property List ExternalMedStaff">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "emsBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLListExternalMedStaff", rank = 4050)
+    private List<KGLListExternalMedStaff> _externalMedStaffs = new Vector<>();
+
+    public List<KGLListExternalMedStaff> getExternalMedStaffs() {
+        return _externalMedStaffs;
+    }
+
+    public void setExternalMedStaffs(List<KGLListExternalMedStaff> externalMedStaffs) {
+        this._externalMedStaffs = externalMedStaffs;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property List ExternalNursingStaff">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ensBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLListExternalNursingStaff", rank = 4050)
+    private List<KGLListExternalNursingStaff> _externalNursingStaffs = new Vector<>();
+
+    public List<KGLListExternalNursingStaff> getExternalNursingStaffs() {
+        return _externalNursingStaffs;
+    }
+
+    public void setExternalNursingStaffs(List<KGLListExternalNursingStaff> externalNursingStaffs) {
+        this._externalNursingStaffs = externalNursingStaffs;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property List KGLListExternalTechFunctService">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "etfsBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLListExternalTechFunctService", rank = 4050)
+    private List<KGLListExternalTechFunctService> _externalTechFunctServices = new Vector<>();
+
+    public List<KGLListExternalTechFunctService> getExternalTechFunctServices() {
+        return _externalTechFunctServices;
+    }
+
+    public void setExternalTechFunctServices(List<KGLListExternalTechFunctService> externalTechFunctServices) {
+        this._externalTechFunctServices = externalTechFunctServices;
     }
     //</editor-fold>
 

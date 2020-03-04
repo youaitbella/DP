@@ -9,6 +9,7 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.adm.ReportTemplate;
 
 import javax.enterprise.context.RequestScoped;
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -23,6 +24,13 @@ import java.util.logging.Level;
 @RequestScoped
 @Transactional
 public class AdminFacade extends AbstractDataAccess {
+
+    public AdminFacade() {
+    }
+
+    public AdminFacade(EntityManager em) {
+        super(em);
+    }
 
     public ReportTemplate findReportTemplate(int id) {
         return getEntityManager().find(ReportTemplate.class, id);

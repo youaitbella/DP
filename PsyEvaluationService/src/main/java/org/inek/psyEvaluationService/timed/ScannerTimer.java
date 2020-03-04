@@ -5,6 +5,7 @@ import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.data.KhComparison.entities.HospitalComparisonEvaluation;
 import org.inek.dataportal.common.data.KhComparison.entities.HospitalComparisonHospitals;
 import org.inek.dataportal.common.data.KhComparison.entities.HospitalComparisonJob;
+import org.inek.dataportal.common.data.KhComparison.entities.InekComparisonJob;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonStatus;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
@@ -35,21 +36,19 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import static org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonStatus.WORKING;
+
 @Singleton
 @Startup
 public class ScannerTimer {
 
     private static final Logger LOGGER = Logger.getLogger(ScannerTimer.class.toString());
+    public static final String DOUBLE_BACKSLASH = "\\";
 
-    @Inject
     private AEBFacade _aebFacade;
-    @Inject
     private ConfigFacade _config;
-    @Inject
     private ReportController _reportController;
-    @Inject
     private Mailer _mailer;
-    @Inject
     private MessageProvider _messageProvider;
 
     @Resource
@@ -57,27 +56,58 @@ public class ScannerTimer {
     private HospitalComparisonJob _currentJob;
     private File _jobSaveFile;
 
+    public ScannerTimer() {
+    }
+
+    @Inject
+    public ScannerTimer(AEBFacade _aebFacade, ConfigFacade _config, ReportController _reportController,
+                        Mailer _mailer, MessageProvider _messageProvider) {
+        this._aebFacade = _aebFacade;
+        this._config = _config;
+        this._reportController = _reportController;
+        this._mailer = _mailer;
+        this._messageProvider = _messageProvider;
+    }
+
     @Timeout
     public void execute() {
         try {
             Optional<HospitalComparisonJob> oldestNewJob = _aebFacade.getOldestNewJob();
             oldestNewJob.ifPresent(this::startProcessingJob);
+            Optional<InekComparisonJob> oldestNewInekJob = _aebFacade.getOldestNewInekJob();
+            oldestNewInekJob.ifPresent(this::startProcessingInekJob);
         } catch (Exception ex) {
-            _mailer.sendMail("PortalAdmin@inek-drg.de", "PsyEvaluationService error: " + ex.getMessage(),
-                    ex.getStackTrace().toString());
-            updateJobStatus(_currentJob, PsyHosptalComparisonStatus.ERROR);
-            saveJob();
-            LOGGER.log(Level.SEVERE, ex.getMessage());
-            ex.printStackTrace();
+//            _mailer.sendMail("PortalAdmin@inek-drg.de", "PsyEvaluationService error: " + ex.getMessage(),
+//                    ex.getStackTrace().toString());
+//            updateJobStatus(_currentJob, PsyHosptalComparisonStatus.ERROR);
+//            saveJob();
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         } finally {
             _currentJob = null;
             _jobSaveFile = null;
         }
     }
 
+    private void startProcessingInekJob(InekComparisonJob inekComparisonJob) {
+         try {
+             InekComparisonJob job = tryToLockInekJob(inekComparisonJob);
+             logJobInfo(job, "start processing");
+             createFolderForInekJob(job);
+             processingInekEvaluations(job);
+
+             String evaluationsZipPath = zipInekEvaluations(job);
+             //createAccountDocument(evaluationsZipPath); wichtig für download?
+             updateInekJobStatus(job, PsyHosptalComparisonStatus.DONE);
+             saveInekJob(job);
+             logJobInfo(job, "end processing");
+         } catch (OptimisticLockException ex) {
+             logJobInfo(inekComparisonJob, "was already locked by another process");
+         }
+    }
+
     private void startProcessingJob(HospitalComparisonJob job) {
-        logJobInfo(job, "start processing");
         if (tryToLockJob(job)) {
+            logJobInfo(job, "start processing");
             if (job.getHosptalComparisonInfo().getHospitalComparisonEvaluation().isEmpty()) {
                 logJobInfo("no evaluations found in DB");
                 updateJobStatus(_currentJob, PsyHosptalComparisonStatus.NO_EVALUATIONS);
@@ -90,16 +120,26 @@ public class ScannerTimer {
                 updateJobStatus(_currentJob, PsyHosptalComparisonStatus.DONE);
                 saveJob();
             }
+            logJobInfo(job, "end processing");
         } else {
             logJobInfo(job, "was already locked by another process");
         }
-        logJobInfo(job, "end processing");
     }
 
     private String zipEvaluations() {
         String zipFileName = buildZipFileName();
         zipFiles(zipFileName, getAllExcelFilePaths());
         return zipFileName;
+    }
+
+    private String zipInekEvaluations(InekComparisonJob job) {
+        String zipFileName = buildInekZipFileName(job);
+        zipFiles(job, zipFileName, getAllExcelFilePaths(job));
+        return zipFileName;
+    }
+
+    private String buildInekZipFileName(InekComparisonJob job) {
+        return job.getJobFolder(this.determineInekCompareSaveFolder()) + "/" + job.obtainFileName() + ".zip";
     }
 
     private void createFolderForJob() {
@@ -119,13 +159,21 @@ public class ScannerTimer {
         }
     }
 
+    private void createFolderForInekJob(InekComparisonJob job) {
+        try {
+            Files.createDirectories(Paths.get(job.getJobFolder(determineInekCompareSaveFolder())));
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Error creating directory for job: " + _currentJob.getId(), e);
+        }
+    }
+
     private void processingEvaluations() {
         for (HospitalComparisonEvaluation evaluation : _currentJob.getHosptalComparisonInfo().getHospitalComparisonEvaluation()) {
             logJobInfo("start evaluation [" + evaluation.getId() + "]");
             int aebIdHospital = evaluation.getHospitalComparisonHospitalsHospital().getAebBaseInformationId();
             String aebIdsGroupe = concatAebIds(evaluation.getHospitalComparisonHospitals());
             String fileName = buildExcelFileName(evaluation);
-            String reportUrl = buildUrlWithParameter(evaluation.getId(), aebIdHospital, aebIdsGroupe, fileName.replace("\\", "/"));
+            String reportUrl = buildUrlWithParameter(evaluation.getId(), aebIdHospital, aebIdsGroupe, fileName.replace(DOUBLE_BACKSLASH, "/"));
 
             logJobInfo("request document from " + reportUrl);
 
@@ -136,6 +184,19 @@ public class ScannerTimer {
 
             logJobInfo("end evaluation [" + evaluation.getId() + "]");
         }
+    }
+
+    private void processingInekEvaluations(InekComparisonJob job) {
+        logJobInfo(job, "start InEK Evaluation ");
+        String fileName = determineInekCompareSaveFolder();
+        String reportUrl = buildInekVergleichUrlWithParameter(job.getId(), fileName.replace(DOUBLE_BACKSLASH, "/"));
+
+        logJobInfo(job, "request document from " + reportUrl);
+
+        //TODO Antwort vom server interpretieren
+        byte[] requestAnswer = _reportController.getSingleDocument(reportUrl);
+
+        logJobInfo(job, "end InEK Evaluation");
     }
 
     private void waitForFile(String fileName, int maxLoops) {
@@ -193,30 +254,44 @@ public class ScannerTimer {
     }
 
     private void zipFiles(String zipFilePath, List<String> filesForZip) {
+        logJobInfo("try to zip files to [" + zipFilePath + "] files [" + filesForZip + "]");
         try {
-            logJobInfo("try to zip files to [" + zipFilePath + "] files [" + filesForZip + "]");
-            FileOutputStream fos = new FileOutputStream(zipFilePath);
-            ZipOutputStream zipOut = new ZipOutputStream(fos);
-            for (String srcFile : filesForZip) {
-                File fileToZip = new File(srcFile);
-                FileInputStream fis = new FileInputStream(fileToZip);
-                ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
-                zipOut.putNextEntry(zipEntry);
-
-                byte[] bytes = new byte[1024];
-                int length;
-                while ((length = fis.read(bytes)) >= 0) {
-                    zipOut.write(bytes, 0, length);
-                }
-                fis.close();
-            }
-            zipOut.close();
-            fos.close();
+            zipFilesOnly(zipFilePath, filesForZip);
             logJobInfo("end zip files");
         } catch (Exception ex) {
             throw new IllegalArgumentException("Job " + _currentJob.getId() + " error during zip file [" + zipFilePath + "] files [" +
                     filesForZip + "]: " + ex.getMessage());
         }
+    }
+
+    private void zipFiles(InekComparisonJob job, String zipFilePath, List<String> filesForZip) {
+        logJobInfo(job, "try to zip files to [" + zipFilePath + "] files [" + filesForZip + "]");
+        try {
+            zipFilesOnly(zipFilePath, filesForZip);
+            logJobInfo(job, "end zip files");
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Job " + job.getId() + " error during zip file [" + zipFilePath + "] files [" +
+                    filesForZip + "]: " + ex.getMessage());
+        }
+    }
+    private void zipFilesOnly(String zipFilePath, List<String> filesForZip) throws Exception {
+        FileOutputStream fos = new FileOutputStream(zipFilePath);
+        ZipOutputStream zipOut = new ZipOutputStream(fos);
+        for (String srcFile : filesForZip) {
+            File fileToZip = new File(srcFile);
+            FileInputStream fis = new FileInputStream(fileToZip);
+            ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+            zipOut.putNextEntry(zipEntry);
+
+            byte[] bytes = new byte[1024];
+            int length;
+            while ((length = fis.read(bytes)) >= 0) {
+                zipOut.write(bytes, 0, length);
+            }
+            fis.close();
+        }
+        zipOut.close();
+        fos.close();
     }
 
     private List<String> getAllExcelFilePaths() {
@@ -231,25 +306,37 @@ public class ScannerTimer {
         }
     }
 
+    private List<String> getAllExcelFilePaths(InekComparisonJob job) {
+        try {
+            return Files.walk(Paths.get(job.getJobFolder(determineInekCompareSaveFolder())))
+                    .map(c -> c.toString())
+                    .filter(c -> c.endsWith(".xlsx"))
+                    .collect(Collectors.toList());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            throw new IllegalArgumentException("InEK Job " + job.getId() + " error during collect excel filesnames for zip: " + ex.getMessage());
+        }
+    }
+
     private String buildZipFileName() {
         return _currentJob.getEvaluationFilePath(determineSaveFolder());
     }
 
     private String buildAccountDokZipFileName() {
         String fileNamePattern = "KH-Vergleich_%s_%s.zip";
-        return _jobSaveFile + "\\" + String.format(fileNamePattern, _currentJob.getHosptalComparisonInfo().getHospitalIk(),
+        return _jobSaveFile + DOUBLE_BACKSLASH + String.format(fileNamePattern, _currentJob.getHosptalComparisonInfo().getHospitalIk(),
                 new SimpleDateFormat("ddMMyyyyHHmmss").format(Calendar.getInstance().getTime()));
     }
 
     private String buildExcelFileName(HospitalComparisonEvaluation evaluation) {
         String fileNamePattern = "%s_%s_PSY-KH_Vergleich_Auswertung.xlsx";
-        return _jobSaveFile + "\\" + String.format(fileNamePattern, evaluation.getHospitalComparisonInfo().getHospitalIk(),
+        return _jobSaveFile + DOUBLE_BACKSLASH + String.format(fileNamePattern, evaluation.getHospitalComparisonInfo().getHospitalIk(),
                 evaluation.getEvalutationHcId());
     }
 
     private String buildDocumentInfoFileName() {
         String fileNamePattern = "DocInfo_%s_%s.DataportalDocumentInfo";
-        return _jobSaveFile + "\\" + String.format(fileNamePattern, _currentJob.getId(),
+        return _jobSaveFile + DOUBLE_BACKSLASH + String.format(fileNamePattern, _currentJob.getId(),
                 new SimpleDateFormat("ddMMyyyyHHmmss").format(Calendar.getInstance().getTime()));
     }
 
@@ -266,6 +353,17 @@ public class ScannerTimer {
         return result;
     }
 
+    private String buildInekVergleichUrlWithParameter(int jobId, String savePath) {
+        try {
+            return _reportController.getReportTemplateByName("Inek-Vergleich Auswertung").getAddress()
+                    .replace("{0}", String.valueOf(jobId))
+                    .replace("{1}", URLEncoder.encode(savePath, StandardCharsets.UTF_8.toString()));
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(
+                    "Could not generate URL for Inek-Vergleich Auswertung with jobId" + jobId + " savePath " + savePath, ex);
+        }
+    }
+
     private String concatAebIds(List<HospitalComparisonHospitals> hospitals) {
         StringBuilder result = new StringBuilder();
         for (HospitalComparisonHospitals hospital : hospitals) {
@@ -277,8 +375,25 @@ public class ScannerTimer {
         return result.toString();
     }
 
+    private InekComparisonJob tryToLockInekJob(InekComparisonJob inekComparisonJob) throws OptimisticLockException {
+        updateInekJobStatus(inekComparisonJob, WORKING);
+        logJobInfo(inekComparisonJob, "trying to lock job");
+        InekComparisonJob comparisonJob = _aebFacade.saveInekComparison(inekComparisonJob);
+        logJobInfo(comparisonJob, "locked job");
+        return comparisonJob;
+    }
+
+    private void updateInekJobStatus(InekComparisonJob inekComparisonJob, PsyHosptalComparisonStatus status) {
+        if (WORKING.equals(status)) {
+            inekComparisonJob.setStartWorkingToNow();
+        } else {
+            inekComparisonJob.setEndWorkingToNow();
+        }
+        inekComparisonJob.setStatus(status);
+    }
+
     private boolean tryToLockJob(HospitalComparisonJob job) {
-        updateJobStatus(job, PsyHosptalComparisonStatus.WORKING);
+        updateJobStatus(job, WORKING);
 
         try {
             logJobInfo(job, "trying to lock job");
@@ -309,12 +424,20 @@ public class ScannerTimer {
         _currentJob = _aebFacade.save(_currentJob);
     }
 
+    private void saveInekJob(InekComparisonJob job) {
+        _aebFacade.saveInekComparison(job);
+    }
+
     private void logJobInfo(String message) {
         logJobInfo(_currentJob, message);
     }
 
     private void logJobInfo(HospitalComparisonJob job, String message) {
         _messageProvider.addMessage("Job [" + job.getId() + "] " + message);
+    }
+
+    private void logJobInfo(InekComparisonJob job, String message) {
+        _messageProvider.addMessage("InekComparisonJob [" + job.getId() + "] " + message);
     }
 
     public void startTimer() {
@@ -334,6 +457,11 @@ public class ScannerTimer {
     private String determineSaveFolder() {
         String rootFolder = _config.readConfig(ConfigKey.FolderRoot);
         return _config.readConfig(ConfigKey.KhComparisonJobSavePath).replace("{root}", removeTrailingSlash(rootFolder));
+    }
+
+    private String determineInekCompareSaveFolder() {
+        String rootFolder = _config.readConfig(ConfigKey.FolderRoot);
+        return _config.readConfig(ConfigKey.InekComparisonJobSavePath).replace("{root}", removeTrailingSlash(rootFolder));
     }
 
     private String removeTrailingSlash(String rootFolder) {
