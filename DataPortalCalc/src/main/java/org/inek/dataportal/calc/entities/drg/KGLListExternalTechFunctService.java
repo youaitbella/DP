@@ -141,8 +141,8 @@ public class KGLListExternalTechFunctService implements Serializable {
         return _baseInformationId;
     }
 
-    public void setBaseInformationId(int _baseInformationId) {
-        this._baseInformationId = _baseInformationId;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
 
