@@ -7,6 +7,121 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
 >
+    <!--  Liability Insurance  -->
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" value="Bitte geben Sie die Gesamtkosten für Prämien der Haftpflichtversicherung aus Konto 'Versicherungen' (Konto-Nr. 732) gem. KHBV an:"/>
+        <br/>
+        <br/>
+        <h:outputLabel styleClass="label15" value="Kostenvolumen:"/>
+        <h:inputText id="totalCostLiabilityInsurance"
+                     styleClass="inputPart"
+                     value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceCostVolume}"
+                     readonly="#{editCalcBasicsDrg.readOnly}">
+        </h:inputText>
+    </div>
+    <br/>
+    <br/>
+
+    <div class="inputPart">
+        <h:outputLabel id="HasDistributionOfPremiumInfoId"
+                       styleClass="label"
+                       value="Liegen im Krankenhaus von der Versicherung Informationen
+                              über die Aufteilung der Prämie zur Haftpflichtversicherung auf die einzelnen Leistungsbereiche vor?"/>
+        <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}">
+            <f:selectItem itemLabel="Ja" itemValue="#{1}"/>
+            <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
+        </h:selectOneMenu>
+    </div>
+    <br/>
+    <br/>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label"
+                       value="Werden die Gesamtkosten der Prämien für Haftpflichtversicherung
+                    aus Konto 'Versicherungen' (Konto-Nr. 732 gem. KHBV)  über alle Patienten im Rahmen der IBLV verteilt?"/>
+        <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasTotalCostILBV}">
+            <f:selectItem itemLabel="Ja" itemValue="#{1}"/>
+            <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
+        </h:selectOneMenu>
+    </div>
+    <br/>
+    <br/>
+    <div class="inputPart">
+        <h:outputLabel styleClass="label"
+                       value="Werden die Kosten der Prämie (gemäß den Hinweisen zur Kalkulation 2020) entsprechend der
+                       Information der Versicherung auf die verursachenden direkten Kostenstellen der Leistungsbereiche
+                       in die Kostenartengruppe 8 (nicht med. Infrastruktur) umgegliedert? "/>
+        <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasCostCalculation2020}">
+            <f:selectItem itemLabel="Ja"   itemValue="#{1}"/>
+            <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
+        </h:selectOneMenu>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <div class="inputPart">
+        <h:outputLabel styleClass="label10"
+                       value="Erläuterungsfeld"/>
+        <h:inputTextarea required="true"
+                         value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceExplanationField}"
+                         styleClass="fullWidth">
+        </h:inputTextarea>
+    </div>
+
+
+        <h:outputLabel value="Bitte geben Sie in der folgenden Tabelle an, auf welche Leistungsbereiche die
+                              entsprechenden Kosten der Prämien für Haftpflichtversicherung aus Konto 'Versicherungen'
+                              (Konto-Nr. 732) gem. KHBV entsprechend der Information der Versicherung aufgeteilt werden
+                              sowie ggf. die Höhe der verbleibenden Kosten, welche nach IBLV verteilt werden."/>
+    <br/>
+    <br/>
+
+    <div class="container marginTop">
+        <h:dataTable value=""
+                     styleClass="borderedTable borderCollapse"
+                     headerClass="smallFont paddingElement"
+                     tableStyle="table-layout: auto"
+                     width="100%"
+                     rowClasses="row1, row2"
+                     columnClasses="colIcon, col1, col2, col3, col4, col5">
+            <h:column>
+                <f:facet name="header"><h:outputLabel  value="Kostenstellengruppe/Leistungsbereich"/></f:facet>
+                <inek:InputTextWithMessage value="" styleClass="fullWidth"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputLabel value="Name der Kostenstelle "/>
+                    <h:graphicImage alt=""
+                                    name="Icon/small/information.png"
+                                    title="Bitte geben Sie hier die direkte verursachende Kostenstelle des
+                                           Leistungsbereiches an. Bitte verwenden Sie dabei einen aussagekräftigen
+                                           Namen für die Kostenstelle."/>
+                </f:facet>
+                <inek:InputTextWithMessage value="" styleClass="fullWidth"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kosten in KoArtGrp 8 (nicht med. Infrastr.) "/></f:facet>
+                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcBasics.li}" styleClass="fullWidth"/>
+            </h:column>
+        </h:dataTable>
+    </div>
+    <br/>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label60"
+                       value="Verbleibendes Kostenvolumen nach Umgliederung, welches gemäß IBLV verteilt wird:"/>
+        <inek:InputNumberWithMessage styleClass="inputPart"
+                                     value=""
+                                     validatorMessage=""
+                                     required="false" pattern="##,##0.00"/>
+    </div>
+    <br/>
+    <br/>
+
+    <!--  Liability Insurance Ende  -->
+
+
     <!--
         <h2 #{msg.titleNonMedicalInfrastructure} title="#{msg.lblNonMedicalInfrastructure}"></h2>
     -->    

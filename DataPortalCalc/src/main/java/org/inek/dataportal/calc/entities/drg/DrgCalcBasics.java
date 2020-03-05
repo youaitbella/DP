@@ -922,6 +922,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         _costCenters.removeIf(center -> center.getCostCenterId() >= 11 && center.getCostCenterId() <= 13);
     }
     //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyLaboratories">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rlBaseInformationId", referencedColumnName = "biID")
@@ -1057,7 +1058,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
     //</editor-fold>
     
-        //<editor-fold defaultstate="collapsed" desc="Property List OverviewPersonal">
+    //<editor-fold defaultstate="collapsed" desc="Property List OverviewPersonal">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "opBaseInformationId", referencedColumnName = "biId")
     @Documentation(name = "Übersicht Personal", headline = "Übersicht Personal", rank = 10)
@@ -1126,6 +1127,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
 
     //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property List EndoscopyDifferentials">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "edBaseInformationId", referencedColumnName = "biId")
@@ -1657,6 +1659,99 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     public void setExternalTechFunctServices(List<KGLListExternalTechFunctService> externalTechFunctServices) {
         this._externalTechFunctServices = externalTechFunctServices;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property List KGLListLiabilityInsurance">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "liBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLListLiabilityInsurance")
+    private List<KGLListLiabilityInsurance> _liabilityInsurances = new Vector<>();
+
+    public List<KGLListLiabilityInsurance> getLiabilityInsurances() {
+        return _liabilityInsurances;
+    }
+
+    public void setLiabilityInsurances(List<KGLListLiabilityInsurance> _liabilityInsurances) {
+        this._liabilityInsurances = _liabilityInsurances;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property LiabilityInsuranceCostVolume">
+    @Column(name = "biLiabilityInsuranceCostVolume")
+    private double _liabilityInsuranceCostVolume;
+
+    public double getLiabilityInsuranceCostVolume() {
+        return _liabilityInsuranceCostVolume;
+    }
+
+    public void setLiabilityInsuranceCostVolume(double _liabilityInsuranceCostVolume) {
+        this._liabilityInsuranceCostVolume = _liabilityInsuranceCostVolume;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property LiabilityInsuranceHasTotalCostILBV">
+    @Column(name = "biLiabilityInsuranceHasTotalCostILBV")
+    private boolean _liabilityInsuranceHasTotalCostILBV;
+
+    public boolean isLiabilityInsuranceHasTotalCostILBV() {
+        return _liabilityInsuranceHasTotalCostILBV;
+    }
+
+    public void setLiabilityInsuranceHasTotalCostILBV(boolean _liabilityInsuranceHasTotalCostILBV) {
+        this._liabilityInsuranceHasTotalCostILBV = _liabilityInsuranceHasTotalCostILBV;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property biLiabilityInsuranceHasCostCalculation2020">
+    @Column(name = "biLiabilityInsuranceHasCostCalculation2020")
+    private boolean _liabilityInsuranceHasCostCalculation2020;
+
+    public boolean isLiabilityInsuranceHasCostCalculation2020() {
+        return _liabilityInsuranceHasCostCalculation2020;
+    }
+
+    public void setLiabilityInsuranceHasCostCalculation2020(boolean _liabilityInsuranceHasCostCalculation2020) {
+        this._liabilityInsuranceHasCostCalculation2020 = _liabilityInsuranceHasCostCalculation2020;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property LiabilityInsuranceHasDistributionOfPremiumInfo">
+    @Column(name = "biLiabilityInsuranceHasDistributionOfPremiumInfo")
+    private boolean _liabilityInsuranceHasDistributionOfPremiumInfo;
+
+    public boolean isLiabilityInsuranceHasDistributionOfPremiumInfo() {
+        return _liabilityInsuranceHasDistributionOfPremiumInfo;
+    }
+
+    public void setLiabilityInsuranceHasDistributionOfPremiumInfo(boolean _liabilityInsuranceHasDistributionOfPremiumInfo) {
+        this._liabilityInsuranceHasDistributionOfPremiumInfo = _liabilityInsuranceHasDistributionOfPremiumInfo;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property LiabilityInsuranceExplanationField">
+    @Column(name ="biLiabilityInsuranceExplanationField" )
+    private String _liabilityInsuranceExplanationField;
+
+    public String getLiabilityInsuranceExplanationField() {
+        return _liabilityInsuranceExplanationField;
+    }
+
+    public void setLiabilityInsuranceExplanationField(String _liabilityInsuranceExplanationField) {
+        this._liabilityInsuranceExplanationField = _liabilityInsuranceExplanationField;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property LiabilityInsuranceRemainingCosts">
+    @Column(name = "biLiabilityInsuranceRemainingCosts")
+    private double _liabilityInsuranceRemainingCosts;
+
+    public double getLiabilityInsuranceRemainingCosts() {
+        return _liabilityInsuranceRemainingCosts;
+    }
+
+    public void setLiabilityInsuranceRemainingCosts(double _liabilityInsuranceRemainingCosts) {
+        this._liabilityInsuranceRemainingCosts = _liabilityInsuranceRemainingCosts;
     }
     //</editor-fold>
 

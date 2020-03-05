@@ -465,6 +465,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
         addTopic("TopicBasicExplanation", Pages.CalcDrgBasicExplanation.URL());
         addTopic("TopicCalcOverviewPersonal", Pages.CalcDrgOverviewPersonal.URL());
+        addTopic("TopicCalcExternalMedStaff", Pages.CalcDrgExternalMedStaff.URL());
         addTopic("TopicCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
         addTopic("TopicCalcOpAn", Pages.CalcDrgOperation.URL());
         addTopic("TopicCalcMaternityRoom", Pages.CalcDrgMaternityRoom.URL());
@@ -483,7 +484,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         //addTopic("TopicCalcStaffCost", Pages.CalcDrgStaffCost.URL());
         //addTopic("TopicCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
         addTopic("TopicCalcNeonatology", Pages.CalcDrgNeonatology.URL());
-        addTopic("TopicCalcExternalMedStaff", Pages.CalcDrgExternalMedStaff.URL());
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
