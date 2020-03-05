@@ -396,9 +396,30 @@ public class ProofEdit implements Serializable {
         }
         if (_proofBaseInformation == null || _proofBaseInformation.getStatusId() < 10) {
             return false;
-        } else {
-            return _accessManager.userHasWriteAccess(Feature.CARE, _proofBaseInformation.getIk());
         }
+        if (deadlineReached()) {
+            return false;
+        }
+        return _accessManager.userHasWriteAccess(Feature.CARE, _proofBaseInformation.getIk());
+    }
+
+    private boolean deadlineReached() {
+        int ik = _proofBaseInformation.getIk();
+        int year = _proofBaseInformation.getYear();
+        int quarter = _proofBaseInformation.getQuarter();
+        int deadlineYear = year + (quarter == 4 ? 1 : 0);
+        int deadlineMonth = quarter == 4 ? 1 : quarter * 3 + 1;
+        int day = _proofFacade.hasExtension(ik, year, quarter) ?
+
+        int extensionYear = year + (quarter == 4 ? 1 : 0);
+        int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
+        LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 15);
+        if (LocalDate.now().isAfter(extensionDate)) {
+            return false;
+        }
+
+        Date deadline = DateUtils.createDate(deadlineYear, deadlineMonth, 15);
+
     }
 
     public boolean sendAllowed() {

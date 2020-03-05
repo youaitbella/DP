@@ -2,6 +2,7 @@ package org.inek.dataportal.care.proof.entity;
 
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +20,6 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     private static final long serialVersionUID = 1L;
 
     public ProofRegulationBaseInformation() {
-
     }
 
     public ProofRegulationBaseInformation(ProofRegulationBaseInformation baseInformation) {
@@ -200,6 +200,32 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
 
     public void setStatus(WorkflowStatus status) {
         _statusId = status.getId();
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property ExtensionRequestedBy">
+    private int extensionRequestedBy;
+
+    @Column(name = "prbiExtensionRequestedBy")
+    public int getExtensionRequestedBy() {
+        return extensionRequestedBy;
+    }
+
+    public void setExtensionRequestedBy(int extensionRequestedBy) {
+        this.extensionRequestedBy = extensionRequestedBy;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property ExtensionRequestedAt">
+    @Column(name = "prbiExtensionRequestedAt")
+    Date extensionRequestedAt = DateUtils.MIN_DATE;
+
+    public Date getExtensionRequestedAt() {
+        return extensionRequestedAt;
+    }
+
+    public void setExtensionRequestedAt(Date extensionRequestedAt) {
+        this.extensionRequestedAt = extensionRequestedAt;
     }
     //</editor-fold>
 
