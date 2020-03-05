@@ -2,7 +2,6 @@ package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
-import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.entities.SensitiveDomain;
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
@@ -16,11 +15,9 @@ import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
@@ -44,12 +41,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static org.inek.dataportal.api.helper.PortalConstants.*;
 import static org.inek.dataportal.common.enums.TransferFileType.PPUGV;
 
 @Named
@@ -330,14 +327,10 @@ public class ProofEdit implements Serializable {
 
 
     private void sendMail(String mailTemplateName) {
-        String salutation = _mailer.getFormalSalutation(_accessManager.getSessionAccount());
-
-        MailTemplate template = _mailer.getMailTemplate(mailTemplateName);
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", Integer.toString(_proofBaseInformation.getIk()));
-
-        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
-
-        if (!_mailer.sendMailTemplate(template, _accessManager.getSessionAccount().getEmail())) {
+        Map<String, String> substitutions = new HashMap<>();
+        substitutions.put(VAR_IK, "" + _proofBaseInformation.getIk());
+        boolean success = _mailer.sendMailWithTemplate(mailTemplateName, substitutions, _accessManager.getSessionAccount());
+        if (!success) {
             LOGGER.log(Level.SEVERE, "Fehler beim Emailversand an " + _proofBaseInformation.getIk() + "(Care Proof)");
             _mailer.sendException(Level.SEVERE,
                     "Fehler beim Emailversand an " + _proofBaseInformation.getIk() + "(Care Proof)", new Exception());
@@ -391,39 +384,27 @@ public class ProofEdit implements Serializable {
     }
 
     public boolean changeAllowed() {
+        if (_proofBaseInformation == null || _proofBaseInformation.getStatusId() < 10 || deadlineReached()) {
+            return false;
+        }
         if (!_configFacade.readConfigBool(ConfigKey.IsCareProofChangeEnabled)) {
-            return false;
-        }
-        if (_proofBaseInformation == null || _proofBaseInformation.getStatusId() < 10) {
-            return false;
-        }
-        if (deadlineReached()) {
             return false;
         }
         return _accessManager.userHasWriteAccess(Feature.CARE, _proofBaseInformation.getIk());
     }
 
-    private boolean deadlineReached() {
-        int ik = _proofBaseInformation.getIk();
+    public boolean deadlineReached() {
         int year = _proofBaseInformation.getYear();
         int quarter = _proofBaseInformation.getQuarter();
         int deadlineYear = year + (quarter == 4 ? 1 : 0);
         int deadlineMonth = quarter == 4 ? 1 : quarter * 3 + 1;
-        int day = _proofFacade.hasExtension(ik, year, quarter) ?
-
-        int extensionYear = year + (quarter == 4 ? 1 : 0);
-        int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
-        LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 15);
-        if (LocalDate.now().isAfter(extensionDate)) {
-            return false;
-        }
-
-        Date deadline = DateUtils.createDate(deadlineYear, deadlineMonth, 15);
-
+        int lastDay = _proofBaseInformation.getExtensionRequestedAt().equals(DateUtils.MIN_DATE) ? 15 : 29;
+        Date deadline = DateUtils.createDate(deadlineYear, deadlineMonth, lastDay + 1);
+        return new Date().compareTo(deadline) >= 0;
     }
 
     public boolean sendAllowed() {
-        return _configFacade.readConfigBool(ConfigKey.IsCareProofSendEnabled);
+        return !deadlineReached() && _configFacade.readConfigBool(ConfigKey.IsCareProofSendEnabled);
     }
 
     public boolean sendAllowedForToday() {
@@ -564,45 +545,34 @@ public class ProofEdit implements Serializable {
     }
 
     public void requestExtension() {
-        int ik = _proofBaseInformation.getIk();
-        int year = _proofBaseInformation.getYear();
-        int quarter = _proofBaseInformation.getQuarter();
-        Extension extension = new Extension(ik, year, quarter, _accessManager.getSessionAccountId());
-        extension.setAccountId(_accessManager.getSessionAccountId());
-        _proofFacade.saveExtension(extension);
-        sendExtensionMail(ik, year, quarter);
+        _proofBaseInformation.setExtensionRequestedAt(new Date());
+        _proofBaseInformation.setExtensionRequestedBy(_accessManager.getSessionAccountId());
+        sendExtensionMail();
     }
 
-    private boolean sendExtensionMail(int ik, int year, int quarter) {
+    private void sendExtensionMail() {
+        int year = _proofBaseInformation.getYear();
+        int quarter = _proofBaseInformation.getQuarter();
         int extensionYear = year + (quarter == 4 ? 1 : 0);
         int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
-        LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 29);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        Date extensionDate = DateUtils.createDate(extensionYear, extensionMonth, 29);
 
-        MailTemplate template = _mailer.getMailTemplate("CareProofExtension");
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{formalSalutation}",
-                _mailer.getFormalSalutation(_accessManager.getSessionAccount()));
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", String.valueOf(ik));
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{quarter}", String.valueOf(quarter));
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{year}", String.valueOf(year));
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{date}", extensionDate.format(formatter));
+        Map<String, String> substitutions = new HashMap<>();
+        substitutions.put(VAR_IK, "" + _proofBaseInformation.getIk());
+        substitutions.put(VAR_YEAR, "" + year);
+        substitutions.put(VAR_QUARTER, "" + quarter);
+        substitutions.put(VAR_DATE, DateUtils.toGerman(extensionDate));
+        _mailer.sendMailWithTemplate("CareProofExtension", substitutions, _accessManager.getSessionAccount());
 
-        DialogController.showInfoDialog("Erfolgreich beantragt", "Sie haben erfolgreich eine " +
+        DialogController.showInfoDialog("Fristverlängerung beantragt", "Sie haben erfolgreich eine " +
                 "Fristverlängerung beantragt. Sie erhalten eine Bestätung per E-Mail.");
-        return _mailer.sendMailTemplate(template, _accessManager.getSessionAccount().getEmail());
     }
 
     public boolean getRequestExtensionAllowed() {
-        int ik = _proofBaseInformation.getIk();
-        int year = _proofBaseInformation.getYear();
-        int quarter = _proofBaseInformation.getQuarter();
-        int extensionYear = year + (quarter == 4 ? 1 : 0);
-        int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
-        LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 15);
-        if (LocalDate.now().isAfter(extensionDate)) {
+        if (deadlineReached()) {
             return false;
         }
-        return !_proofFacade.hasExtension(ik, year, quarter);
+        return _proofBaseInformation.getExtensionRequestedAt().equals(DateUtils.MIN_DATE);
     }
 
     public void uploadDocument(FileUploadEvent event) {

@@ -307,7 +307,7 @@
                                               action="#{proofEdit.save()}"
                                               onstart="PF('dlgLoadingData').show()"
                                               oncomplete="PF('dlgLoadingData').hide()"
-                                              rendered="#{!proofEdit.isReadOnly}"
+                                              rendered="#{not proofEdit.isReadOnly and not proofEdit.deadlineReached()}"
                                               style="margin-left: 10px;"
                                               update="@(.ui-message) @form"/>
 
