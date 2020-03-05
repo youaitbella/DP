@@ -159,4 +159,19 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
             return proofWard;
         }
     }
+
+    public ProofRegulationBaseInformation retrieveCurrent(int ik) {
+        int year = DateUtils.currentYear() - (DateUtils.currentMonth() == 1 ? 1 : 0);
+        int quarter = DateUtils.currentMonth() == 1 ? 4 : (DateUtils.currentMonth() + 1) / 3;
+
+        String jpql = "select p from ProofRegulationBaseInformation p " +
+                "where p._ik = :ik and p._year = :year and p._quarter = :quarter and p._statusId < 200";
+        TypedQuery<ProofRegulationBaseInformation> query = getEntityManager().createQuery(jpql, ProofRegulationBaseInformation.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", year);
+        query.setParameter("quarter", quarter);
+
+        return query.getSingleResult();
+
+    }
 }

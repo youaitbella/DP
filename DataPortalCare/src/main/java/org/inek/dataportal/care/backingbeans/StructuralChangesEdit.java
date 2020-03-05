@@ -19,6 +19,7 @@ import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.care.enums.StructuralChangesType;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
+import org.inek.dataportal.care.proof.util.ProofUpdater;
 import org.inek.dataportal.care.utils.AggregatedWardsHelper;
 import org.inek.dataportal.care.utils.CareValueChecker;
 import org.inek.dataportal.common.controller.DialogController;
@@ -76,6 +77,8 @@ public class StructuralChangesEdit implements Serializable {
     private AccountFacade _accountFacade;
     @Inject
     private ConfigFacade configFacade;
+    @Inject
+    ProofUpdater proofUpdater;
 
     private List<DeptWard> _wards = new ArrayList<>();
     private DeptBaseInformation _deptBaseInformation;
@@ -514,6 +517,7 @@ public class StructuralChangesEdit implements Serializable {
     private void acceptChanges(boolean withHint) {
         updateDeptBase();
         updateStructuralChangesBase();
+        proofUpdater.updateProof(_deptBaseInformation);
         sendMail(withHint ? "CareStructuralChangesAcceptedWithHint" : "CareStructuralChangesAccepted", false);
         DialogController.showSaveDialog();
     }
