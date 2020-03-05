@@ -222,7 +222,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     //<editor-fold desc="Property ExtensionRequestedAt">
     @Column(name = "prbiExtensionRequestedAt")
     @Temporal(TemporalType.TIMESTAMP)
-    Date extensionRequestedAt = DateUtils.MIN_DATE;
+    private Date extensionRequestedAt = DateUtils.MIN_DATE;
 
     public Date getExtensionRequestedAt() {
         return extensionRequestedAt;

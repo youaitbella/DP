@@ -13,9 +13,9 @@ public abstract class ProofImporter {
 
     protected static final Logger LOGGER = Logger.getLogger(ProofImporter.class.getName());
     public static final String IMPLAUSIBLE = " ist unplausibel";
-    protected String _message = "";
-    protected int _rowCounter = 0;
-    protected boolean _isCommentAllowed = false;
+    private String _message = "";
+    private int _rowCounter = 0;
+    private boolean _isCommentAllowed = false;
 
     public ProofImporter(boolean isCommentAllowed) {
         _isCommentAllowed = isCommentAllowed;
@@ -31,6 +31,10 @@ public abstract class ProofImporter {
 
     public boolean handleProofUpload(ProofRegulationBaseInformation info, InputStream input) {
         return startImport(info, input);
+    }
+
+    protected void incrementRowCount() {
+        _rowCounter++;
     }
 
     protected boolean startImport(ProofRegulationBaseInformation info, InputStream file) {

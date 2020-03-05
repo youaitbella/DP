@@ -370,21 +370,13 @@ public class Proof implements Serializable {
 
 
     @Override
+    @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Proof proof = (Proof) o;
         return _month == proof._month &&
                 _shift == proof._shift &&
-                Double.compare(proof.beds, beds) == 0 &&
-                _countShift == proof._countShift &&
-                _occupancyDays == proof._occupancyDays &&
-                Double.compare(proof._nurse, _nurse) == 0 &&
-                Double.compare(proof._helpeNurse, _helpeNurse) == 0 &&
-                Double.compare(proof._patientOccupancy, _patientOccupancy) == 0 &&
-                Double.compare(proof._countShiftNotRespected, _countShiftNotRespected) == 0 &&
-                Double.compare(proof._patientPerNurse, _patientPerNurse) == 0 &&
-                Double.compare(proof._countHelpeNurseChargeable, _countHelpeNurseChargeable) == 0 &&
                 id.equals(proof.id) &&
                 _baseInformation.equals(proof._baseInformation) &&
                 _proofWard.equals(proof._proofWard) &&
@@ -392,18 +384,13 @@ public class Proof implements Serializable {
                 validTo.equals(proof.validTo) &&
                 deptNumbers.equals(proof.deptNumbers) &&
                 deptNames.equals(proof.deptNames) &&
-                sensitiveDomains.equals(proof.sensitiveDomains) &&
-                significantSensitiveDomain.equals(proof.significantSensitiveDomain) &&
-                _comment.equals(proof._comment) &&
-                _proofExceptionFact.equals(proof._proofExceptionFact);
+                significantSensitiveDomain.equals(proof.significantSensitiveDomain);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, _baseInformation, _proofWard, validFrom, validTo, _month,
-                deptNumbers, deptNames, sensitiveDomains, significantSensitiveDomain, _shift, beds, _countShift, _occupancyDays, _nurse,
-                _helpeNurse, _patientOccupancy, _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable,
-                _comment, _proofExceptionFact);
+        return Objects.hash(id, _baseInformation, _proofWard, validFrom, validTo, _month, deptNumbers,
+                deptNames, significantSensitiveDomain, _shift);
     }
 
     public int duration() {

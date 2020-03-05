@@ -50,7 +50,7 @@ public class ProofImporter2019 extends ProofImporter {
             proofFromRow.setPatientOccupancy(tmpProof.getPatientOccupancy());
             proofFromRow.setCountShiftNotRespected(tmpProof.getCountShiftNotRespected());
             proofFromRow.setComment(tmpProof.getComment());
-            _rowCounter++;
+            incrementRowCount();
         } catch (InvalidValueException ex) {
             addMessage(ex.getMessage());
         }
