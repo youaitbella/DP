@@ -365,7 +365,7 @@ public class DeptEdit implements Serializable {
         if (!_configFacade.readConfigBool(ConfigKey.IsCareChangeEnabled)) {
             return false;
         }
-        if (_deptBaseInformation == null || _deptBaseInformation.getStatusId() < 10) {
+        if (_deptBaseInformation == null || _deptBaseInformation.getStatusId() < 10 || isAfterEndDate()) {
             return false;
         } else {
             return _accessManager.userHasWriteAccess(Feature.CARE, _deptBaseInformation.getIk()) && _deptBaseInformation.getYear() > 2017;
