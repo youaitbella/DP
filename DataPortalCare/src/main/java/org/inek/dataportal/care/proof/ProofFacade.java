@@ -1,6 +1,5 @@
 package org.inek.dataportal.care.proof;
 
-import org.inek.dataportal.care.entities.Extension;
 import org.inek.dataportal.care.proof.entity.ProofDocument;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.proof.entity.ProofWard;
@@ -114,24 +113,6 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         }
 
         return items;
-    }
-
-    public boolean hasExtension(int ik, int year, int quarter) {
-        String name = "Extension.findByCoordinates";
-        TypedQuery<Extension> query = getEntityManager().createNamedQuery(name, Extension.class);
-        query.setParameter(IK, ik);
-        query.setParameter(YEAR, year);
-        query.setParameter("quarter", quarter);
-        try {
-            query.getSingleResult();
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
-    }
-
-    public void saveExtension(Extension extension) {
-        persist(extension);
     }
 
     public void saveProofDocument(ProofDocument document) {

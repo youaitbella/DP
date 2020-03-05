@@ -49,12 +49,13 @@ import static org.inek.dataportal.api.helper.PortalConstants.END_PARAGRAPH;
 import static org.inek.dataportal.api.helper.PortalConstants.MESSAGE_SEPERATOR;
 
 /**
- *
  * @author muellermi
  */
 public class Utils {
 
     private static final Logger LOGGER = Logger.getLogger(Utils.class.getName());
+    public static final int MIN_TEST_IK = 222222220;
+    public static final int MAX_TEST_IK = 222222229;
 
     public static String getMessageForScript(String key) {
         return getMessage(key).replace("\r\n", "\n").replace("\n", "\\r\\n");
@@ -425,6 +426,10 @@ public class Utils {
         } catch (NumberFormatException ex) {
             return false;
         }
+    }
+
+    public static boolean isTestIk(int ik) {
+        return ik >= MIN_TEST_IK && ik <= MAX_TEST_IK;
     }
 
 }
