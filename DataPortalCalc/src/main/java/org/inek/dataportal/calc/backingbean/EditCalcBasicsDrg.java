@@ -3,6 +3,7 @@ package org.inek.dataportal.calc.backingbean;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.calc.entities.drg.*;
 import org.inek.dataportal.calc.entities.psy.KglPkmsAlternative;
+import org.inek.dataportal.calc.enums.ExternalStaffType;
 import org.inek.dataportal.calc.facades.CalcDrgFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -337,6 +338,43 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getIntensivStrokes().add(item);
     }
 
+    public void addExternalMedStaff() {
+        List<KGLListExternalMedStaff> result = _calcBasics.getExternalMedStaffs();
+        KGLListExternalMedStaff item = new KGLListExternalMedStaff();
+        item.setBaseInformationId(_calcBasics.getId());
+        result.add(item);
+    }
+    public void addExternalNursingStaff(String externalStaff) {
+        List<KGLListExternalNursingStaff> result = _calcBasics.getExternalNursingStaffs();
+        KGLListExternalNursingStaff item = new KGLListExternalNursingStaff();
+        item.setBaseInformationId(_calcBasics.getId());
+        item.setExternalStaffType(ExternalStaffType.getByName(externalStaff).getId() );
+        result.add(item);
+    }
+
+
+    public void addexternalTechFunctService() {
+        List<KGLListExternalTechFunctService> result = _calcBasics.getExternalTechFunctServices();
+        KGLListExternalTechFunctService item = new KGLListExternalTechFunctService();
+        item.setBaseInformationId(_calcBasics.getId());
+        result.add(item);
+    }
+
+    public void deleteExternalMedStaff(KGLListExternalMedStaff externalMedStaff) {
+        List<KGLListExternalMedStaff> result = _calcBasics.getExternalMedStaffs();
+        result.remove(externalMedStaff);
+    }
+
+    public void deleteExternalNursingMedStaff(KGLListExternalNursingStaff externalNursingMedStaff) {
+        List<KGLListExternalNursingStaff> result = _calcBasics.getExternalNursingStaffs();
+        result.remove(externalNursingMedStaff);
+    }
+
+    public void deleteExternalTechFunctService(KGLListExternalTechFunctService externalTechFunctService) {
+        List<KGLListExternalTechFunctService> result = _calcBasics.getExternalTechFunctServices();
+        result.remove(externalTechFunctService);
+    }
+
     public void deleteIntensivStrokeItems(int intensiveType) {
         _calcBasics.getIntensivStrokes().removeIf(i -> i.getIntensiveType() == intensiveType);
     }
@@ -445,6 +483,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         //addTopic("TopicCalcStaffCost", Pages.CalcDrgStaffCost.URL());
         //addTopic("TopicCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
         addTopic("TopicCalcNeonatology", Pages.CalcDrgNeonatology.URL());
+        addTopic("TopicCalcExternalMedStaff", Pages.CalcDrgExternalMedStaff.URL());
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
@@ -1083,6 +1122,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return _calcDrgFacade.retrieveKglLlistServiceAreas()
                 .stream()
                 .map(i -> new SelectItem(i.getId(), i.getName()))
+                .collect(Collectors.toList());
+    }
+
+    public List<KGLListExternalNursingStaff> obtainExternalStaff(String externalStaff) {
+        return _calcBasics.getExternalNursingStaffs()
+                .stream()
+                .filter(ns -> ns.getExternalStaffType() == ExternalStaffType.getByName(externalStaff).getId())
                 .collect(Collectors.toList());
     }
 }

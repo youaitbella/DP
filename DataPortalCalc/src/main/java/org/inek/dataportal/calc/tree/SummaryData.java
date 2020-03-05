@@ -138,8 +138,12 @@ public final class SummaryData {
 
     public List<SelectItem> getDataYears() {
         List<SelectItem> items = new ArrayList<>();
-        IntStream.range(2015, DateUtils.currentYear()).forEach(y -> items.add(new SelectItem(y, "Datenjahr " + y)));
+        IntStream.range(DateUtils.currentYear()-2, DateUtils.currentYear()).forEach(y -> items.add(new SelectItem(y, "Datenjahr " + y)));
         return items;
+    }
+
+    public int getCurrentDataYear(){
+        return DateUtils.currentYear();
     }
 
 }

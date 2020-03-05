@@ -137,4 +137,18 @@ public class ValueLists{
         return l.toArray(new SelectItem[l.size()]);
     }
 
+    public List<SelectItem> getOccupationalGroups() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(0, "med. techn. Dienst"));
+        items.add(new SelectItem(1, "med. techn. Funktionsdienst"));
+        return items;
+    }
+
+    public List<SelectItem> getDataYearExternalPersonal() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(2018, "2018"));
+        items.add(new SelectItem(2019, "2019"));
+        return items;
+    }
+
 }

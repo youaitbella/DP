@@ -67,6 +67,7 @@ public enum Pages {
     CalcDrgValvularIntervention("/CalcHospital/Drg/ValvularIntervention"),
     CalcDrgNeonatology("/CalcHospital/Drg/Neonat/Neonatology"),
     CalcDrgOverviewPersonal("/CalcHospital/Drg/OverviewPersonal"),
+    CalcDrgExternalMedStaff("/CalcHospital/Drg/ExternalMedStaff"),
     // PEPP calculation
     CalcPeppEdit("/CalcHospital/Pepp/EditPepp"),
     CalcPeppBasics("/CalcHospital/Pepp/BasicsPepp"),

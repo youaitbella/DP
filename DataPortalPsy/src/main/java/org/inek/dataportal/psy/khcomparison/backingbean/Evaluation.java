@@ -4,10 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.KhComparison.entities.HospitalComparisonEvaluation;
-import org.inek.dataportal.common.data.KhComparison.entities.HospitalComparisonHospitals;
-import org.inek.dataportal.common.data.KhComparison.entities.HospitalComparisonInfo;
-import org.inek.dataportal.common.data.KhComparison.entities.HospitalComparisonJob;
+import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyEvaluationType;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonHospitalsType;
 import org.inek.dataportal.common.data.KhComparison.enums.PsyHosptalComparisonStatus;
@@ -56,6 +53,9 @@ public class Evaluation {
     private int _selectedIk = 0;
     private int _selectedAgreementYear = 0;
 
+    private int inekDataYear = 2018;
+    private String inekAebSendDateUpToConsider="2020-01-17";
+
     private String _hospitalComparisonId = "";
 
     private List<HospitalComparisonInfo> _listEvaluations = new ArrayList<>();
@@ -76,6 +76,22 @@ public class Evaluation {
 
     public void setSelectedAgreementYear(int selectedAgreementYear) {
         this._selectedAgreementYear = selectedAgreementYear;
+    }
+
+    public int getInekDataYear() {
+        return inekDataYear;
+    }
+
+    public void setInekDataYear(int inekDataYear) {
+        this.inekDataYear = inekDataYear;
+    }
+
+    public String getInekAebSendDateUpToConsider() {
+        return inekAebSendDateUpToConsider;
+    }
+
+    public void setInekAebSendDateUpToConsider(String inekAebSendDateUpToConsider) {
+        this.inekAebSendDateUpToConsider = inekAebSendDateUpToConsider;
     }
 
     public List<HospitalComparisonInfo> getListEvaluations() {
@@ -167,6 +183,24 @@ public class Evaluation {
             DialogController.showInfoDialog("Keine Auswertung möglich", "Es konnte keine Vergleichsgruppe gebildet " +
                     "werden. Bitte versuchen Sie es später noch einmal.");
         }
+    }
+
+    public void startInekEvaluation() {
+        LOGGER.severe("start create job for InEK Comparison");
+        try {
+            InekComparisonJob inekComparisonJob = _aebFacade.newInekComparisonJob(
+                    _sessionController.getAccount(), inekDataYear, inekAebSendDateUpToConsider);
+            LOGGER.severe("start calculation Hospitals for InEK comparison");
+            generateInekComparisonHospitalsForJob(inekComparisonJob);
+            LOGGER.severe("end generating job for InEK comparison.");
+        } catch (IllegalArgumentException e) {
+            DialogController.showErrorDialog("Daten unvollständig", e.getMessage());
+            LOGGER.severe("end startInekEvaluation due to missing values. " + e.getMessage());
+        }
+    }
+
+    private void generateInekComparisonHospitalsForJob(InekComparisonJob inekComparisonJob) {
+        _aebFacade.generateInekComparisonHospitals(inekComparisonJob);
     }
 
     private boolean isReadyForEvaluation() {

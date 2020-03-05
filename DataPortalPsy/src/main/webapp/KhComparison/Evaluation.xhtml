@@ -68,6 +68,29 @@
                                       immediate="true"/>
                 </ui:remove>
 
+                    <pf:outputLabel style="margin-right: 10px"
+                                    styleClass="label"
+                                    rendered="#{sessionController.isInekUser('HC_HOSPITAL')}"
+                                    for="dataYear"
+                                    value="Datenjahr"/>
+
+                    <pf:inputText id="dataYear"
+                                  value="#{evaluation.inekDataYear}"
+                                  rendered="#{sessionController.isInekUser('HC_HOSPITAL')}">
+                        <pf:ajax/>
+                    </pf:inputText>
+
+                    <pf:outputLabel style="margin-right: 10px"
+                                    styleClass="label"
+                                    rendered="#{sessionController.isInekUser('HC_HOSPITAL')}"
+                                    for="upTo"
+                                    value="AEB bis einschließlich:"/>
+
+                    <pf:inputText id="upTo"
+                                  value="#{evaluation.inekAebSendDateUpToConsider}"
+                                  rendered="#{sessionController.isInekUser('HC_HOSPITAL')}">
+                        <pf:ajax/>
+                    </pf:inputText>
 
 
                 <pf:commandButton value="Auswertung starten"
@@ -78,9 +101,8 @@
                                   immediate="true"/>
 
                 <pf:commandButton value="Öffentliche Auswertung starten"
-                                  action="#{evaluation.startEvaluation()}"
+                                  action="#{evaluation.startInekEvaluation()}"
                                   rendered="#{sessionController.isInekUser('HC_HOSPITAL')}"
-                                  update="auswertungsTable"
                                   styleClass="btnPsy"
                                   immediate="true"/>
 

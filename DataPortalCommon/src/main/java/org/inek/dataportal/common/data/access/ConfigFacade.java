@@ -14,6 +14,7 @@ import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.common.helper.EnvironmentInfo;
 
 import javax.enterprise.context.RequestScoped;
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -27,6 +28,13 @@ import java.util.Map;
 @Transactional
 // todo: find better name
 public class ConfigFacade extends AbstractDataAccess {
+
+    public ConfigFacade() {
+    }
+
+    public ConfigFacade(EntityManager em) {
+        super(em);
+    }
 
     private static final String FEATURE = "Feature:";
 
