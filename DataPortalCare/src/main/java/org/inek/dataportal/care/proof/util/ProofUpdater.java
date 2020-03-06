@@ -17,11 +17,13 @@ import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
 import java.io.Serializable;
 import java.util.*;
+import java.util.logging.Logger;
 
 @Dependent
 public class ProofUpdater implements Serializable {
-    private ProofFacade proofFacade;
+    private static final Logger LOGGER = Logger.getLogger("ProofUpdater");
 
+    private ProofFacade proofFacade;
     private BaseDataFacade baseDataFacade;
 
     public ProofUpdater() {
@@ -40,24 +42,29 @@ public class ProofUpdater implements Serializable {
         } catch (EntityNotFoundException e) {
             return;
         }
-
     }
 
     private void updateProof(ProofRegulationBaseInformation proofBaseInfo, DeptBaseInformation deptBaseInfo) {
         ProofRegulationBaseInformation originalProofBaseInfo = new ProofRegulationBaseInformation(proofBaseInfo);
         int year = proofBaseInfo.getYear();
         int quarter = proofBaseInfo.getQuarter();
+        List<ProofWardInfo> proofWardInfos = new ArrayList<>();
 
         for (int month = quarter * 3 - 2; month <= quarter * 3; month++) {
             Period period = DateUtils.firstAndLastDayOfMonth(year, month);
-            List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), period.from(), period.to());
-            updateProof(proofBaseInfo, proofWardInfos);
+            proofWardInfos.addAll(ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), period.from(), period.to()));
         }
+        updateProof(proofBaseInfo, proofWardInfos);
         if (originalProofBaseInfo.equals(proofBaseInfo)) {
             return;
         }
         originalProofBaseInfo.setStatus(WorkflowStatus.Retired);
         proofFacade.save(originalProofBaseInfo);
+        if (proofBaseInfo.getStatus() == WorkflowStatus.Provided) {
+            int id = proofBaseInfo.getId();
+            LOGGER.warning("Structural changes with validity starting before end of current quarter. ProofBaseId = " + id);
+            proofBaseInfo.setStatus(WorkflowStatus.CorrectionRequested);
+        }
         proofFacade.save(proofBaseInfo);
     }
 
