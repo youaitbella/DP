@@ -389,7 +389,7 @@ public class Proof implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, _baseInformation, _proofWard, validFrom, validTo, _month, deptNumbers,
+        return Objects.hash(id, _proofWard, validFrom, validTo, _month, deptNumbers,
                 deptNames, significantSensitiveDomain, _shift);
     }
 
