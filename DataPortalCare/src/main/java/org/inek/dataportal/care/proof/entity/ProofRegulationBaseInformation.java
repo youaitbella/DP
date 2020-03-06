@@ -255,6 +255,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
 
 
     @Override
+    @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -263,11 +264,22 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
                 _year == that._year &&
                 _quarter == that._quarter &&
                 _ik == that._ik &&
-                _id.equals(that._id);
+                _createdBy == that._createdBy &&
+                _lastChangeBy == that._lastChangeBy &&
+                _statusId == that._statusId &&
+                extensionRequestedBy == that.extensionRequestedBy &&
+                _id.equals(that._id) &&
+                _signature.equals(that._signature) &&
+                _created.equals(that._created) &&
+                _lastChanged.equals(that._lastChanged) &&
+                _send.equals(that._send) &&
+                extensionRequestedAt.equals(that.extensionRequestedAt) &&
+                _proofs.equals(that._proofs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _version, _year, _quarter, _ik);
+        return Objects.hash(_id, _version, _year, _quarter, _signature, _ik, _createdBy, _lastChangeBy, _created,
+                _lastChanged, _send, _statusId, extensionRequestedBy, extensionRequestedAt, _proofs);
     }
 }
