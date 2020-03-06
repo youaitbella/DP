@@ -34,15 +34,34 @@ class ProofUpdaterTest {
 
         List<Dept> depts = new ArrayList<>();
 
+        DeptBaseInformation deptBaseInformation = new DeptBaseInformation();
+
+        Dept dept = new Dept(deptBaseInformation);
+        dept.setDeptArea(1);
+        dept.setDeptName("Unfallchirugie");
+        dept.setDeptNumber("1600");
+        dept.setDeptsAftertargetYear();
+        dept.setDeptWards();
+        dept.setId(1);
+        dept.setLocation("Station 10");
+        dept.setRequired();
+        dept.setSeeDeptAreaId();
+        dept.setSensitiveArea();
+
         BaseDataFacade baseDataFacade = mock(BaseDataFacade.class);
 
-        DeptBaseInformation deptBaseInformation = new DeptBaseInformation();
         deptBaseInformation.setIk(IK);
         deptBaseInformation.setExtensionRequested(EXTENSION_REQUESTED);
         deptBaseInformation.setCreated(CREATED_DATE);
         deptBaseInformation.setCreatedBy(ACCOUNTID);
         deptBaseInformation.setCurrentVersion(new MapVersion(ACCOUNTID));
+
+
+
         deptBaseInformation.setDepts(depts);
+
+
+
         deptBaseInformation.setId(ID);
         deptBaseInformation.setLastChangeBy(ACCOUNTID);
         deptBaseInformation.setLastChanged(LAST_CHANGED);
