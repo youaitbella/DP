@@ -39,7 +39,13 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <f:facet name="header">
+                        <h:outputLabel value="Datenjahr "/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bitte machen Sie entsprechende Angaben für das Datenjahr 2018, falls für
+                                        die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
+                    </f:facet>
                     <h:selectOneMenu id="medStaffId"
                                      value="#{externalMedStaff.dataYear}" >
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
@@ -53,7 +59,6 @@
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                     <inek:InputTextWithMessage id="division"
-                                               required="true"
                                                value="#{externalMedStaff.divisionMedStaff}"
                                                styleClass="fullWidth"
                                                readonly="#{editCalcBasicsDrg.readOnly}">
@@ -103,8 +108,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
-                    <inek:InputTextWithMessage required="true"
-                                               value="#{externalMedStaff.explanationField}"
+                    <inek:InputTextWithMessage value="#{externalMedStaff.explanationField}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
                 </h:column>
@@ -151,7 +155,13 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <f:facet name="header">
+                        <h:outputLabel value="Datenjahr"/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bitte machen Sie entsprechende Angaben für das Datenjahr 2018, falls für
+                                        die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
+                    </f:facet>
                     <h:selectOneMenu id="NursingId"
                                      value="#{externalNursingStaff.dataYear}" >
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
@@ -165,7 +175,6 @@
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                     <inek:InputTextWithMessage id="division"
-                                               required="true"
                                                value="#{externalNursingStaff.divisionNursingStaff}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
@@ -189,7 +198,7 @@
                     </f:facet>
                     <inek:InputNumberWithMessage styleClass="element100"
                                                  value="#{externalNursingStaff.netAverageWorkingHoursNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -199,7 +208,7 @@
                     <inek:InputNumberWithMessage id="calculatedCountNursingStaff" styleClass="element100"
                                                  value="#{externalNursingStaff.calculatedCountNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('calculatedCountNursingStaff'))}CostVolumeUpToLimit:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -209,7 +218,7 @@
                     <inek:InputNumberWithMessage id="averageAnnualEmployerCostsNursingStaff" styleClass="element100"
                                                  value="#{externalNursingStaff.averageAnnualEmployerCostsNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('averageAnnualEmployerCostsNursingStaff'))}CostVolumeUpToLimit:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -219,18 +228,18 @@
                                                  styleClass="element100"
                                                  value="#{externalNursingStaff.amountTemporaryEmploymentNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountTemporaryEmploymentNursingStaff'))}CostVolumeAboveLimit:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:"/>
+                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG:"/>
                     </f:facet>
                     <inek:InputNumberWithMessage id="CostVolumeUpToLimit"
                                                  styleClass="element100"
                                                  value="#{externalNursingStaff.calculatedCountNursingStaff * externalNursingStaff.averageAnnualEmployerCostsNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimit'))}CostVolumeAboveLimit:text"
                                                  disabled="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -240,7 +249,7 @@
                                                  styleClass="element100"
                                                  value="#{externalNursingStaff.amountTemporaryEmploymentNursingStaff - (externalNursingStaff.calculatedCountNursingStaff * externalNursingStaff.averageAnnualEmployerCostsNursingStaff)}"
                                                  disabled="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
@@ -286,12 +295,11 @@
                     <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingStaffId" styleClass="element100"
                                                  value="#{externalNursingStaff.partOfCostVolumeBedNursingStaff}"
                                                  required="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
                     <inek:InputTextWithMessage id="explanationField"
-                                               required="true"
                                                value="#{externalNursingStaff.explanationFieldNursingStaff}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
@@ -339,7 +347,13 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <f:facet name="header">
+                        <h:outputLabel value="Datenjahr "/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bitte machen Sie entsprechende Angaben für das Datenjahr 2018, falls für
+                                        die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
+                    </f:facet>
                     <h:selectOneMenu id="NursingAssistantId"
                                      value="#{externalNursingAssistantMedStaff.dataYear}" >
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
@@ -353,7 +367,6 @@
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                     <inek:InputTextWithMessage id="division"
-                                               required="true"
                                                value="#{externalNursingAssistantMedStaff.divisionNursingStaff}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
@@ -379,7 +392,7 @@
                     </f:facet>
                     <inek:InputNumberWithMessage styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.netAverageWorkingHoursNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -389,7 +402,7 @@
                     <inek:InputNumberWithMessage id="calculatedCountNursingAssistantStaff" styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.calculatedCountNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('calculatedCountNursingAssistantStaff'))}CostVolumeUpToLimitAssistant:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -400,7 +413,7 @@
                                                  styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.averageAnnualEmployerCostsNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('averageAnnualEmployerCostsNursingAssistantStaff'))}CostVolumeUpToLimitAssistant:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -410,18 +423,18 @@
                                                  styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.amountTemporaryEmploymentNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountTemporaryEmploymentAssistantNursingStaff'))}CostVolumeAboveLimitAssistant:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:"/>
+                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG:"/>
                     </f:facet>
                     <inek:InputNumberWithMessage id="CostVolumeUpToLimitAssistant"
                                                  styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.calculatedCountNursingStaff * externalNursingAssistantMedStaff.averageAnnualEmployerCostsNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimitAssistant'))}CostVolumeAboveLimitAssistant:text"
                                                  disabled="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -431,7 +444,7 @@
                                                  styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.amountTemporaryEmploymentNursingStaff - (externalNursingAssistantMedStaff.calculatedCountNursingStaff * externalNursingAssistantMedStaff.averageAnnualEmployerCostsNursingStaff)}"
                                                  disabled="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
@@ -474,12 +487,11 @@
                     <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingAssistantStaff" styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.partOfCostVolumeBedNursingStaff}"
                                                  required="#{externalNursingAssistantMedStaff.exclusivelyCareAtBedNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
                     <inek:InputTextWithMessage id="explanationFieldAssistant"
-                                               required="true"
                                                value="#{externalNursingAssistantMedStaff.explanationFieldNursingStaff}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
@@ -527,7 +539,13 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <f:facet name="header">
+                        <h:outputLabel value="Datenjahr "/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bitte machen Sie entsprechende Angaben für das Datenjahr 2018, falls für
+                                        die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
+                    </f:facet>
                     <h:selectOneMenu id="CareStaffOtherId"
                                      value="#{externalCareStaffOther.dataYear}" >
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
@@ -541,7 +559,6 @@
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                     <inek:InputTextWithMessage id="division"
-                                               required="true"
                                                value="#{externalCareStaffOther.divisionNursingStaff}"
                                                styleClass="fullWidth"/>
                 </h:column>
@@ -566,7 +583,7 @@
                     </f:facet>
                     <inek:InputNumberWithMessage styleClass="element100"
                                                  value="#{externalCareStaffOther.netAverageWorkingHoursNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -577,7 +594,7 @@
                                                  styleClass="element100"
                                                  value="#{externalCareStaffOther.calculatedCountNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('calculatedCountOther'))}CostVolumeUpToLimitOther:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -586,7 +603,7 @@
                     <inek:InputNumberWithMessage id="averageAnnualEmployerCostsOther" styleClass="element100"
                                                  value="#{externalCareStaffOther.averageAnnualEmployerCostsNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('averageAnnualEmployerCostsOther'))}CostVolumeUpToLimitOther:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -596,18 +613,18 @@
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountTemporaryEmploymentAssistantNursingStaff'))}CostVolumeAboveLimitAssistant:text"
                                                  styleClass="element100"
                                                  value="#{externalCareStaffOther.amountTemporaryEmploymentNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:"/>
+                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG:"/>
                     </f:facet>
                     <inek:InputNumberWithMessage id="CostVolumeUpToLimitOther"
                                                  styleClass="element100"
                                                  value="#{externalCareStaffOther.calculatedCountNursingStaff * externalCareStaffOther.averageAnnualEmployerCostsNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimitOther'))}CostVolumeAboveLimitAssistant:text"
                                                  disabled="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -617,7 +634,7 @@
                                                  styleClass="element100"
                                                  value="#{externalCareStaffOther.amountTemporaryEmploymentNursingStaff - (externalCareStaffOther.calculatedCountNursingStaff * externalCareStaffOther.averageAnnualEmployerCostsNursingStaff)}"
                                                  disabled="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
@@ -662,12 +679,11 @@
                     <inek:InputNumberWithMessage id="exclusivelyCareAtBedStaffOthe" styleClass="element100"
                                                  value="#{externalCareStaffOther.partOfCostVolumeBedNursingStaff}"
                                                  required="#{externalCareStaffOther.exclusivelyCareAtBedNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
                     <inek:InputTextWithMessage id="explanationFieldAssistant"
-                                               required="true"
                                                value="#{externalCareStaffOther.explanationFieldNursingStaff}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
@@ -715,7 +731,13 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <f:facet name="header">
+                        <h:outputLabel value="Datenjahr "/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bitte machen Sie entsprechende Angaben für das Datenjahr 2018, falls für
+                                        die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
+                    </f:facet>
                     <h:selectOneMenu id="TechFunctServiceId"
                                      value="#{externalTechFunctService.dataYear}" >
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
@@ -731,7 +753,6 @@
                         <h:outputLabel value="Bereich/Station"/>
                     </f:facet>
                     <inek:InputTextWithMessage id="division"
-                                               required="true"
                                                value="#{externalTechFunctService.divisionTechFunctService}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
@@ -747,14 +768,14 @@
                     <inek:InputNumberWithMessage id="costVolumeTechFunctService" styleClass="element100"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('costVolumeTechFunctService'))}costPerVK:text"
                                                  value="#{externalTechFunctService.costVolumeTechFunctService}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
                     <inek:InputNumberWithMessage id="costPerVK" styleClass="element100"
                                                  value="#{externalTechFunctService.countTechFunctService !=0 ? externalTechFunctService.costVolumeTechFunctService / externalTechFunctService.countTechFunctService : ''}"
                                                  readonly="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
@@ -796,7 +817,6 @@
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
                     <inek:InputTextWithMessage id="explanationField"
-                                               required="true"
                                                value="#{externalTechFunctService.explanationFieldTechFunctService}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
