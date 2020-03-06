@@ -195,7 +195,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Kostenvolumen angestellte Hebammen</f:facet>
-                    <inek:InputNumberWithMessage value=""
+                    <inek:InputNumberWithMessage value="#{obstretic.costVolumeMidwife}"
                                                  styleClass="col05em number"
                                                  readonly="#{editCalcBasicsDrg.readOnly}"/>
                 </h:column>
@@ -205,16 +205,16 @@
                     <h:selectOneMenu id="costArtGroup"
                                      required="true"
                                      requiredMessage="#{msg.msgValueNeeded}"
-                                     value="#{obstretic.costTypeId}"
+                                     value="#{obstretic.costArtGroup}"
                                      disabled="#{editCalcBasicsDrg.readOnly}"
                                      hideNoSelectionOption="true"
                                      styleClass="inputshort">
-                        <f:selectItem itemLabel="1" itemValue="#{110}"/>
-                        <f:selectItem itemLabel="2" itemValue="#{120}"/>
-                        <f:selectItem itemLabel="3" itemValue="#{130}"/>
+                        <f:selectItem itemLabel="1"  itemValue="#{110}"/>
+                        <f:selectItem itemLabel="2"  itemValue="#{120}"/>
+                        <f:selectItem itemLabel="3"  itemValue="#{130}"/>
                         <f:selectItem itemLabel="6c" itemValue="#{163}"/>
-                        <f:selectItem itemLabel="7" itemValue="#{170}"/>
-                        <f:selectItem itemLabel="8" itemValue="#{180}"/>
+                        <f:selectItem itemLabel="7"  itemValue="#{170}"/>
+                        <f:selectItem itemLabel="8"  itemValue="#{180}"/>
                         <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
                     </h:selectOneMenu>
                 </h:column>
@@ -228,25 +228,20 @@
         </h:commandLink>
 
         <h2>Angaben zu Beleghebammen</h2>
-        <h:outputLabel styleClass="label25" value="Arbeiten in Ihrem Haus Beleghebammen? "/>
-        <h:selectOneMenu id="midwifeOnHaus"
-                         required="true"
-                         requiredMessage="#{msg.msgValueNeeded}"
-                         value=""
-                         hideNoSelectionOption="true"
-                         styleClass="inputshort">
-            <f:selectItem itemLabel="Ja" itemValue="#{0}"/>
-            <f:selectItem itemLabel="Nein" itemValue="#{1}"/>
-            <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
-        </h:selectOneMenu>
+        <inek:LabeledCheckbox label="Arbeiten in Ihrem Haus Beleghebammen? "
+                              styleClassComponent="marginTop02em"
+                              styleClassLabel="label inlineBlock col25em"
+                              value="#{editCalcBasicsDrg.calcBasics.midwifeOnHaus}"
+                              renderElement="@form contMidwifeId :script"/>
 
-        <div jsf:id="contMidwifeId" class="inputPart" jsf:rendered="false">
+        <div jsf:id="contMidwifeId" class="inputPart" jsf:rendered="#{editCalcBasicsDrg.calcBasics.midwifeOnHaus}">
             <h:outputLabel styleClass="label15" value="Anzahl VK Beleghebammen "/>
-            <inek:InputIntegerWithMessage styleClass="element10 number" value=""/>
+            <inek:InputIntegerWithMessage styleClass="element10 number"
+                                          value="#{editCalcBasicsDrg.calcBasics.cntMidwife}" required="#{editCalcBasicsDrg.calcBasics.midwifeOnHaus}"/>
             <br/>
             <h:outputLabel styleClass="label25" value="Erläuterung: "/>
             <h:inputTextarea styleClass="areaWideHigh"
-                             value=""/>
+                             value="#{editCalcBasicsDrg.calcBasics.midwifeExplanation}"><f:ajax event="blur" render="@this :logout:remaining" /></h:inputTextarea>
         </div>
 
 
