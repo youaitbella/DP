@@ -15,10 +15,11 @@ import org.inek.dataportal.common.utils.Period;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
+import java.io.Serializable;
 import java.util.*;
 
 @Dependent
-public class ProofUpdater {
+public class ProofUpdater implements Serializable {
     private ProofFacade proofFacade;
 
     private BaseDataFacade baseDataFacade;
