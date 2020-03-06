@@ -40,12 +40,9 @@ class ProofUpdaterTest {
         dept.setDeptArea(1);
         dept.setDeptName("Unfallchirugie");
         dept.setDeptNumber("1600");
-        dept.setDeptsAftertargetYear();
         dept.setDeptWards();
         dept.setId(1);
         dept.setLocation("Station 10");
-        dept.setRequired();
-        dept.setSeeDeptAreaId();
         dept.setSensitiveArea();
 
         BaseDataFacade baseDataFacade = mock(BaseDataFacade.class);
