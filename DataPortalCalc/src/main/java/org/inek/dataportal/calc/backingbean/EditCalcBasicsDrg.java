@@ -1126,6 +1126,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public List<KGLListExternalNursingStaff> obtainExternalStaff(String externalStaff) {
-        return _calcBasics.getExternalNursingStaffs().stream().filter(ns -> ns.getExternalStaffType() == ExternalStaffType.getByName(externalStaff).getId() ).collect(Collectors.toList());
+        return _calcBasics.getExternalNursingStaffs()
+                .stream()
+                .filter(ns -> ns.getExternalStaffType() == ExternalStaffType.getByName(externalStaff).getId())
+                .collect(Collectors.toList());
     }
 }

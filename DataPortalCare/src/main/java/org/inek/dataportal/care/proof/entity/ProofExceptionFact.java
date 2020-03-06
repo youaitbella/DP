@@ -15,6 +15,10 @@ public class ProofExceptionFact implements Serializable {
     public ProofExceptionFact() {
     }
 
+    public ProofExceptionFact(Proof proof) {
+        this._proof = proof;
+    }
+
 
     public ProofExceptionFact(ProofExceptionFact proofExceptionFact) {
         this._exceptionFactId = proofExceptionFact.getExceptionFactId();

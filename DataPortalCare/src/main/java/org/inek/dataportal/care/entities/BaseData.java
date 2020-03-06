@@ -36,15 +36,16 @@ public class BaseData implements Serializable {
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property pbdSensitiveAreaId">
-    @Column(name = "pbdSensitiveAreaId")
-    private int _sensitiveAreaId;
+    @ManyToOne
+    @JoinColumn(name = "pbdSensitiveAreaId")
+    private SensitiveDomain _sensitiveDomain;
 
-    public SensitiveArea getSensitiveArea() {
-        return SensitiveArea.fromId(_sensitiveAreaId);
+    public SensitiveDomain getSensitiveDomain() {
+        return _sensitiveDomain;
     }
 
-    public void setSensitiveArea(SensitiveArea sensitiveArea) {
-        this._sensitiveAreaId = sensitiveArea.getId();
+    public void setSensitiveDomain(SensitiveDomain sensitiveDomain) {
+        this._sensitiveDomain = sensitiveDomain;
     }
     //</editor-fold>
 
@@ -119,7 +120,7 @@ public class BaseData implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BaseData baseData = (BaseData) o;
-        return _sensitiveAreaId == baseData._sensitiveAreaId &&
+        return _sensitiveDomain.getId() == baseData._sensitiveDomain.getId() &&
                 _shift == baseData._shift &&
                 _ppug == baseData._ppug &&
                 _part == baseData._part &&
@@ -129,6 +130,6 @@ public class BaseData implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_sensitiveAreaId, _shift, _ppug, _part, _validFrom, _validTo);
+        return Objects.hash(_sensitiveDomain, _shift, _ppug, _part, _validFrom, _validTo);
     }
 }

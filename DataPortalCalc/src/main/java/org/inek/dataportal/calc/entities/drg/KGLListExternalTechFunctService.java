@@ -141,8 +141,8 @@ public class KGLListExternalTechFunctService implements Serializable {
         return _baseInformationId;
     }
 
-    public void setBaseInformationId(int _baseInformationId) {
-        this._baseInformationId = _baseInformationId;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
 
@@ -166,7 +166,8 @@ public class KGLListExternalTechFunctService implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionTechFunctService, _countTechFunctService, _costVolumeTechFunctService, _costStGr, _costKoArtGr, _occupationalGroup, _explanationFieldTechFunctService, _dataYear, _baseInformationId);
+        return Objects.hash(_id, _divisionTechFunctService, _countTechFunctService, _costVolumeTechFunctService,
+                _costStGr, _costKoArtGr, _occupationalGroup, _explanationFieldTechFunctService, _dataYear, _baseInformationId);
     }
 
     @Override

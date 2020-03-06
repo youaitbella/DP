@@ -3,6 +3,7 @@ package org.inek.dataportal.care.entities.StructuralChanges;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.common.utils.DateUtils;
+import org.inek.dataportal.common.utils.StringUtil;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -69,7 +70,7 @@ public class WardsToChange implements Serializable {
     }
 
     public void setWardName(String wardName) {
-        this._wardName = wardName;
+        this._wardName = StringUtil.normalizeName(wardName);
     }
     //</editor-fold>
 
@@ -82,7 +83,7 @@ public class WardsToChange implements Serializable {
     }
 
     public void setDeptName(String deptName) {
-        this._deptName = deptName;
+        this._deptName = StringUtil.normalizeName(deptName);
     }
     //</editor-fold>
 

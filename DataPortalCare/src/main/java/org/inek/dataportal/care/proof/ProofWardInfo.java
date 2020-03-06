@@ -1,21 +1,22 @@
 package org.inek.dataportal.care.proof;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import org.inek.dataportal.common.utils.DateUtils;
 
-public final class ProofWard {
+import java.util.*;
+import java.util.stream.Collectors;
+
+public final class ProofWardInfo {
     public static Builder builder() {
         return new Builder();
     }
 
-    private ProofWard(Builder builder) {
+    private ProofWardInfo(Builder builder) {
         setFrom(builder.from);
         setTo(builder.to);
         setLocationNumber(builder.locationNumber);
+        setLocationP21(builder.locationP21);
         setWardName(builder.wardName);
-        sensitiveAreas = builder.sensitiveAreas;
+        sensitiveDomains = builder.sensitiveAreas;
         depts = builder.depts;
         deptNames = builder.deptNames;
         setBeds(builder.beds);
@@ -57,6 +58,19 @@ public final class ProofWard {
     }
     //</editor-fold>
 
+    //<editor-fold desc="Property locationP21">
+    private String locationP21;
+
+    public String getLocationP21() {
+        return locationP21;
+    }
+
+    public void setLocationP21(String locationP21) {
+        this.locationP21 = locationP21;
+    }
+    //</editor-fold>
+
+
     //<editor-fold desc="Property wardName">
     private String wardName;
 
@@ -70,22 +84,32 @@ public final class ProofWard {
     //</editor-fold>
 
     //<editor-fold desc="Property sensitiveArea">
-    private Set<String> sensitiveAreas = new HashSet<>();
+    private Set<String> sensitiveDomains = new HashSet<>();
 
-    public Set<String> getSensitiveAreas() {
-        return Collections.unmodifiableSet(sensitiveAreas);
+    public String sensitiveDomains() {
+        return sensitiveDomains.stream()
+                .distinct()
+                .sorted(String::compareTo)
+                .collect(Collectors.joining(", "));
     }
 
-    public void addSensitiveArea(String sensitiveArea) {
-        sensitiveAreas.add(sensitiveArea);
+    public void addSensitiveDomain(String sensitiveDomain) {
+        sensitiveDomains.add(sensitiveDomain);
+    }
+
+    public List<String> sensitiveDomainSet() {
+        return Collections.unmodifiableList(new ArrayList<>(sensitiveDomains));
     }
     //</editor-fold>
 
     //<editor-fold desc="Property depts">
     private Set<String> depts = new HashSet<>();
 
-    public Set<String> getDepts() {
-        return Collections.unmodifiableSet(depts);
+    public String depts() {
+        return depts.stream()
+                .distinct()
+                .sorted(String::compareTo)
+                .collect(Collectors.joining(", "));
     }
 
     public void addDept(String dept) {
@@ -96,8 +120,11 @@ public final class ProofWard {
     //<editor-fold desc="Property deptNames">
     private Set<String> deptNames = new HashSet<>();
 
-    public Set<String> getDeptNames() {
-        return Collections.unmodifiableSet(deptNames);
+    public String deptNames() {
+        return deptNames.stream()
+                .distinct()
+                .sorted(String::compareTo)
+                .collect(Collectors.joining(", "));
     }
 
     public void addDeptName(String deptName) {
@@ -106,22 +133,56 @@ public final class ProofWard {
     //</editor-fold>
 
     //<editor-fold desc="Property beds">
-    private int beds;
+    private int daybeds;
 
-    public int getBeds() {
-        return beds;
+    public double getBeds() {
+        return ((double) daybeds) / DateUtils.duration(from, to);
     }
 
     public void setBeds(int beds) {
-        this.beds = beds;
+        daybeds = beds * DateUtils.duration(from, to);
     }
     //</editor-fold>
+
+    public void merge(ProofWardInfo other) {
+        if (!DateUtils.addDays(to, 1).equals(other.from)) {
+            throw new IllegalArgumentException("Merge ranges need to be continuous");
+        }
+        if (!sensitiveDomains.equals(other.sensitiveDomains)) {
+            throw new IllegalArgumentException("Sensitive areas need to be equal");
+        }
+        daybeds += other.daybeds;
+        depts.addAll(other.depts);
+        deptNames.addAll(other.deptNames);
+        to = other.to;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProofWardInfo proofWardInfo = (ProofWardInfo) o;
+        return locationNumber == proofWardInfo.locationNumber &&
+                daybeds == proofWardInfo.daybeds &&
+                from.equals(proofWardInfo.from) &&
+                to.equals(proofWardInfo.to) &&
+                wardName.equals(proofWardInfo.wardName) &&
+                sensitiveDomains.equals(proofWardInfo.sensitiveDomains) &&
+                depts.equals(proofWardInfo.depts) &&
+                deptNames.equals(proofWardInfo.deptNames);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(from, to, locationNumber, wardName, sensitiveDomains, depts, deptNames, daybeds);
+    }
 
     //<editor-fold desc="Builder">
     public static final class Builder {
         private Date from;
         private Date to;
         private int locationNumber;
+        private String locationP21;
         private String wardName;
         private Set<String> sensitiveAreas = new HashSet<>();
         private Set<String> depts = new HashSet<>();
@@ -143,6 +204,11 @@ public final class ProofWard {
 
         public Builder locationNumber(int val) {
             locationNumber = val;
+            return this;
+        }
+
+        public Builder locationP21(String val) {
+            locationP21 = val;
             return this;
         }
 
@@ -171,8 +237,8 @@ public final class ProofWard {
             return this;
         }
 
-        public ProofWard build() {
-            return new ProofWard(this);
+        public ProofWardInfo build() {
+            return new ProofWardInfo(this);
         }
     }
     //</editor-fold>

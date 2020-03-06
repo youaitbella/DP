@@ -128,16 +128,16 @@ public class KGLListExternalMedStaff implements Serializable {
         return _baseInformationId;
     }
 
-    public void setBaseInformationId(int _baseInformationId) {
-        this._baseInformationId = _baseInformationId;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
 
     public KGLListExternalMedStaff() {
     }
 
-    public KGLListExternalMedStaff(int _baseInformationId) {
-        this._baseInformationId = _baseInformationId;
+    public KGLListExternalMedStaff(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
 
     @Override
@@ -158,7 +158,8 @@ public class KGLListExternalMedStaff implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionMedStaff, _countMedStaff, _costVolumeMedStaff, _costStGr, _costKoArtGr, _explanationField, _dataYear, _baseInformationId);
+        return Objects.hash(_id, _divisionMedStaff, _countMedStaff, _costVolumeMedStaff, _costStGr, _costKoArtGr,
+                _explanationField, _dataYear, _baseInformationId);
     }
 
     @Override
