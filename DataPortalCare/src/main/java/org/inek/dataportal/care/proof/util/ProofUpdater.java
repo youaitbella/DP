@@ -61,27 +61,48 @@ public class ProofUpdater {
     }
 
     private void updateProof(ProofRegulationBaseInformation proofBaseInfo, List<ProofWardInfo> proofWardInfos) {
-        List<Proof> deletionList = new ArrayList<>();
+        ProofUpdateSets updateSets = collectLists(proofBaseInfo, proofWardInfos);
+        proofBaseInfo.removeProofs(updateSets.getDeletionSet());
+        updateProofs(updateSets.getUpdateSet(), updateSets.getUsedProofWardInfos());
+        proofWardInfos.removeAll(updateSets.getUsedProofWardInfos());
+        addNewProofs(proofBaseInfo, proofWardInfos);
+    }
+
+    private ProofUpdateSets collectLists(ProofRegulationBaseInformation proofBaseInfo, List<ProofWardInfo> proofWardInfos) {
+        Set<Proof> deletionSet = new HashSet<>();
+        Set<Proof> updateSet = new HashSet<>();
         Set<ProofWardInfo> usedProofWardInfos = new HashSet<>();
         for (Proof proof : proofBaseInfo.getProofs()) {
-            Optional<ProofWardInfo> proofWardInfo = proofWardInfos.stream()
-                    .filter(pw -> pw.getLocationP21().equals(proof.getProofWard().getLocationP21()))
-                    .filter(pw -> pw.getLocationNumber() == proof.getProofWard().getLocationNumber())
-                    .filter(pw -> pw.getWardName().equals(proof.getProofWard().getName()))
-                    .filter(pw -> pw.getFrom().equals(proof.getValidFrom()))
-                    .filter(pw -> pw.getTo().equals(proof.getValidTo()))
-                    .findAny();
+            Optional<ProofWardInfo> proofWardInfo = obtainProofWardInfo(proofWardInfos, proof);
             if (!proofWardInfo.isPresent()) {
-                deletionList.add(proof);
+                deletionSet.add(proof);
                 continue;
             }
-            updateProof(proof, proofWardInfo.get());
+            updateSet.add(proof);
             usedProofWardInfos.add(proofWardInfo.get());
 
         }
-        proofBaseInfo.removeProofs(deletionList);
-        proofWardInfos.removeAll(usedProofWardInfos);
+        return new ProofUpdateSets(deletionSet, updateSet, usedProofWardInfos);
+    }
 
+    private void updateProofs(Set<Proof> proofs, Set<ProofWardInfo> proofWardInfos) {
+        for (Proof proof : proofs) {
+            Optional<ProofWardInfo> proofWardInfo = obtainProofWardInfo(proofWardInfos, proof);
+            updateProof(proof, proofWardInfo.get());
+        }
+    }
+
+    private Optional<ProofWardInfo> obtainProofWardInfo(Collection<ProofWardInfo> proofWardInfos, Proof proof) {
+        return proofWardInfos.stream()
+                .filter(pw -> pw.getLocationP21().equals(proof.getProofWard().getLocationP21()))
+                .filter(pw -> pw.getLocationNumber() == proof.getProofWard().getLocationNumber())
+                .filter(pw -> pw.getWardName().equals(proof.getProofWard().getName()))
+                .filter(pw -> pw.getFrom().equals(proof.getValidFrom()))
+                .filter(pw -> pw.getTo().equals(proof.getValidTo()))
+                .findAny();
+    }
+
+    private void addNewProofs(ProofRegulationBaseInformation proofBaseInfo, List<ProofWardInfo> proofWardInfos) {
         for (ProofWardInfo proofWardInfo : proofWardInfos) {
             int month = DateUtils.month(proofWardInfo.getFrom());
             for (Shift shift : Shift.values()) {

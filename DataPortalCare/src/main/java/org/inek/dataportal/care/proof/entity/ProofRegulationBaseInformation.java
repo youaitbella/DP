@@ -244,7 +244,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
         _proofs.remove(proof);
     }
 
-    public void removeProofs(List<Proof> proofs) {
+    public void removeProofs(Collection<Proof> proofs) {
         _proofs.removeAll(proofs);
     }
 
