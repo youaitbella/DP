@@ -9,10 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "ProofRegulationBaseInformation", schema = "care")
@@ -240,7 +237,15 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     private List<Proof> _proofs = new ArrayList<>();
 
     public List<Proof> getProofs() {
-        return _proofs;
+        return Collections.unmodifiableList(_proofs);
+    }
+
+    public void removeProof(Proof proof) {
+        _proofs.remove(proof);
+    }
+
+    public void removeProofs(List<Proof> proofs) {
+        _proofs.removeAll(proofs);
     }
 
     public void addProof(Proof proof) {

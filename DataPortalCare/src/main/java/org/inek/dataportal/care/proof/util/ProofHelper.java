@@ -1,6 +1,15 @@
 package org.inek.dataportal.care.proof.util;
 
+import org.inek.dataportal.care.entities.SensitiveDomain;
+import org.inek.dataportal.care.enums.Months;
+import org.inek.dataportal.care.enums.Shift;
+import org.inek.dataportal.care.facades.BaseDataFacade;
+import org.inek.dataportal.care.proof.ProofFacade;
+import org.inek.dataportal.care.proof.ProofWardInfo;
+import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
+import org.inek.dataportal.care.proof.entity.ProofWard;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -54,4 +63,27 @@ public class ProofHelper {
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
     }
+
+    public static Proof fillProof(Proof proof, ProofWardInfo proofWardInfo, int month, Shift shift,
+                                  ProofFacade proofFacade, BaseDataFacade baseDataFacade) {
+        proof.setMonth(Months.getById(month));
+        proof.setShift(shift);
+        proof.setBeds(proofWardInfo.getBeds());
+        int duration = DateUtils.duration(proofWardInfo.getFrom(), proofWardInfo.getTo());
+        int ik = proof.getBaseInformation().getIk();
+        ProofWard proofWard = proofFacade.retrieveOrCreateProofWard(ik, proofWardInfo.getLocationNumber(),
+                proofWardInfo.getLocationP21(), proofWardInfo.getWardName());
+        proof.setProofWard(proofWard);
+        proof.setValidFrom(proofWardInfo.getFrom());
+        proof.setValidTo(proofWardInfo.getTo());
+        proof.setCountShift(duration);
+        proof.setDeptNumbers(proofWardInfo.depts());
+        proof.setDeptNames(proofWardInfo.deptNames());
+        proof.setSensitiveDomains(proofWardInfo.sensitiveDomains());
+        int year = proof.getBaseInformation().getYear();
+        SensitiveDomain sensitiveDomain = baseDataFacade.determineSignificantDomain(year, proofWardInfo.sensitiveDomainSet());
+        proof.setSignificantSensitiveDomain(sensitiveDomain);
+        return proof;
+    }
+
 }

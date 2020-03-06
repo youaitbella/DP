@@ -2,12 +2,13 @@ package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
-import org.inek.dataportal.care.entities.SensitiveDomain;
-import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.DeptFacade;
-import org.inek.dataportal.care.proof.entity.*;
+import org.inek.dataportal.care.proof.entity.Proof;
+import org.inek.dataportal.care.proof.entity.ProofDocument;
+import org.inek.dataportal.care.proof.entity.ProofExceptionFact;
+import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.proof.util.*;
 import org.inek.dataportal.care.utils.CalculatorPpug;
 import org.inek.dataportal.care.utils.CareSignatureCreater;
@@ -255,34 +256,14 @@ public class ProofEdit implements Serializable {
             List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), period.from(), period.to());
             for (ProofWardInfo proofWardInfo : proofWardInfos) {
                 for (Shift shift : Shift.values()) {
-                    _proofBaseInformation.addProof(fillProof(new Proof(_proofBaseInformation), proofWardInfo, month, shift, _proofFacade));
+                    _proofBaseInformation.addProof(
+                            ProofHelper.fillProof(new Proof(_proofBaseInformation), proofWardInfo, month, shift, _proofFacade, _baseDataFacade));
                 }
             }
         }
         loadExceptionsFactsList();
         save();
         setReadOnly();
-    }
-
-    private Proof fillProof(Proof proof, ProofWardInfo proofWardInfo, int month, Shift shift, ProofFacade proofFacade) {
-        proof.setMonth(Months.getById(month));
-        proof.setShift(shift);
-        proof.setBeds(proofWardInfo.getBeds());
-        int duration = DateUtils.duration(proofWardInfo.getFrom(), proofWardInfo.getTo());
-        int ik = proof.getBaseInformation().getIk();
-        ProofWard proofWard = proofFacade.retrieveOrCreateProofWard(ik, proofWardInfo.getLocationNumber(),
-                proofWardInfo.getLocationP21(), proofWardInfo.getWardName());
-        proof.setProofWard(proofWard);
-        proof.setValidFrom(proofWardInfo.getFrom());
-        proof.setValidTo(proofWardInfo.getTo());
-        proof.setCountShift(duration);
-        proof.setDeptNumbers(proofWardInfo.depts());
-        proof.setDeptNames(proofWardInfo.deptNames());
-        proof.setSensitiveDomains(proofWardInfo.sensitiveDomains());
-        int year = proof.getBaseInformation().getYear();
-        SensitiveDomain sensitiveDomain = _baseDataFacade.determineSignificantDomain(year, proofWardInfo.sensitiveDomainSet());
-        proof.setSignificantSensitiveDomain(sensitiveDomain);
-        return proof;
     }
 
 

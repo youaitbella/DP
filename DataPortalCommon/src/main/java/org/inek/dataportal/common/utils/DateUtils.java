@@ -79,6 +79,12 @@ public class DateUtils {
         return 1 + Calendar.getInstance().get(Calendar.MONTH);
     }
 
+    public static int month(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return 1 + calendar.get(Calendar.MONTH);
+    }
+
     public static int diffDays(Date from, Date to) {
         long diff = to.getTime() - from.getTime() + MILLISECONDS_PER_HOUR; // add one hour due to summertime switch
         return (int) (diff / MILLISECONDS_PER_DAY);
