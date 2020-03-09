@@ -17,11 +17,11 @@
             <pf:repeat value="#{proofEdit.proofsForExceptionFact}" var="proof">
                 <div class="ui-g">
                     <div class="ui-g-10">
-                        <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name} - " />
-                        <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber} - " />
-                        <pf:outputLabel value="#{proof.proofRegulationStation.fabName} - " />
-                        <pf:outputLabel value="#{proof.proofRegulationStation.stationName} - " />
-                        <pf:outputLabel value="#{proof.proofRegulationStation.locationCode} - " />
+                        <pf:outputLabel value="#{proof.significantSensitiveDomain.name} - "/>
+                        <pf:outputLabel value="#{proof.deptNumbers} - " />
+                        <pf:outputLabel value="#{proof.deptNames} - " />
+                        <pf:outputLabel value="#{proof.proofWard.name} - " />
+                        <pf:outputLabel value="#{proof.proofWard.locationP21} - "/>
                         <pf:outputLabel value="#{proof.month.name} - " />
                         <pf:outputLabel value="#{proof.shift.name}" />
                     </div>
@@ -38,87 +38,144 @@
 
     <div>
         <pf:dataTable id="proofTable"
-                      value="#{proofEdit.proofs}"
+                      value="#{proofEdit.proofRegulationBaseInformation.proofs}"
+                      widgetVar="dataTableAutoFilter"
                       rows="50"
                       paginator="true"
                       rowsPerPageTemplate="25,50,100,300"
                       tableStyle="table-layout: auto"
                       emptyMessage="Keine Einträge vorhanden"
-                      sortMode="multiple" sortBy="#{proofEdit.preSortOrder}"
+                      sortMode="multiple"
                       var="proof">
             <!-- todo?  value="# {proofEdit.proofRegulationBaseInformation.proofs}"-->
 
             <pf:column id="psAreaId"
-                       headerText="pflegesensitiver Bereich"
+                       headerText="pflegesensitiver Bereich #{proofEdit.proofRegulationBaseInformation.year ge 2020 ? 'im Krankenhaus gem. § 3 PpUGV' : ''}"
                        sortable="true"
-                       sortBy="#{proof.proofRegulationStation.sensitiveArea.name}"
+                       sortBy="#{proof.significantSensitiveDomain.name}"
+                       filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.proofRegulationStation.sensitiveArea.name}">
-                <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name}" />
+                       filterBy="#{proof.significantSensitiveDomain.name}">
+                <pf:outputLabel value="#{proof.significantSensitiveDomain.name}"/>
             </pf:column>
+
             <pf:column id="fabNumberId"
-                       headerText="FAB Schlüssel"
+                       headerText="#{proofEdit.proofRegulationBaseInformation.year ge 2020 ? 'Fachabteilungs-schlüssel nach den Daten nach § 21 KHEntgG': 'FAB Schlüssel'}"
                        sortable="true"
-                       sortBy="#{proof.proofRegulationStation.fabNumber}"
+                       sortBy="#{proof.deptNumbers}"
+                       filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.proofRegulationStation.fabNumber}">
-                <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber}" />
+                       filterBy="#{proof.deptNumbers}">
+                <pf:outputLabel value="#{proof.deptNumbers}" />
             </pf:column>
+
             <pf:column id="fabId"
                        headerText="Fachabteilung"
                        sortable="true"
-                       sortBy="#{proof.proofRegulationStation.fabName}"
+                       sortBy="#{proof.deptNames}"
+                       filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.proofRegulationStation.fabName}">
-                <pf:outputLabel value="#{proof.proofRegulationStation.fabName}" />
+                       filterBy="#{proof.deptNames}">
+                <pf:outputLabel value="#{proof.deptNames}" />
             </pf:column>
+
             <pf:column id="stationNameId"
                        headerText="Station"
                        sortable="true"
-                       sortBy="#{proof.proofRegulationStation.stationName}"
+                       sortBy="#{proof.proofWard.name}"
+                       filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.proofRegulationStation.stationName}">
-                <pf:outputLabel value="#{proof.proofRegulationStation.stationName}" />
+                       filterBy="#{proof.proofWard.name}">
+                <pf:outputLabel value="#{proof.proofWard.name}"/>
             </pf:column>
-            <pf:column id="locationId"
-                       headerText="Standort"
+
+            <pf:column id="locationP21Id"
+                       headerText="Standort #{proofEdit.proofRegulationBaseInformation.year ge 2020 ? '(nach § 21 KHEntgG)' : ''}"
                        sortable="true"
-                       sortBy="#{proof.proofRegulationStation.locationCode}"
+                       sortBy="#{proof.proofWard.locationP21}"
+                       filterMatchMode="contains"
                        filterable="true"
-                       filterBy="#{proof.proofRegulationStation.locationCode}">
-                <pf:outputLabel value="#{proof.proofRegulationStation.locationCode}" />
+                       filterBy="#{proof.proofWard.locationP21}">
+                <pf:outputLabel value="#{proof.proofWard.locationP21}"/>
             </pf:column>
+
+            <pf:column id="locationNumberId"
+                       headerText="Standortnummer"
+                       sortable="true"
+                       sortBy="#{proof.proofWard.locationNumber}"
+                       filterMatchMode="contains"
+                       filterable="true"
+                       filterBy="#{proof.proofWard.locationNumber}"
+                       rendered="#{proofEdit.proofRegulationBaseInformation.year ge 2020}">
+                <pf:outputLabel value="#{proof.proofWard.locationNumber}"/>
+            </pf:column>
+
             <pf:column id="monthId"
                        headerText="Monat"
                        sortable="true"
                        sortBy="#{proof.month.id}"
                        filterable="true"
                        filterBy="#{proof.month.name}">
-                <pf:outputLabel value="#{proof.month.name}" />
+                <pf:outputLabel value="#{proof.month.name}"/>
             </pf:column>
+
             <pf:column id="shiftId"
                        headerText="Schicht"
                        sortable="true"
                        sortBy="#{proof.shift.name}"
                        filterable="true"
                        filterBy="#{proof.shift.name}">
-                <pf:outputLabel value="#{proof.shift.name}" />
+                <pf:outputLabel value="#{proof.shift.name}"/>
             </pf:column>
-            <pf:column headerText="Anzahl Schichten (Summe)">
 
+            <pf:column headerText="Anzahl aufgestellte Betten"
+                       rendered="#{proofEdit.proofRegulationBaseInformation.year ge 2020}">
                 <pf:inputNumber required="true"
-                                requiredMessage="Bitte die Anzahl der Schichten angeben"
-                                value="#{proof.countShift}"
+                                requiredMessage="Bitte die Anzahl der aufgestellten Betten (Durchschnitt) angeben"
+                                title="Bitte die Anzahl der aufgestellten Betten (Durchschnitt) angeben"
+                                value="#{proof.beds}"
                                 inputStyle="text-align: right; width: 96%;"
-                                decimalPlaces="0"
-                                maxValue="31"
+                                decimalPlaces="2"
                                 minValue="0"
                                 readonly="#{proofEdit.isReadOnly}"
                                 style="width: 100%;">
                     <pf:ajax event="change"
-                             immediate="true" />
+                             immediate="true"/>
                 </pf:inputNumber>
             </pf:column>
+
+            <pf:column headerText="Anzahl Schichten (Summe)">
+                <pf:inputNumber required="true"
+                                requiredMessage="Bitte die Anzahl der Schichten angeben"
+                                title="Bitte die Anzahl der Schichten angeben"
+                                value="#{proof.countShift}"
+                                inputStyle="text-align: right; width: 96%;"
+                                decimalPlaces="0"
+                                maxValue="#{proof.duration()}"
+                                minValue="0"
+                                readonly="#{proofEdit.isReadOnly}"
+                                style="width: 100%;">
+                    <pf:ajax event="change"
+                             immediate="true"/>
+                </pf:inputNumber>
+            </pf:column>
+
+            <pf:column headerText="Anzahl Belegungstage (Summe)"
+                       rendered="#{proofEdit.proofRegulationBaseInformation.year ge 2020}">
+                <pf:inputNumber required="true"
+                                requiredMessage="Bitte Summe der Belegungstage angeben"
+                                title="Bitte Summe der Belegungstage angeben"
+                                value="#{proof.occupancyDays}"
+                                inputStyle="text-align: right; width: 96%;"
+                                decimalPlaces="0"
+                                minValue="0"
+                                readonly="#{proofEdit.isReadOnly}"
+                                style="width: 100%;">
+                    <pf:ajax event="change"
+                             immediate="true"/>
+                </pf:inputNumber>
+            </pf:column>
+
             <pf:column headerText="durchschnittliche Pflegepersonal-ausstattung Pflegefachkräfte">
                 <pf:inputNumber id="proofNurseId"
                                 value="#{proof.nurse}"
@@ -128,15 +185,16 @@
                                 maxValue="999"
                                 required="true"
                                 requiredMessage="Bitte geben Sie einen Wert ein"
+                                title="Bitte geben Sie die durchschnittliche Pflegepersonalausstattung an Pflegefachkräften ein"
                                 inputStyle="width: 100%; text-align: right"
                                 readonly="#{proofEdit.isReadOnly}">
                     <pf:ajax event="change"
                              update="patientPerNurseId countHelpeNurseChargeableId"
                              immediate="true" />
-                    <pf:focus />
                 </pf:inputNumber>
                 <pf:message for="proofNurseId" />
             </pf:column>
+
             <pf:column headerText="durchschnittliche Pflegepersonal-ausstattung Pflegehilfskräfte">
                 <pf:inputNumber id="proofHelpNurseId"
                                 value="#{proof.helpNurse}"
@@ -146,12 +204,12 @@
                                 maxValue="999"
                                 required="true"
                                 requiredMessage="Bitte geben Sie einen Wert ein"
+                                title="Bitte geben Sie die durchschnittliche Pflegepersonalausstattung an Pflegehilfskräfte ein"
                                 inputStyle="width: 100%; text-align: right"
                                 readonly="#{proofEdit.isReadOnly}">
                     <pf:ajax event="change"
                              update="patientPerNurseId countHelpeNurseChargeableId"
                              immediate="true" />
-                    <pf:focus />
                 </pf:inputNumber>
                 <pf:message for="proofHelpNurseId" />
             </pf:column>
@@ -164,12 +222,12 @@
                                 maxValue="999"
                                 required="true"
                                 requiredMessage="Bitte geben Sie einen Wert ein"
+                                title="Bitte geben Sie die durchschnittliche Patientenbelegung ein"
                                 inputStyle="width: 100%; text-align: right"
                                 readonly="#{proofEdit.isReadOnly}">
                     <pf:ajax event="change"
                              update="patientPerNurseId countHelpeNurseChargeableId"
                              immediate="true" />
-                    <pf:focus />
                 </pf:inputNumber>
                 <pf:message for="proofPatientOccupancy" />
             </pf:column>
@@ -180,15 +238,16 @@
                                 maxValue="31"
                                 require="true"
                                 requiredMessage="Bitte geben Sie einen Wert ein"
+                                title="Bitte geben Sie die Anzahl Schichten ein, in denen die PPUG im Monat nicht eingehalten wurde"
                                 readonly="#{proofEdit.isReadOnly}">
                     <pf:ajax event="change"
                              immediate="true" />
-                    <pf:focus />
                 </pf:inputNumber>
             </pf:column>
+
             <pf:column headerText="rechnerische Anzahl Patienten je Pflegekraft" style="text-align: right;">
                 <h:outputLabel id="patientPerNurseId"
-                               style="#{proofEdit.calculatePatientPerNurse(proof) gt proof.ppug ? 'color: red;' : proof.nurse gt proof.patientOccupancy ? 'background-color: yellow;' : ''} "
+                               style="#{proofEdit.hasToManyPatient(proof) ? 'color: red;' : proof.nurse gt proof.patientOccupancy ? 'background-color: yellow;' : ''} "
                                value="#{proofEdit.calculatePatientPerNurse(proof)}">
                     <f:convertNumber groupingUsed="true"
                                      minFractionDigits="2"
@@ -196,6 +255,17 @@
                                      locale="de_DE" />
                 </h:outputLabel>
             </pf:column>
+
+            <pf:column headerText="Grenzwert" style="text-align: right;" rendered="#{sessionController.isInekUser('CARE')}">
+                <h:outputLabel id="limitId"
+                               value="#{proofEdit.obtainLimit(proof)}">
+                    <f:convertNumber groupingUsed="true"
+                                     minFractionDigits="2"
+                                     maxFractionDigits="2"
+                                     locale="de_DE"/>
+                </h:outputLabel>
+            </pf:column>
+
             <pf:column headerText="Anzahl Pflegehilfskräfte anrechenbar für PPUG" style="text-align: right;">
                 <h:outputLabel id="countHelpeNurseChargeableId"
                                value="#{proofEdit.calculateCountHelpeNurseChargeable(proof)}">
@@ -205,13 +275,18 @@
                                      locale="de_DE" />
                 </h:outputLabel>
             </pf:column>
-            <pf:column headerText="Kommentar">
+            <pf:column headerText="Anmerkung">
                 <pf:inputTextarea value="#{proof.comment}"
                                   Style="width: 96%;"
-                                  readonly="#{proofEdit.isReadOnly}" />
+                                  readonly="#{proofEdit.isReadOnly}"
+                                  title="Sofern Sie Anmerkungen haben, geben Sie diese bitte hier ein"/>
             </pf:column>
 
+
         </pf:dataTable>
+
+        <!--  The following tag is needed for sorting is working correct. Without filtering first, sorting is not working. -->
+        <pf:remoteCommand autoRun="true" oncomplete="PF('dataTableAutoFilter').filter();" />
     </div>
     <br />
 
@@ -233,24 +308,24 @@
         </pf:column>
 
         <pf:column headerText="pflegesensitiver Bereich" sortable="true"
-                   sortBy="#{exceptionFact.proof.proofRegulationStation.sensitiveArea.name}">
-            <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.sensitiveArea.name}" />
+                   sortBy="#{exceptionFact.proof.significantSensitiveDomain.name}">
+            <pf:outputLabel value="#{exceptionFact.proof.significantSensitiveDomain.name}"/>
         </pf:column>
         <pf:column headerText="FAB Schlüssel" sortable="true"
-                   sortBy="#{exceptionFact.proof.proofRegulationStation.fabNumber}">
-            <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.fabNumber}" />
+                   sortBy="#{exceptionFact.proof.deptNumbers}">
+            <pf:outputLabel value="#{exceptionFact.proof.deptNumbers}"/>
         </pf:column>
         <pf:column headerText="Fachabteilung" sortable="true"
-                   sortBy="#{exceptionFact.proof.proofRegulationStation.fabName}">
-            <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.fabName}" />
+                   sortBy="#{exceptionFact.proof.deptNames}">
+            <pf:outputLabel value="#{exceptionFact.proof.deptNames}"/>
         </pf:column>
         <pf:column headerText="Station" sortable="true"
-                   sortBy="#{exceptionFact.proof.proofRegulationStation.stationName}">
-            <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.stationName}" />
+                   sortBy="#{exceptionFact.proof.proofWard.name}">
+            <pf:outputLabel value="#{exceptionFact.proof.proofWard.name}"/>
         </pf:column>
         <pf:column headerText="Standort" sortable="true"
-                   sortBy="#{exceptionFact.proof.proofRegulationStation.locationCode}">
-            <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.locationCode}" />
+                   sortBy="#{exceptionFact.proof.proofWard.locationP1}">
+            <pf:outputLabel value="#{exceptionFact.proof.proofWard.locationP1}"/>
         </pf:column>
         <pf:column headerText="Monat" sortable="true" sortBy="#{exceptionFact.proof.month.name}">
             <pf:outputLabel value="#{exceptionFact.proof.month.name}" />
@@ -268,7 +343,7 @@
                 <f:selectItem
                         itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                         noSelectionOption="true" />
-                <f:selectItems value="#{proofEdit.listExceptionsFacts}" />
+                <f:selectItems value="#{proofEdit.listExceptionFacts}"/>
                 <pf:ajax event="change" update="selectExeptionMessage" />
             </pf:selectOneMenu>
             <pf:message id="selectExeptionMessage" for="selectExeption" />

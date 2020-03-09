@@ -6,7 +6,7 @@ public enum ExternalStaffType {
     OTHERNURSING(3,"OTHERNURSING");
 
     private int _id;
-    String _name;
+    private String _name;
 
     ExternalStaffType(int _id, String _name) {
         this._id = _id;

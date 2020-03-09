@@ -11,7 +11,9 @@ public class PortalConstants {
     public static final String STOP_COMMAND = "STOP";   
     public static final int SECONDS_PER_MINUTE = 60;
     public static final int SECONDS_PER_HOUR = 60 * 60;
+    public static final int MILLISECONDS_PER_HOUR = 60 * 60 * 1000;
     public static final int SECONDS_PER_DAY = 24 * 60 * 60;
+    public static final long MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
     public static final int BINARY_KILO = 1024;
     public static final int BINARY_MEGA = 1024 * 1024;
     public static final int BINARY_GIGA = 1024 * 1024 * 1024;
@@ -39,7 +41,9 @@ public class PortalConstants {
     public static final String VAR_USERNAME = "{username}";
     public static final String VAR_LASTNAME = "{lastname}";
     public static final String VAR_TITLE = "{title}";
+    public static final String VAR_DATE = "{date}";
     public static final String VAR_YEAR = "{year}";
+    public static final String VAR_QUARTER = "{quarter}";
     public static final String VAR_STATE_IDS = "{stateIds}";
     public static final String VAR_PSY_GROUP_ID = "{psyGroupId}";
 

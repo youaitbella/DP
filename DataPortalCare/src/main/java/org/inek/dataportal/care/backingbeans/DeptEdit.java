@@ -86,7 +86,7 @@ public class DeptEdit implements Serializable {
 
     private DeptBaseInformation _deptBaseInformation = new DeptBaseInformation(); // nul object to prevent from null exception
     private DeptBaseInformation _oldDeptbaseInformation;
-    private Boolean _isReadOnly;
+    private boolean _isReadOnly;
     private Set<Integer> _validIks;
     private String _errorMessages = "";
     private List<String> _stationPrefillNames = new ArrayList<>();
@@ -108,11 +108,11 @@ public class DeptEdit implements Serializable {
         this._validIks = validIks;
     }
 
-    public Boolean getIsReadOnly() {
+    public boolean getIsReadOnly() {
         return _isReadOnly;
     }
 
-    public void setIsReadOnly(Boolean isReadOnly) {
+    public void setIsReadOnly(boolean isReadOnly) {
         this._isReadOnly = isReadOnly;
     }
 
@@ -182,7 +182,7 @@ public class DeptEdit implements Serializable {
     }
 
     private void loadStationPrefillNames(int ik, int year) {
-        _stationPrefillNames = _deptFacade.findStationNamesForPrefill(ik, year);
+        _stationPrefillNames = _deptFacade.findWardNamesForPrefill(ik, year);
     }
 
     private void setReadOnly() {
@@ -361,18 +361,18 @@ public class DeptEdit implements Serializable {
         }
     }
 
-    public Boolean changeAllowed() {
+    public boolean changeAllowed() {
         if (!_configFacade.readConfigBool(ConfigKey.IsCareChangeEnabled)) {
             return false;
         }
-        if (_deptBaseInformation == null || _deptBaseInformation.getStatusId() < 10) {
+        if (_deptBaseInformation == null || _deptBaseInformation.getStatusId() < 10 || isAfterEndDate()) {
             return false;
         } else {
             return _accessManager.userHasWriteAccess(Feature.CARE, _deptBaseInformation.getIk()) && _deptBaseInformation.getYear() > 2017;
         }
     }
 
-    public Boolean excelExportAllowed() {
+    public boolean excelExportAllowed() {
         if (_deptBaseInformation == null || _deptBaseInformation.getStatusId() < 10) {
             return false;
         } else {
@@ -380,7 +380,7 @@ public class DeptEdit implements Serializable {
         }
     }
 
-    public Boolean saveAllowed() {
+    public boolean saveAllowed() {
         return !isAfterEndDate();
     }
 
@@ -391,7 +391,7 @@ public class DeptEdit implements Serializable {
         return new Date().compareTo(endDate) >= 0;
     }
 
-    public Boolean sendAllowed() {
+    public boolean sendAllowed() {
         if (isAfterEndDate()) return false;
         return _configFacade.readConfigBool(ConfigKey.IsCareSendEnabled);
     }

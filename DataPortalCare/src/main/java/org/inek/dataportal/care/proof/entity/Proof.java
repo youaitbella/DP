@@ -1,12 +1,15 @@
 package org.inek.dataportal.care.proof.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.inek.dataportal.care.entities.SensitiveDomain;
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,12 +22,24 @@ public class Proof implements Serializable {
     public Proof() {
     }
 
+    public Proof(ProofRegulationBaseInformation baseInformation) {
+        this._baseInformation = baseInformation;
+    }
+
 
     public Proof(Proof proof) {
-        this._proofRegulationStation = proof.getProofRegulationStation();
+        this._proofWard = proof.getProofWard();
         this._shift = proof.getShift().getId();
+        this.validFrom = proof.validFrom;
+        this.validTo = proof.validTo;
         this._month = proof.getMonth().getId();
+        this.deptNumbers = proof.deptNumbers;
+        this.deptNames = proof.deptNames;
+        this.sensitiveDomains = proof.sensitiveDomains;
+        this.significantSensitiveDomain = proof.significantSensitiveDomain;
+        this.beds = proof.getBeds();
         this._countShift = proof.getCountShift();
+        this._occupancyDays = proof.getOccupancyDays();
         this._nurse = proof.getNurse();
         this._helpeNurse = proof.getHelpNurse();
         this._patientOccupancy = proof.getPatientOccupancy();
@@ -44,37 +59,16 @@ public class Proof implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prId")
-    private Integer _id;
+    private Integer id;
 
     public int getId() {
-        return _id == null ? -1 : _id;
+        return id == null ? -1 : id;
     }
 
     public void setId(Integer id) {
-        _id = id;
+        this.id = id;
     }
     // </editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Proof Station">
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "prProofRegulationStationId")
-    private ProofRegulationStation _proofRegulationStation;
-
-    @JsonIgnore
-    public ProofRegulationStation getProofRegulationStation() {
-        return _proofRegulationStation;
-    }
-
-    public void setProofRegulationStation(ProofRegulationStation proofRegulationStation) {
-        this._proofRegulationStation = proofRegulationStation;
-    }
-
-    //Using only for JSON Export
-    public int getProofRegulationStationId() {
-        return _proofRegulationStation.getId();
-    }
-    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="BaseInformation">
     @ManyToOne
@@ -98,16 +92,47 @@ public class Proof implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Shift">
-    @Column(name = "prShift")
-    private int _shift;
+    //<editor-fold defaultstate="collapsed" desc="ProofWard">
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "prProofWardId")
+    private ProofWard _proofWard;
 
-    public Shift getShift() {
-        return Shift.getById(_shift);
+    @JsonIgnore
+    public ProofWard getProofWard() {
+        return _proofWard;
     }
 
-    public void setShift(Shift shift) {
-        this._shift = shift.getId();
+    public void setProofWard(ProofWard proofWard) {
+        this._proofWard = proofWard;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property ValidFrom">
+    @Column(name = "prValidFrom")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date validFrom;
+
+    public Date getValidFrom() {
+        return validFrom;
+    }
+
+    public void setValidFrom(Date validFrom) {
+        this.validFrom = validFrom;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property ValidTo">
+    @Column(name = "prValidTo")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date validTo;
+
+    public Date getValidTo() {
+        return validTo;
+    }
+
+    public void setValidTo(Date validTo) {
+        this.validTo = validTo;
     }
     //</editor-fold>
 
@@ -125,6 +150,85 @@ public class Proof implements Serializable {
 
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property DeptNumbers">
+    @Column(name = "prDeptNumbers")
+    private String deptNumbers = "";
+
+    public String getDeptNumbers() {
+        return deptNumbers;
+    }
+
+    public void setDeptNumbers(String deptNumbers) {
+        this.deptNumbers = deptNumbers;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property DeptNames">
+    @Column(name = "prDeptNames")
+    private String deptNames = "";
+
+    public String getDeptNames() {
+        return deptNames;
+    }
+
+    public void setDeptNames(String deptNames) {
+        this.deptNames = deptNames;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property SensitiveDomains">
+    @Column(name = "prSensitiveDomains")
+    private String sensitiveDomains = "";
+
+    public String getSensitiveDomains() {
+        return sensitiveDomains;
+    }
+
+    public void setSensitiveDomains(String sensitiveDomains) {
+        this.sensitiveDomains = sensitiveDomains;
+    }
+    //</editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property SignificantSensitiveDomain">
+    @ManyToOne
+    @JoinColumn(name = "prSignificantSensitiveDomainId")
+    private SensitiveDomain significantSensitiveDomain;
+
+    public SensitiveDomain getSignificantSensitiveDomain() {
+        return significantSensitiveDomain;
+    }
+
+    public void setSignificantSensitiveDomain(SensitiveDomain significantSensitiveDomain) {
+        this.significantSensitiveDomain = significantSensitiveDomain;
+    }
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property Shift">
+    @Column(name = "prShift")
+    private int _shift;
+
+    public Shift getShift() {
+        return Shift.getById(_shift);
+    }
+
+    public void setShift(Shift shift) {
+        this._shift = shift.getId();
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property Beds">
+    @Column(name = "prBeds")
+    private double beds;
+
+    public double getBeds() {
+        return beds;
+    }
+
+    public void setBeds(double beds) {
+        this.beds = beds;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property CountShift">
     @Column(name = "prCountShift")
     private int _countShift;
@@ -135,6 +239,19 @@ public class Proof implements Serializable {
 
     public void setCountShift(int countShift) {
         this._countShift = countShift;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property OccupancyDays">
+    @Column(name = "prOccupancyDays")
+    private int _occupancyDays;
+
+    public int getOccupancyDays() {
+        return _occupancyDays;
+    }
+
+    public void setOccupancyDays(int occupancyDays) {
+        this._occupancyDays = occupancyDays;
     }
     //</editor-fold>
 
@@ -229,6 +346,7 @@ public class Proof implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold desc="Property ExceptionFacts">
     @OneToMany(mappedBy = "_proof", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "pefProofId")
     private List<ProofExceptionFact> _proofExceptionFact = new ArrayList<>();
@@ -248,57 +366,34 @@ public class Proof implements Serializable {
     public void removeExceptionFact(ProofExceptionFact fact) {
         _proofExceptionFact.remove(fact);
     }
+    //</editor-fold>
 
-    @Transient
-    @JsonIgnore
-    private double _ppug;
 
-    @Transient
-    @JsonIgnore
-    private double _part;
-
-    @JsonIgnore
-    public double getPpug() {
-        return _ppug;
-    }
-
-    @JsonIgnore
-    public void setPpug(double ppug) {
-        this._ppug = ppug;
-    }
-
-    @JsonIgnore
-    public double getPart() {
-        return _part;
-    }
-
-    @JsonIgnore
-    public void setPart(double part) {
-        this._part = part;
-    }
-
-    @SuppressWarnings("CyclomaticComplexity")
     @Override
+    @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Proof proof = (Proof) o;
-        return _shift == proof._shift &&
-                _month == proof._month &&
-                _countShift == proof._countShift &&
-                Double.compare(proof._nurse, _nurse) == 0 &&
-                Double.compare(proof._helpeNurse, _helpeNurse) == 0 &&
-                Double.compare(proof._patientOccupancy, _patientOccupancy) == 0 &&
-                Double.compare(proof._countShiftNotRespected, _countShiftNotRespected) == 0 &&
-                Double.compare(proof._patientPerNurse, _patientPerNurse) == 0 &&
-                Double.compare(proof._countHelpeNurseChargeable, _countHelpeNurseChargeable) == 0 &&
-                Objects.equals(_proofRegulationStation, proof._proofRegulationStation) &&
-                Objects.equals(_baseInformation, proof._baseInformation);
+        return _month == proof._month &&
+                _shift == proof._shift &&
+                id.equals(proof.id) &&
+                _baseInformation.equals(proof._baseInformation) &&
+                _proofWard.equals(proof._proofWard) &&
+                validFrom.equals(proof.validFrom) &&
+                validTo.equals(proof.validTo) &&
+                deptNumbers.equals(proof.deptNumbers) &&
+                deptNames.equals(proof.deptNames) &&
+                significantSensitiveDomain.equals(proof.significantSensitiveDomain);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_proofRegulationStation, _baseInformation, _shift, _month, _countShift, _nurse, _helpeNurse, _patientOccupancy,
-                _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable);
+        return Objects.hash(id, _baseInformation, _proofWard, validFrom, validTo, _month, deptNumbers,
+                deptNames, significantSensitiveDomain, _shift);
+    }
+
+    public int duration() {
+        return DateUtils.duration(validFrom, validTo);
     }
 }

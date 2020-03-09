@@ -1627,8 +1627,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         return _externalMedStaffs;
     }
 
-    public void setExternalMedStaffs(List<KGLListExternalMedStaff> _externalMedStaffs) {
-        this._externalMedStaffs = _externalMedStaffs;
+    public void setExternalMedStaffs(List<KGLListExternalMedStaff> externalMedStaffs) {
+        this._externalMedStaffs = externalMedStaffs;
     }
     //</editor-fold>
 

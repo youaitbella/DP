@@ -2,42 +2,35 @@ package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
-import org.inek.dataportal.care.entities.Extension;
+import org.inek.dataportal.care.entities.SensitiveDomain;
+import org.inek.dataportal.care.enums.Months;
+import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.proof.entity.*;
-import org.inek.dataportal.care.proof.util.ProofChecker;
-import org.inek.dataportal.care.proof.util.ProofFiller;
-import org.inek.dataportal.care.proof.util.ProofHelper;
-import org.inek.dataportal.care.proof.util.ProofImporter;
-import org.inek.dataportal.care.utils.BaseDataManager;
+import org.inek.dataportal.care.proof.util.*;
 import org.inek.dataportal.care.utils.CalculatorPpug;
 import org.inek.dataportal.care.utils.CareSignatureCreater;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
-import org.primefaces.component.api.UIColumn;
+import org.inek.dataportal.common.utils.DateUtils;
+import org.inek.dataportal.common.utils.Period;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.SortMeta;
-import org.primefaces.model.SortOrder;
 import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
@@ -48,12 +41,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static org.inek.dataportal.api.helper.PortalConstants.*;
 import static org.inek.dataportal.common.enums.TransferFileType.PPUGV;
 
 @Named
@@ -62,6 +55,8 @@ public class ProofEdit implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("ProofEdit");
     public static final String DATA_INCOMPLETE = "Daten unvollständig";
+
+    //todo: reduce injections and change from field to constructor injection
     @Inject
     private SessionController _sessionController;
     @Inject
@@ -85,16 +80,14 @@ public class ProofEdit implements Serializable {
     private boolean _isExceptionFactsChangeMode = false;
     private String _uploadMessage;
     private List<ProofExceptionFact> _exceptionsFacts = new ArrayList<>();
-    private BaseDataManager _baseDatamanager;
-    private List<SelectItem> _listExceptionsFacts = new ArrayList<>();
-    private List<SortMeta> _preSortOrder = new ArrayList<>();
+    private List<SelectItem> _listExceptionFacts = new ArrayList<>();
 
-    public List<SelectItem> getListExceptionsFacts() {
-        return _listExceptionsFacts;
+    public List<SelectItem> getListExceptionFacts() {
+        return _listExceptionFacts;
     }
 
-    public void setListExceptionsFacts(List<SelectItem> listExceptionsFacts) {
-        this._listExceptionsFacts = listExceptionsFacts;
+    public void setListExceptionFacts(List<SelectItem> listExceptionsFacts) {
+        this._listExceptionFacts = listExceptionsFacts;
     }
 
     public String getUploadMessage() {
@@ -153,14 +146,6 @@ public class ProofEdit implements Serializable {
         this._proofBaseInformation = proofRegulationBaseInformation;
     }
 
-    public List<SortMeta> getPreSortOrder() {
-        return _preSortOrder;
-    }
-
-    public void setPreSortOrder(List<SortMeta> preSortOrder) {
-        this._preSortOrder = preSortOrder;
-    }
-
     private List<IkYearQuarter> possibleIkYearQuarters = Collections.emptyList();
 
     @PostConstruct
@@ -180,38 +165,14 @@ public class ProofEdit implements Serializable {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
-            loadBaseDataManager();
             loadExceptionsFactsList();
             fillExceptionsFactsList(_proofBaseInformation);
-            _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
         }
         setReadOnly();
-        buildSortOrder();
-    }
-
-    private void buildSortOrder() {
-        UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
-        String componentId = "form:proofTable:";
-        addSortOrder(viewRoot, componentId, "psAreaId", SortOrder.ASCENDING);
-        addSortOrder(viewRoot, componentId, "fabNumberId", SortOrder.ASCENDING);
-        addSortOrder(viewRoot, componentId, "fabId", SortOrder.ASCENDING);
-        addSortOrder(viewRoot, componentId, "stationNameId", SortOrder.ASCENDING);
-        addSortOrder(viewRoot, componentId, "locationId", SortOrder.ASCENDING);
-        addSortOrder(viewRoot, componentId, "monthId", SortOrder.ASCENDING);
-        addSortOrder(viewRoot, componentId, "shiftId", SortOrder.ASCENDING);
-    }
-
-    private void addSortOrder(UIViewRoot root, String component, String colId, SortOrder order) {
-        UIComponent column = root.findComponent(component + colId);
-        SortMeta sm = new SortMeta();
-        sm.setSortBy((UIColumn) column);
-        sm.setSortField(colId);
-        sm.setSortOrder(order);
-        _preSortOrder.add(sm);
     }
 
     private void loadExceptionsFactsList() {
-        _listExceptionsFacts = _proofFacade.getExceptionsFactsForYear(_proofBaseInformation.getYear());
+        _listExceptionFacts = _proofFacade.getExceptionsFactsForYear(_proofBaseInformation.getYear());
     }
 
     private void fillExceptionsFactsList(ProofRegulationBaseInformation info) {
@@ -251,45 +212,79 @@ public class ProofEdit implements Serializable {
     }
 
     public void ikChanged() {
-        _proofBaseInformation.setYear(0);
+        // todo? we kept the former ikYearQuarter - but: now, there is only one year/quarter possible
+        // thus we might simplify the whole logic and remove possibleIkYearQuarters as well as their selection
+        List<IkYearQuarter> ikYearQuarters = possibleIkYearQuarters
+                .stream().filter(d -> d.getIk() == _proofBaseInformation.getIk())
+                .collect(Collectors.toList());
+        if (ikYearQuarters.size() == 1) {
+            _proofBaseInformation.setYear(ikYearQuarters.get(0).getYear());
+        } else {
+            _proofBaseInformation.setYear(0);
+        }
         validYearsChanged();
     }
 
     public void validYearsChanged() {
-        _proofBaseInformation.setQuarter(0);
+        List<IkYearQuarter> ikYearQuarters = possibleIkYearQuarters.stream()
+                .filter(d -> d.getIk() == _proofBaseInformation.getIk())
+                .collect(Collectors.toList());
+        if (ikYearQuarters.size() == 1) {
+            _proofBaseInformation.setQuarter(ikYearQuarters.get(0).getQuarter());
+        } else {
+            _proofBaseInformation.setQuarter(0);
+        }
     }
 
     public void firstSave() {
-        // todo: separate bean for "new 2018" format (used for 2020++)?
-        if (_proofBaseInformation.getYear() >= 2020) {
-            int ik = _proofBaseInformation.getIk();
-            DeptBaseInformation deptBaseInfo = _deptFacade.findDeptBaseInformationByIkAndBaseYear(ik, 2018);
-            String errorMsg = ProofChecker.checkForMissingLocationNumber(deptBaseInfo.obtainCurrentWards(),
-                    _proofBaseInformation.getYear(),
-                    _proofBaseInformation.getQuarter());
-            if (!errorMsg.isEmpty()) {
-                DialogController.showErrorDialog(DATA_INCOMPLETE, errorMsg);
-                return;
-            }
-            //ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards());
+        int year = _proofBaseInformation.getYear();
+        int quarter = _proofBaseInformation.getQuarter();
+        int ik = _proofBaseInformation.getIk();
+
+
+        DeptBaseInformation deptBaseInfo = _deptFacade.findDeptBaseInformationByIkAndBaseYear(ik, 2018);
+        String errorMsg = ProofChecker.checkForMissingLocationNumber(deptBaseInfo.obtainCurrentWards(), year, quarter);
+        if (!errorMsg.isEmpty()) {
+            DialogController.showErrorDialog(DATA_INCOMPLETE, errorMsg);
+            return;
         }
 
-
-        List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofBaseInformation.getIk(),
-                _proofBaseInformation.getYear());
-        ProofFiller.createProofEntrysFromStations(_proofBaseInformation, stations,
-                _proofBaseInformation.getYear(), _proofBaseInformation.getQuarter());
-        loadBaseDataManager();
+        //todo: refact nested loops
+        for (int month = quarter * 3 - 2; month <= quarter * 3; month++) {
+            Period period = DateUtils.firstAndLastDayOfMonth(year, month);
+            List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), period.from(), period.to());
+            for (ProofWardInfo proofWardInfo : proofWardInfos) {
+                for (Shift shift : Shift.values()) {
+                    _proofBaseInformation.addProof(fillProof(new Proof(_proofBaseInformation), proofWardInfo, month, shift, _proofFacade));
+                }
+            }
+        }
         loadExceptionsFactsList();
         save();
-        _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
         setReadOnly();
     }
 
-
-    private void loadBaseDataManager() {
-        _baseDatamanager = new BaseDataManager(_proofBaseInformation.getYear(), _baseDataFacade);
+    private Proof fillProof(Proof proof, ProofWardInfo proofWardInfo, int month, Shift shift, ProofFacade proofFacade) {
+        proof.setMonth(Months.getById(month));
+        proof.setShift(shift);
+        proof.setBeds(proofWardInfo.getBeds());
+        int duration = DateUtils.duration(proofWardInfo.getFrom(), proofWardInfo.getTo());
+        int ik = proof.getBaseInformation().getIk();
+        ProofWard proofWard = proofFacade.retrieveOrCreateProofWard(ik, proofWardInfo.getLocationNumber(),
+                proofWardInfo.getLocationP21(), proofWardInfo.getWardName());
+        proof.setProofWard(proofWard);
+        proof.setValidFrom(proofWardInfo.getFrom());
+        proof.setValidTo(proofWardInfo.getTo());
+        proof.setCountShift(duration);
+        proof.setDeptNumbers(proofWardInfo.depts());
+        proof.setDeptNames(proofWardInfo.deptNames());
+        proof.setSensitiveDomains(proofWardInfo.sensitiveDomains());
+        int year = proof.getBaseInformation().getYear();
+        SensitiveDomain sensitiveDomain = _baseDataFacade.determineSignificantDomain(year, proofWardInfo.sensitiveDomainSet());
+        proof.setSignificantSensitiveDomain(sensitiveDomain);
+        return proof;
     }
+
 
     public void save() {
         for (Proof proof : _proofBaseInformation.getProofs()) {
@@ -297,7 +292,7 @@ public class ProofEdit implements Serializable {
             calculatePatientPerNurse(proof);
         }
 
-        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionsFacts.size());
+        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionFacts.size());
         if (!errorMessages.isEmpty()) {
             DialogController.showErrorDialog(DATA_INCOMPLETE, errorMessages.get(0));
             return;
@@ -314,7 +309,6 @@ public class ProofEdit implements Serializable {
             }
 
             _proofBaseInformation = _proofFacade.save(_proofBaseInformation);
-            _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
 
 
             if (_proofBaseInformation.getStatus() == WorkflowStatus.Provided) {
@@ -325,7 +319,7 @@ public class ProofEdit implements Serializable {
                 DialogController.showSaveDialog();
             }
         } catch (EJBException ex) {
-            LOGGER.log(Level.INFO, "Fehler beim speichern PPUGV (" + _proofBaseInformation.getIk() + "): " +
+            LOGGER.log(Level.WARNING, "Fehler beim speichern PPUGV (" + _proofBaseInformation.getIk() + "): " +
                     "Eintrag wurde von jemanden anderen geändert");
             DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
                     + "Bitte laden Sie die Meldung neu. Die Daten wurden bereits von einem anderen Benutzer geändert.");
@@ -334,14 +328,10 @@ public class ProofEdit implements Serializable {
 
 
     private void sendMail(String mailTemplateName) {
-        String salutation = _mailer.getFormalSalutation(_accessManager.getSessionAccount());
-
-        MailTemplate template = _mailer.getMailTemplate(mailTemplateName);
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", Integer.toString(_proofBaseInformation.getIk()));
-
-        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
-
-        if (!_mailer.sendMailTemplate(template, _accessManager.getSessionAccount().getEmail())) {
+        Map<String, String> substitutions = new HashMap<>();
+        substitutions.put(VAR_IK, "" + _proofBaseInformation.getIk());
+        boolean success = _mailer.sendMailWithTemplate(mailTemplateName, substitutions, _accessManager.getSessionAccount());
+        if (!success) {
             LOGGER.log(Level.SEVERE, "Fehler beim Emailversand an " + _proofBaseInformation.getIk() + "(Care Proof)");
             _mailer.sendException(Level.SEVERE,
                     "Fehler beim Emailversand an " + _proofBaseInformation.getIk() + "(Care Proof)", new Exception());
@@ -354,7 +344,7 @@ public class ProofEdit implements Serializable {
             calculatePatientPerNurse(proof);
         }
 
-        List<String> errorMessages = ProofChecker.proofIsReadyForSend(_proofBaseInformation, _listExceptionsFacts.size());
+        List<String> errorMessages = ProofChecker.proofIsReadyForSend(_proofBaseInformation, _listExceptionFacts.size());
 
         if (!errorMessages.isEmpty()) {
             for (String message : errorMessages) {
@@ -395,18 +385,27 @@ public class ProofEdit implements Serializable {
     }
 
     public boolean changeAllowed() {
+        if (_proofBaseInformation == null || _proofBaseInformation.getStatusId() < 10 || deadlineReached()) {
+            return false;
+        }
         if (!_configFacade.readConfigBool(ConfigKey.IsCareProofChangeEnabled)) {
             return false;
         }
-        if (_proofBaseInformation == null || _proofBaseInformation.getStatusId() < 10) {
-            return false;
-        } else {
-            return _accessManager.userHasWriteAccess(Feature.CARE, _proofBaseInformation.getIk());
-        }
+        return _accessManager.userHasWriteAccess(Feature.CARE, _proofBaseInformation.getIk());
+    }
+
+    public boolean deadlineReached() {
+        int year = _proofBaseInformation.getYear();
+        int quarter = _proofBaseInformation.getQuarter();
+        int deadlineYear = year + (quarter == 4 ? 1 : 0);
+        int deadlineMonth = quarter == 4 ? 1 : quarter * 3 + 1;
+        int lastDay = _proofBaseInformation.getExtensionRequestedAt().equals(DateUtils.MIN_DATE) ? 15 : 29;
+        Date deadline = DateUtils.createDate(deadlineYear, deadlineMonth, lastDay + 1);
+        return new Date().compareTo(deadline) >= 0;
     }
 
     public boolean sendAllowed() {
-        return _configFacade.readConfigBool(ConfigKey.IsCareProofSendEnabled);
+        return !deadlineReached() && _configFacade.readConfigBool(ConfigKey.IsCareProofSendEnabled);
     }
 
     public boolean sendAllowedForToday() {
@@ -428,7 +427,7 @@ public class ProofEdit implements Serializable {
     }
 
     public void saveChangedExceptionFacts() {
-        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionsFacts.size());
+        List<String> errorMessages = ProofChecker.proofIsReadyForSave(_proofBaseInformation, _listExceptionFacts.size());
         if (!errorMessages.isEmpty()) {
             DialogController.showErrorDialog(DATA_INCOMPLETE, errorMessages.get(0));
             return;
@@ -436,7 +435,6 @@ public class ProofEdit implements Serializable {
 
         try {
             _proofBaseInformation = _proofFacade.save(_proofBaseInformation);
-            _baseDatamanager.fillBaseDataToProofs(_proofBaseInformation.getProofs());
             setIsExceptionFactsChangeMode(false);
             DialogController.showSaveDialog();
         } catch (Exception ex) {
@@ -460,18 +458,31 @@ public class ProofEdit implements Serializable {
     }
 
     public double calculatePatientPerNurse(Proof proof) {
-        CalculatorPpug.calculateAll(proof);
+        CalculatorPpug.calculateAll(proof, 1 - obtainPart(proof));
         return proof.getPatientPerNurse();
     }
 
+    public boolean hasToManyPatient(Proof proof) {
+        return calculatePatientPerNurse(proof) > obtainLimit(proof);
+    }
+
+    public double obtainLimit(Proof proof) {
+        int year = proof.getBaseInformation().getYear();
+        return _baseDataFacade.obtainPatientLimit(year, proof.getSignificantSensitiveDomain(), proof.getShift());
+    }
+
+    private double obtainPart(Proof proof) {
+        int year = proof.getBaseInformation().getYear();
+        return _baseDataFacade.obtainPart(year, proof.getSignificantSensitiveDomain(), proof.getShift());
+    }
+
     public double calculateCountHelpeNurseChargeable(Proof proof) {
-        CalculatorPpug.calculateAll(proof);
+        CalculatorPpug.calculateAll(proof, 1 - obtainPart(proof));
         return proof.getCountHelpeNurseChargeable();
     }
 
     public void addNewException(Proof proof) {
-        ProofExceptionFact exceptionFact = new ProofExceptionFact();
-        exceptionFact.setProof(proof);
+        ProofExceptionFact exceptionFact = new ProofExceptionFact(proof);
         proof.addExceptionFact(exceptionFact);
         _exceptionsFacts.add(exceptionFact);
     }
@@ -483,14 +494,14 @@ public class ProofEdit implements Serializable {
 
     public List<Proof> getProofsForExceptionFact() {
         return _proofBaseInformation.getProofs().stream()
-                .filter(c -> c.getPatientPerNurse() > c.getPpug() || c.getCountShiftNotRespected() > 0)
-                .filter(c -> c.getExceptionFact().size() < _listExceptionsFacts.size())
+                .filter(proof -> proof.getPatientPerNurse() > obtainLimit(proof) || proof.getCountShiftNotRespected() > 0)
+                .filter(proof -> proof.getExceptionFact().size() < _listExceptionFacts.size())
                 .collect(Collectors.toList());
     }
 
     public void handleFileUpload(FileUploadEvent event) {
         try {
-            ProofImporter importer = new ProofImporter(true);
+            ProofImporter importer = _proofBaseInformation.getYear() == 2019 ? new ProofImporter2019(true) : new ProofImporter2020(true);
             importer.handleProofUpload(_proofBaseInformation, event.getFile().getInputstream());
             setUploadMessage(importer.getMessage());
         } catch (Exception ex) {
@@ -500,8 +511,9 @@ public class ProofEdit implements Serializable {
     }
 
     public StreamedContent downloadExcelTemplate() {
+        String path = _proofBaseInformation.getId() + "/" + _proofBaseInformation.getYear();
         byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Poof_Upload_Template",
-                _proofBaseInformation.getId(), "Upload_Vorlage");
+                path, "Upload_Vorlage");
 
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Upload_Vorlage.xlsx");
@@ -513,8 +525,9 @@ public class ProofEdit implements Serializable {
                 _proofBaseInformation.getQuarter() + "_" +
                 _proofBaseInformation.getYear() + ".xlsx";
 
+        String path = _proofBaseInformation.getId() + "/" + _proofBaseInformation.getYear();
         byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Proof_Quarter_Report",
-                _proofBaseInformation.getId(), fileName);
+                path, fileName);
 
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
@@ -533,45 +546,34 @@ public class ProofEdit implements Serializable {
     }
 
     public void requestExtension() {
-        int ik = _proofBaseInformation.getIk();
-        int year = _proofBaseInformation.getYear();
-        int quarter = _proofBaseInformation.getQuarter();
-        Extension extension = new Extension(ik, year, quarter, _accessManager.getSessionAccountId());
-        extension.setAccountId(_accessManager.getSessionAccountId());
-        _proofFacade.saveExtension(extension);
-        sendExtensionMail(ik, year, quarter);
+        _proofBaseInformation.setExtensionRequestedAt(new Date());
+        _proofBaseInformation.setExtensionRequestedBy(_accessManager.getSessionAccountId());
+        sendExtensionMail();
     }
 
-    private boolean sendExtensionMail(int ik, int year, int quarter) {
+    private void sendExtensionMail() {
+        int year = _proofBaseInformation.getYear();
+        int quarter = _proofBaseInformation.getQuarter();
         int extensionYear = year + (quarter == 4 ? 1 : 0);
         int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
-        LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 29);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        Date extensionDate = DateUtils.createDate(extensionYear, extensionMonth, 29);
 
-        MailTemplate template = _mailer.getMailTemplate("CareProofExtension");
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{formalSalutation}",
-                _mailer.getFormalSalutation(_accessManager.getSessionAccount()));
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", String.valueOf(ik));
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{quarter}", String.valueOf(quarter));
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{year}", String.valueOf(year));
-        MailTemplateHelper.setPlaceholderInTemplate(template, "{date}", extensionDate.format(formatter));
+        Map<String, String> substitutions = new HashMap<>();
+        substitutions.put(VAR_IK, "" + _proofBaseInformation.getIk());
+        substitutions.put(VAR_YEAR, "" + year);
+        substitutions.put(VAR_QUARTER, "" + quarter);
+        substitutions.put(VAR_DATE, DateUtils.toGerman(extensionDate));
+        _mailer.sendMailWithTemplate("CareProofExtension", substitutions, _accessManager.getSessionAccount());
 
-        DialogController.showInfoDialog("Erfolgreich beantragt", "Sie haben erfolgreich eine " +
+        DialogController.showInfoDialog("Fristverlängerung beantragt", "Sie haben erfolgreich eine " +
                 "Fristverlängerung beantragt. Sie erhalten eine Bestätung per E-Mail.");
-        return _mailer.sendMailTemplate(template, _accessManager.getSessionAccount().getEmail());
     }
 
     public boolean getRequestExtensionAllowed() {
-        int ik = _proofBaseInformation.getIk();
-        int year = _proofBaseInformation.getYear();
-        int quarter = _proofBaseInformation.getQuarter();
-        int extensionYear = year + (quarter == 4 ? 1 : 0);
-        int extensionMonth = quarter == 4 ? 1 : quarter * 3 + 1;
-        LocalDate extensionDate = LocalDate.of(extensionYear, extensionMonth, 15);
-        if (LocalDate.now().isAfter(extensionDate)) {
+        if (deadlineReached()) {
             return false;
         }
-        return !_proofFacade.hasExtension(ik, year, quarter);
+        return _proofBaseInformation.getExtensionRequestedAt().equals(DateUtils.MIN_DATE);
     }
 
     public void uploadDocument(FileUploadEvent event) {
@@ -620,8 +622,4 @@ public class ProofEdit implements Serializable {
         return documentName;
     }
 
-    public List<Proof> getProofs() {
-        // display data in old format
-        return _proofBaseInformation.getProofs().stream().filter(p -> p.getProofRegulationStationId() > 0).collect(Collectors.toList());
-    }
 }

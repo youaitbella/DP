@@ -13,6 +13,10 @@ import org.inek.dataportal.common.utils.Helper;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
+import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.CDI;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -45,12 +49,13 @@ import static org.inek.dataportal.api.helper.PortalConstants.END_PARAGRAPH;
 import static org.inek.dataportal.api.helper.PortalConstants.MESSAGE_SEPERATOR;
 
 /**
- *
  * @author muellermi
  */
 public class Utils {
 
     private static final Logger LOGGER = Logger.getLogger(Utils.class.getName());
+    public static final int MIN_TEST_IK = 222222220;
+    public static final int MAX_TEST_IK = 222222229;
 
     public static String getMessageForScript(String key) {
         return getMessage(key).replace("\r\n", "\n").replace("\n", "\\r\\n");
@@ -150,6 +155,14 @@ public class Utils {
         ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, "#{" + name + "}", type);
         //return (T) valueExpression.getValue(elContext);
         return type.cast(valueExpression.getValue(elContext));
+    }
+
+
+    public static <T> T getCdiBean(Class<T> type) {
+        BeanManager bm = CDI.current().getBeanManager();
+        @SuppressWarnings("unchecked") Bean<T> bean = (Bean<T>) bm.getBeans(type).iterator().next();
+        CreationalContext<T> ctx = bm.createCreationalContext(bean);
+        return type.cast(bm.getReference(bean, type, ctx));
     }
 
     public static StringBuilder collectUrlInformation() {
@@ -413,6 +426,10 @@ public class Utils {
         } catch (NumberFormatException ex) {
             return false;
         }
+    }
+
+    public static boolean isTestIk(int ik) {
+        return ik >= MIN_TEST_IK && ik <= MAX_TEST_IK;
     }
 
 }
