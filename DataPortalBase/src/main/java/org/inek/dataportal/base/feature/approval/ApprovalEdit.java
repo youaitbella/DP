@@ -3,6 +3,7 @@ package org.inek.dataportal.base.feature.approval;
 import org.inek.dataportal.base.feature.approval.entities.ItemBlock;
 import org.inek.dataportal.base.feature.approval.entities.ItemRecipient;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.annotation.PostConstruct;
 import javax.faces.model.SelectItem;
@@ -10,7 +11,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +35,12 @@ public class ApprovalEdit implements Serializable {
     @PostConstruct
     private void init() {
         itemRecipients = approvalFacade.itemsForAccount(sessionController.getAccountId());
+        for (ItemRecipient recipient : itemRecipients) {
+            if (recipient.getFirstViewedDt().equals(DateUtils.MIN_DATE)) {
+                recipient.setFirstViewedDt(new Date());
+                approvalFacade.save(recipient);
+            }
+        }
     }
 
     public List<SelectItem> getActions() {
@@ -45,15 +51,13 @@ public class ApprovalEdit implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    public List<ItemBlock> getItemBlocks() {
-        List<ItemBlock> itemBlocks = new ArrayList<>();
-        itemRecipients.stream().map(r -> r.getItem()).forEach(i -> i.getBlocks().addAll(itemBlocks));
-        return itemBlocks;
-    }
-
     public void approve(ItemBlock block) {
         block.setConfAccountId(sessionController.getAccountId());
         block.setConfDt(new Date());
         approvalFacade.save(block);
+    }
+
+    public boolean isNotApproved(ItemBlock block) {
+        return block.getConfDt().equals(DateUtils.MIN_DATE);
     }
 }

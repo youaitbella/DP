@@ -35,7 +35,11 @@ public class ApprovalFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public void save(ItemBlock block) {
-        merge(block);
+    public ItemBlock save(ItemBlock block) {
+        return merge(block);
+    }
+
+    public ItemRecipient save(ItemRecipient recipient) {
+        return merge(recipient);
     }
 }
