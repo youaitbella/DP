@@ -1,11 +1,14 @@
 package org.inek.dataportal.base.feature.approval;
 
+import org.inek.dataportal.base.feature.approval.entities.ItemBlock;
+import org.inek.dataportal.base.feature.approval.entities.ItemRecipient;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.enterprise.context.Dependent;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Dependent
 @Transactional
@@ -25,4 +28,14 @@ public class ApprovalFacade extends AbstractDataAccess {
         return query.getSingleResult() > 0;
     }
 
+    public List<ItemRecipient> itemsForAccount(int accountId) {
+        String jpql = "Select r from ItemRecipient r where r.accountId = :accountId";
+        TypedQuery<ItemRecipient> query = getEntityManager().createQuery(jpql, ItemRecipient.class);
+        query.setParameter("accountId", accountId);
+        return query.getResultList();
+    }
+
+    public void save(ItemBlock block) {
+        merge(block);
+    }
 }

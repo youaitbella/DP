@@ -12,13 +12,13 @@ public class ConfState {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "csId")
-    private Integer id = -1;
+    private String id = "";
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
     // </editor-fold>

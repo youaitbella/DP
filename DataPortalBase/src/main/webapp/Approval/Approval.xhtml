@@ -6,7 +6,7 @@
 >
 
     <ui:define name="title">
-        title
+        Rückmeldungen
     </ui:define>
 
     <ui:define name="content">
@@ -14,7 +14,24 @@
 
         <h:form id="approval">
             <div class="edit">
-                Edit-Bereich
+                <ui:repeat value="#{approvalEdit.actions}" var="action">
+                    #{action.value.ik} #{action.label}
+                    <ui:repeat value="#{action.value.blocks}" var="itemBlock">
+                        <br/>
+                        #{itemBlock.header}
+                        <h:dataTable value="#{itemBlock.data}" var="itemData">
+                            <h:column>
+                                #{itemData.key}
+                            </h:column>
+                            <h:column>
+                                #{itemData.value}
+                            </h:column>
+                        </h:dataTable>
+                        <h:commandLink value="Rückmeldung bestätigen"
+                                       styleClass="button"
+                                       actionListener="#{approvalEdit.approve(itemBlock)}"/>
+                    </ui:repeat>
+                </ui:repeat>
             </div>
         </h:form>
 

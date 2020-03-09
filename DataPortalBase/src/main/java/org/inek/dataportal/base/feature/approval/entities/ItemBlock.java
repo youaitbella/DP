@@ -103,9 +103,9 @@ public class ItemBlock {
     //<editor-fold desc="Property Data">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "idItemBlockId", referencedColumnName = "ibId")
-    private List<ItemBlock> data = new ArrayList<>();
+    private List<ItemData> data = new ArrayList<>();
 
-    public List<ItemBlock> getData() {
+    public List<ItemData> getData() {
         return Collections.unmodifiableList(data);
     }
     //</editor-fold>
@@ -130,5 +130,5 @@ public class ItemBlock {
     public int hashCode() {
         return Objects.hash(id, item, header, confState, confDt, confAccountId, data);
     }
-//</editor-fold>
+    //</editor-fold>
 }

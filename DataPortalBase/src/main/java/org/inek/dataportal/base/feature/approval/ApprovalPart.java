@@ -9,6 +9,9 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class ApprovalPart {
+    private SessionController sessionController;
+    private ApprovalFacade approvalFacade;
+
     public ApprovalPart() {
     }
 
@@ -17,9 +20,6 @@ public class ApprovalPart {
         this.sessionController = sessionController;
         this.approvalFacade = approvalFacade;
     }
-
-    private SessionController sessionController;
-    private ApprovalFacade approvalFacade;
 
     public boolean getContainsOpenApproval() {
         return approvalFacade.hasUnreadData(sessionController.getAccountId());
