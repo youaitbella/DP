@@ -276,7 +276,7 @@
 
             <h4><h:outputLabel value="#{msg.infoProvidedData}"/></h4>
 
-            <ui:repeat value="#{calcHospitalTreeHandler.viewNode.children}" var="year">
+            <ui:repeat value="#{calcHospitalTreeHandler.viewNode.children.stream().filter(ch->ch.id>=summaryData.currentDataYear-2).toList()}" var="year">
                 <p>
                 <h:commandLink action="#{year.toggle}" immediate="true" >
                     <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>

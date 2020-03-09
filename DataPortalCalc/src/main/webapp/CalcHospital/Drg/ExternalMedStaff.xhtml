@@ -1,0 +1,814 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+>
+    <h1>Übersicht externes Personal</h1>
+
+    <!--    Ärztlichen Dienst-->
+    <div class="container marginTop">
+        <h2>Im Krankenhaus eingesetztes Fremdpersonal im Ärztlichen Dienst:</h2>
+        <inek:LabeledCheckbox label="Das Krankenhaus hat Ärzte als externes Personal beschäftigt:"
+                              styleClassLabel="label40"
+                              value="#{editCalcBasicsDrg.calcBasics.externalMedStaff}"
+                              renderElement="@form :script"
+                              readonly="#{editCalcBasicsDrg.readOnly}"
+                              listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.externalMedStaff)}">
+        </inek:LabeledCheckbox>
+        <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.externalMedStaff}">
+            <h:dataTable value="#{editCalcBasicsDrg.calcBasics.externalMedStaffs}"
+                         id="externalMedStaffId"
+                         var="externalMedStaff" width="100%"
+                         styleClass="borderedTable borderCollapse"
+                         headerClass="smallFont paddingElement"
+                         tableStyle="table-layout: auto"
+                         rowClasses="row1, row2"
+                         columnClasses="colIcon, col1, col2, col3, col4, col5">
+                <h:column>
+                    <h:commandLink action="#{editCalcBasicsDrg.deleteExternalMedStaff(externalMedStaff)}"
+                                   rendered="true"
+                                   immediate="true" styleClass="colIcon">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                        value=""
+                                        rendered="#{!editCalcBasicsDrg.readOnly}"/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <h:selectOneMenu id="medStaffId"
+                                     value="#{externalMedStaff.dataYear}" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
+                                       var="year"
+                                       itemLabel="#{year.label}"
+                                       itemValue="#{year.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
+                    <inek:InputTextWithMessage id="division"
+                                               required="true"
+                                               value="#{externalMedStaff.divisionMedStaff}"
+                                               styleClass="fullWidth"
+                                               readonly="#{editCalcBasicsDrg.readOnly}">
+                    </inek:InputTextWithMessage>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
+                    <inek:InputNumberWithMessage id="countMedStaff"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('countMedStaff'))}costPerFullTime:text"
+                                                 value="#{externalMedStaff.count}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Kostenvolumen"/></f:facet>
+                    <inek:InputNumberWithMessage id="costVolumeMedStaff"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('costVolumeMedStaff'))}costPerFullTime:text"
+                                                 styleClass="element100" value="#{externalMedStaff.costVolume}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
+                    <!--                {externalMedStaff.costPerFullTime}-->
+                    <inek:InputNumberWithMessage id="costPerFullTime" styleClass="element100"
+                                                 disabled="true"
+                                                 value="#{externalMedStaff.count eq 0 ? '' : externalMedStaff.costVolume / externalMedStaff.count}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
+                    <h:selectOneMenu id="MedStaffCostKoStGrId" value="#{externalMedStaff.costKoStGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"
+                                       itemValue="#{cc.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
+                    <h:selectOneMenu id="MedStaffCostKoArtGrId" value="#{externalMedStaff.costKoArtGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                    <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                   var="ct"
+                                   itemLabel="#{ct.label}"
+                                   itemValue="#{ct.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
+                    <inek:InputTextWithMessage required="true"
+                                               value="#{externalMedStaff.explanationField}"
+                                               styleClass="fullWidth">
+                    </inek:InputTextWithMessage>
+                </h:column>
+
+            </h:dataTable>
+            <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                           rendered="#{!editCalcBasicsDrg.readOnly}">
+                <f:ajax event="click" render="externalMedStaffId :logout:remaining"
+                        listener="#{editCalcBasicsDrg.addExternalMedStaff()}"/>
+            </h:commandLink>
+        </h:panelGroup>
+    </div>
+
+    <!--    Pflegedienst-->
+    <!--    Pflegefachkräfte-->
+    <h2>Im Krankenhaus eingesetztes Fremdpersonal im Pflegedienst:</h2>
+    <h:outputLabel styleClass="label50" value="Pflegefachkräfte"/>
+    <inek:LabeledCheckbox label="Das Krankenhaus hat Pflegekräfte als externes Personal beschäftigt"
+                          styleClassLabel="label40"
+                          value="#{editCalcBasicsDrg.calcBasics.externalNursingStaff}"
+                          renderElement="@form externalNursingMedStaffId :script"
+                          readonly="#{editCalcBasicsDrg.readOnly}"
+                          listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.externalNursingStaff)}">
+    </inek:LabeledCheckbox>
+    <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.externalNursingStaff}">
+        <div class="container marginTop">
+            <h:dataTable id="externalNursingMedStaffId"
+                         value="#{editCalcBasicsDrg.obtainExternalStaff('NURSING')}"
+                         var="externalNursingStaff"
+                         styleClass="borderedTable borderCollapse"
+                         headerClass="smallFont paddingElement"
+                         tableStyle="table-layout: auto"
+                         width="100%"
+                         rowClasses="row1, row2"
+                         columnClasses="colIcon, col1, col2, col3, col4, col5">
+                <h:column>
+                    <h:commandLink action="#{editCalcBasicsDrg.deleteExternalNursingMedStaff(externalNursingStaff)}"
+                                   rendered="true"
+                                   immediate="true" styleClass="colIcon">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                        value=""
+                                        rendered="#{!editCalcBasicsDrg.readOnly}"/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <h:selectOneMenu id="NursingId"
+                                     value="#{externalNursingStaff.dataYear}" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
+                                       var="year"
+                                       itemLabel="#{year.label}"
+                                       itemValue="#{year.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
+                    <inek:InputTextWithMessage id="division"
+                                               required="true"
+                                               value="#{externalNursingStaff.divisionNursingStaff}"
+                                               styleClass="fullWidth">
+                    </inek:InputTextWithMessage>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Durchschnittliche tariflich vereinbarte Jahresarbeitszeit [in Std.]
+                                          einer direkt angestellten Pflegefachkraft"/>
+                    </f:facet>
+                    <inek:InputIntegerWithMessage id="agreedAverageWorkingHoursNursingStaffId"
+                                                  value="#{externalNursingStaff.agreedAverageWorkingHoursNursingStaff}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel
+                                value="Durchschnittliche tarifliche Netto Jahresarbeitszeit [in Std.] (nach Abzug von Fehltagen) "/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bei dem Abzug der Fehltage bzw. Fehlstunden sind Überstunden und Bereitschaftsdienste nicht in die Berechnung einzubeziehen. Zusätzlich sind Zeiten, die für das Krankenhaus keine Personalkosten verursacht haben (Arbeitsunfähigkeit außerhalb der Lohnfortzahlung, unbezahlter Urlaub, Mutterschutz) ebenso nicht in die Berechnung einzubeziehen."/>
+                        <h:outputLabel value="einer direkt angestellten Pflegefachkraft"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage styleClass="element100"
+                                                 value="#{externalNursingStaff.netAverageWorkingHoursNursingStaff}"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel
+                                value="Errechnete Anzahl VK (Arbeitsleistung des Fremdpersonals/Tarifliche Netto Jahresarbeitszeit)"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="calculatedCountNursingStaff" styleClass="element100"
+                                                 value="#{externalNursingStaff.calculatedCountNursingStaff}"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('calculatedCountNursingStaff'))}CostVolumeUpToLimit:text"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel
+                                value="Durchschnittliche jährliche Arbeitgeberkosten einer tariflich angestellten Pflegefachkraft"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="averageAnnualEmployerCostsNursingStaff" styleClass="element100"
+                                                 value="#{externalNursingStaff.averageAnnualEmployerCostsNursingStaff}"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('averageAnnualEmployerCostsNursingStaff'))}CostVolumeUpToLimit:text"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Rechnungsbetrag der Arbeitnehmerüberlassung für Pflegefachkräfte:"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="amountTemporaryEmploymentNursingStaff"
+                                                 styleClass="element100"
+                                                 value="#{externalNursingStaff.amountTemporaryEmploymentNursingStaff}"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountTemporaryEmploymentNursingStaff'))}CostVolumeAboveLimit:text"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="CostVolumeUpToLimit"
+                                                 styleClass="element100"
+                                                 value="#{externalNursingStaff.calculatedCountNursingStaff * externalNursingStaff.averageAnnualEmployerCostsNursingStaff}"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimit'))}CostVolumeAboveLimit:text"
+                                                 disabled="true"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Kostenvolumen oberhalb der Begrenzung nach § 6a Abs. 2 KHEntgG:"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="CostVolumeAboveLimit"
+                                                 styleClass="element100"
+                                                 value="#{externalNursingStaff.amountTemporaryEmploymentNursingStaff - (externalNursingStaff.calculatedCountNursingStaff * externalNursingStaff.averageAnnualEmployerCostsNursingStaff)}"
+                                                 disabled="true"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
+                    <h:selectOneMenu id="NursingStaffCostKoStGrId"
+                                     value="#{externalNursingStaff.costKoStGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"
+                                       itemValue="#{cc.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
+                    <h:selectOneMenu id="NursingStaffCostKoArtGrId"
+                                     value="#{externalNursingStaff.costKoArtGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                       var="ct"
+                                       itemLabel="#{ct.label}"
+                                       itemValue="#{ct.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel
+                                value="Wird das Fremdpersonal ausschließlich für die 'Pflege am Bett' eingesetzt?"/>
+                    </f:facet>
+                    <inek:Checkbox id="exclusivelyCareAtBedNursingStaffId"
+                                   value="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff}"
+                                   styleClass="element100"
+                                   renderElement="@form partOfCostVolumeBedNursingStaffId :script"
+                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
+                                          welches nicht für die 'Pflege am Bett' eingesetzt wird und geben Sie im
+                                          Erläuterungsfeld den entsprechenden Bereich(z.B. Funktionslabor) an." />
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingStaffId" styleClass="element100"
+                                                 value="#{externalNursingStaff.partOfCostVolumeBedNursingStaff}"
+                                                 required="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff}"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
+                    <inek:InputTextWithMessage id="explanationField"
+                                               required="true"
+                                               value="#{externalNursingStaff.explanationFieldNursingStaff}"
+                                               styleClass="fullWidth">
+                    </inek:InputTextWithMessage>
+                </h:column>
+            </h:dataTable>
+        </div>
+        <h:commandLink id="addButtonExternalNursingMedStaff" styleClass="addButton inputPart"
+                       value="#{msg.btnAddEntry}"
+                       rendered="#{!editCalcBasicsDrg.readOnly}">
+            <f:ajax event="click" render="externalNursingMedStaffId :logout:remaining"
+                    listener="#{editCalcBasicsDrg.addExternalNursingStaff('NURSING')}"/>
+        </h:commandLink>
+    </h:panelGroup>
+
+    <!--    Pflegehilfskräfte-->
+    <br/>
+    <br/>
+    <h:outputLabel styleClass="label50" value="Pflegehilfskräfte"/>
+    <inek:LabeledCheckbox label="Das Krankenhaus hat Pflegehilfskräfte als externes Personal beschäftigt"
+                          styleClassLabel="label40"
+                          value="#{editCalcBasicsDrg.calcBasics.externalNursingAssistantStaff}"
+                          renderElement="@form externalNursingAssistantStaffId :script"
+                          readonly="#{editCalcBasicsDrg.readOnly}"
+                          listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.externalNursingAssistantStaff)}">
+    </inek:LabeledCheckbox>
+    <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.externalNursingAssistantStaff}">
+        <div class="container marginTop">
+            <h:dataTable id="externalNursingAssistantStaffId"
+                         value="#{editCalcBasicsDrg.obtainExternalStaff('ASSISTANTNURSING')}"
+                         var="externalNursingAssistantMedStaff"
+                         styleClass="borderedTable borderCollapse"
+                         headerClass="smallFont paddingElement"
+                         tableStyle="table-layout: auto"
+                         rowClasses="row1, row2"
+                         columnClasses="colIcon, col1, col2, col3, col4, col5">
+                <h:column>
+                    <h:commandLink
+                            action="#{editCalcBasicsDrg.deleteExternalNursingMedStaff(externalNursingAssistantMedStaff)}"
+                            rendered="true"
+                            immediate="true" styleClass="colIcon">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                        value=""
+                                        rendered="#{!editCalcBasicsDrg.readOnly}"/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <h:selectOneMenu id="NursingAssistantId"
+                                     value="#{externalNursingAssistantMedStaff.dataYear}" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
+                                       var="year"
+                                       itemLabel="#{year.label}"
+                                       itemValue="#{year.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
+                    <inek:InputTextWithMessage id="division"
+                                               required="true"
+                                               value="#{externalNursingAssistantMedStaff.divisionNursingStaff}"
+                                               styleClass="fullWidth">
+                    </inek:InputTextWithMessage>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Durchschnittliche tariflich vereinbarte Jahresarbeitszeit [in Std.]
+                                          einer direkt angestellten Pflegefachkraft"/>
+                    </f:facet>
+                    <inek:InputIntegerWithMessage id="agreedAverageWorkingHoursNursingAssistantStaffId"
+                                                  value="#{externalNursingAssistantMedStaff.agreedAverageWorkingHoursNursingStaff}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Durchschnittliche tarifliche Netto Jahresarbeitszeit [in Std.]
+                                          (nach Abzug von Fehltagen) "/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bei dem Abzug der Fehltage bzw. Fehlstunden sind Überstunden und Bereitschaftsdienste nicht in die Berechnung einzubeziehen.
+                                        Zusätzlich sind Zeiten, die für das Krankenhaus keine Personalkosten verursacht haben (Arbeitsunfähigkeit außerhalb der Lohnfortzahlung,
+                                        unbezahlter Urlaub, Mutterschutz) ebenso nicht in die Berechnung einzubeziehen."/>
+                        <h:outputLabel value="einer direkt angestellten Pflegefachkraft"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage styleClass="element100"
+                                                 value="#{externalNursingAssistantMedStaff.netAverageWorkingHoursNursingStaff}"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel
+                                value="Errechnete Anzahl VK (Arbeitsleistung des Fremdpersonals/Tarifliche Netto Jahresarbeitszeit)"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="calculatedCountNursingAssistantStaff" styleClass="element100"
+                                                 value="#{externalNursingAssistantMedStaff.calculatedCountNursingStaff}"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('calculatedCountNursingAssistantStaff'))}CostVolumeUpToLimitAssistant:text"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel
+                                value="Durchschnittliche jährliche Arbeitgeberkosten einer tariflich angestellten Pflegefachkraft"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="averageAnnualEmployerCostsNursingAssistantStaff"
+                                                 styleClass="element100"
+                                                 value="#{externalNursingAssistantMedStaff.averageAnnualEmployerCostsNursingStaff}"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('averageAnnualEmployerCostsNursingAssistantStaff'))}CostVolumeUpToLimitAssistant:text"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Rechnungsbetrag der Arbeitnehmerüberlassung für Pflegefachkräfte:"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="amountTemporaryEmploymentAssistantNursingStaff"
+                                                 styleClass="element100"
+                                                 value="#{externalNursingAssistantMedStaff.amountTemporaryEmploymentNursingStaff}"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountTemporaryEmploymentAssistantNursingStaff'))}CostVolumeAboveLimitAssistant:text"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="CostVolumeUpToLimitAssistant"
+                                                 styleClass="element100"
+                                                 value="#{externalNursingAssistantMedStaff.calculatedCountNursingStaff * externalNursingAssistantMedStaff.averageAnnualEmployerCostsNursingStaff}"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimitAssistant'))}CostVolumeAboveLimitAssistant:text"
+                                                 disabled="true"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Kostenvolumen oberhalb der Begrenzung nach § 6a Abs. 2 KHEntgG:"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="CostVolumeAboveLimitAssistant"
+                                                 styleClass="element100"
+                                                 value="#{externalNursingAssistantMedStaff.amountTemporaryEmploymentNursingStaff - (externalNursingAssistantMedStaff.calculatedCountNursingStaff * externalNursingAssistantMedStaff.averageAnnualEmployerCostsNursingStaff)}"
+                                                 disabled="true"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
+                    <h:selectOneMenu id="externalNursingAssistantMedStaffId"
+                                     value="#{externalNursingAssistantMedStaff.costKoStGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"
+                                       itemValue="#{cc.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
+                    <h:selectOneMenu id="externalNursingAssistantId"
+                                     value="#{externalNursingAssistantMedStaff.costKoArtGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                       var="ct"
+                                       itemLabel="#{ct.label}"
+                                       itemValue="#{ct.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel
+                            value="Wird das Fremdpersonal ausschließlich für die 'Pflege am Bett' eingesetzt? (ja/nein)"/></f:facet>
+                    <inek:Checkbox value="#{externalNursingAssistantMedStaff.exclusivelyCareAtBedNursingStaff}"
+                                   styleClass="element100"
+                                   renderElement="@form partOfCostVolumeBedNursingAssistantStaff :script"
+                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
+                                    welches nicht für die 'Pflege am Bett' eingesetzt wird und geben Sie im Erläuterungsfeld
+                                    den entsprechenden Bereich(z.B. Funktionslabor) an."/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingAssistantStaff" styleClass="element100"
+                                                 value="#{externalNursingAssistantMedStaff.partOfCostVolumeBedNursingStaff}"
+                                                 required="#{externalNursingAssistantMedStaff.exclusivelyCareAtBedNursingStaff}"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
+                    <inek:InputTextWithMessage id="explanationFieldAssistant"
+                                               required="true"
+                                               value="#{externalNursingAssistantMedStaff.explanationFieldNursingStaff}"
+                                               styleClass="fullWidth">
+                    </inek:InputTextWithMessage>
+                </h:column>
+
+            </h:dataTable>
+        </div>
+        <h:commandLink id="addButton2" styleClass="addButton inputPart"
+                       value="#{msg.btnAddEntry}"
+                       rendered="#{!editCalcBasicsDrg.readOnly}">
+            <f:ajax event="click" render="externalNursingAssistantStaffId :logout:remaining"
+                    listener="#{editCalcBasicsDrg.addExternalNursingStaff('ASSISTANTNURSING')}"/>
+        </h:commandLink>
+    </h:panelGroup>
+
+    <!--    Sonstige Pflegekräfte-->
+    <br/>
+    <br/>
+    <h:outputLabel styleClass="label50" value="Sonstige Pflegekräfte"/>
+    <inek:LabeledCheckbox label="Das Krankenhaus hat sonstige Pflegekräfte als externes Personal beschäftigt"
+                          styleClassLabel="label40"
+                          value="#{editCalcBasicsDrg.calcBasics.externalCareStaffOther}"
+                          renderElement="@form externalCareStaffOtherId :script"
+                          readonly="#{editCalcBasicsDrg.readOnly}"
+                          listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.externalCareStaffOther)}">
+    </inek:LabeledCheckbox>
+    <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.externalCareStaffOther}">
+        <div class="container marginTop">
+            <h:dataTable id="externalCareStaffOtherId"
+                         var="externalCareStaffOther"
+                         value="#{editCalcBasicsDrg.obtainExternalStaff('OTHERNURSING')}"
+                         styleClass="borderedTable borderCollapse"
+                         headerClass="smallFont paddingElement"
+                         tableStyle="table-layout: auto"
+                         rowClasses="row1, row2" rendered="#{editCalcBasicsDrg.calcBasics.externalCareStaffOther}"
+                         columnClasses="colIcon, col1, col2, col3, col4, col5">
+                <h:column>
+                    <h:commandLink action="#{editCalcBasicsDrg.deleteExternalNursingMedStaff(externalCareStaffOther)}"
+                                   rendered="true"
+                                   immediate="true" styleClass="colIcon">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                        value=""
+                                        rendered="#{!editCalcBasicsDrg.readOnly}"/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <h:selectOneMenu id="CareStaffOtherId"
+                                     value="#{externalCareStaffOther.dataYear}" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
+                                       var="year"
+                                       itemLabel="#{year.label}"
+                                       itemValue="#{year.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
+                    <inek:InputTextWithMessage id="division"
+                                               required="true"
+                                               value="#{externalCareStaffOther.divisionNursingStaff}"
+                                               styleClass="fullWidth"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Durchschnittliche tariflich vereinbarte Jahresarbeitszeit [in Std.]
+                                          von sonstigen direkt angestellten Pflegekräften"/>
+                    </f:facet>
+                    <inek:InputIntegerWithMessage id="agreedAverageWorkingHoursNursingAssistantStaffId"
+                                                  value="#{externalCareStaffOther.agreedAverageWorkingHoursNursingStaff}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel
+                                value="Durchschnittliche tarifliche Netto Jahresarbeitszeit [in Std.] (nach Abzug von Fehltagen)"/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bei dem Abzug der Fehltage bzw. Fehlstunden sind Überstunden und Bereitschaftsdienste nicht in die Berechnung einzubeziehen.
+                                        Zusätzlich sind Zeiten, die für das Krankenhaus keine Personalkosten verursacht haben (Arbeitsunfähigkeit außerhalb der Lohnfortzahlung,
+                                        unbezahlter Urlaub, Mutterschutz) ebenso nicht in die Berechnung einzubeziehen."/>
+                        <h:outputLabel value="von sonstigen direkt angestellten Pflegefachkraft"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage styleClass="element100"
+                                                 value="#{externalCareStaffOther.netAverageWorkingHoursNursingStaff}"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel
+                                value="Errechnete Anzahl VK (Arbeitsleistung des Fremdpersonals/Tarifliche Netto Jahresarbeitszeit)"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="calculatedCountOther"
+                                                 styleClass="element100"
+                                                 value="#{externalCareStaffOther.calculatedCountNursingStaff}"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('calculatedCountOther'))}CostVolumeUpToLimitOther:text"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Durchschnittliche jährliche Arbeitgeberkosten für sonstige Pflegekräfte"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="averageAnnualEmployerCostsOther" styleClass="element100"
+                                                 value="#{externalCareStaffOther.averageAnnualEmployerCostsNursingStaff}"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('averageAnnualEmployerCostsOther'))}CostVolumeUpToLimitOther:text"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Rechnungsbetrag der Arbeitnehmerüberlassung für sonstige Pflegekräfte:"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="amountTemporaryEmploymentAssistantNursingStaff"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountTemporaryEmploymentAssistantNursingStaff'))}CostVolumeAboveLimitAssistant:text"
+                                                 styleClass="element100"
+                                                 value="#{externalCareStaffOther.amountTemporaryEmploymentNursingStaff}"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:"/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="CostVolumeUpToLimitOther"
+                                                 styleClass="element100"
+                                                 value="#{externalCareStaffOther.calculatedCountNursingStaff * externalCareStaffOther.averageAnnualEmployerCostsNursingStaff}"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimitOther'))}CostVolumeAboveLimitAssistant:text"
+                                                 disabled="true"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Kostenvolumen oberhalb der Begrenzung nach § 6a Abs. 2 KHEntgG: "/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="CostVolumeAboveLimitAssistant"
+                                                 styleClass="element100"
+                                                 value="#{externalCareStaffOther.amountTemporaryEmploymentNursingStaff - (externalCareStaffOther.calculatedCountNursingStaff * externalCareStaffOther.averageAnnualEmployerCostsNursingStaff)}"
+                                                 disabled="true"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
+                    <h:selectOneMenu id="externalCareStaffOtherCostStrGrId"
+                                     value="#{externalCareStaffOther.costKoStGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"
+                                       itemValue="#{cc.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
+                    <h:selectOneMenu id="externalCareStaffOtherCostArtGrId"
+                                     value="#{externalCareStaffOther.costKoArtGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                       var="ct"
+                                       itemLabel="#{ct.label}"
+                                       itemValue="#{ct.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel
+                                value="Wird das Fremdpersonal ausschließlich für die 'Pflege am Bett' eingesetzt? (ja/nein)"/>
+                    </f:facet>
+                    <inek:Checkbox value="#{externalCareStaffOther.exclusivelyCareAtBedNursingStaff}"
+                                   styleClass="element100"
+                                   renderElement="@form exclusivelyCareAtBedStaffOthe:script"
+                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
+                                          welches nicht für die 'Pflege am Bett' eingesetzt wird und geben Sie im
+                                          Erläuterungsfeld den entsprechenden Bereich (z.B. Funktionslabor) an."/>
+                    </f:facet>
+                    <inek:InputNumberWithMessage id="exclusivelyCareAtBedStaffOthe" styleClass="element100"
+                                                 value="#{externalCareStaffOther.partOfCostVolumeBedNursingStaff}"
+                                                 required="#{externalCareStaffOther.exclusivelyCareAtBedNursingStaff}"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
+                    <inek:InputTextWithMessage id="explanationFieldAssistant"
+                                               required="true"
+                                               value="#{externalCareStaffOther.explanationFieldNursingStaff}"
+                                               styleClass="fullWidth">
+                    </inek:InputTextWithMessage>
+                </h:column>
+            </h:dataTable>
+        </div>
+        <h:commandLink id="addButton3" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                       rendered="#{!editCalcBasicsDrg.readOnly}">
+            <f:ajax event="click" render="externalCareStaffOtherId :logout:remaining"
+                    listener="#{editCalcBasicsDrg.addExternalNursingStaff('OTHERNURSING')}"/>
+        </h:commandLink>
+    </h:panelGroup>
+
+    <!--    Fremdpersonal im med. techn. Dienst/ Funktionsdienst: -->
+    <div class="inputPart">
+        <h2>Im Krankenhaus eingesetztes Fremdpersonal im med. techn. Dienst/ Funktionsdienst:</h2>
+
+        <inek:LabeledCheckbox
+                label="Das Krankenhaus hat med. techn. Dienst/ Funktionsdienst als externes Personal beschäftigt"
+                styleClassLabel="label40"
+                value="#{editCalcBasicsDrg.calcBasics.externalTechFunctService}"
+                renderElement="@form externalTechFunctServiceId :script"
+                readonly="#{editCalcBasicsDrg.readOnly}"
+                listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.externalTechFunctService)}">
+        </inek:LabeledCheckbox>
+        <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.externalTechFunctService}">
+            <h:dataTable value="#{editCalcBasicsDrg.calcBasics.externalTechFunctServices}"
+                         var="externalTechFunctService"
+                         id="externalTechFunctServiceId"
+                         styleClass="borderedTable borderCollapse"
+                         headerClass="smallFont paddingElement"
+                         tableStyle="table-layout: auto"
+                         width="100%"
+                         rowClasses="row1, row2"
+                         columnClasses="colIcon, col1, col2, col3, col4, col5">
+                <h:column>
+                    <h:commandLink
+                            action="#{editCalcBasicsDrg.deleteExternalTechFunctService(externalTechFunctService)}"
+                            rendered="true"
+                            immediate="true" styleClass="colIcon">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                        value=""
+                                        rendered="#{!editCalcBasicsDrg.readOnly}"/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <h:selectOneMenu id="TechFunctServiceId"
+                                     value="#{externalTechFunctService.dataYear}" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
+                                       var="year"
+                                       itemLabel="#{year.label}"
+                                       itemValue="#{year.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Bereich/Station"/>
+                    </f:facet>
+                    <inek:InputTextWithMessage id="division"
+                                               required="true"
+                                               value="#{externalTechFunctService.divisionTechFunctService}"
+                                               styleClass="fullWidth">
+                    </inek:InputTextWithMessage>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
+                    <inek:InputIntegerWithMessage id="countTechFunctService" styleClass="element100"
+                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('countTechFunctService'))}costPerVK:text"
+                                                  value="#{externalTechFunctService.countTechFunctService}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Kostenvolumen"/></f:facet>
+                    <inek:InputNumberWithMessage id="costVolumeTechFunctService" styleClass="element100"
+                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('costVolumeTechFunctService'))}costPerVK:text"
+                                                 value="#{externalTechFunctService.costVolumeTechFunctService}"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
+                    <inek:InputNumberWithMessage id="costPerVK" styleClass="element100"
+                                                 value="#{externalTechFunctService.countTechFunctService !=0 ? externalTechFunctService.costVolumeTechFunctService / externalTechFunctService.countTechFunctService : ''}"
+                                                 readonly="true"
+                                                 pattern="##,##0.00"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
+                    <h:selectOneMenu id="externalTechFunctServiceCostStrGrId"
+                                     value="#{externalTechFunctService.costKoStGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                       var="cc"
+                                       itemLabel="#{cc.label}"
+                                       itemValue="#{cc.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
+                    <h:selectOneMenu id="externalTechFunctServiceCostArtGrId"
+                                     value="#{externalTechFunctService.costKoArtGr}" style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                       var="ct"
+                                       itemLabel="#{ct.label}"
+                                       itemValue="#{ct.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Berufsgruppe des med. techn.
+                                                                 Dienst/ Funktionsdienst"/></f:facet>
+                    <h:selectOneMenu id="occupationalGroup"
+                                     value="#{externalTechFunctService.occupationalGroup}" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItems value="#{valueLists.occupationalGroups}"
+                                       var="oc"
+                                       itemLabel="#{oc.label}"
+                                       itemValue="#{oc.value}"/>
+                        <f:ajax/>
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
+                    <inek:InputTextWithMessage id="explanationField"
+                                               required="true"
+                                               value="#{externalTechFunctService.explanationFieldTechFunctService}"
+                                               styleClass="fullWidth">
+                    </inek:InputTextWithMessage>
+                </h:column>
+
+            </h:dataTable>
+            <h:commandLink id="addButton4" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
+                           rendered="#{!editCalcBasicsDrg.readOnly}">
+                <f:ajax event="click" render="externalTechFunctServiceId :logout:remaining"
+                        listener="#{editCalcBasicsDrg.addexternalTechFunctService()}"/>
+            </h:commandLink>
+        </h:panelGroup>
+    </div>
+
+</ui:composition>

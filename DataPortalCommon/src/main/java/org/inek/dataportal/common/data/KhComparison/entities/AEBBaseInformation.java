@@ -249,7 +249,7 @@ public class AEBBaseInformation implements Serializable {
     @JsonIgnore
     @Column(name = "biAllowedToResendUntil")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _allowedToResendUntil = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));;
+    private Date _allowedToResendUntil = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
     @JsonIgnore
     public Date getAllowedToResendUntil() {
@@ -263,7 +263,7 @@ public class AEBBaseInformation implements Serializable {
 
     //</editor-fold>
 
-    @OneToOne(mappedBy = "_baseInformation", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "_baseInformation")
     private AEBPageB1 _aebPageB1;
 
     public AEBPageB1 getAebPageB1() {
@@ -274,7 +274,7 @@ public class AEBBaseInformation implements Serializable {
         this._aebPageB1 = aebPageB1;
     }
 
-    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation", orphanRemoval = true)
     @JoinColumn(name = "peBaseInformationId")
     private List<AEBPageE1_1> _aebPageE1_1 = new ArrayList<>();
 
@@ -296,7 +296,7 @@ public class AEBBaseInformation implements Serializable {
         _aebPageE1_1.remove(page);
     }
 
-    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation", orphanRemoval = true)
     @JoinColumn(name = "peBaseInformationId")
     private List<AEBPageE1_2> _aebPageE1_2 = new ArrayList<>();
 
@@ -318,7 +318,7 @@ public class AEBBaseInformation implements Serializable {
         _aebPageE1_2.remove(page);
     }
 
-    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation", orphanRemoval = true)
     @JoinColumn(name = "peBaseInformationId")
     private List<AEBPageE2> _aebPageE2 = new ArrayList<>();
 
@@ -340,7 +340,7 @@ public class AEBBaseInformation implements Serializable {
         _aebPageE2.remove(page);
     }
 
-    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation", orphanRemoval = true)
     @JoinColumn(name = "peBaseInformationId")
     private List<AEBPageE3_1> _aebPageE3_1 = new ArrayList<>();
 
@@ -362,7 +362,7 @@ public class AEBBaseInformation implements Serializable {
         _aebPageE3_1.remove(page);
     }
 
-    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation", orphanRemoval = true)
     @JoinColumn(name = "peBaseInformationId")
     private List<AEBPageE3_2> _aebPageE3_2 = new ArrayList<>();
 
@@ -384,7 +384,7 @@ public class AEBBaseInformation implements Serializable {
         _aebPageE3_2.remove(page);
     }
 
-    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation", orphanRemoval = true)
     @JoinColumn(name = "peBaseInformationId")
     private List<AEBPageE3_3> _aebPageE3_3 = new ArrayList<>();
 
@@ -406,7 +406,7 @@ public class AEBBaseInformation implements Serializable {
         _aebPageE3_3.remove(page);
     }
 
-    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation", orphanRemoval = true)
     @JoinColumn(name = "doBaseInformationId")
     private List<PsyDocument> _psyDocument = new ArrayList<>();
 
@@ -427,7 +427,7 @@ public class AEBBaseInformation implements Serializable {
         _psyDocument.remove(doc);
     }
 
-    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation", orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationId")
     private List<PersonalAgreed> _personalAgreed = new ArrayList<>();
 
@@ -448,7 +448,7 @@ public class AEBBaseInformation implements Serializable {
         _personalAgreed.remove(agreed);
     }
 
-    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "_baseInformation", orphanRemoval = true)
     @JoinColumn(name = "rspBaseInformationId")
     private List<RegionStructurParticularities> _regionStructurParticularities = new ArrayList<>();
 

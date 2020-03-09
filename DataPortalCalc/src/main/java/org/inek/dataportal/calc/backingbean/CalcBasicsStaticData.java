@@ -262,5 +262,6 @@ public class CalcBasicsStaticData {
         items.add(new SelectItem(3, "Sonstiges"));
         return items;
     }
+
     
 }

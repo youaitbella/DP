@@ -1,9 +1,6 @@
 package org.inek.dataportal.care.proof.util;
 
 import org.apache.poi.ss.usermodel.*;
-import org.inek.dataportal.care.enums.Months;
-import org.inek.dataportal.care.enums.SensitiveArea;
-import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 
@@ -12,29 +9,13 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProofImporter {
+public abstract class ProofImporter {
 
-    // Cell numbers
-    private static final int CELL_SENSITIVEAREA = 0;
-    private static final int CELL_FABNUMBER = 1;
-    private static final int CELL_FABNAME = 2;
-    private static final int CELL_STATIONNAME = 3;
-    private static final int CELL_LOCATION_CODE = 4;
-    private static final int CELL_MONTH = 5;
-    private static final int CELL_SHIFT = 6;
-    private static final int CELL_COUNT_SHIFT = 7;
-    private static final int CELL_NURSE = 8;
-    private static final int CELL_HELPNURSE = 9;
-    private static final int CELL_PATIENT_OCCUPANCY = 10;
-    private static final int CELL_COUNT_SHIFT_NOT_RESPECTED = 11;
-    private static final int CELL_COMMENT = 12;
-
-
-    private static final Logger LOGGER = Logger.getLogger(ProofImporter.class.getName());
+    protected static final Logger LOGGER = Logger.getLogger(ProofImporter.class.getName());
     public static final String IMPLAUSIBLE = " ist unplausibel";
     private String _message = "";
     private int _rowCounter = 0;
-    private Boolean _isCommentAllowed = false;
+    private boolean _isCommentAllowed = false;
 
     public ProofImporter(boolean isCommentAllowed) {
         _isCommentAllowed = isCommentAllowed;
@@ -48,11 +29,15 @@ public class ProofImporter {
         this._message = message;
     }
 
-    public Boolean handleProofUpload(ProofRegulationBaseInformation info, InputStream input) {
+    public boolean handleProofUpload(ProofRegulationBaseInformation info, InputStream input) {
         return startImport(info, input);
     }
 
-    private Boolean startImport(ProofRegulationBaseInformation info, InputStream file) {
+    protected void incrementRowCount() {
+        _rowCounter++;
+    }
+
+    protected boolean startImport(ProofRegulationBaseInformation info, InputStream file) {
         LOGGER.log(Level.INFO, "Start Proof import: " + info.getIk() + " " + info.getYear());
 
         try (Workbook workbook = WorkbookFactory.create(file)) {
@@ -72,7 +57,7 @@ public class ProofImporter {
         }
     }
 
-    private void importSheet(ProofRegulationBaseInformation info, Sheet sheet) {
+    protected void importSheet(ProofRegulationBaseInformation info, Sheet sheet) {
         LOGGER.log(Level.INFO, "Start Sheet " + sheet.getSheetName());
         int rowStart = 1;
         int rowEnd = getEndRow(sheet);
@@ -90,92 +75,54 @@ public class ProofImporter {
         LOGGER.log(Level.INFO, "End Proof import: " + info.getIk() + " " + info.getYear());
     }
 
-    private void fillRowToProof(Row row, Proof proofFromRow) {
-        try {
-            Proof tmpProof = new Proof();
+    protected abstract void fillRowToProof(Row row, Proof proofFromRow);
 
-            tmpProof.setCountShift(getIntFromCell(row.getCell(CELL_COUNT_SHIFT)));
-            tmpProof.setNurse(getDoubleFromCell(row.getCell(CELL_NURSE), true));
-            tmpProof.setHelpNurse(getDoubleFromCell(row.getCell(CELL_HELPNURSE), true));
-            tmpProof.setPatientOccupancy(getDoubleFromCell(row.getCell(CELL_PATIENT_OCCUPANCY), true));
-            tmpProof.setCountShiftNotRespected(getIntFromCell(row.getCell(CELL_COUNT_SHIFT_NOT_RESPECTED)));
-            tmpProof.setComment(getCommentFromCell(row.getCell(CELL_COMMENT)));
 
-            checkProofIsValid(tmpProof, row);
+    protected abstract void checkProofIsValid(Proof proof, Row row) throws InvalidValueException;
 
-            proofFromRow.setCountShift(tmpProof.getCountShift());
-            proofFromRow.setNurse(tmpProof.getNurse());
-            proofFromRow.setHelpNurse(tmpProof.getHelpNurse());
-            proofFromRow.setPatientOccupancy(tmpProof.getPatientOccupancy());
-            proofFromRow.setCountShiftNotRespected(tmpProof.getCountShiftNotRespected());
-            proofFromRow.setComment(tmpProof.getComment());
-            _rowCounter++;
-        } catch (InvalidValueException ex) {
-            addMessage(ex.getMessage());
-        }
+    protected void checkCountBeds(double value, Cell cell, Proof proof) throws InvalidValueException {
     }
 
-
-    private void checkProofIsValid(Proof proof, Row row) throws InvalidValueException {
-        checkCountShift(proof.getCountShift(), row.getCell(CELL_COUNT_SHIFT));
-        checkNurse(proof.getNurse(), row.getCell(CELL_NURSE));
-        checkHelpNurse(proof.getHelpNurse(), row.getCell(CELL_HELPNURSE));
-        checkPatientOccupancy(proof.getPatientOccupancy(), row.getCell(CELL_PATIENT_OCCUPANCY));
-        checkCountShiftNotRespected(proof.getCountShiftNotRespected(), row.getCell(CELL_COUNT_SHIFT_NOT_RESPECTED));
-    }
-
-    private void checkCountShiftNotRespected(double value, Cell cell) throws InvalidValueException {
+    protected void checkCountShift(int value, Cell cell, Proof proof) throws InvalidValueException {
         if (value < 0 || value > 31) {
-            throw new InvalidValueException("Die Anzahl Schichten, in denen die PPUG im Monat nicht eingehalten wurde in Zelle "
-                    + cell.getAddress() + IMPLAUSIBLE);
+            throw new InvalidValueException("Die Anzahl der Schichten in Zelle " + cell.getAddress() + IMPLAUSIBLE);
         }
     }
 
-    private void checkPatientOccupancy(double value, Cell cell) throws InvalidValueException {
-        if (value < 0 || value > 999) {
-            throw new InvalidValueException("Die Anzahl der durchschnitlichen durchschnittliche Patientenbelegung in Zelle "
-                    + cell.getAddress() + IMPLAUSIBLE);
-        }
+    protected void checkOccupancyDays(int value, Cell cell, Proof proof) throws InvalidValueException {
     }
 
-    private void checkHelpNurse(double value, Cell cell) throws InvalidValueException {
-        if (value < 0 || value > 999) {
-            throw new InvalidValueException("Die durchschnittliche Pflegepersonalausstattung Pflegehilfskräfte in Zelle "
-                    + cell.getAddress() + IMPLAUSIBLE);
-        }
-    }
-
-    private void checkNurse(double value, Cell cell) throws InvalidValueException {
+    protected void checkNurse(double value, Cell cell) throws InvalidValueException {
         if (value < 0 || value > 999) {
             throw new InvalidValueException("Die durchschnittliche Pflegepersonalausstattung Pflegefachkräfte in Zelle "
                     + cell.getAddress() + IMPLAUSIBLE);
         }
     }
 
-    private void checkCountShift(int value, Cell cell) throws InvalidValueException {
+    protected void checkHelpNurse(double value, Cell cell) throws InvalidValueException {
+        if (value < 0 || value > 999) {
+            throw new InvalidValueException("Die durchschnittliche Pflegepersonalausstattung Pflegehilfskräfte in Zelle "
+                    + cell.getAddress() + IMPLAUSIBLE);
+        }
+    }
+
+    protected void checkPatientOccupancy(double value, Cell cell) throws InvalidValueException {
+        if (value < 0 || value > 999) {
+            throw new InvalidValueException("Die Anzahl der durchschnitlichen durchschnittliche Patientenbelegung in Zelle "
+                    + cell.getAddress() + IMPLAUSIBLE);
+        }
+    }
+
+    protected void checkCountShiftNotRespected(double value, Cell cell, Proof proof) throws InvalidValueException {
         if (value < 0 || value > 31) {
-            throw new InvalidValueException("Die Anzahl der Schichten in Zelle " + cell.getAddress() + IMPLAUSIBLE);
+            throw new InvalidValueException("Die Anzahl Schichten, in denen die PPUG im Monat nicht eingehalten wurde in Zelle "
+                    + cell.getAddress() + IMPLAUSIBLE);
         }
     }
 
-    private Optional<Proof>  getProofFromRow(ProofRegulationBaseInformation info, Row row) {
-        if (row == null || row.getCell(CELL_SENSITIVEAREA) == null) {
-            return Optional.empty();
-        }
-        Optional<Proof> first = info.getProofs().stream()
-                .filter(c -> c.getProofRegulationStation().getSensitiveArea() ==
-                        SensitiveArea.fromName(getStringFromCell(row.getCell(CELL_SENSITIVEAREA))))
-                .filter(c -> c.getProofRegulationStation().getFabNumber().equals(getFabNumberFromCell(row.getCell(CELL_FABNUMBER))))
-                .filter(c -> c.getProofRegulationStation().getFabName().equals(getStringFromCell(row.getCell(CELL_FABNAME))))
-                .filter(c -> c.getProofRegulationStation().getStationName().equals(getStringFromCell(row.getCell(CELL_STATIONNAME))))
-                .filter(c -> c.getProofRegulationStation().getLocationCode().equals(getLocationFromCell(row.getCell(CELL_LOCATION_CODE))))
-                .filter(c -> c.getMonth() == Months.getByName(getStringFromCell(row.getCell(CELL_MONTH))))
-                .filter(c -> c.getShift() == Shift.getByName(getStringFromCell(row.getCell(CELL_SHIFT))))
-                .findFirst();
-        return first;
-    }
+    protected abstract Optional<Proof> getProofFromRow(ProofRegulationBaseInformation info, Row row);
 
-    private String getLocationFromCell(Cell cell) {
+    protected String getLocationFromCell(Cell cell) {
         if (cell == null) {
             return "";
         }
@@ -190,39 +137,22 @@ public class ProofImporter {
         }
     }
 
-    private String getFabNumberFromCell(Cell cell) {
+    protected String getCommentFromCell(Cell cell) {
         if (cell == null) {
             return "";
-        }
-        try {
-            int valueInt = (int) cell.getNumericCellValue();
-            if (valueInt == 0) {
-                return "";
-            }
-            return String.valueOf(valueInt);
-        } catch (Exception ex) {
-            return cell.getStringCellValue();
-        }
-    }
-
-    private String getCommentFromCell(Cell cell) {
-        if (cell == null) {
-            return "";
-        }
-        else {
+        } else {
             String stringFromCell = getStringFromCell(cell);
             if (!"".equals(stringFromCell) && !_isCommentAllowed) {
                 LOGGER.log(Level.INFO, "Using comment is not allowed for ik. Adress:" + cell.getAddress());
                 addMessage("Kommentarspalte ist nur für Bundeswehkrankenhäuser. Wert an Position " + cell.getAddress() + " wird ignoriert");
                 return "";
-            }
-            else {
+            } else {
                 return stringFromCell;
             }
         }
     }
 
-    private boolean workbookIsInCorrectFormat(Workbook workbook) {
+    protected boolean workbookIsInCorrectFormat(Workbook workbook) {
         LOGGER.log(Level.INFO, "Check excel format");
         if (workbook.getNumberOfSheets() > 1) {
             addMessage("Die Exceldatei hat mehr als 1 Blatt");
@@ -231,24 +161,24 @@ public class ProofImporter {
 
         int maxRow = workbook.getSheetAt(0).getLastRowNum();
 
-        for (int i = 0 ; i < maxRow ; i++) {
+        for (int i = 0; i < maxRow; i++) {
             if (workbook.getSheetAt(0).getRow(i) == null) {
                 continue;
             }
             if (workbook.getSheetAt(0).getRow(i).getLastCellNum() < 12) {
-                addMessage("Nicht genug Spalten in Zeile " + (i +1));
+                addMessage("Nicht genug Spalten in Zeile " + (i + 1));
             }
         }
 
         return _message.isEmpty();
     }
 
-    private int getEndRow(Sheet sheet) {
+    protected int getEndRow(Sheet sheet) {
         LOGGER.log(Level.INFO, sheet.getSheetName() + " EndRows: " + sheet.getLastRowNum());
         return sheet.getLastRowNum();
     }
 
-    private String getStringFromCell(Cell cell) {
+    protected String getStringFromCell(Cell cell) {
         try {
             String value = cell.getStringCellValue();
             if (value == null) {
@@ -256,13 +186,17 @@ public class ProofImporter {
             }
             return value;
         } catch (Exception ex) {
-            addMessage("Wert konnte nicht eingelesen werden. Zelle: " + cell.getAddress());
-            LOGGER.log(Level.WARNING, "Error getting String from : " + cell.getAddress());
-            return "";
+            try {
+                return "" + cell.getNumericCellValue();
+            } catch (Exception ex2) {
+                addMessage("Wert konnte nicht eingelesen werden. Zelle: " + cell.getAddress());
+                LOGGER.log(Level.WARNING, "Error getting String from : " + cell.getAddress());
+                return "";
+            }
         }
     }
 
-    private int getIntFromCell(Cell cell) throws InvalidValueException {
+    protected int getIntFromCell(Cell cell) throws InvalidValueException {
         try {
             double value = cell.getNumericCellValue();
             return (int) value;
@@ -273,16 +207,15 @@ public class ProofImporter {
 
                 double numberValue = Double.parseDouble(cellValue);
 
-                return (int)numberValue;
-            }
-            catch (Exception ex2){
+                return (int) numberValue;
+            } catch (Exception ex2) {
                 LOGGER.log(Level.WARNING, "Error getting Int from : " + cell.getAddress());
                 throw new InvalidValueException("Wert in Zelle " + cell.getAddress() + " konnte nicht als gültige Ganzzahl erkannt werden");
             }
         }
     }
 
-    private double getDoubleFromCell(Cell cell, Boolean round) throws InvalidValueException {
+    protected double getDoubleFromCell(Cell cell, boolean round) throws InvalidValueException {
         try {
             double numericCellValue = cell.getNumericCellValue();
             if (round) {
@@ -299,22 +232,20 @@ public class ProofImporter {
                     return Math.round(numberValue * 100d) / 100d;
                 }
                 return numberValue;
-            }
-            catch (Exception ex2){
+            } catch (Exception ex2) {
                 LOGGER.log(Level.WARNING, "Error getting Double from : " + cell.getAddress());
                 throw new InvalidValueException("Wert in Zelle " + cell.getAddress() + " konnte nicht als gültige Dezimalzahl erkannt werden");
             }
         }
     }
 
-    private void addMessage(String message) {
+    protected void addMessage(String message) {
         setMessage(getMessage() + message + "\n");
     }
 
     class InvalidValueException extends Exception {
 
         InvalidValueException() {
-
         }
 
         InvalidValueException(String message) {

@@ -110,8 +110,8 @@ public class DeptWard implements Serializable {
         return _wardName;
     }
 
-    public void setWardName(String stationName) {
-        this._wardName = stationName;
+    public void setWardName(String wardName) {
+        this._wardName = wardName;
     }
     //</editor-fold>
 

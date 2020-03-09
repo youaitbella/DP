@@ -27,30 +27,36 @@ public class ReportController implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("ReportController");
     private static final long serialVersionUID = 1L;
-    @Inject
+    //@Inject
     private AdminFacade _adminFacade;
-    @Inject
+    //@Inject
     private ApplicationTools _appTools;
+
+    @Inject
+    public ReportController(AdminFacade _adminFacade, ApplicationTools _appTools) {
+        this._adminFacade = _adminFacade;
+        this._appTools = _appTools;
+    }
 
     public boolean reportTemplateExists(String name) {
         return _adminFacade.findReportTemplateByName(name).isPresent();
     }
 
     public byte[] getSingleDocument(String name, int id, String fileName) {
-        Optional<ReportTemplate> optionalTemplate = _adminFacade.findReportTemplateByName(name);
-        if (optionalTemplate.isPresent()) {
-            ReportTemplate template = _adminFacade.findReportTemplateByName(name).get();
-            return getSingleDocument(template, "" + id, fileName);
-        } else {
-            return new byte[0];
-        }
+        String path = "" + id;
+        return getSingleDocument(name, path, fileName);
     }
 
     public byte[] getSingleDocumentByIkAndYear(String name, int ik, int year, String fileName) {
+        String path = ik + "/" + year;
+        return getSingleDocument(name, path, fileName);
+    }
+
+    public byte[] getSingleDocument(String name, String path, String fileName) {
         Optional<ReportTemplate> optionalTemplate = _adminFacade.findReportTemplateByName(name);
         if (optionalTemplate.isPresent()) {
             ReportTemplate template = _adminFacade.findReportTemplateByName(name).get();
-            return getSingleDocument(template, "" + ik + "/" + year, fileName);
+            return getSingleDocument(template, path, fileName);
         } else {
             return new byte[0];
         }
