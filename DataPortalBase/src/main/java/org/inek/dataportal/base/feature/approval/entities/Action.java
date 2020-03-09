@@ -3,8 +3,7 @@ package org.inek.dataportal.base.feature.approval.entities;
 import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "Action", schema = "conf")
@@ -25,16 +24,17 @@ public class Action {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property ConfTypeId">
-    @Column(name = "acConfTypeId")
-    private int confTypeId = -1;
+    // <editor-fold defaultstate="collapsed" desc="Property ConfType">
+    @ManyToOne
+    @JoinColumn(name = "acConfTypeId")
+    private ConfType confType;
 
-    public int getConfTypeId() {
-        return confTypeId;
+    public ConfType getConfType() {
+        return confType;
     }
 
-    public void setConfTypeId(int confTypeId) {
-        this.confTypeId = confTypeId;
+    public void setConfType(ConfType confTypeId) {
+        this.confType = confTypeId;
     }
     // </editor-fold>
 
@@ -78,13 +78,23 @@ public class Action {
     }
     // </editor-fold>
 
+    //<editor-fold desc="Property Items">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "itActionId", referencedColumnName = "acId")
+    private List<Item> items = new ArrayList<>();
+
+    public List<Item> getItems() {
+        return Collections.unmodifiableList(items);
+    }
+    //</editor-fold>
+
     //<editor-fold desc="equals / hashCode">
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Action action = (Action) o;
-        return confTypeId == action.confTypeId &&
+        return confType == action.confType &&
                 id.equals(action.id) &&
                 creationDt.equals(action.creationDt) &&
                 infoMailHeader.equals(action.infoMailHeader) &&
@@ -93,7 +103,7 @@ public class Action {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, confTypeId, creationDt, infoMailHeader, infoMailBody);
+        return Objects.hash(id, confType, creationDt, infoMailHeader, infoMailBody);
     }
     //</editor-fold>
 }
