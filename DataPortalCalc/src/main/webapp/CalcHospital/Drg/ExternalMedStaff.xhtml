@@ -68,20 +68,23 @@
                     <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
                     <inek:InputNumberWithMessage id="countMedStaff"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('countMedStaff'))}costPerFullTime:text"
-                                                 value="#{externalMedStaff.count}"/>
+                                                 value="#{externalMedStaff.count}"
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Kostenvolumen"/></f:facet>
                     <inek:InputNumberWithMessage id="costVolumeMedStaff"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('costVolumeMedStaff'))}costPerFullTime:text"
-                                                 styleClass="element100" value="#{externalMedStaff.costVolume}"/>
+                                                 styleClass="element100" value="#{externalMedStaff.costVolume}"
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
                     <!--                {externalMedStaff.costPerFullTime}-->
                     <inek:InputNumberWithMessage id="costPerFullTime" styleClass="element100"
                                                  disabled="true"
-                                                 value="#{externalMedStaff.count eq 0 ? '' : externalMedStaff.costVolume / externalMedStaff.count}"/>
+                                                 value="#{externalMedStaff.count eq 0 ? '' : externalMedStaff.costVolume / externalMedStaff.count}"
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
@@ -280,11 +283,15 @@
                         <h:outputLabel
                                 value="Wird das Fremdpersonal ausschließlich für die 'Pflege am Bett' eingesetzt?"/>
                     </f:facet>
-                    <inek:Checkbox id="exclusivelyCareAtBedNursingStaffId"
-                                   value="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff}"
-                                   styleClass="element100"
-                                   renderElement="@form partOfCostVolumeBedNursingStaffId :script"
-                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
+                    <h:selectOneMenu id="exclusivelyCareAtBedNursingStaffId"
+                                     value="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff}"
+                                     readonly="#{editCalcBasicsDrg.readOnly}"
+                                     renderElement= "@form partOfCostVolumeBedNursingStaffId :script">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true" />
+                        <f:selectItem itemLabel="Nein" itemValue="false"/>
+                        <f:selectItem itemLabel="Ja" itemValue="true"/>
+                    </h:selectOneMenu>
+
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -294,7 +301,7 @@
                     </f:facet>
                     <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingStaffId" styleClass="element100"
                                                  value="#{externalNursingStaff.partOfCostVolumeBedNursingStaff}"
-                                                 required="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff}"
+                                                 required="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff eq 0}"
                                                  pattern="##,##"/>
                 </h:column>
                 <h:column>
