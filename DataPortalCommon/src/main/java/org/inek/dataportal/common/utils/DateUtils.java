@@ -5,6 +5,9 @@ import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.inek.dataportal.api.helper.PortalConstants.MILLISECONDS_PER_DAY;
+import static org.inek.dataportal.api.helper.PortalConstants.MILLISECONDS_PER_HOUR;
+
 public class DateUtils {
 
     public static final Date MIN_DATE = createDate(1900, Month.JANUARY, 1);
@@ -74,5 +77,20 @@ public class DateUtils {
 
     public static int currentMonth() {
         return 1 + Calendar.getInstance().get(Calendar.MONTH);
+    }
+
+    public static int diffDays(Date from, Date to) {
+        long diff = to.getTime() - from.getTime() + MILLISECONDS_PER_HOUR; // add one hour due to summertime switch
+        return (int) (diff / MILLISECONDS_PER_DAY);
+    }
+
+    public static int duration(Date from, Date to) {
+        return 1 + diffDays(from, to);
+    }
+
+    public static Period firstAndLastDayOfMonth(int year, int month) {
+        Date fromDate = createDate(year, month, 1);
+        Date toDate = addDays(createDate(year + month / 12, (month + 1) % 12, 1), -1);
+        return new Period(fromDate, toDate);
     }
 }

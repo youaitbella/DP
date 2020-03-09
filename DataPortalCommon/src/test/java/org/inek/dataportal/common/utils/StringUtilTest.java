@@ -1,19 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.common.utils;
 
-import org.inek.dataportal.common.utils.StringUtil;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.inek.dataportal.common.utils.StringUtil.normalizeName;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
 
-/**
- *
- * @author muellermi
- */
 public class StringUtilTest {
     
     public StringUtilTest() {
@@ -123,15 +117,25 @@ public class StringUtilTest {
     public void testGetSqlFilter02() {
         assertEquals("'%abc%'", StringUtil.getSqlFilter("abc"));
     }
-    
+
     @Test
     public void testGetSqlFilter03() {
         assertEquals("'abc%'", StringUtil.getSqlFilter("abc%"));
     }
-    
+
     @Test
     public void testGetSqlFilter04() {
         assertEquals("'ab%c'", StringUtil.getSqlFilter("'ab'%c"));
     }
-    
+
+    @ParameterizedTest
+    @CsvSource({"  Station A   , Station A"
+            , "Station  A, Station A"
+            , "Station   A, Station A"
+            , "Station    A, Station A"
+            , " a b  c   d    e, a b c d e"
+    })
+    public void normalizeNameReturnsExpected(String name, String expected) {
+        assertEquals(expected, normalizeName(name));
+    }
 }

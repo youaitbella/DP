@@ -1,6 +1,5 @@
 package org.inek.dataportal.care.utils;
 
-import javafx.util.Pair;
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.common.controller.SessionController;
@@ -10,6 +9,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.ExceptionCollector;
 import org.inek.dataportal.common.utils.DateUtils;
+import org.inek.dataportal.common.utils.Period;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,27 +45,27 @@ public class AggregatedWardsHelper {
                     fromDates.add(toDate);
                 });
 
-                List<Pair<Date, Date>> fromToDates = new ArrayList<>();
+                List<Period> periods = new ArrayList<>();
                 fromDates.stream().sorted(Date::compareTo).forEachOrdered(from -> {
                     toDates.stream().filter(toDate -> toDate.compareTo(from) >= 0).sorted(Date::compareTo).findFirst()
-                            .ifPresent(toDate -> fromToDates.add(new Pair<>(from, toDate)));
+                            .ifPresent(toDate -> periods.add(new Period(from, toDate)));
                 });
-                for (Pair<Date, Date> fromTo : fromToDates) {
+                for (Period dates : periods) {
                     deptWards.stream()
-                            .filter(deptWard -> deptWard.getValidFrom().compareTo(fromTo.getKey()) <= 0
-                                    && deptWard.getValidTo().compareTo(fromTo.getValue()) >= 0)
+                            .filter(deptWard -> deptWard.getValidFrom().compareTo(dates.from()) <= 0
+                                    && deptWard.getValidTo().compareTo(dates.to()) >= 0)
                             .sorted(Comparator.comparing(DeptWard::getFab)).forEach(deptWard -> {
                         String key = deptWard.getLocationCodeP21()
                                 //+ "|" + ward.getLocationCodeVz() for future usage
                                 + "|" + deptWard.getLocationText()
                                 + "|" + deptWard.getWardName().toLowerCase().replace(" ", "")
                                 // #332 + "|" + (deptWard.getDept().getDeptArea() == 3 ? "Intensiv" : "Other")
-                                + "|" + DateUtils.toAnsi(fromTo.getKey())
-                                + "|" + DateUtils.toAnsi(fromTo.getValue());
+                                + "|" + DateUtils.toAnsi(dates.from())
+                                + "|" + DateUtils.toAnsi(dates.to());
                         if (aggregatedWards.containsKey(key)) {
-                            aggregatedWards.get(key).aggregate(deptWard, fromTo.getKey(), fromTo.getValue());
+                            aggregatedWards.get(key).aggregate(deptWard, dates.from(), dates.to());
                         } else {
-                            aggregatedWards.put(key, new AggregatedWards(deptWard, fromTo.getKey(), fromTo.getValue()));
+                            aggregatedWards.put(key, new AggregatedWards(deptWard, dates.from(), dates.to()));
                         }
 
                     });

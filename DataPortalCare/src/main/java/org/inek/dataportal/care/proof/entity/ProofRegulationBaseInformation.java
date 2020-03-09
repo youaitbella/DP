@@ -2,6 +2,7 @@ package org.inek.dataportal.care.proof.entity;
 
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "ProofRegulationBaseInformation", schema = "care")
@@ -19,7 +21,6 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     private static final long serialVersionUID = 1L;
 
     public ProofRegulationBaseInformation() {
-
     }
 
     public ProofRegulationBaseInformation(ProofRegulationBaseInformation baseInformation) {
@@ -33,6 +34,8 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
         this._send = baseInformation.getSend();
         this._lastChangeBy = baseInformation.getLastChangeBy();
         this._lastChanged = baseInformation.getLastChanged();
+        extensionRequestedBy = baseInformation.getExtensionRequestedBy();
+        extensionRequestedAt = baseInformation.getExtensionRequestedAt();
 
         for (Proof proof : baseInformation.getProofs()) {
             Proof newProof = new Proof(proof);
@@ -203,8 +206,37 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     }
     //</editor-fold>
 
+    //<editor-fold desc="Property ExtensionRequestedBy">
+    @Column(name = "prbiExtensionRequestedBy")
+    private int extensionRequestedBy;
+
+    public int getExtensionRequestedBy() {
+        return extensionRequestedBy;
+    }
+
+    public void setExtensionRequestedBy(int extensionRequestedBy) {
+        this.extensionRequestedBy = extensionRequestedBy;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property ExtensionRequestedAt">
+    @Column(name = "prbiExtensionRequestedAt")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date extensionRequestedAt = DateUtils.MIN_DATE;
+
+    public Date getExtensionRequestedAt() {
+        return extensionRequestedAt;
+    }
+
+    public void setExtensionRequestedAt(Date extensionRequestedAt) {
+        this.extensionRequestedAt = extensionRequestedAt;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Property Proofs">
     @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "prProofRegulationBaseInformationId")
+    @OrderBy(value = "significantSensitiveDomain, deptNumbers, deptNames, _proofWard, _month, _shift desc")
     private List<Proof> _proofs = new ArrayList<>();
 
     public List<Proof> getProofs() {
@@ -213,5 +245,24 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
 
     public void addProof(Proof proof) {
         _proofs.add(proof);
+    }
+    //</editor-fold>
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProofRegulationBaseInformation that = (ProofRegulationBaseInformation) o;
+        return _version == that._version &&
+                _year == that._year &&
+                _quarter == that._quarter &&
+                _ik == that._ik &&
+                _id.equals(that._id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_id, _version, _year, _quarter, _ik);
     }
 }

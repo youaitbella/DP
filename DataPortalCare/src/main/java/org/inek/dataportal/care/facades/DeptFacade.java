@@ -185,17 +185,17 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         return new HashSet<>(result);
     }
 
-    public List<String> findStationNamesForPrefill(int ik, int year) {
-        String sql = "select distinct prsStationName\n" +
-                "from care.ProofRegulationStation\n" +
-                "where prsIk = " + ik;
+    public List<String> findWardNamesForPrefill(int ik, int year) {
+        String sql = "select distinct (dwWardName) from care.DeptBaseInformation bi\n" +
+                "join care.DeptWard dw on dbiCurrentVersionId = dw.dwVersionId\n" +
+                "where dbiYear = " + year + " and dbiIk = " + ik;
 
         @SuppressWarnings("unchecked")
         List<String> result = getEntityManager().createNativeQuery(sql).getResultList();
         return result;
     }
 
-    public Boolean isValidFab(String fab) {
+    public boolean isValidFab(String fab) {
         String sql = "select *\n" +
                 "from dbo.listDept\n" +
                 "where DeIsPsych = 0\n" +

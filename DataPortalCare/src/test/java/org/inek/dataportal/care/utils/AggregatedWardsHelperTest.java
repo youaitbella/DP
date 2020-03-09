@@ -1,10 +1,10 @@
 package org.inek.dataportal.care.utils;
 
-import javafx.util.Pair;
 import org.assertj.core.api.Assertions;
 import org.inek.dataportal.care.bo.AggregatedWards;
 import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.common.utils.DateUtils;
+import org.inek.dataportal.common.utils.Period;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -57,11 +57,11 @@ class AggregatedWardsHelperTest {
 
         for (List<DeptWard> deptWards : wardMap.values()) {
             List<Date> toDates = deptWards.stream().map(w -> w.getValidTo()).distinct().sorted(Date::compareTo).collect(Collectors.toList());
-            List<Pair<Date, Date>> fromToDates = new ArrayList<>();
+            List<Period> periods = new ArrayList<>();
             deptWards.stream().map(w -> w.getValidFrom()).distinct().sorted(Date::compareTo).forEachOrdered(from -> {
-                toDates.stream().filter(toDate -> toDate.compareTo(from) >= 0).findFirst().ifPresent(toDate -> fromToDates.add(new Pair<>(from, toDate)));
+                toDates.stream().filter(toDate -> toDate.compareTo(from) >= 0).findFirst().ifPresent(toDate -> periods.add(new Period(from, toDate)));
             });
-            System.out.println(fromToDates.size());
+            System.out.println(periods.size());
         }
 
     }

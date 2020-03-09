@@ -461,7 +461,7 @@ public class StructuralChangesEdit implements Serializable {
         if (locationCode == 0) {
             throw new ValidatorException(new FacesMessage(errMsg));
         }
-        if (_structuralChangesBaseInformation.getIk() >= 222222220 && _structuralChangesBaseInformation.getIk() <= 222222229) {
+        if (Utils.isTestIk(_structuralChangesBaseInformation.getIk())) {
             return;
         }
         if (!_vzUtils.locationCodeIsValidForIk(_structuralChangesBaseInformation.getIk(), locationCode)) {

@@ -28,9 +28,10 @@ public class TextBundle extends ResourceBundle {
     }
 
     @Override
-    public Enumeration getKeys() {
+    public Enumeration<String> getKeys() {
         return parent.getKeys();
     }
+
 
     protected static class UTF8Control extends Control {
         public ResourceBundle newBundle
