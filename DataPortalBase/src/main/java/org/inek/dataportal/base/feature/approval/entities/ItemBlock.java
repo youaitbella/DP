@@ -3,12 +3,19 @@ package org.inek.dataportal.base.feature.approval.entities;
 import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "ItemBlock", schema = "conf")
 public class ItemBlock {
+    public ItemBlock() {
+    }
+
+    public ItemBlock(Item item) {
+        this.item = item;
+    }
+
+    private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -25,16 +32,17 @@ public class ItemBlock {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property ItemId">
-    @Column(name = "ibItemId")
-    private int itemId;
+    // <editor-fold defaultstate="collapsed" desc="Property Item">
+    @ManyToOne
+    @JoinColumn(name = "ibItemId")
+    private Item item;
 
-    public int getItemId() {
-        return itemId;
+    public Item getItem() {
+        return item;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setItem(Item itemId) {
+        this.item = itemId;
     }
     // </editor-fold>
 
@@ -52,15 +60,16 @@ public class ItemBlock {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property ConfStateId">
-    @Column(name = "ibConfStateId")
-    private String confStateId = "";
+    @ManyToOne
+    @JoinColumn(name = "ibConfStateId")
+    private ConfState confState;
 
-    public String getConfStateId() {
-        return confStateId;
+    public ConfState getConfState() {
+        return confState;
     }
 
-    public void setConfStateId(String confStateId) {
-        this.confStateId = confStateId;
+    public void setConfState(ConfState confStateId) {
+        this.confState = confStateId;
     }
     // </editor-fold>
 
@@ -91,6 +100,16 @@ public class ItemBlock {
     }
     // </editor-fold>
 
+    //<editor-fold desc="Property Data">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "idItemBlockId", referencedColumnName = "ibId")
+    private List<ItemBlock> data = new ArrayList<>();
+
+    public List<ItemBlock> getData() {
+        return Collections.unmodifiableList(data);
+    }
+    //</editor-fold>
+
 
     //<editor-fold desc="equals / hashCode">
     @Override
@@ -98,17 +117,18 @@ public class ItemBlock {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ItemBlock itemBlock = (ItemBlock) o;
-        return itemId == itemBlock.itemId &&
-                confAccountId == itemBlock.confAccountId &&
+        return confAccountId == itemBlock.confAccountId &&
                 id.equals(itemBlock.id) &&
+                item.equals(itemBlock.item) &&
                 header.equals(itemBlock.header) &&
-                confStateId.equals(itemBlock.confStateId) &&
-                confDt.equals(itemBlock.confDt);
+                confState.equals(itemBlock.confState) &&
+                confDt.equals(itemBlock.confDt) &&
+                data.equals(itemBlock.data);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, itemId, header, confStateId, confDt, confAccountId);
+        return Objects.hash(id, item, header, confState, confDt, confAccountId, data);
     }
-    //</editor-fold>
+//</editor-fold>
 }

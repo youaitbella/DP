@@ -8,6 +8,7 @@ import java.util.*;
 @Entity
 @Table(name = "Action", schema = "conf")
 public class Action {
+    private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -94,16 +95,18 @@ public class Action {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Action action = (Action) o;
-        return confType == action.confType &&
-                id.equals(action.id) &&
+        return id.equals(action.id) &&
+                confType.equals(action.confType) &&
                 creationDt.equals(action.creationDt) &&
                 infoMailHeader.equals(action.infoMailHeader) &&
-                infoMailBody.equals(action.infoMailBody);
+                infoMailBody.equals(action.infoMailBody) &&
+                items.equals(action.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, confType, creationDt, infoMailHeader, infoMailBody);
+        return Objects.hash(id, confType, creationDt, infoMailHeader, infoMailBody, items);
     }
     //</editor-fold>
+
 }

@@ -6,6 +6,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "listConfState", schema = "conf")
 public class ConfState {
+    private static final long serialVersionUID = 1L;
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

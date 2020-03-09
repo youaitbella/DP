@@ -9,6 +9,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "Item", schema = "conf")
 public class Item {
+    private static final long serialVersionUID = 1L;
+
     public Item() {
     }
 
@@ -84,14 +86,16 @@ public class Item {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
-        return action == item.action &&
-                ik == item.ik &&
-                id.equals(item.id);
+        return ik == item.ik &&
+                id.equals(item.id) &&
+                action.equals(item.action) &&
+                recipients.equals(item.recipients) &&
+                blocks.equals(item.blocks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, action, ik);
+        return Objects.hash(id, action, ik, recipients, blocks);
     }
     //</editor-fold>
 }

@@ -6,6 +6,15 @@ import java.util.Objects;
 @Entity
 @Table(name = "ItemData", schema = "conf")
 public class ItemData {
+    public ItemData() {
+    }
+
+    public ItemData(ItemBlock itemBlock) {
+        this.itemBlock = itemBlock;
+    }
+
+    private static final long serialVersionUID = 1L;
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,16 +30,17 @@ public class ItemData {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property ItemBlockId">
-    @Column(name = "idItemBlockId")
-    private int itemBlockId;
+    // <editor-fold defaultstate="collapsed" desc="Property ItemBlock">
+    @ManyToOne
+    @JoinColumn(name = "idItemBlockId")
+    private ItemBlock itemBlock;
 
-    public int getItemBlockId() {
-        return itemBlockId;
+    public ItemBlock getItemBlock() {
+        return itemBlock;
     }
 
-    public void setItemBlockId(int itemBlockId) {
-        this.itemBlockId = itemBlockId;
+    public void setItemBlock(ItemBlock itemBlockId) {
+        this.itemBlock = itemBlockId;
     }
     // </editor-fold>
 
@@ -66,15 +76,15 @@ public class ItemData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ItemData itemData = (ItemData) o;
-        return itemBlockId == itemData.itemBlockId &&
-                id.equals(itemData.id) &&
+        return id.equals(itemData.id) &&
+                itemBlock.equals(itemData.itemBlock) &&
                 key.equals(itemData.key) &&
                 value.equals(itemData.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, itemBlockId, key, value);
+        return Objects.hash(id, itemBlock, key, value);
     }
     //</editor-fold>
 }
