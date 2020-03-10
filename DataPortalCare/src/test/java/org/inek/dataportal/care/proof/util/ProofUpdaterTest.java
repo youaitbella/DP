@@ -28,6 +28,14 @@ class ProofUpdaterTest {
     public static final Date LAST_CHANGED = DateUtils.createDate(2020, 02, 01);
     public static final Date SEND = DateUtils.createDate(2020, 03, 01);
     public static final Date VALID_TO = DateUtils.createDate(2020, 04, 01);
+    public static final String FAB1 = "3600";
+    public static final String FAB2 = "1700";
+    public static final String FAB3 = "1700";
+    public static final String DEPT_NAME1 = "Unfallchirugie";
+    public static final String DEPT_NAME2 = "Neurochirurgie";
+    public static final String STATION_1 = "Station 1";
+    public static final String STATION_2 = "Station 2";
+    public static final int LOCATION_CODE_VZ_P21 = 0;
 
     @Test
     void updateProof() {
@@ -44,15 +52,17 @@ class ProofUpdaterTest {
         DeptWard deptWard3 = new DeptWard();
         Dept dept = new Dept(deptBaseInformation);
 
+
+
         deptWard1.setValidFrom(SEND);
         deptWard1.setValidTo(VALID_TO);
         deptWard1.setDept(dept);
-        deptWard1.setFab("3600");
+        deptWard1.setFab(FAB1);
         deptWard1.setIsInitial(true);
-        deptWard1.setLocationCodeVz(0);
-        deptWard1.setLocationCodeP21(0);
-        deptWard1.setWardName("Station 1");
-        deptWard1.setDeptName("Unfallchirugie");
+        deptWard1.setLocationCodeVz(LOCATION_CODE_VZ_P21);
+        deptWard1.setLocationCodeP21(LOCATION_CODE_VZ_P21);
+        deptWard1.setWardName(STATION_1);
+        deptWard1.setDeptName(DEPT_NAME1);
         deptWard1.setBedCount(26);
         deptWard1.setCreatedAt(CREATED_DATE);
         deptWard1.setLocation2017("01");
@@ -60,12 +70,12 @@ class ProofUpdaterTest {
         deptWard2.setValidFrom(SEND);
         deptWard2.setValidTo(VALID_TO);
         deptWard2.setDept(dept);
-        deptWard2.setFab("1700");
+        deptWard2.setFab(FAB2);
         deptWard2.setIsInitial(true);
-        deptWard2.setLocationCodeVz(0);
-        deptWard2.setLocationCodeP21(0);
-        deptWard2.setWardName("Station 1");
-        deptWard2.setDeptName("Neurochirurgie");
+        deptWard2.setLocationCodeVz(LOCATION_CODE_VZ_P21);
+        deptWard2.setLocationCodeP21(LOCATION_CODE_VZ_P21);
+        deptWard2.setWardName(STATION_1);
+        deptWard2.setDeptName(DEPT_NAME2);
         deptWard2.setBedCount(23);
         deptWard2.setCreatedAt(CREATED_DATE);
         deptWard2.setLocation2017("01");
@@ -73,12 +83,12 @@ class ProofUpdaterTest {
         deptWard3.setValidFrom(SEND);
         deptWard3.setValidTo(VALID_TO);
         deptWard3.setDept(dept);
-        deptWard3.setFab("1700");
+        deptWard3.setFab(FAB3);
         deptWard3.setIsInitial(true);
-        deptWard3.setLocationCodeVz(0);
-        deptWard3.setLocationCodeP21(0);
-        deptWard3.setWardName("Station 2");
-        deptWard3.setDeptName("Unfallchirurgie");
+        deptWard3.setLocationCodeVz(LOCATION_CODE_VZ_P21);
+        deptWard3.setLocationCodeP21(LOCATION_CODE_VZ_P21);
+        deptWard3.setWardName(STATION_2);
+        deptWard3.setDeptName(DEPT_NAME1);
         deptWard3.setBedCount(23);
         deptWard3.setCreatedAt(CREATED_DATE);
         deptWard3.setLocation2017("01");
@@ -98,13 +108,7 @@ class ProofUpdaterTest {
         deptBaseInformation.setCreated(CREATED_DATE);
         deptBaseInformation.setCreatedBy(ACCOUNTID);
         deptBaseInformation.setCurrentVersion(new MapVersion(ACCOUNTID));
-
-
-
         deptBaseInformation.setDepts(depts);
-
-
-
         deptBaseInformation.setId(ID);
         deptBaseInformation.setLastChangeBy(ACCOUNTID);
         deptBaseInformation.setLastChanged(LAST_CHANGED);
