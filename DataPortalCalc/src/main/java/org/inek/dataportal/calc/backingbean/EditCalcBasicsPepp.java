@@ -100,10 +100,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     // </editor-fold>
 
-    public List<KGPListContentText> retrieveContentText(int sheetId) {
-        return _calcFacade.retrieveContentTextsPepp(_calcFacade.evaluateHeaderId(sheetId), _calcBasics.getDataYear());
-    }
-
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -789,4 +785,11 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return items;
     }
 
+    public List<KGPListContentText> retrieveContentText(int sheetId) {
+        return _calcFacade.retrieveContentTextsPepp(_calcFacade.evaluateHeaderId(sheetId), _calcBasics.getDataYear());
+    }
+
+    public boolean retrieveCurrentValues(int contextTextId) {
+        return _calcFacade.determineTherapyUnitValue(_calcBasics.getId(), contextTextId);
+    }
 }

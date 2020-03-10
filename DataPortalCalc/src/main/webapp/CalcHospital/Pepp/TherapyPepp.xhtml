@@ -61,18 +61,20 @@
     </style>
 
     <div>
+        <ui:remove>
         <!--    TODO:
-                    value       => get from database
-                    readonly    => get from database
-                    listener    => if checkbox changed, update database-->
-
+                    visibility depending on KGPListContentText firstYear/lastYear ? -->
+        </ui:remove>
         <div class="inputPart">
             <h:outputLabel styleClass="label"
                            value="Werden ab dem DJ#{editCalcBasicsPepp.calcBasics.dataYear} weiterhin Therapieeinheiten für folgende Bereiche erfasst:"/> &nbsp;
+            <ui:remove>
 <!--            for #{msg.lblCalcTherapyScope} the sheetId = 3; compare to table care.KGPListSheet -->
-            <ui:repeat value="#{editCalcBasicsPepp.retrieveContentText(3)}" var="x" varStatus="status">
-                <inek:LabeledCheckbox label="#{x.text}"
+            </ui:remove>
+            <ui:repeat value="#{editCalcBasicsPepp.retrieveContentText(3)}" var="contentText" varStatus="status">
+                <inek:LabeledCheckbox label="#{contentText.text}"
                                       styleClassLabel="label30"
+                                      value="#{editCalcBasicsPepp.retrieveCurrentValues(contentText.id)}"
                 />
 
             </ui:repeat>
