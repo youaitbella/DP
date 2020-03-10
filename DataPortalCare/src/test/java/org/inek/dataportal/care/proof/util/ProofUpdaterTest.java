@@ -53,11 +53,35 @@ class ProofUpdaterTest {
         deptWard1.setLocationCodeP21(0);
         deptWard1.setWardName("Station 1");
         deptWard1.setDeptName("Unfallchirugie");
-        deptWard1.setBedCount(0);
+        deptWard1.setBedCount(26);
         deptWard1.setCreatedAt(CREATED_DATE);
         deptWard1.setLocation2017("01");
 
+        deptWard2.setValidFrom(SEND);
+        deptWard2.setValidTo(VALID_TO);
+        deptWard2.setDept(dept);
+        deptWard2.setFab("1700");
+        deptWard2.setIsInitial(true);
+        deptWard2.setLocationCodeVz(0);
+        deptWard2.setLocationCodeP21(0);
+        deptWard2.setWardName("Station 1");
+        deptWard2.setDeptName("Neurochirurgie");
+        deptWard2.setBedCount(23);
+        deptWard2.setCreatedAt(CREATED_DATE);
+        deptWard2.setLocation2017("01");
 
+        deptWard3.setValidFrom(SEND);
+        deptWard3.setValidTo(VALID_TO);
+        deptWard3.setDept(dept);
+        deptWard3.setFab("1700");
+        deptWard3.setIsInitial(true);
+        deptWard3.setLocationCodeVz(0);
+        deptWard3.setLocationCodeP21(0);
+        deptWard3.setWardName("Station 2");
+        deptWard3.setDeptName("Unfallchirurgie");
+        deptWard3.setBedCount(23);
+        deptWard3.setCreatedAt(CREATED_DATE);
+        deptWard3.setLocation2017("01");
 
         dept.setDeptArea(1);
         dept.setDeptName("Unfallchirugie");
