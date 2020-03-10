@@ -2,6 +2,7 @@ package org.inek.dataportal.care.proof.util;
 
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
+import org.inek.dataportal.care.entities.DeptWard;
 import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.proof.ProofFacade;
@@ -26,6 +27,7 @@ class ProofUpdaterTest {
     public static final int ID = 1;
     public static final Date LAST_CHANGED = DateUtils.createDate(2020, 02, 01);
     public static final Date SEND = DateUtils.createDate(2020, 03, 01);
+    public static final Date VALID_TO = DateUtils.createDate(2020, 04, 01);
 
     @Test
     void updateProof() {
@@ -33,10 +35,30 @@ class ProofUpdaterTest {
         when(proofFacade.retrieveCurrent(IK)).thenReturn(buildBaseInfo());
 
         List<Dept> depts = new ArrayList<>();
+        List<DeptWard> deptWards = new ArrayList<>();
 
         DeptBaseInformation deptBaseInformation = new DeptBaseInformation();
 
+        DeptWard deptWard1 = new DeptWard();
+        DeptWard deptWard2 = new DeptWard();
+        DeptWard deptWard3 = new DeptWard();
         Dept dept = new Dept(deptBaseInformation);
+
+        deptWard1.setValidFrom(SEND);
+        deptWard1.setValidTo(VALID_TO);
+        deptWard1.setDept(dept);
+        deptWard1.setFab("3600");
+        deptWard1.setIsInitial(true);
+        deptWard1.setLocationCodeVz(0);
+        deptWard1.setLocationCodeP21(0);
+        deptWard1.setWardName("Station 1");
+        deptWard1.setDeptName("Unfallchirugie");
+        deptWard1.setBedCount(0);
+        deptWard1.setCreatedAt(CREATED_DATE);
+        deptWard1.setLocation2017("01");
+
+
+
         dept.setDeptArea(1);
         dept.setDeptName("Unfallchirugie");
         dept.setDeptNumber("1600");
