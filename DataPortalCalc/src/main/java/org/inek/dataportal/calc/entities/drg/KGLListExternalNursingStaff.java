@@ -1,6 +1,7 @@
 package org.inek.dataportal.calc.entities.drg;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Objects;
@@ -145,14 +146,15 @@ public class KGLListExternalNursingStaff implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ExclusivelyCareAtBedNursingStaff">
     @Column(name ="ensExclusivelyCareAtBedNursingStaff")
-    private boolean _exclusivelyCareAtBedNursingStaff;
+    private int _exclusivelyCareAtBedNursingStaff=-1;
 
-    public boolean isExclusivelyCareAtBedNursingStaff() {
+    @Min(0)
+    public int getExclusivelyCareAtBedNursingStaff() {
         return _exclusivelyCareAtBedNursingStaff;
     }
 
-    public void setExclusivelyCareAtBedNursingStaff(boolean exclusivelyCareAtBedNursingStaff) {
-        this._exclusivelyCareAtBedNursingStaff = exclusivelyCareAtBedNursingStaff;
+    public void setExclusivelyCareAtBedNursingStaff(int _exclusivelyCareAtBedNursingStaff) {
+        this._exclusivelyCareAtBedNursingStaff = _exclusivelyCareAtBedNursingStaff;
     }
     // </editor-fold>
 
@@ -196,6 +198,7 @@ public class KGLListExternalNursingStaff implements Serializable {
     }
 
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="BaseInformationId">
     @Column(name = "ensBaseInformationId")
     private int _baseInformationIdNursingStaff;
@@ -241,11 +244,9 @@ public class KGLListExternalNursingStaff implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionNursingStaff, _externalStaffType, _agreedAverageWorkingHoursNursingStaff,
-                _netAverageWorkingHoursNursingStaff, _calculatedCountNursingStaff, _averageAnnualEmployerCostsNursingStaff,
-                _amountTemporaryEmploymentNursingStaff, _costStGr, _costArtGr, _exclusivelyCareAtBedNursingStaff,
-                _partOfCostVolumeBedNursingStaff, _explanationFieldNursingStaff, _dataYear, _baseInformationIdNursingStaff);
+        return Objects.hash(_id, _divisionNursingStaff, _externalStaffType, _agreedAverageWorkingHoursNursingStaff, _netAverageWorkingHoursNursingStaff, _calculatedCountNursingStaff, _averageAnnualEmployerCostsNursingStaff, _amountTemporaryEmploymentNursingStaff, _costStGr, _costArtGr, _exclusivelyCareAtBedNursingStaff, _partOfCostVolumeBedNursingStaff, _explanationFieldNursingStaff, _dataYear, _baseInformationIdNursingStaff);
     }
+
 
     @Override
     public String toString() {
