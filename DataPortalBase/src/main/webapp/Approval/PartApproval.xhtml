@@ -2,11 +2,13 @@
 <ui:composition xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <div jsf:rendered="true">  <!-- todo: show only when new messages arrive -->
+    <div jsf:rendered="#{approvalPart.containsOpenApproval}">
         <h2>
             <h:commandLink action="#{sessionController.navigate(sessionTools.pages.Approval)}"
                            value="Bestätigung von Rückmeldungen"
                            immediate="true"/>
         </h2>
+        <br/>
+        <h3>Es liegen ungelesene oder unbestätigte Rückmeldungen vor.</h3>
     </div>
 </ui:composition>

@@ -6,15 +6,40 @@
 >
 
     <ui:define name="title">
-        title
+        Rückmeldungen
     </ui:define>
 
     <ui:define name="content">
         <h1>Bestätigung von Rückmeldungen</h1>
 
+        <h3>Im folgenden finden Sie Kennwerte gelistet, welche das InEK anhand Ihrer Datenlieferung ermittelt hat.
+            Soweit diese Werte mit Ihren Daten übereinstimmen, bestätigen Sie diese; andernfalls veranlassen Sie eine korrgierte Datenlieferung.</h3>
         <h:form id="approval">
             <div class="edit">
-                Edit-Bereich
+                <ui:repeat value="#{approvalEdit.actions}" var="action">
+                    <h2>#{action.value.ik} #{action.label}</h2>
+                    <ui:repeat value="#{action.value.blocks}" var="itemBlock">
+                        <div class="marginTop01em">
+                            <div class="inlineBlock alignBottom paddingBottom">
+                                <h3>#{itemBlock.header}</h3>
+                                <h:dataTable value="#{itemBlock.data}" var="itemData">
+                                    <h:column>
+                                        #{itemData.key}
+                                    </h:column>
+                                    <h:column>
+                                        #{itemData.value}
+                                    </h:column>
+                                </h:dataTable>
+                            </div>
+                            <div class="inlineBlock alignBottom">
+                                <h:commandLink value="Rückmeldung zur Kenntnis genommen"
+                                               styleClass="button"
+                                               rendered="#{approvalEdit.isNotApproved(itemBlock)}"
+                                               actionListener="#{approvalEdit.approve(itemBlock)}"/>
+                            </div>
+                        </div>
+                    </ui:repeat>
+                </ui:repeat>
             </div>
         </h:form>
 

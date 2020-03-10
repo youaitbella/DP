@@ -507,6 +507,9 @@ public class SessionController implements Serializable {
         if (_coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
             _account = addFeatureIfMissing(_account, Feature.COOPERATION);
         }
+        for (Feature feature : _featureHolder.obtainMissingRequiredFeatures(_account.getId(), _account.getFeatures())) {
+            _account = addFeatureIfMissing(_account, feature);
+        }
     }
 
     private Account addFeatureIfMissing(Account account, Feature feature) {

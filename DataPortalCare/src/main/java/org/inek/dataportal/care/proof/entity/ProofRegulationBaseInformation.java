@@ -233,7 +233,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     //<editor-fold desc="Property Proofs">
     @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "prProofRegulationBaseInformationId")
-    @OrderBy(value = "significantSensitiveDomain, deptNumbers, deptNames, _proofWard, _month, _shift desc")
+    @OrderBy(value = "significantSensitiveDomain, deptNumbers, deptNames, _proofWard, _month, _shift DESC")
     private List<Proof> _proofs = new ArrayList<>();
 
     public List<Proof> getProofs() {
