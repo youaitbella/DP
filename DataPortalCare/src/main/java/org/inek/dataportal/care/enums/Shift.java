@@ -1,7 +1,6 @@
 package org.inek.dataportal.care.enums;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,8 +33,10 @@ public enum Shift {
         return null;
     }
 
-    public static List<Shift> orderedValues() {
-        return Arrays.stream(Shift.values()).sorted(Comparator.comparing(Shift::getName)).collect(Collectors.toList());
+    public static List<Shift> reversedValues() {
+        return Arrays.stream(Shift.values())
+                .sorted((s1, s2) -> s2.getName().compareTo(s1.getName()))
+                .collect(Collectors.toList());
     }
 
     public static Shift getByName(String name) {

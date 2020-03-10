@@ -255,7 +255,7 @@ public class ProofEdit implements Serializable {
             Period period = DateUtils.firstAndLastDayOfMonth(year, month);
             List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), period.from(), period.to());
             for (ProofWardInfo proofWardInfo : proofWardInfos) {
-                for (Shift shift : Shift.orderedValues()) {
+                for (Shift shift : Shift.reversedValues()) {
                     _proofBaseInformation.addProof(
                             ProofHelper.fillProof(new Proof(_proofBaseInformation), proofWardInfo, month, shift, _proofFacade, _baseDataFacade));
                 }
