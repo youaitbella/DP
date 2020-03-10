@@ -9,6 +9,13 @@ import java.util.Objects;
 @Entity
 @Table(name = "ItemRecipient", schema = "conf")
 public class ItemRecipient {
+    public ItemRecipient() {
+    }
+
+    public ItemRecipient(Item item) {
+        this.item = item;
+    }
+
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -26,16 +33,17 @@ public class ItemRecipient {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property ItemId">
-    @Column(name = "irItemId")
-    private int itemId = -1;
+    // <editor-fold defaultstate="collapsed" desc="Property Item">
+    @ManyToOne
+    @JoinColumn(name = "irItemId")
+    private Item item;
 
-    public int getItemId() {
-        return itemId;
+    public Item getItem() {
+        return item;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setItem(Item itemId) {
+        this.item = itemId;
     }
     // </editor-fold>
 
@@ -79,23 +87,22 @@ public class ItemRecipient {
     }
     // </editor-fold>
 
-
     //<editor-fold desc="equals / hashCode">
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ItemRecipient that = (ItemRecipient) o;
-        return itemId == that.itemId &&
-                accountId == that.accountId &&
+        return accountId == that.accountId &&
                 id.equals(that.id) &&
+                item.equals(that.item) &&
                 emailAddress.equals(that.emailAddress) &&
                 firstViewedDt.equals(that.firstViewedDt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, itemId, accountId, emailAddress, firstViewedDt);
+        return Objects.hash(id, item, accountId, emailAddress, firstViewedDt);
     }
     //</editor-fold>
 }
