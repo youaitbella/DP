@@ -8,6 +8,7 @@ public enum TransferFileType {
     CareWardNames,
     PPUGV,
     AEB,
-    Structureinformation
+    Structureinformation,
+    APPROVAL
 
 }
