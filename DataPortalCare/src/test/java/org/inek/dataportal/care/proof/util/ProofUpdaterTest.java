@@ -30,7 +30,7 @@ class ProofUpdaterTest {
     public static final Date VALID_TO = DateUtils.createDate(2020, 04, 01);
     public static final String FAB1 = "3600";
     public static final String FAB2 = "1700";
-    public static final String FAB3 = "1700";
+    public static final String FAB3 = "1600";
     public static final String DEPT_NAME1 = "Unfallchirugie";
     public static final String DEPT_NAME2 = "Neurochirurgie";
     public static final String STATION_1 = "Station 1";
@@ -51,6 +51,9 @@ class ProofUpdaterTest {
         DeptWard deptWard2 = new DeptWard();
         DeptWard deptWard3 = new DeptWard();
         Dept dept = new Dept(deptBaseInformation);
+        deptWards.add(deptWard1);
+        deptWards.add(deptWard2);
+        deptWards.add(deptWard3);
 
 
 
@@ -94,8 +97,8 @@ class ProofUpdaterTest {
         deptWard3.setLocation2017("01");
 
         dept.setDeptArea(1);
-        dept.setDeptName("Unfallchirugie");
-        dept.setDeptNumber("1600");
+        dept.setDeptName(DEPT_NAME1);
+        dept.setDeptNumber(FAB3);
         //dept.setDeptWards();
         dept.setId(1);
         dept.setLocation("Station 10");
