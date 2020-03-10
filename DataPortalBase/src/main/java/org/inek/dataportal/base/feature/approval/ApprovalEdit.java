@@ -60,6 +60,7 @@ public class ApprovalEdit implements Serializable {
     public void approve(ItemBlock block) {
         block.setConfAccountId(sessionController.getAccountId());
         block.setConfDt(new Date());
+        block.setConfState(approvalFacade.findStatebyId("b"));
         block = approvalFacade.save(block);
         TransferFileCreator.createObjectTransferFile(sessionController, block,
                 block.getItem().getIk(), APPROVAL);

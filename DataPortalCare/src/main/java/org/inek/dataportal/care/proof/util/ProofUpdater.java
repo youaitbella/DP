@@ -113,7 +113,7 @@ public class ProofUpdater implements Serializable {
     private void addNewProofs(ProofRegulationBaseInformation proofBaseInfo, List<ProofWardInfo> proofWardInfos) {
         for (ProofWardInfo proofWardInfo : proofWardInfos) {
             int month = DateUtils.month(proofWardInfo.getFrom());
-            for (Shift shift : Shift.values()) {
+            for (Shift shift : Shift.orderedValues()) {
                 proofBaseInfo.addProof(
                         ProofHelper.fillProof(new Proof(proofBaseInfo), proofWardInfo, month, shift, proofFacade, baseDataFacade));
             }
