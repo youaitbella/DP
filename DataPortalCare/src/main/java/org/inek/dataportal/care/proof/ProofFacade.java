@@ -163,7 +163,7 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         IkYearQuarter editableQuarter = ProofHelper.determineEditableYearQuarter();
 
         String jpql = "select p from ProofRegulationBaseInformation p " +
-                "where p._ik = :ik and p._year = :year and p._quarter = :quarter and p._statusId < 200";
+                "where p._ik = :ik and p._year = :year and p._quarter = :quarter and p._statusId < 10";
         TypedQuery<ProofRegulationBaseInformation> query = getEntityManager().createQuery(jpql, ProofRegulationBaseInformation.class);
         query.setParameter("ik", ik);
         query.setParameter("year", editableQuarter.getYear());

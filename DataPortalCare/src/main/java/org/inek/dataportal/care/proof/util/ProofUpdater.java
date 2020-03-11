@@ -44,8 +44,8 @@ public class ProofUpdater implements Serializable {
         }
     }
 
-    private void updateProof(ProofRegulationBaseInformation proofBaseInfo, DeptBaseInformation deptBaseInfo) {
-        ProofRegulationBaseInformation originalProofBaseInfo = new ProofRegulationBaseInformation(proofBaseInfo);
+    private void updateProof(ProofRegulationBaseInformation originalProofBaseInfo, DeptBaseInformation deptBaseInfo) {
+        ProofRegulationBaseInformation proofBaseInfo = new ProofRegulationBaseInformation(originalProofBaseInfo);
         int year = proofBaseInfo.getYear();
         int quarter = proofBaseInfo.getQuarter();
         List<ProofWardInfo> proofWardInfos = new ArrayList<>();
@@ -55,16 +55,11 @@ public class ProofUpdater implements Serializable {
             proofWardInfos.addAll(ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), period.from(), period.to()));
         }
         updateProof(proofBaseInfo, proofWardInfos);
-        if (originalProofBaseInfo.equals(proofBaseInfo)) {
+        if (originalProofBaseInfo.contentEquals(proofBaseInfo)) {
             return;
         }
         originalProofBaseInfo.setStatus(WorkflowStatus.Retired);
         proofFacade.save(originalProofBaseInfo);
-        if (proofBaseInfo.getStatus() == WorkflowStatus.Provided) {
-            int id = proofBaseInfo.getId();
-            LOGGER.warning("Structural changes with validity starting before end of current quarter. ProofBaseId = " + id);
-            proofBaseInfo.setStatus(WorkflowStatus.CorrectionRequested);
-        }
         proofFacade.save(proofBaseInfo);
     }
 
@@ -80,17 +75,29 @@ public class ProofUpdater implements Serializable {
         Set<Proof> deletionSet = new HashSet<>();
         Set<Proof> updateSet = new HashSet<>();
         Set<ProofWardInfo> usedProofWardInfos = new HashSet<>();
+
         for (Proof proof : proofBaseInfo.getProofs()) {
             Optional<ProofWardInfo> proofWardInfo = obtainProofWardInfo(proofWardInfos, proof);
             if (!proofWardInfo.isPresent()) {
                 deletionSet.add(proof);
                 continue;
             }
-            updateSet.add(proof);
+            if (different(proof, proofWardInfo.get())) {
+                updateSet.add(proof);
+            }
             usedProofWardInfos.add(proofWardInfo.get());
-
         }
         return new ProofUpdateSets(deletionSet, updateSet, usedProofWardInfos);
+    }
+
+    private boolean different(Proof proof, ProofWardInfo proofWardInfo) {
+        int year = proof.getBaseInformation().getYear();
+        SensitiveDomain sensitiveDomain = baseDataFacade.determineSignificantDomain(year, proofWardInfo.sensitiveDomainSet());
+
+        boolean different = !proof.getDeptNames().equals(proofWardInfo.deptNames())
+                || !proof.getDeptNumbers().equals(proofWardInfo.depts())
+                || proof.getSignificantSensitiveDomain().getId() != sensitiveDomain.getId();
+        return different;
     }
 
     private void updateProofs(Set<Proof> proofs, Set<ProofWardInfo> proofWardInfos) {

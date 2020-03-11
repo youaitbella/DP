@@ -253,6 +253,23 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     }
     //</editor-fold>
 
+    @SuppressWarnings("CyclomaticComplexity")
+    public boolean contentEquals(ProofRegulationBaseInformation that) {
+        if (this == that) return true;
+        if (that == null) return false;
+        if (_year != that._year
+                || _quarter != that._quarter
+                || _ik != that._ik
+                || _statusId != that._statusId
+                || !_signature.equals(that._signature)
+                || !extensionRequestedAt.equals(that.extensionRequestedAt)
+                || _proofs.size() != that._proofs.size()) {
+            return false;
+        }
+
+        return _proofs.stream().allMatch(p -> that._proofs.stream().anyMatch(op -> op.contentEquals(p)));
+    }
+
 
     @Override
     @SuppressWarnings("CyclomaticComplexity")

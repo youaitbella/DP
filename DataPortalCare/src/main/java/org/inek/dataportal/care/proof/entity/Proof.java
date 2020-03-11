@@ -368,6 +368,18 @@ public class Proof implements Serializable {
     }
     //</editor-fold>
 
+    public boolean contentEquals(Proof proof) {
+        if (this == proof) return true;
+        if (proof == null) return false;
+        return _month == proof._month &&
+                _shift == proof._shift &&
+                _proofWard.contentEquals(proof._proofWard) &&
+                validFrom.equals(proof.validFrom) &&
+                validTo.equals(proof.validTo) &&
+                deptNumbers.equals(proof.deptNumbers) &&
+                deptNames.equals(proof.deptNames) &&
+                significantSensitiveDomain.equals(proof.significantSensitiveDomain);
+    }
 
     @Override
     @SuppressWarnings("CyclomaticComplexity")
@@ -396,4 +408,5 @@ public class Proof implements Serializable {
     public int duration() {
         return DateUtils.duration(validFrom, validTo);
     }
+
 }
