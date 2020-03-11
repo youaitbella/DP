@@ -551,7 +551,7 @@ public class ProofEdit implements Serializable {
     }
 
     public boolean getRequestExtensionAllowed() {
-        if (deadlineReached()) {
+        if (deadlineReached() || !_configFacade.readConfigBool(ConfigKey.IsCareProofExtensionEnabled)) {
             return false;
         }
         return _proofBaseInformation.getExtensionRequestedAt().equals(DateUtils.MIN_DATE);
