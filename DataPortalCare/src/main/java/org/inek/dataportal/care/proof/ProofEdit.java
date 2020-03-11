@@ -255,7 +255,7 @@ public class ProofEdit implements Serializable {
             Period period = DateUtils.firstAndLastDayOfMonth(year, month);
             List<ProofWardInfo> proofWardInfos = ProofAggregator.aggregateDeptWards(deptBaseInfo.obtainCurrentWards(), period.from(), period.to());
             for (ProofWardInfo proofWardInfo : proofWardInfos) {
-                for (Shift shift : Shift.values()) {
+                for (Shift shift : Shift.reversedValues()) {
                     _proofBaseInformation.addProof(
                             ProofHelper.fillProof(new Proof(_proofBaseInformation), proofWardInfo, month, shift, _proofFacade, _baseDataFacade));
                 }
@@ -265,7 +265,6 @@ public class ProofEdit implements Serializable {
         save();
         setReadOnly();
     }
-
 
     public void save() {
         for (Proof proof : _proofBaseInformation.getProofs()) {
@@ -390,7 +389,8 @@ public class ProofEdit implements Serializable {
     }
 
     public boolean sendAllowedForToday() {
-        return ProofHelper.proofIsAllowedForSend(_proofBaseInformation);
+        return _configFacade.readConfigBool(ConfigKey.TestMode)
+                || ProofHelper.proofIsAllowedForSend(_proofBaseInformation);
     }
 
     public void change() {
