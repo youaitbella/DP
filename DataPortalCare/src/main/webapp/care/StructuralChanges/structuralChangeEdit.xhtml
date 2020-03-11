@@ -317,7 +317,7 @@
                                              navigator="true"
                                              pattern="dd.MM.yyyy"
                                              mask="true"
-                                             mindate="1.1.2018"
+                                             mindate="#{structuralChangesEdit.minDate}"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: left;">
                                     <pf:ajax event="change" update=":change:aggregatedTable"/>
@@ -452,7 +452,7 @@
                                              navigator="true"
                                              pattern="dd.MM.yyyy"
                                              mask="true"
-                                             mindate="1.1.2018"
+                                             mindate="#{structuralChangesEdit.minDate}"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}">
                                     <pf:ajax event="change" update=":change:aggregatedTable"/>
                                     <pf:ajax event="dateSelect" update=":change:aggregatedTable"/>
@@ -546,7 +546,7 @@
                                              navigator="true"
                                              pattern="dd.MM.yyyy"
                                              mask="true"
-                                             mindate="1.1.2018"
+                                             mindate="#{structuralChangesEdit.minDate}"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: left;">
                                     <pf:ajax event="change" update=":change:aggregatedTable"/>
@@ -640,7 +640,7 @@
                                              navigator="true"
                                              pattern="dd.MM.yyyy"
                                              mask="true"
-                                             mindate="1.1.2018"
+                                             mindate="#{structuralChangesEdit.minDate}"
                                              disabled="#{structuralChangesEdit.structuralChangesIsReadOnly(baseInfo)}"
                                              inputStyle="text-align: left;">
                                     <pf:ajax event="change" update=":change:aggregatedTable dateValidTo"/>

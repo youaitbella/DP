@@ -4,6 +4,7 @@ import org.inek.dataportal.care.entities.SensitiveDomain;
 import org.inek.dataportal.care.enums.Months;
 import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.facades.BaseDataFacade;
+import org.inek.dataportal.care.proof.IkYearQuarter;
 import org.inek.dataportal.care.proof.ProofFacade;
 import org.inek.dataportal.care.proof.ProofWardInfo;
 import org.inek.dataportal.care.proof.entity.Proof;
@@ -86,4 +87,13 @@ public class ProofHelper {
         return proof;
     }
 
+    public static IkYearQuarter determineEditableYearQuarter() {
+        return determineEditableYearQuarter(0);
+    }
+
+    public static IkYearQuarter determineEditableYearQuarter(int ik) {
+        int year = DateUtils.currentYear() - (DateUtils.currentMonth() == 1 ? 1 : 0);
+        int quarter = DateUtils.currentMonth() == 1 ? 4 : (DateUtils.currentMonth() + 1) / 3;
+        return new IkYearQuarter(ik, year, quarter);
+    }
 }

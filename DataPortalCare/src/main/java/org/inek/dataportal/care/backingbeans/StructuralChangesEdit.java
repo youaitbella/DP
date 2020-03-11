@@ -14,6 +14,8 @@ import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.care.enums.StructuralChangesType;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
+import org.inek.dataportal.care.proof.IkYearQuarter;
+import org.inek.dataportal.care.proof.util.ProofHelper;
 import org.inek.dataportal.care.proof.util.ProofUpdater;
 import org.inek.dataportal.care.utils.AggregatedWardsHelper;
 import org.inek.dataportal.care.utils.CareValueChecker;
@@ -88,6 +90,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     private Conversation _conversation = new Conversation();
+    private String minDate = "01.01.2020";
 
     public Conversation getConversation() {
         return _conversation;
@@ -470,6 +473,17 @@ public class StructuralChangesEdit implements Serializable {
 
     public void ikChanged() {
         obtainWards();
+        obtainMinDate();
+    }
+
+    private void obtainMinDate() {
+        int ik = _structuralChangesBaseInformation.getIk();
+        IkYearQuarter current = ProofHelper.determineEditableYearQuarter(ik);
+        if (_deptFacade.currentProofIsSent(current)) {
+            current = IkYearQuarter.nextQuarter(current);
+        }
+        Date date = DateUtils.createDate(current.getYear(), current.getQuarter() * 3 - 2, 1);
+        minDate = DateUtils.toGerman(date);
     }
 
     public boolean changeAllowed() {
@@ -774,5 +788,9 @@ public class StructuralChangesEdit implements Serializable {
         changes.setStructuralChangesMarker(changes.getStructuralChangesMarker().nextMarker());
     }
 
+
+    public String getMinDate() {
+        return minDate;
+    }
 
 }

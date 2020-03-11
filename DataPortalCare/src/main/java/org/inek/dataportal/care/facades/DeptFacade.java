@@ -10,6 +10,7 @@ import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptArea;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptWard;
+import org.inek.dataportal.care.proof.IkYearQuarter;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
@@ -225,4 +226,14 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         return priorIk;
     }
 
+    public boolean currentProofIsSent(IkYearQuarter quarter) {
+        String jpql = "select p._id from ProofRegulationBaseInformation p " +
+                "where p._ik = :ik and p._year = :year and p._quarter = :quarter and p._statusId = 10";
+        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
+        query.setParameter("ik", quarter.getIk());
+        query.setParameter("year", quarter.getYear());
+        query.setParameter("quarter", quarter.getQuarter());
+
+        return query.getResultList().size() > 0;
+    }
 }
