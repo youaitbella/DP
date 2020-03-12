@@ -68,8 +68,8 @@ public class ItemBlock {
         return confState;
     }
 
-    public void setConfState(ConfState confStateId) {
-        this.confState = confStateId;
+    public void setConfState(ConfState confState) {
+        this.confState = confState;
     }
     // </editor-fold>
 

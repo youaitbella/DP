@@ -69,7 +69,8 @@ public enum ConfigKey {
     InekReportHostName("vreportserver01"),
     VzHost("localhost:8000"),
     VzRestCheckVzNumber("https://{vzHost}/api/intern/v1.0/LocationIdExists?hospital_ik={ik}&location_identifier={vzNumber}"),
-    CareStructuralChangesEnable(true);
+    CareStructuralChangesEnable(true),
+    IsCareProofExtensionEnabled(false);
     //
     private final Object _defaultValue;
 

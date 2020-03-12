@@ -3,6 +3,7 @@ package org.inek.dataportal.base.feature.approval;
 import org.inek.dataportal.base.feature.approval.entities.ItemBlock;
 import org.inek.dataportal.base.feature.approval.entities.ItemRecipient;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +15,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.inek.dataportal.common.enums.TransferFileType.APPROVAL;
 
 @Named
 @ViewScoped
@@ -39,6 +42,9 @@ public class ApprovalEdit implements Serializable {
             if (recipient.getFirstViewedDt().equals(DateUtils.MIN_DATE)) {
                 recipient.setFirstViewedDt(new Date());
                 approvalFacade.save(recipient);
+                TransferFileCreator.createObjectTransferFile(sessionController, recipient,
+                        recipient.getItem().getIk(), APPROVAL);
+
             }
         }
     }
@@ -54,7 +60,10 @@ public class ApprovalEdit implements Serializable {
     public void approve(ItemBlock block) {
         block.setConfAccountId(sessionController.getAccountId());
         block.setConfDt(new Date());
-        approvalFacade.save(block);
+        block.setConfState(approvalFacade.findStatebyId("b"));
+        block = approvalFacade.save(block);
+        TransferFileCreator.createObjectTransferFile(sessionController, block,
+                block.getItem().getIk(), APPROVAL);
     }
 
     public boolean isNotApproved(ItemBlock block) {

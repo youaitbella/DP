@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
@@ -19,6 +14,9 @@ import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.care.enums.StructuralChangesType;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.facades.StructuralChangesFacade;
+import org.inek.dataportal.care.proof.IkYearQuarter;
+import org.inek.dataportal.care.proof.util.ProofHelper;
+import org.inek.dataportal.care.proof.util.ProofUpdater;
 import org.inek.dataportal.care.utils.AggregatedWardsHelper;
 import org.inek.dataportal.care.utils.CareValueChecker;
 import org.inek.dataportal.common.controller.DialogController;
@@ -52,9 +50,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-/**
- * @author lautenti
- */
 @Named
 @ViewScoped
 public class StructuralChangesEdit implements Serializable {
@@ -76,6 +71,8 @@ public class StructuralChangesEdit implements Serializable {
     private AccountFacade _accountFacade;
     @Inject
     private ConfigFacade configFacade;
+    @Inject
+    private ProofUpdater proofUpdater;
 
     private List<DeptWard> _wards = new ArrayList<>();
     private DeptBaseInformation _deptBaseInformation;
@@ -93,6 +90,7 @@ public class StructuralChangesEdit implements Serializable {
     }
 
     private Conversation _conversation = new Conversation();
+    private String minDate = "01.01.2020";
 
     public Conversation getConversation() {
         return _conversation;
@@ -475,6 +473,17 @@ public class StructuralChangesEdit implements Serializable {
 
     public void ikChanged() {
         obtainWards();
+        obtainMinDate();
+    }
+
+    private void obtainMinDate() {
+        int ik = _structuralChangesBaseInformation.getIk();
+        IkYearQuarter current = ProofHelper.determineEditableYearQuarter(ik);
+        if (_deptFacade.currentProofIsSent(current)) {
+            current = IkYearQuarter.nextQuarter(current);
+        }
+        Date date = DateUtils.createDate(current.getYear(), current.getQuarter() * 3 - 2, 1);
+        minDate = DateUtils.toGerman(date);
     }
 
     public boolean changeAllowed() {
@@ -514,6 +523,7 @@ public class StructuralChangesEdit implements Serializable {
     private void acceptChanges(boolean withHint) {
         updateDeptBase();
         updateStructuralChangesBase();
+        proofUpdater.updateProof(_deptBaseInformation);
         sendMail(withHint ? "CareStructuralChangesAcceptedWithHint" : "CareStructuralChangesAccepted", false);
         DialogController.showSaveDialog();
     }
@@ -778,5 +788,9 @@ public class StructuralChangesEdit implements Serializable {
         changes.setStructuralChangesMarker(changes.getStructuralChangesMarker().nextMarker());
     }
 
+
+    public String getMinDate() {
+        return minDate;
+    }
 
 }

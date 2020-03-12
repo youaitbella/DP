@@ -1,5 +1,6 @@
 package org.inek.dataportal.base.feature.approval;
 
+import org.inek.dataportal.base.feature.approval.entities.ConfState;
 import org.inek.dataportal.base.feature.approval.entities.ItemBlock;
 import org.inek.dataportal.base.feature.approval.entities.ItemRecipient;
 import org.inek.dataportal.common.data.AbstractDataAccess;
@@ -41,5 +42,12 @@ public class ApprovalFacade extends AbstractDataAccess {
 
     public ItemRecipient save(ItemRecipient recipient) {
         return merge(recipient);
+    }
+
+    public ConfState findStatebyId(String id) {
+        String jpql = "select s from ConfState s where s.id = :id";
+        TypedQuery<ConfState> query = getEntityManager().createQuery(jpql, ConfState.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
 }

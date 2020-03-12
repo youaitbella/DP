@@ -50,7 +50,7 @@
             <!-- todo?  value="# {proofEdit.proofRegulationBaseInformation.proofs}"-->
 
             <pf:column id="psAreaId"
-                       headerText="pflegesensitiver Bereich #{proofEdit.proofRegulationBaseInformation.year ge 2020 ? 'im Krankenhaus gem. § 3 PpUGV' : ''}"
+                       headerText="pflegesensitiver Bereich #{proofEdit.proofRegulationBaseInformation.year ge 2020 ? '(geltende Pflegepersonaluntergrenze gem. §§ 3 und 6 PpUGV)' : ''}"
                        sortable="true"
                        sortBy="#{proof.significantSensitiveDomain.name}"
                        filterMatchMode="contains"
@@ -137,6 +137,7 @@
                                 inputStyle="text-align: right; width: 96%;"
                                 decimalPlaces="2"
                                 minValue="0"
+                                maxValue="999"
                                 readonly="#{proofEdit.isReadOnly}"
                                 style="width: 100%;">
                     <pf:ajax event="change"
@@ -169,6 +170,7 @@
                                 inputStyle="text-align: right; width: 96%;"
                                 decimalPlaces="0"
                                 minValue="0"
+                                maxValue="99999"
                                 readonly="#{proofEdit.isReadOnly}"
                                 style="width: 100%;">
                     <pf:ajax event="change"
@@ -324,8 +326,8 @@
             <pf:outputLabel value="#{exceptionFact.proof.proofWard.name}"/>
         </pf:column>
         <pf:column headerText="Standort" sortable="true"
-                   sortBy="#{exceptionFact.proof.proofWard.locationP1}">
-            <pf:outputLabel value="#{exceptionFact.proof.proofWard.locationP1}"/>
+                   sortBy="#{exceptionFact.proof.proofWard.locationP21}">
+            <pf:outputLabel value="#{exceptionFact.proof.proofWard.locationP21}"/>
         </pf:column>
         <pf:column headerText="Monat" sortable="true" sortBy="#{exceptionFact.proof.month.name}">
             <pf:outputLabel value="#{exceptionFact.proof.month.name}" />

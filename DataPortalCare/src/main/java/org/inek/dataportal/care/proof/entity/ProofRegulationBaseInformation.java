@@ -9,10 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "ProofRegulationBaseInformation", schema = "care")
@@ -236,11 +233,19 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     //<editor-fold desc="Property Proofs">
     @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "prProofRegulationBaseInformationId")
-    @OrderBy(value = "significantSensitiveDomain, deptNumbers, deptNames, _proofWard, _month, _shift desc")
+    @OrderBy(value = "significantSensitiveDomain, deptNumbers, deptNames, _proofWard, _month, _shift DESC")
     private List<Proof> _proofs = new ArrayList<>();
 
     public List<Proof> getProofs() {
-        return _proofs;
+        return Collections.unmodifiableList(_proofs);
+    }
+
+    public void removeProof(Proof proof) {
+        _proofs.remove(proof);
+    }
+
+    public void removeProofs(Collection<Proof> proofs) {
+        _proofs.removeAll(proofs);
     }
 
     public void addProof(Proof proof) {
@@ -248,8 +253,26 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     }
     //</editor-fold>
 
+    @SuppressWarnings("CyclomaticComplexity")
+    public boolean contentEquals(ProofRegulationBaseInformation that) {
+        if (this == that) return true;
+        if (that == null) return false;
+        if (_year != that._year
+                || _quarter != that._quarter
+                || _ik != that._ik
+                || _statusId != that._statusId
+                || !_signature.equals(that._signature)
+                || !extensionRequestedAt.equals(that.extensionRequestedAt)
+                || _proofs.size() != that._proofs.size()) {
+            return false;
+        }
+
+        return _proofs.stream().allMatch(p -> that._proofs.stream().anyMatch(op -> op.contentEquals(p)));
+    }
+
 
     @Override
+    @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -258,11 +281,22 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
                 _year == that._year &&
                 _quarter == that._quarter &&
                 _ik == that._ik &&
-                _id.equals(that._id);
+                _createdBy == that._createdBy &&
+                _lastChangeBy == that._lastChangeBy &&
+                _statusId == that._statusId &&
+                extensionRequestedBy == that.extensionRequestedBy &&
+                _id.equals(that._id) &&
+                _signature.equals(that._signature) &&
+                _created.equals(that._created) &&
+                _lastChanged.equals(that._lastChanged) &&
+                _send.equals(that._send) &&
+                extensionRequestedAt.equals(that.extensionRequestedAt) &&
+                _proofs.equals(that._proofs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _version, _year, _quarter, _ik);
+        return Objects.hash(_id, _version, _year, _quarter, _signature, _ik, _createdBy, _lastChangeBy, _created,
+                _lastChanged, _send, _statusId, extensionRequestedBy, extensionRequestedAt, _proofs);
     }
 }
