@@ -58,7 +58,7 @@ public enum Pages {
     CalcDrgDiagnosticScope("/CalcHospital/Drg/DiagnosticScope"),
     CalcDrgTherapeuticScope("/CalcHospital/Drg/TherapeuticScope"),
     CalcDrgPatientAdmission("/CalcHospital/Drg/PatientAdmission"),
-    CalcrgNormalWard("/CalcHospital/Drg/NormalWard"),
+    CalcDrgNormalWard("/CalcHospital/Drg/NormalWard"),
     CalcDrgIntensiveCare("/CalcHospital/Drg/IntensiveCare"),
     CalcDrgStrokeUnit("/CalcHospital/Drg/StrokeUnit"),
     CalcDrgMedicalInfrastructure("/CalcHospital/Drg/MedicalInfrastructure"),

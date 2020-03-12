@@ -47,14 +47,15 @@
                                         die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
                     </f:facet>
                     <h:selectOneMenu id="medStaffId"
-                                     value="#{externalMedStaff.dataYear}">
+                                     value="#{externalMedStaff.dataYear}"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
                                        itemValue="#{year.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -90,7 +91,8 @@
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="MedStaffCostKoStGrId" value="#{externalMedStaff.costKoStGr}"
-                                     style="width:100px">
+                                     style="width:100px"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems
@@ -98,14 +100,15 @@
                                 var="cc"
                                 itemLabel="#{cc.label}"
                                 itemValue="#{cc.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
 
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="MedStaffCostKoArtGrId" value="#{externalMedStaff.costKoArtGr}"
-                                     style="width:100px">
+                                     style="width:100px"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems
@@ -113,7 +116,7 @@
                                 var="ct"
                                 itemLabel="#{ct.label}"
                                 itemValue="#{ct.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -173,14 +176,15 @@
                                         die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
                     </f:facet>
                     <h:selectOneMenu id="NursingId"
-                                     value="#{externalNursingStaff.dataYear}">
+                                     value="#{externalNursingStaff.dataYear}"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
                                        itemValue="#{year.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -265,7 +269,8 @@
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="NursingStaffCostKoStGrId"
-                                     value="#{externalNursingStaff.costKoStGr}" style="width:100px">
+                                     value="#{externalNursingStaff.costKoStGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems
@@ -273,13 +278,14 @@
                                 var="cc"
                                 itemLabel="#{cc.label}"
                                 itemValue="#{cc.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="NursingStaffCostKoArtGrId"
-                                     value="#{externalNursingStaff.costKoArtGr}" style="width:100px">
+                                     value="#{externalNursingStaff.costKoArtGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems
@@ -287,7 +293,7 @@
                                 var="ct"
                                 itemLabel="#{ct.label}"
                                 itemValue="#{ct.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -380,14 +386,15 @@
                                         die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
                     </f:facet>
                     <h:selectOneMenu id="NursingAssistantId"
-                                     value="#{externalNursingAssistantMedStaff.dataYear}">
+                                     value="#{externalNursingAssistantMedStaff.dataYear}"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
                                        itemValue="#{year.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -475,7 +482,8 @@
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="externalNursingAssistantMedStaffId"
-                                     value="#{externalNursingAssistantMedStaff.costKoStGr}" style="width:100px">
+                                     value="#{externalNursingAssistantMedStaff.costKoStGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems
@@ -483,13 +491,14 @@
                                 var="cc"
                                 itemLabel="#{cc.label}"
                                 itemValue="#{cc.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="externalNursingAssistantId"
-                                     value="#{externalNursingAssistantMedStaff.costKoArtGr}" style="width:100px">
+                                     value="#{externalNursingAssistantMedStaff.costKoArtGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems
@@ -497,7 +506,7 @@
                                 var="ct"
                                 itemLabel="#{ct.label}"
                                 itemValue="#{ct.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -588,14 +597,15 @@
                                         die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
                     </f:facet>
                     <h:selectOneMenu id="CareStaffOtherId"
-                                     value="#{externalCareStaffOther.dataYear}">
+                                     value="#{externalCareStaffOther.dataYear}"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
                                        itemValue="#{year.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -681,7 +691,8 @@
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="externalCareStaffOtherCostStrGrId"
-                                     value="#{externalCareStaffOther.costKoStGr}" style="width:100px">
+                                     value="#{externalCareStaffOther.costKoStGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems
@@ -689,18 +700,19 @@
                                 var="cc"
                                 itemLabel="#{cc.label}"
                                 itemValue="#{cc.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="externalCareStaffOtherCostArtGrId"
-                                     value="#{externalCareStaffOther.costKoArtGr}" style="width:100px">
+                                     value="#{externalCareStaffOther.costKoArtGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItem itemLabel="Ja" itemValue="#{1}"/>
                         <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -793,14 +805,15 @@
                                         die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
                     </f:facet>
                     <h:selectOneMenu id="TechFunctServiceId"
-                                     value="#{externalTechFunctService.dataYear}">
+                                     value="#{externalTechFunctService.dataYear}"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
                                        itemValue="#{year.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -835,7 +848,8 @@
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="externalTechFunctServiceCostStrGrId"
-                                     value="#{externalTechFunctService.costKoStGr}" style="width:100px">
+                                     value="#{externalTechFunctService.costKoStGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems
@@ -843,13 +857,14 @@
                                 var="cc"
                                 itemLabel="#{cc.label}"
                                 itemValue="#{cc.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="externalTechFunctServiceCostArtGrId"
-                                     value="#{externalTechFunctService.costKoArtGr}" style="width:100px">
+                                     value="#{externalTechFunctService.costKoArtGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems
@@ -857,21 +872,22 @@
                                 var="ct"
                                 itemLabel="#{ct.label}"
                                 itemValue="#{ct.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Berufsgruppe des med. techn.
                                                                  Dienst/ Funktionsdienst"/></f:facet>
                     <h:selectOneMenu id="occupationalGroup"
-                                     value="#{externalTechFunctService.occupationalGroup}">
+                                     value="#{externalTechFunctService.occupationalGroup}"
+                                     hideNoSelectionOption="true">
                         <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
                                       noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.occupationalGroups}"
                                        var="oc"
                                        itemLabel="#{oc.label}"
                                        itemValue="#{oc.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
