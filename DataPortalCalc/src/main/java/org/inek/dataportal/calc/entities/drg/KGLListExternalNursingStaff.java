@@ -145,21 +145,21 @@ public class KGLListExternalNursingStaff implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ExclusivelyCareAtBedNursingStaff">
-    @Column(name ="ensExclusivelyCareAtBedNursingStaff")
-    private int _exclusivelyCareAtBedNursingStaff=-1;
+    @Column(name = "ensExclusivelyCareAtBedNursingStaff")
+    private int _exclusivelyCareAtBedNursingStaff = -1;
 
     @Min(0)
     public int getExclusivelyCareAtBedNursingStaff() {
         return _exclusivelyCareAtBedNursingStaff;
     }
 
-    public void setExclusivelyCareAtBedNursingStaff(int _exclusivelyCareAtBedNursingStaff) {
-        this._exclusivelyCareAtBedNursingStaff = _exclusivelyCareAtBedNursingStaff;
+    public void setExclusivelyCareAtBedNursingStaff(int exclusivelyCareAtBedNursingStaff) {
+        this._exclusivelyCareAtBedNursingStaff = exclusivelyCareAtBedNursingStaff;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="PartOfCostVolumeBedNursingStaff">
-    @Column(name ="ensPartOfCostVolumeBedNursingStaff")
+    @Column(name = "ensPartOfCostVolumeBedNursingStaff")
     private double _partOfCostVolumeBedNursingStaff;
 
     public double getPartOfCostVolumeBedNursingStaff() {
@@ -244,7 +244,10 @@ public class KGLListExternalNursingStaff implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _divisionNursingStaff, _externalStaffType, _agreedAverageWorkingHoursNursingStaff, _netAverageWorkingHoursNursingStaff, _calculatedCountNursingStaff, _averageAnnualEmployerCostsNursingStaff, _amountTemporaryEmploymentNursingStaff, _costStGr, _costArtGr, _exclusivelyCareAtBedNursingStaff, _partOfCostVolumeBedNursingStaff, _explanationFieldNursingStaff, _dataYear, _baseInformationIdNursingStaff);
+        return Objects.hash(_id, _divisionNursingStaff, _externalStaffType, _agreedAverageWorkingHoursNursingStaff,
+                _netAverageWorkingHoursNursingStaff, _calculatedCountNursingStaff, _averageAnnualEmployerCostsNursingStaff,
+                _amountTemporaryEmploymentNursingStaff, _costStGr, _costArtGr, _exclusivelyCareAtBedNursingStaff,
+                _partOfCostVolumeBedNursingStaff, _explanationFieldNursingStaff, _dataYear, _baseInformationIdNursingStaff);
     }
 
 

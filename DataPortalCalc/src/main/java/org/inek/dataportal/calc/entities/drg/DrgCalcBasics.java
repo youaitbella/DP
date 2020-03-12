@@ -1178,8 +1178,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         return _cntMidwife;
     }
 
-    public void setCntMidwife(int _cntMidwife) {
-        this._cntMidwife = _cntMidwife;
+    public void setCntMidwife(int cntMidwife) {
+        this._cntMidwife = cntMidwife;
     }
     //</editor-fold>
 
