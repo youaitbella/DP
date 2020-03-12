@@ -57,16 +57,21 @@ public class ApprovalEdit implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    public void approve(ItemBlock block) {
+    public void approvePositve(ItemBlock block) {
+        approve(block, "b");
+    }
+
+    public void approveNegative(ItemBlock block) {
+        approve(block, "n");
+    }
+
+    public void approve(ItemBlock block, String status) {
         block.setConfAccountId(sessionController.getAccountId());
         block.setConfDt(new Date());
-        block.setConfState(approvalFacade.findStatebyId("b"));
+        block.setConfState(approvalFacade.findStatebyId(status));
         block = approvalFacade.save(block);
         TransferFileCreator.createObjectTransferFile(sessionController, block,
                 block.getItem().getIk(), APPROVAL);
     }
 
-    public boolean isNotApproved(ItemBlock block) {
-        return block.getConfDt().equals(DateUtils.MIN_DATE);
-    }
 }

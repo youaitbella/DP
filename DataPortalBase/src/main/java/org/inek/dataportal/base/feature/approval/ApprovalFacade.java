@@ -22,7 +22,10 @@ public class ApprovalFacade extends AbstractDataAccess {
     }
 
     public boolean hasUnreadData(int accountId) {
-        String jpql = "Select count(r.accountId) from ItemRecipient r where r.accountId = :accountId and r.firstViewedDt = :minDate";
+        String jpql = "Select count(r.accountId) from ItemRecipient r " +
+                "join Item i on r.item.id = i.id " +
+                "join ItemBlock b on i.id = b.item.id " +
+                "where r.accountId = :accountId and (r.firstViewedDt = :minDate or b.confState.id = 'u')";
         TypedQuery<Long> query = getEntityManager().createQuery(jpql, Long.class);
         query.setParameter("accountId", accountId);
         query.setParameter("minDate", DateUtils.MIN_DATE);
