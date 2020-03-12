@@ -17,7 +17,9 @@ public class Dept implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Dept() {
+    public Dept() {}
+    public Dept(DeptBaseInformation baseInformation) {
+        this._baseInformation = baseInformation;
     }
 
     public Dept(Dept dept) {

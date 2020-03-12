@@ -1,5 +1,9 @@
 package org.inek.dataportal.care.enums;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public enum Shift {
     NIGHT(0, "Nacht"),
     DAY(1, "Tag");
@@ -29,7 +33,13 @@ public enum Shift {
         return null;
     }
 
-    public static  Shift getByName(String name) {
+    public static List<Shift> reversedValues() {
+        return Arrays.stream(Shift.values())
+                .sorted((s1, s2) -> s2.getName().compareTo(s1.getName()))
+                .collect(Collectors.toList());
+    }
+
+    public static Shift getByName(String name) {
         for (Shift shift : Shift.values()) {
             if (shift.getName().toUpperCase().equals(name.toUpperCase())) {
                 return shift;
