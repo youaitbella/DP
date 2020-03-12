@@ -194,6 +194,32 @@ public class KGLListObstetricsGynecology implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="ogCostArtGroup">
+    @Column(name = "ogCostArtGroup")
+    private int _costArtGroup;
+
+    public int getCostArtGroup() {
+        return _costArtGroup;
+    }
+
+    public void setCostArtGroup(int costArtGroup) {
+        this._costArtGroup = costArtGroup;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="ogCostVolumeMidwife">
+    @Column(name = "ogCostVolumeMidwife")
+    private double _costVolumeMidwife;
+
+    public double getCostVolumeMidwife() {
+        return _costVolumeMidwife;
+    }
+
+    public void setCostVolumeMidwife(double costVolumeMidwife) {
+        this._costVolumeMidwife = costVolumeMidwife;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="ogBaseInformationId">
 //    @JoinColumn(name = "ogBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
