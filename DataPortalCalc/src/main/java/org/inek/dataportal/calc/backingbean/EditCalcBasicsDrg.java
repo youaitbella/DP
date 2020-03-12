@@ -465,8 +465,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
         addTopic("TopicBasicExplanation", Pages.CalcDrgBasicExplanation.URL());
         addTopic("TopicCalcOverviewPersonal", Pages.CalcDrgOverviewPersonal.URL());
-        addTopic("TopicCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
         addTopic("TopicCalcExternalMedStaff", Pages.CalcDrgExternalMedStaff.URL());
+        addTopic("TopicCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
         addTopic("TopicCalcOpAn", Pages.CalcDrgOperation.URL());
         addTopic("TopicCalcMaternityRoom", Pages.CalcDrgMaternityRoom.URL());
         addTopic("TopicCalcCardiology", Pages.CalcDrgCardiology.URL());
