@@ -22,7 +22,7 @@ public class ApprovalPart {
     }
 
     public boolean getContainsOpenApproval() {
-        return approvalFacade.hasUnreadData(sessionController.getAccountId());
+        return approvalFacade.hasUnreadOrNonApprovedData(sessionController.getAccountId());
     }
 
 }

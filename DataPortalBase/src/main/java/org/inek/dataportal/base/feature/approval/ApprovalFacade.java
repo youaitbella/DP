@@ -21,7 +21,11 @@ public class ApprovalFacade extends AbstractDataAccess {
         return query.getSingleResult() > 0;
     }
 
-    public boolean hasUnreadData(int accountId) {
+    public boolean hasUnreadOrNonApprovedData(int accountId) {
+        return countUnreadOrNonApprovedData(accountId) > 0;
+    }
+
+    public long countUnreadOrNonApprovedData(int accountId) {
         String jpql = "Select count(r.accountId) from ItemRecipient r " +
                 "join Item i on r.item.id = i.id " +
                 "join ItemBlock b on i.id = b.item.id " +
@@ -29,7 +33,7 @@ public class ApprovalFacade extends AbstractDataAccess {
         TypedQuery<Long> query = getEntityManager().createQuery(jpql, Long.class);
         query.setParameter("accountId", accountId);
         query.setParameter("minDate", DateUtils.MIN_DATE);
-        return query.getSingleResult() > 0;
+        return query.getSingleResult();
     }
 
     public List<ItemRecipient> itemsForAccount(int accountId) {
