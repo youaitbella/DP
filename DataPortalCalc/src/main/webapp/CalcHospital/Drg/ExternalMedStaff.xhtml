@@ -47,8 +47,9 @@
                                         die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
                     </f:facet>
                     <h:selectOneMenu id="medStaffId"
-                                     value="#{externalMedStaff.dataYear}" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                                     value="#{externalMedStaff.dataYear}">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
@@ -88,24 +89,30 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
-                    <h:selectOneMenu id="MedStaffCostKoStGrId" value="#{externalMedStaff.costKoStGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"
-                                       itemValue="#{cc.value}"/>
+                    <h:selectOneMenu id="MedStaffCostKoStGrId" value="#{externalMedStaff.costKoStGr}"
+                                     style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                var="cc"
+                                itemLabel="#{cc.label}"
+                                itemValue="#{cc.value}"/>
                         <f:ajax/>
                     </h:selectOneMenu>
 
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
-                    <h:selectOneMenu id="MedStaffCostKoArtGrId" value="#{externalMedStaff.costKoArtGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                    <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                   var="ct"
-                                   itemLabel="#{ct.label}"
-                                   itemValue="#{ct.value}"/>
+                    <h:selectOneMenu id="MedStaffCostKoArtGrId" value="#{externalMedStaff.costKoArtGr}"
+                                     style="width:100px">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                var="ct"
+                                itemLabel="#{ct.label}"
+                                itemValue="#{ct.value}"/>
                         <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
@@ -166,8 +173,9 @@
                                         die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
                     </f:facet>
                     <h:selectOneMenu id="NursingId"
-                                     value="#{externalNursingStaff.dataYear}" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                                     value="#{externalNursingStaff.dataYear}">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
@@ -258,11 +266,13 @@
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="NursingStaffCostKoStGrId"
                                      value="#{externalNursingStaff.costKoStGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"
-                                       itemValue="#{cc.value}"/>
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                var="cc"
+                                itemLabel="#{cc.label}"
+                                itemValue="#{cc.value}"/>
                         <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
@@ -270,11 +280,13 @@
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="NursingStaffCostKoArtGrId"
                                      value="#{externalNursingStaff.costKoArtGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                       var="ct"
-                                       itemLabel="#{ct.label}"
-                                       itemValue="#{ct.value}"/>
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                var="ct"
+                                itemLabel="#{ct.label}"
+                                itemValue="#{ct.value}"/>
                         <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
@@ -284,22 +296,27 @@
                                 value="Wird das Fremdpersonal ausschließlich für die 'Pflege am Bett' eingesetzt?"/>
                     </f:facet>
                     <h:selectOneMenu id="exclusivelyCareAtBedNursingStaffId"
+                                     style="width: 100%"
                                      value="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff}"
                                      required="true"
-                                     requiredMessage="#{msg.msgValueNeeded}">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{null}" noSelectionOption="true" />
+                                     requiredMessage="#{msg.msgValueNeeded}"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
                         <f:selectItem itemLabel="Ja" itemValue="#{1}"/>
                         <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
-                        <f:ajax event="valueChange" render="partOfCostVolumeBedNursingStaffId :logout:remaining"/>
+                        <f:ajax event="valueChange"
+                                render="@this partOfCostVolumeBedNursingStaffId:text explanationField:text :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputLabel value="Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
                                           welches nicht für die 'Pflege am Bett' eingesetzt wird und geben Sie im
-                                          Erläuterungsfeld den entsprechenden Bereich(z.B. Funktionslabor) an." />
+                                          Erläuterungsfeld den entsprechenden Bereich(z.B. Funktionslabor) an."/>
                     </f:facet>
-                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingStaffId" event="blur" styleClass="element100"
+                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingStaffId" event="blur"
+                                                 styleClass="element100"
                                                  value="#{externalNursingStaff.partOfCostVolumeBedNursingStaff}"
                                                  required="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff eq 0}"
                                                  pattern="##,##" minimum="1"/>
@@ -308,6 +325,7 @@
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
                     <inek:InputTextWithMessage id="explanationField"
                                                value="#{externalNursingStaff.explanationFieldNursingStaff}"
+                                               required="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff eq 0}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
                 </h:column>
@@ -362,8 +380,9 @@
                                         die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
                     </f:facet>
                     <h:selectOneMenu id="NursingAssistantId"
-                                     value="#{externalNursingAssistantMedStaff.dataYear}" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                                     value="#{externalNursingAssistantMedStaff.dataYear}">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
@@ -457,11 +476,13 @@
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="externalNursingAssistantMedStaffId"
                                      value="#{externalNursingAssistantMedStaff.costKoStGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"
-                                       itemValue="#{cc.value}"/>
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                var="cc"
+                                itemLabel="#{cc.label}"
+                                itemValue="#{cc.value}"/>
                         <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
@@ -469,11 +490,13 @@
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="externalNursingAssistantId"
                                      value="#{externalNursingAssistantMedStaff.costKoArtGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                       var="ct"
-                                       itemLabel="#{ct.label}"
-                                       itemValue="#{ct.value}"/>
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                var="ct"
+                                itemLabel="#{ct.label}"
+                                itemValue="#{ct.value}"/>
                         <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
@@ -481,13 +504,17 @@
                     <f:facet name="header"><h:outputLabel
                             value="Wird das Fremdpersonal ausschließlich für die 'Pflege am Bett' eingesetzt? (ja/nein)"/></f:facet>
                     <h:selectOneMenu id="exclusivelyCareAtBedNursingStaffAssistantgId"
+                                     style="width: 100%"
                                      value="#{externalNursingAssistantMedStaff.exclusivelyCareAtBedNursingStaff}"
                                      required="true"
-                                     requiredMessage="#{msg.msgValueNeeded}">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true" />
+                                     requiredMessage="#{msg.msgValueNeeded}"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
                         <f:selectItem itemLabel="Ja" itemValue="#{1}"/>
                         <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange"
+                                render="@this partOfCostVolumeBedNursingAssistantStaff:text explanationFieldAssistant:text :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -496,15 +523,17 @@
                                     welches nicht für die 'Pflege am Bett' eingesetzt wird und geben Sie im Erläuterungsfeld
                                     den entsprechenden Bereich(z.B. Funktionslabor) an."/>
                     </f:facet>
-                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingAssistantStaff" event="blur" styleClass="element100"
+                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingAssistantStaff" event="blur"
+                                                 styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.partOfCostVolumeBedNursingStaff}"
                                                  required="#{externalNursingAssistantMedStaff.exclusivelyCareAtBedNursingStaff eq 0}"
-                                                 pattern="##,##"  minimum="1"/>
+                                                 pattern="##,##" minimum="1"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
                     <inek:InputTextWithMessage id="explanationFieldAssistant"
                                                value="#{externalNursingAssistantMedStaff.explanationFieldNursingStaff}"
+                                               required="#{externalNursingAssistantMedStaff.exclusivelyCareAtBedNursingStaff eq 0}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
                 </h:column>
@@ -559,8 +588,9 @@
                                         die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
                     </f:facet>
                     <h:selectOneMenu id="CareStaffOtherId"
-                                     value="#{externalCareStaffOther.dataYear}" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                                     value="#{externalCareStaffOther.dataYear}">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
@@ -652,11 +682,13 @@
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="externalCareStaffOtherCostStrGrId"
                                      value="#{externalCareStaffOther.costKoStGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"
-                                       itemValue="#{cc.value}"/>
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                var="cc"
+                                itemLabel="#{cc.label}"
+                                itemValue="#{cc.value}"/>
                         <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
@@ -664,7 +696,8 @@
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="externalCareStaffOtherCostArtGrId"
                                      value="#{externalCareStaffOther.costKoArtGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
                         <f:selectItem itemLabel="Ja" itemValue="#{1}"/>
                         <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
                         <f:ajax/>
@@ -677,12 +710,16 @@
                     </f:facet>
                     <h:selectOneMenu id="exclusivelyCareAtBedNursingStaffOtherId"
                                      value="#{externalCareStaffOther.exclusivelyCareAtBedNursingStaff}"
+                                     style="width: 100%"
                                      required="true"
-                                     requiredMessage="#{msg.msgValueNeeded}">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true" />
-                        <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
+                                     requiredMessage="#{msg.msgValueNeeded}"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
                         <f:selectItem itemLabel="Ja" itemValue="#{1}"/>
-                        <f:ajax event="blur" render="partOfCostVolumeBedNursingStaffOtherId :logout:remaining"/>
+                        <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
+                        <f:ajax event="valueChange"
+                                render="@this partOfCostVolumeBedNursingStaffOtherId:text explanationFieldOther:text :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -691,15 +728,17 @@
                                           welches nicht für die 'Pflege am Bett' eingesetzt wird und geben Sie im
                                           Erläuterungsfeld den entsprechenden Bereich (z.B. Funktionslabor) an."/>
                     </f:facet>
-                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingStaffOtherId" event="blur" styleClass="element100"
+                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingStaffOtherId" event="blur"
+                                                 styleClass="element100"
                                                  value="#{externalCareStaffOther.partOfCostVolumeBedNursingStaff}"
                                                  required="#{externalCareStaffOther.exclusivelyCareAtBedNursingStaff eq 0}"
                                                  pattern="##,##" minimum="1"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
-                    <inek:InputTextWithMessage id="explanationFieldAssistant"
+                    <inek:InputTextWithMessage id="explanationFieldOther"
                                                value="#{externalCareStaffOther.explanationFieldNursingStaff}"
+                                               required="#{externalCareStaffOther.exclusivelyCareAtBedNursingStaff eq 0}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
                 </h:column>
@@ -754,8 +793,9 @@
                                         die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
                     </f:facet>
                     <h:selectOneMenu id="TechFunctServiceId"
-                                     value="#{externalTechFunctService.dataYear}" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                                     value="#{externalTechFunctService.dataYear}">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
@@ -796,11 +836,13 @@
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="externalTechFunctServiceCostStrGrId"
                                      value="#{externalTechFunctService.costKoStGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"
-                                       itemValue="#{cc.value}"/>
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                var="cc"
+                                itemLabel="#{cc.label}"
+                                itemValue="#{cc.value}"/>
                         <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
@@ -808,11 +850,13 @@
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="externalTechFunctServiceCostArtGrId"
                                      value="#{externalTechFunctService.costKoArtGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                       var="ct"
-                                       itemLabel="#{ct.label}"
-                                       itemValue="#{ct.value}"/>
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                var="ct"
+                                itemLabel="#{ct.label}"
+                                itemValue="#{ct.value}"/>
                         <f:ajax/>
                     </h:selectOneMenu>
                 </h:column>
@@ -820,8 +864,9 @@
                     <f:facet name="header"><h:outputLabel value="Berufsgruppe des med. techn.
                                                                  Dienst/ Funktionsdienst"/></f:facet>
                     <h:selectOneMenu id="occupationalGroup"
-                                     value="#{externalTechFunctService.occupationalGroup}" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                                     value="#{externalTechFunctService.occupationalGroup}">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.occupationalGroups}"
                                        var="oc"
                                        itemLabel="#{oc.label}"
