@@ -22,13 +22,17 @@ import org.inek.dataportal.common.helper.structures.MessageContainer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.VzUtils;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -48,9 +52,6 @@ import java.util.stream.Collectors;
 
 import static org.inek.dataportal.common.enums.TransferFileType.KGL;
 
-/**
- * @author muellermi
- */
 @Named
 @ViewScoped
 @SuppressWarnings("JavaNCSS")
@@ -65,6 +66,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private CalcDrgFacade _calcDrgFacade;
     private ApplicationTools _appTools;
     private DataImporterPool _importerPool;
+    private transient VzUtils vzUtils;
 
     private DrgCalcBasics _calcBasics;
     private DrgCalcBasics _baseLine;
@@ -79,12 +81,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                              SessionController sessionController,
                              CalcDrgFacade calcDrgFacade,
                              ApplicationTools appTools,
-                             DataImporterPool importerPool) {
+                             DataImporterPool importerPool,
+                             VzUtils vzUtils) {
         _accessManager = accessManager;
         _sessionController = sessionController;
         _calcDrgFacade = calcDrgFacade;
         _appTools = appTools;
         _importerPool = importerPool;
+        this.vzUtils = vzUtils;
     }
 
 
@@ -344,11 +348,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         item.setBaseInformationId(_calcBasics.getId());
         result.add(item);
     }
+
     public void addExternalNursingStaff(String externalStaff) {
         List<KGLListExternalNursingStaff> result = _calcBasics.getExternalNursingStaffs();
         KGLListExternalNursingStaff item = new KGLListExternalNursingStaff();
         item.setBaseInformationId(_calcBasics.getId());
-        item.setExternalStaffType(ExternalStaffType.getByName(externalStaff).getId() );
+        item.setExternalStaffType(ExternalStaffType.getByName(externalStaff).getId());
         result.add(item);
     }
 
@@ -604,7 +609,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Map<String, FieldValues> differencesPartner = ObjectComparer.getDifferences(_baseLine, _calcBasics, excludedTypes);
         return differencesPartner;
     }
-    
+
     private List<String> updateFields(
             Map<String, FieldValues> differencesUser,
             Map<String, FieldValues> differencesPartner,
@@ -1111,14 +1116,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.removeCostCenterOpAn(value);
     }
 
-    public List<SelectItem> getRadiologyLaboratoryItems(){
+    public List<SelectItem> getRadiologyLaboratoryItems() {
         return _calcDrgFacade.retrieveKglLlistRadioLaboServices()
                 .stream()
                 .map(i -> new SelectItem(i.getId(), i.getName()))
                 .collect(Collectors.toList());
     }
 
-    public List<SelectItem> getServiceAreaItems(){
+    public List<SelectItem> getServiceAreaItems() {
         return _calcDrgFacade.retrieveKglLlistServiceAreas()
                 .stream()
                 .map(i -> new SelectItem(i.getId(), i.getName()))
@@ -1130,5 +1135,20 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 .stream()
                 .filter(ns -> ns.getExternalStaffType() == ExternalStaffType.getByName(externalStaff).getId())
                 .collect(Collectors.toList());
+    }
+
+    public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+//        if (Utils.isTestIk(_calcBasics.getIk())) {
+//            return;
+//        }
+        String errMsg = "Ungültige Standortnummer nach § 293 Abs. 6 SGB V für dieses IK";
+        try {
+            int locationCode = Integer.parseInt("" + value);
+            if (!vzUtils.locationCodeIsValidForIk(_calcBasics.getIk(), locationCode)) {
+                throw new ValidatorException(new FacesMessage(errMsg));
+            }
+        } catch (NumberFormatException e) {
+            throw new ValidatorException(new FacesMessage(errMsg));
+        }
     }
 }

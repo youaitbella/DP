@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.calc.entities.drg;
 
 import org.inek.dataportal.common.data.iface.BaseIdValue;
@@ -13,10 +8,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- *
- * @author kunkelan
- */
 @Entity
 @Table(name = "KGLListLocation", schema = "calc")
 public class KGLListLocation implements Serializable, BaseIdValue {
@@ -73,13 +64,13 @@ public class KGLListLocation implements Serializable, BaseIdValue {
     //<editor-fold defaultstate="collapsed" desc="locationNo">
     @Column(name = "lLocationNo")
     @Documentation(name = "Nummer", rank = 10)
-    private short _locationNo;
+    private int _locationNo;
 
-    public short getLocationNo() {
+    public int getLocationNo() {
         return _locationNo;
     }
 
-    public void setLocationNo(short locationNo) {
+    public void setLocationNo(int locationNo) {
         this._locationNo = locationNo;
     }
     //</editor-fold>
