@@ -14,7 +14,6 @@ import org.inek.dataportal.common.utils.Period;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.persistence.EntityNotFoundException;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
@@ -36,12 +35,7 @@ public class ProofUpdater implements Serializable {
     }
 
     public void updateProof(DeptBaseInformation deptBaseInformation) {
-        try {
-            ProofRegulationBaseInformation proofBaseInfo = proofFacade.retrieveCurrent(deptBaseInformation.getIk());
-            updateProof(proofBaseInfo, deptBaseInformation);
-        } catch (EntityNotFoundException e) {
-            return;
-        }
+        proofFacade.retrieveCurrent(deptBaseInformation.getIk()).ifPresent(pbi -> updateProof(pbi, deptBaseInformation));
     }
 
     private void updateProof(ProofRegulationBaseInformation originalProofBaseInfo, DeptBaseInformation deptBaseInfo) {

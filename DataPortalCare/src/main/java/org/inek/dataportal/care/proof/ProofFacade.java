@@ -9,16 +9,20 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import static org.inek.dataportal.api.helper.PortalConstants.*;
 
 @Stateless
 public class ProofFacade extends AbstractDataAccessWithActionLog {
+    private static final Logger LOGGER = Logger.getLogger("ProofFacade");
 
 
     public ProofRegulationBaseInformation findBaseInformation(int id) {
@@ -159,7 +163,7 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         }
     }
 
-    public ProofRegulationBaseInformation retrieveCurrent(int ik) {
+    public Optional<ProofRegulationBaseInformation> retrieveCurrent(int ik) {
         IkYearQuarter editableQuarter = ProofHelper.determineEditableYearQuarter();
 
         String jpql = "select p from ProofRegulationBaseInformation p " +
@@ -168,8 +172,13 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         query.setParameter("ik", ik);
         query.setParameter("year", editableQuarter.getYear());
         query.setParameter("quarter", editableQuarter.getQuarter());
-
-        return query.getSingleResult();
-
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        } catch (Exception e) {
+            LOGGER.severe("Error fetching ProofBase for ik " + ik + "\r\n" + e.getMessage());
+            return Optional.empty();
+        }
     }
 }

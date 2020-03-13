@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -125,7 +126,7 @@ class ProofUpdaterTest {
         // proofFacade.retrieveCurrent(deptBaseInformation.getIk())
     }
 
-    private ProofRegulationBaseInformation buildBaseInfo() {
-        return new ProofRegulationBaseInformation();
+    private Optional<ProofRegulationBaseInformation> buildBaseInfo() {
+        return Optional.of(new ProofRegulationBaseInformation());
     }
 }
