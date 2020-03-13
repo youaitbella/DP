@@ -8,6 +8,7 @@ import org.inek.dataportal.care.proof.ProofFacade;
 import org.inek.dataportal.care.proof.ProofWardInfo;
 import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.DateUtils;
 import org.inek.dataportal.common.utils.Period;
@@ -18,20 +19,24 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static org.inek.dataportal.api.helper.PortalConstants.VAR_IK;
+
 @Dependent
 public class ProofUpdater implements Serializable {
     private static final Logger LOGGER = Logger.getLogger("ProofUpdater");
 
     private ProofFacade proofFacade;
     private BaseDataFacade baseDataFacade;
+    private SessionController sessionController;
 
     public ProofUpdater() {
     }
 
     @Inject
-    public ProofUpdater(ProofFacade proofFacade, BaseDataFacade baseDataFacade) {
+    public ProofUpdater(SessionController sessionController, ProofFacade proofFacade, BaseDataFacade baseDataFacade) {
         this.proofFacade = proofFacade;
         this.baseDataFacade = baseDataFacade;
+        this.sessionController = sessionController;
     }
 
     public void updateProof(DeptBaseInformation deptBaseInformation) {
@@ -53,8 +58,19 @@ public class ProofUpdater implements Serializable {
             return;
         }
         originalProofBaseInfo.setStatus(WorkflowStatus.Retired);
+        if (proofBaseInfo.getStatus() == WorkflowStatus.Provided) {
+            proofBaseInfo.setStatus(WorkflowStatus.CorrectionRequested);
+            sendMail(proofBaseInfo);
+        }
         proofFacade.save(originalProofBaseInfo);
         proofFacade.save(proofBaseInfo);
+    }
+
+    private void sendMail(ProofRegulationBaseInformation proofBaseInfo) {
+        Map<String, String> substitutions = new HashMap<>();
+        substitutions.put(VAR_IK, "" + proofBaseInfo.getIk());
+        sessionController.getMailer().sendMailWithTemplate("CareProofReopenAfterStructuralChange",
+                substitutions, sessionController.getAccount());
     }
 
     private void updateProof(ProofRegulationBaseInformation proofBaseInfo, List<ProofWardInfo> proofWardInfos) {
