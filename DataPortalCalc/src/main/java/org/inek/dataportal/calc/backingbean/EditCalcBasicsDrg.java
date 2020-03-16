@@ -342,23 +342,20 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void addExternalMedStaff() {
         List<KGLListExternalMedStaff> result = _calcBasics.getExternalMedStaffs();
-        KGLListExternalMedStaff item = new KGLListExternalMedStaff();
-        item.setBaseInformationId(_calcBasics.getId());
+        KGLListExternalMedStaff item = new KGLListExternalMedStaff(_calcBasics);
         result.add(item);
     }
 
     public void addExternalNursingStaff(String externalStaff) {
         List<KGLListExternalNursingStaff> result = _calcBasics.getExternalNursingStaffs();
-        KGLListExternalNursingStaff item = new KGLListExternalNursingStaff();
-        item.setBaseInformationId(_calcBasics.getId());
-        item.setExternalStaffType(ExternalStaffType.getByName(externalStaff).getId());
+        KGLListExternalNursingStaff item = new KGLListExternalNursingStaff(_calcBasics);
+        item.setExternalStaffType(ExternalStaffType.getByName(externalStaff));
         result.add(item);
     }
 
     public void addexternalTechFunctService() {
         List<KGLListExternalTechFunctService> result = _calcBasics.getExternalTechFunctServices();
-        KGLListExternalTechFunctService item = new KGLListExternalTechFunctService();
-        item.setBaseInformationId(_calcBasics.getId());
+        KGLListExternalTechFunctService item = new KGLListExternalTechFunctService(_calcBasics);
         result.add(item);
     }
 
@@ -1099,7 +1096,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public List<KGLListExternalNursingStaff> obtainExternalStaff(String externalStaff) {
         return _calcBasics.getExternalNursingStaffs()
                 .stream()
-                .filter(ns -> ns.getExternalStaffType() == ExternalStaffType.getByName(externalStaff).getId())
+                .filter(ns -> ns.getExternalStaffType() == ExternalStaffType.getByName(externalStaff))
                 .collect(Collectors.toList());
     }
 

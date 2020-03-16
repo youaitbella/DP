@@ -1,5 +1,6 @@
 package org.inek.dataportal.calc.entities.drg;
 
+import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.utils.Documentation;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "KGLListExternalTechFunctService", schema = "calc")
 @XmlRootElement
-public class KGLListExternalTechFunctService implements Serializable {
+public class KGLListExternalTechFunctService implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
     // <editor-fold defaultstate="collapsed" desc="Id">
@@ -18,6 +19,13 @@ public class KGLListExternalTechFunctService implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "etfsID", updatable = false, nullable = false)
     private int _id = -1;
+
+    public KGLListExternalTechFunctService() {
+    }
+
+    public KGLListExternalTechFunctService(DrgCalcBasics calcBasics) {
+        this.calcBasics = calcBasics;
+    }
 
     public int getId() {
         return _id;
@@ -134,18 +142,21 @@ public class KGLListExternalTechFunctService implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="baseInformationId">
-    @Column(name = "etfsBaseInformationId")
-    private int _baseInformationId;
+    @ManyToOne
+    @JoinColumn(name = "etfsBaseInformationId")
+    private DrgCalcBasics calcBasics;
+
+    public DrgCalcBasics getDrgCalcBasics() {
+        return calcBasics;
+    }
 
     public int getBaseInformationId() {
-        return _baseInformationId;
+        return calcBasics.getId();
     }
 
-    public void setBaseInformationId(int baseInformationId) {
-        this._baseInformationId = baseInformationId;
+    public void setBaseInformationId(int id) {
     }
     // </editor-fold>
-
 
     @Override
     public boolean equals(Object o) {
@@ -159,7 +170,6 @@ public class KGLListExternalTechFunctService implements Serializable {
                 _costKoArtGr == that._costKoArtGr &&
                 _occupationalGroup == that._occupationalGroup &&
                 _dataYear == that._dataYear &&
-                _baseInformationId == that._baseInformationId &&
                 Objects.equals(_divisionTechFunctService, that._divisionTechFunctService) &&
                 Objects.equals(_explanationFieldTechFunctService, that._explanationFieldTechFunctService);
     }
@@ -167,7 +177,7 @@ public class KGLListExternalTechFunctService implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(_id, _divisionTechFunctService, _countTechFunctService, _costVolumeTechFunctService,
-                _costStGr, _costKoArtGr, _occupationalGroup, _explanationFieldTechFunctService, _dataYear, _baseInformationId);
+                _costStGr, _costKoArtGr, _occupationalGroup, _explanationFieldTechFunctService, _dataYear);
     }
 
     @Override
