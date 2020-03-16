@@ -355,7 +355,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         result.add(item);
     }
 
-
     public void addexternalTechFunctService() {
         List<KGLListExternalTechFunctService> result = _calcBasics.getExternalTechFunctServices();
         KGLListExternalTechFunctService item = new KGLListExternalTechFunctService();
@@ -488,9 +487,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
-    public boolean isOwnStatement() {
-        return _sessionController.isMyAccount(_calcBasics.getAccountId(), false);
-    }
 
     public boolean isReadOnly() {
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
@@ -594,16 +590,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         List<Class> excludedTypes = new ArrayList<>();
         excludedTypes.add(Date.class);
         return excludedTypes;
-    }
-
-    private Map<String, FieldValues> getDifferencesUser(DrgCalcBasics modifiedCalcBasics, List<Class> excludedTypes) {
-        Map<String, FieldValues> differencesUser = ObjectComparer.getDifferences(_baseLine, modifiedCalcBasics, excludedTypes);
-        return differencesUser;
-    }
-
-    private Map<String, FieldValues> getDifferencesPartner(List<Class> excludedTypes) {
-        Map<String, FieldValues> differencesPartner = ObjectComparer.getDifferences(_baseLine, _calcBasics, excludedTypes);
-        return differencesPartner;
     }
 
     private List<String> updateFields(
