@@ -385,23 +385,15 @@
             <f:facet name="header">
                 <h:outputText value="Standortnummer"/>
             </f:facet>
-            <inek:InputIntegerValidator id="locationNum"
+            <inek:InputIntegerValidator id="locationNo"
                                         styleClass="inputwide"
                                         value="#{item.locationNo}"
                                         required="true"
+                                        pattern="#0"
                                         readonly="#{editCalcBasicsDrg.readOnly}"
                                         renderElement="@this :logout:remaining"
-                                        validator="#{editCalcBasicsDrg.isVZLocationCodeValid}"
+                                        validatonMethod="#{editCalcBasicsDrg.isVZLocationCodeValid}"
                                         validatorMessage="Ungültige Standortnummer nach § 293 Abs. 6 SGB V für dieses IK"/>
-
-            <ui:remove>
-                <h:inputText id="locationNo" value="#{item.locationNo}" styleClass="inputwide"
-                             readonly="#{editCalcBasicsDrg.readOnly}"
-                             required="true">
-                    <f:ajax event="blur" render="@this :logout:remaining locationNoMsg"/>
-                </h:inputText>
-                <h:message for="locationNo" styleClass="errorMessage" id="locationNoMsg"/>
-            </ui:remove>
         </h:column>
 
     </h:dataTable>

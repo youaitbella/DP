@@ -20,12 +20,16 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.common.utils.ValueLists;
+import org.inek.dataportal.common.utils.VzUtils;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -57,6 +61,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     private ApplicationTools _appTools;
     private ValueLists _valueLists;
     private DataImporterPool _importerPool;
+    private transient VzUtils vzUtils;
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -82,20 +87,24 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         this._priorCalcBasics = priorCalcBasics;
     }
 
-    public EditCalcBasicsPepp(){}
+    public EditCalcBasicsPepp() {
+    }
+
     @Inject
     public EditCalcBasicsPepp(AccessManager accessManager,
                               SessionController sessionController,
                               CalcPsyFacade calcFacade,
                               ApplicationTools appTools,
                               ValueLists valueLists,
-                              DataImporterPool importerPool){
+                              DataImporterPool importerPool,
+                              VzUtils vzUtils) {
         _accessManager = accessManager;
         _sessionController = sessionController;
         _calcFacade = calcFacade;
         _appTools = appTools;
         _valueLists = valueLists;
         _importerPool = importerPool;
+        this.vzUtils = vzUtils;
     }
 
     // </editor-fold>
@@ -784,4 +793,15 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return items;
     }
 
+    public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        String errMsg = "Ungültige Standortnummer nach § 293 Abs. 6 SGB V für dieses IK";
+        try {
+            int locationCode = Integer.parseInt("" + value);
+            if (!vzUtils.locationCodeIsValidForIk(_calcBasics.getIk(), locationCode)) {
+                throw new ValidatorException(new FacesMessage(errMsg));
+            }
+        } catch (NumberFormatException e) {
+            throw new ValidatorException(new FacesMessage(errMsg));
+        }
+    }
 }

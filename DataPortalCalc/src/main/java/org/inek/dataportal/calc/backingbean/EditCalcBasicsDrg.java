@@ -1138,9 +1138,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
-//        if (Utils.isTestIk(_calcBasics.getIk())) {
-//            return;
-//        }
         String errMsg = "Ungültige Standortnummer nach § 293 Abs. 6 SGB V für dieses IK";
         try {
             int locationCode = Integer.parseInt("" + value);
