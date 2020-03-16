@@ -46,7 +46,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "biID", updatable = false, nullable = false)
-    private int _id = -1;
+    private Integer _id = -1;
 
     public int getId() {
         return _id;
@@ -1185,7 +1185,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="Property biMidwifeExplanation">
     @Column(name = "biMidwifeExplanation")
-    private String _midwifeExplanation;
+    private String _midwifeExplanation = "";
 
     public String getMidwifeExplanation() {
         return _midwifeExplanation;
