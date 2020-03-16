@@ -8,7 +8,6 @@ import org.inek.dataportal.calc.facades.CalcDrgFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
@@ -22,13 +21,17 @@ import org.inek.dataportal.common.helper.structures.MessageContainer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.VzUtils;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -48,9 +51,6 @@ import java.util.stream.Collectors;
 
 import static org.inek.dataportal.common.enums.TransferFileType.KGL;
 
-/**
- * @author muellermi
- */
 @Named
 @ViewScoped
 @SuppressWarnings("JavaNCSS")
@@ -65,6 +65,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private CalcDrgFacade _calcDrgFacade;
     private ApplicationTools _appTools;
     private DataImporterPool _importerPool;
+    private transient VzUtils vzUtils;
 
     private DrgCalcBasics _calcBasics;
     private DrgCalcBasics _baseLine;
@@ -79,14 +80,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                              SessionController sessionController,
                              CalcDrgFacade calcDrgFacade,
                              ApplicationTools appTools,
-                             DataImporterPool importerPool) {
+                             DataImporterPool importerPool,
+                             VzUtils vzUtils) {
         _accessManager = accessManager;
         _sessionController = sessionController;
         _calcDrgFacade = calcDrgFacade;
         _appTools = appTools;
         _importerPool = importerPool;
+        this.vzUtils = vzUtils;
     }
-
 
     @PostConstruct
     private void init() {
@@ -344,11 +346,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         item.setBaseInformationId(_calcBasics.getId());
         result.add(item);
     }
+
     public void addExternalNursingStaff(String externalStaff) {
         List<KGLListExternalNursingStaff> result = _calcBasics.getExternalNursingStaffs();
         KGLListExternalNursingStaff item = new KGLListExternalNursingStaff();
         item.setBaseInformationId(_calcBasics.getId());
-        item.setExternalStaffType(ExternalStaffType.getByName(externalStaff).getId() );
+        item.setExternalStaffType(ExternalStaffType.getByName(externalStaff).getId());
         result.add(item);
     }
 
@@ -476,13 +479,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         addTopic("TopicCalcDiagnosticScope", Pages.CalcDrgDiagnosticScope.URL());
         addTopic("TopicCalcTherapeuticScope", Pages.CalcDrgTherapeuticScope.URL());
         addTopic("TopicCalcPatientAdmission", Pages.CalcDrgPatientAdmission.URL());
-        addTopic("ToipicCalcNormalWard", Pages.CalcrgNormalWard.URL());
+        addTopic("TopicCalcNormalWard", Pages.CalcDrgNormalWard.URL());
         addTopic("TopicCalcIntensiveCare", Pages.CalcDrgIntensiveCare.URL());
         addTopic("TopicCalcStrokeUnit", Pages.CalcDrgStrokeUnit.URL());
         addTopic("TopicCalcMedicalInfrastructure", Pages.CalcDrgMedicalInfrastructure.URL());
         addTopic("TopicCalcNonMedicalInfrastructure", Pages.CalcDrgNonMedicalInfrastructure.URL());
-        //addTopic("TopicCalcStaffCost", Pages.CalcDrgStaffCost.URL());
-        //addTopic("TopicCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
         addTopic("TopicCalcNeonatology", Pages.CalcDrgNeonatology.URL());
     }
 
@@ -604,7 +605,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Map<String, FieldValues> differencesPartner = ObjectComparer.getDifferences(_baseLine, _calcBasics, excludedTypes);
         return differencesPartner;
     }
-    
+
     private List<String> updateFields(
             Map<String, FieldValues> differencesUser,
             Map<String, FieldValues> differencesPartner,
@@ -932,21 +933,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="Tab MVI">
-    public String downloadDocument(String name) {
-        Document document = _calcBasics.getDocuments().stream()
-                .filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
-        if (document != null) {
-            return Utils.downloadDocument(document);
-        }
-        return "";
-    }
-
-    public String deleteDocument(String name) {
-        _calcBasics.getDocuments().removeIf(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19);
-        return null;
-    }
-    //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
     public List<DrgHeaderText> getHeaders() {
@@ -1098,7 +1084,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.deleteRoomCapability(roomCapability);
     }
 
-
     public void addCostCenterOpAn() {
         _calcBasics.addCostCenterOpAn(new KGLListCostCenterOpAn());
     }
@@ -1111,14 +1096,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.removeCostCenterOpAn(value);
     }
 
-    public List<SelectItem> getRadiologyLaboratoryItems(){
+    public List<SelectItem> getRadiologyLaboratoryItems() {
         return _calcDrgFacade.retrieveKglLlistRadioLaboServices()
                 .stream()
                 .map(i -> new SelectItem(i.getId(), i.getName()))
                 .collect(Collectors.toList());
     }
 
-    public List<SelectItem> getServiceAreaItems(){
+    public List<SelectItem> getServiceAreaItems() {
         return _calcDrgFacade.retrieveKglLlistServiceAreas()
                 .stream()
                 .map(i -> new SelectItem(i.getId(), i.getName()))
@@ -1130,5 +1115,17 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 .stream()
                 .filter(ns -> ns.getExternalStaffType() == ExternalStaffType.getByName(externalStaff).getId())
                 .collect(Collectors.toList());
+    }
+
+    public void isVZLocationCodeValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        String errMsg = "Ungültige Standortnummer nach § 293 Abs. 6 SGB V für dieses IK";
+        try {
+            int locationCode = Integer.parseInt("" + value);
+            if (!vzUtils.locationCodeIsValidForIk(_calcBasics.getIk(), locationCode)) {
+                throw new ValidatorException(new FacesMessage(errMsg));
+            }
+        } catch (NumberFormatException e) {
+            throw new ValidatorException(new FacesMessage(errMsg));
+        }
     }
 }

@@ -3,22 +3,26 @@ package org.inek.dataportal.care.proof;
 import org.inek.dataportal.care.proof.entity.ProofDocument;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.proof.entity.ProofWard;
+import org.inek.dataportal.care.proof.util.ProofHelper;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import static org.inek.dataportal.api.helper.PortalConstants.*;
 
 @Stateless
 public class ProofFacade extends AbstractDataAccessWithActionLog {
+    private static final Logger LOGGER = Logger.getLogger("ProofFacade");
 
 
     public ProofRegulationBaseInformation findBaseInformation(int id) {
@@ -43,11 +47,10 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
             return ikYearQuarters;
         }
 
-        int year = DateUtils.currentYear() - (DateUtils.currentMonth() == 1 ? 1 : 0);
-        int quarter = DateUtils.currentMonth() == 1 ? 4 : (DateUtils.currentMonth() + 1) / 3;
+        IkYearQuarter editableQuarter = ProofHelper.determineEditableYearQuarter();
 
         for (Integer ik : allowedIks) {
-            ikYearQuarters.add(new IkYearQuarter(ik, year, quarter));
+            ikYearQuarters.add(new IkYearQuarter(ik, editableQuarter.getYear(), editableQuarter.getQuarter()));
         }
         ikYearQuarters.removeAll(retrieveExistingInfo(allowedIks));
         return ikYearQuarters;
@@ -157,6 +160,25 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
             ProofWard proofWard = new ProofWard(ik, locationNumber, locationP21, name);
             persist(proofWard);
             return proofWard;
+        }
+    }
+
+    public Optional<ProofRegulationBaseInformation> retrieveCurrent(int ik) {
+        IkYearQuarter editableQuarter = ProofHelper.determineEditableYearQuarter();
+
+        String jpql = "select p from ProofRegulationBaseInformation p " +
+                "where p._ik = :ik and p._year = :year and p._quarter = :quarter and p._statusId < 10";
+        TypedQuery<ProofRegulationBaseInformation> query = getEntityManager().createQuery(jpql, ProofRegulationBaseInformation.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", editableQuarter.getYear());
+        query.setParameter("quarter", editableQuarter.getQuarter());
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        } catch (Exception e) {
+            LOGGER.severe("Error fetching ProofBase for ik " + ik + "\r\n" + e.getMessage());
+            return Optional.empty();
         }
     }
 }

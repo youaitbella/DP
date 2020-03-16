@@ -756,17 +756,26 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Nummer" />
+                    <h:outputText value="Nummer"/>
                 </f:facet>
-                <h:inputText value="#{item.locationNo}" styleClass="inputwide" required="true" readonly="#{editCalcBasicsPepp.isReadOnly()}">
-                    <f:ajax event="blur" render="@this :logout:remaining" />
-                </h:inputText>
+                <inek:InputIntegerValidator id="locationNo"
+                                            styleClass="inputwide"
+                                            value="#{item.locationNo}"
+                                            pattern="#0"
+                                            required="true"
+                                            readonly="#{editCalcBasicsPepp.readOnly}"
+                                            renderElement="@this :logout:remaining"
+                                            validatonMethod="#{editCalcBasicsPepp.isVZLocationCodeValid}"
+                                            validatorMessage="Ungültige Standortnummer nach § 293 Abs. 6 SGB V für dieses IK"/>
             </h:column>
 
         </h:dataTable>
 
-        <h:commandLink id="addButtonLocation" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="#{editCalcBasicsPepp.isReadOnly()}">
-            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addLocation()}" />
+        <h:commandLink id="addButtonLocation"
+                       styleClass="addButton inputPart"
+                       value="#{msg.btnAddEntry}"
+                       rendered="#{not editCalcBasicsPepp.isReadOnly()}">
+            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addLocation()}"/>
         </h:commandLink>
     </div>
 

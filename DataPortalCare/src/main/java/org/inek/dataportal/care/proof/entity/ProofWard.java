@@ -83,6 +83,15 @@ public class ProofWard {
     }
     //</editor-fold>
 
+    public boolean contentEquals(ProofWard proofWard) {
+        if (this == proofWard) return true;
+        if (proofWard == null) return false;
+        return ik == proofWard.ik &&
+                locationNumber == proofWard.locationNumber &&
+                locationP21.equals(proofWard.locationP21) &&
+                name.equals(proofWard.name);
+    }
+
     //<editor-fold desc="equals / hashCode">
     @Override
     public boolean equals(Object o) {

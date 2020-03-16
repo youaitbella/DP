@@ -13,6 +13,12 @@ public class IkYearQuarter {
         this.quarter = quarter;
     }
 
+    public static IkYearQuarter nextQuarter(IkYearQuarter current) {
+        int year = current.year + (current.quarter == 4 ? 1 : 0);
+        int quarter = (current.quarter % 4) + 1;
+        return new IkYearQuarter(current.ik, year, quarter);
+    }
+
     public int getIk() {
         return ik;
     }

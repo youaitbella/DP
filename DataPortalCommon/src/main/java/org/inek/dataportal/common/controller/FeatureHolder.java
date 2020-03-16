@@ -3,6 +3,7 @@ package org.inek.dataportal.common.controller;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.PortalType;
 import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.common.helper.Topics;
 
@@ -118,4 +119,7 @@ public class FeatureHolder implements Serializable {
         }
     }
 
+    public List<Feature> obtainMissingRequiredFeatures(int accountId, List<AccountFeature> features) {
+        return _featureFactory.obtainMissingRequiredFeatures(accountId, features);
+    }
 }
