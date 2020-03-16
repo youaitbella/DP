@@ -3,9 +3,8 @@ package org.inek.dataportal.care.backingbeans;
 import org.inek.dataportal.care.entities.SensitiveDomain;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
 import javax.persistence.TypedQuery;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,7 +14,9 @@ public class SensitiveDomainHolder extends AbstractDataAccess {
 
     private Map<Integer, SensitiveDomain> sensitiveDomains = new ConcurrentHashMap<>();
 
-    private void init(@Observes @Initialized(ApplicationScoped.class) Object dummy) {
+    //private void init(@Observes @Initialized(ApplicationScoped.class) Object dummy) {
+    @PostConstruct
+    private void init() {
         String jpql = "select d from SensitiveDomain d where d.id between 1 and 100"; // todo: use flag once the structure is updated
         TypedQuery<SensitiveDomain> query = getEntityManager().createQuery(jpql, SensitiveDomain.class);
         for (SensitiveDomain domain : query.getResultList()) {
