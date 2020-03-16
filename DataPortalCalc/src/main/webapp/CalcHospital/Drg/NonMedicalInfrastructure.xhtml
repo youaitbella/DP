@@ -82,7 +82,8 @@
     <br/>
 
     <div class="container marginTop">
-        <h:dataTable value=""
+        <h:dataTable value="#{editCalcBasicsDrg.calcBasics.liabilityInsurances}"
+                     var="liabilityInsurance"
                      styleClass="borderedTable borderCollapse"
                      headerClass="smallFont paddingElement"
                      tableStyle="table-layout: auto"
@@ -91,7 +92,7 @@
                      columnClasses="colIcon, col1, col2, col3, col4, col5">
             <h:column>
                 <f:facet name="header"><h:outputLabel  value="Kostenstellengruppe/Leistungsbereich"/></f:facet>
-                <inek:InputTextWithMessage value="" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage value="#{liabilityInsurance.costCenterGroup}" styleClass="fullWidth"/>
             </h:column>
             <h:column>
                 <f:facet name="header">
@@ -102,11 +103,11 @@
                                            Leistungsbereiches an. Bitte verwenden Sie dabei einen aussagekräftigen
                                            Namen für die Kostenstelle."/>
                 </f:facet>
-                <inek:InputTextWithMessage value="" styleClass="fullWidth"/>
+                <inek:InputTextWithMessage value="#{liabilityInsurance.costCenterName}" styleClass="fullWidth"/>
             </h:column>
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kosten in KoArtGrp 8 (nicht med. Infrastr.) "/></f:facet>
-                <inek:InputNumberWithMessage value="" styleClass="fullWidth"/>
+                <inek:InputNumberWithMessage value="#{liabilityInsurance.costKoArtGrp8}" styleClass="fullWidth"/>
             </h:column>
         </h:dataTable>
     </div>
@@ -117,7 +118,7 @@
                        value="Verbleibendes Kostenvolumen nach Umgliederung, welches gemäß IBLV verteilt wird:"/>
         <inek:InputNumberWithMessage styleClass="inputPart"
                                      value=""
-                                     validatorMessage=""
+                                     validatorMessage="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceRemainingCosts}"
                                      required="false" pattern="##,##0.00"/>
     </div>
     <br/>
