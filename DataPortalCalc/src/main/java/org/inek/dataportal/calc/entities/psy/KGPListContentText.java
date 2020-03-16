@@ -9,6 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -143,6 +146,17 @@ public class KGPListContentText implements Serializable {
         this._inputRequired = value;
     }
     // </editor-fold>
+
+    //<editor-fold desc="Property ContentText">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "tuContentTextId", referencedColumnName = "ctId")
+    private List<KGPListTherapyUnits> contentText = new ArrayList<>();
+
+    public List<KGPListTherapyUnits> getContentText() {
+        return Collections.unmodifiableList(contentText);
+    }
+    //</editor-fold>
+
 
     //<editor-fold desc="OpsCode">
     @Column(name = "ctOpsCode")

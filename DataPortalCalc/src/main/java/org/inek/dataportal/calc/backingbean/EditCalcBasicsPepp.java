@@ -130,7 +130,12 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             _calcBasics = newCalcBasicsPepp();
             Utils.navigate(Pages.Error.RedirectURL());
         }
+        ensureTherapyUnits();
     }
+
+//    private void ensureTherapyUnits() {
+//
+//    }
 
     public void retrievePriorData(PeppCalcBasics calcBasics) {
         _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);

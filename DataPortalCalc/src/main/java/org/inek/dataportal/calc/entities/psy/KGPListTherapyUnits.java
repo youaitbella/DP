@@ -7,12 +7,18 @@ import java.util.Objects;
 @Entity
 @Table(name = "KGPListTherapyUnits", schema = "calc")
 public class KGPListTherapyUnits  implements Serializable {
+    public KGPListTherapyUnits() {
+    }
+
+    public KGPListTherapyUnits(KGPListContentText kgpListContentText) {
+        this._contentText = kgpListContentText;
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tuId", updatable = false, nullable = false)
-    private int _id = -1;
+    private Integer _id = -1;
 
     public int getId() {
         return _id;
@@ -24,28 +30,30 @@ public class KGPListTherapyUnits  implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
-    @Column(name = "tuBaseInformationId")
-    private int _baseInformationId;
+    @ManyToOne
+    @JoinColumn(name = "tuBaseInformationId")
+    private PeppCalcBasics _baseInformation;
 
-    public int getBaseInformationId() {
-        return _baseInformationId;
+    public PeppCalcBasics getBaseInformation() {
+        return _baseInformation;
     }
 
-    public void setBaseInformationId(int baseInformationId) {
-        this._baseInformationId = baseInformationId;
+    public void setBaseInformationId(PeppCalcBasics baseInformationId) {
+        this._baseInformation = baseInformationId;
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _contentTextId">
-    @Column(name = "tuContentTextId")
-    private int _contentTextId;
+    //<editor-fold defaultstate="collapsed" desc="Property _contentText">
+    @ManyToOne
+    @JoinColumn(name = "tuContentTextId")
+    private KGPListContentText _contentText;
 
-    public int getContentTextId() {
-        return _contentTextId;
+    public KGPListContentText getContentText() {
+        return _contentText;
     }
 
-    public void setContentTextId(int contentTextId) {
-        this._contentTextId = contentTextId;
+    public void setContentText(KGPListContentText contentTextId) {
+        this._contentText = contentTextId;
     }
     //</editor-fold>
 
@@ -68,13 +76,13 @@ public class KGPListTherapyUnits  implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         KGPListTherapyUnits that = (KGPListTherapyUnits) o;
         return _id == that._id &&
-                _baseInformationId == that._baseInformationId &&
-                _contentTextId == that._contentTextId &&
+                _baseInformation == that._baseInformation &&
+                _contentText == that._contentText &&
                 _value == that._value;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, _baseInformationId, _contentTextId, _value);
+        return Objects.hash(_id, _baseInformation, _contentText, _value);
     }
 }

@@ -857,6 +857,20 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property List _listTherapyUnits">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "tuBaseInformationId", referencedColumnName = "biID")
+    private List<KGPListTherapyUnits> listTherapyUnits = new Vector<>();
+
+    public List<KGPListTherapyUnits> getListTherapyUnits() {
+        return listTherapyUnits;
+    }
+
+    public void setListTherapyUnits(List<KGPListTherapyUnits> _listTherapyUnits) {
+        this.listTherapyUnits = _listTherapyUnits;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property List _radiologyLaboratories">
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "rlBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
