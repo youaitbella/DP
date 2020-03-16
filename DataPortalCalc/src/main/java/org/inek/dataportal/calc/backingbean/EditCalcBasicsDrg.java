@@ -8,7 +8,6 @@ import org.inek.dataportal.calc.facades.CalcDrgFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
@@ -90,7 +89,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _importerPool = importerPool;
         this.vzUtils = vzUtils;
     }
-
 
     @PostConstruct
     private void init() {
@@ -486,8 +484,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         addTopic("TopicCalcStrokeUnit", Pages.CalcDrgStrokeUnit.URL());
         addTopic("TopicCalcMedicalInfrastructure", Pages.CalcDrgMedicalInfrastructure.URL());
         addTopic("TopicCalcNonMedicalInfrastructure", Pages.CalcDrgNonMedicalInfrastructure.URL());
-        //addTopic("TopicCalcStaffCost", Pages.CalcDrgStaffCost.URL());
-        //addTopic("TopicCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
         addTopic("TopicCalcNeonatology", Pages.CalcDrgNeonatology.URL());
     }
 
@@ -937,21 +933,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="Tab MVI">
-    public String downloadDocument(String name) {
-        Document document = _calcBasics.getDocuments().stream()
-                .filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
-        if (document != null) {
-            return Utils.downloadDocument(document);
-        }
-        return "";
-    }
-
-    public String deleteDocument(String name) {
-        _calcBasics.getDocuments().removeIf(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19);
-        return null;
-    }
-    //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
     public List<DrgHeaderText> getHeaders() {
@@ -1102,7 +1083,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void deleteRoomCapability(KglRoomCapability roomCapability) {
         _calcBasics.deleteRoomCapability(roomCapability);
     }
-
 
     public void addCostCenterOpAn() {
         _calcBasics.addCostCenterOpAn(new KGLListCostCenterOpAn());

@@ -63,8 +63,6 @@ public enum Pages {
     CalcDrgStrokeUnit("/CalcHospital/Drg/StrokeUnit"),
     CalcDrgMedicalInfrastructure("/CalcHospital/Drg/MedicalInfrastructure"),
     CalcDrgNonMedicalInfrastructure("/CalcHospital/Drg/NonMedicalInfrastructure"),
-    CalcDrgStaffCost("/CalcHospital/Drg/StaffCost"),
-    CalcDrgValvularIntervention("/CalcHospital/Drg/ValvularIntervention"),
     CalcDrgNeonatology("/CalcHospital/Drg/Neonat/Neonatology"),
     CalcDrgOverviewPersonal("/CalcHospital/Drg/OverviewPersonal"),
     CalcDrgExternalMedStaff("/CalcHospital/Drg/ExternalMedStaff"),
