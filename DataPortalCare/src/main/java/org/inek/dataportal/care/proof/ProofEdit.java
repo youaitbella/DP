@@ -365,7 +365,14 @@ public class ProofEdit implements Serializable {
     }
 
     public boolean changeAllowed() {
-        if (_proofBaseInformation == null || _proofBaseInformation.getStatusId() < 10 || deadlineReached()) {
+        if (_proofBaseInformation == null || deadlineReached()) {
+            return false;
+        }
+        return changeExceptionAllowed();
+    }
+
+    public boolean changeExceptionAllowed() {
+        if (_proofBaseInformation == null || _proofBaseInformation.getStatusId() < 10) {
             return false;
         }
         if (!_configFacade.readConfigBool(ConfigKey.IsCareProofChangeEnabled)) {
