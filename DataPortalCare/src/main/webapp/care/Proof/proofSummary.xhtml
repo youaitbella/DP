@@ -82,6 +82,12 @@
         <div class="ui-g">
             <div class="card">
                 <h1>Übersicht über Ihre Daten</h1>
+                <div class="ui-g-12">
+                    <div style="text-align: justify; border: 1px solid #ffa727; padding: 5px;">
+                        <p>In diesem Bereich können Sie Quartalsmeldungen zum jeweils aktuell laufenden Quartal erstellen (Button „neue Meldung erstellen“).</p>
+                        <p>Nachdem alle Daten für die vier Quartale des vorangegangenen Kalenderjahres ans InEK übermittelt wurden, kann die Jahresmeldung erstellt werden. Diese können Sie nach Öffnen einer bereits ans InEK gesendeten Quartalsmeldung (Tabelle "An das InEK gesendet") über den Button "Jahresmeldung exportieren (Excel)" herunterladen. Das durch den Wirtschaftsprüfer bestätigte Dokument muss anschließend bis zum 30.06. des Folgejahres an gleicher Stelle als PDF-oder Bild-Dokument wieder hochgeladen werden.</p>
+                    </div>
+                </div>
 
                 <div class="ui-g-12 ui-lg-6">
                     <pf:dataTable id="workingtable"
@@ -114,16 +120,20 @@
                         <pf:column headerText="Jahr">
                             <h:link outcome="#{proofSummary.careProofStationOpen()}"
                                     value="#{baseInformation.year}">
-                                <f:param name="id" value="#{baseInformation.id}" />
+                                <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
                         <pf:column headerText="Quartal">
                             <h:link outcome="#{proofSummary.careProofStationOpen()}"
                                     value="Q#{baseInformation.quarter}">
-                                <f:param name="id" value="#{baseInformation.id}" />
+                                <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
                     </pf:dataTable>
+
+                    <div style="text-align: justify; border: 1px solid #ffa727; padding: 5px; margin-top: 1em;">
+                        Es ist zu beachten, dass unterjährige strukturelle Veränderungen, die das aktuell laufende Quartal betreffen, vor der abschließenden Sendung der Quartalsdaten an das InEK über den Menüpunkt „Umbenennung oder strukturelle Veränderung (§ 5 Abs. 4 PpUGV)“ mitzuteilen sind.
+                    </div>
                     <pf:commandButton value="Neue Meldung erstellen"
                                       action="#{proofSummary.careProofStationOpen()}"
                                       rendered="#{proofSummary.isCreateEntryAllowed()}"
