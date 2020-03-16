@@ -59,9 +59,10 @@
             <li class="#{topic.active ? 'activemenu' : ''} submenu">
                 <h:commandLink action="#{sessionController.navigate(topic.outcome)}" value="#{topic.title}"
                                immediate="true" onclick="PF('navigationDialog').show();">
-                    <h:panelGroup rendered="#{documentList.renderNumDocs(topic.title)}" styleClass="notifier">
+                    <h:panelGroup rendered="#{menuHighlighter.renderHighlightMarker(topic.title)}"
+                                  styleClass="notifier">
                         <h:outputLabel id="docs" styleClass="notifierNum"
-                                       value="#{documentList.getNumberOfUnreadDocs(topic.title)}" />
+                                       value="#{menuHighlighter.getCount(topic.title)}"/>
                     </h:panelGroup>
                 </h:commandLink>
             </li>

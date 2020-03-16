@@ -1154,6 +1154,51 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         this._endoscopyAmbulant = endoscopyAmbulant;
     }
 
+
+
+
+    //<editor-fold defaultstate="collapsed" desc="Property List EndoscopyDifferentials">
+    @Column(name = "biMidwifeOnHaus")
+    private boolean _midwifeOnHaus;
+
+    public boolean isMidwifeOnHaus() {
+        return _midwifeOnHaus;
+    }
+
+    public void setMidwifeOnHaus(boolean midwifeOnHaus) {
+        this._midwifeOnHaus = midwifeOnHaus;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property biCntMidwife">
+    @Column(name = "biCntMidwife")
+    private int _cntMidwife;
+
+    public int getCntMidwife() {
+        return _cntMidwife;
+    }
+
+    public void setCntMidwife(int cntMidwife) {
+        this._cntMidwife = cntMidwife;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property biMidwifeExplanation">
+    @Column(name = "biMidwifeExplanation")
+    private String _midwifeExplanation;
+
+    public String getMidwifeExplanation() {
+        return _midwifeExplanation;
+    }
+
+    public void setMidwifeExplanation(String midwifeExplanation) {
+        this._midwifeExplanation = midwifeExplanation;
+    }
+    //</editor-fold>
+
+
+
+
     //<editor-fold defaultstate="collapsed" desc="Property List normalFeeContracts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nfcBaseInformationId", referencedColumnName = "biID")
@@ -1659,6 +1704,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         this._externalTechFunctServices = externalTechFunctServices;
     }
     //</editor-fold>
+
+
 
     @Override
     public int hashCode() {

@@ -9,6 +9,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -16,7 +17,7 @@ import static java.net.HttpURLConnection.HTTP_OK;
 
 @Named
 @ApplicationScoped
-public class VzUtils {
+public class VzUtils implements Serializable {
 
     private static final String PLACEHOLDER_HOST = "{vzHost}";
 

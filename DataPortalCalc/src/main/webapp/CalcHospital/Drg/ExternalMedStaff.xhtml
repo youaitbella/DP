@@ -39,21 +39,28 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <f:facet name="header">
+                        <h:outputLabel value="Datenjahr "/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bitte machen Sie entsprechende Angaben für das Datenjahr 2018, falls für
+                                        die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
+                    </f:facet>
                     <h:selectOneMenu id="medStaffId"
-                                     value="#{externalMedStaff.dataYear}" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                                     value="#{externalMedStaff.dataYear}"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
                                        itemValue="#{year.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                     <inek:InputTextWithMessage id="division"
-                                               required="true"
                                                value="#{externalMedStaff.divisionMedStaff}"
                                                styleClass="fullWidth"
                                                readonly="#{editCalcBasicsDrg.readOnly}">
@@ -63,48 +70,58 @@
                     <f:facet name="header"><h:outputLabel value="Anzahl VK"/></f:facet>
                     <inek:InputNumberWithMessage id="countMedStaff"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('countMedStaff'))}costPerFullTime:text"
-                                                 value="#{externalMedStaff.count}"/>
+                                                 value="#{externalMedStaff.count}"
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Kostenvolumen"/></f:facet>
                     <inek:InputNumberWithMessage id="costVolumeMedStaff"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('costVolumeMedStaff'))}costPerFullTime:text"
-                                                 styleClass="element100" value="#{externalMedStaff.costVolume}"/>
+                                                 styleClass="element100" value="#{externalMedStaff.costVolume}"
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
                     <!--                {externalMedStaff.costPerFullTime}-->
                     <inek:InputNumberWithMessage id="costPerFullTime" styleClass="element100"
                                                  disabled="true"
-                                                 value="#{externalMedStaff.count eq 0 ? '' : externalMedStaff.costVolume / externalMedStaff.count}"/>
+                                                 value="#{externalMedStaff.count eq 0 ? '' : externalMedStaff.costVolume / externalMedStaff.count}"
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
-                    <h:selectOneMenu id="MedStaffCostKoStGrId" value="#{externalMedStaff.costKoStGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"
-                                       itemValue="#{cc.value}"/>
-                        <f:ajax/>
+                    <h:selectOneMenu id="MedStaffCostKoStGrId" value="#{externalMedStaff.costKoStGr}"
+                                     style="width:100px"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                var="cc"
+                                itemLabel="#{cc.label}"
+                                itemValue="#{cc.value}"/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
 
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
-                    <h:selectOneMenu id="MedStaffCostKoArtGrId" value="#{externalMedStaff.costKoArtGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                    <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                   var="ct"
-                                   itemLabel="#{ct.label}"
-                                   itemValue="#{ct.value}"/>
-                        <f:ajax/>
+                    <h:selectOneMenu id="MedStaffCostKoArtGrId" value="#{externalMedStaff.costKoArtGr}"
+                                     style="width:100px"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                var="ct"
+                                itemLabel="#{ct.label}"
+                                itemValue="#{ct.value}"/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
-                    <inek:InputTextWithMessage required="true"
-                                               value="#{externalMedStaff.explanationField}"
+                    <inek:InputTextWithMessage value="#{externalMedStaff.explanationField}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
                 </h:column>
@@ -151,21 +168,28 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <f:facet name="header">
+                        <h:outputLabel value="Datenjahr"/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bitte machen Sie entsprechende Angaben für das Datenjahr 2018, falls für
+                                        die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
+                    </f:facet>
                     <h:selectOneMenu id="NursingId"
-                                     value="#{externalNursingStaff.dataYear}" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                                     value="#{externalNursingStaff.dataYear}"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
                                        itemValue="#{year.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                     <inek:InputTextWithMessage id="division"
-                                               required="true"
                                                value="#{externalNursingStaff.divisionNursingStaff}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
@@ -189,7 +213,7 @@
                     </f:facet>
                     <inek:InputNumberWithMessage styleClass="element100"
                                                  value="#{externalNursingStaff.netAverageWorkingHoursNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -199,7 +223,7 @@
                     <inek:InputNumberWithMessage id="calculatedCountNursingStaff" styleClass="element100"
                                                  value="#{externalNursingStaff.calculatedCountNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('calculatedCountNursingStaff'))}CostVolumeUpToLimit:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -209,7 +233,7 @@
                     <inek:InputNumberWithMessage id="averageAnnualEmployerCostsNursingStaff" styleClass="element100"
                                                  value="#{externalNursingStaff.averageAnnualEmployerCostsNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('averageAnnualEmployerCostsNursingStaff'))}CostVolumeUpToLimit:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -219,18 +243,18 @@
                                                  styleClass="element100"
                                                  value="#{externalNursingStaff.amountTemporaryEmploymentNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountTemporaryEmploymentNursingStaff'))}CostVolumeAboveLimit:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:"/>
+                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG:"/>
                     </f:facet>
                     <inek:InputNumberWithMessage id="CostVolumeUpToLimit"
                                                  styleClass="element100"
                                                  value="#{externalNursingStaff.calculatedCountNursingStaff * externalNursingStaff.averageAnnualEmployerCostsNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimit'))}CostVolumeAboveLimit:text"
                                                  disabled="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -240,30 +264,36 @@
                                                  styleClass="element100"
                                                  value="#{externalNursingStaff.amountTemporaryEmploymentNursingStaff - (externalNursingStaff.calculatedCountNursingStaff * externalNursingStaff.averageAnnualEmployerCostsNursingStaff)}"
                                                  disabled="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="NursingStaffCostKoStGrId"
-                                     value="#{externalNursingStaff.costKoStGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"
-                                       itemValue="#{cc.value}"/>
-                        <f:ajax/>
+                                     value="#{externalNursingStaff.costKoStGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                var="cc"
+                                itemLabel="#{cc.label}"
+                                itemValue="#{cc.value}"/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="NursingStaffCostKoArtGrId"
-                                     value="#{externalNursingStaff.costKoArtGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                       var="ct"
-                                       itemLabel="#{ct.label}"
-                                       itemValue="#{ct.value}"/>
-                        <f:ajax/>
+                                     value="#{externalNursingStaff.costKoArtGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                var="ct"
+                                itemLabel="#{ct.label}"
+                                itemValue="#{ct.value}"/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -271,28 +301,37 @@
                         <h:outputLabel
                                 value="Wird das Fremdpersonal ausschließlich für die 'Pflege am Bett' eingesetzt?"/>
                     </f:facet>
-                    <inek:Checkbox id="exclusivelyCareAtBedNursingStaffId"
-                                   value="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff}"
-                                   styleClass="element100"
-                                   renderElement="@form partOfCostVolumeBedNursingStaffId :script"
-                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
+                    <h:selectOneMenu id="exclusivelyCareAtBedNursingStaffId"
+                                     style="width: 100%"
+                                     value="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff}"
+                                     required="true"
+                                     requiredMessage="#{msg.msgValueNeeded}"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
+                        <f:selectItem itemLabel="Ja" itemValue="#{1}"/>
+                        <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
+                        <f:ajax event="valueChange"
+                                render="@this partOfCostVolumeBedNursingStaffId:text explanationField:text :logout:remaining"/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
                         <h:outputLabel value="Bitte weisen Sie hier  den Teil des Kostenvolumens des Fremdpersonals aus,
                                           welches nicht für die 'Pflege am Bett' eingesetzt wird und geben Sie im
-                                          Erläuterungsfeld den entsprechenden Bereich(z.B. Funktionslabor) an." />
+                                          Erläuterungsfeld den entsprechenden Bereich(z.B. Funktionslabor) an."/>
                     </f:facet>
-                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingStaffId" styleClass="element100"
+                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingStaffId" event="blur"
+                                                 styleClass="element100"
                                                  value="#{externalNursingStaff.partOfCostVolumeBedNursingStaff}"
-                                                 required="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 required="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff eq 0}"
+                                                 pattern="##,##" minimum="1"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
                     <inek:InputTextWithMessage id="explanationField"
-                                               required="true"
                                                value="#{externalNursingStaff.explanationFieldNursingStaff}"
+                                               required="#{externalNursingStaff.exclusivelyCareAtBedNursingStaff eq 0}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
                 </h:column>
@@ -339,21 +378,28 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <f:facet name="header">
+                        <h:outputLabel value="Datenjahr "/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bitte machen Sie entsprechende Angaben für das Datenjahr 2018, falls für
+                                        die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
+                    </f:facet>
                     <h:selectOneMenu id="NursingAssistantId"
-                                     value="#{externalNursingAssistantMedStaff.dataYear}" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                                     value="#{externalNursingAssistantMedStaff.dataYear}"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
                                        itemValue="#{year.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                     <inek:InputTextWithMessage id="division"
-                                               required="true"
                                                value="#{externalNursingAssistantMedStaff.divisionNursingStaff}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
@@ -379,7 +425,7 @@
                     </f:facet>
                     <inek:InputNumberWithMessage styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.netAverageWorkingHoursNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -389,7 +435,7 @@
                     <inek:InputNumberWithMessage id="calculatedCountNursingAssistantStaff" styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.calculatedCountNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('calculatedCountNursingAssistantStaff'))}CostVolumeUpToLimitAssistant:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -400,7 +446,7 @@
                                                  styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.averageAnnualEmployerCostsNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('averageAnnualEmployerCostsNursingAssistantStaff'))}CostVolumeUpToLimitAssistant:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -410,18 +456,18 @@
                                                  styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.amountTemporaryEmploymentNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountTemporaryEmploymentAssistantNursingStaff'))}CostVolumeAboveLimitAssistant:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:"/>
+                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG:"/>
                     </f:facet>
                     <inek:InputNumberWithMessage id="CostVolumeUpToLimitAssistant"
                                                  styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.calculatedCountNursingStaff * externalNursingAssistantMedStaff.averageAnnualEmployerCostsNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimitAssistant'))}CostVolumeAboveLimitAssistant:text"
                                                  disabled="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -431,39 +477,54 @@
                                                  styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.amountTemporaryEmploymentNursingStaff - (externalNursingAssistantMedStaff.calculatedCountNursingStaff * externalNursingAssistantMedStaff.averageAnnualEmployerCostsNursingStaff)}"
                                                  disabled="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="externalNursingAssistantMedStaffId"
-                                     value="#{externalNursingAssistantMedStaff.costKoStGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"
-                                       itemValue="#{cc.value}"/>
-                        <f:ajax/>
+                                     value="#{externalNursingAssistantMedStaff.costKoStGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                var="cc"
+                                itemLabel="#{cc.label}"
+                                itemValue="#{cc.value}"/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="externalNursingAssistantId"
-                                     value="#{externalNursingAssistantMedStaff.costKoArtGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                       var="ct"
-                                       itemLabel="#{ct.label}"
-                                       itemValue="#{ct.value}"/>
-                        <f:ajax/>
+                                     value="#{externalNursingAssistantMedStaff.costKoArtGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                var="ct"
+                                itemLabel="#{ct.label}"
+                                itemValue="#{ct.value}"/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel
                             value="Wird das Fremdpersonal ausschließlich für die 'Pflege am Bett' eingesetzt? (ja/nein)"/></f:facet>
-                    <inek:Checkbox value="#{externalNursingAssistantMedStaff.exclusivelyCareAtBedNursingStaff}"
-                                   styleClass="element100"
-                                   renderElement="@form partOfCostVolumeBedNursingAssistantStaff :script"
-                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
+                    <h:selectOneMenu id="exclusivelyCareAtBedNursingStaffAssistantgId"
+                                     style="width: 100%"
+                                     value="#{externalNursingAssistantMedStaff.exclusivelyCareAtBedNursingStaff}"
+                                     required="true"
+                                     requiredMessage="#{msg.msgValueNeeded}"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
+                        <f:selectItem itemLabel="Ja" itemValue="#{1}"/>
+                        <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
+                        <f:ajax event="valueChange"
+                                render="@this partOfCostVolumeBedNursingAssistantStaff:text explanationFieldAssistant:text :logout:remaining"/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -471,16 +532,17 @@
                                     welches nicht für die 'Pflege am Bett' eingesetzt wird und geben Sie im Erläuterungsfeld
                                     den entsprechenden Bereich(z.B. Funktionslabor) an."/>
                     </f:facet>
-                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingAssistantStaff" styleClass="element100"
+                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingAssistantStaff" event="blur"
+                                                 styleClass="element100"
                                                  value="#{externalNursingAssistantMedStaff.partOfCostVolumeBedNursingStaff}"
-                                                 required="#{externalNursingAssistantMedStaff.exclusivelyCareAtBedNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 required="#{externalNursingAssistantMedStaff.exclusivelyCareAtBedNursingStaff eq 0}"
+                                                 pattern="##,##" minimum="1"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
                     <inek:InputTextWithMessage id="explanationFieldAssistant"
-                                               required="true"
                                                value="#{externalNursingAssistantMedStaff.explanationFieldNursingStaff}"
+                                               required="#{externalNursingAssistantMedStaff.exclusivelyCareAtBedNursingStaff eq 0}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
                 </h:column>
@@ -527,21 +589,28 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <f:facet name="header">
+                        <h:outputLabel value="Datenjahr "/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bitte machen Sie entsprechende Angaben für das Datenjahr 2018, falls für
+                                        die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
+                    </f:facet>
                     <h:selectOneMenu id="CareStaffOtherId"
-                                     value="#{externalCareStaffOther.dataYear}" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                                     value="#{externalCareStaffOther.dataYear}"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
                                        itemValue="#{year.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Bereich/Station"/></f:facet>
                     <inek:InputTextWithMessage id="division"
-                                               required="true"
                                                value="#{externalCareStaffOther.divisionNursingStaff}"
                                                styleClass="fullWidth"/>
                 </h:column>
@@ -566,7 +635,7 @@
                     </f:facet>
                     <inek:InputNumberWithMessage styleClass="element100"
                                                  value="#{externalCareStaffOther.netAverageWorkingHoursNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -577,7 +646,7 @@
                                                  styleClass="element100"
                                                  value="#{externalCareStaffOther.calculatedCountNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('calculatedCountOther'))}CostVolumeUpToLimitOther:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -586,7 +655,7 @@
                     <inek:InputNumberWithMessage id="averageAnnualEmployerCostsOther" styleClass="element100"
                                                  value="#{externalCareStaffOther.averageAnnualEmployerCostsNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('averageAnnualEmployerCostsOther'))}CostVolumeUpToLimitOther:text"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -596,18 +665,18 @@
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('amountTemporaryEmploymentAssistantNursingStaff'))}CostVolumeAboveLimitAssistant:text"
                                                  styleClass="element100"
                                                  value="#{externalCareStaffOther.amountTemporaryEmploymentNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG fällt:"/>
+                        <h:outputLabel value="Kostenvolumen bis zur Begrenzung nach § 6a Abs. 2 KHEntgG:"/>
                     </f:facet>
                     <inek:InputNumberWithMessage id="CostVolumeUpToLimitOther"
                                                  styleClass="element100"
                                                  value="#{externalCareStaffOther.calculatedCountNursingStaff * externalCareStaffOther.averageAnnualEmployerCostsNursingStaff}"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('CostVolumeUpToLimitOther'))}CostVolumeAboveLimitAssistant:text"
                                                  disabled="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -617,30 +686,33 @@
                                                  styleClass="element100"
                                                  value="#{externalCareStaffOther.amountTemporaryEmploymentNursingStaff - (externalCareStaffOther.calculatedCountNursingStaff * externalCareStaffOther.averageAnnualEmployerCostsNursingStaff)}"
                                                  disabled="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="externalCareStaffOtherCostStrGrId"
-                                     value="#{externalCareStaffOther.costKoStGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"
-                                       itemValue="#{cc.value}"/>
-                        <f:ajax/>
+                                     value="#{externalCareStaffOther.costKoStGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                var="cc"
+                                itemLabel="#{cc.label}"
+                                itemValue="#{cc.value}"/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="externalCareStaffOtherCostArtGrId"
-                                     value="#{externalCareStaffOther.costKoArtGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                       var="ct"
-                                       itemLabel="#{ct.label}"
-                                       itemValue="#{ct.value}"/>
-                        <f:ajax/>
+                                     value="#{externalCareStaffOther.costKoArtGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}"
+                                      noSelectionOption="true"/>
+                        <f:selectItem itemLabel="Ja" itemValue="#{1}"/>
+                        <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -648,10 +720,19 @@
                         <h:outputLabel
                                 value="Wird das Fremdpersonal ausschließlich für die 'Pflege am Bett' eingesetzt? (ja/nein)"/>
                     </f:facet>
-                    <inek:Checkbox value="#{externalCareStaffOther.exclusivelyCareAtBedNursingStaff}"
-                                   styleClass="element100"
-                                   renderElement="@form exclusivelyCareAtBedStaffOthe:script"
-                                   readonly="#{editCalcBasicsDrg.readOnly}"/>
+                    <h:selectOneMenu id="exclusivelyCareAtBedNursingStaffOtherId"
+                                     value="#{externalCareStaffOther.exclusivelyCareAtBedNursingStaff}"
+                                     style="width: 100%"
+                                     required="true"
+                                     requiredMessage="#{msg.msgValueNeeded}"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
+                        <f:selectItem itemLabel="Ja" itemValue="#{1}"/>
+                        <f:selectItem itemLabel="Nein" itemValue="#{0}"/>
+                        <f:ajax event="valueChange"
+                                render="@this partOfCostVolumeBedNursingStaffOtherId:text explanationFieldOther:text :logout:remaining"/>
+                    </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header">
@@ -659,16 +740,17 @@
                                           welches nicht für die 'Pflege am Bett' eingesetzt wird und geben Sie im
                                           Erläuterungsfeld den entsprechenden Bereich (z.B. Funktionslabor) an."/>
                     </f:facet>
-                    <inek:InputNumberWithMessage id="exclusivelyCareAtBedStaffOthe" styleClass="element100"
+                    <inek:InputNumberWithMessage id="partOfCostVolumeBedNursingStaffOtherId" event="blur"
+                                                 styleClass="element100"
                                                  value="#{externalCareStaffOther.partOfCostVolumeBedNursingStaff}"
-                                                 required="#{externalCareStaffOther.exclusivelyCareAtBedNursingStaff}"
-                                                 pattern="##,##0.00"/>
+                                                 required="#{externalCareStaffOther.exclusivelyCareAtBedNursingStaff eq 0}"
+                                                 pattern="##,##" minimum="1"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
-                    <inek:InputTextWithMessage id="explanationFieldAssistant"
-                                               required="true"
+                    <inek:InputTextWithMessage id="explanationFieldOther"
                                                value="#{externalCareStaffOther.explanationFieldNursingStaff}"
+                                               required="#{externalCareStaffOther.exclusivelyCareAtBedNursingStaff eq 0}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
                 </h:column>
@@ -715,15 +797,23 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="Jahr:"/></f:facet>
+                    <f:facet name="header">
+                        <h:outputLabel value="Datenjahr "/>
+                        <h:graphicImage alt=""
+                                        name="Icon/small/information.png"
+                                        title="Bitte machen Sie entsprechende Angaben für das Datenjahr 2018, falls für
+                                        die Station/ den Bereich in diesem Datenjahr bereits Fremdpersonal eingesetzt wurde."/>
+                    </f:facet>
                     <h:selectOneMenu id="TechFunctServiceId"
-                                     value="#{externalTechFunctService.dataYear}" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                                     value="#{externalTechFunctService.dataYear}"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.dataYearExternalPersonal}"
                                        var="year"
                                        itemLabel="#{year.label}"
                                        itemValue="#{year.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
@@ -731,7 +821,6 @@
                         <h:outputLabel value="Bereich/Station"/>
                     </f:facet>
                     <inek:InputTextWithMessage id="division"
-                                               required="true"
                                                value="#{externalTechFunctService.divisionTechFunctService}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>
@@ -747,56 +836,63 @@
                     <inek:InputNumberWithMessage id="costVolumeTechFunctService" styleClass="element100"
                                                  renderElement="#{component.clientId.substring(0, component.clientId.indexOf('costVolumeTechFunctService'))}costPerVK:text"
                                                  value="#{externalTechFunctService.costVolumeTechFunctService}"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Kosten je VK"/></f:facet>
                     <inek:InputNumberWithMessage id="costPerVK" styleClass="element100"
                                                  value="#{externalTechFunctService.countTechFunctService !=0 ? externalTechFunctService.costVolumeTechFunctService / externalTechFunctService.countTechFunctService : ''}"
                                                  readonly="true"
-                                                 pattern="##,##0.00"/>
+                                                 pattern="##,##"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoStGr"/></f:facet>
                     <h:selectOneMenu id="externalTechFunctServiceCostStrGrId"
-                                     value="#{externalTechFunctService.costKoStGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
-                                       var="cc"
-                                       itemLabel="#{cc.label}"
-                                       itemValue="#{cc.value}"/>
-                        <f:ajax/>
+                                     value="#{externalTechFunctService.costKoStGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostCentersDrg(false).stream().filter(cc->cc.value!=99).toList()}"
+                                var="cc"
+                                itemLabel="#{cc.label}"
+                                itemValue="#{cc.value}"/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="KoArtGr"/></f:facet>
                     <h:selectOneMenu id="externalTechFunctServiceCostArtGrId"
-                                     value="#{externalTechFunctService.costKoArtGr}" style="width:100px">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
-                        <f:selectItems value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
-                                       var="ct"
-                                       itemLabel="#{ct.label}"
-                                       itemValue="#{ct.value}"/>
-                        <f:ajax/>
+                                     value="#{externalTechFunctService.costKoArtGr}" style="width:100px"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
+                        <f:selectItems
+                                value="#{valueLists.getCostTypes(false).stream().filter(cc->cc.value>100).toList()}"
+                                var="ct"
+                                itemLabel="#{ct.label}"
+                                itemValue="#{ct.value}"/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Berufsgruppe des med. techn.
                                                                  Dienst/ Funktionsdienst"/></f:facet>
                     <h:selectOneMenu id="occupationalGroup"
-                                     value="#{externalTechFunctService.occupationalGroup}" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
+                                     value="#{externalTechFunctService.occupationalGroup}"
+                                     hideNoSelectionOption="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
+                                      noSelectionOption="true"/>
                         <f:selectItems value="#{valueLists.occupationalGroups}"
                                        var="oc"
                                        itemLabel="#{oc.label}"
                                        itemValue="#{oc.value}"/>
-                        <f:ajax/>
+                        <f:ajax event="valueChange" render="@this :logout:remaining"/>
                     </h:selectOneMenu>
                 </h:column>
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="Erläuterungsfeld"/></f:facet>
                     <inek:InputTextWithMessage id="explanationField"
-                                               required="true"
                                                value="#{externalTechFunctService.explanationFieldTechFunctService}"
                                                styleClass="fullWidth">
                     </inek:InputTextWithMessage>

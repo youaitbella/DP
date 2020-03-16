@@ -7,6 +7,7 @@ import org.inek.dataportal.care.entities.version.MapVersion;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.proof.ProofFacade;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.DateUtils;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -39,6 +41,7 @@ class ProofUpdaterTest {
 
     @Test
     void updateProof() {
+        SessionController sessionController = mock(SessionController.class);
         ProofFacade proofFacade = mock(ProofFacade.class);
         when(proofFacade.retrieveCurrent(IK)).thenReturn(buildBaseInfo());
 
@@ -119,13 +122,13 @@ class ProofUpdaterTest {
         deptBaseInformation.setStatus(WorkflowStatus.Provided);
         deptBaseInformation.setStatusId(10);
         deptBaseInformation.setYear(2019);
-        ProofUpdater updater = new ProofUpdater(proofFacade, baseDataFacade);
+        ProofUpdater updater = new ProofUpdater(sessionController, proofFacade, baseDataFacade);
 
         updater.updateProof(deptBaseInformation);
         // proofFacade.retrieveCurrent(deptBaseInformation.getIk())
     }
 
-    private ProofRegulationBaseInformation buildBaseInfo() {
-        return new ProofRegulationBaseInformation();
+    private Optional<ProofRegulationBaseInformation> buildBaseInfo() {
+        return Optional.of(new ProofRegulationBaseInformation());
     }
 }

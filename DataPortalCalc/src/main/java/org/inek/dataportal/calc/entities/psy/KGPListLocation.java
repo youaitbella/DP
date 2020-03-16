@@ -71,13 +71,13 @@ public class KGPListLocation implements Serializable, BaseIdValue {
     //<editor-fold defaultstate="collapsed" desc="Nummer">
     @Column(name = "lLocationNo")
     @Documentation(name = "Nummer", rank = 20)
-    private short _locationNo;
+    private int _locationNo;
 
-    public short getLocationNo() {
+    public int getLocationNo() {
         return _locationNo;
     }
 
-    public void setLocationNo(short locationNo) {
+    public void setLocationNo(int locationNo) {
         this._locationNo = locationNo;
     }
     //</editor-fold>

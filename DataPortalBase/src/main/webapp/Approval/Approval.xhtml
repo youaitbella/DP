@@ -11,8 +11,8 @@
 
     <ui:define name="content">
         <h1>Bestätigung von Rückmeldungen</h1>
-        <div style="border-color: aqua; border-style: double; background: darkgray">
-            <h3>Im folgenden finden Sie Kennwerte gelistet, welche das InEK anhand Ihrer Datenlieferung ermittelt hat.
+        <div style="background-color: #7f9baf;">
+            <h3 style="color: white;">Im folgenden finden Sie Kennwerte gelistet, welche das InEK anhand Ihrer Datenlieferung ermittelt hat.
                 Soweit diese Werte mit Ihren Daten übereinstimmen, bestätigen Sie diese; andernfalls veranlassen Sie eine korrgierte Datenlieferung.</h3>
         </div>
 
@@ -21,7 +21,7 @@
                 <ui:repeat value="#{approvalEdit.actions}" var="action">
                     <h2>#{action.value.ik} #{action.label}</h2>
                     <ui:repeat value="#{action.value.blocks}" var="itemBlock">
-                        <div class="marginTop01em">
+                        <div style="border-color: #7f9baf; border-style: solid;" class="marginTop01em">
                             <div class="inlineBlock alignBottom paddingBottom">
                                 <h3>#{itemBlock.header}</h3>
                                 <h:dataTable value="#{itemBlock.data}" var="itemData">
@@ -34,10 +34,14 @@
                                 </h:dataTable>
                             </div>
                             <div class="inlineBlock alignBottom">
-                                <h:commandLink value="Rückmeldung zur Kenntnis genommen"
-                                               styleClass="button"
-                                               rendered="#{approvalEdit.isNotApproved(itemBlock)}"
-                                               actionListener="#{approvalEdit.approve(itemBlock)}"/>
+                                <h:commandLink value="Ermittelte Werte stimmen mit den Daten überein"
+                                               styleClass="button paddingElement"
+                                               rendered="#{itemBlock.confState.id eq 'u'}"
+                                               actionListener="#{approvalEdit.approvePositve(itemBlock)}"/>
+                                <h:commandLink value="Ermittelte Werte weichen von den Daten ab"
+                                               styleClass="button paddingElement"
+                                               rendered="#{itemBlock.confState.id eq 'u'}"
+                                               actionListener="#{approvalEdit.approveNegative(itemBlock)}"/>
                             </div>
                         </div>
                     </ui:repeat>

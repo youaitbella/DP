@@ -154,10 +154,6 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
-    public boolean isOwnStatement() {
-        return _sessionController.isMyAccount(_request.getAccountId(), false);
-    }
-
     public boolean isReadOnly() {
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
