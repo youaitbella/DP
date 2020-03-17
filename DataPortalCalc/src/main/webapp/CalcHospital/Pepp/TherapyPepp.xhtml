@@ -70,27 +70,12 @@
                            value="Werden ab dem DJ#{editCalcBasicsPepp.calcBasics.dataYear} weiterhin Therapieeinheiten
                            für folgende Bereiche erfasst und entsprechende Kosten den Therapiekostenstellen zugeordnet:"/> &nbsp;
             <ui:remove>
-<!--            for #{msg.lblCalcTherapyScope} the sheetId = 3; compare to table care.KGPListSheet -->
             </ui:remove>
-            <ui:repeat value="#{editCalcBasicsPepp.calcBasics.listTherapyUnits}" var="contentText" varStatus="status">
-                <h:outputLabel value="#{contentText.contentText.text}"
-                               styleClass="label20"
-                               style="width: calc(100% - 30em);"/>
-                <h:selectBooleanCheckbox styleClass="blockElement" style="width: 2em;" value="#{contentText.value}">
-<!--                                        <f:ajax event="change"/>-->
-<!--                    <f:ajax event="change" render="@form :logout:remaining :script" />-->
-<!--                            listener="# {sessionController.hideData(x.used or !x.requireInputs)}" -->
-<!--                    />-->
-
-                </h:selectBooleanCheckbox>
-
-<!--                <inek:LabeledCheckbox label="# {contentText.text}"-->
-<!--                                      styleClassLabel="label30"-->
-<!--                                      value="# {editCalcBasicsPepp.retrieveCurrentValues(contentText.id)}"-->
-<!--                                      renderElement="false"-->
-<!--                />-->
-<!--                value="# {editCalcBasicsPepp.retrieveCurrentValues(contentText.id)}"-->
-
+            <ui:repeat value="#{editCalcBasicsPepp.calcBasics.listTherapyUnits}" var="therapyUnit" varStatus="status">
+                <inek:LabeledCheckbox label="#{therapyUnit.contentText.text}"
+                                      styleClassLabel="label30"
+                                      value="#{therapyUnit.value}"
+                />
             </ui:repeat>
         </div>
     </div>
