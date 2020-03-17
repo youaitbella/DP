@@ -3,6 +3,7 @@ package org.inek.dataportal.care.proof;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
+import org.inek.dataportal.care.utils.CareSignatureCreater;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
@@ -171,8 +172,11 @@ public class ProofSummary implements Serializable {
         int ik = Integer.parseInt(ikString);
         ProofRegulationBaseInformation baseInfo = new ProofRegulationBaseInformation();
         baseInfo.setIk(ik);
-        baseInfo.setStatus(WorkflowStatus.New);
+        baseInfo.setStatus(WorkflowStatus.Provided);
+        baseInfo.setSignature(CareSignatureCreater.createPvSignature(baseInfo));
         baseInfo.setCreatedBy(_sessionController.getAccountId());
+        baseInfo.setLastChangeBy(_sessionController.getAccountId());
+        baseInfo.setSend(new Date());
         baseInfo.setYear(DateUtils.currentYear() - 1);
         baseInfo.setQuarter(5);
 
