@@ -130,11 +130,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             _calcBasics = newCalcBasicsPepp();
             Utils.navigate(Pages.Error.RedirectURL());
         }
-        ensureTherapyUnits(_calcBasics.getListTherapyUnits());
-    }
-
-    private void ensureTherapyUnits(List<KGPListTherapyUnits> listTherapyUnits) {
-        List<KGPListTherapyUnits> test = listTherapyUnits;
+        if (_calcBasics.getListTherapyUnits().size() == 0) {
+            _calcBasics.setListTherapyUnits(ensureTherapyUnits());
+        }
     }
 
     public void retrievePriorData(PeppCalcBasics calcBasics) {
@@ -811,11 +809,22 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
     }
 
-    public List<KGPListContentText> retrieveContentText(int sheetId) {
-        return _calcFacade.retrieveContentTextsPepp(_calcFacade.evaluateHeaderId(sheetId), _calcBasics.getDataYear());
+    private List<KGPListTherapyUnits> ensureTherapyUnits() {
+
+        List<KGPListContentText> retrieveContentText = retrieveContentText(3);
+
+        KGPListTherapyUnits therapyUnitsToDB;
+        List<KGPListTherapyUnits> therapyUnitsList = new ArrayList<>();
+
+        for (KGPListContentText contentText : retrieveContentText) {
+            therapyUnitsToDB = new KGPListTherapyUnits(contentText, _calcBasics);
+            therapyUnitsList.add(therapyUnitsToDB);
+        }
+
+        return therapyUnitsList;
     }
 
-    public boolean retrieveCurrentValues(int contextTextId) {
-        return _calcFacade.determineTherapyUnitValue(_calcBasics.getId(), contextTextId);
+    public List<KGPListContentText> retrieveContentText(int sheetId) {
+        return _calcFacade.retrieveContentTextsPepp(_calcFacade.evaluateHeaderId(sheetId), _calcBasics.getDataYear());
     }
 }

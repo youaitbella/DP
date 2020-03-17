@@ -1,17 +1,20 @@
 package org.inek.dataportal.calc.entities.psy;
 
+import org.inek.dataportal.common.data.iface.BaseIdValue;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "KGPListTherapyUnits", schema = "calc")
-public class KGPListTherapyUnits  implements Serializable {
+public class KGPListTherapyUnits  implements Serializable, BaseIdValue {
     public KGPListTherapyUnits() {
     }
 
-    public KGPListTherapyUnits(KGPListContentText kgpListContentText) {
+    public KGPListTherapyUnits(KGPListContentText kgpListContentText, PeppCalcBasics kgpBaseInformation) {
         this._contentText = kgpListContentText;
+        this._baseInformation = kgpBaseInformation;
     }
 
     //<editor-fold defaultstate="collapsed" desc="Property _id">
@@ -38,9 +41,14 @@ public class KGPListTherapyUnits  implements Serializable {
         return _baseInformation;
     }
 
-    public void setBaseInformationId(PeppCalcBasics baseInformationId) {
-        this._baseInformation = baseInformationId;
+    public void setBaseInformation(PeppCalcBasics baseInformation) {
+        this._baseInformation = baseInformation;
     }
+
+    public int getBaseInformationId(){
+        return _baseInformation.getId();
+    }
+    public void setBaseInformationId(int dummy) {}
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _contentText">

@@ -139,6 +139,7 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
         saveIdList(calcBasics.getStationServiceCosts());
         saveIdList(calcBasics.getKgpMedInfraList());
         saveIdList(calcBasics.getRadiologyLaboratories());
+        saveIdList(calcBasics.getListTherapyUnits());
 
         PeppCalcBasics merged = merge(calcBasics);
         return merged;
@@ -207,21 +208,5 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
                 merge(item);
             }
         }
-    }
-
-    public boolean determineTherapyUnitValue(int baseInformationId, int contextTextId) {
-        String jpql = "select tu from KGPListTherapyUnits tu where tu._baseInformationId = :baseInformationId "
-                + "and tu._contentTextId = :contextTextId";
-        TypedQuery<KGPListTherapyUnits> query = getEntityManager().createQuery(jpql, KGPListTherapyUnits.class);
-        query.setParameter("baseInformationId", baseInformationId);
-        query.setParameter("contextTextId", contextTextId);
-        if (query.getResultList().isEmpty()) {
-            return false;
-        } else {
-            return query.getResultList().get(0).getValue();
-        }
-//        boolean test = query.getResultList().get(0).getValue();
-//        return query.getResultList().get(0).getId();
-//        return false;
     }
 }
