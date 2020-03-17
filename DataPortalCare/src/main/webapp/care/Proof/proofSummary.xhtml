@@ -141,6 +141,13 @@
                                       style="margin-bottom:10px; margin-top: 10px;">
                         <f:param name="id" value="new"/>
                     </pf:commandButton>
+                    <pf:commandButton value="Jahresmeldung / Nachweis Erfüllungsgrad erstellen"
+                                      action="#{proofSummary.createAnnualReport()}"
+                                      rendered="#{proofSummary.annualReportAllowed()}"
+                                      immediate="true"
+                                      style="margin-bottom:10px; margin-top: 10px;">
+                        <f:param name="id" value="new"/>
+                    </pf:commandButton>
                 </div>
 
                 <div class="ui-g-12 ui-lg-6">

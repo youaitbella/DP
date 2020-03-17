@@ -154,6 +154,14 @@ public class ProofSummary implements Serializable {
         return _applicationTools.retrieveHospitalInfo(ik);
     }
 
+    public boolean getAnnualReportAllowed() {
+        return true; // todo
+    }
+
+    public void createAnnualReport() {
+        // todo
+    }
+
     public class listItem implements Serializable {
 
         private int _id;
