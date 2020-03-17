@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.calc.entities.drg;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,10 +25,6 @@ import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
-/**
- *
- * @author kunkelan
- */
 @Entity
 @Table(name = "KGLBaseInformation", schema = "calc")
 @XmlRootElement
@@ -46,7 +37,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "biID", updatable = false, nullable = false)
-    private int _id = -1;
+    private Integer _id = -1;
 
     public int getId() {
         return _id;
@@ -1185,7 +1176,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="Property biMidwifeExplanation">
     @Column(name = "biMidwifeExplanation")
-    private String _midwifeExplanation;
+    private String _midwifeExplanation = "";
 
     public String getMidwifeExplanation() {
         return _midwifeExplanation;

@@ -1,5 +1,9 @@
 package org.inek.dataportal.calc.entities.drg;
 
+import org.inek.dataportal.calc.converter.ExternalStaffTypeConverter;
+import org.inek.dataportal.calc.enums.ExternalStaffType;
+import org.inek.dataportal.common.data.iface.BaseIdValue;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -9,14 +13,22 @@ import java.util.Objects;
 @Entity
 @Table(name = "KGLListExternalNursingStaff", schema = "calc")
 @XmlRootElement
-public class KGLListExternalNursingStaff implements Serializable {
+public class KGLListExternalNursingStaff implements Serializable, BaseIdValue {
     private static final long serialVersionUID = 1L;
+
+    public KGLListExternalNursingStaff() {
+    }
+
+    public KGLListExternalNursingStaff(DrgCalcBasics calcBasics) {
+        this.calcBasics = calcBasics;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ensID", updatable = false, nullable = false)
-    private int _id = -1;
+    private Integer _id = -1;
+
 
     public int getId() {
         return _id;
@@ -42,13 +54,14 @@ public class KGLListExternalNursingStaff implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Type">
     @Column(name = "ensExternalStaffType")
-    private int _externalStaffType;
+    @Convert(converter = ExternalStaffTypeConverter.class)
+    private ExternalStaffType _externalStaffType;
 
-    public int getExternalStaffType() {
+    public ExternalStaffType getExternalStaffType() {
         return _externalStaffType;
     }
 
-    public void setExternalStaffType(int externalStaffType) {
+    public void setExternalStaffType(ExternalStaffType externalStaffType) {
         this._externalStaffType = externalStaffType;
     }
     // </editor-fold>
@@ -200,24 +213,21 @@ public class KGLListExternalNursingStaff implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="BaseInformationId">
-    @Column(name = "ensBaseInformationId")
-    private int _baseInformationIdNursingStaff;
+    @ManyToOne
+    @JoinColumn(name = "ensBaseInformationId")
+    private DrgCalcBasics calcBasics;
 
-    public int getBaseInformationIdNursingStaff() {
-        return _baseInformationIdNursingStaff;
+    public DrgCalcBasics getDrgCalcBasics() {
+        return calcBasics;
     }
 
-    public void setBaseInformationId(int baseInformationIdNursingStaff) {
-        this._baseInformationIdNursingStaff = baseInformationIdNursingStaff;
+    public int getBaseInformationId() {
+        return calcBasics.getId();
+    }
+
+    public void setBaseInformationId(int id) {
     }
     // </editor-fold>
-
-    public KGLListExternalNursingStaff() {
-    }
-
-    public KGLListExternalNursingStaff(int baseInformationIdNursingStaff) {
-        this._baseInformationIdNursingStaff = baseInformationIdNursingStaff;
-    }
 
     @Override
     @SuppressWarnings("CyclomaticComplexity")
@@ -237,7 +247,6 @@ public class KGLListExternalNursingStaff implements Serializable {
                 _exclusivelyCareAtBedNursingStaff == that._exclusivelyCareAtBedNursingStaff &&
                 Double.compare(that._partOfCostVolumeBedNursingStaff, _partOfCostVolumeBedNursingStaff) == 0 &&
                 _dataYear == that._dataYear &&
-                _baseInformationIdNursingStaff == that._baseInformationIdNursingStaff &&
                 Objects.equals(_divisionNursingStaff, that._divisionNursingStaff) &&
                 Objects.equals(_explanationFieldNursingStaff, that._explanationFieldNursingStaff);
     }
@@ -247,7 +256,7 @@ public class KGLListExternalNursingStaff implements Serializable {
         return Objects.hash(_id, _divisionNursingStaff, _externalStaffType, _agreedAverageWorkingHoursNursingStaff,
                 _netAverageWorkingHoursNursingStaff, _calculatedCountNursingStaff, _averageAnnualEmployerCostsNursingStaff,
                 _amountTemporaryEmploymentNursingStaff, _costStGr, _costArtGr, _exclusivelyCareAtBedNursingStaff,
-                _partOfCostVolumeBedNursingStaff, _explanationFieldNursingStaff, _dataYear, _baseInformationIdNursingStaff);
+                _partOfCostVolumeBedNursingStaff, _explanationFieldNursingStaff, _dataYear);
     }
 
 

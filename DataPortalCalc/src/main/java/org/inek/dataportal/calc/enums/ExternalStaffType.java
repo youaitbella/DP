@@ -2,15 +2,15 @@ package org.inek.dataportal.calc.enums;
 
 public enum ExternalStaffType {
     NURSING(1, "NURSING"),
-    ASSISTANTNURSING(2,"ASSISTANTNURSING"),
-    OTHERNURSING(3,"OTHERNURSING");
+    ASSISTANTNURSING(2, "ASSISTANTNURSING"),
+    OTHERNURSING(3, "OTHERNURSING");
 
     private int _id;
     private String _name;
 
-    ExternalStaffType(int _id, String _name) {
-        this._id = _id;
-        this._name = _name;
+    ExternalStaffType(int id, String name) {
+        this._id = id;
+        this._name = name;
     }
 
     public int getId() {
@@ -21,9 +21,9 @@ public enum ExternalStaffType {
         return _name;
     }
 
-    public static ExternalStaffType getById(int _id) {
-        for (ExternalStaffType externalStaffType:ExternalStaffType.values()){
-            if(externalStaffType.getId() == _id){
+    public static ExternalStaffType fromId(int id) {
+        for (ExternalStaffType externalStaffType : ExternalStaffType.values()) {
+            if (externalStaffType.getId() == id) {
                 return externalStaffType;
             }
         }
