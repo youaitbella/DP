@@ -10,7 +10,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,4 +127,5 @@ public abstract class AbstractDataAccess implements Serializable {
         }
         return "";
     }
+
 }

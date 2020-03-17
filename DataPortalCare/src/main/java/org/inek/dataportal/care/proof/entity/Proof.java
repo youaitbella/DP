@@ -54,7 +54,6 @@ public class Proof implements Serializable {
         }
     }
 
-
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
