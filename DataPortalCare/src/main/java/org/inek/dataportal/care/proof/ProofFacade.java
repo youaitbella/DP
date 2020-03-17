@@ -60,7 +60,8 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
     public List<Integer> retrievePossibleIkForAnnualReport(Set<Integer> allowedIks) {
         int year = DateUtils.currentYear() - 1;
         String jpql = "SELECT bi._ik FROM ProofRegulationBaseInformation bi " +
-                "\r\n WHERE bi._statusId = 10 and bi._ik in :ik and bi._year = :year" +
+                "\r\n WHERE bi._ik in :ik and bi._year = :year" +
+                "\r\n and (bi._quarter <= 4 and bi._statusId = 10) or (bi._quarter = 5 and bi._statusId <= 10) " +
                 "\r\n group by bi._ik" +
                 "\r\n having count(bi._quarter) = 4 and max(bi._quarter) = 4";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
