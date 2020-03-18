@@ -291,7 +291,7 @@
                             <pf:commandButton
                                     value="Ausnahmetatbestände ändern (Sonstige Daten und Signatur bleiben erhalten)"
                                     action="#{proofEdit.changeExceptionsFacts()}"
-                                    rendered="#{proofEdit.changeAllowed() and not proofEdit.isExceptionFactsChangeMode}"
+                                    rendered="#{proofEdit.changeExceptionAllowed() and not proofEdit.isExceptionFactsChangeMode}"
                                     style="margin-left: 10px;"
                                     update="@(.ui-message) @form"/>
 

@@ -1,5 +1,6 @@
 package org.inek.dataportal.calc.entities.drg;
 
+import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.utils.Documentation;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "KGLListExternalMedStaff", schema = "calc")
 @XmlRootElement
-public class KGLListExternalMedStaff implements Serializable {
+public class KGLListExternalMedStaff implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
     // <editor-fold defaultstate="collapsed" desc="Id">
@@ -18,6 +19,13 @@ public class KGLListExternalMedStaff implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "emsID", updatable = false, nullable = false)
     private int _id = -1;
+
+    public KGLListExternalMedStaff() {
+    }
+
+    public KGLListExternalMedStaff(DrgCalcBasics calcBasics) {
+        this.calcBasics = calcBasics;
+    }
 
     public int getId() {
         return _id;
@@ -121,24 +129,21 @@ public class KGLListExternalMedStaff implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="baseInformationId">
-    @Column(name = "emsBaseInformationId")
-    private int _baseInformationId;
+    @ManyToOne
+    @JoinColumn(name = "emsBaseInformationId")
+    private DrgCalcBasics calcBasics;
+
+    public DrgCalcBasics getDrgCalcBasics() {
+        return calcBasics;
+    }
 
     public int getBaseInformationId() {
-        return _baseInformationId;
+        return calcBasics.getId();
     }
 
-    public void setBaseInformationId(int baseInformationId) {
-        this._baseInformationId = baseInformationId;
+    public void setBaseInformationId(int id) {
     }
     // </editor-fold>
-
-    public KGLListExternalMedStaff() {
-    }
-
-    public KGLListExternalMedStaff(int baseInformationId) {
-        this._baseInformationId = baseInformationId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -151,7 +156,6 @@ public class KGLListExternalMedStaff implements Serializable {
                 _costStGr == that._costStGr &&
                 _costKoArtGr == that._costKoArtGr &&
                 _dataYear == that._dataYear &&
-                _baseInformationId == that._baseInformationId &&
                 Objects.equals(_divisionMedStaff, that._divisionMedStaff) &&
                 Objects.equals(_explanationField, that._explanationField);
     }
@@ -159,7 +163,7 @@ public class KGLListExternalMedStaff implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(_id, _divisionMedStaff, _countMedStaff, _costVolumeMedStaff, _costStGr, _costKoArtGr,
-                _explanationField, _dataYear, _baseInformationId);
+                _explanationField, _dataYear);
     }
 
     @Override
