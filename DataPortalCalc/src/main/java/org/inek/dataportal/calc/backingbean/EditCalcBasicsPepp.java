@@ -831,7 +831,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     /**
      * @param sheetId id of the sheet. Compare to table KGPListSheet.
-     * @return headerId; needed to get the ContentText
+     * @return the list ContentText for the sheet id (KGPContentText)
      */
     public List<KGPListContentText> retrieveContentText(int sheetId) {
         return _calcFacade.retrieveContentTextsPepp(_calcFacade.evaluateHeaderId(sheetId), _calcBasics.getDataYear());
