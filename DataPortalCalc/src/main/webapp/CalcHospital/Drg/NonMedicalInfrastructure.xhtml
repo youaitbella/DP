@@ -26,7 +26,7 @@
                                   auf die einzelnen Leistungsbereiche vor?"
                           styleClassLabel="label70"
                           value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}"
-                          renderElement="liabilityInsuranceHasTotalCostILBVId :script"
+                          renderElement="liabilityInsuranceHasTotalCostILBVId liabilityInsuranceHasCostCalculation2020 :script"
                           readonly="#{editCalcBasicsDrg.readOnly}"
                           listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo)}">
     </inek:LabeledCheckbox>
@@ -41,11 +41,11 @@
                                   styleClassLabel="label70"
                                   value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasTotalCostILBV}"
                                   renderElement="@form liabilityInsuranceExplanationFieldId :script"
-                                  readonly="#{!editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}"
+                                  readonly="#{!editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo or editCalcBasicsDrg.readOnly}"
                                   listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.liabilityInsuranceHasTotalCostILBV)}">
             </inek:LabeledCheckbox>
         </div>
-        <h:panelGroup id="liabilityInsuranceExplanationFieldId" rendered="#{!editCalcBasicsDrg.calcBasics.liabilityInsuranceHasTotalCostILBV}">
+        <h:panelGroup id="liabilityInsuranceExplanationFieldId">
             <div class="inputPart">
                 <h:outputLabel styleClass="label10"
                                value="Erläuterungsfeld"/>
@@ -61,17 +61,17 @@
         <br/>
     </h:panelGroup>
 
-        <h:panelGroup id="liabilityInsuranceHasCostCalculation2020" rendered="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}">
-            <div class="inputPart">
-                <inek:LabeledCheckbox label="Werden die Kosten der Prämie (gemäß den Hinweisen zur Kalkulation 2020) entsprechend der
+    <h:panelGroup id="liabilityInsuranceHasCostCalculation2020">
+        <div class="inputPart">
+            <inek:LabeledCheckbox label="Werden die Kosten der Prämie (gemäß den Hinweisen zur Kalkulation 2020) entsprechend der
                                Information der Versicherung auf die verursachenden direkten Kostenstellen der Leistungsbereiche
                                in die Kostenartengruppe 8 (nicht med. Infrastruktur) umgegliedert? "
-                                      styleClassLabel="label70"
-                                      value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasCostCalculation2020}"
-                                      renderElement="@form liabilityInsuranceHasTotalCostILBVId :script"
-                                      readonly="#{editCalcBasicsDrg.readOnly}"
-                                      listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.liabilityInsuranceHasCostCalculation2020)}">
-                </inek:LabeledCheckbox>
+                                  styleClassLabel="label70"
+                                  value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasCostCalculation2020}"
+                                  renderElement="@form liabilityInsuranceHasTotalCostILBVId :script"
+                                  readonly="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo or editCalcBasicsDrg.readOnly}"
+                                  listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.liabilityInsuranceHasCostCalculation2020)}">
+            </inek:LabeledCheckbox>
             </div>
         </h:panelGroup>
 
@@ -158,35 +158,37 @@
 
     <!--
         <h2 #{msg.titleNonMedicalInfrastructure} title="#{msg.lblNonMedicalInfrastructure}"></h2>
-    -->    
-    <h2>#{"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>    
+    -->
+    <h2>#{"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>
 
     <h:selectOneMenu id="iblvFulFillment"
                      required="true"
                      requiredMessage="#{msg.msgValueNeeded}"
                      value="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra}"
-                     hideNoSelectionOption="true" 
+                     hideNoSelectionOption="true"
                      style="width: 100%;"
                      disabled="true">
         <f:selectItems value="#{calcBasicsStaticData.ibvlTypeItem}"/>
-        <f:ajax event="change" render="@form :logout:remaining" /><!--render="@this :logout:remaining medInfraMethodDescription"/-->
-    </h:selectOneMenu>      
+        <f:ajax event="change"
+                render="@form :logout:remaining"/><!--render="@this :logout:remaining medInfraMethodDescription"/-->
+    </h:selectOneMenu>
 
     <h:outputLabel id="remark" styleClass="label" rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 3}"
-                   value="Bitte beachten Sie, dass das Anbauverfahren lediglich bei einer erstmaligen Teilnahme als Verfahren zur Durchführung der IBLV gewählt werden darf." 
+                   value="Bitte beachten Sie, dass das Anbauverfahren lediglich bei einer erstmaligen Teilnahme als Verfahren zur Durchführung der IBLV gewählt werden darf."
                    />
 
-    <h:panelGroup id="medInfraMethodDescription" styleClass="inputPart" rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
+    <h:panelGroup id="medInfraMethodDescription" styleClass="inputPart"
+                  rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
         <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
         <h:inputTextarea id="description" styleClass="areaWideHigh"
                          value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}"
                          disabled="true"
                          required="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@this :logout:remaining"/>
         </h:inputTextarea>
-    </h:panelGroup>    
+    </h:panelGroup>
 
-    <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der nicht medizinischen Infrastruktur"}</h2>  
+    <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der nicht medizinischen Infrastruktur"}</h2>
 
 
     <!--  180 = nicht med. Infra-->
@@ -238,8 +240,8 @@
         </ui:repeat>
         <tr>
             <td colspan="4">
-        <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60"/>
-        </td> 
+                <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60"/>
+            </td>
         <td>
         <inek:InputIntegerWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsDrg.getMedInfraSum(180)}"/>
         </td>
@@ -249,11 +251,11 @@
     </table>
 
     <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('drgNonMedInfra')}"
-                         calcbase="#{editCalcBasicsDrg.calcBasics}" 
-                         readOnly="#{editCalcBasicsDrg.readOnly}"
-                         addListener="#{editCalcBasicsDrg.addMedInfra(180)}"
-                         uploadButtonText="Upload"
-                         actionDeleteTable="#{editCalcBasicsDrg.deleteMedInfraItems(180)}"
+                        calcbase="#{editCalcBasicsDrg.calcBasics}"
+                        readOnly="#{editCalcBasicsDrg.readOnly}"
+                        addListener="#{editCalcBasicsDrg.addMedInfra(180)}"
+                        uploadButtonText="Upload"
+                        actionDeleteTable="#{editCalcBasicsDrg.deleteMedInfraItems(180)}"
                          />
 
     <br />
