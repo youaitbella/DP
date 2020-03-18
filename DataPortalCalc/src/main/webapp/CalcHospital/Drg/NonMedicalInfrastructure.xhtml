@@ -21,7 +21,6 @@
                      readonly="#{editCalcBasicsDrg.readOnly}"/>
     </div>
     <br/>
-    <br/>
     <inek:LabeledCheckbox label="Liegen im Krankenhaus von der Versicherung Informationen
                                   über die Aufteilung der Prämie zur Haftpflichtversicherung
                                   auf die einzelnen Leistungsbereiche vor?"
@@ -53,6 +52,7 @@
                 <br/>
                 <h:inputTextarea required="#{!editCalcBasicsDrg.calcBasics.liabilityInsuranceHasTotalCostILBV}"
                                  value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceExplanationField}"
+                                 disabled="#{!editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}"
                                  styleClass="inputmedium">
                 </h:inputTextarea>
             </div>
@@ -60,9 +60,6 @@
         <br/>
         <br/>
     </h:panelGroup>
-
-        <br/>
-        <br/>
 
         <h:panelGroup id="liabilityInsuranceHasCostCalculation2020" rendered="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}">
             <div class="inputPart">
@@ -78,13 +75,18 @@
             </div>
         </h:panelGroup>
 
-
         <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasCostCalculation2020}">
             <h:outputLabel styleClass="label70" value="Bitte geben Sie in der folgenden Tabelle an, auf welche Leistungsbereiche die
                                   entsprechenden Kosten der Prämien für Haftpflichtversicherung aus Konto 'Versicherungen'
                                   (Konto-Nr. 732) gem. KHBV entsprechend der Information der Versicherung aufgeteilt werden
                                   sowie ggf. die Höhe der verbleibenden Kosten, welche nach IBLV verteilt werden."/>
             <br/>
+            <br/>
+
+            <h:outputLabel styleClass="label15"  value="Summe:"/>
+            <inek:InputNumberWithMessage id="sumId"
+                                         styleClass="inputPart"
+                                         value="#{editCalcBasicsDrg.calcBasics.liabilityInsurances.stream().map(l->l.costKoArtGrp8).sum()}"/>
             <br/>
             <h:dataTable id="liabilityInsurancesId"
                          value="#{editCalcBasicsDrg.calcBasics.liabilityInsurances}"
@@ -130,18 +132,12 @@
                                                  styleClass="fullWidth"/>
                 </h:column>
             </h:dataTable>
-
-            <h:outputLabel styleClass="label15" value="Summe:"/>
-            <inek:InputNumberWithMessage id="sumId"
-                                         styleClass="inputPart"
-                                         value="#{editCalcBasicsDrg.calcBasics.liabilityInsurances.stream().map(l->l.costKoArtGrp8).sum()}"/>
-
-            <br/>
             <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                            rendered="#{!editCalcBasicsDrg.readOnly}">
                 <f:ajax event="click" render="liabilityInsurancesId :logout:remaining"
                         listener="#{editCalcBasicsDrg.addLiabilityInsurance}"/>
             </h:commandLink>
+
         </h:panelGroup>
     <br/>
 
