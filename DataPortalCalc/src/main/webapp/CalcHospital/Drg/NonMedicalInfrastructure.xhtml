@@ -27,7 +27,7 @@
                                   auf die einzelnen Leistungsbereiche vor?"
                           styleClassLabel="label70"
                           value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}"
-                          renderElement="@form liabilityInsuranceHasTotalCostILBVId :script"
+                          renderElement="liabilityInsuranceHasTotalCostILBVId :script"
                           readonly="#{editCalcBasicsDrg.readOnly}"
                           listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo)}">
     </inek:LabeledCheckbox>
@@ -125,7 +125,7 @@
                     <f:facet name="header"><h:outputLabel value="Kosten in KoArtGrp 8 (nicht med. Infrastr.) "/></f:facet>
                     <inek:InputNumberWithMessage id="costKoArtGrp8Id"
                                                  value="#{liabilityInsurance.costKoArtGrp8}"
-                                                 renderElement="#{component.clientId.substring(0, component.clientId.indexOf('costKoArtGrp8Id'))}sumId:text"
+                                                 renderElement="sumId:text"
                                                  event="blur"
                                                  styleClass="fullWidth"/>
                 </h:column>
