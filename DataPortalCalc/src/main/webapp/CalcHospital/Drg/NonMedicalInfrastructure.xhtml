@@ -15,16 +15,12 @@
         <br/>
         <br/>
         <h:outputLabel styleClass="label15" value="Kostenvolumen:"/>
-        <h:inputText id="totalCostLiabilityInsurance"
+        <inek:InputNumberWithMessage id="totalCostLiabilityInsurance"
                      styleClass="inputPart"
                      value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceCostVolume}"
-                     readonly="#{editCalcBasicsDrg.readOnly}">
-        </h:inputText>
+                     readonly="#{editCalcBasicsDrg.readOnly}"/>
     </div>
     <br/>
-    <br/>
-
-
     <br/>
     <inek:LabeledCheckbox label="Liegen im Krankenhaus von der Versicherung Informationen
                                   über die Aufteilung der Prämie zur Haftpflichtversicherung
@@ -134,14 +130,12 @@
             </h:dataTable>
             <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
                            rendered="#{!editCalcBasicsDrg.readOnly}">
-                <f:ajax event="click" render="externalCareStaffOtherId :logout:remaining"
+                <f:ajax event="click" render="liabilityInsurancesId :logout:remaining"
                         listener="#{editCalcBasicsDrg.addLiabilityInsurance}"/>
             </h:commandLink>
         </div>
         </h:panelGroup>
-
     <br/>
-
 
     <div class="inputPart">
         <h:outputLabel styleClass="label70"
