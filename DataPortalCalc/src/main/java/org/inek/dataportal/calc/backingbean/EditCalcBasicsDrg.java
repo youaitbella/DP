@@ -384,8 +384,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void addLiabilityInsurance() {
         List<KGLListLiabilityInsurance> result = _calcBasics.getLiabilityInsurances();
-        KGLListLiabilityInsurance item = new KGLListLiabilityInsurance();
-        item.setBaseInformationId(_calcBasics.getId());
+        KGLListLiabilityInsurance item = new KGLListLiabilityInsurance(_calcBasics);
         result.add(item);
     }
 

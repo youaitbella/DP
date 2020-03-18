@@ -1,5 +1,7 @@
 package org.inek.dataportal.calc.entities.drg;
 
+import org.inek.dataportal.common.data.iface.BaseIdValue;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
@@ -8,8 +10,16 @@ import java.util.Objects;
 @Entity
 @Table(name = "KGLListLiabilityInsurance", schema = "calc")
 @XmlRootElement
-public class KGLListLiabilityInsurance implements Serializable {
+public class KGLListLiabilityInsurance implements Serializable, BaseIdValue {
     private static final long serialVersionUID = 1L;
+
+    public KGLListLiabilityInsurance() {
+    }
+
+    public KGLListLiabilityInsurance(DrgCalcBasics calcBasics) {
+        this.calcBasics = calcBasics;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +74,7 @@ public class KGLListLiabilityInsurance implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="baseInformationId">
+    // <editor-fold defaultstate="collapsed" desc="BaseInformation">
     @ManyToOne
     @JoinColumn(name = "liBaseInformationId")
     private DrgCalcBasics calcBasics;
@@ -77,16 +87,9 @@ public class KGLListLiabilityInsurance implements Serializable {
         return calcBasics.getId();
     }
 
-    public void setBaseInformationId(int id) {
+    public void setBaseInformationId(int dummy) {
     }
     // </editor-fold>
-
-    public KGLListLiabilityInsurance() {
-    }
-
-    public KGLListLiabilityInsurance(DrgCalcBasics calcBasics) {
-        this.calcBasics = calcBasics;
-    }
 
     @Override
     public boolean equals(Object o) {
