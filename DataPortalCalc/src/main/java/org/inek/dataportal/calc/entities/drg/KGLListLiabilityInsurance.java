@@ -35,8 +35,8 @@ public class KGLListLiabilityInsurance implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
-    @Column(name = "liCostCenterGroup")
     // <editor-fold defaultstate="collapsed" desc="CostCenterGroup">
+    @Column(name = "liCostCenterGroup")
     private String CostCenterGroup="";
 
     public String getCostCenterGroup() {
