@@ -130,9 +130,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             _calcBasics = newCalcBasicsPepp();
             Utils.navigate(Pages.Error.RedirectURL());
         }
-        if (_calcBasics.getListTherapyUnits().size() == 0) {
-            _calcBasics.setListTherapyUnits(ensureTherapyUnits());
-        }
+        ensureTherapyUnits();
     }
 
     public void retrievePriorData(PeppCalcBasics calcBasics) {
@@ -809,21 +807,32 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
     }
 
-    private List<KGPListTherapyUnits> ensureTherapyUnits() {
+    private void ensureTherapyUnits() {
+
+        // for "Therapeutischer Bereich (voll- und teilstationäre Fälle) (Kostenstellengruppen 23 bis 26)"
+        // the sheet id is 3. Compare to table KGPListSheet (=> Therapeutischer Bereich).
+        // todo:
+        //      _calcBasics.getTherapyUnits().size() < retrieveContentText.size()
+        //      _calcBasics.getTherapyUnits().size() > retrieveContentText.size()
+        //      new entry in KGPListContentText
+        //      removed entry in KGPListContentText
+        //      consider "dataYear"
 
         List<KGPListContentText> retrieveContentText = retrieveContentText(3);
 
-        KGPListTherapyUnits therapyUnitsToDB;
-        List<KGPListTherapyUnits> therapyUnitsList = new ArrayList<>();
-
-        for (KGPListContentText contentText : retrieveContentText) {
-            therapyUnitsToDB = new KGPListTherapyUnits(contentText, _calcBasics);
-            therapyUnitsList.add(therapyUnitsToDB);
+        if (_calcBasics.getTherapyUnits().size() == retrieveContentText.size()) {
+            return;
         }
 
-        return therapyUnitsList;
+        for (KGPListContentText contentText : retrieveContentText) {
+            _calcBasics.addTherapyUnits(new KGPTherapyUnits(contentText, _calcBasics));
+        }
     }
 
+    /**
+     * @param sheetId id of the sheet. Compare to table KGPListSheet.
+     * @return headerId; needed to get the ContentText
+     */
     public List<KGPListContentText> retrieveContentText(int sheetId) {
         return _calcFacade.retrieveContentTextsPepp(_calcFacade.evaluateHeaderId(sheetId), _calcBasics.getDataYear());
     }

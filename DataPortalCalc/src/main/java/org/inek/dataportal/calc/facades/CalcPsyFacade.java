@@ -139,7 +139,7 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
         saveIdList(calcBasics.getStationServiceCosts());
         saveIdList(calcBasics.getKgpMedInfraList());
         saveIdList(calcBasics.getRadiologyLaboratories());
-        saveIdList(calcBasics.getListTherapyUnits());
+        saveIdList(calcBasics.getTherapyUnits());
 
         PeppCalcBasics merged = merge(calcBasics);
         return merged;

@@ -71,7 +71,7 @@
                            für folgende Bereiche erfasst und entsprechende Kosten den Therapiekostenstellen zugeordnet:"/> &nbsp;
             <ui:remove>
             </ui:remove>
-            <ui:repeat value="#{editCalcBasicsPepp.calcBasics.listTherapyUnits}" var="therapyUnit" varStatus="status">
+            <ui:repeat value="#{editCalcBasicsPepp.calcBasics.therapyUnits}" var="therapyUnit" varStatus="status">
                 <inek:LabeledCheckbox label="#{therapyUnit.contentText.text}"
                                       styleClassLabel="label30"
                                       value="#{therapyUnit.value}"

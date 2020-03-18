@@ -150,9 +150,9 @@ public class KGPListContentText implements Serializable {
     //<editor-fold desc="Property ContentText">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "tuContentTextId", referencedColumnName = "ctId")
-    private List<KGPListTherapyUnits> contentText = new ArrayList<>();
+    private List<KGPTherapyUnits> contentText = new ArrayList<>();
 
-    public List<KGPListTherapyUnits> getContentText() {
+    public List<KGPTherapyUnits> getContentText() {
         return Collections.unmodifiableList(contentText);
     }
     //</editor-fold>

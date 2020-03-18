@@ -7,12 +7,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "KGPListTherapyUnits", schema = "calc")
-public class KGPListTherapyUnits  implements Serializable, BaseIdValue {
-    public KGPListTherapyUnits() {
+@Table(name = "KGPTherapyUnits", schema = "calc")
+public class KGPTherapyUnits implements Serializable, BaseIdValue {
+    public KGPTherapyUnits() {
     }
 
-    public KGPListTherapyUnits(KGPListContentText kgpListContentText, PeppCalcBasics kgpBaseInformation) {
+    public KGPTherapyUnits(KGPListContentText kgpListContentText, PeppCalcBasics kgpBaseInformation) {
         this._contentText = kgpListContentText;
         this._baseInformation = kgpBaseInformation;
     }
@@ -82,11 +82,11 @@ public class KGPListTherapyUnits  implements Serializable, BaseIdValue {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        KGPListTherapyUnits that = (KGPListTherapyUnits) o;
-        return _id == that._id &&
-                _baseInformation == that._baseInformation &&
-                _contentText == that._contentText &&
-                _value == that._value;
+        KGPTherapyUnits that = (KGPTherapyUnits) o;
+        return _value == that._value &&
+                Objects.equals(_id, that._id) &&
+                Objects.equals(_baseInformation, that._baseInformation) &&
+                Objects.equals(_contentText, that._contentText);
     }
 
     @Override
