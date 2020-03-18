@@ -65,23 +65,27 @@ public class KGLListLiabilityInsurance implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="baseInformationId">
-    @Column(name = "liBaseInformationId")
-    private int baseInformationId;
+    @ManyToOne
+    @JoinColumn(name = "liBaseInformationId")
+    private DrgCalcBasics calcBasics;
 
-    public int getBaseInformationId() {
-        return baseInformationId;
+    public DrgCalcBasics getDrgCalcBasics() {
+        return calcBasics;
     }
 
-    public void setBaseInformationId(int baseInformationId) {
-        this.baseInformationId = baseInformationId;
+    public int getBaseInformationId() {
+        return calcBasics.getId();
+    }
+
+    public void setBaseInformationId(int id) {
     }
     // </editor-fold>
 
     public KGLListLiabilityInsurance() {
     }
 
-    public KGLListLiabilityInsurance(int baseInformationId) {
-        this.baseInformationId = baseInformationId;
+    public KGLListLiabilityInsurance(DrgCalcBasics calcBasics) {
+        this.calcBasics = calcBasics;
     }
 
     @Override
