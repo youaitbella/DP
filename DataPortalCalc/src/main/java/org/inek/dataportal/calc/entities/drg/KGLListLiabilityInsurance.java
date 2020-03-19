@@ -37,40 +37,40 @@ public class KGLListLiabilityInsurance implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterGroup">
     @Column(name = "liCostCenterGroup")
-    private String CostCenterGroup="";
+    private String costCenterGroup = "";
 
     public String getCostCenterGroup() {
-        return CostCenterGroup;
+        return costCenterGroup;
     }
 
     public void setCostCenterGroup(String costCenterGroup) {
-        CostCenterGroup = costCenterGroup;
+        this.costCenterGroup = costCenterGroup;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="liCostCenterName">
     @Column(name = "liCostCenterName")
-    private String CostCenterName="";
+    private String costCenterName = "";
 
     public String getCostCenterName() {
-        return CostCenterName;
+        return costCenterName;
     }
 
     public void setCostCenterName(String costCenterName) {
-        CostCenterName = costCenterName;
+        this.costCenterName = costCenterName;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="CostKoArtGrp8">
     @Column(name = "liCostKoArtGrp8")
-    private double CostKoArtGrp8;
+    private double costKoArtGrp8;
 
     public double getCostKoArtGrp8() {
-        return CostKoArtGrp8;
+        return costKoArtGrp8;
     }
 
     public void setCostKoArtGrp8(double costKoArtGrp8) {
-        CostKoArtGrp8 = costKoArtGrp8;
+        this.costKoArtGrp8 = costKoArtGrp8;
     }
     // </editor-fold>
 
