@@ -86,11 +86,11 @@
                                                   renderElement="@this sumMed:text" />
                 </td>
                 <td>
-                    <inek:InputIntegerWithMessage value="#{item.partCostVolumeMedStaffAfter}"
+                    <inek:InputNumberWithMessage value="#{item.partCostVolumeMedStaffAfter}"
                                                   readonly="#{editCalcBasicsPepp.readOnly}"
-                                                  styleClass="inputwide" maximum="200" required="true"
+                                                  styleClass="inputwide" maximum="200" required="true" pattern="#,##0.0"
                                                   renderElement="sumMed:text">
-                    </inek:InputIntegerWithMessage>
+                    </inek:InputNumberWithMessage>
                 </td>
             </tr>
         </ui:repeat>

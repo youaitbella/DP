@@ -93,8 +93,8 @@
                 <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60" />
             </td>
             <td>
-                <inek:InputIntegerWithMessage disabled="true" id="sumMed"
-                                              value="#{editCalcBasicsPepp.getMedInfraSum(180)}" />
+                <inek:InputNumberWithMessage disabled="true" id="sumMed"
+                                              value="#{editCalcBasicsPepp.getMedInfraSum(180)}" pattern="#,##0.0" />
             </td>
         </tr>
     </table>

@@ -87,8 +87,8 @@
                                                   renderElement="sumMed:text"/>
                 </td>
                 <td>
-                    <inek:InputIntegerWithMessage value="#{item.amountAfter}"
-                                                  readonly="#{editCalcBasicsDrg.readOnly}"
+                    <inek:InputNumberWithMessage value="#{item.amountAfter}"
+                                                  readonly="#{editCalcBasicsDrg.readOnly}" pattern="#,##0.0"
                                                   styleClass="inputwide" maximum="200" required="true"/>
                 </td>
             </tr>
