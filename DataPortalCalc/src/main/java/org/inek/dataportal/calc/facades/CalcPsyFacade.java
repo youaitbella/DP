@@ -6,10 +6,7 @@
 package org.inek.dataportal.calc.facades;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.calc.entities.psy.KGPListContentText;
-import org.inek.dataportal.calc.entities.psy.KGPListOverviewPersonalType;
-import org.inek.dataportal.calc.entities.psy.KGPListServiceProvisionType;
-import org.inek.dataportal.calc.entities.psy.PeppCalcBasics;
+import org.inek.dataportal.calc.entities.psy.*;
 import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
@@ -142,6 +139,7 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
         saveIdList(calcBasics.getStationServiceCosts());
         saveIdList(calcBasics.getKgpMedInfraList());
         saveIdList(calcBasics.getRadiologyLaboratories());
+        saveIdList(calcBasics.getTherapyUnits());
 
         PeppCalcBasics merged = merge(calcBasics);
         return merged;
@@ -178,6 +176,13 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
         return retrieveContentTextsPepp(headerIds, year);
     }
 
+    public int evaluateHeaderId(int sheetId) {
+        String jpql = "select ht from KGPListHeaderText ht where ht._sheetId = :sheetId ";
+        TypedQuery<KGPListHeaderText> query = getEntityManager().createQuery(jpql, KGPListHeaderText.class);
+        query.setParameter("sheetId", sheetId);
+        return query.getResultList().get(0).getId();
+    }
+
     public List<KGPListContentText> retrieveContentTextsPepp(List<Integer> headerIds, int year) {
         String jpql = "select ct from KGPListContentText ct "
                 + "where ct._headerTextID in :headerIds and ct._firstYear <= :year and ct._lastYear >= :year order by ct._seq";
@@ -204,5 +209,4 @@ public class CalcPsyFacade extends AbstractDataAccessWithActionLog {
             }
         }
     }
-
 }

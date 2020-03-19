@@ -108,6 +108,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     // </editor-fold>
+
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -129,6 +130,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             _calcBasics = newCalcBasicsPepp();
             Utils.navigate(Pages.Error.RedirectURL());
         }
+        ensureTherapyUnits();
     }
 
     public void retrievePriorData(PeppCalcBasics calcBasics) {
@@ -803,5 +805,35 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         } catch (NumberFormatException e) {
             throw new ValidatorException(new FacesMessage(errMsg));
         }
+    }
+
+    private void ensureTherapyUnits() {
+
+        // for "Therapeutischer Bereich (voll- und teilstationäre Fälle) (Kostenstellengruppen 23 bis 26)"
+        // the sheet id is 3. Compare to table KGPListSheet (=> Therapeutischer Bereich).
+        // todo:
+        //      _calcBasics.getTherapyUnits().size() < retrieveContentText.size()
+        //      _calcBasics.getTherapyUnits().size() > retrieveContentText.size()
+        //      new entry in KGPListContentText
+        //      removed entry in KGPListContentText
+        //      consider "dataYear"
+
+        List<KGPListContentText> retrieveContentText = retrieveContentText(3);
+
+        if (_calcBasics.getTherapyUnits().size() == retrieveContentText.size()) {
+            return;
+        }
+
+        for (KGPListContentText contentText : retrieveContentText) {
+            _calcBasics.addTherapyUnits(new KGPTherapyUnits(contentText, _calcBasics));
+        }
+    }
+
+    /**
+     * @param sheetId id of the sheet. Compare to table KGPListSheet.
+     * @return the list ContentText for the sheet id (KGPContentText)
+     */
+    public List<KGPListContentText> retrieveContentText(int sheetId) {
+        return _calcFacade.retrieveContentTextsPepp(_calcFacade.evaluateHeaderId(sheetId), _calcBasics.getDataYear());
     }
 }
