@@ -4,6 +4,7 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
 >
@@ -16,9 +17,9 @@
         <br/>
         <h:outputLabel styleClass="label15" value="Kostenvolumen:"/>
         <inek:InputNumberWithMessage id="totalCostLiabilityInsurance"
-                     styleClass="inputPart"
-                     value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceCostVolume}"
-                     readonly="#{editCalcBasicsDrg.readOnly}"/>
+                                     styleClass="inputPart"
+                                     value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceCostVolume}"
+                                     readonly="#{editCalcBasicsDrg.readOnly}"/>
     </div>
     <br/>
     <inek:LabeledCheckbox label="Liegen im Krankenhaus von der Versicherung Informationen
@@ -26,9 +27,8 @@
                                   auf die einzelnen Leistungsbereiche vor?"
                           styleClassLabel="label70"
                           value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}"
-                          renderElement="@form liabilityInsuranceHasTotalCostILBVId liabilityInsuranceHasCostCalculation2020 :script"
-                          readonly="#{editCalcBasicsDrg.readOnly}"
-                          listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo)}">
+                          renderElement="liabilityInsuranceHasTotalCostILBVId liabilityInsuranceHasCostCalculation2020 tableId :script"
+                          readonly="#{editCalcBasicsDrg.readOnly}">
     </inek:LabeledCheckbox>
 
     <br/>
@@ -40,44 +40,45 @@
                                   Patienten im Rahmen der IBLV verteilt?"
                                   styleClassLabel="label70"
                                   value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasTotalCostILBV}"
-                                  renderElement="@form liabilityInsuranceExplanationFieldId :script"
-                                  readonly="#{!editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo or editCalcBasicsDrg.readOnly}"
-                                  listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.liabilityInsuranceHasTotalCostILBV)}">
+                                  renderElement="liabilityInsuranceExplanationFieldId :script"
+                                  readonly="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo or editCalcBasicsDrg.readOnly}">
             </inek:LabeledCheckbox>
         </div>
-        <h:panelGroup id="liabilityInsuranceExplanationFieldId">
-            <div class="inputPart">
-                <h:outputLabel styleClass="label10"
-                               value="Erläuterungsfeld"/>
-                <br/>
-                <h:inputTextarea required="#{!editCalcBasicsDrg.calcBasics.liabilityInsuranceHasTotalCostILBV}"
-                                 value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceExplanationField}"
-                                 disabled="#{!editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}"
-                                 styleClass="inputmedium">
-                </h:inputTextarea>
+        <div jsf:id="liabilityInsuranceExplanationFieldId">
+            <div jsf:rendered="#{not editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo and not editCalcBasicsDrg.calcBasics.liabilityInsuranceHasTotalCostILBV}">
+                <div class="inputPart">
+                    <h:outputLabel styleClass="label10"
+                                   value="Erläuterungsfeld"/>
+                    <br/>
+                    <h:inputTextarea required="true"
+                                     value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceExplanationField}"
+                                     styleClass="inputmedium">
+                    </h:inputTextarea>
+                </div>
             </div>
-        </h:panelGroup>
+        </div>
         <br/>
         <br/>
     </h:panelGroup>
 
-    <h:panelGroup id="liabilityInsuranceHasCostCalculation2020" rendered="#{!editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}">
+    <h:panelGroup id="liabilityInsuranceHasCostCalculation2020">
         <div class="inputPart">
             <inek:LabeledCheckbox label="Werden die Kosten der Prämie (gemäß den Hinweisen zur Kalkulation 2020) entsprechend der
                                Information der Versicherung auf die verursachenden direkten Kostenstellen der Leistungsbereiche
                                in die Kostenartengruppe 8 (nicht med. Infrastruktur) umgegliedert? "
                                   styleClassLabel="label70"
                                   value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasCostCalculation2020}"
-                                  renderElement="@form liabilityInsuranceHasTotalCostILBVId :script"
-                                  readonly="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo or editCalcBasicsDrg.readOnly}"
+                                  renderElement="liabilityInsuranceHasTotalCostILBVId tableId :script"
+                                  readonly="#{!editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo or editCalcBasicsDrg.readOnly}"
                                   listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.liabilityInsuranceHasCostCalculation2020)}">
             </inek:LabeledCheckbox>
-            </div>
-        </h:panelGroup>
+        </div>
+    </h:panelGroup>
 
     <br/>
     <br/>
-        <h:panelGroup id="tableId" rendered="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasCostCalculation2020 or editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}">
+    <div jsf:id="tableId">
+        <div jsf:rendered="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasCostCalculation2020 and editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}">
             <h:outputLabel styleClass="label70" value="Bitte geben Sie in der folgenden Tabelle an, auf welche Leistungsbereiche die
                                   entsprechenden Kosten der Prämien für Haftpflichtversicherung aus Konto 'Versicherungen'
                                   (Konto-Nr. 732) gem. KHBV entsprechend der Information der Versicherung aufgeteilt werden
@@ -85,7 +86,7 @@
             <br/>
             <br/>
 
-            <h:outputLabel styleClass="label15"  value="Summe:"/>
+            <h:outputLabel styleClass="label15" value="Summe:"/>
             <inek:InputNumberWithMessage id="sumId"
                                          styleClass="inputPart"
                                          value="#{editCalcBasicsDrg.calcBasics.liabilityInsurances.stream().map(l->l.costKoArtGrp8).sum()}"/>
@@ -111,7 +112,7 @@
                     </h:commandLink>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel  value="Kostenstellengruppe/Leistungsbereich"/></f:facet>
+                    <f:facet name="header"><h:outputLabel value="Kostenstellengruppe/Leistungsbereich"/></f:facet>
                     <inek:InputTextWithMessage value="#{liabilityInsurance.costCenterGroup}" styleClass="fullWidth"/>
                 </h:column>
                 <h:column>
@@ -123,10 +124,11 @@
                                                Leistungsbereiches an. Bitte verwenden Sie dabei einen aussagekräftigen
                                                Namen für die Kostenstelle."/>
                     </f:facet>
-                    <inek:InputTextWithMessage value="#{liabilityInsurance.costCenterName}" styleClass="fullWidth" />
+                    <inek:InputTextWithMessage value="#{liabilityInsurance.costCenterName}" styleClass="fullWidth"/>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="Kosten in KoArtGrp 8 (nicht med. Infrastr.) "/></f:facet>
+                    <f:facet name="header"><h:outputLabel
+                            value="Kosten in KoArtGrp 8 (nicht med. Infrastr.) "/></f:facet>
                     <inek:InputNumberWithMessage id="costKoArtGrp8Id"
                                                  value="#{liabilityInsurance.costKoArtGrp8}"
                                                  renderElement="sumId:text"
@@ -140,7 +142,8 @@
                         listener="#{editCalcBasicsDrg.addLiabilityInsurance}"/>
             </h:commandLink>
 
-        </h:panelGroup>
+        </div>
+    </div>
     <br/>
 
     <div class="inputPart">
@@ -175,7 +178,7 @@
 
     <h:outputLabel id="remark" styleClass="label" rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 3}"
                    value="Bitte beachten Sie, dass das Anbauverfahren lediglich bei einer erstmaligen Teilnahme als Verfahren zur Durchführung der IBLV gewählt werden darf."
-                   />
+    />
 
     <h:panelGroup id="medInfraMethodDescription" styleClass="inputPart"
                   rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
@@ -205,32 +208,34 @@
             <tr>
                 <td>
                     <h:commandLink styleClass="colIcon" rendered="#{!editCalcBasicsDrg.readOnly}">
-                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteMedInfra(item)}"/>
-                <cb:confirmDelete/>
-            </h:commandLink>
-            </td>
-            <td style="width: 15%;">
-                <inek:InputTextWithMessage value="#{item.costCenterNumber}"
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
-                                           styleClass="inputwide" required="true"/>
-            </td>
-            <td style="width: 30%">
-                <inek:InputTextWithMessage value="#{item.costCenterText}"
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
-                                           styleClass="inputwide" required="true"/>
-            </td>
-            <td style="width: 25%;">
-                <inek:InputTextWithMessage value="#{item.keyUsed}"
-                                           readonly="#{editCalcBasicsDrg.readOnly}"
-                                           styleClass="inputwide" required="true"/>
-            </td>
-            <td>
-                <inek:InputIntegerWithMessage value="#{item.amount}"
-                                              readonly="#{editCalcBasicsDrg.readOnly}"
-                                              styleClass="inputwide" required="true"
-                                              renderElement="sumMed:text"/>
-            </td>
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}"
+                                        value=""/>
+                        <f:ajax event="click" render="@form :logout:remaining"
+                                listener="#{editCalcBasicsDrg.deleteMedInfra(item)}"/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </td>
+                <td style="width: 15%;">
+                    <inek:InputTextWithMessage value="#{item.costCenterNumber}"
+                                               readonly="#{editCalcBasicsDrg.readOnly}"
+                                               styleClass="inputwide" required="true"/>
+                </td>
+                <td style="width: 30%">
+                    <inek:InputTextWithMessage value="#{item.costCenterText}"
+                                               readonly="#{editCalcBasicsDrg.readOnly}"
+                                               styleClass="inputwide" required="true"/>
+                </td>
+                <td style="width: 25%;">
+                    <inek:InputTextWithMessage value="#{item.keyUsed}"
+                                               readonly="#{editCalcBasicsDrg.readOnly}"
+                                               styleClass="inputwide" required="true"/>
+                </td>
+                <td>
+                    <inek:InputIntegerWithMessage value="#{item.amount}"
+                                                  readonly="#{editCalcBasicsDrg.readOnly}"
+                                                  styleClass="inputwide" required="true"
+                                                  renderElement="sumMed:text"/>
+                </td>
                 <td>
                     <inek:InputIntegerWithMessage value="#{item.amountAfter}"
                                                   readonly="#{editCalcBasicsDrg.readOnly}"
@@ -242,9 +247,10 @@
             <td colspan="4">
                 <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60"/>
             </td>
-        <td>
-        <inek:InputIntegerWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsDrg.getMedInfraSum(180)}"/>
-        </td>
+            <td>
+                <inek:InputIntegerWithMessage disabled="true" id="sumMed"
+                                              value="#{editCalcBasicsDrg.getMedInfraSum(180)}"/>
+            </td>
             <td>
             </td>
         </tr>
@@ -256,13 +262,14 @@
                         addListener="#{editCalcBasicsDrg.addMedInfra(180)}"
                         uploadButtonText="Upload"
                         actionDeleteTable="#{editCalcBasicsDrg.deleteMedInfraItems(180)}"
-                         />
+    />
 
-    <br />
-    <br />
-    <br />
+    <br/>
+    <br/>
+    <br/>
 
-    <a href="/DataPortalCalc/resources/info/IBLV-Verrechnungsschlüssel - Anlage 9.pdf" target="blank"  title="IBLV-Verrechnungsschlüssel" class="bigButton">
+    <a href="/DataPortalCalc/resources/info/IBLV-Verrechnungsschlüssel - Anlage 9.pdf" target="blank"
+       title="IBLV-Verrechnungsschlüssel" class="bigButton">
         IBLV-Verrechnungsschlüssel (Kostenstellen der nicht medizinischen Infrastruktur) gem. Anlage 9, Kalkulationshandbuchs
     </a>
 
