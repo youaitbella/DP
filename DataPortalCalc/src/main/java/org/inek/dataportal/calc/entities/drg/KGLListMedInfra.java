@@ -115,13 +115,13 @@ public class KGLListMedInfra implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property miAmountAfter">
     @Column(name = "miAmountAfter")
-    private int _amountAfter;
+    private double _amountAfter;
 
-    public int getAmountAfter() {
+    public double getAmountAfter() {
         return _amountAfter;
     }
 
-    public void setAmountAfter(int amountAfter) {
+    public void setAmountAfter(double amountAfter) {
         this._amountAfter = amountAfter;
     }
     //</editor-fold>
