@@ -324,6 +324,10 @@
                                               rendered="#{!proofEdit.isReadOnly and proofEdit.requestExtensionAllowed}"
                                               style="margin-left: 10px;"
                                               update="@(.ui-message) :form:buttons"/>
+                            <pf:outputLabel
+                                    rendered="#{not proofEdit.sendAllowedForToday() and proofEdit.proofRegulationBaseInformation.status.id lt 10}"
+                                    style="padding-left: 10px"
+                                    value="Die Daten können erst am Ende des Quartals ans InEK gesendet werden"/>
                         </div>
                         <div jsf:rendered="#{proofEdit.proofRegulationBaseInformation.quarter eq 5}">
                             <pf:commandButton value="Jahresmeldung exportieren (Excel)"
@@ -334,38 +338,34 @@
                                 <pf:fileDownload value="#{proofEdit.exportAnnualReportAsExcel()}"/>
                             </pf:commandButton>
 
-                        </div>
-                        <br/>
-                        <div jsf:id="fileName" class="inputPart marginTop01em"
-                             jsf:rendered="#{not empty proofEdit.documentName
-                                                 and proofEdit.isReadOnly
-                                                 and proofEdit.annualReportAllowed()}">
-                            <h:outputLabel value="Anlage:" styleClass="label element08em"/>
-                            <h:commandLink
-                                    action="#{proofEdit.downloadDocument()}"
-                                    value="#{proofEdit.documentName}"
-                                    immediate="true">
-                            </h:commandLink>
+                            <br/>
+                            <br/>
+
+                            <div jsf:id="fileName" class="inputPart marginTop01em"
+                                 jsf:rendered="#{not empty proofEdit.documentName
+                                                 and proofEdit.isReadOnly}">
+                                <h:outputLabel value="Anlage:" styleClass="label element08em"/>
+                                <h:commandLink
+                                        action="#{proofEdit.downloadDocument()}"
+                                        value="#{proofEdit.documentName}"
+                                        immediate="true">
+                                </h:commandLink>
+
+                            </div>
+                            <br/>
+                            <pf:fileUpload fileUploadListener="#{proofEdit.uploadDocument}"
+                                           mode="advanced"
+                                           auto="true"
+                                           fileLimit="1"
+                                           fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
+                                           invalidFileMessage="Es dürfen nur PDF oder Bilddateien (JPG, JPEG, PNG, BMP, GIF ) hochgeladen werden"
+                                           allowTypes="/(\.|\/)(pdf|jpg|jpeg|png|bmp|gif)$/"
+                                           cancelLabel="Abbrechen"
+                                           uploadLabel="Datei Hochladen"
+                                           label="bestätigte Jahresmeldung hochladen (gem. § 5 Abs. 4 PpUG-Nachweis-Vereinbarung)"
+                                           update="@form"/>
 
                         </div>
-                        <br/>
-                        <pf:fileUpload fileUploadListener="#{proofEdit.uploadDocument}"
-                                       mode="advanced"
-                                       auto="true"
-                                       fileLimit="1"
-                                       fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
-                                       invalidFileMessage="Es dürfen nur PDF oder Bilddateien (JPG, JPEG, PNG, BMP, GIF ) hochgeladen werden"
-                                       allowTypes="/(\.|\/)(pdf|jpg|jpeg|png|bmp|gif)$/"
-                                       cancelLabel="Abbrechen"
-                                       uploadLabel="Datei Hochladen"
-                                       label="bestätigte Jahresmeldung hochladen (gem. § 5 Abs. 4 PpUG-Nachweis-Vereinbarung)"
-                                       rendered="#{proofEdit.annualReportAllowed()}"
-                                       update="@form"/>
-
-                        <pf:outputLabel
-                                rendered="#{not proofEdit.sendAllowedForToday() and proofEdit.proofRegulationBaseInformation.status.id lt 10}"
-                                style="padding-left: 10px"
-                                value="Die Daten können erst am Ende des Quartals ans InEK gesendet werden"/>
                     </div>
                 </div>
             </div>
