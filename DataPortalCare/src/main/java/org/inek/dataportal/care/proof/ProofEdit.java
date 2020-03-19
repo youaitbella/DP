@@ -525,9 +525,8 @@ public class ProofEdit implements Serializable {
         String fileName = "Nachweis_" + _proofBaseInformation.getIk() +
                 _proofBaseInformation.getYear() + ".xlsx";
 
-        byte[] singleDocument = _reportController.getSingleDocumentByIkAndYear("PPUGV_Proof_Annual_Report",
-                _proofBaseInformation.getIk(),
-                _proofBaseInformation.getYear(), fileName);
+        byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Proof_Annual_Report",
+                _proofBaseInformation.getId(), fileName);
 
         return new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
