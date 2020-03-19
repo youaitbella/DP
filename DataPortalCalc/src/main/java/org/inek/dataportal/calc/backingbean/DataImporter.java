@@ -189,7 +189,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         },
                                         "Kostenvolumen nach Abgrenzung ungültig"),
                                 new DataImportCheck<KgpListMedInfra, Integer>(
-                                        DataImportCheck::tryImportFractionOrPercentAsInteger,
+                                        DataImportCheck::tryImportRoundedInteger,
                                         (i, s) -> {
                                             i.setCostTypeId(170);
                                             i.setPartCostVolumeMedStaffAfter(s);
