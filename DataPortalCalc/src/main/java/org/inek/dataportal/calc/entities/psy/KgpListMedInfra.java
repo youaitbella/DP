@@ -141,11 +141,11 @@ public class KgpListMedInfra implements Serializable, BaseIdValue {
     @Documentation(name = "Anteil des Kostenvolumens nach Abgrenzung")
     private double _partCostVolumeMedStaffAfter;  // todo: change to int after DB update
 
-    public int getPartCostVolumeMedStaffAfter() {
-        return (int) _partCostVolumeMedStaffAfter;
+    public double getPartCostVolumeMedStaffAfter() {
+        return _partCostVolumeMedStaffAfter;
     }
 
-    public void setPartCostVolumeMedStaffAfter(int partCostVolumeMedStaffAfter) {
+    public void setPartCostVolumeMedStaffAfter(double partCostVolumeMedStaffAfter) {
         this._partCostVolumeMedStaffAfter = partCostVolumeMedStaffAfter;
     }
     // </editor-fold>
