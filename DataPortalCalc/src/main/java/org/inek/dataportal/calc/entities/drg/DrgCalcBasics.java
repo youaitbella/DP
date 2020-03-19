@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "KGLBaseInformation", schema = "calc")
 @XmlRootElement
-@SuppressWarnings({"MethodCount", "JavaNCSS"})
+@SuppressWarnings({"MethodCount", "JavaNCSS", "NCSS"})
 public class DrgCalcBasics implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
@@ -1708,8 +1708,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         return _liabilityInsurances;
     }
 
-    public void setLiabilityInsurances(List<KGLListLiabilityInsurance> _liabilityInsurances) {
-        this._liabilityInsurances = _liabilityInsurances;
+    public void setLiabilityInsurances(List<KGLListLiabilityInsurance> liabilityInsurances) {
+        this._liabilityInsurances = liabilityInsurances;
     }
     //</editor-fold>
 
@@ -1721,8 +1721,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         return _liabilityInsuranceCostVolume;
     }
 
-    public void setLiabilityInsuranceCostVolume(double _liabilityInsuranceCostVolume) {
-        this._liabilityInsuranceCostVolume = _liabilityInsuranceCostVolume;
+    public void setLiabilityInsuranceCostVolume(double liabilityInsuranceCostVolume) {
+        this._liabilityInsuranceCostVolume = liabilityInsuranceCostVolume;
     }
     //</editor-fold>
 
@@ -1734,8 +1734,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         return _liabilityInsuranceHasTotalCostILBV;
     }
 
-    public void setLiabilityInsuranceHasTotalCostILBV(boolean _liabilityInsuranceHasTotalCostILBV) {
-        this._liabilityInsuranceHasTotalCostILBV = _liabilityInsuranceHasTotalCostILBV;
+    public void setLiabilityInsuranceHasTotalCostILBV(boolean liabilityInsuranceHasTotalCostILBV) {
+        this._liabilityInsuranceHasTotalCostILBV = liabilityInsuranceHasTotalCostILBV;
     }
     //</editor-fold>
 
@@ -1747,8 +1747,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         return _liabilityInsuranceHasCostCalculation2020;
     }
 
-    public void setLiabilityInsuranceHasCostCalculation2020(boolean _liabilityInsuranceHasCostCalculation2020) {
-        this._liabilityInsuranceHasCostCalculation2020 = _liabilityInsuranceHasCostCalculation2020;
+    public void setLiabilityInsuranceHasCostCalculation2020(boolean liabilityInsuranceHasCostCalculation2020) {
+        this._liabilityInsuranceHasCostCalculation2020 = liabilityInsuranceHasCostCalculation2020;
     }
     //</editor-fold>
 
@@ -1760,21 +1760,21 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         return _liabilityInsuranceHasDistributionOfPremiumInfo;
     }
 
-    public void setLiabilityInsuranceHasDistributionOfPremiumInfo(boolean _liabilityInsuranceHasDistributionOfPremiumInfo) {
-        this._liabilityInsuranceHasDistributionOfPremiumInfo = _liabilityInsuranceHasDistributionOfPremiumInfo;
+    public void setLiabilityInsuranceHasDistributionOfPremiumInfo(boolean liabilityInsuranceHasDistributionOfPremiumInfo) {
+        this._liabilityInsuranceHasDistributionOfPremiumInfo = liabilityInsuranceHasDistributionOfPremiumInfo;
     }
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property LiabilityInsuranceExplanationField">
-    @Column(name ="biLiabilityInsuranceExplanationField" )
+    @Column(name = "biLiabilityInsuranceExplanationField")
     private String _liabilityInsuranceExplanationField;
 
     public String getLiabilityInsuranceExplanationField() {
         return _liabilityInsuranceExplanationField;
     }
 
-    public void setLiabilityInsuranceExplanationField(String _liabilityInsuranceExplanationField) {
-        this._liabilityInsuranceExplanationField = _liabilityInsuranceExplanationField;
+    public void setLiabilityInsuranceExplanationField(String liabilityInsuranceExplanationField) {
+        this._liabilityInsuranceExplanationField = liabilityInsuranceExplanationField;
     }
     //</editor-fold>
 
@@ -1786,8 +1786,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         return _liabilityInsuranceRemainingCosts;
     }
 
-    public void setLiabilityInsuranceRemainingCosts(double _liabilityInsuranceRemainingCosts) {
-        this._liabilityInsuranceRemainingCosts = _liabilityInsuranceRemainingCosts;
+    public void setLiabilityInsuranceRemainingCosts(double liabilityInsuranceRemainingCosts) {
+        this._liabilityInsuranceRemainingCosts = liabilityInsuranceRemainingCosts;
     }
     //</editor-fold>
 
