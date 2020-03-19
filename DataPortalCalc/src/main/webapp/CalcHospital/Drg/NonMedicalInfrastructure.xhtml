@@ -26,7 +26,7 @@
                                   auf die einzelnen Leistungsbereiche vor?"
                           styleClassLabel="label70"
                           value="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}"
-                          renderElement="liabilityInsuranceHasTotalCostILBVId liabilityInsuranceHasCostCalculation2020 :script"
+                          renderElement="@form liabilityInsuranceHasTotalCostILBVId liabilityInsuranceHasCostCalculation2020 :script"
                           readonly="#{editCalcBasicsDrg.readOnly}"
                           listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo)}">
     </inek:LabeledCheckbox>
@@ -61,7 +61,7 @@
         <br/>
     </h:panelGroup>
 
-    <h:panelGroup id="liabilityInsuranceHasCostCalculation2020">
+    <h:panelGroup id="liabilityInsuranceHasCostCalculation2020" rendered="#{!editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}">
         <div class="inputPart">
             <inek:LabeledCheckbox label="Werden die Kosten der Prämie (gemäß den Hinweisen zur Kalkulation 2020) entsprechend der
                                Information der Versicherung auf die verursachenden direkten Kostenstellen der Leistungsbereiche
@@ -77,7 +77,7 @@
 
     <br/>
     <br/>
-        <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasCostCalculation2020}">
+        <h:panelGroup id="tableId" rendered="#{editCalcBasicsDrg.calcBasics.liabilityInsuranceHasCostCalculation2020 or editCalcBasicsDrg.calcBasics.liabilityInsuranceHasDistributionOfPremiumInfo}">
             <h:outputLabel styleClass="label70" value="Bitte geben Sie in der folgenden Tabelle an, auf welche Leistungsbereiche die
                                   entsprechenden Kosten der Prämien für Haftpflichtversicherung aus Konto 'Versicherungen'
                                   (Konto-Nr. 732) gem. KHBV entsprechend der Information der Versicherung aufgeteilt werden
