@@ -116,6 +116,7 @@ public class CalcDrgFacade extends AbstractDataAccessWithActionLog {
         saveIdList(calcBasics.getExternalNursingStaffs());
         saveIdList(calcBasics.getExternalTechFunctServices());
         saveIdList(calcBasics.getExternalMedStaffs());
+        saveIdList(calcBasics.getLiabilityInsurances());
         return merge(calcBasics);
     }
 

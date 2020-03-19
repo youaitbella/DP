@@ -72,9 +72,9 @@ public class KglRoomCapability {
 
     //<editor-fold desc="Property RoomName">
     @Column(name = "rcRoomName")
-    @Size(max = 250)
     private String roomName = "";
 
+    @Size(max = 250)
     public String getRoomName() {
         return roomName;
     }
@@ -99,9 +99,9 @@ public class KglRoomCapability {
 
     //<editor-fold desc="Property Explanation">
     @Column(name = "rcExplanation")
-    @Size(max = 250)
     private String explanation = "";
 
+    @Size(max = 250)
     public String getExplanation() {
         return explanation;
     }

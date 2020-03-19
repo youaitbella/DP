@@ -225,7 +225,7 @@ public class KGLListExternalNursingStaff implements Serializable, BaseIdValue {
         return calcBasics.getId();
     }
 
-    public void setBaseInformationId(int id) {
+    public void setBaseInformationId(int dummy) {
     }
     // </editor-fold>
 

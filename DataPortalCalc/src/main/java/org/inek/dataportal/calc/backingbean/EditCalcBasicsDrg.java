@@ -382,6 +382,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getIntensivStrokes().remove(item);
     }
 
+    public void addLiabilityInsurance() {
+        List<KGLListLiabilityInsurance> result = _calcBasics.getLiabilityInsurances();
+        KGLListLiabilityInsurance item = new KGLListLiabilityInsurance(_calcBasics);
+        result.add(item);
+    }
+
+    public void deleteLiabilityInsurance(KGLListLiabilityInsurance item){
+        _calcBasics.getLiabilityInsurances().remove(item);
+    }
+
     public int getSumIntensivStrokeWeighted() {
         return _calcBasics.getIntensivStrokes().stream().mapToInt(i -> i.getIntensivHoursWeighted()).sum();
     }

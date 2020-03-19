@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
+<html xmlns:f="http://xmlns.jcp.org/jsf/core">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
@@ -58,6 +59,26 @@
         }
 
     </style>
+
+    <div>
+        <ui:remove>
+        <!--    TODO:
+                    visibility depending on KGPListContentText firstYear/lastYear ? -->
+        </ui:remove>
+        <div class="inputPart">
+            <h:outputLabel styleClass="label"
+                           value="Werden ab dem DJ#{editCalcBasicsPepp.calcBasics.dataYear} weiterhin Therapieeinheiten
+                           für folgende Bereiche erfasst und entsprechende Kosten den Therapiekostenstellen zugeordnet:"/> &nbsp;
+            <ui:remove>
+            </ui:remove>
+            <ui:repeat value="#{editCalcBasicsPepp.calcBasics.therapyUnits}" var="therapyUnit" varStatus="status">
+                <inek:LabeledCheckbox label="#{therapyUnit.contentText.text}"
+                                      styleClassLabel="label30"
+                                      value="#{therapyUnit.value}"
+                />
+            </ui:repeat>
+        </div>
+    </div>
 
     <div style="overflow-x: scroll;">
         <table id="tbl">
@@ -164,3 +185,4 @@
 
 </ui:composition>
 
+</html>
