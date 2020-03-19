@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "KGLBaseInformation", schema = "calc")
 @XmlRootElement
-@SuppressWarnings({"MethodCount", "JavaNCSS", "NCSS"})
+@SuppressWarnings({"MethodCount", "JavaNCSS"})
 public class DrgCalcBasics implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
