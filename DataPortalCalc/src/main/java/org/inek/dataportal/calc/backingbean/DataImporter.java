@@ -189,7 +189,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         },
                                         "Kostenvolumen nach Abgrenzung ungültig"),
                                 new DataImportCheck<KgpListMedInfra, Double>(
-                                        DataImportCheck::tryImportArroundedDouble,
+                                        DataImportCheck::tryImportDoubleRounded1Decimal,
                                         (i, s) -> {
                                             i.setCostTypeId(170);
                                             i.setPartCostVolumeMedStaffAfter(s);
@@ -239,7 +239,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         },
                                         "Kostenvolumen nach Abgrenzung ungültig"),
                                 new DataImportCheck<KgpListMedInfra, Double>(
-                                        DataImportCheck::tryImportArroundedDouble,
+                                        DataImportCheck::tryImportDoubleRounded1Decimal,
                                         (i, s) -> {
                                             i.setCostTypeId(180);
                                             i.setPartCostVolumeMedStaffAfter(s);
@@ -1448,7 +1448,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         KGLListMedInfra::setAmount,
                                         "Kostenvolumen"),
                                 new DataImportCheck<KGLListMedInfra, Double>(
-                                        DataImportCheck::tryImportArroundedDouble,
+                                        DataImportCheck::tryImportDoubleRounded1Decimal,
                                         KGLListMedInfra::setAmountAfter,
                                         "Kostenvolumen nach Abgrenzung")
                         ),
@@ -1481,7 +1481,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         KGLListMedInfra::setAmount,
                                         "Kostenvolumen"),
                                 new DataImportCheck<KGLListMedInfra, Double>(
-                                        DataImportCheck::tryImportArroundedDouble,
+                                        DataImportCheck::tryImportDoubleRounded1Decimal,
                                         KGLListMedInfra::setAmountAfter,
                                         "Kostenvolumen nach Abgrenzung")
                         ),

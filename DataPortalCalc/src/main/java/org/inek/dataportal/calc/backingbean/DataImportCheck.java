@@ -308,9 +308,9 @@ class DataImportCheck<T, I> implements Serializable {
         }
     }
 
-    static <T> void tryImportArroundedDouble(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
+    static <T> void tryImportDoubleRounded1Decimal(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
         try {
-            double val = Math.round(NumberParser.parseDouble(data));
+            double val = Math.round(10 * NumberParser.parseDouble(data)) / 10D;
             if (val < 0) {
                 assign.accept(item, 0.0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
