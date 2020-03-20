@@ -109,26 +109,20 @@ public class DropBoxFileHelper {
         return isDeleted;
     }
 
-    public static Boolean dropBoxContainsDecryptedFiles(DropBox dropBox) {
-        List<String> encryptedExtensions = new ArrayList<>();
+    private static List<String> encryptedExtensions = new ArrayList<>();
+
+    static {
         encryptedExtensions.add("zip");
         encryptedExtensions.add("rar");
         encryptedExtensions.add("gpg");
         encryptedExtensions.add("pgp");
         encryptedExtensions.add("7z");
         encryptedExtensions.add("inek");
+    }
 
-        for (DropBoxItem item : dropBox.getItems()) {
-            Boolean hasMatch = false;
-            for (String extension : encryptedExtensions) {
-                if (item.getName().endsWith(extension)) {
-                    hasMatch = true;
-                }
-            }
-            if (!hasMatch) {
-                return true;
-            }
-        }
-        return false;
+    public static boolean dropBoxContainsDecryptedFiles(DropBox dropBox) {
+        return dropBox.getItems()
+                .stream()
+                .anyMatch(i -> encryptedExtensions.stream().noneMatch(e -> i.getName().toLowerCase().endsWith(e)));
     }
 }
