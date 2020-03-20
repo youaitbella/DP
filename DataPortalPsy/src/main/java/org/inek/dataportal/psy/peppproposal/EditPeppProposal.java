@@ -314,6 +314,9 @@ public class EditPeppProposal extends AbstractEditController {
     // </editor-fold>
 
     public boolean isReadOnly() {
+        if (_peppProposal == null) {
+            return true;
+        }
         return _accessManager.isReadOnly(Feature.PEPP_PROPOSAL, getPeppProposal().getStatus(), getPeppProposal().getAccountId());
     }
 

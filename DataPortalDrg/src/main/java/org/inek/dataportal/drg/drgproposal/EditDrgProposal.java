@@ -43,10 +43,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author muellermi
- */
 @Named
 @FeatureScoped
 public class EditDrgProposal extends AbstractEditController {
@@ -98,7 +94,7 @@ public class EditDrgProposal extends AbstractEditController {
             if (!_appTools.isEnabled(ConfigKey.IsDrgProposalCreateEnabled)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 // even if we navigate to a different page, JSF might access the source page (e.g. call isReadOnly
-                _drgProposal = newDrgProposal(); 
+                _drgProposal = newDrgProposal();
                 return;
             }
             _drgProposal = newDrgProposal();
@@ -358,6 +354,9 @@ public class EditDrgProposal extends AbstractEditController {
     // </editor-fold>
 
     public boolean isReadOnly() {
+        if (_drgProposal == null) {
+            return true;
+        }
         return _accessManager.isReadOnly(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
     }
 
