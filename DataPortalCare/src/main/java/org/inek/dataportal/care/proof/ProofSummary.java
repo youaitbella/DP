@@ -1,7 +1,9 @@
 package org.inek.dataportal.care.proof;
 
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.care.proof.entity.Proof;
 import org.inek.dataportal.care.proof.entity.ProofRegulationBaseInformation;
+import org.inek.dataportal.care.utils.CareSignatureCreater;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
@@ -10,16 +12,14 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Named
@@ -152,6 +152,43 @@ public class ProofSummary implements Serializable {
 
     public String retrieveHospitalName(int ik) {
         return _applicationTools.retrieveHospitalInfo(ik);
+    }
+
+    public List<String> getIkForAnnualReport() {
+
+        if (!_configFacade.readConfigBool(ConfigKey.IsCareProofCreateEnabled)) {
+            Collections.emptyList();
+        }
+        Set<Integer> allowedIks = _accessManager.obtainIksForCreation(Feature.CARE);
+        return _proofFacade.retrievePossibleIkForAnnualReport(allowedIks).stream().map(i -> "" + i).collect(Collectors.toList());
+
+    }
+
+    public boolean getAnnualReportAllowed() {
+        return getIkForAnnualReport().size() > 0;
+    }
+
+    public void createAnnualReport(String ikString) {
+        int ik = Integer.parseInt(ikString);
+        ProofRegulationBaseInformation baseInfo = new ProofRegulationBaseInformation();
+        baseInfo.setIk(ik);
+        baseInfo.setStatus(WorkflowStatus.Provided);
+        baseInfo.setSignature(CareSignatureCreater.createPvSignature(baseInfo));
+        baseInfo.setCreatedBy(_sessionController.getAccountId());
+        baseInfo.setLastChangeBy(_sessionController.getAccountId());
+        baseInfo.setSend(new Date());
+        baseInfo.setYear(DateUtils.currentYear() - 1);
+        baseInfo.setQuarter(5);
+
+        List<ProofRegulationBaseInformation> baseInfos = _proofFacade.retrievePreviousYearInfos(ik);
+        baseInfos.stream().sorted(Comparator.comparingInt(ProofRegulationBaseInformation::getQuarter)).forEach(bi -> {
+            bi.getProofs().stream().forEach(p -> {
+                Proof proof = new Proof(p);
+                proof.setBaseInformation(baseInfo);
+                baseInfo.addProof(proof);
+            });
+        });
+        _proofFacade.save(baseInfo);
     }
 
     public class listItem implements Serializable {

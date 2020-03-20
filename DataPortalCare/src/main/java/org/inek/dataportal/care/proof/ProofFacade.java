@@ -6,6 +6,7 @@ import org.inek.dataportal.care.proof.entity.ProofWard;
 import org.inek.dataportal.care.proof.util.ProofHelper;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
@@ -56,6 +57,18 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         return ikYearQuarters;
     }
 
+    public List<Integer> retrievePossibleIkForAnnualReport(Set<Integer> allowedIks) {
+        int year = DateUtils.currentYear() - 1;
+        String jpql = "SELECT bi._ik FROM ProofRegulationBaseInformation bi " +
+                "\r\n WHERE bi._ik in :ik and bi._year = :year" +
+                "\r\n and (bi._quarter <= 4 and bi._statusId = 10) or (bi._quarter = 5 and bi._statusId <= 10) " +
+                "\r\n group by bi._ik" +
+                "\r\n having count(bi._quarter) = 4 and max(bi._quarter) = 4";
+        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
+        query.setParameter(IK, allowedIks);
+        query.setParameter(YEAR, year);
+        return query.getResultList();
+    }
 
     public List<IkYearQuarter> retrieveExistingInfo(Set<Integer> allowedIks) {
         String jpql = "select new org.inek.dataportal.care.proof.IkYearQuarter(bi._ik, bi._year, bi._quarter) " +
@@ -180,5 +193,14 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
             LOGGER.severe("Error fetching ProofBase for ik " + ik + "\r\n" + e.getMessage());
             return Optional.empty();
         }
+    }
+
+    public List<ProofRegulationBaseInformation> retrievePreviousYearInfos(int ik) {
+        String jpql = "select p from ProofRegulationBaseInformation p " +
+                "where p._ik = :ik and p._year = :year and p._statusId = 10";
+        TypedQuery<ProofRegulationBaseInformation> query = getEntityManager().createQuery(jpql, ProofRegulationBaseInformation.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", DateUtils.currentYear() - 1);
+        return query.getResultList();
     }
 }

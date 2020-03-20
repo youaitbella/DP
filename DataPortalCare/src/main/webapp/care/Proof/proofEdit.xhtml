@@ -114,8 +114,10 @@
                             <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.ik}"/>
                             <pf:outputLabel value="Jahr:"/>
                             <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.year}"/>
-                            <pf:outputLabel value="Quartal:"/>
-                            <pf:outputLabel value="Q#{proofEdit.proofRegulationBaseInformation.quarter}"/>
+                            <pf:outputLabel value="Quartal:"
+                                            rendered="#{proofEdit.proofRegulationBaseInformation.quarter lt 5}"/>
+                            <pf:outputLabel value="Q#{proofEdit.proofRegulationBaseInformation.quarter}"
+                                            rendered="#{proofEdit.proofRegulationBaseInformation.quarter lt 5}"/>
                             <pf:outputLabel value="Signatur:"/>
                             <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.signature}"/>
                         </h:panelGrid>
@@ -174,7 +176,8 @@
                                      showDetail="true">
                         </pf:messages>
 
-                        <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
+                        <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;"
+                             jsf:rendered="#{proofEdit.proofRegulationBaseInformation.quarter lt 5}">
                             <div jsf:rendered="#{proofEdit.proofRegulationBaseInformation.year eq 2019}">
                                 <pf:fieldset legend="Ausfüllhinweise"
                                              style="border: none"
@@ -260,7 +263,7 @@
             <div class="ui-g" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
                 <div class="card">
                     <div class="ui-g-12" jsf:id="buttons">
-                        <div>
+                        <div jsf:rendered="#{proofEdit.proofRegulationBaseInformation.quarter lt 5}">
                             <pf:commandButton value="Datensatz ändern (inkl. Daten und neue Signatur)"
                                               action="#{proofEdit.change()}"
                                               rendered="#{proofEdit.changeAllowed() and not proofEdit.isExceptionFactsChangeMode}"
@@ -277,15 +280,6 @@
                                               onclick="PrimeFaces.monitorDownload(start, stop);"
                                               icon="ui-icon-arrowthick-1-s">
                                 <pf:fileDownload value="#{proofEdit.exportQuarterAsExcel()}"/>
-                            </pf:commandButton>
-
-                            <pf:commandButton value="Jahresmeldung exportieren (Excel)"
-                                              ajax="false"
-                                              rendered="#{proofEdit.annualReportAllowed()}"
-                                              style="margin-left: 10px;"
-                                              onclick="PrimeFaces.monitorDownload(start, stop);"
-                                              icon="ui-icon-arrowthick-1-s">
-                                <pf:fileDownload value="#{proofEdit.exportAnnualReportAsExcel()}"/>
                             </pf:commandButton>
 
                             <pf:commandButton
@@ -330,38 +324,48 @@
                                               rendered="#{!proofEdit.isReadOnly and proofEdit.requestExtensionAllowed}"
                                               style="margin-left: 10px;"
                                               update="@(.ui-message) :form:buttons"/>
+                            <pf:outputLabel
+                                    rendered="#{not proofEdit.sendAllowedForToday() and proofEdit.proofRegulationBaseInformation.status.id lt 10}"
+                                    style="padding-left: 10px"
+                                    value="Die Daten können erst am Ende des Quartals ans InEK gesendet werden"/>
                         </div>
-                        <br/>
-                        <div jsf:id="fileName" class="inputPart marginTop01em"
-                             jsf:rendered="#{not empty proofEdit.documentName
-                                                 and proofEdit.isReadOnly
-                                                 and proofEdit.annualReportAllowed()}">
-                            <h:outputLabel value="Anlage:" styleClass="label element08em"/>
-                            <h:commandLink
-                                    action="#{proofEdit.downloadDocument()}"
-                                    value="#{proofEdit.documentName}"
-                                    immediate="true">
-                            </h:commandLink>
+                        <div jsf:rendered="#{proofEdit.proofRegulationBaseInformation.quarter eq 5}">
+                            <pf:commandButton value="Jahresmeldung exportieren (Excel)"
+                                              ajax="false"
+                                              style="margin-left: 10px;"
+                                              onclick="PrimeFaces.monitorDownload(start, stop);"
+                                              icon="ui-icon-arrowthick-1-s">
+                                <pf:fileDownload value="#{proofEdit.exportAnnualReportAsExcel()}"/>
+                            </pf:commandButton>
+
+                            <br/>
+                            <br/>
+
+                            <div jsf:id="fileName" class="inputPart marginTop01em"
+                                 jsf:rendered="#{not empty proofEdit.documentName
+                                                 and proofEdit.isReadOnly}">
+                                <h:outputLabel value="Anlage:" styleClass="label element08em"/>
+                                <h:commandLink
+                                        action="#{proofEdit.downloadDocument()}"
+                                        value="#{proofEdit.documentName}"
+                                        immediate="true">
+                                </h:commandLink>
+
+                            </div>
+                            <br/>
+                            <pf:fileUpload fileUploadListener="#{proofEdit.uploadDocument}"
+                                           mode="advanced"
+                                           auto="true"
+                                           fileLimit="1"
+                                           fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
+                                           invalidFileMessage="Es dürfen nur PDF oder Bilddateien (JPG, JPEG, PNG, BMP, GIF ) hochgeladen werden"
+                                           allowTypes="/(\.|\/)(pdf|jpg|jpeg|png|bmp|gif)$/"
+                                           cancelLabel="Abbrechen"
+                                           uploadLabel="Datei Hochladen"
+                                           label="bestätigte Jahresmeldung hochladen (gem. § 5 Abs. 4 PpUG-Nachweis-Vereinbarung)"
+                                           update="@form"/>
 
                         </div>
-                        <br/>
-                        <pf:fileUpload fileUploadListener="#{proofEdit.uploadDocument}"
-                                       mode="advanced"
-                                       auto="true"
-                                       fileLimit="1"
-                                       fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
-                                       invalidFileMessage="Es dürfen nur PDF oder Bilddateien (JPG, JPEG, PNG, BMP, GIF ) hochgeladen werden"
-                                       allowTypes="/(\.|\/)(pdf|jpg|jpeg|png|bmp|gif)$/"
-                                       cancelLabel="Abbrechen"
-                                       uploadLabel="Datei Hochladen"
-                                       label="bestätigte Jahresmeldung hochladen (gem. § 5 Abs. 4 PpUG-Nachweis-Vereinbarung)"
-                                       rendered="#{proofEdit.annualReportAllowed()}"
-                                       update="@form"/>
-
-                        <pf:outputLabel
-                                rendered="#{not proofEdit.sendAllowedForToday() and proofEdit.proofRegulationBaseInformation.status.id lt 10}"
-                                style="padding-left: 10px"
-                                value="Die Daten können erst am Ende des Quartals ans InEK gesendet werden"/>
                     </div>
                 </div>
             </div>
