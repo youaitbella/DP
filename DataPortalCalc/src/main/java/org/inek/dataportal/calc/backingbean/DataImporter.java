@@ -972,7 +972,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         KGPListStationServiceCost::setRegularWeight,
                                         "Summe Gewichtungspunkte** Regelbehandlung ungültig"),
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
-                                        DataImportCheck::tryImportInteger,
+                                        DataImportCheck::tryImportRoundedInteger,
                                         KGPListStationServiceCost::setIntensiveCareDays,
                                         "Summe Pflegetage Intensivbehandlung ungültig"),
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
