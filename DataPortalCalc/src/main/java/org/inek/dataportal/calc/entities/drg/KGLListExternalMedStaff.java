@@ -1,5 +1,6 @@
 package org.inek.dataportal.calc.entities.drg;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.utils.Documentation;
 
@@ -131,8 +132,10 @@ public class KGLListExternalMedStaff implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="baseInformationId">
     @ManyToOne
     @JoinColumn(name = "emsBaseInformationId")
+    @JsonIgnore
     private DrgCalcBasics calcBasics;
 
+    @JsonIgnore
     public DrgCalcBasics getDrgCalcBasics() {
         return calcBasics;
     }

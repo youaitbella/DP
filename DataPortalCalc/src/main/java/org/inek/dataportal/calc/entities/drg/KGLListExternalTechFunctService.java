@@ -1,5 +1,6 @@
 package org.inek.dataportal.calc.entities.drg;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.utils.Documentation;
 
@@ -144,8 +145,10 @@ public class KGLListExternalTechFunctService implements Serializable, BaseIdValu
     // <editor-fold defaultstate="collapsed" desc="baseInformationId">
     @ManyToOne
     @JoinColumn(name = "etfsBaseInformationId")
+    @JsonIgnore
     private DrgCalcBasics calcBasics;
 
+    @JsonIgnore
     public DrgCalcBasics getDrgCalcBasics() {
         return calcBasics;
     }

@@ -1,5 +1,6 @@
 package org.inek.dataportal.calc.entities.drg;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 
 import javax.persistence.*;
@@ -77,8 +78,10 @@ public class KGLListLiabilityInsurance implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="BaseInformation">
     @ManyToOne
     @JoinColumn(name = "liBaseInformationId")
+    @JsonIgnore
     private DrgCalcBasics calcBasics;
 
+    @JsonIgnore
     public DrgCalcBasics getDrgCalcBasics() {
         return calcBasics;
     }
